@@ -1,0 +1,35 @@
+server:
+  error:
+    whitelabel:
+      enabled: false
+
+# Mysql数据库
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/example_ds_assign?autoReconnect=true&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&nullCatalogMeansCurrent=true
+    username: root
+    password: 123
+
+    # 连接池大小根据实际情况调整
+    max-active: 100
+    max-pool-prepared-statement-per-connection-size: 100
+
+kernel:
+  cache:
+    redis:
+      host: localhost
+      port: 6379 # 端口号，共享式参数，可由子项配置项所覆盖（可为空）
+      # auth: 1234 # 连接密码，共享式参数，可由子项配置项所覆盖（可为空）
+      database: 2 # database，共享式参数，可由子项配置项所覆盖（可为空）
+      nodes:
+        - alias: loginUserCache # 别名
+          database: 3
+
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    org.springframework.web.servlet: DEBUG
+    org.apache.ibatis.session: DEBUG
+    io.entframework: DEBUG

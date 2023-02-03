@@ -1,0 +1,2 @@
+io.entframework.kernel.auth.authentication.config.KernelAuthenticationAutoConfiguration
+io.entframework.kernel.auth.authentication.config.KernelLoginCacheAutoConfiguration

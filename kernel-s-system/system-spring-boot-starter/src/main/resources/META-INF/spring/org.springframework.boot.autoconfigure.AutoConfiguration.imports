@@ -1,0 +1,3 @@
+io.entframework.kernel.system.starter.KernelSystemCacheAutoConfiguration
+io.entframework.kernel.system.starter.KernelSystemServiceAutoConfiguration
+io.entframework.kernel.system.starter.KernelSystemHomeStatisticsAutoConfiguration

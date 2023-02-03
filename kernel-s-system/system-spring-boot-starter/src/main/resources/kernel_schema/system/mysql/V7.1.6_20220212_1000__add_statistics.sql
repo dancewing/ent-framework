@@ -1,0 +1,59 @@
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for sys_statistics_count
+-- ----------------------------
+CREATE TABLE `sys_statistics_count`  (
+  `stat_count_id` bigint NOT NULL COMMENT '主键ID',
+  `user_id` bigint NULL DEFAULT NULL COMMENT '用户id',
+  `stat_url_id` bigint NULL DEFAULT NULL COMMENT '访问的地址',
+  `stat_count` int NULL DEFAULT NULL COMMENT '访问的次数',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `create_user` bigint NULL DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `update_user` bigint NULL DEFAULT NULL COMMENT '更新人',
+  `create_user_name` VARCHAR(50) COMMENT '创建人账号',
+  `update_user_name` VARCHAR(50) COMMENT '修改人账号',
+  PRIMARY KEY (`stat_count_id`) USING BTREE
+) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT = '常用功能的统计次数' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for sys_statistics_url
+-- ----------------------------
+CREATE TABLE `sys_statistics_url`  (
+  `stat_url_id` bigint NOT NULL COMMENT '主键ID',
+  `stat_name` varchar(255) COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '被统计名称',
+  `stat_menu_id` bigint NULL DEFAULT NULL COMMENT '被统计菜单ID',
+  `stat_url` varchar(200) COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '被统计的URL',
+  `always_show` char(1) COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '是否常驻显示，Y-是，N-否',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `create_user` bigint NULL DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `update_user` bigint NULL DEFAULT NULL COMMENT '更新人',
+  `create_user_name` VARCHAR(50) COMMENT '创建人账号',
+  `update_user_name` VARCHAR(50) COMMENT '修改人账号',
+  PRIMARY KEY (`stat_url_id`) USING BTREE
+) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT = '常用功能列表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_statistics_url
+-- ----------------------------
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683778, '个人信息', '1339550467939639390', '/sysUser/currentUserInfo', 'Y', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683779, '用户管理', '1339550467939639305', '/sysUser/page', 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683780, '职位管理', '1339550467939639307', '/hrPosition/page', 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683781, '应用管理', '1339550467939639309', '/sysApp/page', 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683782, '角色管理', '1339550467939639311', '/sysRole/page', 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683783, '菜单管理', '1339550467939639310', '/sysMenu/list', 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683784, '系统配置', '1339550467939639314', '/sysConfig/page', 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683785, '字典管理', '1339550467939639315', '/dict/page', 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683786, '在线用户', '1339550467939639320', '/sysUser/onlineUserList', 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683787, '定时任务', '1339550467939639321', '/sysTimers/page', 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683788, '文件管理', '1339550467939639318', '/sysFileInfo/fileInfoListPage', 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683789, '多数据源', '1339550467939639335', '/databaseInfo/page', 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683790, '操作日志', '1339550467939639319', '/logManager/page', 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683791, '登录日志', '1339550467939639334', '/loginLog/page', 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683792, '通知发布', '1339550467939639351', '/sysNotice/page', 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_statistics_url` VALUES (1492345345508683793, '我的消息', '1339550467939639352', '/sysMessage/page', 'N', NULL, NULL, NULL, NULL, NULL, NULL);
+
+SET FOREIGN_KEY_CHECKS = 1;

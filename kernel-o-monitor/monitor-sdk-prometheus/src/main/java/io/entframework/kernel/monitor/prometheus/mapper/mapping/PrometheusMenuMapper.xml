@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+  ~ Copyright (c) 2022. Licensed under the Apache License, Version 2.0.
+  -->
+
+<mapper namespace="io.entframework.kernel.monitor.prometheus.mapper.PrometheusMenuMapper">
+
+    <update id="displayOrClosePrometheusMenu" parameterType="int">
+        update sys_menu set status_flag=#{statusFlag} where menu_code in ('monitor_quality','monitor_redis','monitor_tomcat','monitor_jvm','monitor_trace','monitor_disk')
+    </update>
+</mapper>

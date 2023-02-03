@@ -1,0 +1,34 @@
+server:
+  port: 88
+  max-http-header-size: 10240
+
+spring:
+  #  main:
+  #    allow-circular-references: true
+  application:
+    name: ent-oss
+  mvc:
+    view:
+      prefix: /pages
+  servlet:
+    multipart:
+      max-request-size: 8GB
+      max-file-size: 8GB
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    locale: zh_CN
+    serialization:
+      indent_output: false
+
+kernel:
+  file:
+    server:
+      deploy-host: http://localhost:81/gw/ent-misc
+    minio:
+      endpoint: http://127.0.0.1:9900
+      bucket: kernel-files
+      access-key: admin
+      secret-key: admin234
+  oss:
+    domain: oss.entframework.io

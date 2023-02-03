@@ -1,0 +1,2 @@
+io.entframework.kernel.validator.starter.CacheParamRequestBodyAdvice
+io.entframework.kernel.validator.starter.KernelValidatorAutoConfiguration

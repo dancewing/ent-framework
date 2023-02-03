@@ -1,0 +1,45 @@
+spring.cloud.nacos.config.enabled: false
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: gw_route
+          uri: http://127.0.0.1:${server.port}
+          predicates:
+            - Path=/gw/**
+          filters:
+            - RewritePath=/gw(?<segment>/?.*), $\{segment}
+      x-forwarded:
+        enabled: false
+  redis:
+    host: localhost
+    port: 6677
+
+kernel:
+  cache:
+    redis:
+      host: localhost
+      port: 6379 # 端口号，共享式参数，可由子项配置项所覆盖（可为空）
+      # auth: 1234 # 连接密码，共享式参数，可由子项配置项所覆盖（可为空）
+      database: 3 # database，共享式参数，可由子项配置项所覆盖（可为空）
+      nodes:
+        - alias: loginUserCache # 别名
+        - alias: allUserLoginTokenCache # 别名
+        - alias: resourceCache # 别名
+
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    org.springframework.web.servlet: DEBUG
+    org.apache.ibatis.session: DEBUG
+    io.entframework: DEBUG

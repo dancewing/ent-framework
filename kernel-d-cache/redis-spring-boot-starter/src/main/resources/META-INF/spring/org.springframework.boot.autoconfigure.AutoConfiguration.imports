@@ -1,0 +1,3 @@
+io.entframework.kernel.cache.redis.starter.KernelRedisCacheAutoConfiguration
+io.entframework.kernel.cache.redis.starter.CacheBeanRegistrar
+io.entframework.kernel.cache.redis.starter.CacheAutoConfigure

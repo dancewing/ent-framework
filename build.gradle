@@ -1,0 +1,139 @@
+plugins {
+    id 'base'
+    id 'java-library'
+    id 'org.springframework.boot' version "3.0.2" apply false
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.sonarqube' version '3.5.0.2730'
+}
+
+apply from: rootProject.file( 'gradle/libraries.gradle' )
+
+allprojects {
+    group = 'io.entframework'
+    //version 定义在根目录下的gradle.properties中
+    //version = '7.2.8-SNAPSHOT'
+    repositories {
+        mavenLocal()
+        maven {
+            url 'https://maven.aliyun.com/nexus/content/groups/public/'
+        }
+        maven {
+            url mavenThirdRepository
+            allowInsecureProtocol !mavenThirdRepository.startsWith('https')
+            credentials {
+                username = mavenDeployUser
+                password = mavenDeployPassword
+            }
+        }
+        mavenCentral()
+    }
+    configurations.all {
+        //resolutionStrategy.cacheChangingModulesFor 0, "minutes"
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    // Try to turn them all off automatically
+    options.compilerArgs << '-Xlint:none'
+    options.compilerArgs << '-nowarn' // same as '-Xlint:none'
+}
+
+subprojects {
+    configurations {
+        compile.exclude()
+    }
+    if (project.name != 'kernel-dependencies') {
+        apply plugin: "io.spring.dependency-management"
+
+        dependencyManagement {
+            imports {
+                mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+            }
+            dependencies {
+                dependency "cn.hutool:hutool-all:${hutoolVersion}"
+                dependency "com.github.whvcse:easy-captcha:${easyCaptchaVersion}"
+                dependency "org.springframework.plugin:spring-plugin-metadata:${springPluginVersion}"
+                dependency "org.atteo.classindex:classindex:${classIndexVersion}"
+                dependency "com.alibaba:fastjson:${fastjsonVersion}"
+                dependency "com.google.guava:guava:${guavaVersion}"
+                dependency "org.jetbrains:annotations:${jetbrainsAnnotationsVersion}"
+                dependency "org.mapstruct:mapstruct:${mapstructVersion}"
+                dependency "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+                dependency "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+                dependency "org.redisson:redisson-spring-data-21:${redissonVersion}"
+                dependency "org.redisson:redisson:${redissonVersion}"
+
+                dependency "org.mybatis:mybatis:${mybatisVersion}"
+                dependency "org.mybatis:mybatis-spring:${mybatisSpringVersion}"
+                dependency "org.mybatis.dynamic-sql:mybatis-dynamic-sql:${mybatisDynamicsVersion}"
+                dependency "com.alibaba:druid:${druidVersion}"
+
+                dependency "com.aliyun:aliyun-java-sdk-core:${aliyunJavaSdkCore}"
+                dependency "com.aliyun:aliyun-java-sdk-dm:${aliyunJavaSdkDm}"
+                dependency "com.aliyun.oss:aliyun-sdk-oss:${aliyunOssVersion}"
+                dependency "com.alipay.sdk:alipay-easysdk:${alipayVersion}"
+                dependency "com.amazonaws:aws-java-sdk-s3:${awsS3SdkVersion}"
+                dependency "com.aliyun:aliyun-java-sdk-core:${aliyunSmsSdkCore}"
+                dependency "com.aliyun:aliyun-java-sdk-ecs:${aliyunSmsSdkEcs}"
+                dependency "com.tencentcloudapi:tencentcloud-sdk-java:${qcloudSms}"
+
+                dependency "io.minio:minio:${minioVersion}"
+                dependency "com.qcloud:cos_api:${qcloudCosVersion}"
+                dependency "commons-logging:commons-logging:${qcloudCommonsLoggingVersion}"
+
+                dependency "javax.activation:activation:${activationVersion}"
+
+                dependency "org.codehaus.groovy:groovy:${groovyVersion}"
+
+                dependency "io.jsonwebtoken:jjwt-jackson:${jwtVersion}"
+                dependency "io.jsonwebtoken:jjwt-impl:${jwtVersion}"
+
+                dependency "com.alibaba:easyexcel:${easyExcelVersion}"
+                dependency "com.belerweb:pinyin4j:${pinyin4jVersion}"
+
+                dependency "io.seata:seata-all:${seataAllVersion}"
+                dependency "org.springframework.cloud:spring-cloud-openfeign-core:${openfeignVersion}"
+                dependency "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${alibabaCloudVersion}"
+                dependency "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${alibabaCloudVersion}"
+                dependency "org.springframework.cloud:spring-cloud-starter-netflix-hystrix:${netflixHystrixVersion}"
+
+                dependency "org.bouncycastle:bcprov-jdk15to18:${bcprovVersion}"
+
+                dependency "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocVersion}"
+                dependency "org.springdoc:springdoc-openapi-starter-webflux-ui:${springdocVersion}"
+                dependency "com.github.xiaoymin:knife4j-spring-ui:${knife4jVersion}"
+                dependency "com.github.oshi:oshi-core:${oshiVersion}"
+
+                dependency "com.gettyio:getty-core:${gettyVersion}"
+                dependency "com.gettyio:getty-expansion:${gettyVersion}"
+
+                dependency "org.freemarker:freemarker:${freemarkerVersion}"
+                dependency "javax.mail:mail:${javaMailVersion}"
+                dependency "commons-io:commons-io:${commonIOVersion}"
+
+            }
+        }
+    }
+    def file = new File("${project.projectDir.absolutePath}/src/main/java")
+    def skipProjects = ['db-mds-generator', 'mybatis-generator-core',
+                        'mybatis-generator-gradle-plugin', 'mybatis-generator-maven-plugin']
+    if (file.exists()) {
+        //apply plugin: 'org.sonarqube'
+        //println "${project.name}"
+        if (skipProjects.indexOf(project.name) >= 0) {
+            sonar {
+                skipProject = true
+            }
+        } else {
+            sonar {
+                properties {
+                    property "sonar.sources", "src/main/java"
+                    property "sonar.exclusions", "**/*DynamicSqlSupport.java"
+                }
+            }
+        }
+
+    }
+}

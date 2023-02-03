@@ -1,0 +1,6 @@
+io.entframework.kernel.db.starter.KernelDataSourceAutoConfiguration
+io.entframework.kernel.db.starter.KernelDbServiceAutoConfiguration
+io.entframework.kernel.db.starter.KernelDruidMonitorAutoConfiguration
+io.entframework.kernel.db.starter.KernelFlywayAutoConfiguration
+io.entframework.kernel.db.starter.KernelMyBatisHandlerConfiguration
+io.entframework.kernel.db.starter.KernelMyBatisInterceptorAutoConfiguration

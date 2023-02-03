@@ -1,0 +1,5 @@
+io.entframework.kernel.security.starter.KernelSecurityAutoConfiguration
+io.entframework.kernel.security.starter.KernelXssAutoConfiguration
+io.entframework.kernel.security.starter.CounterAutoConfiguration
+io.entframework.kernel.security.starter.CaptchaAutoConfiguration
+io.entframework.kernel.security.starter.EncryptAlgorithmAutoConfiguration

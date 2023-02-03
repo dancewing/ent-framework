@@ -1,0 +1,1 @@
+单体部署文件，没有Redis，没有Nacos等cloud依赖包

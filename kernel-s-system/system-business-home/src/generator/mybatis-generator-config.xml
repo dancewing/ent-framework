@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ /*******************************************************************************
+  ~  * Copyright (c) 2022. Licensed under the Apache License, Version 2.0.
+  ~  ******************************************************************************/
+  ~
+  -->
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "https://mybatis-generator.oss-cn-shanghai.aliyuncs.com/mybatis-generator-config_1_0.dtd"
+        >
+
+<!--Mybatis Generator配置文件-->
+<generatorConfiguration>
+
+    <!--如果使用Mybatis DS Generator, targetRuntime只能指定为MyBatis3DynamicSql-->
+    <context id="MysqlContext" defaultModelType="flat" targetRuntime="MyBatis3DynamicSql">
+        <property name="autoDelimitKeywords" value="true"/>
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <!-- 生成CRUD 插件配置项，因为插件之间配置项需要共享，所以放在Context中 -->
+        <!-- PojoPlugin 配置项 -->
+        <property name="pojoRequestTargetPackage" value="io.entframework.kernel.system.modular.home.pojo.request"/>
+        <property name="pojoRequestRootClass" value="io.entframework.kernel.rule.pojo.request.BaseRequest"/>
+        <property name="pojoResponseTargetPackage" value="io.entframework.kernel.system.modular.home.pojo.response"/>
+        <property name="pojoResponseRootClass" value="io.entframework.kernel.db.api.pojo.response.BaseResponse"/>
+        <!-- MapstructPlugin 配置项-->
+        <property name="mapstructTargetPackage" value="io.entframework.kernel.system.modular.home.converter"/>
+        <!-- ServicePlugin 配置项-->
+        <property name="serviceTargetPackage" value="io.entframework.kernel.system.modular.home.service"/>
+        <property name="repositoryTargetPackage" value="io.entframework.kernel.system.modular.home.repository"/>
+        <property name="controllerTargetPackage" value="io.entframework.kernel.system.modular.home.controller"/>
+
+        <!--指定需要使用的plugin, LombokAnnotationPlugin用于生成lombok注解, -->
+        <!--plugin之间存在顺序关系, 为了生成代码的美观, 建议将SerializablePlugin放到最后-->
+        <!-- LombokAnnotationPlugin用于生成lombok注解 -->
+        <plugin type="io.entframework.kernel.db.generator.plugin.server.LombokAnnotationPlugin"/>
+        <!-- MyBatisExtPlugin用于生成关联关系 需要在 ds-generator-config.xml 中配置关联关系 -->
+        <plugin type="io.entframework.kernel.db.generator.plugin.MyBatisExtPlugin"/>
+
+        <!-- 状态枚举生成插件 -->
+        <plugin type="io.entframework.kernel.db.generator.plugin.EnumTypeStatusPlugin">
+            <!-- 是否开启自动扫描根据约定注释格式生成枚举，默认true -->
+            <property name="autoScan" value="true"/>
+            <!-- autoScan为false,这里可以定义全局需要检查生成枚举类的列名 -->
+            <!--<property name="enumColumns" value="grade_type"/>-->
+        </plugin>
+
+        <!-- SerializablePlugin Model Serializable 实现 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!-- 生成CRUD 代码, 一定要放在plugin的最后，注意插件顺序 -->
+        <plugin type="io.entframework.kernel.db.generator.plugin.server.PojoPlugin" />
+        <plugin type="io.entframework.kernel.db.generator.plugin.server.MapstructPlugin" />
+        <plugin type="io.entframework.kernel.db.generator.plugin.server.RepositoryPlugin" />
+        <plugin type="io.entframework.kernel.db.generator.plugin.server.ServicePlugin" />
+        <!--<plugin type="io.entframework.kernel.db.generator.plugin.server.ControllerPlugin" />-->
+        <plugin type="io.entframework.kernel.db.generator.plugin.server.SpringAutoConfigurationPlugin">
+            <property name="springConfigJavaFile" value="io.entframework.kernel.system.modular.home.config.EntSysHomeAutoConfiguration"/>
+        </plugin>
+        <!--不生成任何MBG自带的Generated注释-->
+        <commentGenerator type="io.entframework.kernel.db.generator.comment.SimpleCommentGenerator"/>
+
+        <!--指定Mybatis Generator运行时连接的数据库, 这里选用h2内存数据库-->
+        <jdbcConnection
+                driverClass="com.mysql.cj.jdbc.Driver"
+                connectionURL="jdbc:mysql://localhost:3306/ent-admin?allowPublicKeyRetrieval=true&amp;useSSL=false"
+                userId="root"
+                password="123"
+        />
+
+        <!--指定java类型处理器, 如果有自定义的类型, 需要进行指定-->
+        <javaTypeResolver type="org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl">
+            <property name="forceBigDecimals" value="false"/>
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
+
+        <!--Model类的生成配置-->
+        <!--路径是targetProject/targetPackage, targetProject必须已经存在, 如果指定为MAVEN则使用pom文件中outputDirectory定义的位置-->
+        <javaModelGenerator targetPackage="io.entframework.kernel.system.modular.home.entity" targetProject="MAVEN">
+            <property name="constructorBased" value="false"/>
+            <property name="enableSubPackages" value="false"/>
+            <property name="immutable" value="false"/>
+            <property name="trimStrings" value="true"/>
+            <property name="rootClass" value="io.entframework.kernel.db.api.pojo.entity.BaseEntity"/>
+        </javaModelGenerator>
+
+        <!--Mapper类的生成配置-->
+        <javaClientGenerator targetPackage="io.entframework.kernel.system.modular.home.mapper" targetProject="MAVEN" >
+            <property name="enableSubPackages" value="false"/>
+            <property name="exampleMethodVisibility" value="public"/>
+            <property name="methodNameCalculator" value="default"/>
+            <property name="useLegacyBuilder" value="false"/>
+        </javaClientGenerator>
+
+        <columnOverride column="always_show" javaType="io.entframework.kernel.rule.enums.YesOrNotEnum"/>
+
+        <table tableName="sys_statistics_count">
+            <columnOverride column="create_time" isGeneratedAlways="true"/>
+            <columnOverride column="update_time" isGeneratedAlways="true"/>
+        </table>
+        <table tableName="sys_statistics_url">
+            <columnOverride column="create_time" isGeneratedAlways="true"/>
+            <columnOverride column="update_time" isGeneratedAlways="true"/>
+        </table>
+    </context>
+</generatorConfiguration>

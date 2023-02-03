@@ -1,0 +1,2 @@
+io.entframework.kernel.file.modular.config.KernelFileDatabaseAutoConfiguration
+io.entframework.kernel.file.modular.config.EntFileAutoConfiguration

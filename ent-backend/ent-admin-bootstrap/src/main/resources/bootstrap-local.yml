@@ -1,0 +1,11 @@
+#spring:
+#  cloud:
+#    nacos:
+#      config:
+#        name: ${spring.application.name} #data id
+#        file-extension: yaml
+#        server-addr: 127.0.0.1:8848
+#        endpoint: addr-sh-internal.edas.aliyun.com
+#        namespace:  0f19fddd-9112-4830-9d05-f7ba283589fc
+#        access-key: LTAI5tQUNN1g1d2YmrMBMT9K
+#        secret-key: os4naMGYX9DuJj24MuYXkCMBZW6fg2

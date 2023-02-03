@@ -1,0 +1,39 @@
+/*
+ * ******************************************************************************
+ *  * Copyright (c) 2022. Licensed under the Apache License, Version 2.0.
+ *  *****************************************************************************
+ *
+ */
+package io.entframework.kernel.system.api.pojo.request;
+
+import io.entframework.kernel.rule.annotation.ChineseDescription;
+import io.entframework.kernel.rule.pojo.request.BaseRequest;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+/**
+ * 角色按钮
+ *
+ * @date 2021/1/9 17:33
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
+public class SysRoleMenuButtonRequest extends BaseRequest {
+
+    /**
+     * 按钮id
+     */
+    @ChineseDescription("按钮id")
+    private Long buttonId;
+
+    /**
+     * 按钮编码
+     */
+    @ChineseDescription("按钮编码")
+    private String buttonCode;
+
+}

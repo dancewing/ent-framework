@@ -1,0 +1,23 @@
+server:
+  error:
+    whitelabel:
+      enabled: false
+
+# Mysql数据库
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MySQL
+    username:
+    password:
+  sql:
+    init:
+      schema-locations: classpath:schema/table_init_in_h2.sql
+
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    org.springframework.web.servlet: DEBUG
+    org.apache.ibatis.session: DEBUG
+    io.entframework: DEBUG

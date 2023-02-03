@@ -1,0 +1,2 @@
+org.springframework.context.ApplicationListener=\
+  io.entframework.kernel.i18n.modular.listener.TranslationInitListener
