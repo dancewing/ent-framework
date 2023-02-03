@@ -7,10 +7,12 @@
 
 package io.entframework.kernel.db.mds.mapper;
 
+import io.entframework.kernel.db.mds.extend.update.EntityUpdateMapper;
 import io.entframework.kernel.db.mds.meta.Entities;
 import io.entframework.kernel.db.mds.meta.EntityMeta;
 import io.entframework.kernel.db.mds.meta.FieldMeta;
 import io.entframework.kernel.db.mds.util.MapperProxyUtils;
+import io.entframework.kernel.db.mds.util.MyBatis3CustomUtils;
 import io.entframework.kernel.rule.util.ReflectionKit;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.mybatis.dynamic.sql.SqlColumn;
@@ -30,7 +32,7 @@ import java.util.Optional;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
-public interface BaseMapper<T> extends CommonCountMapper, CommonDeleteMapper, CommonInsertMapper<T>, CommonUpdateMapper {
+public interface BaseMapper<T> extends CommonCountMapper, CommonDeleteMapper, CommonInsertMapper<T>, CommonUpdateMapper, EntityUpdateMapper<T> {
     Logger log = LoggerFactory.getLogger("mapper.mds.db.kernel.io.entframework.BaseMapper");
 
     default int insert(T row) {
@@ -119,6 +121,15 @@ public interface BaseMapper<T> extends CommonCountMapper, CommonDeleteMapper, Co
                     return c;
                 }
         );
+    }
+
+    default int update(T row) {
+        EntityMeta entityMeta = Entities.getInstance(row.getClass());
+        return MyBatis3CustomUtils.update(this::updateRow, row, entityMeta.getTable(), c -> {
+            List<FieldMeta> columns = entityMeta.getColumns();
+            columns.forEach(wrapper -> c.map(wrapper.getColumn()).toProperty(wrapper.getField().getName()));
+            return c;
+        });
     }
 
     default long count(CountDSLCompleter completer) {

@@ -9,8 +9,10 @@ package io.entframework.kernel.db.mds.util;
 
 import io.entframework.kernel.db.mds.entity.JoinDetail;
 import io.entframework.kernel.db.mds.ext.AnnotatedTable;
-import io.entframework.kernel.db.mds.extend.InsertIgnoreDSL;
-import io.entframework.kernel.db.mds.extend.MultiRowIgnoreInsertDSL;
+import io.entframework.kernel.db.mds.extend.insert.InsertIgnoreDSL;
+import io.entframework.kernel.db.mds.extend.insert.MultiRowIgnoreInsertDSL;
+import io.entframework.kernel.db.mds.extend.update.EntityUpdateDSL;
+import io.entframework.kernel.db.mds.extend.update.render.EntityUpdateStatementProvider;
 import io.entframework.kernel.db.mds.meta.Entities;
 import io.entframework.kernel.db.mds.meta.EntityMeta;
 import io.entframework.kernel.db.mds.meta.FieldMeta;
@@ -155,11 +157,29 @@ public class MyBatis3CustomUtils {
     }
 
     /**
+     *
      */
     private static SelectStatementProvider leftJoinSelect(BasicColumn[] joinSelectList, SqlTable leftTable,
                                                           List<JoinDetail> joinDetails, QueryExpressionDSL<SelectModel> queryExpressionDSL) {
         QueryExpressionDSL<SelectModel> start = SqlBuilder.select(joinSelectList).from(queryExpressionDSL, leftTable.tableNameAtRuntime());
         applyJoinCondition(joinDetails, start);
         return start.build().render(RenderingStrategies.MYBATIS3);
+    }
+
+
+    public static <R> int update(ToIntFunction<EntityUpdateStatementProvider<R>> mapper, R row,
+                                 SqlTable table, UnaryOperator<EntityUpdateDSL<R>> completer) {
+        return mapper.applyAsInt(update(row, table, completer));
+    }
+
+    public static <R> EntityUpdateStatementProvider<R> update(R row, SqlTable table,
+                                                              UnaryOperator<EntityUpdateDSL<R>> completer) {
+        return completer.apply(update(row).into(table))
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+    }
+
+    private static <T> EntityUpdateDSL.IntoGatherer<T> update(T row) {
+        return EntityUpdateDSL.update(row);
     }
 }

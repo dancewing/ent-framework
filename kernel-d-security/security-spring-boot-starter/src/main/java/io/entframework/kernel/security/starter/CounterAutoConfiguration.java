@@ -62,7 +62,7 @@ public class CounterAutoConfiguration {
     @ConditionalOnMissingBean(WhiteListApi.class)
     public WhiteListApi whiteListApi() {
         TimedCache<String, String> timedCache = CacheUtil.newTimedCache(CacheConstants.NONE_EXPIRED_TIME);
-        DefaultMemoryCacheOperator<String> whiteListMemoryCache = new DefaultMemoryCacheOperator(timedCache, CounterConstants.WHITE_LIST_CACHE_KEY_PREFIX);
+        DefaultMemoryCacheOperator<String> whiteListMemoryCache = new DefaultMemoryCacheOperator<>(timedCache, CounterConstants.WHITE_LIST_CACHE_KEY_PREFIX);
         return new WhiteListService(whiteListMemoryCache);
     }
 

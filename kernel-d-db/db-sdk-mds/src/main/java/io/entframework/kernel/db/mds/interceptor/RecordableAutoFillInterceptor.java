@@ -8,6 +8,8 @@
 package io.entframework.kernel.db.mds.interceptor;
 
 import cn.hutool.core.util.ReflectUtil;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import io.entframework.kernel.auth.api.context.LoginContext;
 import io.entframework.kernel.auth.api.pojo.login.LoginUser;
 import io.entframework.kernel.db.api.annotation.Id;
@@ -20,8 +22,6 @@ import io.entframework.kernel.db.mds.meta.Entities;
 import io.entframework.kernel.db.mds.meta.EntityMeta;
 import io.entframework.kernel.db.mds.meta.FieldMeta;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
@@ -67,6 +67,7 @@ public class RecordableAutoFillInterceptor implements Interceptor {
         //sql类型
         SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
         Object entity = object;
+        log.info("MyBatis Invocation object: {}", entity.getClass().getName());
         if (object instanceof InsertStatementProvider<?> isp) {
             //Dynamic SQL
             entity = isp.getRow();

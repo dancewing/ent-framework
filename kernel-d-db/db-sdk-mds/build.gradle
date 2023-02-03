@@ -8,10 +8,13 @@ plugins {
 
 dependencies {
     api project(':kernel-d-db:db-api')
+    api project(':kernel-d-db:mybatis-dynamic-sql')
     api project(':kernel-d-auth:auth-api')
     api project(':kernel-d-converter')
+    
     api 'org.mybatis:mybatis-spring'
-    api 'org.mybatis.dynamic-sql:mybatis-dynamic-sql'
+
+    //api 'org.mybatis.dynamic-sql:mybatis-dynamic-sql'
 
     api 'com.google.guava:guava'
     api 'org.apache.commons:commons-lang3'

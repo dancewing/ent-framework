@@ -37,7 +37,7 @@
         <!--指定需要使用的plugin, LombokAnnotationPlugin用于生成lombok注解, -->
         <!--plugin之间存在顺序关系, 为了生成代码的美观, 建议将SerializablePlugin放到最后-->
         <!-- LombokAnnotationPlugin用于生成lombok注解 -->
-        <plugin type="io.entframework.kernel.db.generator.plugin.server.LombokAnnotationPlugin"/>
+        <plugin type="io.entframework.kernel.db.generator.plugin.server.EntityEnhancedPlugin"/>
         <!-- MyBatisExtPlugin用于生成关联关系 需要在 config.xml 中配置关联关系 -->
         <plugin type="io.entframework.kernel.db.generator.plugin.MyBatisExtPlugin"/>
 

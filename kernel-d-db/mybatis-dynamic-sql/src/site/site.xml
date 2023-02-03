@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+       Copyright 2016-2022 the original author or authors.
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+          https://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/DECORATION/1.8.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 http://maven.apache.org/xsd/decoration-1.8.0.xsd"
+  name="MyBatis Dynamic SQL">
+
+  <bannerLeft>
+    <name>MyBatis Dynamic SQL</name>
+    <href>docs/introduction.html</href>
+  </bannerLeft>
+
+  <bannerRight>
+    <name>MyBatis</name>
+    <src>https://mybatis.org/images/mybatis-logo.png</src>
+    <alt>MyBatis logo</alt>
+    <href>http://www.mybatis.org/</href>
+  </bannerRight>
+
+  <body>
+    <menu name="User's Guide">
+      <item href="docs/introduction.html" name="Introduction" />
+      <item href="docs/CHANGELOG.html" name="Change Log" />
+      <item href="docs/quickStart.html" name="Quick Start" />
+      <item href="docs/exceptions.html" name="Exceptions thrown by the Library" />
+      <item href="docs/configuration.html" name="Configuration of the Library" />
+      <item href="docs/databaseObjects.html" name="Modeling Database Objects" />
+      <item href="docs/whereClauses.html" name="WHERE Clause Support" >
+        <item href="docs/conditions.html" name="WHERE Conditions"/>
+      </item>
+      <item href="docs/select.html" name="SELECT Statements" >
+        <item href="docs/complexQueries.html" name="Complex Queries"/>
+      </item>
+      <item href="docs/delete.html" name="DELETE Statements" />
+      <item href="docs/insert.html" name="INSERT Statements" />
+      <item href="docs/update.html" name="UPDATE Statements" />
+      <item href="docs/subQueries.html" name="SubQuery Support" />
+      <item href="docs/functions.html" name="Database Functions" />
+      <item href="docs/mybatis3.html" name="MyBatis3 Support" />
+      <item href="docs/spring.html" name="Spring Support" />
+      <item href="docs/springBatch.html" name="Spring Batch Support" />
+      <item href="docs/kotlinOverview.html" name="Kotlin Support" collapse="true" >
+        <item href="docs/kotlinWhereClauses.html" name="Kotlin Where Clauses" />
+        <item href="docs/kotlinMyBatis3.html" name="Kotlin Support for MyBatis3" />
+        <item href="docs/kotlinSpring.html" name="Kotlin Support for Spring" />
+      </item>
+      <item href="docs/howItWorks.html" name="How it Works" />
+      <item href="docs/extending.html" name="Extending the Library" />
+      <item href="docs/codingStandards.html" name="Coding Standards" />
+      <item href="docs/motivation.html" name="Motivation" />
+    </menu>
+
+    <menu ref="reports"/>
+  </body>
+</project>
