@@ -8,7 +8,7 @@ plugins {
 }
 
 dependencies {
-
+    api project(':kernel-a-rule')
     api 'org.mybatis:mybatis'
     api 'org.jetbrains:annotations'
     optional 'org.springframework:spring-jdbc'

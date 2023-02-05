@@ -1,0 +1,24 @@
+server:
+  error:
+    whitelabel:
+      enabled: false
+
+# Mysql数据库
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/samples
+    username: superset
+    password: superset
+
+    # 连接池大小根据实际情况调整
+    max-active: 100
+    max-pool-prepared-statement-per-connection-size: 100
+
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    org.springframework.web.servlet: DEBUG
+    org.apache.ibatis.session: DEBUG
+    io.entframework: DEBUG

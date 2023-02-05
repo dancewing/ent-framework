@@ -40,6 +40,19 @@ public class ClassGradeDaoTest extends JUnitDaoWithFraud {
     }
 
     @Test
+    public void testInsertSelective() {
+        ClassGrade tg = fraudClassGrade();
+        ClassGrade tgd = classGradeRepository.insertSelective(tg);
+        assertNotNull(tgd);
+        assertNotNull(tgd.getId());
+        assertNotNull(tgd.getStudents());
+        tgd.getStudents().forEach(student -> assertNotNull(student.getId()));
+        assertNotNull(tgd.getRegulatorId());
+        assertNotNull(tgd.getRegulator());
+        assertNotNull(tgd.getRegulator().getId());
+    }
+
+    @Test
     public void testBatchCreate() {
         List<ClassGrade> classGrades = fraudList(this::fraudClassGrade);
         List<ClassGrade> records = classGradeRepository.insertMultiple(classGrades);
@@ -66,7 +79,7 @@ public class ClassGradeDaoTest extends JUnitDaoWithFraud {
         long count = this.classGradeRepository.count(CountDSL::where);
         TestCase.assertEquals(5, count);
         ClassGrade query = new ClassGrade();
-        List<ClassGrade> results = this.classGradeRepository.selectBy(query);
+        List<ClassGrade> results = this.classGradeRepository.selectBy(query, 1, 10, true);
         TestCase.assertEquals(5, results.size());
     }
 

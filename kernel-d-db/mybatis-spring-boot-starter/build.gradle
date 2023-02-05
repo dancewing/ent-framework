@@ -10,7 +10,7 @@ dependencies {
     api 'org.springframework.boot:spring-boot-autoconfigure'
     api 'org.mybatis:mybatis'
     api 'org.mybatis:mybatis-spring'
-    api project(':kernel-d-db:db-sdk-mds')
+    api project(':kernel-d-db:mybatis-dynamic-extensions')
     api 'org.springframework.boot:spring-boot-autoconfigure-processor'
     api 'org.springframework.boot:spring-boot-configuration-processor'
 }

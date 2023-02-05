@@ -24,4 +24,4 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 }
 
-description = 'db-sdk-mds'
+description = 'mybatis-dynamic-extensions'

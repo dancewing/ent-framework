@@ -31,7 +31,7 @@ dependencies {
     api project(':kernel-s-dict:dict-api')
     api project(':kernel-d-scanner:scanner-api')
     api project(':kernel-d-validator:validator-api')
-    api project(':kernel-d-db:db-sdk-mds')
+    api project(':kernel-d-db:mybatis-dynamic-extensions')
     api project(':kernel-d-db:db-sdk-flyway')
     api project(':kernel-d-pinyin:pinyin-spring-boot-starter')
     api 'org.springframework.boot:spring-boot-starter-web'

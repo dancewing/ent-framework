@@ -7,7 +7,7 @@ plugins {
 }
 
 dependencies {
-    api project(':kernel-d-db:db-sdk-mds')
+    api project(':kernel-d-db:mybatis-dynamic-extensions')
     api project(':kernel-d-db:mybatis-spring-boot-starter')
     api project(':kernel-d-db:db-sdk-flyway')
 
