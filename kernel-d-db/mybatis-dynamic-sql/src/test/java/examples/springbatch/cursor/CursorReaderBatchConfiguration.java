@@ -15,12 +15,8 @@
  */
 package examples.springbatch.cursor;
 
-import static examples.springbatch.mapper.PersonDynamicSqlSupport.lastName;
-import static examples.springbatch.mapper.PersonDynamicSqlSupport.person;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-
-import javax.sql.DataSource;
-
+import examples.springbatch.common.PersonRecord;
+import examples.springbatch.mapper.PersonMapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
@@ -32,9 +28,10 @@ import org.mybatis.spring.batch.MyBatisCursorItemReader;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -48,20 +45,19 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import examples.springbatch.common.PersonRecord;
-import examples.springbatch.mapper.PersonMapper;
+import javax.sql.DataSource;
+
+import static examples.springbatch.mapper.PersonDynamicSqlSupport.lastName;
+import static examples.springbatch.mapper.PersonDynamicSqlSupport.person;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
 @EnableBatchProcessing
 @Configuration
 @ComponentScan("examples.springbatch.common")
 @MapperScan("examples.springbatch.mapper")
 public class CursorReaderBatchConfiguration {
-
     @Autowired
-    private JobBuilderFactory jobBuilderFactory;
-
-    @Autowired
-    private StepBuilderFactory stepBuilderFactory;
+    private JobRepository jobRepository;
 
     @Bean
     public DataSource dataSource() {
@@ -112,18 +108,21 @@ public class CursorReaderBatchConfiguration {
     }
 
     @Bean
-    public Step step1(ItemReader<PersonRecord> reader, ItemProcessor<PersonRecord, PersonRecord> processor, ItemWriter<PersonRecord> writer) {
-        return stepBuilderFactory.get("step1")
+    public Step step1(ItemReader<PersonRecord> reader, ItemProcessor<PersonRecord, PersonRecord> processor, ItemWriter<PersonRecord> writer, PlatformTransactionManager transactionManager) {
+        StepBuilder stepBuilder = new StepBuilder("step1", this.jobRepository);
+        return stepBuilder
                 .<PersonRecord, PersonRecord>chunk(10)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
+                .transactionManager(transactionManager)
                 .build();
     }
 
     @Bean
     public Job upperCaseLastName(Step step1) {
-        return jobBuilderFactory.get("upperCaseLastName")
+        JobBuilder jobBuilder = new JobBuilder("upperCaseLastName", this.jobRepository);
+        return jobBuilder
                 .incrementer(new RunIdIncrementer())
                 .flow(step1)
                 .end()

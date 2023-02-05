@@ -67,7 +67,6 @@ public class RecordableAutoFillInterceptor implements Interceptor {
         //sql类型
         SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
         Object entity = object;
-        log.info("MyBatis Invocation object: {}", entity.getClass().getName());
         if (object instanceof InsertStatementProvider<?> isp) {
             //Dynamic SQL
             entity = isp.getRow();

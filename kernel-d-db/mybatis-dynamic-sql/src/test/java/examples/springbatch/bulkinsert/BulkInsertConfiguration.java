@@ -15,12 +15,9 @@
  */
 package examples.springbatch.bulkinsert;
 
-import static examples.springbatch.mapper.PersonDynamicSqlSupport.firstName;
-import static examples.springbatch.mapper.PersonDynamicSqlSupport.forPagingTest;
-import static examples.springbatch.mapper.PersonDynamicSqlSupport.lastName;
-
-import javax.sql.DataSource;
-
+import examples.springbatch.common.PersonRecord;
+import examples.springbatch.mapper.PersonDynamicSqlSupport;
+import examples.springbatch.mapper.PersonMapper;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.dynamic.sql.insert.InsertDSL;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
@@ -30,9 +27,10 @@ import org.mybatis.spring.batch.MyBatisBatchItemWriter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +42,9 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import examples.springbatch.common.PersonRecord;
-import examples.springbatch.mapper.PersonDynamicSqlSupport;
-import examples.springbatch.mapper.PersonMapper;
+import javax.sql.DataSource;
+
+import static examples.springbatch.mapper.PersonDynamicSqlSupport.*;
 
 @EnableBatchProcessing
 @Configuration
@@ -54,12 +52,8 @@ import examples.springbatch.mapper.PersonMapper;
 @ComponentScan("examples.springbatch.common")
 @MapperScan("examples.springbatch.mapper")
 public class BulkInsertConfiguration {
-
     @Autowired
-    private JobBuilderFactory jobBuilderFactory;
-
-    @Autowired
-    private StepBuilderFactory stepBuilderFactory;
+    private JobRepository jobRepository;
 
     @Bean
     public DataSource dataSource() {
@@ -101,18 +95,22 @@ public class BulkInsertConfiguration {
     }
 
     @Bean
-    public Step step1(ItemProcessor<PersonRecord, PersonRecord> processor, ItemWriter<PersonRecord> writer) {
-        return stepBuilderFactory.get("step1")
+    public Step step1(ItemProcessor<PersonRecord, PersonRecord> processor, ItemWriter<PersonRecord> writer, PlatformTransactionManager transactionManager) {
+
+        StepBuilder stepBuilder = new StepBuilder("step1", jobRepository);
+        return stepBuilder
                 .<PersonRecord, PersonRecord>chunk(10)
                 .reader(new TestRecordGenerator())
                 .processor(processor)
                 .writer(writer)
+                .transactionManager(transactionManager)
                 .build();
     }
 
     @Bean
     public Job insertRecords(Step step1) {
-        return jobBuilderFactory.get("insertRecords")
+        JobBuilder jobBuilder = new JobBuilder("insertRecords", jobRepository);
+        return jobBuilder
                 .incrementer(new RunIdIncrementer())
                 .flow(step1)
                 .end()
