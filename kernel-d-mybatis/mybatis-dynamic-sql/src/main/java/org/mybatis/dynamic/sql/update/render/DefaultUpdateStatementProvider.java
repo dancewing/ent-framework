@@ -22,7 +22,7 @@ import java.util.Objects;
 public class DefaultUpdateStatementProvider implements UpdateStatementProvider {
     private final String updateStatement;
     private final Map<String, Object> parameters = new HashMap<>();
-    private UpdateRenderer source;
+    private final UpdateRenderer source;
 
     private DefaultUpdateStatementProvider(Builder builder) {
         updateStatement = Objects.requireNonNull(builder.updateStatement);

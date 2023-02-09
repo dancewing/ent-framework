@@ -13,33 +13,26 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package examples.custom_render;
+package io.entframework.kernel.db.mds.test.animal;
 
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.CommonDeleteMapper;
 import org.mybatis.dynamic.sql.util.mybatis3.CommonInsertMapper;
-import org.mybatis.dynamic.sql.util.mybatis3.CommonSelectMapper;
 import org.mybatis.dynamic.sql.util.mybatis3.CommonUpdateMapper;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface JsonTestMapper extends CommonDeleteMapper, CommonInsertMapper<JsonTestRecord>, CommonSelectMapper,
-        CommonUpdateMapper {
-    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    @Results(id = "JsonTestResult", value = {
-            @Result(column = "id", property = "id", id = true),
-            @Result(column = "description", property = "description"),
-            @Result(column = "info", property = "info")
-    })
-    List<JsonTestRecord> selectMany(SelectStatementProvider selectStatement);
+public interface NonResultSetAnimalDataMapper extends CommonDeleteMapper, CommonInsertMapper<AnimalData>, CommonUpdateMapper {
 
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    @ResultMap("JsonTestResult")
-    Optional<JsonTestRecord> selectOne(SelectStatementProvider selectStatement);
+    List<AnimalData> selectMany(SelectStatementProvider selectStatement);
+
+    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
+    AnimalData selectOne(SelectStatementProvider selectStatement);
+
+    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
+    Optional<AnimalData> selectOptionalOne(SelectStatementProvider selectStatement);
 }

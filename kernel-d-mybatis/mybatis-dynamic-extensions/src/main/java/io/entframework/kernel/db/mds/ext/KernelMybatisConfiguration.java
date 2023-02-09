@@ -8,15 +8,18 @@
 package io.entframework.kernel.db.mds.ext;
 
 
+import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ReflectUtil;
 import io.entframework.kernel.db.api.util.ClassUtils;
 import io.entframework.kernel.db.mds.ext.binding.MapperRegistryExt;
-import io.entframework.kernel.db.mds.mapper.GeneralMapperSupport;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.binding.MapperRegistry;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.mapping.ResultFlag;
 import org.apache.ibatis.mapping.ResultMap;
 import org.apache.ibatis.mapping.ResultMapping;
+import org.apache.ibatis.reflection.TypeParameterResolver;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.type.JdbcType;
@@ -30,6 +33,9 @@ import org.mybatis.dynamic.sql.util.meta.EntityMeta;
 import org.mybatis.dynamic.sql.util.meta.FieldAndColumn;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -81,50 +87,93 @@ public class KernelMybatisConfiguration extends Configuration {
     @Override
     public ResultMap getResultMap(String id) {
         ResultMap resultMap = super.getResultMap(id);
-        //这是个空的ResultMap
-        if (resultMap.getMappedColumns().isEmpty() && !id.startsWith(GeneralMapperSupport.class.getName())) {
+        //This is empty, try to generate result map
+        if (resultMap.getMappedColumns().isEmpty()) {
             if (additionalResultMaps.containsKey(id)) {
                 return additionalResultMaps.get(id);
             }
+
             String methodFullName = StringUtils.substringBeforeLast(id, "-");
             String mapperName = StringUtils.substringBeforeLast(methodFullName, ".");
             String method = StringUtils.substringAfterLast(methodFullName, ".");
             Class<?> mapperClass = ClassUtils.toClassConfident(mapperName);
-            if (StringUtils.equalsAny(method, "selectOne", "selectMany")) {
-                EntityMeta entities = Entities.fromMapper(mapperClass);
-                List<ResultMapping> resultMappings = new ArrayList<>();
-                List<FieldAndColumn> columns = entities.getColumns();
-                for (FieldAndColumn wrapper : columns) {
-                    ResultMapping.Builder rmBuilder = new ResultMapping.Builder(this, wrapper.field().getName(), wrapper.column().name(), wrapper.field().getType());
-                    createResultMapping(entities, resultMappings, wrapper, rmBuilder);
-                }
+            Class<?> entityClass = getEntityClass(mapperClass);
+            if (entityClass != null) {
+                Method mapperMethod = getMethod(mapperClass, false, method);
+                Type resolvedReturnType = TypeParameterResolver.resolveReturnType(mapperMethod, mapperClass);
 
-                for (Field field : entities.getRelations()) {
-                    ResultMapping.Builder rmBuilder = new ResultMapping.Builder(this, field.getName(), null, field.getType());
-                    JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
-                    StringBuilder resultId = new StringBuilder(methodFullName + "-");
-                    if (field.isAnnotationPresent(ManyToOne.class)) {
-                        resultId.append("association");
-                    }
-                    if (field.isAnnotationPresent(OneToMany.class)) {
-                        resultId.append("collection");
-                    }
-                    resultId.append("-");
-                    resultId.append(field.getName());
-                    if (!resultMaps.containsKey(resultId.toString())) {
-                        createResultMapping(resultId.toString(), joinColumn.target(), null);
-                    }
-                    rmBuilder.nestedResultMapId(resultId.toString());
-                    resultMappings.add(rmBuilder.build());
+                Class<?> returnType;
+                if (resolvedReturnType instanceof Class<?>) {
+                    returnType = (Class<?>) resolvedReturnType;
+                } else if (resolvedReturnType instanceof ParameterizedType) {
+                    returnType = (Class<?>) ((ParameterizedType) resolvedReturnType).getActualTypeArguments()[0];
+                } else {
+                    returnType = mapperMethod.getReturnType();
                 }
+                if (entityClass.isAssignableFrom(returnType)) {
+                    EntityMeta entities = Entities.getInstance(entityClass);
+                    List<ResultMapping> resultMappings = new ArrayList<>();
+                    List<FieldAndColumn> columns = entities.getColumns();
+                    for (FieldAndColumn wrapper : columns) {
+                        ResultMapping.Builder rmBuilder = new ResultMapping.Builder(this, wrapper.field().getName(), wrapper.column().name(), wrapper.field().getType());
+                        createResultMapping(entities, resultMappings, wrapper, rmBuilder);
+                    }
 
-                ResultMap.Builder builder = new ResultMap.Builder(this, id, entities.getEntityClass(), resultMappings);
-                ResultMap answer = builder.build();
-                additionalResultMaps.put(id, answer);
-                return answer;
+                    for (Field field : entities.getRelations()) {
+                        ResultMapping.Builder rmBuilder = new ResultMapping.Builder(this, field.getName(), null, field.getType());
+                        JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
+                        StringBuilder resultId = new StringBuilder(methodFullName + "-");
+                        if (field.isAnnotationPresent(ManyToOne.class)) {
+                            resultId.append("association");
+                        }
+                        if (field.isAnnotationPresent(OneToMany.class)) {
+                            resultId.append("collection");
+                        }
+                        resultId.append("-");
+                        resultId.append(field.getName());
+                        if (!resultMaps.containsKey(resultId.toString())) {
+                            createResultMapping(resultId.toString(), joinColumn.target(), null);
+                        }
+                        rmBuilder.nestedResultMapId(resultId.toString());
+                        resultMappings.add(rmBuilder.build());
+                    }
+
+                    ResultMap.Builder builder = new ResultMap.Builder(this, id, entities.getEntityClass(), resultMappings);
+                    ResultMap answer = builder.build();
+                    additionalResultMaps.put(id, answer);
+                    return answer;
+                }
             }
+
         }
         return resultMap;
+    }
+
+    private Class<?> getEntityClass(Class<?> mapperClass) {
+        Type[] genericInterfaces = mapperClass.getGenericInterfaces();
+        for (Type type : genericInterfaces) {
+            if (type instanceof ParameterizedType parameterizedType) {
+                return (Class<?>) parameterizedType.getActualTypeArguments()[0];
+            }
+        }
+        return null;
+    }
+
+    public static Method getMethod(Class<?> clazz, boolean ignoreCase, String methodName) throws SecurityException {
+        if (null == clazz || CharSequenceUtil.isBlank(methodName)) {
+            return null;
+        }
+
+        Method res = null;
+        final Method[] methods = ReflectUtil.getMethods(clazz);
+        if (ArrayUtil.isNotEmpty(methods)) {
+            for (Method method : methods) {
+                if (CharSequenceUtil.equals(methodName, method.getName(), ignoreCase)) {
+                    res = method;
+                }
+            }
+        }
+        return res;
     }
 
     private void createResultMapping(String resultId, Class<?> target, String alias) {

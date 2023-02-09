@@ -43,7 +43,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
  * and represents the desired output for MyBatis Generator
  */
 @Mapper
-public interface PersonMapper extends CommonCountMapper, CommonDeleteMapper, CommonInsertMapper, CommonUpdateMapper {
+public interface PersonMapper extends CommonCountMapper, CommonDeleteMapper, CommonInsertMapper<PersonRecord>, CommonUpdateMapper {
 
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "PersonResult", value = {

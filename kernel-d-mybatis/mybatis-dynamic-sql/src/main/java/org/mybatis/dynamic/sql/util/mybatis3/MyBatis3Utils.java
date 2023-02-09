@@ -154,7 +154,7 @@ public class MyBatis3Utils {
         return select(SqlBuilder.select(selectList).from(table), completer);
     }
 
-    public static SelectStatementProvider select(BasicColumn[] selectList, SqlTable table, Class<?> entityClass,
+    public static SelectStatementProvider select(BasicColumn[] selectList, Class<?> entityClass,
                                                  SelectDSLCompleter completer) {
         return select(SqlBuilder.select(selectList).from(entityClass), completer);
     }
@@ -171,9 +171,19 @@ public class MyBatis3Utils {
         return select(SqlBuilder.selectDistinct(selectList).from(table), completer);
     }
 
+    public static SelectStatementProvider selectDistinct(BasicColumn[] selectList, Class<?> entityClass,
+                                                         SelectDSLCompleter completer) {
+        return select(SqlBuilder.selectDistinct(selectList).from(entityClass), completer);
+    }
+
     public static <R> List<R> selectDistinct(Function<SelectStatementProvider, List<R>> mapper,
                                              BasicColumn[] selectList, SqlTable table, SelectDSLCompleter completer) {
         return mapper.apply(selectDistinct(selectList, table, completer));
+    }
+
+    public static <R> List<R> selectDistinct(Function<SelectStatementProvider, List<R>> mapper,
+                                             BasicColumn[] selectList, Class<?> entityClass, SelectDSLCompleter completer) {
+        return mapper.apply(selectDistinct(selectList, entityClass, completer));
     }
 
     public static <R> List<R> selectList(Function<SelectStatementProvider, List<R>> mapper,
@@ -198,7 +208,7 @@ public class MyBatis3Utils {
 
     public static <R> R selectOne(Function<SelectStatementProvider, R> mapper, Class<?> entityClass, SelectDSLCompleter completer) {
         EntityMeta entities = Entities.getInstance(entityClass);
-        return mapper.apply(select(entities.getSelectColumns(), entities.getTable(), entityClass, completer));
+        return mapper.apply(select(entities.getSelectColumns(), entityClass, completer));
     }
 
     public static <R> R selectOne(Function<SelectStatementProvider, R> mapper,

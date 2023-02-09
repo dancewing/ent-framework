@@ -32,7 +32,7 @@ import java.util.List;
  *
  * @param <T> the type of record associated with this mapper
  */
-public interface CommonInsertMapper<T> {
+public interface GernericInsertMapper {
     /**
      * Execute an insert statement with input fields mapped to values in a POJO.
      *
@@ -42,7 +42,7 @@ public interface CommonInsertMapper<T> {
      * @return the number of rows affected
      */
     @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
-    int insert(InsertStatementProvider<T> insertStatement);
+    <T> int insert(InsertStatementProvider<T> insertStatement);
 
     /**
      * Execute an insert statement with input fields supplied directly.
@@ -76,7 +76,7 @@ public interface CommonInsertMapper<T> {
      * @return the number of rows affected
      */
     @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
-    int insertMultiple(MultiRowInsertStatementProvider<T> insertStatement);
+    <T> int insertMultiple(MultiRowInsertStatementProvider<T> insertStatement);
 
     /**
      * Flush batched insert statements and return details of the current batch. This is useful when there is no direct

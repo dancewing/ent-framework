@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Mapper
-public interface GeneralMapperSupport extends CommonCountMapper, CommonDeleteMapper, CommonUpdateMapper, CommonSelectMapper, CommonInsertMapper {
+public interface GeneralMapperSupport extends CommonCountMapper, CommonDeleteMapper, CommonUpdateMapper, CommonSelectMapper, GernericInsertMapper {
 
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     <E> List<E> selectMany(SelectStatementProvider selectStatement);
@@ -32,7 +32,7 @@ public interface GeneralMapperSupport extends CommonCountMapper, CommonDeleteMap
         return MyBatis3Utils.selectList(this::selectMany, entityClass, completer);
     }
 
-    default <E> List<E> selectDistinct(SelectDSLCompleter completer) {
+    default <E> List<E> selectDistinct(Class<E> entityClass, SelectDSLCompleter completer) {
         EntityMeta entities = Entities.fromMapper(MapperProxyUtils.getProxyMapper(this));
         return MyBatis3Utils.selectDistinct(this::selectMany, entities.getSelectColumns(), entities.getTable(), completer);
     }

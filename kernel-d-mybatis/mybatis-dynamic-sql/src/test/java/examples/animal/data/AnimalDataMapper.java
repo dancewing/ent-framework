@@ -26,7 +26,7 @@ import org.mybatis.dynamic.sql.where.render.WhereClauseProvider;
 import java.util.List;
 import java.util.Optional;
 
-public interface AnimalDataMapper extends CommonDeleteMapper, CommonInsertMapper, CommonUpdateMapper {
+public interface AnimalDataMapper extends CommonDeleteMapper, CommonInsertMapper<AnimalData>, CommonUpdateMapper {
 
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "AnimalDataResult", value = {
