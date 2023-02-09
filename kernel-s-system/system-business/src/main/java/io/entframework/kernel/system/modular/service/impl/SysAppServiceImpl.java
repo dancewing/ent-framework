@@ -21,8 +21,7 @@ import io.entframework.kernel.system.api.exception.enums.app.AppExceptionEnum;
 import io.entframework.kernel.system.api.pojo.request.SysAppRequest;
 import io.entframework.kernel.system.api.pojo.response.SysAppResponse;
 import io.entframework.kernel.system.modular.entity.SysApp;
-import io.entframework.kernel.system.modular.mapper.SysAppDynamicSqlSupport;
-import io.entframework.kernel.system.modular.repository.SysAppRepository;
+import io.entframework.kernel.system.modular.entity.SysAppDynamicSqlSupport;
 import io.entframework.kernel.system.modular.service.SysAppService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -36,8 +35,8 @@ import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
 @Slf4j
 public class SysAppServiceImpl extends BaseServiceImpl<SysAppRequest, SysAppResponse, SysApp> implements SysAppService {
-    public SysAppServiceImpl(SysAppRepository sysAppRepository) {
-        super(sysAppRepository, SysAppRequest.class, SysAppResponse.class);
+    public SysAppServiceImpl() {
+        super(SysAppRequest.class, SysAppResponse.class, SysApp.class);
     }
 
     @Resource
@@ -153,7 +152,7 @@ public class SysAppServiceImpl extends BaseServiceImpl<SysAppRequest, SysAppResp
         // 所有已激活的改为未激活
         UpdateDSLCompleter updateDSLCompleter = c -> c.set(SysAppDynamicSqlSupport.activeFlag).equalTo(YesOrNotEnum.N)
                 .where(SysAppDynamicSqlSupport.activeFlag, isEqualTo(YesOrNotEnum.Y));
-        this.getRepository().update(updateDSLCompleter);
+        this.getRepository().update(getEntityClass(), updateDSLCompleter);
 
         // 当前的设置为已激活
         currentApp.setActiveFlag(YesOrNotEnum.Y);
@@ -170,7 +169,7 @@ public class SysAppServiceImpl extends BaseServiceImpl<SysAppRequest, SysAppResp
                 .where(SysAppDynamicSqlSupport.appId, isIn(userAppCodeList).filter(Objects::nonNull))
                 .orderBy(SysAppDynamicSqlSupport.activeFlag.descending());
 
-        return this.getRepository().select(selectDSLCompleter);
+        return this.getRepository().select(getEntityClass(), selectDSLCompleter);
     }
 
     @Override
@@ -179,7 +178,7 @@ public class SysAppServiceImpl extends BaseServiceImpl<SysAppRequest, SysAppResp
         SelectDSLCompleter selectDSLCompleter = c -> c
                 .where(SysAppDynamicSqlSupport.appCode, isIn(appCodes).filter(Objects::nonNull))
                 .orderBy(SysAppDynamicSqlSupport.activeFlag.descending());
-        List<SysApp> list = this.getRepository().select(selectDSLCompleter);
+        List<SysApp> list = this.getRepository().select(getEntityClass(), selectDSLCompleter);
         for (SysApp sysApp : list) {
             SimpleDict simpleDict = new SimpleDict();
             simpleDict.setId(sysApp.getAppId());
@@ -203,7 +202,7 @@ public class SysAppServiceImpl extends BaseServiceImpl<SysAppRequest, SysAppResp
         SelectDSLCompleter selectDSLCompleter = c -> c.where(SysAppDynamicSqlSupport.appCode,
                 isEqualTo(appCode).filter(Objects::nonNull));
 
-        Optional<SysApp> optionalSysApp = this.getRepository().selectOne(selectDSLCompleter);
+        Optional<SysApp> optionalSysApp = this.getRepository().selectOne(getEntityClass(), selectDSLCompleter);
 
         if (optionalSysApp.isPresent()) {
             SysApp sysApp = optionalSysApp.get();
@@ -232,7 +231,7 @@ public class SysAppServiceImpl extends BaseServiceImpl<SysAppRequest, SysAppResp
                 .where(SysAppDynamicSqlSupport.activeFlag, isEqualToWhenPresent(YesOrNotEnum.Y))
                 .and(SysAppDynamicSqlSupport.delFlag, isEqualToWhenPresent(YesOrNotEnum.N));
 
-        List<SysApp> list = this.getRepository().select(selectDSLCompleter);
+        List<SysApp> list = this.getRepository().select(getEntityClass(), selectDSLCompleter);
         if (list.isEmpty()) {
             return null;
         } else {
@@ -254,7 +253,7 @@ public class SysAppServiceImpl extends BaseServiceImpl<SysAppRequest, SysAppResp
         SelectDSLCompleter selectDSLCompleter = c -> c.where(SysAppDynamicSqlSupport.appCode,
                 isEqualTo(appCode).filter(Objects::nonNull));
 
-        Optional<SysApp> optionalSysApp = this.getRepository().selectOne(selectDSLCompleter);
+        Optional<SysApp> optionalSysApp = this.getRepository().selectOne(getEntityClass(), selectDSLCompleter);
 
         if (optionalSysApp.isPresent()) {
             SysApp sysApp = optionalSysApp.get();
@@ -270,7 +269,7 @@ public class SysAppServiceImpl extends BaseServiceImpl<SysAppRequest, SysAppResp
      * @date 2020/3/26 9:56
      */
     private SysApp querySysApp(SysAppRequest sysAppRequest) {
-        Optional<SysApp> sysApp = this.getRepository().selectByPrimaryKey(sysAppRequest.getAppId());
+        Optional<SysApp> sysApp = this.getRepository().selectByPrimaryKey(getEntityClass(), sysAppRequest.getAppId());
         return sysApp.orElseThrow(() -> new ServiceException(AppExceptionEnum.APP_NOT_EXIST));
     }
 }

@@ -9,7 +9,10 @@ package io.entframework.kernel.db.generator.plugin.server;
 
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.*;
-import org.mybatis.generator.api.dom.java.*;
+import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
+import org.mybatis.generator.api.dom.java.JavaVisibility;
+import org.mybatis.generator.api.dom.java.Method;
+import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.config.PropertyRegistry;
 
 import java.util.ArrayList;
@@ -46,27 +49,9 @@ public class SpringAutoConfigurationPlugin extends AbstractServerPlugin {
             FullyQualifiedJavaType baseServiceJavaType = getServiceJavaType(recordType.getShortName());
             FullyQualifiedJavaType baseServiceImplJavaType = getServiceImplJavaType(recordType.getShortName());
 
-            FullyQualifiedJavaType baseRepositoryJavaType = getRepositoryJavaType(recordType.getShortName());
-            FullyQualifiedJavaType baseRepositoryImplJavaType = getRepositoryImplJavaType(recordType.getShortName());
-            Method repositoryMethod = new Method(StringUtils.uncapitalize(baseRepositoryJavaType.getShortName()));
-
-            repositoryMethod.addAnnotation("@Bean");
-            repositoryMethod.setVisibility(JavaVisibility.PUBLIC);
-            repositoryMethod.setReturnType(baseRepositoryJavaType);
-            repositoryMethod.addAnnotation(String.format("@ConditionalOnMissingBean(%s.class)", baseRepositoryJavaType.getShortName()));
-
-            repositoryMethod.addBodyLine(String.format("return new %s();", baseRepositoryImplJavaType.getShortName()));
-
-            configBaseClass.addMethod(repositoryMethod);
-            configBaseClass.addImportedType(baseRepositoryJavaType);
-            configBaseClass.addImportedType(baseRepositoryImplJavaType);
-
             Method serviceMethod = new Method(StringUtils.uncapitalize(baseServiceJavaType.getShortName()));
 
-            Parameter p1 = new Parameter(baseRepositoryJavaType, StringUtils.uncapitalize(baseRepositoryJavaType.getShortName()));
-            serviceMethod.addParameter(p1);
-
-            serviceMethod.addBodyLine(String.format("return new %s(%s);", baseServiceImplJavaType.getShortName(), StringUtils.uncapitalize(baseRepositoryJavaType.getShortName())));
+            serviceMethod.addBodyLine(String.format("return new %s();", baseServiceImplJavaType.getShortName()));
             serviceMethod.addAnnotation("@Bean");
             serviceMethod.setVisibility(JavaVisibility.PUBLIC);
             serviceMethod.setReturnType(baseServiceJavaType);
@@ -87,10 +72,8 @@ public class SpringAutoConfigurationPlugin extends AbstractServerPlugin {
         scanPackages.add("\"" + this.mapstructTargetPackage + "\"");
         scanPackages.add("\"" + this.serviceTargetPackage + "\"");
         configBaseClass.addAnnotation(String.format("@ComponentScan(basePackages = {%s})", StringUtils.join(scanPackages, ", ")));
-        configBaseClass.addAnnotation(String.format("@MapperScan(basePackages = \"%s\")", context.getJavaClientGeneratorConfiguration().getTargetPackage()));
 
         configBaseClass.addImportedType("org.springframework.context.annotation.ComponentScan");
-        configBaseClass.addImportedType("org.mybatis.spring.annotation.MapperScan");
 
         return new GeneratedJavaFile(configBaseClass,
                 context.getJavaModelGeneratorConfiguration().getTargetProject(),

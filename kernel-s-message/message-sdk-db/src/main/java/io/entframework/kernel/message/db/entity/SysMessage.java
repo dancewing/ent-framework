@@ -1,8 +1,5 @@
 package io.entframework.kernel.message.db.entity;
 
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
-import io.entframework.kernel.db.api.annotation.Table;
 import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
 import io.entframework.kernel.message.api.enums.MessageBusinessTypeEnum;
 import io.entframework.kernel.message.api.enums.MessagePriorityLevelEnum;
@@ -15,6 +12,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.Table;
 
 /**
  * 系统消息
@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("sys_message")
+@Table(value = "sys_message", sqlSupport = SysMessageDynamicSqlSupport.class, tableProperty = "sysMessage")
 public class SysMessage extends BaseEntity implements Serializable {
     /**
      * 主键

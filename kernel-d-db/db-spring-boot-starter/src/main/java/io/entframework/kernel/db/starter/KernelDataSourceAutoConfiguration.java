@@ -3,9 +3,11 @@
  ******************************************************************************/
 package io.entframework.kernel.db.starter;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import io.entframework.kernel.db.api.DbOperatorApi;
 import io.entframework.kernel.db.api.config.DruidProperties;
 import io.entframework.kernel.db.api.factory.DruidDatasourceFactory;
-import com.alibaba.druid.pool.DruidDataSource;
+import io.entframework.kernel.db.mds.dboperator.DbOperatorImpl;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -29,7 +31,6 @@ import javax.sql.DataSource;
 @EnableConfigurationProperties({DruidProperties.class})
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
-@ConditionalOnMissingBean(DataSource.class)
 public class KernelDataSourceAutoConfiguration {
 
     /**
@@ -38,8 +39,14 @@ public class KernelDataSourceAutoConfiguration {
      * @date 2020/11/30 22:37
      */
     @Bean(initMethod = "init")
-    public DruidDataSource druidDataSource(DruidProperties druidProperties) {
+    @ConditionalOnMissingBean(DataSource.class)
+    public DruidDataSource dataSource(DruidProperties druidProperties) {
         return DruidDatasourceFactory.createDruidDataSource(druidProperties);
     }
 
+    @Bean
+    @ConditionalOnMissingBean(DbOperatorApi.class)
+    public DbOperatorApi dbOperatorApi() {
+        return new DbOperatorImpl();
+    }
 }

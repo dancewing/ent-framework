@@ -15,9 +15,11 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.Plugin;
+import org.mybatis.generator.api.WriteMode;
 import org.mybatis.generator.api.dom.java.*;
 import org.mybatis.generator.config.JoinEntry;
 import org.mybatis.generator.config.JoinTarget;
+import org.mybatis.generator.internal.util.JavaBeansUtil;
 
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class MyBatisExtPlugin extends AbstractDynamicSQLPlugin {
 
         if (GeneratorUtils.isPrimaryKey(introspectedTable, introspectedColumn)) {
             field.addAnnotation("@Id");
-            topLevelClass.addImportedType("io.entframework.kernel.db.api.annotation.Id");
+            topLevelClass.addImportedType("org.mybatis.dynamic.sql.annotation.Id");
         }
 
         if (!GeneratorUtils.isRelationField(field)) {
@@ -54,7 +56,7 @@ public class MyBatisExtPlugin extends AbstractDynamicSQLPlugin {
             }
             sb.append(")");
             field.addAnnotation(sb.toString());
-            topLevelClass.addImportedType("io.entframework.kernel.db.api.annotation.Column");
+            topLevelClass.addImportedType("org.mybatis.dynamic.sql.annotation.Column");
         }
 
         if (StringUtils.equalsIgnoreCase(introspectedColumn.getActualColumnName(), introspectedTable.getTableConfiguration().getLogicDeleteColumn())) {
@@ -65,7 +67,7 @@ public class MyBatisExtPlugin extends AbstractDynamicSQLPlugin {
 
         if (StringUtils.equalsIgnoreCase(introspectedColumn.getActualColumnName(), introspectedTable.getTableConfiguration().getVersionColumn())) {
             field.addAnnotation("@Version");
-            topLevelClass.addImportedType("io.entframework.kernel.db.api.annotation.Version");
+            topLevelClass.addImportedType("org.mybatis.dynamic.sql.annotation.Version");
             field.setAttribute(Constants.FIELD_VERSION_ATTR, true);
         }
 
@@ -93,9 +95,14 @@ public class MyBatisExtPlugin extends AbstractDynamicSQLPlugin {
         //IntrospectedTable 和 TopLevelClass 建立关联, TODO 是否有API，待验证
         introspectedTable.setAttribute(Constants.INTROSPECTED_TABLE_MODEL_CLASS, topLevelClass);
 
-        topLevelClass.addAnnotation(String.format("@Table(\"%s\")", introspectedTable.getFullyQualifiedTableNameAtRuntime()));
-        topLevelClass.addImportedType("io.entframework.kernel.db.api.annotation.Table");
+        FullyQualifiedJavaType dynamicSqlSupportType = new FullyQualifiedJavaType(introspectedTable.getMyBatisDynamicSqlSupportType());
+        topLevelClass.addAnnotation(String.format("@Table(value = \"%s\", sqlSupport = %s.class, tableProperty = \"%s\")",
+                introspectedTable.getFullyQualifiedTableNameAtRuntime(),
+                dynamicSqlSupportType.getShortName(),
+                JavaBeansUtil.getValidPropertyName(introspectedTable.getMyBatisDynamicSQLTableObjectName())));
 
+        topLevelClass.addImportedType("org.mybatis.dynamic.sql.annotation.Table");
+        topLevelClass.addImportedType(introspectedTable.getMyBatisDynamicSqlSupportType());
         return true;
     }
 
@@ -111,10 +118,7 @@ public class MyBatisExtPlugin extends AbstractDynamicSQLPlugin {
         String fileDescription = GeneratorUtils.getFileDescription(introspectedTable);
         interfaze.setDescription(fileDescription);
 
-
-        FullyQualifiedJavaType recordType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
-        interfaze.addAnnotation(String.format("@Entity(%s.class)", recordType.getShortName()));
-        interfaze.addImportedType(new FullyQualifiedJavaType("io.entframework.kernel.db.api.annotation.Entity"));
+        interfaze.setWriteMode(WriteMode.NEVER);
         return true;
     }
 
@@ -156,8 +160,8 @@ public class MyBatisExtPlugin extends AbstractDynamicSQLPlugin {
                             .targetColumn(rightTableColumn);
                     field.addAnnotation("@OneToMany");
                     field.addAnnotation(String.format("@JoinColumn(target = %s.class, left = \"%s\", right = \"%s\")", recordType.getShortName(), leftTableColumn.getJavaProperty(), rightTableColumn.getJavaProperty()));
-                    topLevelClass.addImportedType("io.entframework.kernel.db.api.annotation.OneToMany");
-                    topLevelClass.addImportedType("io.entframework.kernel.db.api.annotation.JoinColumn");
+                    topLevelClass.addImportedType("org.mybatis.dynamic.sql.annotation.OneToMany");
+                    topLevelClass.addImportedType("org.mybatis.dynamic.sql.annotation.JoinColumn");
                 }
 
                 if (target.getType() == JoinTarget.JoinType.ONE) {
@@ -173,8 +177,8 @@ public class MyBatisExtPlugin extends AbstractDynamicSQLPlugin {
                             .targetColumn(GeneratorUtils.getIntrospectedColumnByColumn(rightTable, target.getJoinColumn()));
                     field.addAnnotation("@ManyToOne");
                     field.addAnnotation(String.format("@JoinColumn(target = %s.class, left = \"%s\", right = \"%s\")", recordType.getShortName(), leftColumn.getJavaProperty(), rightTableColumn.getJavaProperty()));
-                    topLevelClass.addImportedType("io.entframework.kernel.db.api.annotation.ManyToOne");
-                    topLevelClass.addImportedType("io.entframework.kernel.db.api.annotation.JoinColumn");
+                    topLevelClass.addImportedType("org.mybatis.dynamic.sql.annotation.ManyToOne");
+                    topLevelClass.addImportedType("org.mybatis.dynamic.sql.annotation.JoinColumn");
                 }
                 field.setAttribute(Constants.FIELD_RELATION, builder.build());
                 //重置Field的注释行

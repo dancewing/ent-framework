@@ -3,18 +3,17 @@ package io.entframework.kernel.db.mds.example.service.impl;
 import io.entframework.kernel.db.mds.example.entity.Teacher;
 import io.entframework.kernel.db.mds.example.pojo.request.TeacherRequest;
 import io.entframework.kernel.db.mds.example.pojo.response.TeacherResponse;
-import io.entframework.kernel.db.mds.example.repository.TeacherRepository;
 import io.entframework.kernel.db.mds.example.service.TeacherService;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class TeacherServiceImpl extends BaseServiceImpl<TeacherRequest, TeacherResponse, Teacher> implements TeacherService {
-    public TeacherServiceImpl(TeacherRepository teacherRepository) {
-        super(teacherRepository, TeacherRequest.class, TeacherResponse.class);
+    public TeacherServiceImpl() {
+        super(TeacherRequest.class, TeacherResponse.class, Teacher.class);
     }
 
-    public TeacherServiceImpl(TeacherRepository teacherRepository, Class<? extends TeacherRequest> requestClass, Class<? extends TeacherResponse> responseClass) {
-        super(teacherRepository, requestClass, responseClass);
+    public TeacherServiceImpl(Class<? extends TeacherRequest> requestClass, Class<? extends TeacherResponse> responseClass, Class<? extends Teacher> entityClass) {
+        super(requestClass, responseClass, entityClass);
     }
 }

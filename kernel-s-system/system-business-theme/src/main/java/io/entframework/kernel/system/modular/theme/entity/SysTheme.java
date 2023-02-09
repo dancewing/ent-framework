@@ -1,8 +1,5 @@
 package io.entframework.kernel.system.modular.theme.entity;
 
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
-import io.entframework.kernel.db.api.annotation.Table;
 import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
 import java.io.Serializable;
@@ -11,6 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.Table;
 
 /**
  * 系统主题
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("sys_theme")
+@Table(value = "sys_theme", sqlSupport = SysThemeDynamicSqlSupport.class, tableProperty = "sysTheme")
 public class SysTheme extends BaseEntity implements Serializable {
     /**
      * 主键

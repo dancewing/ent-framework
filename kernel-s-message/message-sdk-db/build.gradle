@@ -29,7 +29,7 @@ if (gradlePluginVersion != '') {
 }
 dependencies {
     api project(':kernel-s-message:message-api')
-    api project(':kernel-d-db:mybatis-dynamic-extensions')
+    api project(':kernel-d-mybatis:mybatis-dynamic-extensions')
     api project(':kernel-d-db:db-sdk-flyway')
     api project(':kernel-s-system:system-api')
     api project(':kernel-d-socket:socket-feign-client')

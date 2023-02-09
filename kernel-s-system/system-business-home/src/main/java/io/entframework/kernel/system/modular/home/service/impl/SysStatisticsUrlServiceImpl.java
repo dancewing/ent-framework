@@ -9,12 +9,11 @@ package io.entframework.kernel.system.modular.home.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.rule.exception.base.ServiceException;
 import io.entframework.kernel.system.modular.home.entity.SysStatisticsUrl;
+import io.entframework.kernel.system.modular.home.entity.SysStatisticsUrlDynamicSqlSupport;
 import io.entframework.kernel.system.modular.home.enums.SysStatisticsUrlExceptionEnum;
-import io.entframework.kernel.system.modular.home.mapper.SysStatisticsUrlDynamicSqlSupport;
 import io.entframework.kernel.system.modular.home.pojo.request.SysStatisticsUrlRequest;
 import io.entframework.kernel.system.modular.home.pojo.response.SysStatisticsUrlResponse;
 import io.entframework.kernel.system.modular.home.service.SysStatisticsUrlService;
@@ -30,8 +29,8 @@ import java.util.Optional;
  */
 public class SysStatisticsUrlServiceImpl extends BaseServiceImpl<SysStatisticsUrlRequest, SysStatisticsUrlResponse, SysStatisticsUrl> implements SysStatisticsUrlService {
 
-    public SysStatisticsUrlServiceImpl(BaseRepository<SysStatisticsUrl> baseRepository) {
-        super(baseRepository, SysStatisticsUrlRequest.class, SysStatisticsUrlResponse.class);
+    public SysStatisticsUrlServiceImpl() {
+        super(SysStatisticsUrlRequest.class, SysStatisticsUrlResponse.class, SysStatisticsUrl.class);
     }
 
     @Override
@@ -44,7 +43,7 @@ public class SysStatisticsUrlServiceImpl extends BaseServiceImpl<SysStatisticsUr
     @Override
     public void del(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
         SysStatisticsUrl sysStatisticsUrl = this.querySysStatisticsUrl(sysStatisticsUrlRequest);
-        this.getRepository().deleteByPrimaryKey(sysStatisticsUrl.getStatUrlId());
+        this.getRepository().deleteByPrimaryKey(getEntityClass(), sysStatisticsUrl.getStatUrlId());
     }
 
     @Override
@@ -76,7 +75,7 @@ public class SysStatisticsUrlServiceImpl extends BaseServiceImpl<SysStatisticsUr
      * @date 2022/02/10 21:17
      */
     private SysStatisticsUrl querySysStatisticsUrl(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
-        Optional<SysStatisticsUrl> sysStatisticsUrl = this.getRepository().selectByPrimaryKey(sysStatisticsUrlRequest.getStatUrlId());
+        Optional<SysStatisticsUrl> sysStatisticsUrl = this.getRepository().selectByPrimaryKey(getEntityClass(), sysStatisticsUrlRequest.getStatUrlId());
         if (sysStatisticsUrl.isEmpty()) {
             throw new ServiceException(SysStatisticsUrlExceptionEnum.SYS_STATISTICS_URL_NOT_EXISTED);
         }
@@ -85,7 +84,7 @@ public class SysStatisticsUrlServiceImpl extends BaseServiceImpl<SysStatisticsUr
 
     @Override
     public List<Long> getMenuIdsByStatUrlIdList(List<Long> statUrlIds) {
-        List<SysStatisticsUrl> results = this.getRepository().select(c -> c.where(SysStatisticsUrlDynamicSqlSupport.statUrlId, SqlBuilder.isIn(statUrlIds)).orderBy(SysStatisticsUrlDynamicSqlSupport.statUrlId));
+        List<SysStatisticsUrl> results = this.getRepository().select(getEntityClass(), c -> c.where(SysStatisticsUrlDynamicSqlSupport.statUrlId, SqlBuilder.isIn(statUrlIds)).orderBy(SysStatisticsUrlDynamicSqlSupport.statUrlId));
         return results.stream().map(SysStatisticsUrl::getStatMenuId).toList();
     }
 }

@@ -55,7 +55,7 @@
             <property name="writeMode" value="NEVER"/>
         </plugin>
         <plugin type="io.entframework.kernel.db.generator.plugin.server.MapstructPlugin" />
-        <plugin type="io.entframework.kernel.db.generator.plugin.server.RepositoryPlugin" />
+
         <plugin type="io.entframework.kernel.db.generator.plugin.server.ServicePlugin" />
         <!--<plugin type="io.entframework.kernel.db.generator.plugin.server.ControllerPlugin" />-->
         <plugin type="io.entframework.kernel.db.generator.plugin.server.SpringAutoConfigurationPlugin">

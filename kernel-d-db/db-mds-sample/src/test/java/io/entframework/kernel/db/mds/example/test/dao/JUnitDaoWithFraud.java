@@ -11,23 +11,18 @@ package io.entframework.kernel.db.mds.example.test.dao;
 import io.entframework.kernel.db.mds.example.entity.ClassGrade;
 import io.entframework.kernel.db.mds.example.entity.Student;
 import io.entframework.kernel.db.mds.example.entity.Teacher;
-import io.entframework.kernel.db.mds.example.repository.ClassGradeRepository;
-import io.entframework.kernel.db.mds.example.repository.StudentRepository;
-import io.entframework.kernel.db.mds.example.repository.TeacherRepository;
 import io.entframework.kernel.db.mds.example.test.JUnitWithFraud;
+import io.entframework.kernel.db.mds.mapper.GeneralMapperSupport;
+import io.entframework.kernel.db.mds.repository.GeneralRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class JUnitDaoWithFraud extends JUnitWithFraud {
-
     @Autowired
-    protected ClassGradeRepository classGradeRepository;
+    protected GeneralRepository generalRepository;
     @Autowired
-    protected StudentRepository studentRepository;
-    @Autowired
-    protected TeacherRepository teacherRepository;
-
+    protected GeneralMapperSupport generalMapperSupport;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -41,8 +36,8 @@ public abstract class JUnitDaoWithFraud extends JUnitWithFraud {
     }
 
     private void clean() {
-        this.classGradeRepository.deleteBy(new ClassGrade());
-        this.studentRepository.deleteBy(new Student());
-        this.teacherRepository.deleteBy(new Teacher());
+        this.generalRepository.deleteBy(new ClassGrade());
+        this.generalRepository.deleteBy(new Student());
+        this.generalRepository.deleteBy(new Teacher());
     }
 }

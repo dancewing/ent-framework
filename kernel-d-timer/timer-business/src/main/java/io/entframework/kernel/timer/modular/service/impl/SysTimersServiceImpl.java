@@ -22,7 +22,6 @@ import io.entframework.kernel.timer.api.exception.enums.TimerExceptionEnum;
 import io.entframework.kernel.timer.api.pojo.SysTimersRequest;
 import io.entframework.kernel.timer.api.pojo.SysTimersResponse;
 import io.entframework.kernel.timer.modular.entity.SysTimers;
-import io.entframework.kernel.timer.modular.repository.SysTimersRepository;
 import io.entframework.kernel.timer.modular.service.SysTimersService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -43,8 +42,8 @@ public class SysTimersServiceImpl extends BaseServiceImpl<SysTimersRequest, SysT
     @Resource
     private TimerExeService timerExeService;
 
-    public SysTimersServiceImpl(SysTimersRepository baseRepository) {
-        super(baseRepository, SysTimersRequest.class, SysTimersResponse.class);
+    public SysTimersServiceImpl() {
+        super(SysTimersRequest.class, SysTimersResponse.class, SysTimers.class);
     }
 
     @Override
@@ -68,7 +67,7 @@ public class SysTimersServiceImpl extends BaseServiceImpl<SysTimersRequest, SysT
         // 先停止id为参数id的定时器
         CronUtil.remove(String.valueOf(sysTimersRequest.getTimerId()));
 
-        SysTimers sysTimers = this.getRepository().get(sysTimersRequest.getTimerId());
+        SysTimers sysTimers = this.getRepository().get(getEntityClass(), sysTimersRequest.getTimerId());
         sysTimers.setDelFlag(YesOrNotEnum.Y);
         this.getRepository().updateByPrimaryKey(sysTimers);
     }
@@ -101,7 +100,7 @@ public class SysTimersServiceImpl extends BaseServiceImpl<SysTimersRequest, SysT
     public void start(SysTimersRequest sysTimersRequest) {
 
         // 更新库中的状态
-        SysTimers sysTimers = this.getRepository().get(sysTimersRequest.getTimerId());
+        SysTimers sysTimers = this.getRepository().get(getEntityClass(), sysTimersRequest.getTimerId());
         sysTimers.setJobStatus(TimerJobStatusEnum.RUNNING);
         this.getRepository().updateByPrimaryKey(sysTimers);
 
@@ -115,7 +114,7 @@ public class SysTimersServiceImpl extends BaseServiceImpl<SysTimersRequest, SysT
     public void stop(SysTimersRequest sysTimersRequest) {
 
         // 更新库中的状态
-        SysTimers sysTimers = this.getRepository().get(sysTimersRequest.getTimerId());
+        SysTimers sysTimers = this.getRepository().get(getEntityClass(), sysTimersRequest.getTimerId());
         sysTimers.setJobStatus(TimerJobStatusEnum.STOP);
         this.getRepository().updateByPrimaryKey(sysTimers);
 
@@ -158,7 +157,7 @@ public class SysTimersServiceImpl extends BaseServiceImpl<SysTimersRequest, SysT
      * @date 2020/6/30 18:26
      */
     private SysTimers querySysTimers(SysTimersRequest sysTimersRequest) {
-        SysTimers sysTimers = this.getRepository().get(sysTimersRequest.getTimerId());
+        SysTimers sysTimers = this.getRepository().get(getEntityClass(), sysTimersRequest.getTimerId());
         if (ObjectUtil.isEmpty(sysTimers) || YesOrNotEnum.Y == sysTimers.getDelFlag()) {
             throw new TimerException(TimerExceptionEnum.JOB_DETAIL_NOT_FOUND, sysTimersRequest.getTimerId());
         }

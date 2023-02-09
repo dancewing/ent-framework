@@ -11,6 +11,7 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
+import com.alibaba.fastjson.JSON;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.security.api.ImageCaptchaApi;
@@ -26,10 +27,8 @@ import io.entframework.kernel.sms.modular.pojo.SysSmsSendParam;
 import io.entframework.kernel.sms.modular.pojo.SysSmsVerifyParam;
 import io.entframework.kernel.sms.modular.pojo.request.SysSmsRequest;
 import io.entframework.kernel.sms.modular.pojo.response.SysSmsResponse;
-import io.entframework.kernel.sms.modular.repository.SysSmsRepository;
 import io.entframework.kernel.sms.modular.service.SysSmsService;
 import io.entframework.kernel.validator.api.exception.enums.ValidatorExceptionEnum;
-import com.alibaba.fastjson.JSON;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,8 +41,8 @@ import java.util.Optional;
 
 @Slf4j
 public class SysSmsServiceImpl extends BaseServiceImpl<SysSmsRequest, SysSmsResponse, SysSms> implements SysSmsService {
-    public SysSmsServiceImpl(SysSmsRepository sysSmsRepository) {
-        super(sysSmsRepository, SysSmsRequest.class, SysSmsResponse.class);
+    public SysSmsServiceImpl() {
+        super(SysSmsRequest.class, SysSmsResponse.class, SysSms.class);
     }
 
     @Resource
@@ -130,7 +129,7 @@ public class SysSmsServiceImpl extends BaseServiceImpl<SysSmsRequest, SysSmsResp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateSmsInfo(Long smsId, SmsSendStatusEnum smsSendStatusEnum) {
-        Optional<SysSms> sysSms = this.getRepository().selectByPrimaryKey(smsId);
+        Optional<SysSms> sysSms = this.getRepository().selectByPrimaryKey(getEntityClass(), smsId);
         if (sysSms.isPresent()) {
             SysSms ss = sysSms.get();
             ss.setStatusFlag(smsSendStatusEnum);

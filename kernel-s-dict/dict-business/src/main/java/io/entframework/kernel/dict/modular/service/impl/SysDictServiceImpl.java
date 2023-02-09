@@ -15,11 +15,10 @@ import io.entframework.kernel.dict.api.constants.DictConstants;
 import io.entframework.kernel.dict.api.exception.DictException;
 import io.entframework.kernel.dict.api.exception.enums.DictExceptionEnum;
 import io.entframework.kernel.dict.modular.entity.SysDict;
-import io.entframework.kernel.dict.modular.mapper.SysDictDynamicSqlSupport;
+import io.entframework.kernel.dict.modular.entity.SysDictDynamicSqlSupport;
 import io.entframework.kernel.dict.modular.pojo.TreeDictInfo;
 import io.entframework.kernel.dict.modular.pojo.request.SysDictRequest;
 import io.entframework.kernel.dict.modular.pojo.response.SysDictResponse;
-import io.entframework.kernel.dict.modular.repository.SysDictRepository;
 import io.entframework.kernel.dict.modular.service.SysDictService;
 import io.entframework.kernel.pinyin.api.PinYinApi;
 import io.entframework.kernel.rule.enums.StatusEnum;
@@ -38,8 +37,8 @@ import java.util.Optional;
 
 @Slf4j
 public class SysDictServiceImpl extends BaseServiceImpl<SysDictRequest, SysDictResponse, SysDict> implements SysDictService {
-    public SysDictServiceImpl(SysDictRepository sysDictRepository) {
-        super(sysDictRepository, SysDictRequest.class, SysDictResponse.class);
+    public SysDictServiceImpl() {
+        super(SysDictRequest.class, SysDictResponse.class, SysDict.class);
     }
 
     @Resource
@@ -129,7 +128,7 @@ public class SysDictServiceImpl extends BaseServiceImpl<SysDictRequest, SysDictR
 
     @Override
     public String getDictName(String dictTypeCode, String dictCode) {
-        List<SysDict> list = this.getRepository().select(c -> c.where(SysDictDynamicSqlSupport.dictTypeCode, SqlBuilder.isEqualTo(dictTypeCode))
+        List<SysDict> list = this.getRepository().select(getEntityClass(), c -> c.where(SysDictDynamicSqlSupport.dictTypeCode, SqlBuilder.isEqualTo(dictTypeCode))
                 .and(SysDictDynamicSqlSupport.dictCode, SqlBuilder.isEqualTo(dictCode))
                 .and(SysDictDynamicSqlSupport.delFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N)));
 
@@ -151,7 +150,7 @@ public class SysDictServiceImpl extends BaseServiceImpl<SysDictRequest, SysDictR
     @Override
     public List<SimpleDict> getDictDetailsByDictTypeCode(String dictTypeCode) {
 
-        List<SysDict> dictList = this.getRepository().select(c -> c.where(SysDictDynamicSqlSupport.dictTypeCode, SqlBuilder.isEqualTo(dictTypeCode)));
+        List<SysDict> dictList = this.getRepository().select(getEntityClass(), c -> c.where(SysDictDynamicSqlSupport.dictTypeCode, SqlBuilder.isEqualTo(dictTypeCode)));
         if (dictList.isEmpty()) {
             return new ArrayList<>();
         }
@@ -168,7 +167,7 @@ public class SysDictServiceImpl extends BaseServiceImpl<SysDictRequest, SysDictR
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteByDictId(Long dictId) {
-        Optional<SysDict> sysDict = this.getRepository().selectByPrimaryKey(dictId);
+        Optional<SysDict> sysDict = this.getRepository().selectByPrimaryKey(getEntityClass(), dictId);
         sysDict.ifPresent(dict -> this.getRepository().delete(dict));
     }
 
@@ -178,7 +177,7 @@ public class SysDictServiceImpl extends BaseServiceImpl<SysDictRequest, SysDictR
      * @date 2021/1/13 10:50
      */
     private SysDict querySysDict(SysDictRequest dictRequest) {
-        Optional<SysDict> sysDict = this.getRepository().selectByPrimaryKey(dictRequest.getDictId());
+        Optional<SysDict> sysDict = this.getRepository().selectByPrimaryKey(getEntityClass(), dictRequest.getDictId());
         if (sysDict.isEmpty()) {
             throw new DictException(DictExceptionEnum.DICT_NOT_EXISTED, dictRequest.getDictId());
         }
@@ -196,7 +195,7 @@ public class SysDictServiceImpl extends BaseServiceImpl<SysDictRequest, SysDictR
     private void validateRepeat(SysDictRequest dictRequest, boolean editFlag) {
 
         // 检验同字典类型下是否有一样的编码
-        long count = this.getRepository().count(c -> c.where(SysDictDynamicSqlSupport.dictTypeCode, SqlBuilder.isEqualTo(dictRequest.getDictTypeCode()))
+        long count = this.getRepository().count(getEntityClass(), c -> c.where(SysDictDynamicSqlSupport.dictTypeCode, SqlBuilder.isEqualTo(dictRequest.getDictTypeCode()))
                 .and(SysDictDynamicSqlSupport.dictCode, SqlBuilder.isEqualTo(dictRequest.getDictCode()))
                 .and(SysDictDynamicSqlSupport.delFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N))
                 .and(SysDictDynamicSqlSupport.dictId, SqlBuilder.isNotEqualTo(dictRequest.getDictId()).filter(v -> editFlag)));
@@ -206,7 +205,7 @@ public class SysDictServiceImpl extends BaseServiceImpl<SysDictRequest, SysDictR
         }
 
         // 检验同字典类型下是否有一样的名称
-        long dictNameCount = this.getRepository().count(c -> c.where(SysDictDynamicSqlSupport.dictTypeCode, SqlBuilder.isEqualTo(dictRequest.getDictTypeCode()))
+        long dictNameCount = this.getRepository().count(getEntityClass(), c -> c.where(SysDictDynamicSqlSupport.dictTypeCode, SqlBuilder.isEqualTo(dictRequest.getDictTypeCode()))
                 .and(SysDictDynamicSqlSupport.dictName, SqlBuilder.isEqualTo(dictRequest.getDictName()))
                 .and(SysDictDynamicSqlSupport.delFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N))
                 .and(SysDictDynamicSqlSupport.dictId, SqlBuilder.isNotEqualTo(dictRequest.getDictId()).filter(v -> editFlag)));

@@ -2,9 +2,6 @@ package io.entframework.kernel.db.mds.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
-import io.entframework.kernel.db.api.annotation.Table;
 import io.entframework.kernel.db.api.handler.ScoreMapHandler;
 import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
 import io.entframework.kernel.rule.annotation.EnumHandler;
@@ -17,6 +14,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.Table;
 
 /**
  * 考试记录
@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("exam_history_score")
+@Table(value = "exam_history_score", sqlSupport = HistoryScoreDynamicSqlSupport.class, tableProperty = "historyScore")
 public class HistoryScore extends BaseEntity implements Serializable {
     /**
      * Id

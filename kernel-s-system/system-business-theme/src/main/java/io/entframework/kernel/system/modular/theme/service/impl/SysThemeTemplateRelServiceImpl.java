@@ -7,7 +7,6 @@
 
 package io.entframework.kernel.system.modular.theme.service.impl;
 
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
 import io.entframework.kernel.system.api.exception.SystemModularException;
@@ -17,13 +16,11 @@ import io.entframework.kernel.system.api.pojo.theme.SysThemeTemplateRelResponse;
 import io.entframework.kernel.system.api.pojo.theme.SysThemeTemplateRequest;
 import io.entframework.kernel.system.api.pojo.theme.SysThemeTemplateResponse;
 import io.entframework.kernel.system.modular.theme.entity.SysThemeTemplateRel;
-import io.entframework.kernel.system.modular.theme.mapper.SysThemeTemplateRelDynamicSqlSupport;
+import io.entframework.kernel.system.modular.theme.entity.SysThemeTemplateRelDynamicSqlSupport;
 import io.entframework.kernel.system.modular.theme.service.SysThemeTemplateRelService;
 import io.entframework.kernel.system.modular.theme.service.SysThemeTemplateService;
 import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
-import org.mybatis.dynamic.sql.delete.DeleteDSLCompleter;
-import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -40,8 +37,8 @@ public class SysThemeTemplateRelServiceImpl extends BaseServiceImpl<SysThemeTemp
 	@Resource
 	private SysThemeTemplateService sysThemeTemplateService;
 
-	public SysThemeTemplateRelServiceImpl(BaseRepository<SysThemeTemplateRel> baseRepository) {
-		super(baseRepository, SysThemeTemplateRelRequest.class, SysThemeTemplateRelResponse.class);
+	public SysThemeTemplateRelServiceImpl() {
+		super(SysThemeTemplateRelRequest.class, SysThemeTemplateRelResponse.class, SysThemeTemplateRel.class);
 	}
 
 	@Override
@@ -94,17 +91,6 @@ public class SysThemeTemplateRelServiceImpl extends BaseServiceImpl<SysThemeTemp
 		String[] fieldCodes = sysThemeTemplateRelRequest.getFieldCodes();
 
 		// 构建删除条件
-		this.getRepository().delete(c -> c.where(SysThemeTemplateRelDynamicSqlSupport.fieldCode, SqlBuilder.isIn(fieldCodes)));
-	}
-
-	@Override
-	public List<SysThemeTemplateRel> select(SelectDSLCompleter completer) {
-		return this.getRepository().select(completer);
-	}
-
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public int delete(DeleteDSLCompleter completer) {
-		return this.getRepository().delete(completer);
+		this.getRepository().delete(getEntityClass(), c -> c.where(SysThemeTemplateRelDynamicSqlSupport.fieldCode, SqlBuilder.isIn(fieldCodes)));
 	}
 }

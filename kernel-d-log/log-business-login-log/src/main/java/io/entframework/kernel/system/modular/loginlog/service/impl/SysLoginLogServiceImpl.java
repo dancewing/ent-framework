@@ -7,14 +7,12 @@
 package io.entframework.kernel.system.modular.loginlog.service.impl;
 
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.log.api.pojo.loginlog.SysLoginLogRequest;
 import io.entframework.kernel.log.api.pojo.loginlog.SysLoginLogResponse;
 import io.entframework.kernel.system.modular.loginlog.constants.LoginLogConstant;
 import io.entframework.kernel.system.modular.loginlog.entity.SysLoginLog;
 import io.entframework.kernel.system.modular.loginlog.service.SysLoginLogService;
-import io.entframework.kernel.log.api.enums.LoginEventType;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -24,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogRequest, SysLoginLogResponse, SysLoginLog> implements SysLoginLogService {
 
-    public SysLoginLogServiceImpl(BaseRepository<SysLoginLog> baseRepository) {
-        super(baseRepository, SysLoginLogRequest.class, SysLoginLogResponse.class);
+    public SysLoginLogServiceImpl() {
+        super(SysLoginLogRequest.class, SysLoginLogResponse.class, SysLoginLog.class);
     }
 
     @Override

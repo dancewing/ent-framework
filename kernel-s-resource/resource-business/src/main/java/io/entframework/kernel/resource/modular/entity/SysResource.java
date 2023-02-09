@@ -1,14 +1,14 @@
 package io.entframework.kernel.resource.modular.entity;
 
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
-import io.entframework.kernel.db.api.annotation.Table;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
 import java.sql.JDBCType;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.Table;
 
 /**
  * 资源
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("sys_resource")
+@Table(value = "sys_resource", sqlSupport = SysResourceDynamicSqlSupport.class, tableProperty = "sysResource")
 public class SysResource {
     /**
      * 资源id

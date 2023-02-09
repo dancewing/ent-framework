@@ -32,6 +32,7 @@ include('kernel-d-i18n')
 include('kernel-d-jwt')
 include('kernel-d-log')
 include('kernel-d-mongodb')
+include('kernel-d-mybatis')
 include('kernel-d-office')
 include('kernel-d-pay')
 include('kernel-d-pinyin')
@@ -60,8 +61,8 @@ file("${rootDir}").eachDirMatch(~/kernel-[d|s|o].*/) {
     }
 }
 
-file("${rootDir}/kernel-d-db/mybatis-generator").eachDirMatch(~/.*-.*/) {
-    include "kernel-d-db:mybatis-generator:${it.name}"
+file("${rootDir}/kernel-d-mybatis/mybatis-generator").eachDirMatch(~/.*-.*/) {
+    include "kernel-d-mybatis:mybatis-generator:${it.name}"
 }
 
 include('ent-backend')

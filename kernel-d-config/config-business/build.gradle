@@ -38,7 +38,7 @@ dependencies {
     api project(':kernel-d-config:config-sdk-map')
     api project(':kernel-d-scanner:scanner-api')
     api project(':kernel-d-validator:validator-api')
-    api project(':kernel-d-db:mybatis-dynamic-extensions')
+    api project(':kernel-d-mybatis:mybatis-dynamic-extensions')
     api project(':kernel-d-db:db-sdk-flyway')
     api 'org.springframework.boot:spring-boot-starter-web'
     api 'org.mapstruct:mapstruct'

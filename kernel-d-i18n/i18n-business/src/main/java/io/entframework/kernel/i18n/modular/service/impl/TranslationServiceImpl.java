@@ -7,7 +7,6 @@
 package io.entframework.kernel.i18n.modular.service.impl;
 
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.dict.api.DictApi;
 import io.entframework.kernel.i18n.api.context.TranslationContext;
@@ -36,8 +35,8 @@ public class TranslationServiceImpl extends BaseServiceImpl<TranslationRequest, 
     @Resource
     private DictApi dictApi;
 
-    public TranslationServiceImpl(BaseRepository<Translation> baseRepository) {
-        super(baseRepository, TranslationRequest.class, TranslationResponse.class);
+    public TranslationServiceImpl() {
+        super(TranslationRequest.class, TranslationResponse.class, Translation.class);
     }
 
     @Override
@@ -66,7 +65,7 @@ public class TranslationServiceImpl extends BaseServiceImpl<TranslationRequest, 
     @Transactional(rollbackFor = Exception.class)
     public void del(TranslationRequest translationRequest) {
         Translation translation = this.queryTranslationById(translationRequest);
-        this.getRepository().deleteByPrimaryKey(translationRequest.getTranId());
+        this.getRepository().deleteByPrimaryKey(getEntityClass(), translationRequest.getTranId());
 
         // 删除对应缓存
         TranslationContext.me().deleteTranslationDict(translation.getTranLanguageCode(), translation.getTranCode());
@@ -115,8 +114,8 @@ public class TranslationServiceImpl extends BaseServiceImpl<TranslationRequest, 
      * @date 2021/1/26 13:28
      */
     private Translation queryTranslationById(TranslationRequest translationRequest) {
-        Optional<Translation> translation = this.getRepository().selectByPrimaryKey(translationRequest.getTranId());
-        if (!translation.isPresent()) {
+        Optional<Translation> translation = this.getRepository().selectByPrimaryKey(getEntityClass(), translationRequest.getTranId());
+        if (translation.isEmpty()) {
             throw new TranslationException(TranslationExceptionEnum.NOT_EXISTED, translationRequest.getTranId());
         }
         return translation.get();

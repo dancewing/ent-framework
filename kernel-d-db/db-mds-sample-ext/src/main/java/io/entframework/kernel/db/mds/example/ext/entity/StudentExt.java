@@ -7,8 +7,8 @@
 
 package io.entframework.kernel.db.mds.example.ext.entity;
 
-import io.entframework.kernel.db.api.annotation.Column;
 import io.entframework.kernel.db.mds.example.entity.Student;
+import org.mybatis.dynamic.sql.annotation.Column;
 
 import java.sql.JDBCType;
 

@@ -6,9 +6,9 @@
  */
 package io.entframework.kernel.db.api.pojo.entity;
 
-import io.entframework.kernel.db.api.annotation.Column;
 import io.entframework.kernel.rule.annotation.ChineseDescription;
 import lombok.Data;
+import org.mybatis.dynamic.sql.annotation.Column;
 
 import java.io.Serializable;
 import java.sql.JDBCType;

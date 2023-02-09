@@ -1,14 +1,14 @@
 package io.entframework.kernel.file.modular.entity;
 
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
-import io.entframework.kernel.db.api.annotation.Table;
 import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
 import java.sql.JDBCType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.Table;
 
 /**
  * 文件存储信息
@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("sys_file_storage")
+@Table(value = "sys_file_storage", sqlSupport = SysFileStorageDynamicSqlSupport.class, tableProperty = "sysFileStorage")
 public class SysFileStorage extends BaseEntity {
     /**
      * 文件主键id，关联file_info表的主键

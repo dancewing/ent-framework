@@ -8,7 +8,6 @@ package io.entframework.kernel.message.db.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.message.api.pojo.request.SysMessageRequest;
 import io.entframework.kernel.message.api.pojo.response.SysMessageResponse;
@@ -26,8 +25,8 @@ import java.util.List;
  */
 public class SysMessageServiceImpl extends BaseServiceImpl<SysMessageRequest, SysMessageResponse, SysMessage> implements SysMessageService {
 
-    public SysMessageServiceImpl(BaseRepository<SysMessage> baseRepository) {
-        super(baseRepository, SysMessageRequest.class, SysMessageResponse.class);
+    public SysMessageServiceImpl() {
+        super(SysMessageRequest.class, SysMessageResponse.class, SysMessage.class);
     }
 
     @Override
@@ -41,7 +40,7 @@ public class SysMessageServiceImpl extends BaseServiceImpl<SysMessageRequest, Sy
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void del(SysMessageRequest sysMessageRequest) {
-        SysMessage sysMessage = this.getRepository().get(sysMessageRequest.getMessageId());
+        SysMessage sysMessage = this.getRepository().get(getEntityClass(), sysMessageRequest.getMessageId());
         // 逻辑删除
         sysMessage.setDelFlag(YesOrNotEnum.Y);
         this.getRepository().updateByPrimaryKey(sysMessage);

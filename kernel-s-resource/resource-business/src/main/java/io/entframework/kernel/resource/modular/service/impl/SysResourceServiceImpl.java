@@ -11,7 +11,6 @@ import cn.hutool.core.util.ObjectUtil;
 import io.entframework.kernel.cache.api.CacheOperatorApi;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
 import io.entframework.kernel.db.api.util.IdWorker;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.resource.api.constants.ResourceConstants;
 import io.entframework.kernel.resource.api.pojo.LayuiApiResourceTreeNode;
@@ -19,8 +18,8 @@ import io.entframework.kernel.resource.api.pojo.ResourceTreeNode;
 import io.entframework.kernel.resource.api.pojo.SysResourceRequest;
 import io.entframework.kernel.resource.api.pojo.SysResourceResponse;
 import io.entframework.kernel.resource.modular.entity.SysResource;
+import io.entframework.kernel.resource.modular.entity.SysResourceDynamicSqlSupport;
 import io.entframework.kernel.resource.modular.factory.ResourceFactory;
-import io.entframework.kernel.resource.modular.mapper.SysResourceDynamicSqlSupport;
 import io.entframework.kernel.resource.modular.service.SysResourceService;
 import io.entframework.kernel.rule.constants.RuleConstants;
 import io.entframework.kernel.rule.constants.TreeConstants;
@@ -32,8 +31,6 @@ import io.entframework.kernel.scanner.api.pojo.resource.ResourceUrlParam;
 import io.entframework.kernel.scanner.api.pojo.resource.SysResourcePersistencePojo;
 import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
-import org.mybatis.dynamic.sql.render.RenderingStrategies;
-import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,8 +49,8 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceRequest, 
     @Resource(name = ResourceConstants.RESOURCE_CACHE_BEAN_NAME)
     private CacheOperatorApi<ResourceDefinition> resourceCache;
 
-    public SysResourceServiceImpl(BaseRepository<SysResource> baseRepository) {
-        super(baseRepository, SysResourceRequest.class, SysResourceResponse.class);
+    public SysResourceServiceImpl() {
+        super(SysResourceRequest.class, SysResourceResponse.class, SysResource.class);
     }
 
     @Override
@@ -79,17 +76,11 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceRequest, 
         List<ResourceTreeNode> res = new ArrayList<>();
 
         // 获取所有的资源
-        SelectStatementProvider statement = SqlBuilder
-                .select(SysResourceDynamicSqlSupport.selectList)
-                .from(SysResourceDynamicSqlSupport.sysResource)
-                .where(SysResourceDynamicSqlSupport.requiredPermissionFlag, SqlBuilder.isEqualTo(YesOrNotEnum.Y), // 只查询需要授权的接口
-                        SqlBuilder.and(
-                                SysResourceDynamicSqlSupport.resourceCode, SqlBuilder.isIn(resourceCodes).filter(ObjectUtil::isNotEmpty)
-                        ))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-
-        List<SysResource> allResource = this.getRepository().selectMany(statement);
+        List<SysResource> allResource = this.getRepository().select(getEntityClass(), c -> {
+            c.where(SysResourceDynamicSqlSupport.requiredPermissionFlag, SqlBuilder.isEqualTo(YesOrNotEnum.Y))
+                    .and(SysResourceDynamicSqlSupport.resourceCode, SqlBuilder.isIn(resourceCodes).filter(ObjectUtil::isNotEmpty));
+            return c;
+        });
 
         // 根据模块名称把资源分类
         Map<String, List<SysResource>> modularMap = new HashMap<>();
@@ -167,17 +158,11 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceRequest, 
         SysResourceRequest query = new SysResourceRequest();
         query.setViewFlag(YesOrNotEnum.N);
 
-        SelectStatementProvider statement = SqlBuilder
-                .select(SysResourceDynamicSqlSupport.selectList)
-                .from(SysResourceDynamicSqlSupport.sysResource)
-                .where(SysResourceDynamicSqlSupport.viewFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N),
-                        SqlBuilder.and(
-                                SysResourceDynamicSqlSupport.url, SqlBuilder.isEqualTo(sysResourceRequest.getResourceName())
-                        ))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-
-        List<SysResource> allResource = this.getRepository().selectMany(statement);
+        List<SysResource> allResource = this.getRepository().select(getEntityClass(), c -> {
+            c.where(SysResourceDynamicSqlSupport.viewFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N))
+                    .and(SysResourceDynamicSqlSupport.url, SqlBuilder.isEqualTo(sysResourceRequest.getResourceName()));
+            return c;
+        });
 
         // 2. 按应用和模块编码设置map
         Map<String, Map<String, List<LayuiApiResourceTreeNode>>> appModularResources = divideResources(allResource);
@@ -275,16 +260,10 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceRequest, 
     }
 
     public Map<String, SysResource> getResourcesByProjectCode(String projectCode) {
-        // 拼接in条件
-        SelectStatementProvider statement = SqlBuilder
-                .select(SysResourceDynamicSqlSupport.selectList)
-                .from(SysResourceDynamicSqlSupport.sysResource)
-                .where(SysResourceDynamicSqlSupport.projectCode, SqlBuilder.isEqualTo(projectCode))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-
+        SysResource query = new SysResource();
+        query.setProjectCode(projectCode);
         // 获取资源详情
-        List<SysResource> list = this.getRepository().selectMany(statement);
+        List<SysResource> list = this.getRepository().selectBy(query);
         return list.stream().collect(Collectors.toMap(SysResource::getResourceCode, Function.identity()));
     }
 
@@ -337,16 +316,11 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceRequest, 
             return new HashSet<>();
         }
 
-        // 拼接in条件
-        SelectStatementProvider statement = SqlBuilder
-                .select(SysResourceDynamicSqlSupport.url)
-                .from(SysResourceDynamicSqlSupport.sysResource)
-                .where(SysResourceDynamicSqlSupport.resourceCode, SqlBuilder.isIn(resourceCodes))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-
         // 获取资源详情
-        List<SysResource> list = this.getRepository().selectMany(statement);
+        List<SysResource> list = this.getRepository().select(getEntityClass(), c -> {
+            c.where(SysResourceDynamicSqlSupport.resourceCode, SqlBuilder.isIn(resourceCodes));
+            return c;
+        });
         return list.stream().map(SysResource::getUrl).collect(Collectors.toSet());
     }
 

@@ -1,9 +1,6 @@
 package io.entframework.kernel.dict.modular.entity;
 
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
 import io.entframework.kernel.db.api.annotation.LogicDelete;
-import io.entframework.kernel.db.api.annotation.Table;
 import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
 import io.entframework.kernel.dict.api.enums.DictTypeClassEnum;
 import io.entframework.kernel.rule.enums.StatusEnum;
@@ -14,6 +11,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.Table;
 
 /**
  * 字典类型
@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("sys_dict_type")
+@Table(value = "sys_dict_type", sqlSupport = SysDictTypeDynamicSqlSupport.class, tableProperty = "sysDictType")
 public class SysDictType extends BaseEntity {
     /**
      * 字典类型id

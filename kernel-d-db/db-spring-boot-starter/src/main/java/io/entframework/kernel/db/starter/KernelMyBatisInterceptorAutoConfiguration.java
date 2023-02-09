@@ -11,7 +11,6 @@ import io.entframework.kernel.db.api.interceptor.ShowSqlInterceptor;
 import io.entframework.kernel.db.mds.interceptor.MybatisDynamicInterceptor;
 import io.entframework.kernel.db.mds.interceptor.RecordableAutoFillInterceptor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /***
@@ -21,17 +20,17 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class KernelMyBatisInterceptorAutoConfiguration {
 
-    @Bean
+    //@Bean
     public ShowSqlInterceptor showSqlInterceptor() {
         return new ShowSqlInterceptor();
     }
 
-    @Bean
+    //@Bean
     public RecordableAutoFillInterceptor recordableAutoFillInterceptor() {
         return new RecordableAutoFillInterceptor();
     }
 
-    @Bean
+    //@Bean
     public MybatisDynamicInterceptor mybatisDynamicInterceptor() {
         return new MybatisDynamicInterceptor();
     }

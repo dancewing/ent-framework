@@ -12,6 +12,7 @@ import cn.hutool.core.util.ObjectUtil;
 import io.entframework.kernel.auth.api.context.LoginContext;
 import io.entframework.kernel.auth.api.pojo.login.LoginUser;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
+import io.entframework.kernel.db.mds.repository.GeneralRepository;
 import io.entframework.kernel.message.api.MessageApi;
 import io.entframework.kernel.message.api.constants.MessageConstants;
 import io.entframework.kernel.message.api.enums.MessageReadFlagEnum;
@@ -21,8 +22,7 @@ import io.entframework.kernel.message.api.pojo.request.MessageSendRequest;
 import io.entframework.kernel.message.api.pojo.request.SysMessageRequest;
 import io.entframework.kernel.message.api.pojo.response.SysMessageResponse;
 import io.entframework.kernel.message.db.entity.SysMessage;
-import io.entframework.kernel.message.db.mapper.SysMessageDynamicSqlSupport;
-import io.entframework.kernel.message.db.repository.SysMessageRepository;
+import io.entframework.kernel.message.db.entity.SysMessageDynamicSqlSupport;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
 import io.entframework.kernel.socket.api.SocketClientOperatorApi;
 import io.entframework.kernel.socket.api.SocketOperatorApi;
@@ -73,7 +73,7 @@ public class MessageDbServiceImpl implements MessageApi {
 	private SysMessageService sysMessageService;
 
 	@Resource
-	private SysMessageRepository sysMessageRepository;
+	private GeneralRepository generalRepository;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -133,7 +133,7 @@ public class MessageDbServiceImpl implements MessageApi {
 	@Transactional(rollbackFor = Exception.class)
 	public void updateReadFlag(SysMessageRequest sysMessageRequest) {
 		Long messageId = sysMessageRequest.getMessageId();
-		SysMessage sysMessage = sysMessageRepository.get(messageId);
+		SysMessage sysMessage = this.generalRepository.get(SysMessage.class, messageId);
 		if (sysMessage != null) {
 			sysMessage.setReadFlag(sysMessageRequest.getReadFlag());
 			sysMessageService.update(sysMessage);
@@ -159,7 +159,7 @@ public class MessageDbServiceImpl implements MessageApi {
 				.toList();
 		UpdateDSLCompleter completer = c -> c.set(SysMessageDynamicSqlSupport.readFlag).equalTo(flagEnum)
 				.where(SysMessageDynamicSqlSupport.messageId, SqlBuilder.isIn(ids));
-		sysMessageRepository.update(completer);
+		this.generalRepository.update(SysMessage.class, completer);
 	}
 
 	@Override
@@ -177,13 +177,13 @@ public class MessageDbServiceImpl implements MessageApi {
 				.toList();
 		UpdateDSLCompleter completer = c -> c.set(SysMessageDynamicSqlSupport.delFlag).equalTo(YesOrNotEnum.Y)
 				.where(SysMessageDynamicSqlSupport.messageId, SqlBuilder.isIn(ids));
-		sysMessageRepository.update(completer);
+		this.generalRepository.update(SysMessage.class, completer);
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public SysMessageResponse messageDetail(SysMessageRequest sysMessageRequest) {
-		SysMessage sysMessage = sysMessageRepository.get(sysMessageRequest.getMessageId());
+		SysMessage sysMessage = this.generalRepository.get(SysMessage.class, sysMessageRequest.getMessageId());
 		// 判断消息为未读状态更新为已读
 		if (sysMessage != null) {
 			sysMessage.setReadFlag(MessageReadFlagEnum.READ);

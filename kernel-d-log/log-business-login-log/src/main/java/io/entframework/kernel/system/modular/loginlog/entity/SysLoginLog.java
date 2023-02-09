@@ -1,13 +1,13 @@
 package io.entframework.kernel.system.modular.loginlog.entity;
 
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
-import io.entframework.kernel.db.api.annotation.Table;
 import java.sql.JDBCType;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.Table;
 
 /**
  * 登录记录
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("sys_login_log")
+@Table(value = "sys_login_log", sqlSupport = SysLoginLogDynamicSqlSupport.class, tableProperty = "sysLoginLog")
 public class SysLoginLog {
     /**
      * 主键

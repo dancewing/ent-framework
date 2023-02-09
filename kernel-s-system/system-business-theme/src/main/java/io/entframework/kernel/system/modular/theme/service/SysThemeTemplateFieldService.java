@@ -7,14 +7,13 @@
 
 package io.entframework.kernel.system.modular.theme.service;
 
-import java.util.List;
-
 import io.entframework.kernel.db.api.pojo.page.PageResult;
 import io.entframework.kernel.db.mds.service.BaseService;
 import io.entframework.kernel.system.api.pojo.theme.SysThemeTemplateFieldRequest;
 import io.entframework.kernel.system.api.pojo.theme.SysThemeTemplateFieldResponse;
 import io.entframework.kernel.system.modular.theme.entity.SysThemeTemplateField;
-import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
+
+import java.util.List;
 
 /**
  * 系统主题模板属性service接口
@@ -79,6 +78,4 @@ public interface SysThemeTemplateFieldService extends BaseService<SysThemeTempla
 	 * @date 2022/1/1 22:24
 	 */
 	boolean getKeyFileFlag(String code);
-
-	List<SysThemeTemplateField> select(SelectDSLCompleter completer);
 }

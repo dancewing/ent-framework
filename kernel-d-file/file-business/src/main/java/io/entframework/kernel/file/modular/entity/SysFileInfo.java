@@ -1,9 +1,6 @@
 package io.entframework.kernel.file.modular.entity;
 
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
 import io.entframework.kernel.db.api.annotation.LogicDelete;
-import io.entframework.kernel.db.api.annotation.Table;
 import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
 import io.entframework.kernel.file.api.enums.FileStatusEnum;
 import io.entframework.kernel.file.api.enums.FileStorageEnum;
@@ -13,6 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.Table;
 
 /**
  * 文件信息
@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("sys_file_info")
+@Table(value = "sys_file_info", sqlSupport = SysFileInfoDynamicSqlSupport.class, tableProperty = "sysFileInfo")
 public class SysFileInfo extends BaseEntity {
     /**
      * 文件主键id

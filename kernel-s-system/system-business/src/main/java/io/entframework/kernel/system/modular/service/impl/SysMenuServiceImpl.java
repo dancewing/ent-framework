@@ -35,9 +35,8 @@ import io.entframework.kernel.system.api.pojo.response.SysAppResponse;
 import io.entframework.kernel.system.api.pojo.response.SysMenuResponse;
 import io.entframework.kernel.system.api.pojo.response.SysRoleMenuResponse;
 import io.entframework.kernel.system.modular.entity.SysMenu;
+import io.entframework.kernel.system.modular.entity.SysMenuDynamicSqlSupport;
 import io.entframework.kernel.system.modular.factory.MenusFactory;
-import io.entframework.kernel.system.modular.mapper.SysMenuDynamicSqlSupport;
-import io.entframework.kernel.system.modular.repository.SysMenuRepository;
 import io.entframework.kernel.system.modular.service.SysMenuService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -51,8 +50,8 @@ import java.util.*;
 
 @Slf4j
 public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuRequest, SysMenuResponse, SysMenu> implements SysMenuService {
-    public SysMenuServiceImpl(SysMenuRepository sysMenuRepository) {
-        super(sysMenuRepository, SysMenuRequest.class, SysMenuResponse.class);
+    public SysMenuServiceImpl() {
+        super(SysMenuRequest.class, SysMenuResponse.class, SysMenu.class);
     }
 
     @Resource
@@ -110,7 +109,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuRequest, SysMenuR
         childIdList.add(id);
 
         // 逻辑删除，设置删除标识
-        this.getRepository().update(c -> c.set(SysMenuDynamicSqlSupport.delFlag).equalTo(YesOrNotEnum.Y)
+        this.getRepository().update(getEntityClass(), c -> c.set(SysMenuDynamicSqlSupport.delFlag).equalTo(YesOrNotEnum.Y)
                 .where(SysMenuDynamicSqlSupport.menuId, SqlBuilder.isIn(childIdList)));
 
         // 删除该菜单下的按钮
@@ -154,7 +153,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuRequest, SysMenuR
             sysMenu.setMenuParentName("顶级");
         } else {
             Long parentId = sysMenu.getMenuParentId();
-            Optional<SysMenu> parentMenu = this.getRepository().selectByPrimaryKey(parentId);
+            Optional<SysMenu> parentMenu = this.getRepository().selectByPrimaryKey(getEntityClass(), parentId);
             if (!parentMenu.isPresent()) {
                 sysMenu.setMenuParentName("无");
             } else {
@@ -226,7 +225,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuRequest, SysMenuR
         }
 
         // 查询所有菜单列表
-        List<SysMenu> sysMenuList = this.getRepository().select(c -> c.where(SysMenuDynamicSqlSupport.delFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N))
+        List<SysMenu> sysMenuList = this.getRepository().select(getEntityClass(), c -> c.where(SysMenuDynamicSqlSupport.delFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N))
                 .and(SysMenuDynamicSqlSupport.statusFlag, SqlBuilder.isEqualTo(StatusEnum.ENABLE))
                 .and(SysMenuDynamicSqlSupport.menuId, SqlBuilder.isIn(menuWhereIdList).filter(ObjectUtil::isNotEmpty)));
 
@@ -262,7 +261,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuRequest, SysMenuR
 
         // 如果是超级管理员，则获取所有的菜单
         if (LoginContext.me().getSuperAdminFlag()) {
-            List<SysMenu> menus = this.getRepository().select(completer);
+            List<SysMenu> menus = this.getRepository().select(getEntityClass(), completer);
             return menus.stream().map(sysMenu -> this.converterService.convert(sysMenu, getResponseClass())).toList();
         }
 
@@ -277,7 +276,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuRequest, SysMenuR
                 .and(SysMenuDynamicSqlSupport.menuId, SqlBuilder.isIn(menuIdList).filter(ObjectUtil::isNotEmpty))
                 //.and(SysMenuDynamicSqlSupport.appId, isEqualTo(appCode).filter(Objects::nonNull))
                 .orderBy(SysMenuDynamicSqlSupport.menuSort.descending());
-        List<SysMenu> menus = this.getRepository().select(completer);
+        List<SysMenu> menus = this.getRepository().select(getEntityClass(), completer);
         return menus.stream().map(sysMenu -> this.converterService.convert(sysMenu, getResponseClass())).toList();
     }
 
@@ -287,8 +286,8 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuRequest, SysMenuR
      * @date 2020/3/27 9:13
      */
     private SysMenu querySysMenu(SysMenuRequest sysMenuRequest) {
-        Optional<SysMenu> sysMenuOptional = this.getRepository().selectByPrimaryKey(sysMenuRequest.getMenuId());
-        if (!sysMenuOptional.isPresent()) {
+        Optional<SysMenu> sysMenuOptional = this.getRepository().selectByPrimaryKey(getEntityClass(), sysMenuRequest.getMenuId());
+        if (sysMenuOptional.isEmpty()) {
             throw new SystemModularException(SysMenuExceptionEnum.MENU_NOT_EXIST, sysMenuRequest.getMenuId());
         }
         SysMenu sysMenu = sysMenuOptional.get();
@@ -388,7 +387,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuRequest, SysMenuR
 //            queryWrapper.like(SysMenu::getMenuPids, oldMenu.getMenuId());
             SelectDSLCompleter dslCompleter = c -> c.where(SysMenuDynamicSqlSupport.menuPids, SqlBuilder.isLike(String.valueOf(oldMenu.getMenuId())));
 
-            List<SysMenu> list = this.getRepository().select(dslCompleter);
+            List<SysMenu> list = this.getRepository().select(getEntityClass(), dslCompleter);
 
             // 更新所有子节点的应用为当前菜单的应用
             if (ObjectUtil.isNotEmpty(list)) {
@@ -419,7 +418,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuRequest, SysMenuR
         if (ObjectUtil.isEmpty(menuIds)) {
             return Collections.emptyList();
         }
-        return this.getRepository().select(c -> c.where(SysMenuDynamicSqlSupport.menuId, SqlBuilder.isIn(menuIds)).orderBy(SysMenuDynamicSqlSupport.menuId.descending()));
+        return this.getRepository().select(getEntityClass(), c -> c.where(SysMenuDynamicSqlSupport.menuId, SqlBuilder.isIn(menuIds)).orderBy(SysMenuDynamicSqlSupport.menuId.descending()));
     }
 
     @Override

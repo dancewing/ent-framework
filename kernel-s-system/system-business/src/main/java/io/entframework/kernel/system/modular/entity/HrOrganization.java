@@ -1,9 +1,6 @@
 package io.entframework.kernel.system.modular.entity;
 
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
 import io.entframework.kernel.db.api.annotation.LogicDelete;
-import io.entframework.kernel.db.api.annotation.Table;
 import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
 import io.entframework.kernel.rule.enums.StatusEnum;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
@@ -14,6 +11,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.Table;
 
 /**
  * 组织机构信息
@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("hr_organization")
+@Table(value = "hr_organization", sqlSupport = HrOrganizationDynamicSqlSupport.class, tableProperty = "hrOrganization")
 public class HrOrganization extends BaseEntity implements Serializable {
     /**
      * 主键

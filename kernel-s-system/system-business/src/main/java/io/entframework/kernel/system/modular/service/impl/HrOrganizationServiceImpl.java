@@ -15,6 +15,7 @@ import io.entframework.kernel.auth.api.context.LoginContext;
 import io.entframework.kernel.auth.api.enums.DataScopeTypeEnum;
 import io.entframework.kernel.db.api.context.DbOperatorContext;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
+import io.entframework.kernel.db.mds.mapper.GeneralMapperSupport;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.rule.constants.SymbolConstant;
 import io.entframework.kernel.rule.constants.TreeConstants;
@@ -29,18 +30,16 @@ import io.entframework.kernel.system.api.pojo.request.HrOrganizationRequest;
 import io.entframework.kernel.system.api.pojo.response.HrOrganizationResponse;
 import io.entframework.kernel.system.api.util.DataScopeUtil;
 import io.entframework.kernel.system.modular.entity.HrOrganization;
+import io.entframework.kernel.system.modular.entity.HrOrganizationDynamicSqlSupport;
+import io.entframework.kernel.system.modular.entity.SysUser;
+import io.entframework.kernel.system.modular.entity.SysUserDynamicSqlSupport;
 import io.entframework.kernel.system.modular.factory.OrganizationFactory;
-import io.entframework.kernel.system.modular.mapper.HrOrganizationDynamicSqlSupport;
-import io.entframework.kernel.system.modular.mapper.SysUserDynamicSqlSupport;
-import io.entframework.kernel.system.modular.repository.HrOrganizationRepository;
-import io.entframework.kernel.system.modular.repository.SysUserRepository;
 import io.entframework.kernel.system.modular.service.HrOrganizationService;
 import io.entframework.kernel.system.modular.service.SysUserDataScopeService;
 import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.QueryExpressionDSL;
-import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 import org.mybatis.dynamic.sql.select.SelectModel;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.mybatis.dynamic.sql.update.UpdateDSLCompleter;
@@ -56,15 +55,16 @@ import java.util.*;
 public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationRequest, HrOrganizationResponse, HrOrganization> implements HrOrganizationService {
 
 	@Resource
-	private SysUserRepository sysUserRepository;
+	private GeneralMapperSupport generalMapperSupport;
+
 	@Resource
 	private SysUserDataScopeService sysUserDataScopeService;
 
 	@Resource
 	private RoleDataScopeServiceApi roleDataScopeServiceApi;
 
-	public HrOrganizationServiceImpl(HrOrganizationRepository hrOrganizationRepository) {
-		super(hrOrganizationRepository, HrOrganizationRequest.class, HrOrganizationResponse.class);
+	public HrOrganizationServiceImpl() {
+		super(HrOrganizationRequest.class, HrOrganizationResponse.class, HrOrganization.class);
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationReq
 		DataScopeUtil.quickValidateDataScope(organizationId);
 
 		// 该机构下有员工，则不能删
-		long count = sysUserRepository.count(c -> c.where(SysUserDynamicSqlSupport.orgId, SqlBuilder.isEqualTo(hrOrganization.getOrgId()))
+		long count = getRepository().count(SysUser.class, c -> c.where(SysUserDynamicSqlSupport.orgId, SqlBuilder.isEqualTo(hrOrganization.getOrgId()))
 				.and(SysUserDynamicSqlSupport.delFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N)));
 		if (count > 0) {
 			throw new SystemModularException(OrganizationExceptionEnum.DELETE_ORGANIZATION_ERROR);
@@ -211,7 +211,7 @@ public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationReq
 
 		// 查询出这些节点的pids字段
 		List<HrOrganization> organizationList = this.getRepository()
-				.select(c -> c.where(HrOrganizationDynamicSqlSupport.orgId, SqlBuilder.isIn(organizationIds)));
+				.select(getEntityClass(), c -> c.where(HrOrganizationDynamicSqlSupport.orgId, SqlBuilder.isIn(organizationIds)));
 		if (organizationList == null || organizationList.isEmpty()) {
 			return allLevelParentIds;
 		}
@@ -243,7 +243,7 @@ public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationReq
 	public List<HrOrganizationResponse> orgList() {
 
 		QueryExpressionDSL<SelectModel>.QueryExpressionWhereBuilder builder = SqlBuilder.select(HrOrganizationDynamicSqlSupport.selectList)
-				.from(HrOrganizationDynamicSqlSupport.hrOrganization).where();
+				.from(getEntityClass()).where();
 
 		// 如果是超级管理员 或 数据范围是所有，则不过滤数据范围
 		boolean needToDataScope = true;
@@ -278,7 +278,7 @@ public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationReq
 
 		SelectStatementProvider selectStatement = builder.build().render(RenderingStrategies.MYBATIS3);
 		// 返回数据
-		List<HrOrganization> list = this.getRepository().selectMany(selectStatement);
+		List<HrOrganization> list = this.generalMapperSupport.selectMany(selectStatement);
 		return list.stream().filter(Objects::nonNull).map(hrOrganization -> this.converterService.convert(hrOrganization, getResponseClass()))
 				.toList();
 	}
@@ -289,7 +289,7 @@ public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationReq
 	 * @date 2020/11/04 11:05
 	 */
 	private HrOrganization queryOrganization(HrOrganizationRequest hrOrganizationRequest) {
-		HrOrganization hrOrganization = this.getRepository().get(hrOrganizationRequest.getOrgId());
+		HrOrganization hrOrganization = this.getRepository().get(getEntityClass(), hrOrganizationRequest.getOrgId());
 		if (ObjectUtil.isEmpty(hrOrganization)) {
 			throw new SystemModularException(OrganizationExceptionEnum.CANT_FIND_ORG, hrOrganizationRequest.getOrgId());
 		}
@@ -357,11 +357,6 @@ public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationReq
 		}
 		SelectStatementProvider selectStatement = builder.build().render(RenderingStrategies.MYBATIS3);
 
-		return this.getRepository().selectMany(selectStatement);
-	}
-
-	@Override
-	public List<HrOrganization> select(SelectDSLCompleter completer) {
-		return this.getRepository().select(completer);
+		return this.generalMapperSupport.selectMany(selectStatement);
 	}
 }

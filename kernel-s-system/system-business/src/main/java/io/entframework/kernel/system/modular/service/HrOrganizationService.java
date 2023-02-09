@@ -6,17 +6,16 @@
  */
 package io.entframework.kernel.system.modular.service;
 
-import java.util.List;
-import java.util.Set;
-
 import io.entframework.kernel.db.api.pojo.page.PageResult;
 import io.entframework.kernel.db.mds.service.BaseService;
 import io.entframework.kernel.system.api.OrganizationServiceApi;
+import io.entframework.kernel.system.api.pojo.organization.OrganizationTreeNode;
 import io.entframework.kernel.system.api.pojo.request.HrOrganizationRequest;
 import io.entframework.kernel.system.api.pojo.response.HrOrganizationResponse;
-import io.entframework.kernel.system.api.pojo.organization.OrganizationTreeNode;
 import io.entframework.kernel.system.modular.entity.HrOrganization;
-import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * 系统组织机构服务
@@ -101,7 +100,4 @@ public interface HrOrganizationService extends BaseService<HrOrganizationRequest
 	 * @date 2020/11/6 14:24
 	 */
 	Set<Long> findAllLevelParentIdsByOrganizations(Set<Long> organizationIds);
-
-	List<HrOrganization> select(SelectDSLCompleter completer);
-
 }

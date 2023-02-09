@@ -16,11 +16,9 @@ import io.entframework.kernel.system.api.exception.enums.organization.PositionEx
 import io.entframework.kernel.system.api.pojo.request.HrPositionRequest;
 import io.entframework.kernel.system.api.pojo.response.HrPositionResponse;
 import io.entframework.kernel.system.modular.entity.HrPosition;
-import io.entframework.kernel.system.modular.mapper.SysUserDynamicSqlSupport;
-import io.entframework.kernel.system.modular.repository.HrPositionRepository;
-import io.entframework.kernel.system.modular.repository.SysUserRepository;
+import io.entframework.kernel.system.modular.entity.SysUser;
+import io.entframework.kernel.system.modular.entity.SysUserDynamicSqlSupport;
 import io.entframework.kernel.system.modular.service.HrPositionService;
-import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,11 +31,8 @@ import java.util.List;
  */
 public class HrPositionServiceImpl extends BaseServiceImpl<HrPositionRequest, HrPositionResponse, HrPosition> implements HrPositionService {
 
-    @Resource
-    private SysUserRepository sysUserRepository;
-
-    public HrPositionServiceImpl(HrPositionRepository hrPositionRepository) {
-        super(hrPositionRepository, HrPositionRequest.class, HrPositionResponse.class);
+    public HrPositionServiceImpl() {
+        super(HrPositionRequest.class, HrPositionResponse.class, HrPosition.class);
     }
 
     @Override
@@ -56,7 +51,7 @@ public class HrPositionServiceImpl extends BaseServiceImpl<HrPositionRequest, Hr
         HrPosition sysPosition = this.querySysPositionById(hrPositionRequest);
 
         // 该职位下是否有员工，如果有将不能删除
-        long count = sysUserRepository.count(c -> c.where(SysUserDynamicSqlSupport.positionId, SqlBuilder.isEqualTo(sysPosition.getPositionId()))
+        long count = getRepository().count(SysUser.class, c -> c.where(SysUserDynamicSqlSupport.positionId, SqlBuilder.isEqualTo(sysPosition.getPositionId()))
                 .and(SysUserDynamicSqlSupport.delFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N)));
         if (count > 0) {
             throw new SystemModularException(PositionExceptionEnum.CANT_DELETE_POSITION);
@@ -123,7 +118,7 @@ public class HrPositionServiceImpl extends BaseServiceImpl<HrPositionRequest, Hr
      * @date 2021/2/2 10:16
      */
     private HrPosition querySysPositionById(HrPositionRequest hrPositionRequest) {
-        HrPosition hrPosition = this.getRepository().get(hrPositionRequest.getPositionId());
+        HrPosition hrPosition = this.getRepository().get(getEntityClass(), hrPositionRequest.getPositionId());
         if (ObjectUtil.isEmpty(hrPosition) || YesOrNotEnum.Y == hrPosition.getDelFlag()) {
             throw new SystemModularException(PositionExceptionEnum.CANT_FIND_POSITION, hrPositionRequest.getPositionId());
         }

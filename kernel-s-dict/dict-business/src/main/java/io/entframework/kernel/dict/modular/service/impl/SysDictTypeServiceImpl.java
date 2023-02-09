@@ -16,7 +16,6 @@ import io.entframework.kernel.dict.api.exception.enums.DictExceptionEnum;
 import io.entframework.kernel.dict.modular.entity.SysDictType;
 import io.entframework.kernel.dict.modular.pojo.request.SysDictTypeRequest;
 import io.entframework.kernel.dict.modular.pojo.response.SysDictTypeResponse;
-import io.entframework.kernel.dict.modular.repository.SysDictTypeRepository;
 import io.entframework.kernel.dict.modular.service.SysDictTypeService;
 import io.entframework.kernel.pinyin.api.PinYinApi;
 import io.entframework.kernel.rule.enums.StatusEnum;
@@ -30,8 +29,8 @@ import java.util.Optional;
 
 @Slf4j
 public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeRequest, SysDictTypeResponse, SysDictType> implements SysDictTypeService {
-    public SysDictTypeServiceImpl(SysDictTypeRepository sysDictTypeRepository) {
-        super(sysDictTypeRepository, SysDictTypeRequest.class, SysDictTypeResponse.class);
+    public SysDictTypeServiceImpl() {
+        super(SysDictTypeRequest.class, SysDictTypeResponse.class, SysDictType.class);
     }
 
     @Resource
@@ -128,8 +127,8 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeRequest, 
      * @date 2021/1/26 13:28
      */
     private SysDictType querySysDictType(SysDictTypeRequest dictTypeRequest) {
-        Optional<SysDictType> sysDictType = this.getRepository().selectByPrimaryKey(dictTypeRequest.getDictTypeId());
-        if (!sysDictType.isPresent()) {
+        Optional<SysDictType> sysDictType = this.getRepository().selectByPrimaryKey(getEntityClass(), dictTypeRequest.getDictTypeId());
+        if (sysDictType.isEmpty()) {
             throw new DictException(DictExceptionEnum.DICT_TYPE_NOT_EXISTED, dictTypeRequest.getDictTypeId());
         }
         return sysDictType.get();

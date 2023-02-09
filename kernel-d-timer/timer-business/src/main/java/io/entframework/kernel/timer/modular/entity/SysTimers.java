@@ -1,9 +1,6 @@
 package io.entframework.kernel.timer.modular.entity;
 
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
 import io.entframework.kernel.db.api.annotation.LogicDelete;
-import io.entframework.kernel.db.api.annotation.Table;
 import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
 import io.entframework.kernel.timer.api.enums.TimerJobStatusEnum;
@@ -12,6 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.Table;
 
 /**
  * 定时任务
@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("sys_timers")
+@Table(value = "sys_timers", sqlSupport = SysTimersDynamicSqlSupport.class, tableProperty = "sysTimers")
 public class SysTimers extends BaseEntity {
     /**
      * 定时器id

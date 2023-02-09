@@ -8,13 +8,12 @@ package io.entframework.kernel.system.modular.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import io.entframework.kernel.cache.api.CacheOperatorApi;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.system.api.pojo.request.SysUserRequest;
 import io.entframework.kernel.system.api.pojo.request.SysUserRoleRequest;
 import io.entframework.kernel.system.api.pojo.response.SysUserRoleResponse;
 import io.entframework.kernel.system.modular.entity.SysUserRole;
-import io.entframework.kernel.system.modular.mapper.SysUserRoleDynamicSqlSupport;
+import io.entframework.kernel.system.modular.entity.SysUserRoleDynamicSqlSupport;
 import io.entframework.kernel.system.modular.service.SysUserRoleService;
 import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
@@ -32,8 +31,8 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleRequest, 
 	@Resource(name = "userRoleCacheApi")
 	private CacheOperatorApi<List<Long>> userRoleCacheApi;
 
-	public SysUserRoleServiceImpl(BaseRepository<SysUserRole> baseRepository) {
-		super(baseRepository, SysUserRoleRequest.class, SysUserRoleResponse.class);
+	public SysUserRoleServiceImpl() {
+		super(SysUserRoleRequest.class, SysUserRoleResponse.class, SysUserRole.class);
 	}
 
 	@Override
@@ -47,13 +46,13 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleRequest, 
 	@Transactional(rollbackFor = Exception.class)
 	public void del(SysUserRoleRequest sysUserRoleRequest) {
 		SysUserRole sysUserRole = querySysUserRoleById(sysUserRoleRequest);
-		this.getRepository().deleteByPrimaryKey(sysUserRole.getUserRoleId());
+		this.getRepository().deleteByPrimaryKey(getEntityClass(), sysUserRole.getUserRoleId());
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void delByUserId(Long userId) {
-		this.getRepository().delete(c -> c.where(SysUserRoleDynamicSqlSupport.userId, SqlBuilder.isEqualTo(userId)));
+		this.getRepository().delete(getEntityClass(), c -> c.where(SysUserRoleDynamicSqlSupport.userId, SqlBuilder.isEqualTo(userId)));
 	}
 
 	@Override
@@ -67,7 +66,7 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleRequest, 
 
 	@Override
 	public SysUserRole detail(SysUserRoleRequest sysUserRoleRequest) {
-		return this.getRepository().get(sysUserRoleRequest.getUserRoleId());
+		return this.getRepository().get(getEntityClass(), sysUserRoleRequest.getUserRoleId());
 	}
 
 	@Override
@@ -138,7 +137,7 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleRequest, 
 	 * @date 2021/2/3 15:02
 	 */
 	private SysUserRole querySysUserRoleById(SysUserRoleRequest sysUserRoleRequest) {
-		return this.getRepository().get(sysUserRoleRequest.getUserRoleId());
+		return this.getRepository().get(getEntityClass(), sysUserRoleRequest.getUserRoleId());
 	}
 
 }

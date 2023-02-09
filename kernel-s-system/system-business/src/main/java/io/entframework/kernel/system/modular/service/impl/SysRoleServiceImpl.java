@@ -17,7 +17,6 @@ import io.entframework.kernel.auth.api.exception.enums.AuthExceptionEnum;
 import io.entframework.kernel.auth.api.pojo.login.basic.SimpleRoleInfo;
 import io.entframework.kernel.cache.api.CacheOperatorApi;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.resource.api.ResourceServiceApi;
 import io.entframework.kernel.resource.api.pojo.ResourceTreeNode;
@@ -40,8 +39,8 @@ import io.entframework.kernel.system.api.pojo.response.SysRoleResourceResponse;
 import io.entframework.kernel.system.api.pojo.response.SysRoleResponse;
 import io.entframework.kernel.system.api.util.DataScopeUtil;
 import io.entframework.kernel.system.modular.entity.SysRole;
+import io.entframework.kernel.system.modular.entity.SysRoleDynamicSqlSupport;
 import io.entframework.kernel.system.modular.entity.SysRoleMenu;
-import io.entframework.kernel.system.modular.mapper.SysRoleDynamicSqlSupport;
 import io.entframework.kernel.system.modular.service.*;
 import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
@@ -85,8 +84,8 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleRequest, SysRoleR
 	@Resource(name = "roleDataScopeCacheApi")
 	private CacheOperatorApi<List<Long>> roleDataScopeCacheApi;
 
-	public SysRoleServiceImpl(BaseRepository<SysRole> baseRepository) {
-		super(baseRepository, SysRoleRequest.class, SysRoleResponse.class);
+	public SysRoleServiceImpl() {
+		super(SysRoleRequest.class, SysRoleResponse.class, SysRole.class);
 	}
 
 	@Override
@@ -196,7 +195,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleRequest, SysRoleR
 		// 只查询正常状态 // 根据角色名称或编码模糊查询
 
 		// 根据排序升序排列，序号越小越在前
-		this.getRepository().select(c -> c.where(SysRoleDynamicSqlSupport.statusFlag, SqlBuilder.isEqualTo(StatusEnum.ENABLE))
+		this.getRepository().select(getEntityClass(), c -> c.where(SysRoleDynamicSqlSupport.statusFlag, SqlBuilder.isEqualTo(StatusEnum.ENABLE))
 				.and(SysRoleDynamicSqlSupport.roleName,
 						SqlBuilder.isLike(sysRoleParam.getRoleName()).filter(ObjectUtil::isNotNull),
 						SqlBuilder.or(SysRoleDynamicSqlSupport.roleCode,
@@ -308,7 +307,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleRequest, SysRoleR
 				.and(SysRoleDynamicSqlSupport.delFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N))
 				.and(SysRoleDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIds).filter(ObjectUtil::isNotEmpty));
 
-		this.getRepository().select(completer).forEach(sysRole -> {
+		this.getRepository().select(getEntityClass(), completer).forEach(sysRole -> {
 			SimpleDict simpleDict = new SimpleDict();
 			simpleDict.setId(sysRole.getRoleId());
 			simpleDict.setCode(sysRole.getRoleCode());
@@ -479,7 +478,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleRequest, SysRoleR
 			return sysRoleCache;
 		}
 
-		Optional<SysRole> sysRole = this.getRepository().selectByPrimaryKey(sysRoleRequest.getRoleId());
+		Optional<SysRole> sysRole = this.getRepository().selectByPrimaryKey(getEntityClass(), sysRoleRequest.getRoleId());
 		if (sysRole.isEmpty()) {
 			throw new SystemModularException(SysRoleExceptionEnum.ROLE_NOT_EXIST);
 		}

@@ -10,7 +10,6 @@ package io.entframework.kernel.system.modular.home.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.rule.exception.base.ServiceException;
 import io.entframework.kernel.system.api.exception.SystemModularException;
@@ -32,8 +31,8 @@ import java.util.Optional;
 public class SysStatisticsCountServiceImpl extends BaseServiceImpl<SysStatisticsCountRequest, SysStatisticsCountResponse, SysStatisticsCount>
 		implements SysStatisticsCountService {
 
-	public SysStatisticsCountServiceImpl(BaseRepository<SysStatisticsCount> baseRepository) {
-		super(baseRepository, SysStatisticsCountRequest.class, SysStatisticsCountResponse.class);
+	public SysStatisticsCountServiceImpl() {
+		super(SysStatisticsCountRequest.class, SysStatisticsCountResponse.class, SysStatisticsCount.class);
 	}
 
 	@Override
@@ -48,7 +47,7 @@ public class SysStatisticsCountServiceImpl extends BaseServiceImpl<SysStatistics
 	@Transactional(rollbackFor = Exception.class)
 	public void del(SysStatisticsCountRequest sysStatisticsCountRequest) {
 		SysStatisticsCount sysStatisticsCount = this.querySysStatisticsCount(sysStatisticsCountRequest);
-		this.getRepository().deleteByPrimaryKey(sysStatisticsCount.getStatCountId());
+		this.getRepository().deleteByPrimaryKey(getEntityClass(), sysStatisticsCount.getStatCountId());
 	}
 
 	@Override
@@ -97,8 +96,8 @@ public class SysStatisticsCountServiceImpl extends BaseServiceImpl<SysStatistics
 	 * @date 2022/02/10 21:17
 	 */
 	private SysStatisticsCount querySysStatisticsCount(SysStatisticsCountRequest sysStatisticsCountRequest) {
-		Optional<SysStatisticsCount> sysStatisticsCount = this.getRepository().selectByPrimaryKey(sysStatisticsCountRequest.getStatCountId());
-		if (!sysStatisticsCount.isPresent()) {
+		Optional<SysStatisticsCount> sysStatisticsCount = this.getRepository().selectByPrimaryKey(getEntityClass(), sysStatisticsCountRequest.getStatCountId());
+		if (sysStatisticsCount.isEmpty()) {
 			throw new ServiceException(SysStatisticsCountExceptionEnum.SYS_STATISTICS_COUNT_NOT_EXISTED);
 		}
 		return sysStatisticsCount.get();

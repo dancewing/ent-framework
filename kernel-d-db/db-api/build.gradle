@@ -8,7 +8,7 @@ plugins {
 
 dependencies {
     api project(':kernel-d-config:config-api')
-    
+    api project(':kernel-d-mybatis:mybatis-dynamic-sql-annotations')
     api 'jakarta.servlet:jakarta.servlet-api'
     api 'com.google.guava:guava'
     api 'org.mybatis:mybatis'

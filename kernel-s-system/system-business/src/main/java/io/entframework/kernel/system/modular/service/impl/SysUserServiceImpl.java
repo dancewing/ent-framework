@@ -21,7 +21,6 @@ import io.entframework.kernel.auth.api.pojo.login.LoginUser;
 import io.entframework.kernel.auth.api.pojo.login.basic.SimpleUserInfo;
 import io.entframework.kernel.cache.api.CacheOperatorApi;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.file.api.FileInfoClientApi;
 import io.entframework.kernel.file.api.constants.FileConstants;
@@ -56,10 +55,10 @@ import io.entframework.kernel.system.api.pojo.user.UserLoginInfoDTO;
 import io.entframework.kernel.system.api.pojo.user.UserSelectTreeNode;
 import io.entframework.kernel.system.api.util.DataScopeUtil;
 import io.entframework.kernel.system.modular.entity.SysUser;
+import io.entframework.kernel.system.modular.entity.SysUserDynamicSqlSupport;
 import io.entframework.kernel.system.modular.factory.OnlineUserCreateFactory;
 import io.entframework.kernel.system.modular.factory.SysUserCreateFactory;
 import io.entframework.kernel.system.modular.factory.UserLoginInfoFactory;
-import io.entframework.kernel.system.modular.mapper.SysUserDynamicSqlSupport;
 import io.entframework.kernel.system.modular.service.SysUserDataScopeService;
 import io.entframework.kernel.system.modular.service.SysUserRoleService;
 import io.entframework.kernel.system.modular.service.SysUserService;
@@ -67,9 +66,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.dynamic.sql.SqlBuilder;
-import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
-import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -117,8 +114,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserRequest, SysUserR
     @Resource
     private CacheOperatorApi<SysUser> sysUserCacheOperatorApi;
 
-    public SysUserServiceImpl(BaseRepository<SysUser> baseRepository) {
-        super(baseRepository, SysUserRequest.class, SysUserResponse.class);
+    public SysUserServiceImpl() {
+        super(SysUserRequest.class, SysUserResponse.class, SysUser.class);
     }
 
     @Override
@@ -241,13 +238,12 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserRequest, SysUserR
         Long id = sysUser.getUserId();
 
         // 更新枚举，更新只能更新未删除状态的
-        UpdateStatementProvider updateStatementProvider = SqlBuilder.update(SysUserDynamicSqlSupport.sysUser)
-                .set(SysUserDynamicSqlSupport.statusFlag).equalTo(statusFlag)
-                .where(SysUserDynamicSqlSupport.userId, SqlBuilder.isEqualTo(id))
-                .and(SysUserDynamicSqlSupport.delFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N))
-                .build().render(RenderingStrategies.MYBATIS3);
-
-        int update = this.getRepository().update(updateStatementProvider);
+        int update = this.getRepository().update(getEntityClass(), c -> {
+            c.set(SysUserDynamicSqlSupport.statusFlag).equalTo(statusFlag)
+                    .where(SysUserDynamicSqlSupport.userId, SqlBuilder.isEqualTo(id))
+                    .and(SysUserDynamicSqlSupport.delFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N));
+            return c;
+        });
         if (update == 0) {
             log.error(SysUserExceptionEnum.UPDATE_USER_STATUS_ERROR.getUserTip());
             throw new SystemModularException(SysUserExceptionEnum.UPDATE_USER_STATUS_ERROR);
@@ -511,7 +507,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserRequest, SysUserR
     @Override
     public List<SimpleDict> selector(SysUserRequest sysUserRequest) {
         SelectDSLCompleter completer = c -> c.where(SysUserDynamicSqlSupport.superAdminFlag, SqlBuilder.isNotEqualTo(YesOrNotEnum.Y));
-        List<SysUser> list = this.getRepository().select(completer);
+        List<SysUser> list = this.getRepository().select(getEntityClass(), completer);
         ArrayList<SimpleDict> results = new ArrayList<>();
         for (SysUser sysUser : list) {
             SimpleDict simpleDict = new SimpleDict();
@@ -544,7 +540,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserRequest, SysUserR
                 .where(SysUserDynamicSqlSupport.delFlag, SqlBuilder.isNotEqualTo(YesOrNotEnum.Y))
                 .and(SysUserDynamicSqlSupport.statusFlag, SqlBuilder.isEqualTo(UserStatusEnum.ENABLE));
 
-        List<SysUser> list = this.getRepository().select(completer);
+        List<SysUser> list = this.getRepository().select(getEntityClass(), completer);
         return list.stream().map(SysUser::getUserId).toList();
     }
 
@@ -558,7 +554,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserRequest, SysUserR
                 .where(SysUserDynamicSqlSupport.delFlag, SqlBuilder.isNotEqualTo(YesOrNotEnum.Y))
                 .and(SysUserDynamicSqlSupport.statusFlag, SqlBuilder.isEqualTo(UserStatusEnum.ENABLE));
 
-        List<SysUser> list = this.getRepository().select(completer);
+        List<SysUser> list = this.getRepository().select(getEntityClass(), completer);
         return list.stream().map(item -> BeanUtil.toBean(item, SysUserRequest.class)).toList();
     }
 
@@ -568,7 +564,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserRequest, SysUserR
             return null;
         }
 
-        SysUser sysUser = this.getRepository().get(userId);
+        SysUser sysUser = this.getRepository().get(getEntityClass(), userId);
 
         // 获取用户密码的加密值和用户的状态
         UserLoginInfoDTO userValidateInfo = this.getUserLoginInfo(sysUser.getAccount());
@@ -666,7 +662,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserRequest, SysUserR
     public void updateUserLoginInfo(Long userId, LocalDateTime date, String ip) {
 
         // 根据用户id获取用户信息实体
-        SysUser sysUser = this.getRepository().get(userId);
+        SysUser sysUser = this.getRepository().get(getEntityClass(), userId);
 
         if (sysUser != null && YesOrNotEnum.N == sysUser.getDelFlag()) {
             // 更新用户登录信息
@@ -760,7 +756,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserRequest, SysUserR
     public String getUserAvatarUrlByUserId(Long userId) {
 
         // 获取用户头像文件id
-        Optional<SysUser> sysUser = this.getRepository().selectByPrimaryKey(userId);
+        Optional<SysUser> sysUser = this.getRepository().selectByPrimaryKey(getEntityClass(), userId);
         if (sysUser.isEmpty()) {
             return "";
         }

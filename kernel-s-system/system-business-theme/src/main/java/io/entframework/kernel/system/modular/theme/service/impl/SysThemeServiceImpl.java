@@ -15,7 +15,6 @@ import com.alibaba.fastjson.JSONObject;
 import io.entframework.kernel.cache.api.CacheOperatorApi;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
 import io.entframework.kernel.db.api.util.IdWorker;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.file.api.FileInfoClientApi;
 import io.entframework.kernel.file.api.pojo.request.SysFileInfoRequest;
@@ -26,15 +25,10 @@ import io.entframework.kernel.system.api.enums.ThemeFieldTypeEnum;
 import io.entframework.kernel.system.api.exception.SystemModularException;
 import io.entframework.kernel.system.api.exception.enums.theme.SysThemeExceptionEnum;
 import io.entframework.kernel.system.api.pojo.theme.*;
-import io.entframework.kernel.system.modular.theme.entity.SysTheme;
-import io.entframework.kernel.system.modular.theme.entity.SysThemeTemplateField;
-import io.entframework.kernel.system.modular.theme.entity.SysThemeTemplateRel;
+import io.entframework.kernel.system.modular.theme.entity.*;
 import io.entframework.kernel.system.modular.theme.factory.DefaultThemeFactory;
-import io.entframework.kernel.system.modular.theme.mapper.SysThemeTemplateFieldDynamicSqlSupport;
-import io.entframework.kernel.system.modular.theme.mapper.SysThemeTemplateRelDynamicSqlSupport;
 import io.entframework.kernel.system.modular.theme.service.SysThemeService;
 import io.entframework.kernel.system.modular.theme.service.SysThemeTemplateFieldService;
-import io.entframework.kernel.system.modular.theme.service.SysThemeTemplateRelService;
 import io.entframework.kernel.system.modular.theme.service.SysThemeTemplateService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -55,21 +49,16 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 
 	@Resource
 	private SysThemeTemplateService sysThemeTemplateService;
-
 	@Resource
 	private SysThemeTemplateFieldService sysThemeTemplateFieldService;
-
 	@Resource
 	private FileInfoClientApi fileInfoClientApi;
 
 	@Resource(name = "themeCacheApi")
 	private CacheOperatorApi<DefaultTheme> themeCacheApi;
 
-	@Resource
-	private SysThemeTemplateRelService sysThemeTemplateRelService;
-
-	public SysThemeServiceImpl(BaseRepository<SysTheme> baseRepository) {
-		super(baseRepository, SysThemeRequest.class, SysThemeResponse.class);
+	public SysThemeServiceImpl() {
+		super(SysThemeRequest.class, SysThemeResponse.class, SysTheme.class);
 	}
 
 	@Override
@@ -114,8 +103,8 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 		// 获取图片文件的名称
 		List<String> fileNames = new ArrayList<>();
 		if (themeKeys.size() > 0) {
-			List<SysThemeTemplateField> sysThemeTemplateFields = sysThemeTemplateFieldService
-					.select(c -> c.where(SysThemeTemplateFieldDynamicSqlSupport.fieldCode, SqlBuilder.isIn(themeKeys))
+			List<SysThemeTemplateField> sysThemeTemplateFields = getRepository()
+					.select(SysThemeTemplateField.class, c -> c.where(SysThemeTemplateFieldDynamicSqlSupport.fieldCode, SqlBuilder.isIn(themeKeys))
 							.and(SysThemeTemplateFieldDynamicSqlSupport.fieldType,
 									SqlBuilder.isEqualTo(ThemeFieldTypeEnum.FILE)));
 
@@ -138,7 +127,7 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 			}
 		}
 
-		this.getRepository().deleteByPrimaryKey(getDefaultTemplateId());
+		this.getRepository().deleteByPrimaryKey(getEntityClass(), getDefaultTemplateId());
 
 		// 清除主题缓存
 		this.clearThemeCache();
@@ -255,7 +244,7 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 	 * @date 2021/12/17 16:30
 	 */
 	private SysTheme querySysThemeById(SysThemeRequest sysThemeRequest) {
-		Optional<SysTheme> sysTheme = this.getRepository().selectByPrimaryKey(sysThemeRequest.getThemeId());
+		Optional<SysTheme> sysTheme = this.getRepository().selectByPrimaryKey(getEntityClass(), sysThemeRequest.getThemeId());
 		if (sysTheme.isEmpty()) {
 			throw new SystemModularException(SysThemeExceptionEnum.THEME_NOT_EXIST);
 		}
@@ -307,7 +296,7 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 		}
 
 		// 获取主题模板中所有是文件的字段
-		List<SysThemeTemplateRel> relList = this.sysThemeTemplateRelService.select(c -> c.where(SysThemeTemplateRelDynamicSqlSupport.templateId, SqlBuilder.isEqualTo(defaultTemplateId)));
+		List<SysThemeTemplateRel> relList = this.getRepository().select(SysThemeTemplateRel.class, c -> c.where(SysThemeTemplateRelDynamicSqlSupport.templateId, SqlBuilder.isEqualTo(defaultTemplateId)));
 
 		if (ObjectUtil.isEmpty(relList)) {
 			return theme;
@@ -317,8 +306,8 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 		List<String> fieldCodes = relList.stream().map(SysThemeTemplateRel::getFieldCode).toList();
 
 		// 查询字段中是文件的字段列表
-		List<SysThemeTemplateField> fieldInfoList = this.sysThemeTemplateFieldService
-				.select(c -> c.where(SysThemeTemplateFieldDynamicSqlSupport.fieldCode, SqlBuilder.isIn(fieldCodes))
+		List<SysThemeTemplateField> fieldInfoList = this.getRepository()
+				.select(SysThemeTemplateField.class, c -> c.where(SysThemeTemplateFieldDynamicSqlSupport.fieldCode, SqlBuilder.isIn(fieldCodes))
 						.and(SysThemeTemplateFieldDynamicSqlSupport.fieldType, SqlBuilder.isEqualTo(ThemeFieldTypeEnum.FILE)));
 
 		if (ObjectUtil.isEmpty(fieldInfoList)) {

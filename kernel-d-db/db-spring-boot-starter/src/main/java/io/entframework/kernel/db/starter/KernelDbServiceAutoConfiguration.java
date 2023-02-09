@@ -6,13 +6,16 @@
  */
 package io.entframework.kernel.db.starter;
 
-import io.entframework.kernel.db.api.DbOperatorApi;
-import io.entframework.kernel.db.mds.dboperator.DbOperatorImpl;
-import io.entframework.kernel.db.mds.mapper.MapperManager;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import io.entframework.kernel.db.mds.listener.EntityListener;
+import io.entframework.kernel.db.mds.listener.EntityListeners;
+import io.entframework.kernel.db.mds.listener.impl.DefaultAuditEntityListener;
+import io.entframework.kernel.db.mds.listener.impl.IdAutoGeneratorEntityListener;
+import io.entframework.kernel.db.mds.listener.impl.InitialDefaultValueEntityListener;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+
+import java.util.List;
 
 /**
  * 数据库连接池的配置
@@ -25,14 +28,22 @@ import org.springframework.context.annotation.Primary;
 public class KernelDbServiceAutoConfiguration {
 
     @Bean
-    @Primary
-    public MapperManager mapperManager() {
-        return new MapperManager();
+    public EntityListener idAutoGeneratorEntityListener() {
+        return new IdAutoGeneratorEntityListener();
     }
 
     @Bean
-    @ConditionalOnMissingBean(DbOperatorApi.class)
-    public DbOperatorApi dbOperatorApi() {
-        return new DbOperatorImpl();
+    public EntityListener defaultAuditEntityListener() {
+        return new DefaultAuditEntityListener();
+    }
+
+    @Bean
+    public EntityListener initialDefaultValueEntityListener() {
+        return new InitialDefaultValueEntityListener();
+    }
+
+    @Bean
+    public EntityListeners entityListener(ObjectProvider<EntityListener[]> entityListeners) {
+        return new EntityListeners(List.of(entityListeners.getIfAvailable()));
     }
 }

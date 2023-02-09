@@ -30,10 +30,9 @@ import io.entframework.kernel.file.api.util.DownloadUtil;
 import io.entframework.kernel.file.api.util.PdfFileTypeUtil;
 import io.entframework.kernel.file.api.util.PicFileTypeUtil;
 import io.entframework.kernel.file.modular.entity.SysFileInfo;
+import io.entframework.kernel.file.modular.entity.SysFileInfoDynamicSqlSupport;
 import io.entframework.kernel.file.modular.factory.FileInfoFactory;
 import io.entframework.kernel.file.modular.factory.FileOperatorFactory;
-import io.entframework.kernel.file.modular.mapper.SysFileInfoDynamicSqlSupport;
-import io.entframework.kernel.file.modular.repository.SysFileInfoRepository;
 import io.entframework.kernel.file.modular.service.SysFileInfoService;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
 import io.entframework.kernel.rule.pojo.response.ResponseData;
@@ -58,8 +57,8 @@ import java.util.zip.ZipOutputStream;
 
 @Slf4j
 public class SysFileInfoServiceImpl extends BaseServiceImpl<SysFileInfoRequest, SysFileInfoResponse, SysFileInfo> implements SysFileInfoService {
-    public SysFileInfoServiceImpl(SysFileInfoRepository sysFileInfoRepository) {
-        super(sysFileInfoRepository, SysFileInfoRequest.class, SysFileInfoResponse.class);
+    public SysFileInfoServiceImpl() {
+        super(SysFileInfoRequest.class, SysFileInfoResponse.class, SysFileInfo.class);
     }
 
     @Resource
@@ -177,12 +176,12 @@ public class SysFileInfoServiceImpl extends BaseServiceImpl<SysFileInfoRequest, 
     public ResponseData<Void> deleteReally(SysFileInfoRequest sysFileInfoRequest) {
 
         // 查询该Code的所有历史版本
-        SelectDSLCompleter completer = c-> c.where(SysFileInfoDynamicSqlSupport.fileCode, SqlBuilder.isEqualTo(sysFileInfoRequest.getFileCode()))
+        SelectDSLCompleter completer = c -> c.where(SysFileInfoDynamicSqlSupport.fileCode, SqlBuilder.isEqualTo(sysFileInfoRequest.getFileCode()))
                 .or(SysFileInfoDynamicSqlSupport.fileId, SqlBuilder.isEqualTo(sysFileInfoRequest.getFileId()));
-        List<SysFileInfo> fileInfos = this.getRepository().select(completer);
+        List<SysFileInfo> fileInfos = this.getRepository().select(getEntityClass(), completer);
         // 批量删除
         fileInfos.forEach(sysFileInfo -> {
-            this.getRepository().deleteByPrimaryKey(sysFileInfo.getFileId());
+            this.getRepository().deleteByPrimaryKey(getEntityClass(), sysFileInfo.getFileId());
         });
 
         // 删除具体文件
@@ -346,8 +345,8 @@ public class SysFileInfoServiceImpl extends BaseServiceImpl<SysFileInfoRequest, 
 
     @Override
     public List<SysFileInfoResponse> getFileInfoListByFileIds(List<Long> fileIdList) {
-        SelectDSLCompleter completer = c-> c.where(SysFileInfoDynamicSqlSupport.fileId, SqlBuilder.isIn(fileIdList));
-        List<SysFileInfo> list = this.getRepository().select(completer);
+        SelectDSLCompleter completer = c -> c.where(SysFileInfoDynamicSqlSupport.fileId, SqlBuilder.isIn(fileIdList));
+        List<SysFileInfo> list = this.getRepository().select(getEntityClass(), completer);
 
         // bean转化
         return list.stream().map(i -> this.converterService.convert(i, getResponseClass())).toList();
@@ -429,7 +428,7 @@ public class SysFileInfoServiceImpl extends BaseServiceImpl<SysFileInfoRequest, 
      * @date 2020/11/29 13:40
      */
     private SysFileInfo querySysFileInfo(SysFileInfoRequest sysFileInfoRequest) {
-        Optional<SysFileInfo> sysFileInfo = this.getRepository().selectByPrimaryKey(sysFileInfoRequest.getFileId());
+        Optional<SysFileInfo> sysFileInfo = this.getRepository().selectByPrimaryKey(getEntityClass(), sysFileInfoRequest.getFileId());
         if (sysFileInfo.isEmpty()) {
             throw new FileException(FileExceptionEnum.NOT_EXISTED, sysFileInfoRequest.getFileId());
         }

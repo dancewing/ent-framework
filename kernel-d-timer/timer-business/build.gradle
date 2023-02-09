@@ -32,7 +32,7 @@ dependencies {
     api project(':kernel-d-scanner:scanner-api')
     api project(':kernel-d-validator:validator-api')
     api project(':kernel-s-system:system-api')
-    api project(':kernel-d-db:mybatis-dynamic-extensions')
+    api project(':kernel-d-mybatis:mybatis-dynamic-extensions')
     api project(':kernel-d-db:db-sdk-flyway')
     api project(':kernel-s-migration:migration-sdk-data-aggregation')
     api 'org.springframework.boot:spring-boot-starter-web'

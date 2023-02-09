@@ -14,8 +14,7 @@ import io.entframework.kernel.system.api.pojo.request.SysRoleDataScopeRequest;
 import io.entframework.kernel.system.api.pojo.request.SysRoleRequest;
 import io.entframework.kernel.system.api.pojo.response.SysRoleDataScopeResponse;
 import io.entframework.kernel.system.modular.entity.SysRoleDataScope;
-import io.entframework.kernel.system.modular.mapper.SysRoleDataScopeDynamicSqlSupport;
-import io.entframework.kernel.system.modular.repository.SysRoleDataScopeRepository;
+import io.entframework.kernel.system.modular.entity.SysRoleDataScopeDynamicSqlSupport;
 import io.entframework.kernel.system.modular.service.SysRoleDataScopeService;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +30,8 @@ import java.util.Set;
 public class SysRoleDataScopeServiceImpl extends BaseServiceImpl<SysRoleDataScopeRequest, SysRoleDataScopeResponse, SysRoleDataScope>
 		implements SysRoleDataScopeService, RoleDataScopeServiceApi {
 
-	public SysRoleDataScopeServiceImpl(SysRoleDataScopeRepository sysRoleDataScopeRepository) {
-		super(sysRoleDataScopeRepository, SysRoleDataScopeRequest.class, SysRoleDataScopeResponse.class);
+	public SysRoleDataScopeServiceImpl() {
+		super(SysRoleDataScopeRequest.class, SysRoleDataScopeResponse.class, SysRoleDataScope.class);
 	}
 
 	@Override
@@ -58,7 +57,7 @@ public class SysRoleDataScopeServiceImpl extends BaseServiceImpl<SysRoleDataScop
 
 	@Override
 	public List<Long> getRoleDataScopeIdList(List<Long> roleIdList) {
-		return this.getRepository().select(c -> c.where(SysRoleDataScopeDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIdList))).stream()
+		return this.getRepository().select(getEntityClass(), c -> c.where(SysRoleDataScopeDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIdList))).stream()
 				.map(SysRoleDataScope::getOrganizationId).toList();
 	}
 
@@ -73,7 +72,7 @@ public class SysRoleDataScopeServiceImpl extends BaseServiceImpl<SysRoleDataScop
 	@Transactional(rollbackFor = Exception.class)
 	public void del(SysRoleDataScopeRequest sysRoleDataScopeRequest) {
 		SysRoleDataScope sysRoleDataScope = this.querySysRoleDataScopeById(sysRoleDataScopeRequest);
-		this.getRepository().deleteByPrimaryKey(sysRoleDataScope.getRoleDataScopeId());
+		this.getRepository().deleteByPrimaryKey(getEntityClass(), sysRoleDataScope.getRoleDataScopeId());
 	}
 
 	@Override
@@ -87,7 +86,7 @@ public class SysRoleDataScopeServiceImpl extends BaseServiceImpl<SysRoleDataScop
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void delByOrgIds(Set<Long> orgIds) {
-		this.getRepository().delete(c -> c.where(SysRoleDataScopeDynamicSqlSupport.organizationId, SqlBuilder.isIn(orgIds)));
+		this.getRepository().delete(getEntityClass(), c -> c.where(SysRoleDataScopeDynamicSqlSupport.organizationId, SqlBuilder.isIn(orgIds)));
 	}
 
 	@Override
@@ -116,6 +115,6 @@ public class SysRoleDataScopeServiceImpl extends BaseServiceImpl<SysRoleDataScop
 	 * @date 2021/2/3 15:02
 	 */
 	private SysRoleDataScope querySysRoleDataScopeById(SysRoleDataScopeRequest sysRoleDataScopeRequest) {
-		return this.getRepository().get(sysRoleDataScopeRequest.getRoleDataScopeId());
+		return this.getRepository().get(getEntityClass(), sysRoleDataScopeRequest.getRoleDataScopeId());
 	}
 }

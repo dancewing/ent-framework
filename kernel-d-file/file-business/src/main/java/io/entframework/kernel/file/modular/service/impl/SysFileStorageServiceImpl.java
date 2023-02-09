@@ -8,7 +8,6 @@
 package io.entframework.kernel.file.modular.service.impl;
 
 
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.file.api.config.FileServerProperties;
 import io.entframework.kernel.file.api.constants.FileConstants;
@@ -33,8 +32,8 @@ public class SysFileStorageServiceImpl extends BaseServiceImpl<SysFileStorageReq
     @Resource
     private FileServerProperties fileServerProperties;
 
-    public SysFileStorageServiceImpl(BaseRepository<SysFileStorage> baseRepository) {
-        super(baseRepository, SysFileStorageRequest.class, SysFileStorageResponse.class);
+    public SysFileStorageServiceImpl() {
+        super(SysFileStorageRequest.class, SysFileStorageResponse.class, SysFileStorage.class);
     }
 
     @Override

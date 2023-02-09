@@ -1,9 +1,6 @@
 package io.entframework.kernel.system.modular.notice.entity;
 
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
 import io.entframework.kernel.db.api.annotation.LogicDelete;
-import io.entframework.kernel.db.api.annotation.Table;
 import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
 import java.io.Serializable;
@@ -13,6 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.Table;
 
 /**
  * 通知管理
@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("sys_notice")
+@Table(value = "sys_notice", sqlSupport = SysNoticeDynamicSqlSupport.class, tableProperty = "sysNotice")
 public class SysNotice extends BaseEntity implements Serializable {
     /**
      * 主键

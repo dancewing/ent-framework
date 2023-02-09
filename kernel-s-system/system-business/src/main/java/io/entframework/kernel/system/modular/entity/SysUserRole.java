@@ -1,8 +1,5 @@
 package io.entframework.kernel.system.modular.entity;
 
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
-import io.entframework.kernel.db.api.annotation.Table;
 import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
 import java.io.Serializable;
 import java.sql.JDBCType;
@@ -10,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.Table;
 
 /**
  * 用户角色关联
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("sys_user_role")
+@Table(value = "sys_user_role", sqlSupport = SysUserRoleDynamicSqlSupport.class, tableProperty = "sysUserRole")
 public class SysUserRole extends BaseEntity implements Serializable {
     /**
      * 主键

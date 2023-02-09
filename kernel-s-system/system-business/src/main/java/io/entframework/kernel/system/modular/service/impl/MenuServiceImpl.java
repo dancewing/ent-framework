@@ -12,12 +12,12 @@ import cn.hutool.core.util.ObjectUtil;
 import io.entframework.kernel.auth.api.context.LoginContext;
 import io.entframework.kernel.auth.api.pojo.login.LoginUser;
 import io.entframework.kernel.auth.api.pojo.login.basic.SimpleRoleInfo;
+import io.entframework.kernel.db.mds.repository.GeneralRepository;
 import io.entframework.kernel.rule.constants.SymbolConstant;
 import io.entframework.kernel.system.api.MenuServiceApi;
 import io.entframework.kernel.system.api.RoleServiceApi;
 import io.entframework.kernel.system.modular.entity.SysMenu;
-import io.entframework.kernel.system.modular.mapper.SysMenuDynamicSqlSupport;
-import io.entframework.kernel.system.modular.repository.SysMenuRepository;
+import io.entframework.kernel.system.modular.entity.SysMenuDynamicSqlSupport;
 import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.springframework.stereotype.Service;
@@ -29,13 +29,13 @@ import java.util.Set;
 @Service
 public class MenuServiceImpl implements MenuServiceApi {
     @Resource
-    private SysMenuRepository sysMenuRepository;
+    private GeneralRepository generalRepository;
     @Resource
     private RoleServiceApi roleServiceApi;
 
     @Override
     public boolean hasMenu(Long appId) {
-        return sysMenuRepository.count(c -> c.where(SysMenuDynamicSqlSupport.appId, SqlBuilder.isEqualTo(appId))) > 0L;
+        return generalRepository.count(SysMenu.class, c -> c.where(SysMenuDynamicSqlSupport.appId, SqlBuilder.isEqualTo(appId))) > 0L;
     }
 
     @Override
@@ -44,10 +44,10 @@ public class MenuServiceImpl implements MenuServiceApi {
         List<SysMenu> list;
         if (!LoginContext.me().getSuperAdminFlag()) {
             List<Long> currentUserMenuIds = this.getCurrentUserMenuIds();
-            list = this.sysMenuRepository.select(c -> c.where(SysMenuDynamicSqlSupport.menuId, SqlBuilder.isIn(currentUserMenuIds))
+            list = this.generalRepository.select(SysMenu.class, c -> c.where(SysMenuDynamicSqlSupport.menuId, SqlBuilder.isIn(currentUserMenuIds))
                     .groupBy(SysMenuDynamicSqlSupport.appId));
         } else {
-            list = this.sysMenuRepository.select(c -> c.groupBy(SysMenuDynamicSqlSupport.appId));
+            list = this.generalRepository.select(SysMenu.class, c -> c.groupBy(SysMenuDynamicSqlSupport.appId));
         }
         return list.stream().map(SysMenu::getAppId).toList();
     }
@@ -57,7 +57,7 @@ public class MenuServiceImpl implements MenuServiceApi {
         Set<Long> parentMenuIds = new HashSet<>();
 
         // 查询所有菜单信息
-        List<SysMenu> sysMenus = this.sysMenuRepository.select(c -> c.where(SysMenuDynamicSqlSupport.menuId, SqlBuilder.isIn(menuIds)));
+        List<SysMenu> sysMenus = this.generalRepository.select(SysMenu.class, c -> c.where(SysMenuDynamicSqlSupport.menuId, SqlBuilder.isIn(menuIds)));
         if (ObjectUtil.isEmpty(sysMenus)) {
             return parentMenuIds;
         }

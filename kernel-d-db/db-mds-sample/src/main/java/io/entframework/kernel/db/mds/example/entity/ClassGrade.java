@@ -2,12 +2,6 @@ package io.entframework.kernel.db.mds.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
-import io.entframework.kernel.db.api.annotation.JoinColumn;
-import io.entframework.kernel.db.api.annotation.ManyToOne;
-import io.entframework.kernel.db.api.annotation.OneToMany;
-import io.entframework.kernel.db.api.annotation.Table;
 import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
 import io.entframework.kernel.rule.annotation.EnumHandler;
 import io.entframework.kernel.rule.annotation.EnumValue;
@@ -19,6 +13,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.JoinColumn;
+import org.mybatis.dynamic.sql.annotation.ManyToOne;
+import org.mybatis.dynamic.sql.annotation.OneToMany;
+import org.mybatis.dynamic.sql.annotation.Table;
 
 /**
  * 班级
@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("exam_class_grade")
+@Table(value = "exam_class_grade", sqlSupport = ClassGradeDynamicSqlSupport.class, tableProperty = "classGrade")
 public class ClassGrade extends BaseEntity implements Serializable {
     /**
      * ID

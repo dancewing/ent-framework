@@ -56,9 +56,6 @@
             <property name="writeMode" value="NEVER"/>
         </plugin>
         <plugin type="io.entframework.kernel.db.generator.plugin.server.MapstructPlugin" />
-        <plugin type="io.entframework.kernel.db.generator.plugin.server.RepositoryPlugin">
-            <property name="writeMode" value="OVER_WRITE"/>
-        </plugin>
         <plugin type="io.entframework.kernel.db.generator.plugin.server.ServicePlugin">
             <property name="writeMode" value="NEVER"/>
         </plugin>

@@ -6,6 +6,7 @@
  */
 package io.entframework.kernel.system.modular.service.impl;
 
+import io.entframework.kernel.db.mds.mapper.GeneralMapperSupport;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.rule.tree.antd.CheckedKeys;
 import io.entframework.kernel.rule.tree.antd.TreeDataItem;
@@ -14,11 +15,9 @@ import io.entframework.kernel.system.api.pojo.request.SysRoleMenuRequest;
 import io.entframework.kernel.system.api.pojo.response.SysMenuResponse;
 import io.entframework.kernel.system.api.pojo.response.SysRoleMenuResponse;
 import io.entframework.kernel.system.modular.entity.SysMenu;
+import io.entframework.kernel.system.modular.entity.SysMenuDynamicSqlSupport;
 import io.entframework.kernel.system.modular.entity.SysRoleMenu;
-import io.entframework.kernel.system.modular.mapper.SysMenuDynamicSqlSupport;
-import io.entframework.kernel.system.modular.mapper.SysRoleMenuDynamicSqlSupport;
-import io.entframework.kernel.system.modular.repository.SysMenuRepository;
-import io.entframework.kernel.system.modular.repository.SysRoleMenuRepository;
+import io.entframework.kernel.system.modular.entity.SysRoleMenuDynamicSqlSupport;
 import io.entframework.kernel.system.modular.service.SysRoleMenuService;
 import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
@@ -37,10 +36,10 @@ import java.util.List;
 public class SysRoleMenuServiceImpl extends BaseServiceImpl<SysRoleMenuRequest, SysRoleMenuResponse, SysRoleMenu> implements SysRoleMenuService {
 
 	@Resource
-	private SysMenuRepository sysMenuRepository;
+	private GeneralMapperSupport generalMapperSupport;
 
-	public SysRoleMenuServiceImpl(SysRoleMenuRepository sysRoleMenuRepository) {
-		super(sysRoleMenuRepository, SysRoleMenuRequest.class, SysRoleMenuResponse.class);
+	public SysRoleMenuServiceImpl() {
+		super(SysRoleMenuRequest.class, SysRoleMenuResponse.class, SysRoleMenu.class);
 	}
 
 	@Override
@@ -63,20 +62,20 @@ public class SysRoleMenuServiceImpl extends BaseServiceImpl<SysRoleMenuRequest, 
 				.on(SysMenuDynamicSqlSupport.menuId, SqlBuilder.equalTo(SysRoleMenuDynamicSqlSupport.menuId))
 				.where(SysRoleMenuDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIds))
 				.build().render(RenderingStrategies.MYBATIS3);
-		List<SysMenu> sysMenus = sysMenuRepository.selectMany(selectStatement);
+		List<SysMenu> sysMenus = generalMapperSupport.selectMany(selectStatement);
 		return sysMenus.stream().map(sysMenu -> this.converterService.convert(sysMenus, SysMenuResponse.class)).toList();
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void deleteByRoleId(Long roleId) {
-		this.getRepository().delete(c -> c.where(SysRoleMenuDynamicSqlSupport.roleId,
+		this.getRepository().delete(getEntityClass(), c -> c.where(SysRoleMenuDynamicSqlSupport.roleId,
 				SqlBuilder.isEqualTo(roleId)));
 	}
 
 	@Override
 	public List<SysRoleMenu> getRoleMenus(Collection<Long> roleIds) {
-		return this.getRepository().select(c -> c.where(SysRoleMenuDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIds)));
+		return this.getRepository().select(getEntityClass(), c -> c.where(SysRoleMenuDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIds)));
 	}
 
 	@Override

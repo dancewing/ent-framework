@@ -1,11 +1,6 @@
 package io.entframework.kernel.system.modular.entity;
 
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
-import io.entframework.kernel.db.api.annotation.JoinColumn;
 import io.entframework.kernel.db.api.annotation.LogicDelete;
-import io.entframework.kernel.db.api.annotation.ManyToOne;
-import io.entframework.kernel.db.api.annotation.Table;
 import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
 import io.entframework.kernel.rule.enums.GenderEnum;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
@@ -18,6 +13,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.JoinColumn;
+import org.mybatis.dynamic.sql.annotation.ManyToOne;
+import org.mybatis.dynamic.sql.annotation.Table;
 
 /**
  * 系统用户
@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("sys_user")
+@Table(value = "sys_user", sqlSupport = SysUserDynamicSqlSupport.class, tableProperty = "sysUser")
 public class SysUser extends BaseEntity implements Serializable {
     /**
      * 主键

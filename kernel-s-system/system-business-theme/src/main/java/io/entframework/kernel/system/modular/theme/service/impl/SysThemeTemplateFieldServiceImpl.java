@@ -10,7 +10,6 @@ package io.entframework.kernel.system.modular.theme.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
 import io.entframework.kernel.system.api.constants.SystemConstants;
@@ -21,16 +20,14 @@ import io.entframework.kernel.system.api.exception.enums.theme.SysThemeTemplateF
 import io.entframework.kernel.system.api.pojo.theme.SysThemeTemplateFieldRequest;
 import io.entframework.kernel.system.api.pojo.theme.SysThemeTemplateFieldResponse;
 import io.entframework.kernel.system.modular.theme.entity.SysThemeTemplateField;
+import io.entframework.kernel.system.modular.theme.entity.SysThemeTemplateFieldDynamicSqlSupport;
 import io.entframework.kernel.system.modular.theme.entity.SysThemeTemplateRel;
-import io.entframework.kernel.system.modular.theme.mapper.SysThemeTemplateFieldDynamicSqlSupport;
-import io.entframework.kernel.system.modular.theme.mapper.SysThemeTemplateRelDynamicSqlSupport;
+import io.entframework.kernel.system.modular.theme.entity.SysThemeTemplateRelDynamicSqlSupport;
 import io.entframework.kernel.system.modular.theme.service.SysThemeTemplateFieldService;
-import io.entframework.kernel.system.modular.theme.service.SysThemeTemplateRelService;
-import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
-import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -42,11 +39,8 @@ import java.util.Optional;
  */
 public class SysThemeTemplateFieldServiceImpl extends BaseServiceImpl<SysThemeTemplateFieldRequest, SysThemeTemplateFieldResponse, SysThemeTemplateField> implements SysThemeTemplateFieldService {
 
-    @Resource
-    private SysThemeTemplateRelService sysThemeTemplateRelService;
-
-    public SysThemeTemplateFieldServiceImpl(BaseRepository<SysThemeTemplateField> baseRepository) {
-        super(baseRepository, SysThemeTemplateFieldRequest.class, SysThemeTemplateFieldResponse.class);
+    public SysThemeTemplateFieldServiceImpl() {
+        super(SysThemeTemplateFieldRequest.class, SysThemeTemplateFieldResponse.class, SysThemeTemplateField.class);
     }
 
     @Override
@@ -76,7 +70,7 @@ public class SysThemeTemplateFieldServiceImpl extends BaseServiceImpl<SysThemeTe
         // 校验系统主题模板属性使用
         this.verificationAttributeUsage(sysThemeTemplateField);
 
-        this.getRepository().deleteByPrimaryKey(sysThemeTemplateField.getFieldId());
+        this.getRepository().deleteByPrimaryKey(getEntityClass(), sysThemeTemplateField.getFieldId());
     }
 
     /**
@@ -123,15 +117,15 @@ public class SysThemeTemplateFieldServiceImpl extends BaseServiceImpl<SysThemeTe
 
     @Override
     public List<SysThemeTemplateFieldResponse> findRelList(SysThemeTemplateFieldRequest sysThemeTemplateFieldRequest) {
-        List<String> fieldCodes = this.getFieldCodes(sysThemeTemplateFieldRequest, sysThemeTemplateRelService);
+        List<String> fieldCodes = this.getFieldCodes(sysThemeTemplateFieldRequest);
         List<SysThemeTemplateField> sysThemeTemplateFields = null;
         // 如果关联属性非空，拼接查询条件
-        if (fieldCodes.size() > 0) {
-            sysThemeTemplateFields = this.select(c -> c.where(SysThemeTemplateFieldDynamicSqlSupport.fieldCode, SqlBuilder.isIn(fieldCodes)));
+        if (!fieldCodes.isEmpty()) {
+            sysThemeTemplateFields = getRepository().select(SysThemeTemplateField.class, c -> c.where(SysThemeTemplateFieldDynamicSqlSupport.fieldCode, SqlBuilder.isIn(fieldCodes)));
         }
 
         if (sysThemeTemplateFields == null) {
-            return null;
+            return Collections.emptyList();
         }
 
         return sysThemeTemplateFields.stream().map(sysThemeTemplateField -> this.converterService.convert(sysThemeTemplateField, getResponseClass())).toList();
@@ -142,9 +136,9 @@ public class SysThemeTemplateFieldServiceImpl extends BaseServiceImpl<SysThemeTe
      *
      * @date 2021/12/24 14:38
      */
-    private List<String> getFieldCodes(SysThemeTemplateFieldRequest sysThemeTemplateFieldRequest, SysThemeTemplateRelService sysThemeTemplateRelService) {
+    private List<String> getFieldCodes(SysThemeTemplateFieldRequest sysThemeTemplateFieldRequest) {
         // 查询有关联的属性
-        List<SysThemeTemplateRel> sysThemeTemplateRels = sysThemeTemplateRelService.select(c -> c.where(SysThemeTemplateRelDynamicSqlSupport.templateId,
+        List<SysThemeTemplateRel> sysThemeTemplateRels = getRepository().select(SysThemeTemplateRel.class, c -> c.where(SysThemeTemplateRelDynamicSqlSupport.templateId,
                 SqlBuilder.isEqualTo(sysThemeTemplateFieldRequest.getTemplateId())));
 
         // 过滤出所有的属性编码
@@ -154,15 +148,15 @@ public class SysThemeTemplateFieldServiceImpl extends BaseServiceImpl<SysThemeTe
     @Override
     public List<SysThemeTemplateFieldResponse> findNotRelList(SysThemeTemplateFieldRequest sysThemeTemplateFieldRequest) {
         // 查询有关联的属性
-        List<String> fieldCodes = getFieldCodes(sysThemeTemplateFieldRequest, sysThemeTemplateRelService);
+        List<String> fieldCodes = getFieldCodes(sysThemeTemplateFieldRequest);
 
         // 查询没有关联的属性
         List<SysThemeTemplateField> sysThemeTemplateFields;
         // 如果关联属性非空，拼接条件；否者查询全部
         if (fieldCodes.size() > 0) {
-            sysThemeTemplateFields = this.select(c -> c.where(SysThemeTemplateFieldDynamicSqlSupport.fieldCode, SqlBuilder.isNotIn(fieldCodes)));
+            sysThemeTemplateFields = getRepository().select(getEntityClass(), c -> c.where(SysThemeTemplateFieldDynamicSqlSupport.fieldCode, SqlBuilder.isNotIn(fieldCodes)));
         } else {
-            sysThemeTemplateFields = this.select(c -> c);
+            sysThemeTemplateFields = getRepository().select(getEntityClass(), c -> c);
         }
         return sysThemeTemplateFields.stream().map(sysThemeTemplateField -> this.converterService.convert(sysThemeTemplateField, getResponseClass())).toList();
     }
@@ -179,11 +173,6 @@ public class SysThemeTemplateFieldServiceImpl extends BaseServiceImpl<SysThemeTe
         return ThemeFieldTypeEnum.FILE == sysThemeTemplateField.getFieldType();
     }
 
-    @Override
-    public List<SysThemeTemplateField> select(SelectDSLCompleter completer) {
-        return this.getRepository().select(completer);
-    }
-
     /**
      * 获取主题模板属性
      *
@@ -192,8 +181,8 @@ public class SysThemeTemplateFieldServiceImpl extends BaseServiceImpl<SysThemeTe
      * @date 2021/12/17 11:03
      */
     private SysThemeTemplateField queryThemeTemplateFieldById(SysThemeTemplateFieldRequest sysThemeTemplateFieldRequest) {
-        Optional<SysThemeTemplateField> sysThemeTemplateField = this.getRepository().selectByPrimaryKey(sysThemeTemplateFieldRequest.getFieldId());
-        if (!sysThemeTemplateField.isPresent()) {
+        Optional<SysThemeTemplateField> sysThemeTemplateField = this.getRepository().selectByPrimaryKey(getEntityClass(), sysThemeTemplateFieldRequest.getFieldId());
+        if (sysThemeTemplateField.isEmpty()) {
             throw new SystemModularException(SysThemeTemplateFieldExceptionEnum.FIELD_NOT_EXIST);
         }
         return sysThemeTemplateField.get();

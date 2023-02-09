@@ -108,29 +108,25 @@ public class ServicePlugin extends AbstractServerPlugin {
         //构造器
         FullyQualifiedJavaType pojoRequestJavaType = getPojoRequestJavaType(recordType.getShortName());
         FullyQualifiedJavaType pojoResponseJavaType = getPojoResponseJavaType(recordType.getShortName());
-        FullyQualifiedJavaType baseRepositoryJavaType = getRepositoryJavaType(recordType.getShortName());
-        Parameter p1 = new Parameter(baseRepositoryJavaType, StringUtils.uncapitalize(baseRepositoryJavaType.getShortName()));
         Method defaultConstructor = new Method(serviceImplJavaType.getShortName());
         defaultConstructor.setConstructor(true);
         defaultConstructor.setVisibility(JavaVisibility.PUBLIC);
-        defaultConstructor.addParameter(p1);
-        defaultConstructor.addBodyLine(String.format("super(%s, %s.class, %s.class);", StringUtils.uncapitalize(baseRepositoryJavaType.getShortName()),
-                pojoRequestJavaType.getShortName(), pojoResponseJavaType.getShortName()));
+        defaultConstructor.addBodyLine(String.format("super(%s.class, %s.class, %s.class);",
+                pojoRequestJavaType.getShortName(), pojoResponseJavaType.getShortName(), recordType.getShortName()));
 
         Method method = new Method(serviceImplJavaType.getShortName());
-
-        serviceInterfaceImplClass.addImportedType(baseRepositoryJavaType);
-
-        method.addParameter(p1);
+        FullyQualifiedJavaType entityClsJavaType = new FullyQualifiedJavaType(String.format("Class<? extends %s>", recordType.getShortName()));
         FullyQualifiedJavaType requestClsJavaType = new FullyQualifiedJavaType(String.format("Class<? extends %s>", pojoRequestJavaType.getShortName()));
         FullyQualifiedJavaType responseClsJavaType = new FullyQualifiedJavaType(String.format("Class<? extends %s>", pojoResponseJavaType.getShortName()));
         Parameter p2 = new Parameter(requestClsJavaType, "requestClass");
         method.addParameter(p2);
         p2 = new Parameter(responseClsJavaType, "responseClass");
         method.addParameter(p2);
+        p2 = new Parameter(entityClsJavaType, "entityClass");
+        method.addParameter(p2);
         method.setConstructor(true);
         method.setVisibility(JavaVisibility.PUBLIC);
-        method.addBodyLine(String.format("super(%s, requestClass, responseClass);", StringUtils.uncapitalize(baseRepositoryJavaType.getShortName())));
+        method.addBodyLine("super(requestClass, responseClass, entityClass);");
 
 
         serviceInterfaceImplClass.addMethod(defaultConstructor);

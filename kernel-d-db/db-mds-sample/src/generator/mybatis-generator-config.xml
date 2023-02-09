@@ -54,7 +54,6 @@
         <!-- 生成CRUD 代码, 一定要放在plugin的最后，注意插件顺序 -->
         <plugin type="io.entframework.kernel.db.generator.plugin.server.PojoPlugin" />
         <plugin type="io.entframework.kernel.db.generator.plugin.server.MapstructPlugin" />
-        <plugin type="io.entframework.kernel.db.generator.plugin.server.RepositoryPlugin" />
         <plugin type="io.entframework.kernel.db.generator.plugin.server.ServicePlugin">
             <property name="writeMode" value="OVER_WRITE"/>
         </plugin>

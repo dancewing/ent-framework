@@ -12,6 +12,7 @@ import cn.hutool.core.util.ObjectUtil;
 import io.entframework.kernel.auth.api.context.LoginContext;
 import io.entframework.kernel.auth.api.pojo.login.LoginUser;
 import io.entframework.kernel.cache.api.CacheOperatorApi;
+import io.entframework.kernel.db.mds.repository.GeneralRepository;
 import io.entframework.kernel.rule.constants.SymbolConstant;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
 import io.entframework.kernel.system.api.HomePageServiceApi;
@@ -23,17 +24,15 @@ import io.entframework.kernel.system.api.pojo.request.SysUserRequest;
 import io.entframework.kernel.system.api.pojo.user.OnlineUserDTO;
 import io.entframework.kernel.system.api.pojo.user.OnlineUserRequest;
 import io.entframework.kernel.system.modular.entity.HrOrganization;
+import io.entframework.kernel.system.modular.entity.HrOrganizationDynamicSqlSupport;
 import io.entframework.kernel.system.modular.entity.SysMenu;
 import io.entframework.kernel.system.modular.home.entity.SysStatisticsCount;
+import io.entframework.kernel.system.modular.home.entity.SysStatisticsCountDynamicSqlSupport;
 import io.entframework.kernel.system.modular.home.entity.SysStatisticsUrl;
-import io.entframework.kernel.system.modular.home.mapper.SysStatisticsCountDynamicSqlSupport;
-import io.entframework.kernel.system.modular.home.mapper.SysStatisticsUrlDynamicSqlSupport;
+import io.entframework.kernel.system.modular.home.entity.SysStatisticsUrlDynamicSqlSupport;
 import io.entframework.kernel.system.modular.home.pojo.OnlineUserStat;
-import io.entframework.kernel.system.modular.home.repository.SysStatisticsCountRepository;
-import io.entframework.kernel.system.modular.home.repository.SysStatisticsUrlRepository;
 import io.entframework.kernel.system.modular.home.service.HomePageService;
 import io.entframework.kernel.system.modular.home.service.SysStatisticsUrlService;
-import io.entframework.kernel.system.modular.mapper.HrOrganizationDynamicSqlSupport;
 import io.entframework.kernel.system.modular.service.HrOrganizationService;
 import io.entframework.kernel.system.modular.service.SysMenuService;
 import jakarta.annotation.Resource;
@@ -73,10 +72,7 @@ public class HomePageServiceImpl implements HomePageService, HomePageServiceApi 
 	private SysStatisticsUrlService sysStatisticsUrlService;
 
 	@Resource
-	private SysStatisticsCountRepository sysStatisticsCountRepository;
-
-	@Resource
-	private SysStatisticsUrlRepository sysStatisticsUrlRepository;
+	private GeneralRepository generalRepository;
 
 	@Resource
 	private SysMenuService sysMenuService;
@@ -126,7 +122,7 @@ public class HomePageServiceImpl implements HomePageService, HomePageServiceApi 
 		Long organizationId = loginUser.getOrganizationId();
 
 		// 获取当前公司的所有子公司数量(含当前公司)
-		List<HrOrganization> organizations = hrOrganizationService.select(c -> c
+		List<HrOrganization> organizations = generalRepository.select(HrOrganization.class, c -> c
 				.where(HrOrganizationDynamicSqlSupport.orgPids,
 						SqlBuilder.isLike(StringUtils.wrap(LEFT_SQUARE_BRACKETS + organizationId + RIGHT_SQUARE_BRACKETS, SymbolConstant.PERCENT)))
 				.or(HrOrganizationDynamicSqlSupport.orgId, SqlBuilder.isEqualTo(organizationId)));
@@ -145,13 +141,15 @@ public class HomePageServiceImpl implements HomePageService, HomePageServiceApi 
 
 		// 获取当前用户常用功能，按使用次数排序
 		LoginUser loginUser = LoginContext.me().getLoginUser();
-		List<SysStatisticsCount> statList = sysStatisticsCountRepository.select(
+		List<SysStatisticsCount> statList = generalRepository.select(
+				SysStatisticsCount.class,
 				c -> c.where(SysStatisticsCountDynamicSqlSupport.userId, SqlBuilder.isEqualTo(loginUser.getUserId()))
 						.orderBy(SysStatisticsCountDynamicSqlSupport.statCount.descending()));
 		List<Long> statUrlIdList = statList.stream().map(SysStatisticsCount::getStatUrlId).collect(Collectors.toList());
 
 		// 获取系统常驻常用功能
-		List<SysStatisticsUrl> alwaysShowList = sysStatisticsUrlRepository.select(
+		List<SysStatisticsUrl> alwaysShowList = generalRepository.select(
+				SysStatisticsUrl.class,
 				c -> c.where(SysStatisticsUrlDynamicSqlSupport.alwaysShow, SqlBuilder.isEqualTo(YesOrNotEnum.Y)));
 
 		// 将常驻功能放在统计的常用功能最前边
@@ -211,8 +209,8 @@ public class HomePageServiceImpl implements HomePageService, HomePageServiceApi 
 		}
 
 		// 查询缓存用户在库中的统计记录
-		List<SysStatisticsCount> sysStatisticsCounts = sysStatisticsCountRepository
-				.select(c -> c.where(SysStatisticsCountDynamicSqlSupport.userId, SqlBuilder.isIn(userIds)));
+		List<SysStatisticsCount> sysStatisticsCounts = generalRepository
+				.select(SysStatisticsCount.class, c -> c.where(SysStatisticsCountDynamicSqlSupport.userId, SqlBuilder.isIn(userIds)));
 		for (SysStatisticsCount cacheItem : cacheCountList) {
 			boolean haveRecord = false;
 			for (SysStatisticsCount dbItem : sysStatisticsCounts) {
@@ -225,9 +223,9 @@ public class HomePageServiceImpl implements HomePageService, HomePageServiceApi 
 			}
 			// 如果库里没有这次的缓存记录，从新生成一个id
 			if (!haveRecord) {
-				sysStatisticsCountRepository.insert(cacheItem);
+				generalRepository.insert(cacheItem);
 			} else {
-				sysStatisticsCountRepository.updateByPrimaryKey(cacheItem);
+				generalRepository.updateByPrimaryKey(cacheItem);
 			}
 		}
 	}

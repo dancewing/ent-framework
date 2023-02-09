@@ -9,7 +9,6 @@ package io.entframework.kernel.system.modular.theme.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
 import io.entframework.kernel.system.api.constants.SystemConstants;
@@ -20,14 +19,8 @@ import io.entframework.kernel.system.api.pojo.theme.SysThemeRequest;
 import io.entframework.kernel.system.api.pojo.theme.SysThemeTemplateFieldResponse;
 import io.entframework.kernel.system.api.pojo.theme.SysThemeTemplateRequest;
 import io.entframework.kernel.system.api.pojo.theme.SysThemeTemplateResponse;
-import io.entframework.kernel.system.modular.theme.entity.SysThemeTemplate;
-import io.entframework.kernel.system.modular.theme.entity.SysThemeTemplateRel;
-import io.entframework.kernel.system.modular.theme.mapper.SysThemeDynamicSqlSupport;
-import io.entframework.kernel.system.modular.theme.mapper.SysThemeTemplateRelDynamicSqlSupport;
-import io.entframework.kernel.system.modular.theme.repository.SysThemeRepository;
-import io.entframework.kernel.system.modular.theme.repository.SysThemeTemplateRelRepository;
+import io.entframework.kernel.system.modular.theme.entity.*;
 import io.entframework.kernel.system.modular.theme.service.SysThemeTemplateService;
-import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,13 +34,9 @@ import java.util.Optional;
  * @date 2021/12/17 13:58
  */
 public class SysThemeTemplateServiceImpl extends BaseServiceImpl<SysThemeTemplateRequest, SysThemeTemplateResponse, SysThemeTemplate> implements SysThemeTemplateService {
-	@Resource
-	private SysThemeTemplateRelRepository sysThemeTemplateRelRepository;
-	@Resource
-	private SysThemeRepository sysThemeRepository;
 
-	public SysThemeTemplateServiceImpl(BaseRepository<SysThemeTemplate> baseRepository) {
-		super(baseRepository, SysThemeTemplateRequest.class, SysThemeTemplateResponse.class);
+	public SysThemeTemplateServiceImpl() {
+		super(SysThemeTemplateRequest.class, SysThemeTemplateResponse.class, SysThemeTemplate.class);
 	}
 
 	@Override
@@ -98,10 +87,10 @@ public class SysThemeTemplateServiceImpl extends BaseServiceImpl<SysThemeTemplat
 		}
 
 		// 删除关联关系
-		sysThemeTemplateRelRepository.delete(c -> c.where(SysThemeTemplateRelDynamicSqlSupport.templateId, SqlBuilder.isEqualTo(sysThemeTemplate.getTemplateId())));
+		getRepository().delete(SysThemeTemplateRel.class, c -> c.where(SysThemeTemplateRelDynamicSqlSupport.templateId, SqlBuilder.isEqualTo(sysThemeTemplate.getTemplateId())));
 
 		// 删除模板
-		this.getRepository().deleteByPrimaryKey(sysThemeTemplate.getTemplateId());
+		this.getRepository().deleteByPrimaryKey(getEntityClass(), sysThemeTemplate.getTemplateId());
 	}
 
 	@Override
@@ -122,7 +111,7 @@ public class SysThemeTemplateServiceImpl extends BaseServiceImpl<SysThemeTemplat
 		// 系统主题模板被使用，不允许禁用
 		SysThemeRequest request = new SysThemeRequest();
 		request.setTemplateId(sysThemeTemplate.getTemplateId());
-		long sysThemeNum = sysThemeRepository.count(c -> c.where(SysThemeDynamicSqlSupport.templateId, SqlBuilder.isEqualTo(sysThemeTemplate.getTemplateId())));
+		long sysThemeNum = getRepository().count(SysTheme.class, c -> c.where(SysThemeDynamicSqlSupport.templateId, SqlBuilder.isEqualTo(sysThemeTemplate.getTemplateId())));
 		if (sysThemeNum > 0) {
 			throw new SystemModularException(SysThemeTemplateExceptionEnum.TEMPLATE_IS_USED);
 		}
@@ -132,10 +121,10 @@ public class SysThemeTemplateServiceImpl extends BaseServiceImpl<SysThemeTemplat
 			sysThemeTemplate.setStatusFlag(YesOrNotEnum.N);
 		} else {
 			// 如果该模板没有属性不允许启用
-			List<SysThemeTemplateRel> sysThemeTemplateRels = sysThemeTemplateRelRepository.select(c -> c.where(SysThemeTemplateRelDynamicSqlSupport.templateId,
+			List<SysThemeTemplateRel> sysThemeTemplateRels = getRepository().select(SysThemeTemplateRel.class, c -> c.where(SysThemeTemplateRelDynamicSqlSupport.templateId,
 					SqlBuilder.isEqualTo(sysThemeTemplate.getTemplateId())));
 
-			if (sysThemeTemplateRels.size() == 0) {
+			if (sysThemeTemplateRels.isEmpty()) {
 				throw new SystemModularException(SysThemeTemplateExceptionEnum.TEMPLATE_NOT_ATTRIBUTE);
 			}
 
@@ -157,7 +146,7 @@ public class SysThemeTemplateServiceImpl extends BaseServiceImpl<SysThemeTemplat
 	 * @date 2021/12/17 14:28
 	 */
 	private SysThemeTemplate querySysThemeTemplateById(SysThemeTemplateRequest sysThemeTemplateRequest) {
-		Optional<SysThemeTemplate> sysThemeTemplate = this.getRepository().selectByPrimaryKey(sysThemeTemplateRequest.getTemplateId());
+		Optional<SysThemeTemplate> sysThemeTemplate = this.getRepository().selectByPrimaryKey(getEntityClass(), sysThemeTemplateRequest.getTemplateId());
 		if (!sysThemeTemplate.isPresent()) {
 			throw new SystemModularException(SysThemeTemplateExceptionEnum.TEMPLATE_NOT_EXIT);
 		}

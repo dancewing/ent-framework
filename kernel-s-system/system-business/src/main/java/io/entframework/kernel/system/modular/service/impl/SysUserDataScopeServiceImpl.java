@@ -8,7 +8,6 @@ package io.entframework.kernel.system.modular.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.system.api.exception.SystemModularException;
 import io.entframework.kernel.system.api.exception.enums.user.SysUserDataScopeExceptionEnum;
@@ -16,7 +15,7 @@ import io.entframework.kernel.system.api.pojo.request.SysUserDataScopeRequest;
 import io.entframework.kernel.system.api.pojo.request.SysUserRequest;
 import io.entframework.kernel.system.api.pojo.response.SysUserDataScopeResponse;
 import io.entframework.kernel.system.modular.entity.SysUserDataScope;
-import io.entframework.kernel.system.modular.mapper.SysUserDataScopeDynamicSqlSupport;
+import io.entframework.kernel.system.modular.entity.SysUserDataScopeDynamicSqlSupport;
 import io.entframework.kernel.system.modular.service.SysUserDataScopeService;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.delete.DeleteDSLCompleter;
@@ -35,8 +34,8 @@ import java.util.Optional;
  */
 public class SysUserDataScopeServiceImpl extends BaseServiceImpl<SysUserDataScopeRequest, SysUserDataScopeResponse, SysUserDataScope> implements SysUserDataScopeService {
 
-	public SysUserDataScopeServiceImpl(BaseRepository<SysUserDataScope> baseRepository) {
-		super(baseRepository, SysUserDataScopeRequest.class, SysUserDataScopeResponse.class);
+	public SysUserDataScopeServiceImpl() {
+		super(SysUserDataScopeRequest.class, SysUserDataScopeResponse.class, SysUserDataScope.class);
 	}
 
 	@Override
@@ -75,7 +74,7 @@ public class SysUserDataScopeServiceImpl extends BaseServiceImpl<SysUserDataScop
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void del(SysUserDataScopeRequest sysUserDataScopeRequest) {
-		this.getRepository().deleteByPrimaryKey(sysUserDataScopeRequest.getUserDataScopeId());
+		this.getRepository().deleteByPrimaryKey(getEntityClass(), sysUserDataScopeRequest.getUserDataScopeId());
 	}
 
 	@Override
@@ -98,7 +97,7 @@ public class SysUserDataScopeServiceImpl extends BaseServiceImpl<SysUserDataScop
 
 	@Override
 	public SysUserDataScope detail(SysUserDataScopeRequest sysUserDataScopeRequest) {
-		return this.getRepository().get(sysUserDataScopeRequest.getUserDataScopeId());
+		return this.getRepository().get(getEntityClass(), sysUserDataScopeRequest.getUserDataScopeId());
 	}
 
 	@Override
@@ -130,7 +129,7 @@ public class SysUserDataScopeServiceImpl extends BaseServiceImpl<SysUserDataScop
 	 * @date 2021/2/3 15:02
 	 */
 	private SysUserDataScope querySysUserRoleById(SysUserDataScopeRequest sysUserDataScopeRequest) {
-		Optional<SysUserDataScope> sysUserDataScope = this.getRepository().selectByPrimaryKey(sysUserDataScopeRequest.getUserDataScopeId());
+		Optional<SysUserDataScope> sysUserDataScope = this.getRepository().selectByPrimaryKey(getEntityClass(), sysUserDataScopeRequest.getUserDataScopeId());
 		if (sysUserDataScope.isEmpty()) {
 			throw new SystemModularException(SysUserDataScopeExceptionEnum.USER_DATA_SCOPE_NOT_EXIST,
 					sysUserDataScopeRequest.getUserDataScopeId());

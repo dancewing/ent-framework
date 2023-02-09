@@ -7,7 +7,6 @@
 package io.entframework.kernel.log.db.service.impl;
 
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.log.api.pojo.manage.SysLogRequest;
 import io.entframework.kernel.log.api.pojo.manage.SysLogResponse;
@@ -26,8 +25,8 @@ import java.util.List;
 public class SysLogServiceImpl extends BaseServiceImpl<SysLogRequest, SysLogResponse, SysLog> implements SysLogService {
 
 
-    public SysLogServiceImpl(BaseRepository<SysLog> baseRepository) {
-        super(baseRepository, SysLogRequest.class, SysLogResponse.class);
+    public SysLogServiceImpl() {
+        super(SysLogRequest.class, SysLogResponse.class, SysLog.class);
     }
 
     @Override
@@ -45,11 +44,6 @@ public class SysLogServiceImpl extends BaseServiceImpl<SysLogRequest, SysLogResp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delAll(SysLogRequest sysLogRequest) {
-//        LambdaUpdateWrapper<SysLog> queryWrapper = new LambdaUpdateWrapper<>();
-//
-//        queryWrapper.between(SysLog::getCreateTime, sysLogRequest.getBeginDate() + " 00:00:00", sysLogRequest.getEndDate() + " 23:59:59");
-//        queryWrapper.eq(SysLog::getAppName, sysLogRequest.getAppName());
-
         this.batchDelete(sysLogRequest);
     }
 

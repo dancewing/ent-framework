@@ -9,7 +9,6 @@ package io.entframework.kernel.system.modular.notice.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.message.api.MessageApi;
 import io.entframework.kernel.message.api.enums.MessageBusinessTypeEnum;
@@ -41,8 +40,8 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeRequest, SysN
     @Resource
     private MessageApi messageApi;
 
-    public SysNoticeServiceImpl(BaseRepository<SysNotice> baseRepository) {
-        super(baseRepository, SysNoticeRequest.class, SysNoticeResponse.class);
+    public SysNoticeServiceImpl() {
+        super(SysNoticeRequest.class, SysNoticeResponse.class, SysNotice.class);
     }
 
     @Override
@@ -115,8 +114,8 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeRequest, SysN
      * @date 2021/1/9 16:56
      */
     private SysNotice querySysNoticeById(SysNoticeRequest sysNoticeRequest) {
-        Optional<SysNotice> sysNotice = this.getRepository().selectByPrimaryKey(sysNoticeRequest.getNoticeId());
-        if (!sysNotice.isPresent()) {
+        Optional<SysNotice> sysNotice = this.getRepository().selectByPrimaryKey(getEntityClass(), sysNoticeRequest.getNoticeId());
+        if (sysNotice.isEmpty()) {
             throw new SystemModularException(NoticeExceptionEnum.NOTICE_NOT_EXIST, sysNoticeRequest.getNoticeId());
         }
         return sysNotice.get();

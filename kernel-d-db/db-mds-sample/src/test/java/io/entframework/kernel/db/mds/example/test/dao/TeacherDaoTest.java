@@ -17,19 +17,19 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class TeacherDaoTest extends JUnitDaoWithFraud {
+class TeacherDaoTest extends JUnitDaoWithFraud {
 
     @Test
-    public void create() {
+    void create() {
         Teacher ttc = fraudTeacher();
-        Teacher ttcd = teacherRepository.insert(ttc);
+        Teacher ttcd = generalRepository.insert(ttc);
         assertNotNull(ttcd.getId());
     }
 
     @Test
-    public void batchCreate() {
+    void batchCreate() {
         List<Teacher> list = fraudList(this::fraudTeacher);
-        List<Teacher> listd = teacherRepository.insertMultiple(list);
+        List<Teacher> listd = generalRepository.insertMultiple(list);
         TestCase.assertNotNull(listd);
         listd.forEach(teacher -> {
             assertNotNull(teacher);
@@ -38,33 +38,33 @@ public class TeacherDaoTest extends JUnitDaoWithFraud {
     }
 
     @Test
-    public void update() {
-        Teacher teacher = teacherRepository.insert(fraudTeacher());
+    void update() {
+        Teacher teacher = generalRepository.insert(fraudTeacher());
         LocalDate newBirth = LocalDate.now().plusYears(-30);
         teacher.setBirthday(newBirth);
-        Teacher tcu = teacherRepository.update(teacher);
+        Teacher tcu = generalRepository.update(teacher);
         assertEquals(tcu.getBirthday(), newBirth);
     }
 
     @Test
-    public void delete() {
-        Teacher teacher = teacherRepository.insert(fraudTeacher());
-        teacherRepository.delete(teacher);
-        assertThrows(DaoException.class, () -> teacherRepository.get(teacher.getId()));
+    void delete() {
+        Teacher teacher = generalRepository.insert(fraudTeacher());
+        generalRepository.delete(teacher);
+        assertThrows(DaoException.class, () -> generalRepository.get(Teacher.class, teacher.getId()));
     }
 
     @Test
-    public void get() {
-        Teacher teacher = teacherRepository.insert(fraudTeacher());
-        Teacher tcg = teacherRepository.get(teacher.getId());
+    void get() {
+        Teacher teacher = generalRepository.insert(fraudTeacher());
+        Teacher tcg = generalRepository.get(Teacher.class, teacher.getId());
         assertNotNull(tcg);
         assertEquals(tcg.getId(), teacher.getId());
     }
 
     @Test
-    public void getAll() {
-        Teacher teacher = teacherRepository.insert(fraudTeacher());
-        List<Teacher> teachers = teacherRepository.selectBy(new Teacher());
+    void getAll() {
+        Teacher teacher = generalRepository.insert(fraudTeacher());
+        List<Teacher> teachers = generalRepository.selectBy(new Teacher());
         TestCase.assertTrue(teachers.size() >= 1);
     }
 }

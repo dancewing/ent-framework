@@ -2,11 +2,7 @@ package io.entframework.kernel.db.mds.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
 import io.entframework.kernel.db.api.annotation.LogicDelete;
-import io.entframework.kernel.db.api.annotation.Table;
-import io.entframework.kernel.db.api.annotation.Version;
 import io.entframework.kernel.db.api.handler.StringListHandler;
 import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
 import io.entframework.kernel.rule.annotation.EnumHandler;
@@ -20,6 +16,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.Table;
+import org.mybatis.dynamic.sql.annotation.Version;
 
 /**
  * 学生
@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("exam_student")
+@Table(value = "exam_student", sqlSupport = StudentDynamicSqlSupport.class, tableProperty = "student")
 public class Student extends BaseEntity implements Serializable {
     /**
      * Id

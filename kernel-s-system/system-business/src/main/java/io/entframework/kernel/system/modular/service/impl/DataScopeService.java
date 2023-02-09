@@ -8,6 +8,7 @@ package io.entframework.kernel.system.modular.service.impl;
 
 import io.entframework.kernel.auth.api.enums.DataScopeTypeEnum;
 import io.entframework.kernel.db.api.DbOperatorApi;
+import io.entframework.kernel.db.mds.repository.GeneralRepository;
 import io.entframework.kernel.system.api.DataScopeApi;
 import io.entframework.kernel.system.api.RoleServiceApi;
 import io.entframework.kernel.system.api.exception.SystemModularException;
@@ -16,7 +17,6 @@ import io.entframework.kernel.system.api.exception.enums.user.SysUserExceptionEn
 import io.entframework.kernel.system.api.pojo.organization.DataScopeDTO;
 import io.entframework.kernel.system.api.pojo.response.SysRoleResponse;
 import io.entframework.kernel.system.modular.entity.SysUser;
-import io.entframework.kernel.system.modular.repository.SysUserRepository;
 import io.entframework.kernel.system.modular.service.SysUserDataScopeService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -42,8 +42,9 @@ public class DataScopeService implements DataScopeApi {
 
     @Resource
     private DbOperatorApi dbOperatorApi;
+
     @Resource
-    private SysUserRepository sysUserRepository;
+    private GeneralRepository generalRepository;
 
     @Override
     public DataScopeDTO getDataScope(Long userId, List<SysRoleResponse> sysRoles) {
@@ -57,7 +58,7 @@ public class DataScopeService implements DataScopeApi {
             throw new SystemModularException(DataScopeExceptionEnum.USER_ID_EMPTY_ERROR);
         }
 
-        SysUser user = sysUserRepository.get(userId);
+        SysUser user = generalRepository.get(SysUser.class, userId);
         if (user == null) {
             throw new SystemModularException(SysUserExceptionEnum.USER_NOT_EXIST, userId);
         }

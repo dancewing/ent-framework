@@ -1,8 +1,5 @@
 package io.entframework.kernel.sms.modular.entity;
 
-import io.entframework.kernel.db.api.annotation.Column;
-import io.entframework.kernel.db.api.annotation.Id;
-import io.entframework.kernel.db.api.annotation.Table;
 import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
 import io.entframework.kernel.sms.modular.enums.SmsSendSourceEnum;
 import io.entframework.kernel.sms.modular.enums.SmsSendStatusEnum;
@@ -12,6 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Id;
+import org.mybatis.dynamic.sql.annotation.Table;
 
 /**
  * 短信发送记录
@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("sys_sms")
+@Table(value = "sys_sms", sqlSupport = SysSmsDynamicSqlSupport.class, tableProperty = "sysSms")
 public class SysSms extends BaseEntity {
     /**
      * 主键

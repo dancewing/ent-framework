@@ -7,13 +7,12 @@
 package io.entframework.kernel.system.modular.service.impl;
 
 import io.entframework.kernel.cache.api.CacheOperatorApi;
-import io.entframework.kernel.db.mds.repository.BaseRepository;
 import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import io.entframework.kernel.system.api.pojo.request.SysRoleRequest;
 import io.entframework.kernel.system.api.pojo.request.SysRoleResourceRequest;
 import io.entframework.kernel.system.api.pojo.response.SysRoleResourceResponse;
 import io.entframework.kernel.system.modular.entity.SysRoleResource;
-import io.entframework.kernel.system.modular.mapper.SysRoleResourceDynamicSqlSupport;
+import io.entframework.kernel.system.modular.entity.SysRoleResourceDynamicSqlSupport;
 import io.entframework.kernel.system.modular.service.SysRoleResourceService;
 import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
@@ -32,8 +31,8 @@ public class SysRoleResourceServiceImpl extends BaseServiceImpl<SysRoleResourceR
 	@Resource(name = "roleResourceCacheApi")
 	private CacheOperatorApi<List<String>> roleResourceCacheApi;
 
-	public SysRoleResourceServiceImpl(BaseRepository<SysRoleResource> baseRepository) {
-		super(baseRepository, SysRoleResourceRequest.class, SysRoleResourceResponse.class);
+	public SysRoleResourceServiceImpl() {
+		super(SysRoleResourceRequest.class, SysRoleResourceResponse.class, SysRoleResource.class);
 	}
 
 	@Override
@@ -43,7 +42,7 @@ public class SysRoleResourceServiceImpl extends BaseServiceImpl<SysRoleResourceR
 		Long roleId = sysRoleRequest.getRoleId();
 
 		// 删除所拥有角色关联的资源
-		this.getRepository().delete(c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isEqualTo(roleId)));
+		this.getRepository().delete(getEntityClass(), c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isEqualTo(roleId)));
 
 		// 清除角色缓存资源
 		roleResourceCacheApi.remove(String.valueOf(roleId));
@@ -65,7 +64,7 @@ public class SysRoleResourceServiceImpl extends BaseServiceImpl<SysRoleResourceR
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void deleteRoleResourceListByRoleId(Long roleId) {
-		this.getRepository().delete(c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isEqualTo(roleId)));
+		this.getRepository().delete(getEntityClass(), c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isEqualTo(roleId)));
 
 		// 清除角色绑定的资源缓存
 		roleResourceCacheApi.remove(String.valueOf(roleId));
@@ -74,12 +73,12 @@ public class SysRoleResourceServiceImpl extends BaseServiceImpl<SysRoleResourceR
 
 	@Override
 	public List<String> getRoleResourceCodes(List<Long> roleIdList) {
-		return this.getRepository().select(c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIdList))).stream()
+		return this.getRepository().select(getEntityClass(), c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIdList))).stream()
 				.map(SysRoleResource::getResourceCode).toList();
 	}
 
 	public List<SysRoleResourceResponse> getRoleResources(List<Long> roleIdList) {
-		return this.getRepository().select(c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIdList))).stream()
+		return this.getRepository().select(getEntityClass(), c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIdList))).stream()
 				.map(record -> this.converterService.convert(record, getResponseClass())).toList();
 	}
 }
