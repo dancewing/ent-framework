@@ -7,10 +7,7 @@ plugins {
 }
 
 dependencies {
-    api project(':kernel-d-db:db-api')
     api project(':kernel-d-mybatis:mybatis-dynamic-sql')
-    api project(':kernel-d-auth:auth-api')
-    api project(':kernel-d-converter')
 
     api 'org.mybatis:mybatis-spring'
 
@@ -18,7 +15,7 @@ dependencies {
 
     api 'com.google.guava:guava'
     api 'org.apache.commons:commons-lang3'
-    api 'org.springframework.boot:spring-boot-starter-jdbc'
+
     //TODO find a better solution
     api 'com.github.jsqlparser:jsqlparser:4.4'
     annotationProcessor 'org.projectlombok:lombok'

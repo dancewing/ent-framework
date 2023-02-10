@@ -6,13 +6,14 @@
  */
 package io.entframework.kernel.db.starter;
 
-import io.entframework.kernel.db.mds.listener.EntityListener;
-import io.entframework.kernel.db.mds.listener.EntityListeners;
-import io.entframework.kernel.db.mds.listener.impl.DefaultAuditEntityListener;
-import io.entframework.kernel.db.mds.listener.impl.IdAutoGeneratorEntityListener;
-import io.entframework.kernel.db.mds.listener.impl.InitialDefaultValueEntityListener;
-import io.entframework.kernel.db.mds.repository.DefaultGeneralRepository;
-import io.entframework.kernel.db.mds.repository.GeneralRepository;
+
+import io.entframework.kernel.db.dao.listener.EntityListener;
+import io.entframework.kernel.db.dao.listener.EntityListeners;
+import io.entframework.kernel.db.dao.listener.impl.DefaultAuditEntityListener;
+import io.entframework.kernel.db.dao.listener.impl.IdAutoGeneratorEntityListener;
+import io.entframework.kernel.db.dao.listener.impl.InitialDefaultValueEntityListener;
+import io.entframework.kernel.db.dao.repository.DefaultGeneralRepository;
+import io.entframework.kernel.db.dao.repository.GeneralRepository;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;

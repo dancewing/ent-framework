@@ -10,7 +10,8 @@ dependencies {
     api 'org.springframework.boot:spring-boot-autoconfigure'
     api 'org.mybatis:mybatis'
     api 'org.mybatis:mybatis-spring'
-    api project(':kernel-d-mybatis:mybatis-dynamic-extensions')
+    api 'ch.qos.logback:logback-classic'
+    api project(':kernel-d-db:db-sdk-dao')
     api 'org.springframework.boot:spring-boot-autoconfigure-processor'
     api 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

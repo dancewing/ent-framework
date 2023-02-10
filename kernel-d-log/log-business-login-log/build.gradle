@@ -31,7 +31,7 @@ dependencies {
     api project(':kernel-d-log:log-api')
     api project(':kernel-d-scanner:scanner-api')
     api project(':kernel-d-validator:validator-api')
-    api project(':kernel-d-mybatis:mybatis-dynamic-extensions')
+    api project(':kernel-d-db:db-sdk-dao')
     api 'org.springframework.boot:spring-boot-starter-web'
     api 'org.mapstruct:mapstruct'
     

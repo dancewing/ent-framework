@@ -8,7 +8,7 @@ plugins {
 
 dependencies {
     api project(':kernel-d-mybatis:mybatis-generator:mybatis-generator-core')
-    api project(':kernel-d-mybatis:mybatis-dynamic-extensions')
+    api project(':kernel-d-db:db-sdk-dao')
     api 'org.projectlombok:lombok'
     api 'org.apache.commons:commons-lang3'
 

@@ -7,9 +7,9 @@ plugins {
 }
 
 dependencies {
-    api project(':kernel-d-mybatis:mybatis-dynamic-extensions')
     api project(':kernel-d-mybatis:mybatis-spring-boot-starter')
     api project(':kernel-d-db:db-sdk-flyway')
+    api project(':kernel-d-db:db-sdk-dao')
 
     annotationProcessor 'org.projectlombok:lombok'
 }

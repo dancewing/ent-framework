@@ -7,7 +7,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import io.entframework.kernel.db.api.DbOperatorApi;
 import io.entframework.kernel.db.api.config.DruidProperties;
 import io.entframework.kernel.db.api.factory.DruidDatasourceFactory;
-import io.entframework.kernel.db.mds.dboperator.DbOperatorImpl;
+import io.entframework.kernel.db.dao.dboperator.DbOperatorImpl;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

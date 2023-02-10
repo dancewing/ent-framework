@@ -6,12 +6,7 @@
  */
 package org.mybatis.spring.boot.autoconfigure;
 
-import java.io.IOException;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.stream.Stream;
-
-import io.entframework.kernel.db.mds.ext.KernelMybatisConfiguration;
+import io.entframework.kernel.db.mybatis.KernelMybatisConfiguration;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.ExecutorType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -19,6 +14,11 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+
+import java.io.IOException;
+import java.util.Optional;
+import java.util.Properties;
+import java.util.stream.Stream;
 
 /**
  * Configuration properties for MyBatis.

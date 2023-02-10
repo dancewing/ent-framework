@@ -18,6 +18,7 @@ public final class ReflectUtils {
      * class field cache
      */
     private static final Map<Class<?>, List<Field>> CLASS_FIELD_CACHE = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, Method[]> METHODS_CACHE = new ConcurrentHashMap<>();
     private static final Map<Class<?>, Class<?>> PRIMITIVE_WRAPPER_TYPE_MAP = new IdentityHashMap<>(8);
     private static final Map<Class<?>, Class<?>> PRIMITIVE_TYPE_TO_WRAPPER_MAP = new IdentityHashMap<>(8);
 
@@ -156,7 +157,7 @@ public final class ReflectUtils {
         });
     }
 
-    public static Object newInstance(Class<?> clazz) {
+    public static <T> T newInstance(Class<T> clazz) {
         Assert.notNull(clazz, "class must not be null");
         try {
             return clazz.getDeclaredConstructor().newInstance();
@@ -240,4 +241,74 @@ public final class ReflectUtils {
         return (clazz.isPrimitive() && clazz != void.class ? PRIMITIVE_TYPE_TO_WRAPPER_MAP.get(clazz) : clazz);
     }
 
+    /**
+     * 获得一个类中所有方法列表，包括其父类中的方法
+     *
+     * @param beanClass 类，非{@code null}
+     * @return 方法列表
+     * @throws SecurityException 安全检查异常
+     */
+    public static Method[] getMethods(Class<?> beanClass) throws SecurityException {
+        Assert.notNull(beanClass, "bean class can't be null");
+        return computeIfAbsent(METHODS_CACHE, beanClass,
+                k -> getMethodsDirectly(k, true, true));
+    }
+
+    public static Method[] getMethodsDirectly(Class<?> beanClass, boolean withSupers, boolean withMethodFromObject) throws SecurityException {
+        //Assert.notNull(beanClass);
+
+        if (beanClass.isInterface()) {
+            // 对于接口，直接调用Class.getMethods方法获取所有方法，因为接口都是public方法
+            return withSupers ? beanClass.getMethods() : beanClass.getDeclaredMethods();
+        }
+
+        final Map<String, Method> result = new HashMap<>();
+        Class<?> searchType = beanClass;
+        while (searchType != null) {
+            if (false == withMethodFromObject && Object.class == searchType) {
+                break;
+            }
+
+            Arrays.stream(searchType.getDeclaredMethods()).forEach(method -> result.putIfAbsent(getUniqueKey(method), method));
+            getDefaultMethodsFromInterface(searchType).forEach(method -> result.putIfAbsent(getUniqueKey(method), method));
+
+            searchType = (withSupers && !searchType.isInterface()) ? searchType.getSuperclass() : null;
+        }
+
+        return result.values().toArray(new Method[0]);
+    }
+
+    private static String getUniqueKey(Method method) {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(method.getReturnType().getName()).append('#');
+        sb.append(method.getName());
+        Class<?>[] parameters = method.getParameterTypes();
+        for (int i = 0; i < parameters.length; i++) {
+            if (i == 0) {
+                sb.append(':');
+            } else {
+                sb.append(',');
+            }
+            sb.append(parameters[i].getName());
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 获取类对应接口中的非抽象方法（default方法）
+     *
+     * @param clazz 类
+     * @return 方法列表
+     */
+    private static List<Method> getDefaultMethodsFromInterface(Class<?> clazz) {
+        List<Method> result = new ArrayList<>();
+        for (Class<?> ifc : clazz.getInterfaces()) {
+            for (Method m : ifc.getMethods()) {
+                if (m.getModifiers() == Modifier.ABSTRACT) {
+                    result.add(m);
+                }
+            }
+        }
+        return result;
+    }
 }

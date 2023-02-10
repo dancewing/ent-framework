@@ -7,7 +7,6 @@
 
 package io.entframework.kernel.db.generator.plugin.server;
 
-import io.entframework.kernel.db.generator.plugin.server.methods.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.GeneratedJavaFile;
 import org.mybatis.generator.api.IntrospectedTable;

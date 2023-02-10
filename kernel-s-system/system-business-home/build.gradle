@@ -36,7 +36,7 @@ dependencies {
     api project(':kernel-d-cache:cache-api')
     api project(':kernel-d-cache:cache-sdk-memory')
     api project(':kernel-d-cache:cache-sdk-redis')
-    api project(':kernel-d-mybatis:mybatis-dynamic-extensions')
+    api project(':kernel-d-db:db-sdk-dao')
     api project(':kernel-d-jwt:jwt-api')
     api project(':kernel-s-message:message-api')
     api project(':kernel-d-timer:timer-api')

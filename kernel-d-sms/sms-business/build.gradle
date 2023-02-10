@@ -32,7 +32,7 @@ dependencies {
     api project(':kernel-d-sms:sms-api')
     api project(':kernel-d-validator:validator-api')
     api project(':kernel-d-security:security-api')
-    api project(':kernel-d-mybatis:mybatis-dynamic-extensions')
+    api project(':kernel-d-db:db-sdk-dao')
     api project(':kernel-d-db:db-sdk-flyway')
     api 'org.springframework.boot:spring-boot-starter-web'
     api 'org.mapstruct:mapstruct'

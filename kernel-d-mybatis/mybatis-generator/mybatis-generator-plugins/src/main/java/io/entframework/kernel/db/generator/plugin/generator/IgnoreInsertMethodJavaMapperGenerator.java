@@ -1,6 +1,6 @@
 package io.entframework.kernel.db.generator.plugin.generator;
 
-import io.entframework.kernel.db.mds.util.MyBatis3CustomUtils;
+import io.entframework.kernel.db.mybatis.util.MyBatis3CustomUtils;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.VerboseProgressCallback;
@@ -136,7 +136,7 @@ public class IgnoreInsertMethodJavaMapperGenerator extends AbstractJavaMapperMet
         context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
         MethodAndImports.Builder builder = MethodAndImports.withMethod(method).withImports(imports);
 
-        builder.withImport(new FullyQualifiedJavaType("io.entframework.kernel.db.mds.util.MyBatis3CustomUtils"));
+        builder.withImport(new FullyQualifiedJavaType("io.entframework.kernel.db.mybatis.util.MyBatis3CustomUtils"));
         method.addBodyLine("return MyBatis3CustomUtils.ignoreInsert(this::ignoreInsert, row, " + tableFieldName //$NON-NLS-1$
                 + ", c ->"); //$NON-NLS-1$
 

@@ -1,7 +1,7 @@
 package io.entframework.kernel.db.mds.test.animal;
 
-import io.entframework.kernel.db.mds.ext.KernelMybatisConfiguration;
-import io.entframework.kernel.db.mds.mapper.GeneralMapperSupport;
+import io.entframework.kernel.db.mybatis.KernelMybatisConfiguration;
+import io.entframework.kernel.db.mybatis.mapper.GeneralMapperSupport;
 import org.apache.ibatis.datasource.unpooled.UnpooledDataSource;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.apache.ibatis.mapping.Environment;
