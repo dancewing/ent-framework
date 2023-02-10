@@ -19,7 +19,7 @@ public class AutoIncrementResponse extends BaseResponse {
      * Id
      */
     @ChineseDescription("Id")
-    private Integer id;
+    private Long id;
 
     /**
      * 姓名

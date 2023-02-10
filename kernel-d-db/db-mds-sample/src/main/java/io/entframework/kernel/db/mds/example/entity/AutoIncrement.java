@@ -26,8 +26,8 @@ public class AutoIncrement extends BaseEntity implements Serializable {
      */
     @Id
     @GeneratedValue
-    @Column(name = "id", jdbcType = JDBCType.INTEGER)
-    private Integer id;
+    @Column(name = "id", jdbcType = JDBCType.BIGINT)
+    private Long id;
 
     /**
      * 姓名
