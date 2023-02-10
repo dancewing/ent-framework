@@ -15,9 +15,11 @@
  */
 package org.mybatis.dynamic.sql.insert.render;
 
+import org.mybatis.dynamic.sql.StatementProvider;
+
 import java.util.Map;
 
-public interface GeneralInsertStatementProvider {
+public interface GeneralInsertStatementProvider extends StatementProvider {
     Map<String, Object> getParameters();
 
     String getInsertStatement();

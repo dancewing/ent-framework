@@ -30,6 +30,8 @@ public final class TeacherDynamicSqlSupport {
 
     public static final SqlColumn<List<String>> techCourses = teacher.techCourses;
 
+    public static final SqlColumn<Long> version = teacher.version;
+
     public static final SqlColumn<LocalDateTime> createTime = teacher.createTime;
 
     public static final SqlColumn<Long> createUser = teacher.createUser;
@@ -42,11 +44,9 @@ public final class TeacherDynamicSqlSupport {
 
     public static final SqlColumn<String> updateUserName = teacher.updateUserName;
 
-    public static final SqlColumn<Long> version = teacher.version;
-
     public static final SqlColumn<TeachProperty> properties = teacher.properties;
 
-    public static final BasicColumn[] selectList = BasicColumn.columnList(id, name, cardNum, gender, birthday, workSeniority, statusFlag, techCourses, createTime, createUser, updateTime, updateUser, createUserName, updateUserName, version, properties);
+    public static final BasicColumn[] selectList = BasicColumn.columnList(id, name, cardNum, gender, birthday, workSeniority, statusFlag, techCourses, version, createTime, createUser, updateTime, updateUser, createUserName, updateUserName, properties);
 
     public static final class Teacher extends AliasableSqlTable<Teacher> {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
@@ -65,6 +65,8 @@ public final class TeacherDynamicSqlSupport {
 
         public final SqlColumn<List<String>> techCourses = column("tech_courses", JDBCType.VARCHAR, "io.entframework.kernel.db.api.handler.StringListHandler");
 
+        public final SqlColumn<Long> version = column("version_", JDBCType.BIGINT);
+
         public final SqlColumn<LocalDateTime> createTime = column("create_time", JDBCType.TIMESTAMP);
 
         public final SqlColumn<Long> createUser = column("create_user", JDBCType.BIGINT);
@@ -76,8 +78,6 @@ public final class TeacherDynamicSqlSupport {
         public final SqlColumn<String> createUserName = column("create_user_name", JDBCType.VARCHAR);
 
         public final SqlColumn<String> updateUserName = column("update_user_name", JDBCType.VARCHAR);
-
-        public final SqlColumn<Long> version = column("version_", JDBCType.BIGINT);
 
         public final SqlColumn<TeachProperty> properties = column("properties", JDBCType.LONGVARBINARY);
 

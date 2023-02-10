@@ -17,4 +17,9 @@ tasks.named("bootJar") {
     mainClass = 'io.entframework.ent.admin.EntAdminApp'
 }
 
+tasks.named("bootRun") {
+    mainClass = 'io.entframework.ent.admin.EntAdminApp'
+    args("--spring.profiles.active=local")
+}
+
 description = 'ent-admin-bootstrap'

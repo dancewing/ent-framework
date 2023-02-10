@@ -1,57 +1,41 @@
 <p align="center">
     <p align="center">
-        Application Kernel基于Spring Boot 2的核心支撑层，亦可用于任何java项目支撑内核。
+        Entframework基于Spring Boot 3的核心支撑层，亦可用于任何java项目支撑内核。
         <br>
-        <a href="http://spring.io/projects/spring-boot">
-            <img src="https://img.shields.io/badge/spring--boot-2.4.2-green.svg" alt="spring-boot">
+        <a href="https://spring.io/projects/spring-boot" target="_blank">
+            <img src="https://img.shields.io/badge/spring--boot-3.0.2-green.svg" alt="spring-boot">
         </a>
-        <a href="http://mp.baomidou.com">
-            <img src="https://img.shields.io/badge/mybatis--plus-3.4.0-blue.svg" alt="mybatis-plus">
+        <a href="https://spring.io/projects/spring-cloud" target="_blank">
+            <img src="https://img.shields.io/badge/spring--cloud-2022.0.1-green.svg" alt="spring-boot">
+        </a>
+        <a href="https://spring.io/projects/spring-cloud-alibaba" target="_blank">
+            <img src="https://img.shields.io/badge/spring--cloud--alibaba-2022-green.svg" alt="spring-boot">
+        </a>
+        <a href="https://mybatis.org/mybatis-dynamic-sql" target="_blank">
+            <img src="https://img.shields.io/badge/mybatis--dynamic--sql-1.4.1-blue.svg" alt="mybatis-plus">
         </a>  
-        <a href="https://www.hutool.cn/">
-            <img src="https://img.shields.io/badge/hutool-5.4.4-blue.svg" alt="hutool">
+        <a href="https://www.hutool.cn/" target="_blank">
+            <img src="https://img.shields.io/badge/hutool-5.8.10-blue.svg" alt="hutool">
+        </a>
+    </p>
+    <p align="center">
+      Build Tool <br> <a href="https://www.hutool.cn/" target="_blank">
+            <img src="https://img.shields.io/badge/gradle-7.6-red.svg" alt="gradle">
         </a>
     </p>
 </p>
+项目基于<a href="https://gitee.com/stylefeng/roses" target="_blank">Stylefeng Roses</a>改造，从Mybatis Plus改为Mybatis Dynamic Sql，为什么使用Mybatis Dynamic Sql，请阅读Wiki
+<a href="https://github.com/dancewing/ent-framework/wiki/Why-Mybatis-Sql" target="_blank">Mybatis Dynamic Sql</a>
+
 -----------------------------------------------------------------------------------------------
 
-### 功能清单
-  - 控制面板
-  - 用户管理
-  - 职位管理
-  - 机构管理
-  - 应用管理
-  - 角色管理
-  - 菜单管理
-  - 资源查看
-  - 系统配置
-  - 字典管理
-  - 在线用户
-  - 定时任务
-  - 文件管理
-  - 操作日志
-  - 登录日志
-  - 通知管理
-  - SQL监控
-  - 服务器信息
-### 插件列表
-  - 缓存插件（内存和Redis）
-  - 系统配置
-  - 多数据源插件
-  - 邮件插件
-  - 文件插件（minio、本地、阿里云、腾讯云）
-  - groovy脚本
-  - 登陆、授权(jwt插件)
-  - 日志插件（文件、数据库）
-  - Excel导出
-  - 拼音转化
-  - 短信插件（阿里云、腾讯云）
-  - Websocket
-  - 定时任务
-  - 参数校验
-  - 消息插件
+<a href="https://github.com/dancewing/ent-framework/wiki/Introduction" target="_blank">功能介绍</a>
 
-### 模块分类
-```
-规则类模块(R)、开发工具模块(D)、运维类模块(O)、业务类模块(S)  
+### Quick Start
+
+```shell
+docker-compose -f docker/docker-compose.yaml up -d
+./gradlew :ent-backend:ent-gateway-bootstrap:bootRun &
+./gradlew :ent-backend:ent-admin-bootstrap:bootRun &
+./gradlew :ent-backend:ent-misc-bootstrap:bootRun &
 ```

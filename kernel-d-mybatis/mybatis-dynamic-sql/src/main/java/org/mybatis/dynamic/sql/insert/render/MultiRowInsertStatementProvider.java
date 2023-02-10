@@ -15,9 +15,11 @@
  */
 package org.mybatis.dynamic.sql.insert.render;
 
+import org.mybatis.dynamic.sql.StatementProvider;
+
 import java.util.List;
 
-public interface MultiRowInsertStatementProvider<T> {
+public interface MultiRowInsertStatementProvider<T> extends StatementProvider {
 
     String getInsertStatement();
 

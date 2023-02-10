@@ -11,6 +11,9 @@ import io.entframework.kernel.db.mds.listener.EntityListeners;
 import io.entframework.kernel.db.mds.listener.impl.DefaultAuditEntityListener;
 import io.entframework.kernel.db.mds.listener.impl.IdAutoGeneratorEntityListener;
 import io.entframework.kernel.db.mds.listener.impl.InitialDefaultValueEntityListener;
+import io.entframework.kernel.db.mds.repository.DefaultGeneralRepository;
+import io.entframework.kernel.db.mds.repository.GeneralRepository;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +28,7 @@ import java.util.List;
  * @date 2020/11/30 22:24
  */
 @Configuration
+@MapperScan("io.entframework.kernel.db.mds.mapper")
 public class KernelDbServiceAutoConfiguration {
 
     @Bean
@@ -45,5 +49,10 @@ public class KernelDbServiceAutoConfiguration {
     @Bean
     public EntityListeners entityListener(ObjectProvider<EntityListener[]> entityListeners) {
         return new EntityListeners(List.of(entityListeners.getIfAvailable()));
+    }
+
+    @Bean
+    public GeneralRepository generalRepository() {
+        return new DefaultGeneralRepository();
     }
 }

@@ -31,7 +31,7 @@ import static issues.gh324.NameTableDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
 @CacheNamespace(implementation = ObservableCache.class)
-public interface NameTableMapper extends CommonCountMapper, CommonDeleteMapper, CommonInsertMapper<NameRecord>, CommonUpdateMapper {
+public interface NameTableMapper extends CommonCountMapper, CommonDeleteMapper, GenericInsertMapper<NameRecord>, CommonUpdateMapper {
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "NameTableResult", value = {
             @Result(column = "id", property = "id", id = true),

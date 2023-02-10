@@ -8,7 +8,6 @@ import io.entframework.kernel.db.api.util.ClassUtils;
 import io.entframework.kernel.db.mds.listener.EntityListeners;
 import io.entframework.kernel.db.mds.mapper.GeneralMapperSupport;
 import io.entframework.kernel.db.mds.util.MyBatis3CustomUtils;
-import io.entframework.kernel.db.mds.util.VersionFieldUtils;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
 import io.entframework.kernel.rule.exception.base.ServiceException;
 import io.entframework.kernel.rule.exception.enums.defaults.DefaultBusinessExceptionEnum;
@@ -41,8 +40,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
 
 @Slf4j
@@ -132,7 +129,7 @@ public class DefaultGeneralRepository implements GeneralRepository {
 
     @Override
     public int deleteByPrimaryKey(Class<?> entityClass, Serializable id) {
-        EntityMeta entities = Entities.fromMapper(entityClass);
+        EntityMeta entities = Entities.getInstance(entityClass);
         SqlColumn<Object> pk = entities.getPrimaryKey().column();
         return this.delete(entityClass, c -> c.where(pk, SqlBuilder.isEqualTo(id)));
     }
@@ -171,39 +168,7 @@ public class DefaultGeneralRepository implements GeneralRepository {
 
     @Override
     public <E> int updateByPrimaryKey(E row, boolean selective) {
-        EntityMeta entities = Entities.getInstance(row.getClass());
-        return this.update(row.getClass(), c -> {
-                    List<FieldAndColumn> columns = entities.getColumnsWithoutPrimaryKey();
-                    columns.forEach(column -> {
-                        Object value = ReflectionKit.getFieldValue(row, column.field().getName());
-                        if (column.isVersionField()) {
-                            value = VersionFieldUtils.increaseVersionVal(column.fieldType(), value);
-                        }
-                        if (selective) {
-                            c.set(column.column()).equalToWhenPresent(value);
-                        } else {
-                            c.set(column.column()).equalTo(value);
-                        }
-                    });
-                    FieldAndColumn primaryKey = entities.getPrimaryKey();
-                    SqlColumn<Object> pkColumn = primaryKey.column();
-
-                    try {
-                        Optional<FieldAndColumn> versionColumn = entities.findVersionColumn();
-                        Object pkValue = ReflectionKit.getFieldValue(row, primaryKey.field().getName());
-                        if (versionColumn.isPresent()) {
-                            FieldAndColumn versionMeta = versionColumn.get();
-                            Object versionValue = ReflectionKit.getFieldValue(row, versionMeta.field().getName());
-                            c.where(pkColumn, isEqualTo(pkValue)).and(versionMeta.column(), isEqualTo(versionValue));
-                        } else {
-                            c.where(pkColumn, isEqualTo(pkValue));
-                        }
-                    } catch (Exception ex) {
-                        log.error(ex.getMessage());
-                    }
-                    return c;
-                }
-        );
+        return generalMapperSupport.updateByPrimaryKey(row, selective);
     }
 
     @Override
@@ -250,8 +215,7 @@ public class DefaultGeneralRepository implements GeneralRepository {
 
     @Override
     public <E> List<E> select(Class<E> entityClass, SelectDSLCompleter completer) {
-        EntityMeta entities = Entities.getInstance(entityClass);
-        return MyBatis3Utils.selectList(generalMapperSupport::selectMany, entities.getSelectColumns(), entities.getTable(), completer);
+        return MyBatis3Utils.selectList(generalMapperSupport::selectMany, entityClass, completer);
     }
 
     @Override

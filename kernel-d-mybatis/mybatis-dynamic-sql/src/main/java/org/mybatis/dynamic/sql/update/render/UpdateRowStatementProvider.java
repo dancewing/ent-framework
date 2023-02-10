@@ -1,8 +1,11 @@
-package io.entframework.kernel.db.mds.extend.update.render;
+package org.mybatis.dynamic.sql.update.render;
 
 import org.jetbrains.annotations.NotNull;
+import org.mybatis.dynamic.sql.StatementProvider;
 
-public interface EntityUpdateStatementProvider<T> {
+import java.util.Map;
+
+public interface UpdateRowStatementProvider<T> extends StatementProvider {
     /**
      * Return the row associated with this update statement.
      */
@@ -13,4 +16,6 @@ public interface EntityUpdateStatementProvider<T> {
      * Return the formatted update statement.
      */
     String getUpdateStatement();
+
+    Map<String, Object> getParameters();
 }

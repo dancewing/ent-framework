@@ -1,9 +1,11 @@
 package io.entframework.kernel.db.mds.example.config;
 
+import io.entframework.kernel.db.mds.example.service.AutoIncrementService;
 import io.entframework.kernel.db.mds.example.service.ClassGradeService;
 import io.entframework.kernel.db.mds.example.service.HistoryScoreService;
 import io.entframework.kernel.db.mds.example.service.StudentService;
 import io.entframework.kernel.db.mds.example.service.TeacherService;
+import io.entframework.kernel.db.mds.example.service.impl.AutoIncrementServiceImpl;
 import io.entframework.kernel.db.mds.example.service.impl.ClassGradeServiceImpl;
 import io.entframework.kernel.db.mds.example.service.impl.HistoryScoreServiceImpl;
 import io.entframework.kernel.db.mds.example.service.impl.StudentServiceImpl;
@@ -17,15 +19,15 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = {"io.entframework.kernel.db.mds.example.controller", "io.entframework.kernel.db.mds.example.converter", "io.entframework.kernel.db.mds.example.service"})
 public class SampleSpringAutoConfiguration {
     @Bean
-    @ConditionalOnMissingBean(HistoryScoreService.class)
-    public HistoryScoreService historyScoreService() {
-        return new HistoryScoreServiceImpl();
-    }
-
-    @Bean
     @ConditionalOnMissingBean(ClassGradeService.class)
     public ClassGradeService classGradeService() {
         return new ClassGradeServiceImpl();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(HistoryScoreService.class)
+    public HistoryScoreService historyScoreService() {
+        return new HistoryScoreServiceImpl();
     }
 
     @Bean
@@ -38,5 +40,11 @@ public class SampleSpringAutoConfiguration {
     @ConditionalOnMissingBean(StudentService.class)
     public StudentService studentService() {
         return new StudentServiceImpl();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(AutoIncrementService.class)
+    public AutoIncrementService autoIncrementService() {
+        return new AutoIncrementServiceImpl();
     }
 }

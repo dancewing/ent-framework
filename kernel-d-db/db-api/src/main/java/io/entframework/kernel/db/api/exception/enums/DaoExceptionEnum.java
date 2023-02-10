@@ -27,6 +27,7 @@ public enum DaoExceptionEnum implements AbstractExceptionEnum {
     UPDATE_RECORD_ERROR(RuleConstants.BUSINESS_ERROR_TYPE_CODE + DbConstants.DB_EXCEPTION_STEP_CODE + "03", "更新没有找到匹配的记录: {}"),
     INSERT_RECORD_ERROR(RuleConstants.BUSINESS_ERROR_TYPE_CODE + DbConstants.DB_EXCEPTION_STEP_CODE + "04", "插入记录异常"),
     WRONG_ID_TYPE_ERROR(RuleConstants.BUSINESS_ERROR_TYPE_CODE + DbConstants.DB_EXCEPTION_STEP_CODE + "05", "参数类型错误"),
+    UPDATE_ROW_ERROR(RuleConstants.BUSINESS_ERROR_TYPE_CODE + DbConstants.DB_EXCEPTION_STEP_CODE + "06", "更新异常: {}"),
     ;
 
     /**

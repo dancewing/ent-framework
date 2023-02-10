@@ -94,3 +94,14 @@ create table if not exists `exam_history_score`
     primary key (`id`),
     index `idx_exam_history_score_st_id` (`student_id`)
     ) ENGINE = InnoDB CHARSET = utf8 COMMENT '考试记录';
+
+create table if not exists exam_auto_increment(
+     id BIGINT UNSIGNED KEY AUTO_INCREMENT,
+     username VARCHAR(20) COMMENT '姓名',
+    `create_time` DATETIME COMMENT '创建时间' ,
+    `create_user` bigint COMMENT '创建人' ,
+    `update_time` DATETIME COMMENT '更新时间' ,
+    `update_user` bigint COMMENT '更新人' ,
+    `create_user_name` VARCHAR(50) COMMENT '创建人姓名',
+    `update_user_name` VARCHAR(50) COMMENT '更新人姓名'
+) ENGINE = InnoDB CHARSET = utf8 COMMENT 'AutoTest';

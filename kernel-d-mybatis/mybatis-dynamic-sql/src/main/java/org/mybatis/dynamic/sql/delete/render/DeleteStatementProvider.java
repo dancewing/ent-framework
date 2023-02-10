@@ -15,9 +15,11 @@
  */
 package org.mybatis.dynamic.sql.delete.render;
 
+import org.mybatis.dynamic.sql.StatementProvider;
+
 import java.util.Map;
 
-public interface DeleteStatementProvider {
+public interface DeleteStatementProvider extends StatementProvider {
     Map<String, Object> getParameters();
 
     String getDeleteStatement();

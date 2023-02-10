@@ -225,10 +225,11 @@ public abstract class BaseServiceImpl<REQ extends BaseRequest, RES, ENTITY> impl
         String pkField = entities.getPrimaryKey().column().name();
         SortSpecification orderBy = SimpleSortSpecification.of(pkField).descending();
         if (StringUtils.isNotEmpty(request.getOrderBy())) {
-            SqlColumn<?> column = entities.findField(request.getOrderBy());
-            if (column != null) {
+            Optional<SqlColumn<Object>> column = entities.findField(request.getOrderBy());
+            if (column.isPresent()) {
+                SqlColumn<Object> objectSqlColumn = column.get();
                 String tableAlias = entities.getTable().tableNameAtRuntime();
-                orderBy = new ColumnSortSpecification(tableAlias, column);
+                orderBy = new ColumnSortSpecification(tableAlias, objectSqlColumn);
                 if (StringUtils.equalsIgnoreCase("desc", request.getSortBy())) {
                     orderBy = orderBy.descending();
                 }

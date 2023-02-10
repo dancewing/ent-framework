@@ -1,0 +1,36 @@
+version: "3"
+name: ent-framework
+services:
+  nacos:
+    image: nacos/nacos-server:2.0.3
+    container_name: entframework-nacos
+    environment:
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "9849:9849"
+  redis:
+    image: redis:latest
+    container_name: entframework-redis
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
+    command: redis-server /etc/redis/redis.conf
+
+  mysql8:
+    image: mysql:8.0.20
+    container_name: entframework-mysql8
+    volumes:
+      - ./create-db.sql:/docker-entrypoint-initdb.d/create-db.sql
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=123
+      - MYSQL_DATABASE=mydb
+    ports:
+      - "3306:3306"
+    command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp

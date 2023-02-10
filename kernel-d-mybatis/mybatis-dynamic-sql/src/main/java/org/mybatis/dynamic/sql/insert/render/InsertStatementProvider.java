@@ -16,13 +16,13 @@
 package org.mybatis.dynamic.sql.insert.render;
 
 import org.jetbrains.annotations.NotNull;
+import org.mybatis.dynamic.sql.StatementProvider;
 
-public interface InsertStatementProvider<T> {
+public interface InsertStatementProvider<T> extends StatementProvider {
     /**
      * Return the row associated with this insert statement.
      *
      * @return the row associated with this insert statement.
-     *
      * @deprecated in favor of {@link InsertStatementProvider#getRow()}
      */
     @Deprecated

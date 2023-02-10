@@ -16,7 +16,6 @@
 package io.entframework.kernel.db.mds.ext.binding;
 
 import io.entframework.kernel.db.mds.ext.mapping.MappedStatementCreator;
-import io.entframework.kernel.db.mds.mapper.GeneralMapperSupport;
 import org.apache.ibatis.annotations.Flush;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.binding.BindingException;
@@ -31,6 +30,7 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.mybatis.dynamic.sql.StatementProvider;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
@@ -46,10 +46,9 @@ public class MapperMethodExt {
   private final SqlCommand command;
   private final MethodSignature method;
 
-  public MapperMethodExt(Class<?> mapperInterface, Method method, Configuration config, Class<?> entityClass) {
-    this.command = new SqlCommand(config, mapperInterface, method, entityClass);
+  public MapperMethodExt(Class<?> mapperInterface, Method method, Configuration config, StatementProvider statementProvider) {
+    this.command = new SqlCommand(config, mapperInterface, method, statementProvider);
     this.method = new MethodSignature(config, mapperInterface, method);
-
   }
 
   public Object execute(SqlSession sqlSession, Object[] args) {
@@ -219,7 +218,7 @@ public class MapperMethodExt {
     private final String name;
     private final SqlCommandType type;
 
-    public SqlCommand(Configuration configuration, Class<?> mapperInterface, Method method, Class<?> entityClass) {
+    public SqlCommand(Configuration configuration, Class<?> mapperInterface, Method method, StatementProvider statementProvider) {
       final String methodName = method.getName();
       final Class<?> declaringClass = method.getDeclaringClass();
       MappedStatement ms = resolveMappedStatement(mapperInterface, methodName, declaringClass,
@@ -233,8 +232,8 @@ public class MapperMethodExt {
                   + mapperInterface.getName() + "." + methodName);
         }
       } else {
-        if (ms.getId().contains(GeneralMapperSupport.class.getName())) {
-          ms = new MappedStatementCreator(configuration).create(ms, entityClass);
+        if (statementProvider != null) {
+          ms = new MappedStatementCreator(configuration).create(ms, statementProvider);
         }
         name = ms.getId();
         type = ms.getSqlCommandType();

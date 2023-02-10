@@ -20,14 +20,11 @@ import io.entframework.kernel.db.mds.example.pojo.request.TeacherRequest;
 import io.entframework.kernel.db.mds.ext.dto.TeachProperty;
 import io.entframework.kernel.rule.enums.StatusEnum;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
-import junit.framework.TestCase;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,11 +32,11 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestBootApp.class)
 @ActiveProfiles("h2")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public abstract class JUnitWithFraud extends TestCase {
+public abstract class JUnitWithFraud {
 
     /**
      * Mock LoginUserApi，防止

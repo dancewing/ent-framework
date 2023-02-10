@@ -30,6 +30,8 @@ import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.*;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.mybatis.dynamic.sql.update.UpdateDSLCompleter;
+import org.mybatis.dynamic.sql.update.UpdateRowDSL;
+import org.mybatis.dynamic.sql.update.render.UpdateRowStatementProvider;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.meta.Entities;
 import org.mybatis.dynamic.sql.util.meta.EntityMeta;
@@ -193,7 +195,7 @@ public class MyBatis3Utils {
 
     public static <R> List<R> selectList(Function<SelectStatementProvider, List<R>> mapper, Class<?> entityClass, SelectDSLCompleter completer) {
         EntityMeta entities = Entities.getInstance(entityClass);
-        return mapper.apply(select(entities.getSelectColumns(), entities.getTable(), completer));
+        return mapper.apply(select(entities.getSelectColumns(), entityClass, completer));
     }
 
     public static <R> List<R> selectList(Function<SelectStatementProvider, List<R>> mapper,
@@ -236,5 +238,16 @@ public class MyBatis3Utils {
     public static int update(ToIntFunction<UpdateStatementProvider> mapper,
                              Class<?> entityClass, UpdateDSLCompleter completer) {
         return mapper.applyAsInt(update(entityClass, completer));
+    }
+
+    public static <R> UpdateRowStatementProvider<R> updateRow(R row, SqlTable table, UnaryOperator<UpdateRowDSL<R>> completer) {
+        return completer.apply(SqlBuilder.updateRow(row).into(table))
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+    }
+
+    public static <R> int updateRow(ToIntFunction<UpdateRowStatementProvider<R>> mapper,
+                                    R row, SqlTable table, UnaryOperator<UpdateRowDSL<R>> completer) {
+        return mapper.applyAsInt(updateRow(row, table, completer));
     }
 }

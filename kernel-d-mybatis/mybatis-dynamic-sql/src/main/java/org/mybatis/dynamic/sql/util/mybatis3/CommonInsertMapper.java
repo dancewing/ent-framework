@@ -32,17 +32,15 @@ import java.util.List;
  *
  * @param <T> the type of record associated with this mapper
  */
-public interface CommonInsertMapper<T> {
+public interface CommonInsertMapper {
     /**
      * Execute an insert statement with input fields mapped to values in a POJO.
      *
-     * @param insertStatement
-     *            the insert statement
-     *
+     * @param insertStatement the insert statement
      * @return the number of rows affected
      */
     @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
-    int insert(InsertStatementProvider<T> insertStatement);
+    <T> int insert(InsertStatementProvider<T> insertStatement);
 
     /**
      * Execute an insert statement with input fields supplied directly.
@@ -70,13 +68,11 @@ public interface CommonInsertMapper<T> {
      * Execute an insert statement that inserts multiple rows. The row values are supplied by mapping to values in a
      * List of POJOs.
      *
-     * @param insertStatement
-     *            the insert statement
-     *
+     * @param insertStatement the insert statement
      * @return the number of rows affected
      */
     @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
-    int insertMultiple(MultiRowInsertStatementProvider<T> insertStatement);
+    <T> int insertMultiple(MultiRowInsertStatementProvider<T> insertStatement);
 
     /**
      * Flush batched insert statements and return details of the current batch. This is useful when there is no direct

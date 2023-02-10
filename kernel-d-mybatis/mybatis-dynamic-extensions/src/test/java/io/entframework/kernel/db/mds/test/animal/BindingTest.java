@@ -15,6 +15,7 @@
  */
 package io.entframework.kernel.db.mds.test.animal;
 
+import io.entframework.kernel.db.mds.ext.KernelMybatisConfiguration;
 import org.apache.ibatis.datasource.unpooled.UnpooledDataSource;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.apache.ibatis.mapping.Environment;
@@ -55,7 +56,7 @@ class BindingTest {
 
         UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
         Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
-        Configuration config = new Configuration(environment);
+        Configuration config = new KernelMybatisConfiguration(environment);
         config.addMapper(AnimalDataMapper.class);
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
     }

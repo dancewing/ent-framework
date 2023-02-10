@@ -15,17 +15,18 @@
  */
 package org.mybatis.dynamic.sql.util;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.mybatis.dynamic.sql.delete.render.DeleteStatementProvider;
 import org.mybatis.dynamic.sql.insert.render.GeneralInsertStatementProvider;
 import org.mybatis.dynamic.sql.insert.render.InsertSelectStatementProvider;
 import org.mybatis.dynamic.sql.insert.render.InsertStatementProvider;
 import org.mybatis.dynamic.sql.insert.render.MultiRowInsertStatementProvider;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
+import org.mybatis.dynamic.sql.update.render.UpdateRowStatementProvider;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Adapter for use with MyBatis SQL provider annotations.
@@ -94,6 +95,14 @@ public class SqlProviderAdapter {
     }
 
     public String update(UpdateStatementProvider updateStatement) {
+        return updateStatement.getUpdateStatement();
+    }
+
+    public String updateRow(UpdateRowStatementProvider<?> updateStatement) {
+        return updateStatement.getUpdateStatement();
+    }
+
+    public String updateRowSelect(UpdateRowStatementProvider<?> updateStatement) {
         return updateStatement.getUpdateStatement();
     }
 }

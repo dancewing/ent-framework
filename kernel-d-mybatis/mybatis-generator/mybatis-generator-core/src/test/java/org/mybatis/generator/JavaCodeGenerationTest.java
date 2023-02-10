@@ -15,12 +15,8 @@
  */
 package org.mybatis.generator;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.StaticJavaParser;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mybatis.generator.api.GeneratedJavaFile;
@@ -30,8 +26,11 @@ import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.xml.ConfigurationParser;
 import org.mybatis.generator.internal.DefaultShellCallback;
 
-import com.github.javaparser.ParseProblemException;
-import com.github.javaparser.StaticJavaParser;
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 class JavaCodeGenerationTest {
 
@@ -58,15 +57,15 @@ class JavaCodeGenerationTest {
 
     static List<GeneratedJavaFile> generateJavaFilesMybatis() throws Exception {
         createDatabase();
-        return generateJavaFiles("/scripts/generatorConfig.xml");
+        return generateInnerJavaFiles("/scripts/generatorConfig.xml");
     }
 
     static List<GeneratedJavaFile> generateJavaFilesMybatisDsql() throws Exception {
         createDatabase();
-        return generateJavaFiles("/scripts/generatorConfig_Dsql.xml");
+        return generateInnerJavaFiles("/scripts/generatorConfig_Dsql.xml");
     }
 
-    static List<GeneratedJavaFile> generateJavaFiles(String configFile) throws Exception {
+    static List<GeneratedJavaFile> generateInnerJavaFiles(String configFile) throws Exception {
         List<String> warnings = new ArrayList<>();
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration config = cp.parseConfiguration(JavaCodeGenerationTest.class.getResourceAsStream(configFile));

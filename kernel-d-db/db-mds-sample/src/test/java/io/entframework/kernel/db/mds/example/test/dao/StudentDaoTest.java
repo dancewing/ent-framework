@@ -9,34 +9,42 @@ package io.entframework.kernel.db.mds.example.test.dao;
 
 import io.entframework.kernel.db.api.exception.DaoException;
 import io.entframework.kernel.db.mds.example.entity.Student;
+import io.entframework.kernel.db.mds.example.entity.StudentDynamicSqlSupport;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
-import junit.framework.TestCase;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.mybatis.dynamic.sql.SqlBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 class StudentDaoTest extends JUnitDaoWithFraud {
 
     @Test
-    void create() {
+    void createAndSelect() {
         Student tsc = fraudStudent();
         Student scd = generalRepository.insert(tsc);
         assertNotNull(scd.getId());
         assertEquals(YesOrNotEnum.N, scd.getDelFlag());
         assertEquals(1L, scd.getVersion().longValue());
+
+        List<Student> students = generalRepository.select(Student.class, c -> {
+            c.where(StudentDynamicSqlSupport.id, SqlBuilder.isEqualTo(scd.getId()));
+            return c;
+        });
+        assertEquals(1, students.size());
+        assertEquals(scd.getId(), students.get(0).getId());
     }
 
     @Test
     void batchCreate() {
         List<Student> students = fraudList(this::fraudStudent);
         List<Student> scList = generalRepository.insertMultiple(students);
-        TestCase.assertNotNull(scList);
+        assertNotNull(scList);
         scList.forEach(student -> {
             assertNotNull(student);
             assertNotNull(student.getId());

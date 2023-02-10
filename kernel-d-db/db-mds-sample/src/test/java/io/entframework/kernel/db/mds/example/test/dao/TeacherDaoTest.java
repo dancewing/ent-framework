@@ -9,13 +9,12 @@ package io.entframework.kernel.db.mds.example.test.dao;
 
 import io.entframework.kernel.db.api.exception.DaoException;
 import io.entframework.kernel.db.mds.example.entity.Teacher;
-import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TeacherDaoTest extends JUnitDaoWithFraud {
 
@@ -30,7 +29,7 @@ class TeacherDaoTest extends JUnitDaoWithFraud {
     void batchCreate() {
         List<Teacher> list = fraudList(this::fraudTeacher);
         List<Teacher> listd = generalRepository.insertMultiple(list);
-        TestCase.assertNotNull(listd);
+        assertNotNull(listd);
         listd.forEach(teacher -> {
             assertNotNull(teacher);
             assertNotNull(teacher.getId());
@@ -65,6 +64,6 @@ class TeacherDaoTest extends JUnitDaoWithFraud {
     void getAll() {
         Teacher teacher = generalRepository.insert(fraudTeacher());
         List<Teacher> teachers = generalRepository.selectBy(new Teacher());
-        TestCase.assertTrue(teachers.size() >= 1);
+        assertTrue(teachers.size() >= 1);
     }
 }

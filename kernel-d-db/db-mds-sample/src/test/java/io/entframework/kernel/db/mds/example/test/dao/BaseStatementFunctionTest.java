@@ -10,7 +10,6 @@ package io.entframework.kernel.db.mds.example.test.dao;
 import io.entframework.kernel.db.mds.example.entity.Student;
 import io.entframework.kernel.db.mds.example.entity.StudentDynamicSqlSupport;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
-import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
@@ -18,9 +17,11 @@ import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 
 import java.util.List;
 
-public class BaseStatementFunctionTest extends JUnitDaoWithFraud {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class BaseStatementFunctionTest extends JUnitDaoWithFraud {
     @Test
-    public void testSelectManyStatement() {
+    void testSelectManyStatement() {
         Student tsc = fraudStudent();
         Student scd = generalRepository.insert(tsc);
         SelectStatementProvider statement = SqlBuilder
@@ -30,7 +31,7 @@ public class BaseStatementFunctionTest extends JUnitDaoWithFraud {
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         List<Student> students = generalMapperSupport.selectMany(statement);
-        TestCase.assertEquals(1, students.size());
+        assertEquals(1, students.size());
         assertEquals(scd.getId(), students.get(0).getId());
     }
 }

@@ -19,13 +19,13 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.CommonDeleteMapper;
-import org.mybatis.dynamic.sql.util.mybatis3.CommonInsertMapper;
 import org.mybatis.dynamic.sql.util.mybatis3.CommonUpdateMapper;
+import org.mybatis.dynamic.sql.util.mybatis3.GenericInsertMapper;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface NonResultSetAnimalDataMapper extends CommonDeleteMapper, CommonInsertMapper<AnimalData>, CommonUpdateMapper {
+public interface NonResultSetAnimalDataMapper extends CommonDeleteMapper, GenericInsertMapper<AnimalData>, CommonUpdateMapper {
 
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     List<AnimalData> selectMany(SelectStatementProvider selectStatement);

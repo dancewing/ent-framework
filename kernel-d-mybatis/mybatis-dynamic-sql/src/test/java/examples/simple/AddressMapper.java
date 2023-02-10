@@ -15,8 +15,8 @@
  */
 package examples.simple;
 
-import org.mybatis.dynamic.sql.util.mybatis3.CommonInsertMapper;
 import org.mybatis.dynamic.sql.util.mybatis3.CommonSelectMapper;
+import org.mybatis.dynamic.sql.util.mybatis3.GenericInsertMapper;
 
-public interface AddressMapper extends CommonInsertMapper<AddressRecord>, CommonSelectMapper {
+public interface AddressMapper extends GenericInsertMapper<AddressRecord>, CommonSelectMapper {
 }

@@ -1,16 +1,21 @@
 package io.entframework.kernel.db.mds.ext.mapping;
 
 import io.entframework.kernel.db.api.util.ClassUtils;
+import io.entframework.kernel.db.mds.ext.binding.ActualEntityClassDetector;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.builder.IncompleteElementException;
+import org.apache.ibatis.executor.keygen.KeyGenerator;
+import org.apache.ibatis.executor.keygen.NoKeyGenerator;
+import org.apache.ibatis.executor.keygen.SelectKeyGenerator;
 import org.apache.ibatis.mapping.*;
+import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
-import org.mybatis.dynamic.sql.annotation.Column;
-import org.mybatis.dynamic.sql.annotation.JoinColumn;
-import org.mybatis.dynamic.sql.annotation.ManyToOne;
-import org.mybatis.dynamic.sql.annotation.OneToMany;
+import org.mybatis.dynamic.sql.StatementProvider;
+import org.mybatis.dynamic.sql.annotation.*;
+import org.mybatis.dynamic.sql.insert.render.InsertStatementProvider;
 import org.mybatis.dynamic.sql.util.meta.Entities;
 import org.mybatis.dynamic.sql.util.meta.EntityMeta;
 import org.mybatis.dynamic.sql.util.meta.FieldAndColumn;
@@ -19,6 +24,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 public class MappedStatementCreator {
@@ -29,24 +35,23 @@ public class MappedStatementCreator {
         this.configuration = configuration;
     }
 
-    public MappedStatement create(MappedStatement source, Class<?> entityClass) {
+    public MappedStatement create(MappedStatement source, StatementProvider statementProvider) {
+        Class<?> entityClass = ActualEntityClassDetector.determine(statementProvider);
         if (entityClass != null) {
-            if (source.getSqlCommandType() == SqlCommandType.SELECT) {
-                String key = source.getId() + "-" + entityClass.getName();
-                if (configuration.hasStatement(key)) {
-                    return configuration.getMappedStatement(key);
-                } else {
-                    MappedStatement mappedStatement = create(source, key, entityClass);
-                    this.configuration.addMappedStatement(mappedStatement);
-                    return mappedStatement;
-                }
+            String key = source.getId() + "-" + entityClass.getName();
+            if (configuration.hasStatement(key)) {
+                return configuration.getMappedStatement(key);
+            } else {
+                MappedStatement mappedStatement = create(source, key, statementProvider, entityClass);
+                this.configuration.addMappedStatement(mappedStatement);
+                return mappedStatement;
             }
         }
-        log.warn("entityClass is null");
         return source;
     }
 
-    public MappedStatement create(MappedStatement source, String key, Class<?> entityClass) {
+    public MappedStatement create(MappedStatement source, String key, StatementProvider statementProvider, Class<?> entityClass) {
+
 
         MappedStatement.Builder builder = new MappedStatement.Builder(configuration, key, source.getSqlSource(), source.getSqlCommandType());
         builder.parameterMap(source.getParameterMap());
@@ -70,9 +75,92 @@ public class MappedStatementCreator {
         if (source.getResultSets() != null) {
             builder.resultSets(String.join(",", List.of(source.getResultSets())));
         }
-        builder.resultMaps(createResultMaps(entityClass, key));
+
+        if (source.getSqlCommandType() == SqlCommandType.SELECT) {
+            builder.resultMaps(createResultMaps(entityClass, key));
+        }
+        if (source.getSqlCommandType() == SqlCommandType.INSERT) {
+            if (statementProvider instanceof InsertStatementProvider<?>) {
+                EntityMeta entityMeta = Entities.getInstance(entityClass);
+                Optional<FieldAndColumn> generatedValueColumn = entityMeta.findColumn(GeneratedValue.class);
+                generatedValueColumn.ifPresent(fieldAndColumn -> {
+                    KeyGenerator keyGenerator = createKeyGenerator(fieldAndColumn, source.getId(), source.getLang());
+                    builder.keyGenerator(keyGenerator);
+                    builder.keyProperty("row." + fieldAndColumn.fieldName());
+                });
+            }
+        }
 
         return builder.build();
+    }
+
+    private KeyGenerator createKeyGenerator(FieldAndColumn fieldAndColumn, String baseStatementId, LanguageDriver lang) {
+        String id = baseStatementId + SelectKeyGenerator.SELECT_KEY_SUFFIX;
+        Class<?> resultTypeClass = fieldAndColumn.fieldType();
+        StatementType statementType = StatementType.PREPARED;
+        String keyProperty = "row." + fieldAndColumn.fieldName();
+        String keyColumn = "null";
+        boolean executeBefore = false;
+
+        // defaults
+        boolean useCache = false;
+        KeyGenerator keyGenerator = NoKeyGenerator.INSTANCE;
+        Integer fetchSize = null;
+        Integer timeout = null;
+        boolean flushCache = false;
+        String parameterMap = null;
+        String resultMap = null;
+        ResultSetType resultSetTypeEnum = null;
+        String databaseId = null;
+        String[] statements = {"SELECT LAST_INSERT_ID()"};
+        SqlSource sqlSource = lang.createSqlSource(configuration, String.join(" ", statements).trim(), null);
+        SqlCommandType sqlCommandType = SqlCommandType.SELECT;
+        MappedStatement.Builder statementBuilder = new MappedStatement.Builder(configuration, id, sqlSource, sqlCommandType)
+                .fetchSize(fetchSize)
+                .timeout(timeout)
+                .statementType(statementType)
+                .keyGenerator(keyGenerator)
+                .keyProperty(keyProperty)
+                .keyColumn(keyColumn)
+                .databaseId(databaseId)
+                .lang(lang)
+                .resultOrdered(false)
+                .resultSets(null)
+                .resultMaps(getStatementResultMaps(null, resultTypeClass, id))
+                .resultSetType(null)
+                .flushCacheRequired(false)
+                .useCache(false);
+        MappedStatement keyStatement = statementBuilder.build();
+        SelectKeyGenerator answer = new SelectKeyGenerator(keyStatement, executeBefore);
+        configuration.addKeyGenerator(id, answer);
+        return answer;
+    }
+
+    private List<ResultMap> getStatementResultMaps(
+            String resultMap,
+            Class<?> resultType,
+            String statementId) {
+
+        List<ResultMap> resultMaps = new ArrayList<>();
+        if (resultMap != null) {
+            String[] resultMapNames = resultMap.split(",");
+            for (String resultMapName : resultMapNames) {
+                try {
+                    resultMaps.add(configuration.getResultMap(resultMapName.trim()));
+                } catch (IllegalArgumentException e) {
+                    throw new IncompleteElementException("Could not find result map '" + resultMapName + "' referenced from '" + statementId + "'", e);
+                }
+            }
+        } else if (resultType != null) {
+            ResultMap inlineResultMap = new ResultMap.Builder(
+                    configuration,
+                    statementId + "-Inline",
+                    resultType,
+                    new ArrayList<>(),
+                    null).build();
+            resultMaps.add(inlineResultMap);
+        }
+        return resultMaps;
     }
 
     private List<ResultMap> createResultMaps(Class<?> entityClass, String key) {

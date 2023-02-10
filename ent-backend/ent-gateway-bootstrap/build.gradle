@@ -8,12 +8,17 @@ plugins {
 
 apply plugin: 'org.springframework.boot'
 
-tasks.named("bootJar") {
-    mainClass = 'io.entframework.ent.admin.EntGatewayApp'
-}
-
 dependencies {
     api project(':ent-backend:ent-gateway-spring-cloud-starter')
+}
+
+tasks.named("bootJar") {
+    mainClass = 'io.entframework.ent.gateway.EntGatewayApp'
+}
+
+tasks.named("bootRun") {
+    mainClass = 'io.entframework.ent.gateway.EntGatewayApp'
+    args("--spring.profiles.active=local")
 }
 
 description = 'ent-gateway-bootstrap'

@@ -8,25 +8,23 @@
 package org.mybatis.dynamic.sql.util.meta;
 
 
-import cn.hutool.core.util.ReflectUtil;
-import io.entframework.kernel.rule.util.ReflectionKit;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.TypeHandler;
-import org.mybatis.dynamic.sql.AnnotatedTable;
 import org.mybatis.dynamic.sql.BasicColumn;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 import org.mybatis.dynamic.sql.annotation.*;
+import org.mybatis.dynamic.sql.exception.DynamicSqlException;
 import org.mybatis.dynamic.sql.relation.JoinDetail;
+import org.mybatis.dynamic.sql.util.Assert;
+import org.mybatis.dynamic.sql.util.ReflectUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static org.springframework.objenesis.ObjenesisHelper.newInstance;
 public class EntityMeta {
     private final Class<?> cls;
     private final SqlTable table;
@@ -36,12 +34,17 @@ public class EntityMeta {
     private FieldAndColumn primaryKey;
 
     private EntityMeta(Class<?> cls) {
-        this.cls = cls;
+        this.cls = Objects.requireNonNull(cls, "Entity must not be null");
         Table tableAnno = cls.getAnnotation(Table.class);
+        if (tableAnno == null) {
+            throw new DynamicSqlException("");
+        }
+        Assert.notNull(tableAnno, this.cls.getName() + " must have @Table annotation");
         if (tableAnno.sqlSupport() != void.class && tableAnno.tableProperty() != null) {
-            this.table = (SqlTable) ReflectUtil.getFieldValue(newInstance(tableAnno.sqlSupport()), tableAnno.tableProperty());
+            this.table = (SqlTable) ReflectUtils.getFieldValue(ReflectUtils.newInstance(tableAnno.sqlSupport()), tableAnno.tableProperty());
         } else {
-            this.table = new AnnotatedTable(tableAnno.value(), cls);
+            Assert.hasText(tableAnno.value(), "@Table has empty table name");
+            this.table = SqlTable.of(tableAnno.value());
         }
         this.columns = new ArrayList<>();
         addColumn();
@@ -52,7 +55,13 @@ public class EntityMeta {
     }
 
     private void addColumn() {
-        fields = ReflectionKit.getFieldList(cls);
+        fields = ReflectUtils.getFieldList(cls).stream()
+                /* 过滤静态属性 */
+                .filter(f -> !Modifier.isStatic(f.getModifiers()))
+                /* 过滤 transient关键字修饰的属性 */
+                .filter(f -> !Modifier.isTransient(f.getModifiers()))
+                .toList();
+
         relations = new ArrayList<>();
         for (Field field : fields) {
             if (field.isAnnotationPresent(Column.class)) {
@@ -85,8 +94,16 @@ public class EntityMeta {
         return relations;
     }
 
-    public List<FieldAndColumn> getColumnsWithoutPrimaryKey() {
-        return this.columns.stream().filter(c -> !StringUtils.equals(c.field().getName(), this.primaryKey.field().getName())).collect(Collectors.toList());
+    public List<FieldAndColumn> getColumnsForUpdate() {
+        return this.columns.stream()
+                .filter(c -> !c.field().isAnnotationPresent(Id.class))
+                .toList();
+    }
+
+    public List<FieldAndColumn> getColumnsForInsert() {
+        return this.columns.stream()
+                .filter(c -> !c.field().isAnnotationPresent(GeneratedValue.class))
+                .toList();
     }
 
     public FieldAndColumn getPrimaryKey() {
@@ -127,7 +144,8 @@ public class EntityMeta {
         for (Field field : relations) {
             JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
             EntityMeta target = Entities.getInstance(joinColumn.target());
-            joinDetails.add(JoinDetail.of(findField(joinColumn.left()), joinColumn.target(), target.findField(joinColumn.right())));
+            JoinDetail.of(findField(joinColumn.left()), joinColumn.target(), target.findField(joinColumn.right()))
+                    .ifPresent(joinDetails::add);
         }
         return joinDetails;
     }
@@ -137,7 +155,8 @@ public class EntityMeta {
         relations.stream().filter(this::isManyToOne).forEach(field -> {
             JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
             EntityMeta target = Entities.getInstance(joinColumn.target());
-            joinDetails.add(JoinDetail.of(findField(joinColumn.left()), joinColumn.target(), target.findField(joinColumn.right())));
+            JoinDetail.of(findField(joinColumn.left()), joinColumn.target(), target.findField(joinColumn.right()))
+                    .ifPresent(joinDetails::add);
         });
         return joinDetails;
     }
@@ -174,15 +193,13 @@ public class EntityMeta {
     }
 
 
-    public SqlColumn<Object> findField(String fieldName) {
-        SqlColumn<Object> answer = null;
-        for (FieldAndColumn wrapper : this.columns) {
-            if (StringUtils.equals(fieldName, wrapper.field().getName())) {
-                answer = wrapper.column();
-                break;
-            }
+    public Optional<SqlColumn<Object>> findField(String fieldName) {
+        if (fieldName == null || fieldName.trim().isEmpty()) {
+            return Optional.empty();
         }
-        return answer;
+        return this.columns.stream().filter(fieldAndColumn -> fieldAndColumn.fieldName().equals(fieldName))
+                .map(FieldAndColumn::column)
+                .findFirst();
     }
 
     public Optional<FieldAndColumn> findColumn(Class<? extends Annotation> annotationClass) {

@@ -8,13 +8,20 @@ plugins {
 
 apply plugin: 'org.springframework.boot'
 
-tasks.named("bootJar") {
-    mainClass = 'io.entframework.ent.admin.EntMiscApp'
-}
+
 dependencies {
     api project(':ent-backend:ent-misc-spring-cloud-starter')
     api project(':kernel-d-file:file-sdk-minio')
     runtimeOnly 'mysql:mysql-connector-java'
+}
+
+tasks.named("bootJar") {
+    mainClass = 'io.entframework.ent.misc.EntMiscApp'
+}
+
+tasks.named("bootRun") {
+    mainClass = 'io.entframework.ent.misc.EntMiscApp'
+    args("--spring.profiles.active=local")
 }
 
 description = 'ent-misc-bootstrap'

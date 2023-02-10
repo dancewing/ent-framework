@@ -15,11 +15,6 @@
  */
 package org.mybatis.generator;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mybatis.generator.api.GeneratedKotlinFile;
@@ -27,6 +22,11 @@ import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.xml.ConfigurationParser;
 import org.mybatis.generator.internal.DefaultShellCallback;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This test executes the same generator configuration that is in the mybatis-generator-systests-kotlin
@@ -49,10 +49,10 @@ class KotlinCodeGenerationTest {
 
     static List<GeneratedKotlinFile> generateKotlinFiles() throws Exception {
         JavaCodeGenerationTest.createDatabase();
-        return generateKotlinFiles("/scripts/generatorConfig-kotlin.xml");
+        return generateInnerKotlinFiles("/scripts/generatorConfig-kotlin.xml");
     }
 
-    static List<GeneratedKotlinFile> generateKotlinFiles(String configFile) throws Exception {
+    static List<GeneratedKotlinFile> generateInnerKotlinFiles(String configFile) throws Exception {
         List<String> warnings = new ArrayList<>();
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration config = cp.parseConfiguration(KotlinCodeGenerationTest.class.getResourceAsStream(configFile));

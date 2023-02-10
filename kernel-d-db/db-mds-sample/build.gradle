@@ -46,9 +46,9 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor'
     annotationProcessor 'org.atteo.classindex:classindex'
 
-    testImplementation 'junit:junit'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'com.h2database:h2'
+    testImplementation 'org.assertj:assertj-core'
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine'

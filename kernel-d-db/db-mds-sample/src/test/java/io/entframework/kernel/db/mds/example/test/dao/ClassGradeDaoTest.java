@@ -12,7 +12,6 @@ import io.entframework.kernel.db.mds.example.entity.ClassGrade;
 import io.entframework.kernel.db.mds.example.entity.ClassGradeDynamicSqlSupport;
 import io.entframework.kernel.db.mds.example.entity.Student;
 import io.entframework.kernel.db.mds.example.entity.Teacher;
-import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
@@ -22,7 +21,7 @@ import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ClassGradeDaoTest extends JUnitDaoWithFraud {
 
@@ -39,7 +38,7 @@ class ClassGradeDaoTest extends JUnitDaoWithFraud {
         assertNotNull(tgd.getRegulator().getId());
     }
 
-    //@Test
+    @Test
     void testInsertSelective() {
         ClassGrade tg = fraudClassGrade();
         ClassGrade tgd = generalRepository.insertSelective(tg);
@@ -56,7 +55,7 @@ class ClassGradeDaoTest extends JUnitDaoWithFraud {
     void testBatchCreate() {
         List<ClassGrade> classGrades = fraudList(this::fraudClassGrade);
         List<ClassGrade> records = generalRepository.insertMultiple(classGrades);
-        TestCase.assertEquals(records.size(), classGrades.size());
+        assertEquals(records.size(), classGrades.size());
     }
 
 
@@ -66,10 +65,10 @@ class ClassGradeDaoTest extends JUnitDaoWithFraud {
         ClassGrade query = new ClassGrade();
         query.setId(grade.getId());
         Optional<ClassGrade> result = this.generalRepository.selectOne(query);
-        TestCase.assertTrue(result.isPresent());
+        assertTrue(result.isPresent());
         ClassGrade classGrade = result.get();
         assertNotNull(classGrade.getStudents());
-        TestCase.assertTrue(classGrade.getStudents().size() > 0);
+        assertTrue(classGrade.getStudents().size() > 0);
         assertNotNull(classGrade.getRegulator());
     }
 
@@ -77,10 +76,10 @@ class ClassGradeDaoTest extends JUnitDaoWithFraud {
     void testLeftJoinSelect() {
         repeat(() -> generalRepository.insert(fraudClassGrade()), 5);
         long count = this.generalRepository.count(ClassGrade.class, CountDSL::where);
-        TestCase.assertEquals(5, count);
+        assertEquals(5, count);
         ClassGrade query = new ClassGrade();
         List<ClassGrade> results = this.generalRepository.selectBy(query, 1, 10, true);
-        TestCase.assertEquals(5, results.size());
+        assertEquals(5, results.size());
     }
 
     @Test
@@ -127,7 +126,7 @@ class ClassGradeDaoTest extends JUnitDaoWithFraud {
                 .where(ClassGradeDynamicSqlSupport.id, SqlBuilder.isEqualTo(grade.getId()))
                 .build().render(RenderingStrategies.MYBATIS3);
         int k = this.generalMapperSupport.update(statement);
-        TestCase.assertTrue(k > 0);
+        assertTrue(k > 0);
         ClassGrade gradeGet = generalRepository.get(ClassGrade.class, grade.getId());
         assertEquals("test", gradeGet.getName());
     }

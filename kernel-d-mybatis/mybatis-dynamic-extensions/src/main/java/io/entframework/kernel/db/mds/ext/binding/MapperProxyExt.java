@@ -3,6 +3,7 @@ package io.entframework.kernel.db.mds.ext.binding;
 import org.apache.ibatis.reflection.ExceptionUtil;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.util.MapUtil;
+import org.mybatis.dynamic.sql.StatementProvider;
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandle;
@@ -73,13 +74,12 @@ public class MapperProxyExt<T> implements InvocationHandler, Serializable {
     private MapperMethodInvoker cachedInvoker(Method method, Object[] args) throws Throwable {
         String key = method.getDeclaringClass().getName() + "-" + method.getName();
         Class<?> entityClass;
-        if (!method.isDefault()) {
-            entityClass = ActualEntityClassDetector.determine(args);
+        StatementProvider statementProvider = ActualEntityClassDetector.determineStatementProvider(args);
+        if (!method.isDefault() && statementProvider != null) {
+            entityClass = ActualEntityClassDetector.determine(statementProvider);
             if (entityClass != null) {
                 key += "-" + entityClass.getName();
             }
-        } else {
-            entityClass = null;
         }
         try {
             return MapUtil.computeIfAbsent(methodCache, key, m -> {
@@ -95,7 +95,7 @@ public class MapperProxyExt<T> implements InvocationHandler, Serializable {
                         throw new RuntimeException(e);
                     }
                 } else {
-                    return new PlainMethodInvoker(new MapperMethodExt(mapperInterface, method, sqlSession.getConfiguration(), entityClass));
+                    return new PlainMethodInvoker(new MapperMethodExt(mapperInterface, method, sqlSession.getConfiguration(), statementProvider));
                 }
             });
         } catch (RuntimeException re) {

@@ -8,8 +8,6 @@ plugins {
 }
 
 dependencies {
-    api project(':kernel-a-rule')
-    api project(':kernel-d-db:db-api')
     api project(':kernel-d-mybatis:mybatis-dynamic-sql-annotations')
     api 'org.mybatis:mybatis'
     api 'org.jetbrains:annotations'

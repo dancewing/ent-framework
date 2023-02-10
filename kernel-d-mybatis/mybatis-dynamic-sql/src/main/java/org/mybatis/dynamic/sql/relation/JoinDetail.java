@@ -1,6 +1,9 @@
 package org.mybatis.dynamic.sql.relation;
 
 import org.mybatis.dynamic.sql.BasicColumn;
+import org.mybatis.dynamic.sql.SqlColumn;
+
+import java.util.Optional;
 
 public class JoinDetail {
     private final BasicColumn leftTableJoinColumn;
@@ -13,12 +16,16 @@ public class JoinDetail {
         this.rightTableJoinColumn = rightTableJoinColumn;
     }
 
-    public static JoinDetail of(BasicColumn leftTableJoinColumn, Class<?> rightJoinTable, BasicColumn rightTableJoinColumn) {
-        return JoinDetail.builder()
-                .leftTableJoinColumn(leftTableJoinColumn)
-                .rightJoinTable(rightJoinTable)
-                .rightTableJoinColumn(rightTableJoinColumn)
-                .build();
+    public static Optional<JoinDetail> of(Optional<SqlColumn<Object>> leftTableJoinColumn, Class<?> rightJoinTable, Optional<SqlColumn<Object>> rightTableJoinColumn) {
+
+        if (leftTableJoinColumn.isPresent() && rightTableJoinColumn.isPresent() && rightJoinTable != null) {
+            return Optional.of(JoinDetail.builder()
+                    .leftTableJoinColumn(leftTableJoinColumn.get())
+                    .rightJoinTable(rightJoinTable)
+                    .rightTableJoinColumn(rightTableJoinColumn.get())
+                    .build());
+        }
+        return Optional.empty();
     }
 
     public BasicColumn getLeftTableJoinColumn() {

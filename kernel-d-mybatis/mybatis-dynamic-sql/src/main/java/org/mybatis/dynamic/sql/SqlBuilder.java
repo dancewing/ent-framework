@@ -27,6 +27,7 @@ import org.mybatis.dynamic.sql.select.join.JoinCondition;
 import org.mybatis.dynamic.sql.select.join.JoinCriterion;
 import org.mybatis.dynamic.sql.update.UpdateDSL;
 import org.mybatis.dynamic.sql.update.UpdateModel;
+import org.mybatis.dynamic.sql.update.UpdateRowDSL;
 import org.mybatis.dynamic.sql.util.Buildable;
 import org.mybatis.dynamic.sql.where.WhereDSL;
 import org.mybatis.dynamic.sql.where.condition.*;
@@ -187,6 +188,10 @@ public interface SqlBuilder {
 
     static UpdateDSL<UpdateModel> update(SqlTable table, String tableAlias) {
         return UpdateDSL.update(table, tableAlias);
+    }
+
+    static <T> UpdateRowDSL.IntoGatherer<T> updateRow(T row) {
+        return UpdateRowDSL.update(row);
     }
 
     static WhereDSL where() {

@@ -101,3 +101,18 @@ CREATE TABLE IF NOT EXISTS `exam_history_score`
 )
     ENGINE = InnoDB
     CHARSET = utf8;
+
+CREATE TABLE IF NOT EXISTS `EXAM_AUTO_INCREMENT`
+(
+    `id`               BIGINT(10)   NOT NULL    AUTO_INCREMENT,
+    `username`       VARCHAR(20)  NOT NULL,
+    `create_time`      DATETIME     NULL DEFAULT NULL,
+    `create_user`      BIGINT(10)     NULL DEFAULT NULL,
+    `update_time`      DATETIME     NULL DEFAULT NULL,
+    `update_user`      BIGINT(10)     NULL DEFAULT NULL,
+    `create_user_name`      VARCHAR(50)     NULL DEFAULT NULL,
+    `update_user_name`      VARCHAR(50)     NULL DEFAULT NULL,
+    PRIMARY KEY (`id`)
+    )
+    ENGINE = InnoDB
+    CHARSET = utf8;

@@ -43,6 +43,13 @@ public class MyBatisExtPlugin extends AbstractDynamicSQLPlugin {
             topLevelClass.addImportedType("org.mybatis.dynamic.sql.annotation.Id");
         }
 
+        introspectedTable.getGeneratedKey().ifPresent(generatedKey -> {
+            if (generatedKey.getColumn().equals(introspectedColumn.getActualColumnName())) {
+                field.addAnnotation("@GeneratedValue");
+                topLevelClass.addImportedType("org.mybatis.dynamic.sql.annotation.GeneratedValue");
+            }
+        });
+
         if (!GeneratorUtils.isRelationField(field)) {
             StringBuilder sb = new StringBuilder(String.format("@Column(name = \"%s\"", introspectedColumn.getActualColumnName()));
             if (!StringUtils.equals("OTHER", introspectedColumn.getJdbcTypeName())) {
