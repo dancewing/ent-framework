@@ -1,8 +1,8 @@
 package io.entframework.kernel.db.mds.example.test.dao;
 
+import io.entframework.kernel.db.dao.repository.GeneralRepository;
 import io.entframework.kernel.db.mds.example.entity.ClassGrade;
 import io.entframework.kernel.db.mds.example.test.JUnitWithFraud;
-import io.entframework.kernel.db.mds.repository.GeneralRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -10,7 +10,7 @@ package io.entframework.kernel.dict.modular.service.impl;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.text.StrPool;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.dict.api.constants.DictConstants;
 import io.entframework.kernel.dict.api.exception.DictException;
 import io.entframework.kernel.dict.api.exception.enums.DictExceptionEnum;

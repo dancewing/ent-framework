@@ -11,7 +11,7 @@ import cn.hutool.core.util.ObjectUtil;
 import io.entframework.kernel.cache.api.CacheOperatorApi;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
 import io.entframework.kernel.db.api.util.IdWorker;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.resource.api.constants.ResourceConstants;
 import io.entframework.kernel.resource.api.pojo.LayuiApiResourceTreeNode;
 import io.entframework.kernel.resource.api.pojo.ResourceTreeNode;

@@ -17,7 +17,7 @@ import io.entframework.kernel.auth.api.exception.enums.AuthExceptionEnum;
 import io.entframework.kernel.auth.api.pojo.login.basic.SimpleRoleInfo;
 import io.entframework.kernel.cache.api.CacheOperatorApi;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.resource.api.ResourceServiceApi;
 import io.entframework.kernel.resource.api.pojo.ResourceTreeNode;
 import io.entframework.kernel.rule.constants.SymbolConstant;

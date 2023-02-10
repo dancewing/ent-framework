@@ -7,7 +7,7 @@
 package io.entframework.kernel.log.db.service.impl;
 
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.log.api.pojo.manage.SysLogRequest;
 import io.entframework.kernel.log.api.pojo.manage.SysLogResponse;
 import io.entframework.kernel.log.db.entity.SysLog;

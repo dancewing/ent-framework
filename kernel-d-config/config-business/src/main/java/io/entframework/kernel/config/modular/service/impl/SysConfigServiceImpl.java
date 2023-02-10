@@ -24,7 +24,7 @@ import io.entframework.kernel.config.modular.pojo.request.SysConfigRequest;
 import io.entframework.kernel.config.modular.pojo.response.SysConfigResponse;
 import io.entframework.kernel.config.modular.service.SysConfigService;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.file.api.constants.FileConstants;
 import io.entframework.kernel.rule.constants.RuleConstants;
 import io.entframework.kernel.rule.enums.StatusEnum;

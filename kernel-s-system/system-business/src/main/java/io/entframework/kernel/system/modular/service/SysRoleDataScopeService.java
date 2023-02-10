@@ -6,13 +6,13 @@
  */
 package io.entframework.kernel.system.modular.service;
 
-import java.util.List;
-
-import io.entframework.kernel.db.mds.service.BaseService;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.system.api.pojo.request.SysRoleDataScopeRequest;
-import io.entframework.kernel.system.api.pojo.response.SysRoleDataScopeResponse;
 import io.entframework.kernel.system.api.pojo.request.SysRoleRequest;
+import io.entframework.kernel.system.api.pojo.response.SysRoleDataScopeResponse;
 import io.entframework.kernel.system.modular.entity.SysRoleDataScope;
+
+import java.util.List;
 
 /**
  * 系统角色数据范围service接口

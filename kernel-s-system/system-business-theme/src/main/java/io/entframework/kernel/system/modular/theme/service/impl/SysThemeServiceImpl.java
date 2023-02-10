@@ -15,7 +15,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.entframework.kernel.cache.api.CacheOperatorApi;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
 import io.entframework.kernel.db.api.util.IdWorker;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.file.api.FileInfoClientApi;
 import io.entframework.kernel.file.api.pojo.request.SysFileInfoRequest;
 import io.entframework.kernel.file.api.pojo.response.SysFileInfoResponse;

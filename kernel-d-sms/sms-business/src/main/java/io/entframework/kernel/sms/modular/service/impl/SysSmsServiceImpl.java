@@ -13,7 +13,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSON;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.security.api.ImageCaptchaApi;
 import io.entframework.kernel.sms.api.SmsSenderApi;
 import io.entframework.kernel.sms.api.constants.SmsConstants;

@@ -15,7 +15,7 @@ import io.entframework.kernel.auth.api.context.LoginContext;
 import io.entframework.kernel.auth.api.enums.DataScopeTypeEnum;
 import io.entframework.kernel.db.api.context.DbOperatorContext;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.db.mybatis.mapper.GeneralMapperSupport;
 import io.entframework.kernel.rule.constants.SymbolConstant;
 import io.entframework.kernel.rule.constants.TreeConstants;

@@ -12,7 +12,7 @@ import cn.hutool.core.util.ObjectUtil;
 import io.entframework.kernel.auth.api.context.LoginContext;
 import io.entframework.kernel.auth.api.pojo.login.LoginUser;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.repository.GeneralRepository;
+import io.entframework.kernel.db.dao.repository.GeneralRepository;
 import io.entframework.kernel.message.api.MessageApi;
 import io.entframework.kernel.message.api.constants.MessageConstants;
 import io.entframework.kernel.message.api.enums.MessageReadFlagEnum;

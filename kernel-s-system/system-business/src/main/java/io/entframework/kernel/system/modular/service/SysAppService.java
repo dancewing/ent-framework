@@ -8,7 +8,7 @@
 package io.entframework.kernel.system.modular.service;
 
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseService;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.system.api.AppServiceApi;
 import io.entframework.kernel.system.api.pojo.request.SysAppRequest;
 import io.entframework.kernel.system.api.pojo.response.SysAppResponse;

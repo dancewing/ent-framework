@@ -17,7 +17,7 @@ import io.entframework.kernel.auth.api.LoginUserApi;
 import io.entframework.kernel.auth.api.context.LoginContext;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
 import io.entframework.kernel.db.api.util.IdWorker;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.file.api.FileOperatorApi;
 import io.entframework.kernel.file.api.config.FileServerProperties;
 import io.entframework.kernel.file.api.constants.FileConstants;

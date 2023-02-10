@@ -8,7 +8,7 @@ package io.entframework.kernel.system.modular.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.system.api.RoleDataScopeServiceApi;
 import io.entframework.kernel.system.api.pojo.request.SysRoleDataScopeRequest;
 import io.entframework.kernel.system.api.pojo.request.SysRoleRequest;

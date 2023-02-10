@@ -8,7 +8,7 @@
 package io.entframework.kernel.sms.modular.service;
 
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseService;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.sms.modular.entity.SysSms;
 import io.entframework.kernel.sms.modular.enums.SmsSendStatusEnum;
 import io.entframework.kernel.sms.modular.pojo.SysSmsSendParam;

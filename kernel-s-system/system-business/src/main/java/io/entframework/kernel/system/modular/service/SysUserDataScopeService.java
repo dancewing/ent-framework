@@ -6,9 +6,9 @@
  */
 package io.entframework.kernel.system.modular.service;
 
-import io.entframework.kernel.db.mds.service.BaseService;
-import io.entframework.kernel.system.api.pojo.request.SysUserRequest;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.system.api.pojo.request.SysUserDataScopeRequest;
+import io.entframework.kernel.system.api.pojo.request.SysUserRequest;
 import io.entframework.kernel.system.api.pojo.response.SysUserDataScopeResponse;
 import io.entframework.kernel.system.modular.entity.SysUserDataScope;
 

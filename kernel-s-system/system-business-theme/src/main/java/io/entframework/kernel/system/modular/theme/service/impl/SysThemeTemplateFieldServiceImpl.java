@@ -10,7 +10,7 @@ package io.entframework.kernel.system.modular.theme.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
 import io.entframework.kernel.system.api.constants.SystemConstants;
 import io.entframework.kernel.system.api.enums.ThemeFieldTypeEnum;

@@ -7,14 +7,13 @@
 package io.entframework.kernel.system.modular.service;
 
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseService;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.rule.pojo.dict.SimpleDict;
 import io.entframework.kernel.system.api.UserServiceApi;
+import io.entframework.kernel.system.api.pojo.request.SysUserRequest;
 import io.entframework.kernel.system.api.pojo.response.SysUserResponse;
 import io.entframework.kernel.system.api.pojo.user.UserSelectTreeNode;
-import io.entframework.kernel.system.api.pojo.request.SysUserRequest;
 import io.entframework.kernel.system.modular.entity.SysUser;
-
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;

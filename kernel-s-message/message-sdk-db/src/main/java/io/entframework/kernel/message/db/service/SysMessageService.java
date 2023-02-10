@@ -7,7 +7,7 @@
 package io.entframework.kernel.message.db.service;
 
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseService;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.message.api.pojo.request.SysMessageRequest;
 import io.entframework.kernel.message.api.pojo.response.SysMessageResponse;
 import io.entframework.kernel.message.db.entity.SysMessage;

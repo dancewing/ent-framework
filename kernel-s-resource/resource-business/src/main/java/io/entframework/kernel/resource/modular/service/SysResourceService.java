@@ -7,7 +7,7 @@
 package io.entframework.kernel.resource.modular.service;
 
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseService;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.resource.api.ResourceServiceApi;
 import io.entframework.kernel.resource.api.pojo.LayuiApiResourceTreeNode;
 import io.entframework.kernel.resource.api.pojo.SysResourceRequest;

@@ -8,7 +8,7 @@ package io.entframework.kernel.system.modular.service.impl;
 
 import io.entframework.kernel.auth.api.enums.DataScopeTypeEnum;
 import io.entframework.kernel.db.api.DbOperatorApi;
-import io.entframework.kernel.db.mds.repository.GeneralRepository;
+import io.entframework.kernel.db.dao.repository.GeneralRepository;
 import io.entframework.kernel.system.api.DataScopeApi;
 import io.entframework.kernel.system.api.RoleServiceApi;
 import io.entframework.kernel.system.api.exception.SystemModularException;

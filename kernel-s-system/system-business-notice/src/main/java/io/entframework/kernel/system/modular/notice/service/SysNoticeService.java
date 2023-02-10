@@ -7,7 +7,7 @@
 package io.entframework.kernel.system.modular.notice.service;
 
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseService;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.system.api.pojo.notice.SysNoticeRequest;
 import io.entframework.kernel.system.api.pojo.notice.SysNoticeResponse;
 import io.entframework.kernel.system.modular.notice.entity.SysNotice;

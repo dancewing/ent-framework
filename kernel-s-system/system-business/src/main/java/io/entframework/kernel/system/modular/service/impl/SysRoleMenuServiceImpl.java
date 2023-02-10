@@ -6,7 +6,7 @@
  */
 package io.entframework.kernel.system.modular.service.impl;
 
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.db.mybatis.mapper.GeneralMapperSupport;
 import io.entframework.kernel.rule.tree.antd.CheckedKeys;
 import io.entframework.kernel.rule.tree.antd.TreeDataItem;

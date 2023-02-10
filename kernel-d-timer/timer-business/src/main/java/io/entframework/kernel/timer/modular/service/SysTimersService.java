@@ -7,10 +7,10 @@
 package io.entframework.kernel.timer.modular.service;
 
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseService;
-import io.entframework.kernel.timer.modular.entity.SysTimers;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.timer.api.pojo.SysTimersRequest;
 import io.entframework.kernel.timer.api.pojo.SysTimersResponse;
+import io.entframework.kernel.timer.modular.entity.SysTimers;
 
 import java.util.List;
 

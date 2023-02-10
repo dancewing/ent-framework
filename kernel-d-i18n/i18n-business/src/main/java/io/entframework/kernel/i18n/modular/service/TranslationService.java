@@ -7,7 +7,7 @@
 package io.entframework.kernel.i18n.modular.service;
 
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseService;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.i18n.api.TranslationPersistenceApi;
 import io.entframework.kernel.i18n.api.pojo.request.TranslationRequest;
 import io.entframework.kernel.i18n.api.pojo.response.TranslationResponse;

@@ -6,14 +6,14 @@
  */
 package io.entframework.kernel.system.modular.service;
 
-import java.util.Collection;
-import java.util.List;
-
-import io.entframework.kernel.db.mds.service.BaseService;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.rule.tree.antd.CheckedKeys;
 import io.entframework.kernel.system.api.pojo.request.SysRoleMenuRequest;
 import io.entframework.kernel.system.api.pojo.response.SysRoleMenuResponse;
 import io.entframework.kernel.system.modular.entity.SysRoleMenu;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 角色菜单关联信息

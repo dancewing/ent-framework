@@ -6,15 +6,15 @@
  */
 package io.entframework.kernel.config.modular.service;
 
-import java.util.List;
-
 import io.entframework.kernel.config.api.pojo.ConfigInitItem;
 import io.entframework.kernel.config.api.pojo.ConfigInitRequest;
 import io.entframework.kernel.config.modular.entity.SysConfig;
 import io.entframework.kernel.config.modular.pojo.request.SysConfigRequest;
 import io.entframework.kernel.config.modular.pojo.response.SysConfigResponse;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseService;
+import io.entframework.kernel.db.dao.service.BaseService;
+
+import java.util.List;
 
 /**
  * 系统参数配置service接口

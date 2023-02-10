@@ -7,7 +7,7 @@
 
 package io.entframework.kernel.system.modular.service;
 
-import io.entframework.kernel.db.mds.service.BaseService;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.system.api.pojo.menu.AntdMenuDTO;
 import io.entframework.kernel.system.api.pojo.menu.MenuSelectTreeNode;
 import io.entframework.kernel.system.api.pojo.menu.MenuTreeResponse;

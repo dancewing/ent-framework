@@ -6,16 +6,16 @@
  */
 package io.entframework.kernel.system.modular.service;
 
-import java.util.List;
-
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseService;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.resource.api.pojo.ResourceTreeNode;
 import io.entframework.kernel.rule.pojo.dict.SimpleDict;
 import io.entframework.kernel.system.api.RoleServiceApi;
 import io.entframework.kernel.system.api.pojo.request.SysRoleRequest;
 import io.entframework.kernel.system.api.pojo.response.SysRoleResponse;
 import io.entframework.kernel.system.modular.entity.SysRole;
+
+import java.util.List;
 
 /**
  * 系统角色service接口

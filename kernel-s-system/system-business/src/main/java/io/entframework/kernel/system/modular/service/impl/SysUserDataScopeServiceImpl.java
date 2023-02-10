@@ -8,7 +8,7 @@ package io.entframework.kernel.system.modular.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.system.api.exception.SystemModularException;
 import io.entframework.kernel.system.api.exception.enums.user.SysUserDataScopeExceptionEnum;
 import io.entframework.kernel.system.api.pojo.request.SysUserDataScopeRequest;

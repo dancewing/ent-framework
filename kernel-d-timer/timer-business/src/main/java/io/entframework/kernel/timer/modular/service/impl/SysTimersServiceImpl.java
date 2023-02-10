@@ -12,7 +12,7 @@ import cn.hutool.cron.CronUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.HtmlUtil;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
 import io.entframework.kernel.timer.api.TimerAction;
 import io.entframework.kernel.timer.api.TimerExeService;

@@ -1,10 +1,10 @@
 package io.entframework.kernel.db.mds.example.service.impl;
 
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.db.mds.example.entity.Teacher;
 import io.entframework.kernel.db.mds.example.pojo.request.TeacherRequest;
 import io.entframework.kernel.db.mds.example.pojo.response.TeacherResponse;
 import io.entframework.kernel.db.mds.example.service.TeacherService;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

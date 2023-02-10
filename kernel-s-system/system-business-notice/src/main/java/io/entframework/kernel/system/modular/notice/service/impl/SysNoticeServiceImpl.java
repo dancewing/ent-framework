@@ -9,7 +9,7 @@ package io.entframework.kernel.system.modular.notice.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.message.api.MessageApi;
 import io.entframework.kernel.message.api.enums.MessageBusinessTypeEnum;
 import io.entframework.kernel.message.api.pojo.request.MessageSendRequest;

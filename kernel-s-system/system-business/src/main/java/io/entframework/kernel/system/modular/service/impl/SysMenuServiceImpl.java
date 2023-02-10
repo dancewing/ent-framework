@@ -14,7 +14,7 @@ import io.entframework.kernel.auth.api.context.LoginContext;
 import io.entframework.kernel.auth.api.pojo.login.LoginUser;
 import io.entframework.kernel.auth.api.pojo.login.basic.SimpleRoleInfo;
 import io.entframework.kernel.db.api.DbOperatorApi;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.rule.constants.SymbolConstant;
 import io.entframework.kernel.rule.constants.TreeConstants;
 import io.entframework.kernel.rule.enums.StatusEnum;

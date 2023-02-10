@@ -12,7 +12,7 @@ import cn.hutool.core.util.ObjectUtil;
 import io.entframework.kernel.auth.api.context.LoginContext;
 import io.entframework.kernel.auth.api.pojo.login.LoginUser;
 import io.entframework.kernel.auth.api.pojo.login.basic.SimpleRoleInfo;
-import io.entframework.kernel.db.mds.repository.GeneralRepository;
+import io.entframework.kernel.db.dao.repository.GeneralRepository;
 import io.entframework.kernel.rule.constants.SymbolConstant;
 import io.entframework.kernel.system.api.MenuServiceApi;
 import io.entframework.kernel.system.api.RoleServiceApi;

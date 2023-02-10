@@ -19,7 +19,6 @@ import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.annotation.JoinColumn;
 import org.mybatis.dynamic.sql.annotation.ManyToOne;
-import org.mybatis.dynamic.sql.annotation.OneToMany;
 import org.mybatis.dynamic.sql.delete.DeleteDSLCompleter;
 import org.mybatis.dynamic.sql.relation.JoinDetail;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
@@ -53,37 +52,11 @@ public class DefaultGeneralRepository implements GeneralRepository {
 
     @Override
     public <T> T insert(T row) {
-        EntityMeta entities = Entities.getInstance(row.getClass());
-        List<Field> manyToOneColumns = entities.findColumns(ManyToOne.class);
-        manyToOneColumns.forEach(field -> {
-            JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
-            Object leftFieldValue = ReflectionKit.getFieldValue(row, joinColumn.left());
-            Object manyToOneObject = ReflectionKit.getFieldValue(row, field.getName());
-            if (manyToOneObject != null && leftFieldValue == null) {
-                entityListeners.beforeInsert(manyToOneObject);
-                generalMapperSupport.insert(manyToOneObject);
-                EntityMeta manyToOneMeta = Entities.getInstance(manyToOneObject.getClass());
-                ReflectionKit.setFieldValue(row, joinColumn.left(), ReflectionKit.getFieldValue(manyToOneObject, manyToOneMeta.getPrimaryKey().fieldName()));
-            }
-        });
         entityListeners.beforeInsert(row);
         int count = generalMapperSupport.insert(row);
         if (count == 0) {
             throw new DaoException(DaoExceptionEnum.INSERT_RECORD_ERROR);
         }
-        List<Field> oneToManyColumns = entities.findColumns(OneToMany.class);
-        Object rowPK = ReflectionKit.getFieldValue(row, entities.getPrimaryKey().fieldName());
-        oneToManyColumns.forEach(field -> {
-            JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
-            Object manyValues = ReflectionKit.getFieldValue(row, field.getName());
-            if (manyValues instanceof List<?> manyList) {
-                for (Object manyObject : manyList) {
-                    ReflectionKit.setFieldValue(manyObject, joinColumn.right(), rowPK);
-                }
-                entityListeners.beforeInsertMultiple(manyList);
-                generalMapperSupport.insertMultiple(manyList);
-            }
-        });
         return row;
     }
 
@@ -115,6 +88,7 @@ public class DefaultGeneralRepository implements GeneralRepository {
 
     @Override
     public <E> E insertSelective(E row) {
+        entityListeners.beforeInsert(row);
         int count = generalMapperSupport.insertSelective(row);
         if (count == 0) {
             throw new DaoException(DaoExceptionEnum.INSERT_RECORD_ERROR);

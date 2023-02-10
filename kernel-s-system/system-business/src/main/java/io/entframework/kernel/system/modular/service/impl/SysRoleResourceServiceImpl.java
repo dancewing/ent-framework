@@ -7,7 +7,7 @@
 package io.entframework.kernel.system.modular.service.impl;
 
 import io.entframework.kernel.cache.api.CacheOperatorApi;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.system.api.pojo.request.SysRoleRequest;
 import io.entframework.kernel.system.api.pojo.request.SysRoleResourceRequest;
 import io.entframework.kernel.system.api.pojo.response.SysRoleResourceResponse;

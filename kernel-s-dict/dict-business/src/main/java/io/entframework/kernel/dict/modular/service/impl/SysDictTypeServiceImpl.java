@@ -9,7 +9,7 @@ package io.entframework.kernel.dict.modular.service.impl;
 
 import io.entframework.kernel.auth.api.context.LoginContext;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.dict.api.enums.DictTypeClassEnum;
 import io.entframework.kernel.dict.api.exception.DictException;
 import io.entframework.kernel.dict.api.exception.enums.DictExceptionEnum;

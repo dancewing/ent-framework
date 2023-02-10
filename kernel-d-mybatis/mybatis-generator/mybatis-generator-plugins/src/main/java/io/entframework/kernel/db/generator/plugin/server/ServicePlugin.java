@@ -61,7 +61,7 @@ public class ServicePlugin extends AbstractServerPlugin {
 
         serviceInterface.setWriteMode(this.writeMode == null ? WriteMode.SKIP_ON_EXIST : this.writeMode);
 
-        FullyQualifiedJavaType baseServiceType = new FullyQualifiedJavaType("io.entframework.kernel.db.mds.service.BaseService");
+        FullyQualifiedJavaType baseServiceType = new FullyQualifiedJavaType("io.entframework.kernel.db.dao.service.BaseService");
         baseServiceType.addTypeArgument(getPojoRequestJavaType(recordType.getShortName()));
         baseServiceType.addTypeArgument(getPojoResponseJavaType(recordType.getShortName()));
         baseServiceType.addTypeArgument(recordType);
@@ -95,7 +95,7 @@ public class ServicePlugin extends AbstractServerPlugin {
         serviceInterfaceImplClass.addSuperInterface(interfaceType);
         serviceInterfaceImplClass.addImportedType(interfaceType);
 
-        FullyQualifiedJavaType baseServiceType = new FullyQualifiedJavaType("io.entframework.kernel.db.mds.service.BaseServiceImpl");
+        FullyQualifiedJavaType baseServiceType = new FullyQualifiedJavaType("io.entframework.kernel.db.dao.service.BaseServiceImpl");
         baseServiceType.addTypeArgument(getPojoRequestJavaType(recordType.getShortName()));
         baseServiceType.addTypeArgument(getPojoResponseJavaType(recordType.getShortName()));
         baseServiceType.addTypeArgument(recordType);

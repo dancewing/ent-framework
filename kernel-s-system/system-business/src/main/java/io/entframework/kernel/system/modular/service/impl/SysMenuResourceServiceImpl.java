@@ -8,7 +8,7 @@
 package io.entframework.kernel.system.modular.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.resource.api.ResourceServiceApi;
 import io.entframework.kernel.resource.api.pojo.ResourceTreeNode;
 import io.entframework.kernel.system.api.pojo.request.SysMenuResourceRequest;

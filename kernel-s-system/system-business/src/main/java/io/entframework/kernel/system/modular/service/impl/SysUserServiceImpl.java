@@ -21,7 +21,7 @@ import io.entframework.kernel.auth.api.pojo.login.LoginUser;
 import io.entframework.kernel.auth.api.pojo.login.basic.SimpleUserInfo;
 import io.entframework.kernel.cache.api.CacheOperatorApi;
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.file.api.FileInfoClientApi;
 import io.entframework.kernel.file.api.constants.FileConstants;
 import io.entframework.kernel.jwt.api.context.JwtContext;

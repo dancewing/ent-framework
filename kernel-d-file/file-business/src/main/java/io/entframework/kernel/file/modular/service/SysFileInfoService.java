@@ -7,7 +7,7 @@
 package io.entframework.kernel.file.modular.service;
 
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseService;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.file.api.FileInfoClientApi;
 import io.entframework.kernel.file.api.pojo.request.SysFileInfoRequest;
 import io.entframework.kernel.file.api.pojo.response.SysFileInfoResponse;

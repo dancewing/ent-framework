@@ -8,7 +8,7 @@
 package io.entframework.kernel.dict.modular.service;
 
 import io.entframework.kernel.db.api.pojo.page.PageResult;
-import io.entframework.kernel.db.mds.service.BaseService;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.dict.modular.entity.SysDictType;
 import io.entframework.kernel.dict.modular.pojo.request.SysDictTypeRequest;
 import io.entframework.kernel.dict.modular.pojo.response.SysDictTypeResponse;

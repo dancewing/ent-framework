@@ -8,7 +8,7 @@
 package io.entframework.kernel.file.modular.service.impl;
 
 
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.file.api.config.FileServerProperties;
 import io.entframework.kernel.file.api.constants.FileConstants;
 import io.entframework.kernel.file.api.pojo.request.SysFileStorageRequest;

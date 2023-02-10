@@ -1,10 +1,10 @@
 package io.entframework.kernel.db.mds.example.service.impl;
 
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.db.mds.example.entity.AutoIncrement;
 import io.entframework.kernel.db.mds.example.pojo.request.AutoIncrementRequest;
 import io.entframework.kernel.db.mds.example.pojo.response.AutoIncrementResponse;
 import io.entframework.kernel.db.mds.example.service.AutoIncrementService;
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

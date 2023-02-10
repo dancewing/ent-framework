@@ -17,8 +17,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
-import javax.sql.DataSource;
-
 /**
  * 数据库连接池的配置
  * <p>
@@ -39,7 +37,6 @@ public class KernelDataSourceAutoConfiguration {
      * @date 2020/11/30 22:37
      */
     @Bean(initMethod = "init")
-    @ConditionalOnMissingBean(DataSource.class)
     public DruidDataSource dataSource(DruidProperties druidProperties) {
         return DruidDatasourceFactory.createDruidDataSource(druidProperties);
     }

@@ -10,8 +10,6 @@ package io.entframework.kernel.db.mds.example.test.dao;
 import io.entframework.kernel.db.api.exception.DaoException;
 import io.entframework.kernel.db.mds.example.entity.ClassGrade;
 import io.entframework.kernel.db.mds.example.entity.ClassGradeDynamicSqlSupport;
-import io.entframework.kernel.db.mds.example.entity.Student;
-import io.entframework.kernel.db.mds.example.entity.Teacher;
 import org.junit.jupiter.api.Test;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
@@ -28,27 +26,25 @@ class ClassGradeDaoTest extends JUnitDaoWithFraud {
     @Test
     void testCreate() {
         ClassGrade tg = fraudClassGrade();
+        generalRepository.insert(tg.getRegulator());
+        tg.setRegulatorId(tg.getRegulator().getId());
         ClassGrade tgd = generalRepository.insert(tg);
         assertNotNull(tgd);
         assertNotNull(tgd.getId());
-        assertNotNull(tgd.getStudents());
-        tgd.getStudents().forEach(student -> assertNotNull(student.getId()));
-        assertNotNull(tgd.getRegulatorId());
-        assertNotNull(tgd.getRegulator());
-        assertNotNull(tgd.getRegulator().getId());
     }
 
     @Test
     void testInsertSelective() {
         ClassGrade tg = fraudClassGrade();
-        ClassGrade tgd = generalRepository.insertSelective(tg);
+        generalRepository.insert(tg.getRegulator());
+        tg.setRegulatorId(tg.getRegulator().getId());
+        assertNotNull(tg.getDescription());
+        tg.setDescription(null);
+        generalRepository.insertSelective(tg);
+        Optional<ClassGrade> tgd = generalRepository.selectByPrimaryKey(ClassGrade.class, tg.getId());
+        assertTrue(tgd.isPresent());
         assertNotNull(tgd);
-        assertNotNull(tgd.getId());
-        assertNotNull(tgd.getStudents());
-        tgd.getStudents().forEach(student -> assertNotNull(student.getId()));
-        assertNotNull(tgd.getRegulatorId());
-        assertNotNull(tgd.getRegulator());
-        assertNotNull(tgd.getRegulator().getId());
+        assertNull(tgd.get().getDescription());
     }
 
     //@Test
@@ -61,7 +57,15 @@ class ClassGradeDaoTest extends JUnitDaoWithFraud {
 
     @Test
     void testLeftJoinSelectOne() {
-        ClassGrade grade = generalRepository.insert(fraudClassGrade());
+        ClassGrade tg = fraudClassGrade();
+        generalRepository.insert(tg.getRegulator());
+        tg.setRegulatorId(tg.getRegulator().getId());
+        ClassGrade grade = generalRepository.insert(tg);
+        tg.getStudents().forEach(student -> {
+            student.setGradeId(tg.getId());
+            generalRepository.insert(student);
+        });
+
         ClassGrade query = new ClassGrade();
         query.setId(grade.getId());
         Optional<ClassGrade> result = this.generalRepository.selectOne(query);
@@ -74,7 +78,12 @@ class ClassGradeDaoTest extends JUnitDaoWithFraud {
 
     @Test
     void testLeftJoinSelect() {
-        repeat(() -> generalRepository.insert(fraudClassGrade()), 5);
+        repeat(() -> {
+            ClassGrade tg = fraudClassGrade();
+            generalRepository.insert(tg.getRegulator());
+            tg.setRegulatorId(tg.getRegulator().getId());
+            return generalRepository.insert(tg);
+        }, 5);
         long count = this.generalRepository.count(ClassGrade.class, CountDSL::where);
         assertEquals(5, count);
         ClassGrade query = new ClassGrade();
@@ -83,36 +92,11 @@ class ClassGradeDaoTest extends JUnitDaoWithFraud {
     }
 
     @Test
-    void updateAll() {
-        String newDesc = "this is new desc of class";
-        ClassGrade target = fraudClassGrade();
-        List<Student> students = fraudList(this::fraudStudent, 4);
-        target.setStudents(students);
-        Teacher teacher = fraudTeacher();
-        target.setRegulator(teacher);
-        generalRepository.insert(target);
-        ClassGrade cgGet = generalRepository.get(ClassGrade.class, target.getId());
-        assertNotNull(cgGet);
-        assertNotNull(cgGet.getRegulator());
-        assertEquals(cgGet.getRegulatorId(), cgGet.getRegulator().getId());
-
-        List<Student> changedStudents = fraudList(this::fraudStudent, 5);
-        target.setStudents(changedStudents);
-        target.setDescription(newDesc);
-        generalRepository.update(target);
-        ClassGrade gradeGet = generalRepository.get(ClassGrade.class, target.getId());
-        assertEquals(newDesc, gradeGet.getDescription());
-        assertNotNull(gradeGet.getRegulatorId());
-        assertNotNull(gradeGet.getRegulator());
-        assertEquals(gradeGet.getRegulator().getId(), gradeGet.getRegulatorId());
-        assertEquals(gradeGet.getRegulator().getName(), teacher.getName());
-        assertNotNull(gradeGet.getStudents());
-        //assertEquals(gradeGet.getStudents().size(), 5);
-    }
-
-    @Test
     void delete() {
-        ClassGrade grade = generalRepository.insert(fraudClassGrade());
+        ClassGrade tg = fraudClassGrade();
+        generalRepository.insert(tg.getRegulator());
+        tg.setRegulatorId(tg.getRegulator().getId());
+        ClassGrade grade = generalRepository.insert(tg);
         assertNotNull(grade.getId());
         generalRepository.delete(grade);
         assertThrows(DaoException.class, () -> generalRepository.get(ClassGrade.class, grade.getId()));
@@ -120,8 +104,10 @@ class ClassGradeDaoTest extends JUnitDaoWithFraud {
 
     @Test
     void updateByStatementProvider() {
-        ClassGrade grade = generalRepository.insert(fraudClassGrade());
-        UpdateStatementProvider statement = SqlBuilder.update(ClassGradeDynamicSqlSupport.classGrade)
+        ClassGrade tg = fraudClassGrade();
+        tg.setRegulatorId(1L);
+        ClassGrade grade = generalRepository.insert(tg);
+        UpdateStatementProvider statement = SqlBuilder.update(ClassGrade.class)
                 .set(ClassGradeDynamicSqlSupport.name).equalTo("test")
                 .where(ClassGradeDynamicSqlSupport.id, SqlBuilder.isEqualTo(grade.getId()))
                 .build().render(RenderingStrategies.MYBATIS3);
@@ -133,7 +119,14 @@ class ClassGradeDaoTest extends JUnitDaoWithFraud {
 
     @Test
     void get() {
-        ClassGrade grade = generalRepository.insert(fraudClassGrade());
+        ClassGrade tg = fraudClassGrade();
+        generalRepository.insert(tg.getRegulator());
+        tg.setRegulatorId(tg.getRegulator().getId());
+        ClassGrade grade = generalRepository.insert(tg);
+        tg.getStudents().forEach(student -> {
+            student.setGradeId(tg.getId());
+            generalRepository.insert(student);
+        });
         ClassGrade gradeGet = generalRepository.get(ClassGrade.class, grade.getId());
         assertNotNull(gradeGet);
         assertNotNull(gradeGet.getRegulatorId());

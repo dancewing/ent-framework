@@ -7,7 +7,7 @@
 
 package io.entframework.kernel.system.modular.theme.service;
 
-import io.entframework.kernel.db.mds.service.BaseService;
+import io.entframework.kernel.db.dao.service.BaseService;
 import io.entframework.kernel.system.api.pojo.theme.SysThemeTemplateRelRequest;
 import io.entframework.kernel.system.api.pojo.theme.SysThemeTemplateRelResponse;
 import io.entframework.kernel.system.modular.theme.entity.SysThemeTemplateRel;

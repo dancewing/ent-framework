@@ -29,7 +29,7 @@ import java.util.List;
  * @date 2020/11/30 22:24
  */
 @Configuration
-@MapperScan("io.entframework.kernel.db.mds.mapper")
+@MapperScan("io.entframework.kernel.db.mybatis.mapper")
 public class KernelDbServiceAutoConfiguration {
 
     @Bean

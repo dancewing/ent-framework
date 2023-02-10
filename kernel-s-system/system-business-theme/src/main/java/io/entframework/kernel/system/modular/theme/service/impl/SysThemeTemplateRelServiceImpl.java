@@ -7,7 +7,7 @@
 
 package io.entframework.kernel.system.modular.theme.service.impl;
 
-import io.entframework.kernel.db.mds.service.BaseServiceImpl;
+import io.entframework.kernel.db.dao.service.BaseServiceImpl;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
 import io.entframework.kernel.system.api.exception.SystemModularException;
 import io.entframework.kernel.system.api.exception.enums.theme.SysThemeTemplateExceptionEnum;
