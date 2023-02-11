@@ -98,7 +98,7 @@ public class GeneratorJavaExec extends ConventionTask {
         }
 
         try {
-            ConfigurationParser cp = new ConfigurationParser(convertMapToProperty(project.getProperties()), warnings);
+            ConfigurationParser cp = new ConfigurationParser(convertMapToProperty(project.getProperties(), extension), warnings);
             Configuration config = cp.parseConfiguration(configFile);
 
             ShellCallback callback = new GradleShellCallback(this, extension.getOverwrite());
@@ -156,7 +156,7 @@ public class GeneratorJavaExec extends ConventionTask {
         }
     }
 
-    private Properties convertMapToProperty(Map<String, ?> properties) {
+    private Properties convertMapToProperty(Map<String, ?> properties, MybatisGeneratorExtension extension) {
         if (properties == null) {
             return new Properties();
         }
@@ -166,6 +166,9 @@ public class GeneratorJavaExec extends ConventionTask {
                 props.put(key, value);
             }
         });
+        if (extension.getProperties() != null) {
+            props.putAll(extension.getProperties());
+        }
         return props;
     }
 

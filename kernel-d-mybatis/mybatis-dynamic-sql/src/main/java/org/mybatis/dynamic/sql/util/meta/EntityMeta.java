@@ -144,7 +144,7 @@ public class EntityMeta {
         for (Field field : relations) {
             JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
             EntityMeta target = Entities.getInstance(joinColumn.target());
-            JoinDetail.of(findField(joinColumn.left()), joinColumn.target(), target.findField(joinColumn.right()))
+            JoinDetail.of(findField(joinColumn.left()).orElse(null), joinColumn.target(), target.findField(joinColumn.right()).orElse(null))
                     .ifPresent(joinDetails::add);
         }
         return joinDetails;
@@ -155,7 +155,7 @@ public class EntityMeta {
         relations.stream().filter(this::isManyToOne).forEach(field -> {
             JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
             EntityMeta target = Entities.getInstance(joinColumn.target());
-            JoinDetail.of(findField(joinColumn.left()), joinColumn.target(), target.findField(joinColumn.right()))
+            JoinDetail.of(findField(joinColumn.left()).orElse(null), joinColumn.target(), target.findField(joinColumn.right()).orElse(null))
                     .ifPresent(joinDetails::add);
         });
         return joinDetails;

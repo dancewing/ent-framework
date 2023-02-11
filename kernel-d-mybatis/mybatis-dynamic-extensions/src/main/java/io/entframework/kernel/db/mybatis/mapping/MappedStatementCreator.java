@@ -110,7 +110,9 @@ public class MappedStatementCreator {
         String resultMap = null;
         ResultSetType resultSetTypeEnum = null;
         String databaseId = null;
-        String[] statements = {"SELECT LAST_INSERT_ID()"};
+
+        String[] statements = getSelectKeyStatement();
+
         SqlSource sqlSource = lang.createSqlSource(configuration, String.join(" ", statements).trim(), null);
         SqlCommandType sqlCommandType = SqlCommandType.SELECT;
         MappedStatement.Builder statementBuilder = new MappedStatement.Builder(configuration, id, sqlSource, sqlCommandType)
@@ -132,6 +134,20 @@ public class MappedStatementCreator {
         SelectKeyGenerator answer = new SelectKeyGenerator(keyStatement, executeBefore);
         configuration.addKeyGenerator(id, answer);
         return answer;
+    }
+
+    private String[] getSelectKeyStatement() {
+        List<String> results = new ArrayList<>();
+        if (StringUtils.isNotEmpty(this.configuration.getDatabaseId())) {
+            String databaseId = this.configuration.getDatabaseId();
+            if ("mysql".equalsIgnoreCase(databaseId) || "mariadb".equalsIgnoreCase(databaseId)) {
+                results.add("SELECT LAST_INSERT_ID()");
+            } else if ("postgresql".equalsIgnoreCase(databaseId)) {
+                results.add("SELECT LAST_INSERT_ID()");
+            }
+
+        }
+        return results.toArray(new String[0]);
     }
 
     private List<ResultMap> getStatementResultMaps(

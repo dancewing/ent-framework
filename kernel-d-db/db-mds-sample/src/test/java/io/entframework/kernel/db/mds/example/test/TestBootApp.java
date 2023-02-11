@@ -10,9 +10,9 @@ package io.entframework.kernel.db.mds.example.test;
 import cn.hutool.extra.spring.SpringUtil;
 import io.entframework.kernel.converter.config.KernelConverterAutoConfiguration;
 import io.entframework.kernel.db.mds.example.config.SampleSpringAutoConfiguration;
-import io.entframework.kernel.db.starter.KernelDbServiceAutoConfiguration;
-import io.entframework.kernel.db.starter.KernelMyBatisHandlerConfiguration;
-import io.entframework.kernel.db.starter.KernelMyBatisInterceptorAutoConfiguration;
+import io.entframework.kernel.db.starter.KernelDaoServiceAutoConfiguration;
+import io.entframework.kernel.db.starter.KernelMyBatisAutoConfiguration;
+import io.entframework.kernel.db.starter.KernelMyBatisConfigurationCustomizer;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration;
@@ -26,9 +26,9 @@ import org.springframework.context.annotation.Import;
         DataSourceAutoConfiguration.class,
         SqlInitializationAutoConfiguration.class,
         MybatisAutoConfiguration.class,
-        KernelMyBatisInterceptorAutoConfiguration.class,
-        KernelMyBatisHandlerConfiguration.class,
-        KernelDbServiceAutoConfiguration.class,
+        KernelMyBatisAutoConfiguration.class,
+        KernelMyBatisConfigurationCustomizer.class,
+        KernelDaoServiceAutoConfiguration.class,
         SpringUtil.class,
         SampleSpringAutoConfiguration.class,
         KernelConverterAutoConfiguration.class

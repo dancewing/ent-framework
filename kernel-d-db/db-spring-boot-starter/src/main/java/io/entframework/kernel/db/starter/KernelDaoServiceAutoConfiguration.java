@@ -19,6 +19,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ import java.util.List;
  */
 @Configuration
 @MapperScan("io.entframework.kernel.db.mybatis.mapper")
-public class KernelDbServiceAutoConfiguration {
+public class KernelDaoServiceAutoConfiguration {
 
     @Bean
     public EntityListener idAutoGeneratorEntityListener() {
@@ -49,7 +50,8 @@ public class KernelDbServiceAutoConfiguration {
 
     @Bean
     public EntityListeners entityListener(ObjectProvider<EntityListener[]> entityListeners) {
-        return new EntityListeners(List.of(entityListeners.getIfAvailable()));
+        EntityListener[] listeners = entityListeners.getIfAvailable();
+        return new EntityListeners(listeners == null ? Collections.emptyList() : List.of(listeners));
     }
 
     @Bean

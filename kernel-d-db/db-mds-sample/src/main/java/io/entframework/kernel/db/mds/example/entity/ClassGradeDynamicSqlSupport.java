@@ -39,7 +39,7 @@ public final class ClassGradeDynamicSqlSupport {
     public static final class ClassGrade extends AliasableSqlTable<ClassGrade> {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 
-        public final SqlColumn<String> name = column("`name`", JDBCType.VARCHAR);
+        public final SqlColumn<String> name = column("name", JDBCType.VARCHAR);
 
         public final SqlColumn<String> description = column("description", JDBCType.VARCHAR);
 

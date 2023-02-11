@@ -7,11 +7,15 @@ import org.apache.ibatis.io.ResolverUtil;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MapperRegistryExt extends MapperRegistry {
     private final Configuration config;
-    private final Map<Class<?>, MapperProxyFactoryExt<?>> knownMappers = new HashMap<>();
+    private final Map<Class<?>, MapperProxyFactoryExt<?>> knownMappers = new ConcurrentHashMap<>();
 
     public MapperRegistryExt(Configuration config) {
         super(config);

@@ -90,3 +90,16 @@ create table if not exists exam_history_score
     update_user_name VARCHAR(50),
     primary key (id)
     ) ;
+
+create table if not exists exam_auto_increment
+(
+      id SERIAL,
+      username VARCHAR(20),
+    create_time timestamp ,
+    create_user bigint ,
+    update_time timestamp ,
+    update_user bigint ,
+    create_user_name VARCHAR(50),
+    update_user_name VARCHAR(50),
+    primary key (id)
+);

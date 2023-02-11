@@ -9,6 +9,8 @@ package org.mybatis.generator.gradle.dsl;
 
 import org.gradle.api.Project;
 
+import java.util.Properties;
+
 public class MybatisGeneratorExtension {
     private final Project project;
     private Boolean enabled = true;
@@ -20,6 +22,9 @@ public class MybatisGeneratorExtension {
     private String tableNames;
     private String contexts;
     private String outputDirectory;
+
+    private Properties properties;
+
 
     public MybatisGeneratorExtension(Project project) {
         this.project = project;
@@ -79,6 +84,14 @@ public class MybatisGeneratorExtension {
 
     public void setOutputDirectory(String outputDirectory) {
         this.outputDirectory = outputDirectory;
+    }
+
+    public Properties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(Properties properties) {
+        this.properties = properties;
     }
 
     @Override

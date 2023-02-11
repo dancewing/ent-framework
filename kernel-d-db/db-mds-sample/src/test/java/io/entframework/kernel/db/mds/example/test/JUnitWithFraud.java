@@ -34,7 +34,7 @@ import java.util.function.Supplier;
 
 //@RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestBootApp.class)
-@ActiveProfiles("h2")
+@ActiveProfiles("mysql")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public abstract class JUnitWithFraud {
 

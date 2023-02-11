@@ -21,7 +21,9 @@ if (gradlePluginVersion != '') {
         overwrite = true
         contexts = 'MysqlContext'
         outputDirectory = "${project.projectDir.absolutePath}"
-
+        properties = [
+                'rootPackage': 'io.entframework.kernel.db.mds.example'
+        ]
         dependencies {
             generator 'mysql:mysql-connector-java:8.0.22'
             generator "io.entframework:mybatis-generator-plugins:${gradlePluginVersion}"

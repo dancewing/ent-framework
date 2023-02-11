@@ -13,7 +13,6 @@ import org.gradle.api.Project;
 import org.gradle.util.GradleVersion;
 import org.mybatis.generator.gradle.dsl.MybatisGeneratorExtension;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -49,7 +48,7 @@ public class MybatisGeneratorPlugin implements Plugin<Project> {
     }
     
     private void registerPluginActions(Project project) {
-        List<PluginApplicationAction> actions = Arrays.asList(new MybatisGeneratorAction());
+        List<PluginApplicationAction> actions = List.of(new MybatisGeneratorAction());
         for (PluginApplicationAction action : actions) {
             withPluginClassOfAction(action,
                     (pluginClass) -> project.getPlugins().withType(pluginClass, (plugin) -> action.execute(project)));

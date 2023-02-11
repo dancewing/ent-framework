@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.atteo.classindex.ClassIndex;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +22,8 @@ import java.util.List;
 /***
  * Mybatis dynamic sql 插件
  */
-@Configuration
 @Slf4j
-public class KernelMyBatisHandlerConfiguration implements ConfigurationCustomizer {
+public class KernelMyBatisConfigurationCustomizer implements ConfigurationCustomizer {
 
     private static final Class<EnumHandler> HANDLER_ENUM_CLAZZ = EnumHandler.class;
     private static final Class<JsonHandler> HANDLER_JSON_CLAZZ = JsonHandler.class;

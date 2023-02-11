@@ -11,6 +11,10 @@ import io.entframework.kernel.db.api.interceptor.ShowSqlInterceptor;
 import io.entframework.kernel.db.dao.interceptor.MybatisDynamicInterceptor;
 import io.entframework.kernel.db.dao.interceptor.RecordableAutoFillInterceptor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.mapping.DatabaseIdProvider;
+import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /***
@@ -18,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @Slf4j
-public class KernelMyBatisInterceptorAutoConfiguration {
+public class KernelMyBatisAutoConfiguration {
 
     //@Bean
     public ShowSqlInterceptor showSqlInterceptor() {
@@ -33,5 +37,16 @@ public class KernelMyBatisInterceptorAutoConfiguration {
     //@Bean
     public MybatisDynamicInterceptor mybatisDynamicInterceptor() {
         return new MybatisDynamicInterceptor();
+    }
+
+    @Bean(name = "KernelMyBatisConfigurationCustomizer")
+    public KernelMyBatisConfigurationCustomizer configurationCustomizer() {
+        return new KernelMyBatisConfigurationCustomizer();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(DatabaseIdProvider.class)
+    public DatabaseIdProvider databaseIdProvider() {
+        return new VendorDatabaseIdProvider();
     }
 }

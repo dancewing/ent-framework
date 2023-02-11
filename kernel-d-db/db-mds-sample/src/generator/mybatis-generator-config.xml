@@ -16,23 +16,23 @@
 
     <!--如果使用Mybatis DS Generator, targetRuntime只能指定为MyBatis3DynamicSql-->
     <context id="MysqlContext" defaultModelType="flat" targetRuntime="MyBatis3DynamicSql">
-        <property name="autoDelimitKeywords" value="true"/>
+        <property name="autoDelimitKeywords" value="false"/>
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
         <property name="javaFileEncoding" value="UTF-8"/>
 
         <!-- 生成CRUD 插件配置项，因为插件之间配置项需要共享，所以放在Context中 -->
         <!-- PojoPlugin 配置项 -->
-        <property name="pojoRequestTargetPackage" value="io.entframework.kernel.db.mds.example.pojo.request"/>
+        <property name="pojoRequestTargetPackage" value="${rootPackage}.pojo.request"/>
         <property name="pojoRequestRootClass" value="io.entframework.kernel.rule.pojo.request.BaseRequest"/>
-        <property name="pojoResponseTargetPackage" value="io.entframework.kernel.db.mds.example.pojo.response"/>
+        <property name="pojoResponseTargetPackage" value="${rootPackage}.pojo.response"/>
         <property name="pojoResponseRootClass" value="io.entframework.kernel.db.api.pojo.response.BaseResponse"/>
         <!-- MapstructPlugin 配置项-->
-        <property name="mapstructTargetPackage" value="io.entframework.kernel.db.mds.example.converter"/>
+        <property name="mapstructTargetPackage" value="${rootPackage}.converter"/>
         <!-- ServicePlugin 配置项-->
-        <property name="serviceTargetPackage" value="io.entframework.kernel.db.mds.example.service"/>
-        <property name="repositoryTargetPackage" value="io.entframework.kernel.db.mds.example.repository"/>
-        <property name="controllerTargetPackage" value="io.entframework.kernel.db.mds.example.controller"/>
+        <property name="serviceTargetPackage" value="${rootPackage}.service"/>
+        <property name="repositoryTargetPackage" value="${rootPackage}.repository"/>
+        <property name="controllerTargetPackage" value="${rootPackage}.controller"/>
 
         <!--指定需要使用的plugin, LombokAnnotationPlugin用于生成lombok注解, -->
         <!--plugin之间存在顺序关系, 为了生成代码的美观, 建议将SerializablePlugin放到最后-->
@@ -62,7 +62,7 @@
         </plugin>
 
         <plugin type="io.entframework.kernel.db.generator.plugin.server.SpringAutoConfigurationPlugin">
-            <property name="springConfigJavaFile" value="io.entframework.kernel.db.mds.example.config.SampleSpringAutoConfiguration"/>
+            <property name="springConfigJavaFile" value="${rootPackage}.config.SampleSpringAutoConfiguration"/>
         </plugin>
 
         <!--不生成任何MBG自带的Generated注释-->
@@ -84,7 +84,7 @@
 
         <!--Model类的生成配置-->
         <!--路径是targetProject/targetPackage, targetProject必须已经存在, 如果指定为MAVEN则使用pom文件中outputDirectory定义的位置-->
-        <javaModelGenerator targetPackage="io.entframework.kernel.db.mds.example.entity" targetProject="MAVEN">
+        <javaModelGenerator targetPackage="${rootPackage}.entity" targetProject="MAVEN">
             <property name="constructorBased" value="false"/>
             <property name="enableSubPackages" value="false"/>
             <property name="immutable" value="false"/>
@@ -93,7 +93,7 @@
         </javaModelGenerator>
 
         <!--Mapper类的生成配置-->
-        <javaClientGenerator targetPackage="io.entframework.kernel.db.mds.example.mapper" targetProject="MAVEN" >
+        <javaClientGenerator targetPackage="${rootPackage}.mapper" targetProject="MAVEN">
             <property name="enableSubPackages" value="false"/>
             <property name="exampleMethodVisibility" value="public"/>
             <property name="methodNameCalculator" value="default"/>
@@ -131,7 +131,7 @@
             <columnOverride column="properties" javaType="io.entframework.kernel.db.mds.ext.dto.TeachProperty"/>
         </table>
 
-        <joinConfig targetPackage="io.entframework.kernel.db.mds.example.mapper" targetProject="src/main/resources">
+        <joinConfig targetPackage="${rootPackage}.mapper" targetProject="src/main/resources">
             <joinEntry leftTable="exam_class_grade">
                 <joinTarget rightTable="exam_student" property="students" leftTableColumn="id"
                             rightTableColumn="grade_id" joinType="MORE"/>

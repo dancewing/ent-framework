@@ -56,7 +56,7 @@ public final class StudentDynamicSqlSupport {
 
         public final SqlColumn<Long> gradeId = column("grade_id", JDBCType.BIGINT);
 
-        public final SqlColumn<String> name = column("`name`", JDBCType.VARCHAR);
+        public final SqlColumn<String> name = column("name", JDBCType.VARCHAR);
 
         public final SqlColumn<String> cardNum = column("card_num", JDBCType.VARCHAR);
 

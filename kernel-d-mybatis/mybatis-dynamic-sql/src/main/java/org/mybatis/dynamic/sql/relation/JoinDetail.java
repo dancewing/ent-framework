@@ -16,13 +16,13 @@ public class JoinDetail {
         this.rightTableJoinColumn = rightTableJoinColumn;
     }
 
-    public static Optional<JoinDetail> of(Optional<SqlColumn<Object>> leftTableJoinColumn, Class<?> rightJoinTable, Optional<SqlColumn<Object>> rightTableJoinColumn) {
+    public static Optional<JoinDetail> of(SqlColumn<Object> leftTableJoinColumn, Class<?> rightJoinTable, SqlColumn<Object> rightTableJoinColumn) {
 
-        if (leftTableJoinColumn.isPresent() && rightTableJoinColumn.isPresent() && rightJoinTable != null) {
+        if (leftTableJoinColumn != null && rightTableJoinColumn != null && rightJoinTable != null) {
             return Optional.of(JoinDetail.builder()
-                    .leftTableJoinColumn(leftTableJoinColumn.get())
+                    .leftTableJoinColumn(leftTableJoinColumn)
                     .rightJoinTable(rightJoinTable)
-                    .rightTableJoinColumn(rightTableJoinColumn.get())
+                    .rightTableJoinColumn(rightTableJoinColumn)
                     .build());
         }
         return Optional.empty();

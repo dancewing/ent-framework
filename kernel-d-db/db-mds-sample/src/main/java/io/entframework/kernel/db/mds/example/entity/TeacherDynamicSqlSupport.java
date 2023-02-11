@@ -51,7 +51,7 @@ public final class TeacherDynamicSqlSupport {
     public static final class Teacher extends AliasableSqlTable<Teacher> {
         public final SqlColumn<Long> id = column("id", JDBCType.BIGINT);
 
-        public final SqlColumn<String> name = column("`name`", JDBCType.VARCHAR);
+        public final SqlColumn<String> name = column("name", JDBCType.VARCHAR);
 
         public final SqlColumn<String> cardNum = column("card_num", JDBCType.VARCHAR);
 
