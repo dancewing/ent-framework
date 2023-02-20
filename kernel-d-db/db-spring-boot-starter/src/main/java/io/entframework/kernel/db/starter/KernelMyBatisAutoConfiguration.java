@@ -7,9 +7,9 @@
 
 package io.entframework.kernel.db.starter;
 
-import io.entframework.kernel.db.api.interceptor.ShowSqlInterceptor;
-import io.entframework.kernel.db.dao.interceptor.MybatisDynamicInterceptor;
-import io.entframework.kernel.db.dao.interceptor.RecordableAutoFillInterceptor;
+import io.entframework.kernel.db.dao.mybatis.interceptor.MybatisDynamicInterceptor;
+import io.entframework.kernel.db.dao.mybatis.interceptor.RecordableAutoFillInterceptor;
+import io.entframework.kernel.db.dao.mybatis.interceptor.ShowSqlInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.mapping.VendorDatabaseIdProvider;

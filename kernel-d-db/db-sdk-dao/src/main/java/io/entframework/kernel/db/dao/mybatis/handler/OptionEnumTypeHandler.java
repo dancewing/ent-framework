@@ -5,7 +5,7 @@
  *
  */
 
-package io.entframework.kernel.db.api.handler;
+package io.entframework.kernel.db.dao.mybatis.handler;
 
 import io.entframework.kernel.rule.annotation.EnumValue;
 import io.entframework.kernel.rule.enums.SupperEnum;

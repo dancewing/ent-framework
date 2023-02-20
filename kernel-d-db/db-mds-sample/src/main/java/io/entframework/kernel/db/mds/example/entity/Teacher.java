@@ -2,16 +2,12 @@ package io.entframework.kernel.db.mds.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.entframework.kernel.db.api.handler.StringListHandler;
 import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
+import io.entframework.kernel.db.dao.mybatis.handler.StringListHandler;
 import io.entframework.kernel.db.mds.ext.dto.TeachProperty;
 import io.entframework.kernel.rule.annotation.EnumHandler;
 import io.entframework.kernel.rule.annotation.EnumValue;
 import io.entframework.kernel.rule.enums.StatusEnum;
-import java.io.Serializable;
-import java.sql.JDBCType;
-import java.time.LocalDate;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,6 +16,11 @@ import org.mybatis.dynamic.sql.annotation.Column;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 import org.mybatis.dynamic.sql.annotation.Version;
+
+import java.io.Serializable;
+import java.sql.JDBCType;
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * 教师

@@ -34,7 +34,7 @@ import java.util.function.Supplier;
 
 //@RunWith(SpringRunner.class)
 @SpringBootTest(classes = TestBootApp.class)
-@ActiveProfiles("mysql")
+@ActiveProfiles("h2")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public abstract class JUnitWithFraud {
 
@@ -50,7 +50,6 @@ public abstract class JUnitWithFraud {
         currentUser.setAccount("tester");
         Mockito.when(this.loginUserApi.getLoginUser()).thenReturn(currentUser);
     }
-
 
     public ClassGrade fraudClassGrade() {
         ClassGrade grade = new ClassGrade();

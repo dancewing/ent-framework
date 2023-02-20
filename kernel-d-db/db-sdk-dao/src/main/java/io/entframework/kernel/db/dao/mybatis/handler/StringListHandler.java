@@ -1,4 +1,4 @@
-package io.entframework.kernel.db.api.handler;
+package io.entframework.kernel.db.dao.mybatis.handler;
 
 import com.google.common.collect.Lists;
 import org.apache.ibatis.type.BaseTypeHandler;

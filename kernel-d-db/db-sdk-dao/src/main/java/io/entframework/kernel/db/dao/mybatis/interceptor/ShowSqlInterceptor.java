@@ -1,4 +1,4 @@
-package io.entframework.kernel.db.api.interceptor;
+package io.entframework.kernel.db.dao.mybatis.interceptor;
 
 import cn.hutool.db.sql.SqlFormatter;
 import org.apache.ibatis.executor.Executor;

@@ -1,4 +1,4 @@
-package io.entframework.kernel.db.api.handler;
+package io.entframework.kernel.db.dao.mybatis.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;

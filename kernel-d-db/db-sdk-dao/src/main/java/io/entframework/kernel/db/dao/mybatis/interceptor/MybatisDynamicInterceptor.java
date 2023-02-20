@@ -1,4 +1,4 @@
-package io.entframework.kernel.db.dao.interceptor;
+package io.entframework.kernel.db.dao.mybatis.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.cache.CacheKey;

@@ -101,13 +101,16 @@
         </javaClientGenerator>
 
         <columnOverride column="status_flag" javaType="io.entframework.kernel.rule.enums.StatusEnum" />
-        <columnOverride column="tech_courses" javaType="java.util.List" typeHandler="io.entframework.kernel.db.api.handler.StringListHandler">
+        <columnOverride column="tech_courses" javaType="java.util.List"
+                        typeHandler="io.entframework.kernel.db.dao.mybatis.handler.StringListHandler">
             <genericType javaType="String"/>
         </columnOverride>
-        <columnOverride column="take_courses" javaType="java.util.List" typeHandler="io.entframework.kernel.db.api.handler.StringListHandler">
+        <columnOverride column="take_courses" javaType="java.util.List"
+                        typeHandler="io.entframework.kernel.db.dao.mybatis.handler.StringListHandler">
             <genericType javaType="String"/>
         </columnOverride>
-        <columnOverride column="score" javaType="java.util.Map" typeHandler="io.entframework.kernel.db.api.handler.ScoreMapHandler">
+        <columnOverride column="score" javaType="java.util.Map"
+                        typeHandler="io.entframework.kernel.db.dao.mybatis.handler.ScoreMapHandler">
             <genericType javaType="String"/>
             <genericType javaType="Integer"/>
         </columnOverride>

@@ -7,8 +7,8 @@
 
 package io.entframework.kernel.db.starter;
 
-import io.entframework.kernel.db.api.handler.FastjsonTypeHandler;
-import io.entframework.kernel.db.api.handler.OptionEnumTypeHandler;
+import io.entframework.kernel.db.dao.mybatis.handler.FastjsonTypeHandler;
+import io.entframework.kernel.db.dao.mybatis.handler.OptionEnumTypeHandler;
 import io.entframework.kernel.rule.annotation.EnumHandler;
 import io.entframework.kernel.rule.annotation.JsonHandler;
 import lombok.extern.slf4j.Slf4j;

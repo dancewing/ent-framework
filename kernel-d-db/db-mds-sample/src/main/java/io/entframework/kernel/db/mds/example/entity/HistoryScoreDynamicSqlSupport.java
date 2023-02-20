@@ -1,12 +1,13 @@
 package io.entframework.kernel.db.mds.example.entity;
 
 import io.entframework.kernel.db.mds.example.entity.HistoryScore.ExamType;
-import java.sql.JDBCType;
-import java.time.LocalDateTime;
-import java.util.Map;
 import org.mybatis.dynamic.sql.AliasableSqlTable;
 import org.mybatis.dynamic.sql.BasicColumn;
 import org.mybatis.dynamic.sql.SqlColumn;
+
+import java.sql.JDBCType;
+import java.time.LocalDateTime;
+import java.util.Map;
 
 public final class HistoryScoreDynamicSqlSupport {
     public static final HistoryScore historyScore = new HistoryScore();
@@ -60,7 +61,7 @@ public final class HistoryScoreDynamicSqlSupport {
 
         public final SqlColumn<String> updateUserName = column("update_user_name", JDBCType.VARCHAR);
 
-        public final SqlColumn<Map<String, Integer>> score = column("score", JDBCType.LONGVARCHAR, "io.entframework.kernel.db.api.handler.ScoreMapHandler");
+        public final SqlColumn<Map<String, Integer>> score = column("score", JDBCType.LONGVARCHAR, "io.entframework.kernel.db.dao.mybatis.handler.ScoreMapHandler");
 
         public HistoryScore() {
             super("exam_history_score", HistoryScore::new);

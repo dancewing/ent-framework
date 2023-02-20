@@ -2,13 +2,14 @@ package io.entframework.kernel.db.mds.example.entity;
 
 import io.entframework.kernel.db.mds.example.entity.Student.Gender;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
+import org.mybatis.dynamic.sql.AliasableSqlTable;
+import org.mybatis.dynamic.sql.BasicColumn;
+import org.mybatis.dynamic.sql.SqlColumn;
+
 import java.sql.JDBCType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.mybatis.dynamic.sql.AliasableSqlTable;
-import org.mybatis.dynamic.sql.BasicColumn;
-import org.mybatis.dynamic.sql.SqlColumn;
 
 public final class StudentDynamicSqlSupport {
     public static final Student student = new Student();
@@ -64,7 +65,7 @@ public final class StudentDynamicSqlSupport {
 
         public final SqlColumn<LocalDate> birthday = column("birthday", JDBCType.DATE);
 
-        public final SqlColumn<List<String>> takeCourses = column("take_courses", JDBCType.VARCHAR, "io.entframework.kernel.db.api.handler.StringListHandler");
+        public final SqlColumn<List<String>> takeCourses = column("take_courses", JDBCType.VARCHAR, "io.entframework.kernel.db.dao.mybatis.handler.StringListHandler");
 
         public final SqlColumn<Boolean> fromForeign = column("from_foreign", JDBCType.BIT);
 

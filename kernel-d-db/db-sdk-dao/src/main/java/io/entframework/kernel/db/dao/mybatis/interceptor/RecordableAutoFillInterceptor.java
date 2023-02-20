@@ -5,7 +5,7 @@
  *
  */
 
-package io.entframework.kernel.db.dao.interceptor;
+package io.entframework.kernel.db.dao.mybatis.interceptor;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.google.common.cache.Cache;

@@ -7,15 +7,11 @@ plugins {
 }
 
 dependencies {
-    api project(':kernel-d-config:config-api')
+    api project(':kernel-a-rule')
     api project(':kernel-d-mybatis:mybatis-dynamic-sql-annotations')
     api 'jakarta.servlet:jakarta.servlet-api'
-    api 'com.google.guava:guava'
-    api 'org.mybatis:mybatis'
-    api 'com.alibaba:druid'
-
     api 'org.apache.commons:commons-lang3'
-
+    api 'com.alibaba:druid'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.atteo.classindex:classindex'

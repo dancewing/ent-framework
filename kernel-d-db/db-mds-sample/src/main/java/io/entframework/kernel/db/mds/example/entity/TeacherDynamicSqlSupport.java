@@ -3,13 +3,14 @@ package io.entframework.kernel.db.mds.example.entity;
 import io.entframework.kernel.db.mds.example.entity.Teacher.Gender;
 import io.entframework.kernel.db.mds.ext.dto.TeachProperty;
 import io.entframework.kernel.rule.enums.StatusEnum;
+import org.mybatis.dynamic.sql.AliasableSqlTable;
+import org.mybatis.dynamic.sql.BasicColumn;
+import org.mybatis.dynamic.sql.SqlColumn;
+
 import java.sql.JDBCType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.mybatis.dynamic.sql.AliasableSqlTable;
-import org.mybatis.dynamic.sql.BasicColumn;
-import org.mybatis.dynamic.sql.SqlColumn;
 
 public final class TeacherDynamicSqlSupport {
     public static final Teacher teacher = new Teacher();
@@ -63,7 +64,7 @@ public final class TeacherDynamicSqlSupport {
 
         public final SqlColumn<StatusEnum> statusFlag = column("status_flag", JDBCType.TINYINT);
 
-        public final SqlColumn<List<String>> techCourses = column("tech_courses", JDBCType.VARCHAR, "io.entframework.kernel.db.api.handler.StringListHandler");
+        public final SqlColumn<List<String>> techCourses = column("tech_courses", JDBCType.VARCHAR, "io.entframework.kernel.db.dao.mybatis.handler.StringListHandler");
 
         public final SqlColumn<Long> version = column("version_", JDBCType.BIGINT);
 
