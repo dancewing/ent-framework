@@ -9,8 +9,6 @@ package io.entframework.kernel.db.generator.utils;
 
 import io.entframework.kernel.db.generator.Constants;
 import io.entframework.kernel.db.generator.plugin.web.runtime.FullyQualifiedTypescriptType;
-import io.entframework.kernel.rule.enums.SupperEnum;
-import io.entframework.kernel.rule.function.Try;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
@@ -18,6 +16,7 @@ import org.mybatis.generator.api.dom.java.TopLevelEnumeration;
 import org.mybatis.generator.internal.ObjectFactory;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
@@ -25,8 +24,15 @@ public class ClassInfo {
 
     private static final Map<String, ClassInfo> ROOT_CLASS_INFO_MAP;
 
+    private static Class<?> supperEnum = null;
+
     static {
         ROOT_CLASS_INFO_MAP = Collections.synchronizedMap(new HashMap<>());
+        try {
+            supperEnum = ObjectFactory.externalClassForName("io.entframework.kernel.rule.enums.SupperEnum");
+        } catch (Exception e) {
+            //ignore
+        }
     }
 
     public static ClassInfo getInstance(String className) {
@@ -65,18 +71,21 @@ public class ClassInfo {
             classInfo.genericMode = true;
         }
         classInfo.javaType = fqjt;
-
+        Class<?> clazz = null;
         try {
-            Class<?> clazz = ObjectFactory.externalClassForName(nameWithoutGenerics);
-            if (clazz.isEnum() && SupperEnum.class.isAssignableFrom(clazz)) {
+            clazz = ObjectFactory.externalClassForName(nameWithoutGenerics);
+        } catch (Exception ex) {
+            // ignore
+        }
+        if (clazz != null) {
+            if (clazz.isEnum() && supperEnum != null && supperEnum.isAssignableFrom(clazz)) {
                 classInfo.isEnum = true;
                 parseEnum(classInfo, clazz);
             } else {
                 parseClass(classInfo, clazz);
             }
-        } catch (Exception e) {
-            return null;
         }
+
         return classInfo;
     }
 
@@ -123,11 +132,18 @@ public class ClassInfo {
         if (this.enuConstants != null) {
             EnumInfo enumInfo = new EnumInfo();
             for (Field field: this.enuConstants) {
-                Try<Object> objectTry = Try.call(() -> field.get(null));
-                objectTry.ifSuccess(val->{
-                    SupperEnum supperEnum = (SupperEnum) val;
-                    enumInfo.addItem(field.getName(), supperEnum.getLabel(), supperEnum.getValue());
-                });
+                try {
+                    Object enumValue = field.get(null);
+                    if (enumValue != null) {
+                        Method nameField = enumValue.getClass().getMethod("name");
+                        Method labelField = enumValue.getClass().getMethod("getLabel");
+                        Method valueField = enumValue.getClass().getMethod("getValue");
+                        enumInfo.addItem((String) nameField.invoke(enumValue), (String) labelField.invoke(enumValue), valueField.invoke(enumValue));
+                    }
+                } catch (Exception ex) {
+
+                }
+
             }
             topLevelEnumeration.setAttribute(Constants.TABLE_ENUM_FIELD_ATTR_SOURCE, enumInfo);
             for (Field field: this.memberFields) {
@@ -142,7 +158,7 @@ public class ClassInfo {
 
     public static void main(String[] args) {
         ClassInfo classInfo = ClassInfo.getInstance("io.entframework.kernel.rule.enums.StatusEnum");
-        classInfo.toTopLevelEnumeration("");
+        TopLevelEnumeration topLevelEnumeration = classInfo.toTopLevelEnumeration("");
         ClassInfo classInfo2 = ClassInfo.getInstance("io.entframework.kernel.rule.pojo.request.BaseRequest");
         classInfo2.toTopLevelClass();
     }

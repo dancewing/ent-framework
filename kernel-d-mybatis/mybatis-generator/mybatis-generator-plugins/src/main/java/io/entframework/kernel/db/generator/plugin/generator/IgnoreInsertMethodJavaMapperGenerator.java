@@ -1,6 +1,5 @@
 package io.entframework.kernel.db.generator.plugin.generator;
 
-import io.entframework.kernel.db.mybatis.util.MyBatis3CustomUtils;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.VerboseProgressCallback;
@@ -24,7 +23,7 @@ import java.util.Set;
 
 public class IgnoreInsertMethodJavaMapperGenerator extends AbstractJavaMapperMethodGenerator {
 
-    private static final String MYBATIS3_CUSTOM_UTILS = MyBatis3CustomUtils.class.getName();
+    private static final String MYBATIS3_CUSTOM_UTILS = "io.entframework.kernel.db.mybatis.util.MyBatis3CustomUtils";
     private final String tableFieldName;
     private final FragmentGenerator fragmentGenerator;
     private final FullyQualifiedJavaType recordType;

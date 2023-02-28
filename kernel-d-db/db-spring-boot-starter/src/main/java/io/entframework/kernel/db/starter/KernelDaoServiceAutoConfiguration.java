@@ -12,12 +12,21 @@ import io.entframework.kernel.db.dao.listener.EntityListeners;
 import io.entframework.kernel.db.dao.listener.impl.DefaultAuditEntityListener;
 import io.entframework.kernel.db.dao.listener.impl.IdAutoGeneratorEntityListener;
 import io.entframework.kernel.db.dao.listener.impl.InitialDefaultValueEntityListener;
+import io.entframework.kernel.db.dao.persistence.PersistenceManagedTypesScanner;
 import io.entframework.kernel.db.dao.repository.DefaultGeneralRepository;
 import io.entframework.kernel.db.dao.repository.GeneralRepository;
+import io.entframework.kernel.db.mybatis.persistence.PersistenceManagedTypes;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.domain.EntityScanPackages;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.util.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -57,5 +66,24 @@ public class KernelDaoServiceAutoConfiguration {
     @Bean
     public GeneralRepository generalRepository() {
         return new DefaultGeneralRepository();
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    static class PersistenceManagedTypesConfiguration {
+        @Bean
+        @Primary
+        @ConditionalOnMissingBean
+        static PersistenceManagedTypes persistenceManagedTypes(BeanFactory beanFactory, ResourceLoader resourceLoader) {
+            String[] packagesToScan = getPackagesToScan(beanFactory);
+            return new PersistenceManagedTypesScanner(resourceLoader).scan(packagesToScan);
+        }
+
+        private static String[] getPackagesToScan(BeanFactory beanFactory) {
+            List<String> packages = EntityScanPackages.get(beanFactory).getPackageNames();
+            if (packages.isEmpty() && AutoConfigurationPackages.has(beanFactory)) {
+                packages = AutoConfigurationPackages.get(beanFactory);
+            }
+            return StringUtils.toStringArray(packages);
+        }
     }
 }

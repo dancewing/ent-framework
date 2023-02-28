@@ -9,8 +9,8 @@ plugins {
 
 dependencies {
     api project(':kernel-d-mybatis:mybatis-dynamic-sql-annotations')
-    api 'org.mybatis:mybatis'
-    api 'org.jetbrains:annotations'
+    compileOnly('org.mybatis:mybatis')
+    implementation 'org.jetbrains:annotations'
     optional 'org.springframework:spring-jdbc'
 
     testImplementation 'junit:junit'

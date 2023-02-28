@@ -2,14 +2,13 @@ package io.entframework.kernel.db.mds.example.entity;
 
 import io.entframework.kernel.db.mds.example.entity.Student.Gender;
 import io.entframework.kernel.rule.enums.YesOrNotEnum;
-import org.mybatis.dynamic.sql.AliasableSqlTable;
-import org.mybatis.dynamic.sql.BasicColumn;
-import org.mybatis.dynamic.sql.SqlColumn;
-
 import java.sql.JDBCType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.mybatis.dynamic.sql.AliasableSqlTable;
+import org.mybatis.dynamic.sql.BasicColumn;
+import org.mybatis.dynamic.sql.SqlColumn;
 
 public final class StudentDynamicSqlSupport {
     public static final Student student = new Student();

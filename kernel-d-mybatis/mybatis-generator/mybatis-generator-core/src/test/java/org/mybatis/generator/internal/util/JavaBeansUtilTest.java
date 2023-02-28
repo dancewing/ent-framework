@@ -16,9 +16,7 @@
 package org.mybatis.generator.internal.util;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mybatis.generator.internal.util.JavaBeansUtil.getGetterMethodName;
-import static org.mybatis.generator.internal.util.JavaBeansUtil.getSetterMethodName;
-import static org.mybatis.generator.internal.util.JavaBeansUtil.getValidPropertyName;
+import static org.mybatis.generator.internal.util.JavaBeansUtil.*;
 
 import org.junit.jupiter.api.Test;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
@@ -41,6 +39,13 @@ class JavaBeansUtilTest {
         assertEquals("i_PARAM_INT_1", getValidPropertyName("I_PARAM_INT_1")); //$NON-NLS-1$ //$NON-NLS-2$
         assertEquals("_fred", getValidPropertyName("_fred")); //$NON-NLS-1$ //$NON-NLS-2$
         assertEquals("accountType", getValidPropertyName("AccountType")); //$NON-NLS-1$ //$NON-NLS-2$
+    }
+
+    @Test
+    void testConvertCamelCase() {
+        assertEquals("e-mail", convertCamelCase("eMail", "-")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("first-name", convertCamelCase("firstName", "-")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("account-type", convertCamelCase("AccountType", "-")); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     @Test

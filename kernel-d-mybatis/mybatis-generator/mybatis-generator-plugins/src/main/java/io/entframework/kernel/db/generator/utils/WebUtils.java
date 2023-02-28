@@ -4,12 +4,12 @@ import io.entframework.kernel.db.generator.Constants;
 import io.entframework.kernel.db.generator.config.Relation;
 import io.entframework.kernel.db.generator.plugin.generator.GeneratorUtils;
 import io.entframework.kernel.db.generator.plugin.web.runtime.FullyQualifiedTypescriptType;
-import com.google.common.base.CaseFormat;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.config.JoinTarget;
+import org.mybatis.generator.internal.util.JavaBeansUtil;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,8 @@ public class WebUtils {
     }
 
     public static String getFileName(String shortName) {
-        return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, shortName); //$NON-NLS-1$
+        return JavaBeansUtil.getValidPropertyName(shortName);
+        //return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, shortName); //$NON-NLS-1$
     }
 
     public static FullyQualifiedTypescriptType convertToTypescriptImportType(String projectRootAlias, FullyQualifiedJavaType type) {

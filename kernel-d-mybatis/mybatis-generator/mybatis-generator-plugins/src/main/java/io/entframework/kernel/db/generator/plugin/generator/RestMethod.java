@@ -1,9 +1,9 @@
 package io.entframework.kernel.db.generator.plugin.generator;
 
-import com.google.common.base.CaseFormat;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Method;
+import org.mybatis.generator.internal.util.JavaBeansUtil;
 
 
 public class RestMethod extends Method {
@@ -56,9 +56,9 @@ public class RestMethod extends Method {
     public String getRestPath() {
         String url = this.getUrl();
         if (StringUtils.isEmpty(url)) {
-            url = "/"+ CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, this.getName());
+            url = "/"+ JavaBeansUtil.convertCamelCase(this.getName(), "-");
         }
         String modelObjectName = this.recordType.getShortName();
-        return "/"+ CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, modelObjectName) + url;
+        return "/"+ JavaBeansUtil.convertCamelCase(modelObjectName, "-") + url;
     }
 }

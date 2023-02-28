@@ -43,11 +43,15 @@ import org.mybatis.generator.internal.ObjectFactory;
 import org.mybatis.generator.internal.PluginAggregator;
 import org.mybatis.generator.internal.db.DatabaseIntrospector;
 
+import javax.sql.DataSource;
+
 public class Context extends PropertyHolder {
 
     private String id;
 
     private JDBCConnectionConfiguration jdbcConnectionConfiguration;
+
+    private DataSource dataSource;
 
     private ConnectionFactoryConfiguration connectionFactoryConfiguration;
 
@@ -154,15 +158,15 @@ public class Context extends PropertyHolder {
             errors.add(getString("ValidationError.16")); //$NON-NLS-1$
         }
 
-        if (jdbcConnectionConfiguration == null && connectionFactoryConfiguration == null) {
+        if (jdbcConnectionConfiguration == null && connectionFactoryConfiguration == null && dataSource == null) {
             // must specify one
             errors.add(getString("ValidationError.10", id)); //$NON-NLS-1$
-        } else if (jdbcConnectionConfiguration != null && connectionFactoryConfiguration != null) {
+        } else if (jdbcConnectionConfiguration != null && connectionFactoryConfiguration != null && dataSource != null) {
             // must not specify both
             errors.add(getString("ValidationError.10", id)); //$NON-NLS-1$
         } else if (jdbcConnectionConfiguration != null) {
             jdbcConnectionConfiguration.validate(errors);
-        } else {
+        } else if (connectionFactoryConfiguration != null) {
             connectionFactoryConfiguration.validate(errors);
         }
 
@@ -232,6 +236,10 @@ public class Context extends PropertyHolder {
     public void setJdbcConnectionConfiguration(
             JDBCConnectionConfiguration jdbcConnectionConfiguration) {
         this.jdbcConnectionConfiguration = jdbcConnectionConfiguration;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public void setSqlMapGeneratorConfiguration(
@@ -515,14 +523,18 @@ public class Context extends PropertyHolder {
      * @throws SQLException if any error occurs while creating the connection
      */
     public Connection getConnection() throws SQLException {
-        ConnectionFactory connectionFactory;
+        ConnectionFactory connectionFactory = null;
         if (jdbcConnectionConfiguration != null) {
             connectionFactory = new JDBCConnectionFactory(jdbcConnectionConfiguration);
-        } else {
+        } else if (connectionFactoryConfiguration != null) {
             connectionFactory = ObjectFactory.createConnectionFactory(this);
         }
 
-        return connectionFactory.getConnection();
+        if (connectionFactory != null) {
+            return connectionFactory.getConnection();
+        } else {
+            return this.dataSource.getConnection();
+        }
     }
 
     /**

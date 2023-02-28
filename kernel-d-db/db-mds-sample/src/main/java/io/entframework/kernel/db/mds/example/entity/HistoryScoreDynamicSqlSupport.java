@@ -1,13 +1,12 @@
 package io.entframework.kernel.db.mds.example.entity;
 
 import io.entframework.kernel.db.mds.example.entity.HistoryScore.ExamType;
-import org.mybatis.dynamic.sql.AliasableSqlTable;
-import org.mybatis.dynamic.sql.BasicColumn;
-import org.mybatis.dynamic.sql.SqlColumn;
-
 import java.sql.JDBCType;
 import java.time.LocalDateTime;
 import java.util.Map;
+import org.mybatis.dynamic.sql.AliasableSqlTable;
+import org.mybatis.dynamic.sql.BasicColumn;
+import org.mybatis.dynamic.sql.SqlColumn;
 
 public final class HistoryScoreDynamicSqlSupport {
     public static final HistoryScore historyScore = new HistoryScore();

@@ -11,6 +11,7 @@ dependencies {
     api project(':kernel-d-mybatis:mybatis-dynamic-extensions')
     api project(':kernel-d-auth:auth-api')
     api project(':kernel-d-converter')
+    api 'org.springframework.boot:spring-boot-autoconfigure'
 
     api 'org.mybatis:mybatis-spring'
 

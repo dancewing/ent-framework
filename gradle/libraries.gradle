@@ -43,7 +43,7 @@ ext {
     log4j2Version = '2.17.1'
     classIndexVersion = '3.13'
     guavaVersion= '28.0-jre'
-    jetbrainsAnnotationsVersion = '22.0.0'
+    jetbrainsAnnotationsVersion = '23.0.0'
     redissonVersion = '3.19.0'
     springdocVersion = '2.0.2'
     knife4jVersion = '3.0.3'

@@ -1,12 +1,12 @@
 package io.entframework.kernel.db.generator.plugin.web.runtime;
 
 import io.entframework.kernel.db.generator.plugin.web.runtime.freemarker.FreemarkerTemplateEngine;
-import com.google.common.base.CaseFormat;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.GeneratedFile;
 import org.mybatis.generator.api.WriteMode;
 import org.mybatis.generator.api.dom.java.CompilationUnit;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
+import org.mybatis.generator.internal.util.JavaBeansUtil;
 
 import java.util.Map;
 
@@ -51,7 +51,7 @@ public class TemplateGeneratedFile extends GeneratedFile {
     @Override
     public String getFileName() {
         String shortName = this.topLevelClass.getType().getShortNameWithoutTypeArguments();
-        String camelCaseName = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, shortName);
+        String camelCaseName = JavaBeansUtil.convertCamelCase(shortName, "-");
         if (StringUtils.isNotEmpty(this.fileName)) {
             return String.format(this.fileName, camelCaseName) + this.fileExt;
         } else {

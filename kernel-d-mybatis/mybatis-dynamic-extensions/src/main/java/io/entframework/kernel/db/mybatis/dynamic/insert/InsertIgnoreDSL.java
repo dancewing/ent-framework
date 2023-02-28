@@ -1,6 +1,5 @@
 package io.entframework.kernel.db.mybatis.dynamic.insert;
 
-import org.jetbrains.annotations.NotNull;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 import org.mybatis.dynamic.sql.util.*;
@@ -25,7 +24,7 @@ public class InsertIgnoreDSL<T> implements Buildable<InsertIgnoreModel<T>> {
     }
 
     @Override
-    public @NotNull InsertIgnoreModel<T> build() {
+    public InsertIgnoreModel<T> build() {
         return InsertIgnoreModel.withRecord(record)
                 .withTable(table)
                 .withColumnMappings(columnMappings)

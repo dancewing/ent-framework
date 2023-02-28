@@ -9,15 +9,9 @@ plugins {
 dependencies {
     api project(':kernel-d-mybatis:mybatis-dynamic-sql')
 
-    api 'org.mybatis:mybatis-spring'
-
-    //api 'org.mybatis.dynamic-sql:mybatis-dynamic-sql'
-
-    api 'com.google.guava:guava'
     api 'org.apache.commons:commons-lang3'
+    //api 'org.jetbrains:annotations'
 
-    //TODO find a better solution
-    api 'com.github.jsqlparser:jsqlparser:4.4'
     annotationProcessor 'org.projectlombok:lombok'
 
     testImplementation 'junit:junit'

@@ -1,9 +1,9 @@
 package io.entframework.kernel.db.generator.plugin.web;
 
-import cn.hutool.core.io.FileUtil;
 import io.entframework.kernel.db.generator.plugin.web.runtime.freemarker.FreemarkerTemplateEngine;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -27,7 +27,8 @@ public abstract class AbstractTemplatePlugin extends AbstractWebPlugin {
         if (StringUtils.isEmpty(templateBaseDir)) {
             errors.add("请设置全局变量templateBaseDir方便Freemarker初始化");
         }
-        if (!FileUtil.isDirectory(templateBaseDir)) {
+        File file = new File(templateBaseDir);
+        if (!file.isDirectory()) {
             errors.add(String.format("全局变量templateBaseDir: %s不可访问", templateBaseDir));
         }
 

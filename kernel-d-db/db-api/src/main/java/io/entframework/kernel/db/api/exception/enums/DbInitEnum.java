@@ -26,7 +26,8 @@ public enum DbInitEnum implements AbstractExceptionEnum {
     /**
      * 数据库字段与实体字段不一致
      */
-    FIELD_VALIDATE_ERROR(RuleConstants.BUSINESS_ERROR_TYPE_CODE + DbConstants.DB_EXCEPTION_STEP_CODE + "02", "数据库字段与实体字段不一致");
+    FIELD_VALIDATE_ERROR(RuleConstants.BUSINESS_ERROR_TYPE_CODE + DbConstants.DB_EXCEPTION_STEP_CODE + "02", "数据库字段与实体字段不一致"),
+    ENTITY_SCAN_ERROR(RuleConstants.BUSINESS_ERROR_TYPE_CODE + DbConstants.DB_EXCEPTION_STEP_CODE + "03", "数据库实体类扫描异常");
 
     /**
      * 错误编码

@@ -140,12 +140,9 @@ public class MappedStatementCreator {
         List<String> results = new ArrayList<>();
         if (StringUtils.isNotEmpty(this.configuration.getDatabaseId())) {
             String databaseId = this.configuration.getDatabaseId();
-            if ("mysql".equalsIgnoreCase(databaseId) || "mariadb".equalsIgnoreCase(databaseId)) {
-                results.add("SELECT LAST_INSERT_ID()");
-            } else if ("postgresql".equalsIgnoreCase(databaseId)) {
+            if ("mysql".equalsIgnoreCase(databaseId) || "mariadb".equalsIgnoreCase(databaseId) || "h2".equalsIgnoreCase(databaseId)) {
                 results.add("SELECT LAST_INSERT_ID()");
             }
-
         }
         return results.toArray(new String[0]);
     }

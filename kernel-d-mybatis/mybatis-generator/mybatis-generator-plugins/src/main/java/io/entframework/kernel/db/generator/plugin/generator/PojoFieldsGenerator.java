@@ -8,7 +8,7 @@
 package io.entframework.kernel.db.generator.plugin.generator;
 
 import io.entframework.kernel.db.generator.Constants;
-import io.entframework.kernel.rule.util.Inflection;
+import io.entframework.kernel.db.generator.utils.Inflection;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.*;

@@ -8,17 +8,20 @@ plugins {
 
 dependencies {
     api project(':kernel-d-mybatis:mybatis-generator:mybatis-generator-core')
-    api project(':kernel-d-db:db-sdk-dao')
-    api 'org.projectlombok:lombok'
-    api 'org.apache.commons:commons-lang3'
+    //api project(':kernel-d-db:db-api')
+    //api project(':kernel-d-mybatis:mybatis-dynamic-extensions')
 
-    api 'org.apache.maven:maven-plugin-api:3.5.0'
-    api 'org.apache.maven:maven-model:3.0'
-    api 'org.freemarker:freemarker'
+    api 'org.projectlombok:lombok'
+    implementation 'org.apache.commons:commons-lang3'
+
+//    api 'org.apache.maven:maven-plugin-api:3.5.0'
+//    api 'org.apache.maven:maven-model:3.0'
+
+    implementation 'org.freemarker:freemarker'
 
     compileOnly 'org.apache.maven.plugin-tools:maven-plugin-annotations:3.5.2'
 
     annotationProcessor 'org.projectlombok:lombok'
 }
 
-description = 'db-mds-generator'
+description = 'mybatis-generator-plugins'

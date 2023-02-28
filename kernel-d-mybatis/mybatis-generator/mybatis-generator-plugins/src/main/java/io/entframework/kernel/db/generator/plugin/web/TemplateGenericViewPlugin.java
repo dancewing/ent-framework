@@ -4,12 +4,12 @@ import io.entframework.kernel.db.generator.Constants;
 import io.entframework.kernel.db.generator.plugin.web.runtime.ModelObject;
 import io.entframework.kernel.db.generator.plugin.web.runtime.TemplateGeneratedFile;
 import io.entframework.kernel.db.generator.plugin.web.runtime.TypescriptTopLevelClass;
-import com.google.common.base.CaseFormat;
 import org.mybatis.generator.api.GeneratedFile;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.WriteMode;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
+import org.mybatis.generator.internal.util.JavaBeansUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +43,7 @@ public class TemplateGenericViewPlugin extends AbstractTemplatePlugin {
                 ModelObject.Builder builder = ModelObject.builder();
                 String modelObjectName = topLevelClass.getType().getShortName();
                 builder.name(modelObjectName)
-                        .camelModelName(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, modelObjectName))
+                        .camelModelName(JavaBeansUtil.convertCamelCase(modelObjectName, "-"))
                         .description(topLevelClass.getDescription())
                         .type(modelObjectName);
                 modelObjects.add(builder.build());

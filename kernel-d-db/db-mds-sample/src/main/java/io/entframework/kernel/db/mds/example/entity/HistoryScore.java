@@ -6,6 +6,10 @@ import io.entframework.kernel.db.api.pojo.entity.BaseEntity;
 import io.entframework.kernel.db.dao.mybatis.handler.ScoreMapHandler;
 import io.entframework.kernel.rule.annotation.EnumHandler;
 import io.entframework.kernel.rule.annotation.EnumValue;
+import java.io.Serializable;
+import java.sql.JDBCType;
+import java.time.LocalDateTime;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,11 +17,6 @@ import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
-
-import java.io.Serializable;
-import java.sql.JDBCType;
-import java.time.LocalDateTime;
-import java.util.Map;
 
 /**
  * 考试记录

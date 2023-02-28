@@ -33,6 +33,9 @@ allprojects {
 }
 
 tasks.withType(JavaCompile) {
+    sourceCompatibility = "17"
+    targetCompatibility = "17"
+
     options.encoding = 'UTF-8'
     // Try to turn them all off automatically
     options.compilerArgs << '-Xlint:none'
@@ -117,7 +120,7 @@ subprojects {
         }
     }
     def file = new File("${project.projectDir.absolutePath}/src/main/java")
-    def skipProjects = ['db-mds-generator', 'mybatis-generator-core',
+    def skipProjects = ['mybatis-generator-plugins', 'mybatis-generator-core',
                         'mybatis-generator-gradle-plugin', 'mybatis-generator-maven-plugin']
     if (file.exists()) {
         //apply plugin: 'org.sonarqube'

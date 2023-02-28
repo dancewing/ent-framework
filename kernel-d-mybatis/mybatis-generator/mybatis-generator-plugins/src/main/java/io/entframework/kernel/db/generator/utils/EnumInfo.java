@@ -1,7 +1,5 @@
 package io.entframework.kernel.db.generator.utils;
 
-import io.entframework.kernel.rule.annotation.EnumHandler;
-import io.entframework.kernel.rule.annotation.EnumValue;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.java.*;
@@ -16,13 +14,13 @@ import java.util.regex.Pattern;
 
 public class EnumInfo {
 
-    private final static Class<?> ENUM_HANDLER = EnumHandler.class;
-    private final static Class<?> ENUM_VALUE = EnumValue.class;
+    private static final String ENUM_HANDLER = "io.entframework.kernel.rule.annotation.EnumHandler";
+    private static final String ENUM_VALUE = "io.entframework.kernel.rule.annotation.EnumValue";
 
-    private final static String REMARKS_REGEX = "([\\u4e00-\\u9fa5a-zA-Z0-9]+)\\[([a-zA-Z0-9]+\\(\\S*\\):\\S*\\,?\\s*)*\\]";
+    private static final String REMARKS_REGEX = "([\\u4e00-\\u9fa5a-zA-Z0-9]+)\\[([a-zA-Z0-9]+\\(\\S*\\):\\S*\\,?\\s*)*\\]";
 
-    private final static String ITEM_REGEX = "(\\w+)\\s*\\(\\s*([\\u4e00-\\u9fa5_\\-a-zA-Z0-9]+)\\s*\\)\\s*:\\s*([\\u4e00-\\u9fa5_\\-a-zA-Z0-9]+)";
-    private final static Pattern REMARKS_PATTERN = Pattern.compile(REMARKS_REGEX);
+    private static final String ITEM_REGEX = "(\\w+)\\s*\\(\\s*([\\u4e00-\\u9fa5_\\-a-zA-Z0-9]+)\\s*\\)\\s*:\\s*([\\u4e00-\\u9fa5_\\-a-zA-Z0-9]+)";
+    private static final Pattern REMARKS_PATTERN = Pattern.compile(REMARKS_REGEX);
 
     private final List<EnumItemInfo> items = new ArrayList<>();
     private final IntrospectedColumn column;
@@ -122,7 +120,7 @@ public class EnumInfo {
             innerEnum.addEnumConstant(item.getConstant() + "(" + item.getValue() + ", \"" + item.getLabel() + "\")");
         }
         innerEnum.addAnnotation("@EnumHandler");
-        topLevelClass.addImportedType(ENUM_HANDLER.getName());
+        topLevelClass.addImportedType(ENUM_HANDLER);
 
         // 生成属性和构造函数
         Field fValue = new Field("value", column.getFullyQualifiedJavaType());
@@ -131,7 +129,7 @@ public class EnumInfo {
         fValue.addAnnotation("@JsonValue");
         fValue.addAnnotation("@EnumValue");
         topLevelClass.addImportedType("com.fasterxml.jackson.annotation.JsonValue");
-        topLevelClass.addImportedType(ENUM_VALUE.getName());
+        topLevelClass.addImportedType(ENUM_VALUE);
 
         innerEnum.addField(fValue);
 

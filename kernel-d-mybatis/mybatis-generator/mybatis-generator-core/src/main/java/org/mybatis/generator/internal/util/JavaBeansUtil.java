@@ -184,6 +184,34 @@ public class JavaBeansUtil {
         return answer;
     }
 
+    public static String convertCamelCase(String inputString, String separator) {
+        String answer;
+
+        if (inputString == null) {
+            answer = null;
+        } else if (inputString.length() < 2) {
+            answer = inputString.toLowerCase(Locale.US);
+        } else {
+            StringBuilder builder = new StringBuilder();
+            char[] words = inputString.toCharArray();
+            for (int i = 0; i < words.length; i++) {
+                char word = words[i];
+                if (Character.isUpperCase(word)) {
+                    if (i != 0) {
+                        builder.append(separator);
+                    }
+                    builder.append(Character.toLowerCase(word));
+                } else {
+                    builder.append(word);
+                }
+            }
+            answer = builder.toString();
+        }
+
+        return answer;
+    }
+
+
     public static Method getJavaBeansGetter(IntrospectedColumn introspectedColumn,
             Context context,
             IntrospectedTable introspectedTable) {

@@ -11,12 +11,14 @@ import io.entframework.kernel.db.mds.example.service.impl.HistoryScoreServiceImp
 import io.entframework.kernel.db.mds.example.service.impl.StudentServiceImpl;
 import io.entframework.kernel.db.mds.example.service.impl.TeacherServiceImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = {"io.entframework.kernel.db.mds.example.controller", "io.entframework.kernel.db.mds.example.converter", "io.entframework.kernel.db.mds.example.service"})
+@EntityScan("io.entframework.kernel.db.mds.example.entity")
 public class SampleSpringAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(ClassGradeService.class)
