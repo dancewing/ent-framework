@@ -24,25 +24,25 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan("io.entframework.kernel.sms")
-@EnableConfigurationProperties({AliyunSmsProperties.class})
+@EnableConfigurationProperties({ AliyunSmsProperties.class })
 public class KernelSmsAutoConfiguration {
 
-    /**
-     * 短信发送器的配置
-     *
-     * @date 2020/12/1 21:18
-     */
-    @Bean
-    @ConditionalOnMissingBean(SmsSenderApi.class)
-    public SmsSenderApi smsSenderApi(AliyunSmsProperties aliyunSmsProperties) {
+	/**
+	 * 短信发送器的配置
+	 *
+	 * @date 2020/12/1 21:18
+	 */
+	@Bean
+	@ConditionalOnMissingBean(SmsSenderApi.class)
+	public SmsSenderApi smsSenderApi(AliyunSmsProperties aliyunSmsProperties) {
 
-        // 配置默认从系统配置表读取
-        return new AliyunSmsSender(new MapBasedMultiSignManager(), aliyunSmsProperties);
-    }
+		// 配置默认从系统配置表读取
+		return new AliyunSmsSender(new MapBasedMultiSignManager(), aliyunSmsProperties);
+	}
 
-    @Bean
-    public KernelSmsModuleRegister kernelSmsModuleRegister() {
-        return new KernelSmsModuleRegister();
-    }
+	@Bean
+	public KernelSmsModuleRegister kernelSmsModuleRegister() {
+		return new KernelSmsModuleRegister();
+	}
 
 }

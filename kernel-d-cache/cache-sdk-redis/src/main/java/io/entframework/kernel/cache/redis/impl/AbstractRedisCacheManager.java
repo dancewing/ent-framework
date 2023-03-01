@@ -20,93 +20,94 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 public abstract class AbstractRedisCacheManager<V> implements CacheManager<V> {
-    protected RedisSimpleDao redisSimpleDao;
 
-    protected RedisMapDao redisMapDao;
+	protected RedisSimpleDao redisSimpleDao;
 
-    protected RedisListDao redisListDao;
+	protected RedisMapDao redisMapDao;
 
-    protected RedisSetDao redisSetDao;
+	protected RedisListDao redisListDao;
 
-    protected RedisOrderSetDao redisOrderSetDao;
+	protected RedisSetDao redisSetDao;
 
-    protected RedisZScoreSetDao redisZScoreSetDao;
+	protected RedisOrderSetDao redisOrderSetDao;
 
-    protected RedisAtomicLongDao redisAtomicLongDao;
+	protected RedisZScoreSetDao redisZScoreSetDao;
 
-    protected RedisLockDao redisLockDao;
+	protected RedisAtomicLongDao redisAtomicLongDao;
 
-    /** redisKey值前缀 */
-    @Getter
-    protected String prefix;
+	protected RedisLockDao redisLockDao;
 
-    /** 时间单位 */
-    protected TimeUnit timeUnit = TimeUnit.MILLISECONDS;
+	/** redisKey值前缀 */
+	@Getter
+	protected String prefix;
 
-    /** 做批量操作时，一次批量提交的命令中命令的个数 */
-    protected int batchSize = 10;
+	/** 时间单位 */
+	protected TimeUnit timeUnit = TimeUnit.MILLISECONDS;
 
-    protected AbstractRedisCacheManager(String prefix) {
-        if (StringUtils.isNotBlank(prefix)) {
-            this.prefix = prefix;
-        }
-    }
+	/** 做批量操作时，一次批量提交的命令中命令的个数 */
+	protected int batchSize = 10;
 
-    public AbstractRedisCacheManager<V> setRedisSimpleDao(RedisSimpleDao redisSimpleDao) {
-        this.redisSimpleDao = redisSimpleDao;
-        return this;
-    }
+	protected AbstractRedisCacheManager(String prefix) {
+		if (StringUtils.isNotBlank(prefix)) {
+			this.prefix = prefix;
+		}
+	}
 
-    public AbstractRedisCacheManager<V> setRedisMapDao(RedisMapDao redisMapDao) {
-        this.redisMapDao = redisMapDao;
-        return this;
-    }
+	public AbstractRedisCacheManager<V> setRedisSimpleDao(RedisSimpleDao redisSimpleDao) {
+		this.redisSimpleDao = redisSimpleDao;
+		return this;
+	}
 
-    public AbstractRedisCacheManager<V> setRedisListDao(RedisListDao redisListDao) {
-        this.redisListDao = redisListDao;
-        return this;
-    }
+	public AbstractRedisCacheManager<V> setRedisMapDao(RedisMapDao redisMapDao) {
+		this.redisMapDao = redisMapDao;
+		return this;
+	}
 
-    public AbstractRedisCacheManager<V> setRedisSetDao(RedisSetDao redisSetDao) {
-        this.redisSetDao = redisSetDao;
-        return this;
-    }
+	public AbstractRedisCacheManager<V> setRedisListDao(RedisListDao redisListDao) {
+		this.redisListDao = redisListDao;
+		return this;
+	}
 
-    public AbstractRedisCacheManager<V> setRedisOrderSetDao(RedisOrderSetDao redisOrderSetDao) {
-        this.redisOrderSetDao = redisOrderSetDao;
-        return this;
-    }
+	public AbstractRedisCacheManager<V> setRedisSetDao(RedisSetDao redisSetDao) {
+		this.redisSetDao = redisSetDao;
+		return this;
+	}
 
-    public AbstractRedisCacheManager<V> setRedisZScoreSetDao(RedisZScoreSetDao redisZScoreSetDao) {
-        this.redisZScoreSetDao = redisZScoreSetDao;
-        return this;
-    }
+	public AbstractRedisCacheManager<V> setRedisOrderSetDao(RedisOrderSetDao redisOrderSetDao) {
+		this.redisOrderSetDao = redisOrderSetDao;
+		return this;
+	}
 
-    public AbstractRedisCacheManager<V> setRedisAtomicLongDao(RedisAtomicLongDao redisAtomicLongDao) {
-        this.redisAtomicLongDao = redisAtomicLongDao;
-        return this;
-    }
+	public AbstractRedisCacheManager<V> setRedisZScoreSetDao(RedisZScoreSetDao redisZScoreSetDao) {
+		this.redisZScoreSetDao = redisZScoreSetDao;
+		return this;
+	}
 
-    public AbstractRedisCacheManager<V> setRedisLockDao(RedisLockDao redisLockDao) {
-        this.redisLockDao = redisLockDao;
-        return this;
-    }
+	public AbstractRedisCacheManager<V> setRedisAtomicLongDao(RedisAtomicLongDao redisAtomicLongDao) {
+		this.redisAtomicLongDao = redisAtomicLongDao;
+		return this;
+	}
 
-    /**
-     * 根据key值获取完整的redisKey
-     *
-     * @param key key值
-     * @return 完整的redisKey
-     */
-    protected String getRedisKey(String key) {
-        if (prefix == null || StringUtils.isBlank(key)) {
-            return key;
-        }
+	public AbstractRedisCacheManager<V> setRedisLockDao(RedisLockDao redisLockDao) {
+		this.redisLockDao = redisLockDao;
+		return this;
+	}
 
-        if (key.startsWith(prefix)) {
-            return key;
-        }
+	/**
+	 * 根据key值获取完整的redisKey
+	 * @param key key值
+	 * @return 完整的redisKey
+	 */
+	protected String getRedisKey(String key) {
+		if (prefix == null || StringUtils.isBlank(key)) {
+			return key;
+		}
 
-        return this.prefix + key;
-    }
+		if (key.startsWith(prefix)) {
+			return key;
+		}
+
+		return this.prefix + key;
+	}
+
 }

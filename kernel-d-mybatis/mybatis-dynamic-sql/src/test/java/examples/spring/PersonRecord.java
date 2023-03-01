@@ -18,75 +18,83 @@ package examples.spring;
 import java.util.Date;
 
 public class PersonRecord {
-    private Integer id;
-    private String firstName;
-    private LastName lastName;
-    private Date birthDate;
-    private Boolean employed;
-    private String occupation;
-    private Integer addressId;
 
-    public Integer getId() {
-        return id;
-    }
+	private Integer id;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private String firstName;
 
-    public String getFirstName() {
-        return firstName;
-    }
+	private LastName lastName;
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	private Date birthDate;
 
-    public LastName getLastName() {
-        return lastName;
-    }
+	private Boolean employed;
 
-    public String getLastNameAsString() {
-        return lastName == null ? null : lastName.getName();
-    }
+	private String occupation;
 
-    public void setLastName(LastName lastName) {
-        this.lastName = lastName;
-    }
+	private Integer addressId;
 
-    public Date getBirthDate() {
-        return birthDate;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getOccupation() {
-        return occupation;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public void setOccupation(String occupation) {
-        this.occupation = occupation;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public Boolean getEmployed() {
-        return employed;
-    }
+	public LastName getLastName() {
+		return lastName;
+	}
 
-    public String getEmployedAsString() {
-        return employed == null ? "No" : employed ? "Yes" : "No";
-    }
+	public String getLastNameAsString() {
+		return lastName == null ? null : lastName.getName();
+	}
 
-    public void setEmployed(Boolean employed) {
-        this.employed = employed;
-    }
+	public void setLastName(LastName lastName) {
+		this.lastName = lastName;
+	}
 
-    public Integer getAddressId() {
-        return addressId;
-    }
+	public Date getBirthDate() {
+		return birthDate;
+	}
 
-    public void setAddressId(Integer addressId) {
-        this.addressId = addressId;
-    }
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getOccupation() {
+		return occupation;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
+	}
+
+	public Boolean getEmployed() {
+		return employed;
+	}
+
+	public String getEmployedAsString() {
+		return employed == null ? "No" : employed ? "Yes" : "No";
+	}
+
+	public void setEmployed(Boolean employed) {
+		this.employed = employed;
+	}
+
+	public Integer getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(Integer addressId) {
+		this.addressId = addressId;
+	}
+
 }

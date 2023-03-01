@@ -25,32 +25,32 @@ import java.util.Optional;
 @Service
 public class KernelMapServiceImpl implements KernelMapService, MongodbApi<KernelMapEntity, String> {
 
-    @Resource
-    private KernelMapRepository kernelMapRepository;
+	@Resource
+	private KernelMapRepository kernelMapRepository;
 
-    @Override
-    public KernelMapEntity insert(KernelMapEntity kernelMapEntity) {
-        return kernelMapRepository.insert(kernelMapEntity);
-    }
+	@Override
+	public KernelMapEntity insert(KernelMapEntity kernelMapEntity) {
+		return kernelMapRepository.insert(kernelMapEntity);
+	}
 
-    @Override
-    public KernelMapEntity update(KernelMapEntity kernelMapEntity) {
-        return kernelMapRepository.save(kernelMapEntity);
-    }
+	@Override
+	public KernelMapEntity update(KernelMapEntity kernelMapEntity) {
+		return kernelMapRepository.save(kernelMapEntity);
+	}
 
-    @Override
-    public void deleteById(String id) {
-        kernelMapRepository.deleteById(id);
-    }
+	@Override
+	public void deleteById(String id) {
+		kernelMapRepository.deleteById(id);
+	}
 
-    @Override
-    public Optional<KernelMapEntity> findById(String id) {
-        return kernelMapRepository.findById(id);
-    }
+	@Override
+	public Optional<KernelMapEntity> findById(String id) {
+		return kernelMapRepository.findById(id);
+	}
 
-    @Override
-    public List<KernelMapEntity> findAll() {
-        return kernelMapRepository.findAll();
-    }
+	@Override
+	public List<KernelMapEntity> findAll() {
+		return kernelMapRepository.findAll();
+	}
 
 }

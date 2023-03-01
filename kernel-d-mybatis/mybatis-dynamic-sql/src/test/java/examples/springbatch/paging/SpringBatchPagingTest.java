@@ -40,59 +40,53 @@ import examples.springbatch.mapper.PersonMapper;
 @SpringJUnitConfig(classes = PagingReaderBatchConfiguration.class)
 class SpringBatchPagingTest {
 
-    @Autowired
-    private JobLauncherTestUtils jobLauncherTestUtils;
+	@Autowired
+	private JobLauncherTestUtils jobLauncherTestUtils;
 
-    @Autowired
-    private SqlSessionFactory sqlSessionFactory;
+	@Autowired
+	private SqlSessionFactory sqlSessionFactory;
 
-    @Test
-    void testThatRowsAreTransformedToUpperCase() throws Exception {
-        // starting condition
-        assertThat(upperCaseRowCount()).isZero();
+	@Test
+	void testThatRowsAreTransformedToUpperCase() throws Exception {
+		// starting condition
+		assertThat(upperCaseRowCount()).isZero();
 
-        JobExecution execution = jobLauncherTestUtils.launchJob();
-        assertThat(execution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
-        assertThat(numberOfChunks(execution)).isEqualTo(14);
-        assertThat(numberOfRowsProcessed(execution)).isEqualTo(93);
+		JobExecution execution = jobLauncherTestUtils.launchJob();
+		assertThat(execution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
+		assertThat(numberOfChunks(execution)).isEqualTo(14);
+		assertThat(numberOfRowsProcessed(execution)).isEqualTo(93);
 
-        // ending condition
-        assertThat(upperCaseRowCount()).isEqualTo(93);
-    }
+		// ending condition
+		assertThat(upperCaseRowCount()).isEqualTo(93);
+	}
 
-    private int numberOfRowsProcessed(JobExecution jobExecution) {
-        return jobExecution.getStepExecutions().stream()
-                .map(StepExecution::getExecutionContext)
-                .mapToInt(this::getRowCount)
-                .sum();
-    }
+	private int numberOfRowsProcessed(JobExecution jobExecution) {
+		return jobExecution.getStepExecutions().stream().map(StepExecution::getExecutionContext)
+				.mapToInt(this::getRowCount).sum();
+	}
 
-    private int getRowCount(ExecutionContext executionContext) {
-        return executionContext.getInt("row_count", 0);
-    }
+	private int getRowCount(ExecutionContext executionContext) {
+		return executionContext.getInt("row_count", 0);
+	}
 
-    private int numberOfChunks(JobExecution jobExecution) {
-        return jobExecution.getStepExecutions().stream()
-                .map(StepExecution::getExecutionContext)
-                .mapToInt(this::getChunkCount)
-                .sum();
-    }
+	private int numberOfChunks(JobExecution jobExecution) {
+		return jobExecution.getStepExecutions().stream().map(StepExecution::getExecutionContext)
+				.mapToInt(this::getChunkCount).sum();
+	}
 
-    private int getChunkCount(ExecutionContext executionContext) {
-        return executionContext.getInt("chunk_count", 0);
-    }
+	private int getChunkCount(ExecutionContext executionContext) {
+		return executionContext.getInt("chunk_count", 0);
+	}
 
-    private long upperCaseRowCount() throws Exception {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
+	private long upperCaseRowCount() throws Exception {
+		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+			PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
 
-            SelectStatementProvider selectStatement = SelectDSL.select(count())
-                    .from(person)
-                    .where(lastName, isEqualTo("SMITH"))
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3);
+			SelectStatementProvider selectStatement = SelectDSL.select(count()).from(person)
+					.where(lastName, isEqualTo("SMITH")).build().render(RenderingStrategies.MYBATIS3);
 
-            return personMapper.count(selectStatement);
-        }
-    }
+			return personMapper.count(selectStatement);
+		}
+	}
+
 }

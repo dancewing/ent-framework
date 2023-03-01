@@ -20,50 +20,54 @@ import org.mybatis.generator.api.dom.kotlin.KotlinFile;
 import org.mybatis.generator.api.dom.kotlin.KotlinFunction;
 
 public class GeneralUpdateMethodGenerator extends AbstractKotlinFunctionGenerator {
-    private final String mapperName;
 
-    private GeneralUpdateMethodGenerator(Builder builder) {
-        super(builder);
-        this.mapperName = builder.mapperName;
-    }
+	private final String mapperName;
 
-    @Override
-    public KotlinFunctionAndImports generateMethodAndImports() {
-        KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports.withFunction(
-                KotlinFunction.newOneLineFunction(mapperName + ".update") //$NON-NLS-1$
-                .withArgument(KotlinArg.newArg("completer") //$NON-NLS-1$
-                        .withDataType("UpdateCompleter") //$NON-NLS-1$
-                        .build())
-                .withCodeLine("update(this::update, " + tableFieldName + ", completer)") //$NON-NLS-1$ //$NON-NLS-2$
-                .build())
-                .withImport("org.mybatis.dynamic.sql.util.kotlin.UpdateCompleter") //$NON-NLS-1$
-                .withImport("org.mybatis.dynamic.sql.util.kotlin.mybatis3.update") //$NON-NLS-1$
-                .build();
+	private GeneralUpdateMethodGenerator(Builder builder) {
+		super(builder);
+		this.mapperName = builder.mapperName;
+	}
 
-        addFunctionComment(functionAndImports);
-        return functionAndImports;
-    }
+	@Override
+	public KotlinFunctionAndImports generateMethodAndImports() {
+		KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports
+				.withFunction(KotlinFunction.newOneLineFunction(mapperName + ".update") //$NON-NLS-1$
+						.withArgument(KotlinArg.newArg("completer") //$NON-NLS-1$
+								.withDataType("UpdateCompleter") //$NON-NLS-1$
+								.build())
+						.withCodeLine("update(this::update, " + tableFieldName + ", completer)") //$NON-NLS-1$ //$NON-NLS-2$
+						.build())
+				.withImport("org.mybatis.dynamic.sql.util.kotlin.UpdateCompleter") //$NON-NLS-1$
+				.withImport("org.mybatis.dynamic.sql.util.kotlin.mybatis3.update") //$NON-NLS-1$
+				.build();
 
-    @Override
-    public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
-        return context.getPlugins().clientGeneralUpdateMethodGenerated(kotlinFunction, kotlinFile, introspectedTable);
-    }
+		addFunctionComment(functionAndImports);
+		return functionAndImports;
+	}
 
-    public static class Builder extends BaseBuilder<Builder> {
-        private String mapperName;
+	@Override
+	public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
+		return context.getPlugins().clientGeneralUpdateMethodGenerated(kotlinFunction, kotlinFile, introspectedTable);
+	}
 
-        public Builder withMapperName(String mapperName) {
-            this.mapperName = mapperName;
-            return this;
-        }
+	public static class Builder extends BaseBuilder<Builder> {
 
-        @Override
-        public Builder getThis() {
-            return this;
-        }
+		private String mapperName;
 
-        public GeneralUpdateMethodGenerator build() {
-            return new GeneralUpdateMethodGenerator(this);
-        }
-    }
+		public Builder withMapperName(String mapperName) {
+			this.mapperName = mapperName;
+			return this;
+		}
+
+		@Override
+		public Builder getThis() {
+			return this;
+		}
+
+		public GeneralUpdateMethodGenerator build() {
+			return new GeneralUpdateMethodGenerator(this);
+		}
+
+	}
+
 }

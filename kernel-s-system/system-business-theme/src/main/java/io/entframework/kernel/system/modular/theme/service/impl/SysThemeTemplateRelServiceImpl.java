@@ -31,7 +31,8 @@ import java.util.List;
  *
  * @date 2021/12/17 16:14
  */
-public class SysThemeTemplateRelServiceImpl extends BaseServiceImpl<SysThemeTemplateRelRequest, SysThemeTemplateRelResponse, SysThemeTemplateRel>
+public class SysThemeTemplateRelServiceImpl
+		extends BaseServiceImpl<SysThemeTemplateRelRequest, SysThemeTemplateRelResponse, SysThemeTemplateRel>
 		implements SysThemeTemplateRelService {
 
 	@Resource
@@ -91,6 +92,8 @@ public class SysThemeTemplateRelServiceImpl extends BaseServiceImpl<SysThemeTemp
 		String[] fieldCodes = sysThemeTemplateRelRequest.getFieldCodes();
 
 		// 构建删除条件
-		this.getRepository().delete(getEntityClass(), c -> c.where(SysThemeTemplateRelDynamicSqlSupport.fieldCode, SqlBuilder.isIn(fieldCodes)));
+		this.getRepository().delete(getEntityClass(),
+				c -> c.where(SysThemeTemplateRelDynamicSqlSupport.fieldCode, SqlBuilder.isIn(fieldCodes)));
 	}
+
 }

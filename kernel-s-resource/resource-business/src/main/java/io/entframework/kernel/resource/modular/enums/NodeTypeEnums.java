@@ -14,31 +14,31 @@ import lombok.Getter;
 @Getter
 public enum NodeTypeEnums {
 
-    /**
-     * 叶子节点
-     */
-    LEAF_NODE("1", "叶子节点"),
+	/**
+	 * 叶子节点
+	 */
+	LEAF_NODE("1", "叶子节点"),
 
-    /**
-     * 数据节点
-     */
-    DATA_NODE("2", "数据节点"),
+	/**
+	 * 数据节点
+	 */
+	DATA_NODE("2", "数据节点"),
 
-    ;
+	;
 
-    /**
-     * 类型
-     */
-    private final String type;
+	/**
+	 * 类型
+	 */
+	private final String type;
 
-    /**
-     * 名称
-     */
-    private final String name;
+	/**
+	 * 名称
+	 */
+	private final String name;
 
-    NodeTypeEnums(String type, String name) {
-        this.type = type;
-        this.name = name;
-    }
+	NodeTypeEnums(String type, String name) {
+		this.type = type;
+		this.name = name;
+	}
 
 }

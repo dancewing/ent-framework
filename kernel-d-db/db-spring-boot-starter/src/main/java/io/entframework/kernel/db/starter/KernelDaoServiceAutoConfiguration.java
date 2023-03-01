@@ -6,7 +6,6 @@
  */
 package io.entframework.kernel.db.starter;
 
-
 import io.entframework.kernel.db.dao.listener.EntityListener;
 import io.entframework.kernel.db.dao.listener.EntityListeners;
 import io.entframework.kernel.db.dao.listener.impl.DefaultAuditEntityListener;
@@ -43,50 +42,54 @@ import java.util.List;
 @MapperScan("io.entframework.kernel.db.mybatis.mapper")
 public class KernelDaoServiceAutoConfiguration {
 
-    @Bean
-    public EntityListener idAutoGeneratorEntityListener() {
-        return new IdAutoGeneratorEntityListener();
-    }
+	@Bean
+	public EntityListener idAutoGeneratorEntityListener() {
+		return new IdAutoGeneratorEntityListener();
+	}
 
-    @Bean
-    public EntityListener defaultAuditEntityListener() {
-        return new DefaultAuditEntityListener();
-    }
+	@Bean
+	public EntityListener defaultAuditEntityListener() {
+		return new DefaultAuditEntityListener();
+	}
 
-    @Bean
-    public EntityListener initialDefaultValueEntityListener() {
-        return new InitialDefaultValueEntityListener();
-    }
+	@Bean
+	public EntityListener initialDefaultValueEntityListener() {
+		return new InitialDefaultValueEntityListener();
+	}
 
-    @Bean
-    public EntityListeners entityListener(ObjectProvider<EntityListener[]> entityListeners) {
-        EntityListener[] listeners = entityListeners.getIfAvailable();
-        return new EntityListeners(listeners == null ? Collections.emptyList() : List.of(listeners));
-    }
+	@Bean
+	public EntityListeners entityListener(ObjectProvider<EntityListener[]> entityListeners) {
+		EntityListener[] listeners = entityListeners.getIfAvailable();
+		return new EntityListeners(listeners == null ? Collections.emptyList() : List.of(listeners));
+	}
 
-    @Bean
-    public GeneralRepository generalRepository() {
-        return new DefaultGeneralRepository();
-    }
+	@Bean
+	public GeneralRepository generalRepository() {
+		return new DefaultGeneralRepository();
+	}
 
-    @Configuration(proxyBeanMethods = false)
-    static class PersistenceManagedTypesConfiguration {
-        @Bean
-        @Primary
-        @ConditionalOnMissingBean
-        static PersistenceManagedTypes persistenceManagedTypes(BeanFactory beanFactory, ResourceLoader resourceLoader) {
-            String[] packagesToScan = getPackagesToScan(beanFactory);
-            PersistenceManagedTypes persistenceManagedTypes = new PersistenceManagedTypesScanner(resourceLoader).scan(packagesToScan);
-            persistenceManagedTypes.getManagedClassNames().forEach(Entities::register);
-            return persistenceManagedTypes;
-        }
+	@Configuration(proxyBeanMethods = false)
+	static class PersistenceManagedTypesConfiguration {
 
-        private static String[] getPackagesToScan(BeanFactory beanFactory) {
-            List<String> packages = EntityScanPackages.get(beanFactory).getPackageNames();
-            if (packages.isEmpty() && AutoConfigurationPackages.has(beanFactory)) {
-                packages = AutoConfigurationPackages.get(beanFactory);
-            }
-            return StringUtils.toStringArray(packages);
-        }
-    }
+		@Bean
+		@Primary
+		@ConditionalOnMissingBean
+		static PersistenceManagedTypes persistenceManagedTypes(BeanFactory beanFactory, ResourceLoader resourceLoader) {
+			String[] packagesToScan = getPackagesToScan(beanFactory);
+			PersistenceManagedTypes persistenceManagedTypes = new PersistenceManagedTypesScanner(resourceLoader)
+					.scan(packagesToScan);
+			persistenceManagedTypes.getManagedClassNames().forEach(Entities::register);
+			return persistenceManagedTypes;
+		}
+
+		private static String[] getPackagesToScan(BeanFactory beanFactory) {
+			List<String> packages = EntityScanPackages.get(beanFactory).getPackageNames();
+			if (packages.isEmpty() && AutoConfigurationPackages.has(beanFactory)) {
+				packages = AutoConfigurationPackages.get(beanFactory);
+			}
+			return StringUtils.toStringArray(packages);
+		}
+
+	}
+
 }

@@ -22,11 +22,12 @@ import java.util.List;
 
 public class InitializationBlockRenderer {
 
-    public List<String> render(InitializationBlock initializationBlock) {
+	public List<String> render(InitializationBlock initializationBlock) {
 
-        List<String> lines = new ArrayList<>(initializationBlock.getJavaDocLines());
-        lines.addAll(initializationBlock.getBodyLines());
+		List<String> lines = new ArrayList<>(initializationBlock.getJavaDocLines());
+		lines.addAll(initializationBlock.getBodyLines());
 
-        return lines;
-    }
+		return lines;
+	}
+
 }

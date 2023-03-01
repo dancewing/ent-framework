@@ -32,53 +32,53 @@ import java.util.Map;
 @Slf4j
 public class ResourceReportListener extends ApplicationReadyListener implements Ordered {
 
-    @Override
-    public void eventCallback(ApplicationReadyEvent event) {
+	@Override
+	public void eventCallback(ApplicationReadyEvent event) {
 
-        ConfigurableApplicationContext applicationContext = event.getApplicationContext();
+		ConfigurableApplicationContext applicationContext = event.getApplicationContext();
 
-        // 获取有没有开资源扫描开关
-        ScannerProperties scannerProperties = applicationContext.getBean(ScannerProperties.class);
-        if (scannerProperties.getOpen() == null || !scannerProperties.getOpen()) {
-            log.info("资源扫描未打开");
-            return;
-        }
+		// 获取有没有开资源扫描开关
+		ScannerProperties scannerProperties = applicationContext.getBean(ScannerProperties.class);
+		if (scannerProperties.getOpen() == null || !scannerProperties.getOpen()) {
+			log.info("资源扫描未打开");
+			return;
+		}
 
-        // 如果项目还没进行资源扫描
-        if (InitScanFlagHolder.getFlag() == null || !InitScanFlagHolder.getFlag()) {
-            log.info("项目还没进行资源扫描");
-            // 获取当前系统的所有资源
-            ResourceCollectorApi resourceCollectorApi = applicationContext.getBean(ResourceCollectorApi.class);
-            Map<String, Map<String, ResourceDefinition>> modularResources = resourceCollectorApi.getModularResources();
+		// 如果项目还没进行资源扫描
+		if (InitScanFlagHolder.getFlag() == null || !InitScanFlagHolder.getFlag()) {
+			log.info("项目还没进行资源扫描");
+			// 获取当前系统的所有资源
+			ResourceCollectorApi resourceCollectorApi = applicationContext.getBean(ResourceCollectorApi.class);
+			Map<String, Map<String, ResourceDefinition>> modularResources = resourceCollectorApi.getModularResources();
 
-            // 持久化资源
-            ResourceReportApi resourcePersistentApi = applicationContext.getBean(ResourceReportApi.class);
-            List<SysResourcePersistencePojo> persistencePojos = resourcePersistentApi.reportResourcesAndGetResult(new ResourceParam(scannerProperties.getAppCode(), modularResources));
+			// 持久化资源
+			ResourceReportApi resourcePersistentApi = applicationContext.getBean(ResourceReportApi.class);
+			List<SysResourcePersistencePojo> persistencePojos = resourcePersistentApi
+					.reportResourcesAndGetResult(new ResourceParam(scannerProperties.getAppCode(), modularResources));
 
-            // 向DevOps一体化平台汇报资源
-            DevOpsReportProperties devOpsReportProperties = applicationContext.getBean(DevOpsReportProperties.class);
-            // 如果配置了相关属性则进行DevOps资源汇报
-            if (ObjectUtil.isAllNotEmpty(devOpsReportProperties,
-                    devOpsReportProperties.getServerHost(),
-                    devOpsReportProperties.getProjectInteractionSecretKey(),
-                    devOpsReportProperties.getProjectUniqueCode(),
-                    devOpsReportProperties.getServerHost())) {
-                DevOpsReportApi devOpsReportApi = applicationContext.getBean(DevOpsReportApi.class);
-                try {
-                    devOpsReportApi.reportResources(devOpsReportProperties, persistencePojos);
-                } catch (Exception e) {
-                    log.error("向DevOps平台汇报异常出现网络错误，如无法联通DevOps平台可关闭相关配置。", e);
-                }
-            }
-            // 设置标识已经扫描过
-            InitScanFlagHolder.setFlag();
-        }
+			// 向DevOps一体化平台汇报资源
+			DevOpsReportProperties devOpsReportProperties = applicationContext.getBean(DevOpsReportProperties.class);
+			// 如果配置了相关属性则进行DevOps资源汇报
+			if (ObjectUtil.isAllNotEmpty(devOpsReportProperties, devOpsReportProperties.getServerHost(),
+					devOpsReportProperties.getProjectInteractionSecretKey(),
+					devOpsReportProperties.getProjectUniqueCode(), devOpsReportProperties.getServerHost())) {
+				DevOpsReportApi devOpsReportApi = applicationContext.getBean(DevOpsReportApi.class);
+				try {
+					devOpsReportApi.reportResources(devOpsReportProperties, persistencePojos);
+				}
+				catch (Exception e) {
+					log.error("向DevOps平台汇报异常出现网络错误，如无法联通DevOps平台可关闭相关配置。", e);
+				}
+			}
+			// 设置标识已经扫描过
+			InitScanFlagHolder.setFlag();
+		}
 
-    }
+	}
 
-    @Override
-    public int getOrder() {
-        return ScannerConstants.REPORT_RESOURCE_LISTENER_SORT;
-    }
+	@Override
+	public int getOrder() {
+		return ScannerConstants.REPORT_RESOURCE_LISTENER_SORT;
+	}
 
 }

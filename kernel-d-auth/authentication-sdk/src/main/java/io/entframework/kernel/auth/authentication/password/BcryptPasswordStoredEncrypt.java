@@ -14,18 +14,18 @@ import io.entframework.kernel.auth.api.password.PasswordStoredEncryptApi;
  */
 public class BcryptPasswordStoredEncrypt implements PasswordStoredEncryptApi {
 
-    @Override
-    public String encrypt(String originPassword) {
-        if (CharSequenceUtil.isBlank(originPassword)) {
-            return null;
-        }
+	@Override
+	public String encrypt(String originPassword) {
+		if (CharSequenceUtil.isBlank(originPassword)) {
+			return null;
+		}
 
-        return BCrypt.hashpw(originPassword, BCrypt.gensalt());
-    }
+		return BCrypt.hashpw(originPassword, BCrypt.gensalt());
+	}
 
-    @Override
-    public boolean checkPassword(String encryptBefore, String encryptAfter) {
-        return BCrypt.checkpw(encryptBefore, encryptAfter);
-    }
+	@Override
+	public boolean checkPassword(String encryptBefore, String encryptAfter) {
+		return BCrypt.checkpw(encryptBefore, encryptAfter);
+	}
 
 }

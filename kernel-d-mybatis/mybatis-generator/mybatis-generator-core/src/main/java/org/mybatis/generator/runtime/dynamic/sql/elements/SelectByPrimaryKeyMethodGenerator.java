@@ -23,70 +23,76 @@ import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.Method;
 
 public class SelectByPrimaryKeyMethodGenerator extends AbstractMethodGenerator {
-    private final FullyQualifiedJavaType recordType;
-    private final FragmentGenerator fragmentGenerator;
 
-    private SelectByPrimaryKeyMethodGenerator(Builder builder) {
-        super(builder);
-        recordType = builder.recordType;
-        fragmentGenerator = builder.fragmentGenerator;
-    }
+	private final FullyQualifiedJavaType recordType;
 
-    @Override
-    public MethodAndImports generateMethodAndImports() {
-        if (!Utils.generateSelectByPrimaryKey(introspectedTable)) {
-            return null;
-        }
+	private final FragmentGenerator fragmentGenerator;
 
-        Set<FullyQualifiedJavaType> imports = new HashSet<>();
+	private SelectByPrimaryKeyMethodGenerator(Builder builder) {
+		super(builder);
+		recordType = builder.recordType;
+		fragmentGenerator = builder.fragmentGenerator;
+	}
 
-        FullyQualifiedJavaType returnType = new FullyQualifiedJavaType("java.util.Optional"); //$NON-NLS-1$
-        returnType.addTypeArgument(recordType);
-        imports.add(returnType);
+	@Override
+	public MethodAndImports generateMethodAndImports() {
+		if (!Utils.generateSelectByPrimaryKey(introspectedTable)) {
+			return null;
+		}
 
-        Method method = new Method("selectByPrimaryKey"); //$NON-NLS-1$
-        method.setDefault(true);
-        context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
-        method.setReturnType(returnType);
+		Set<FullyQualifiedJavaType> imports = new HashSet<>();
 
-        method.addBodyLine("return selectOne(c ->"); //$NON-NLS-1$
+		FullyQualifiedJavaType returnType = new FullyQualifiedJavaType("java.util.Optional"); //$NON-NLS-1$
+		returnType.addTypeArgument(recordType);
+		imports.add(returnType);
 
-        MethodAndImports.Builder builder = MethodAndImports.withMethod(method)
-                .withStaticImport("org.mybatis.dynamic.sql.SqlBuilder.isEqualTo") //$NON-NLS-1$
-                .withImports(imports);
+		Method method = new Method("selectByPrimaryKey"); //$NON-NLS-1$
+		method.setDefault(true);
+		context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
+		method.setReturnType(returnType);
 
-        MethodParts methodParts = fragmentGenerator.getPrimaryKeyWhereClauseAndParameters();
-        acceptParts(builder, method, methodParts);
+		method.addBodyLine("return selectOne(c ->"); //$NON-NLS-1$
 
-        return builder.build();
-    }
+		MethodAndImports.Builder builder = MethodAndImports.withMethod(method)
+				.withStaticImport("org.mybatis.dynamic.sql.SqlBuilder.isEqualTo") //$NON-NLS-1$
+				.withImports(imports);
 
-    @Override
-    public boolean callPlugins(Method method, Interface interfaze) {
-        return context.getPlugins().clientSelectByPrimaryKeyMethodGenerated(method, interfaze, introspectedTable);
-    }
+		MethodParts methodParts = fragmentGenerator.getPrimaryKeyWhereClauseAndParameters();
+		acceptParts(builder, method, methodParts);
 
-    public static class Builder extends BaseBuilder<Builder> {
-        private FullyQualifiedJavaType recordType;
-        private FragmentGenerator fragmentGenerator;
+		return builder.build();
+	}
 
-        public Builder withRecordType(FullyQualifiedJavaType recordType) {
-            this.recordType = recordType;
-            return this;
-        }
+	@Override
+	public boolean callPlugins(Method method, Interface interfaze) {
+		return context.getPlugins().clientSelectByPrimaryKeyMethodGenerated(method, interfaze, introspectedTable);
+	}
 
-        public Builder withFragmentGenerator(FragmentGenerator fragmentGenerator) {
-            this.fragmentGenerator = fragmentGenerator;
-            return this;
-        }
+	public static class Builder extends BaseBuilder<Builder> {
 
-        @Override
-        public Builder getThis() {
-            return this;
-        }
+		private FullyQualifiedJavaType recordType;
 
-        public SelectByPrimaryKeyMethodGenerator build() {
-            return new SelectByPrimaryKeyMethodGenerator(this);
-        }
-    }
+		private FragmentGenerator fragmentGenerator;
+
+		public Builder withRecordType(FullyQualifiedJavaType recordType) {
+			this.recordType = recordType;
+			return this;
+		}
+
+		public Builder withFragmentGenerator(FragmentGenerator fragmentGenerator) {
+			this.fragmentGenerator = fragmentGenerator;
+			return this;
+		}
+
+		@Override
+		public Builder getThis() {
+			return this;
+		}
+
+		public SelectByPrimaryKeyMethodGenerator build() {
+			return new SelectByPrimaryKeyMethodGenerator(this);
+		}
+
+	}
+
 }

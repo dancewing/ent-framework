@@ -7,59 +7,65 @@ import java.util.Map;
 import java.util.Objects;
 
 public class DefaultUpdateRowStatementProvider<T> implements UpdateRowStatementProvider<T> {
-    private final T row;
 
-    private final String updateStatement;
+	private final T row;
 
-    private final Map<String, Object> parameters = new HashMap<>();
+	private final String updateStatement;
 
-    private DefaultUpdateRowStatementProvider(Builder<T> builder) {
-        this.updateStatement = Objects.requireNonNull(builder.updateStatement);
-        row = Objects.requireNonNull(builder.row);
-        parameters.putAll(builder.parameters);
-    }
+	private final Map<String, Object> parameters = new HashMap<>();
 
-    @Override
-    public @NotNull T getRow() {
-        return this.row;
-    }
+	private DefaultUpdateRowStatementProvider(Builder<T> builder) {
+		this.updateStatement = Objects.requireNonNull(builder.updateStatement);
+		row = Objects.requireNonNull(builder.row);
+		parameters.putAll(builder.parameters);
+	}
 
-    @Override
-    public String getUpdateStatement() {
-        return this.updateStatement;
-    }
+	@Override
+	public @NotNull T getRow() {
+		return this.row;
+	}
 
-    @Override
-    public Map<String, Object> getParameters() {
-        return parameters;
-    }
+	@Override
+	public String getUpdateStatement() {
+		return this.updateStatement;
+	}
 
-    public static <T> Builder<T> withRow(T row) {
-        return new Builder<T>().withRow(row);
-    }
+	@Override
+	public Map<String, Object> getParameters() {
+		return parameters;
+	}
 
-    public static class Builder<T> {
-        private String updateStatement;
-        private T row;
-        private final Map<String, Object> parameters = new HashMap<>();
+	public static <T> Builder<T> withRow(T row) {
+		return new Builder<T>().withRow(row);
+	}
 
-        public Builder<T> withUpdateStatement(String updateStatement) {
-            this.updateStatement = updateStatement;
-            return this;
-        }
+	public static class Builder<T> {
 
-        public Builder<T> withRow(T row) {
-            this.row = row;
-            return this;
-        }
+		private String updateStatement;
 
-        public Builder<T> withParameters(Map<String, Object> parameters) {
-            this.parameters.putAll(parameters);
-            return this;
-        }
+		private T row;
 
-        public DefaultUpdateRowStatementProvider<T> build() {
-            return new DefaultUpdateRowStatementProvider<>(this);
-        }
-    }
+		private final Map<String, Object> parameters = new HashMap<>();
+
+		public Builder<T> withUpdateStatement(String updateStatement) {
+			this.updateStatement = updateStatement;
+			return this;
+		}
+
+		public Builder<T> withRow(T row) {
+			this.row = row;
+			return this;
+		}
+
+		public Builder<T> withParameters(Map<String, Object> parameters) {
+			this.parameters.putAll(parameters);
+			return this;
+		}
+
+		public DefaultUpdateRowStatementProvider<T> build() {
+			return new DefaultUpdateRowStatementProvider<>(this);
+		}
+
+	}
+
 }

@@ -21,47 +21,48 @@ import java.util.function.Predicate;
 import org.mybatis.dynamic.sql.AbstractSingleValueCondition;
 
 public class IsLessThanOrEqualTo<T> extends AbstractSingleValueCondition<T> {
-    private static final IsLessThanOrEqualTo<?> EMPTY = new IsLessThanOrEqualTo<Object>(null) {
-        @Override
-        public boolean shouldRender() {
-            return false;
-        }
-    };
 
-    public static <T> IsLessThanOrEqualTo<T> empty() {
-        @SuppressWarnings("unchecked")
-        IsLessThanOrEqualTo<T> t = (IsLessThanOrEqualTo<T>) EMPTY;
-        return t;
-    }
+	private static final IsLessThanOrEqualTo<?> EMPTY = new IsLessThanOrEqualTo<Object>(null) {
+		@Override
+		public boolean shouldRender() {
+			return false;
+		}
+	};
 
-    protected IsLessThanOrEqualTo(T value) {
-        super(value);
-    }
+	public static <T> IsLessThanOrEqualTo<T> empty() {
+		@SuppressWarnings("unchecked")
+		IsLessThanOrEqualTo<T> t = (IsLessThanOrEqualTo<T>) EMPTY;
+		return t;
+	}
 
-    @Override
-    public String renderCondition(String columnName, String placeholder) {
-        return columnName + " <= " + placeholder; //$NON-NLS-1$
-    }
+	protected IsLessThanOrEqualTo(T value) {
+		super(value);
+	}
 
-    public static <T> IsLessThanOrEqualTo<T> of(T value) {
-        return new IsLessThanOrEqualTo<>(value);
-    }
+	@Override
+	public String renderCondition(String columnName, String placeholder) {
+		return columnName + " <= " + placeholder; //$NON-NLS-1$
+	}
 
-    @Override
-    public IsLessThanOrEqualTo<T> filter(Predicate<? super T> predicate) {
-        return filterSupport(predicate, IsLessThanOrEqualTo::empty, this);
-    }
+	public static <T> IsLessThanOrEqualTo<T> of(T value) {
+		return new IsLessThanOrEqualTo<>(value);
+	}
 
-    /**
-     * If renderable, apply the mapping to the value and return a new condition with the new value. Else return a
-     *     condition that will not render (this).
-     *
-     * @param mapper a mapping function to apply to the value, if renderable
-     * @param <R> type of the new condition
-     * @return a new condition with the result of applying the mapper to the value of this condition,
-     *     if renderable, otherwise a condition that will not render.
-     */
-    public <R> IsLessThanOrEqualTo<R> map(Function<? super T, ? extends R> mapper) {
-        return mapSupport(mapper, IsLessThanOrEqualTo::new, IsLessThanOrEqualTo::empty);
-    }
+	@Override
+	public IsLessThanOrEqualTo<T> filter(Predicate<? super T> predicate) {
+		return filterSupport(predicate, IsLessThanOrEqualTo::empty, this);
+	}
+
+	/**
+	 * If renderable, apply the mapping to the value and return a new condition with the
+	 * new value. Else return a condition that will not render (this).
+	 * @param mapper a mapping function to apply to the value, if renderable
+	 * @param <R> type of the new condition
+	 * @return a new condition with the result of applying the mapper to the value of this
+	 * condition, if renderable, otherwise a condition that will not render.
+	 */
+	public <R> IsLessThanOrEqualTo<R> map(Function<? super T, ? extends R> mapper) {
+		return mapSupport(mapper, IsLessThanOrEqualTo::new, IsLessThanOrEqualTo::empty);
+	}
+
 }

@@ -20,57 +20,65 @@ import java.util.Map;
 import java.util.Objects;
 
 public class DefaultUpdateStatementProvider implements UpdateStatementProvider {
-    private final String updateStatement;
-    private final Map<String, Object> parameters = new HashMap<>();
-    private final UpdateRenderer source;
 
-    private DefaultUpdateStatementProvider(Builder builder) {
-        updateStatement = Objects.requireNonNull(builder.updateStatement);
-        parameters.putAll(builder.parameters);
-        source = builder.source;
-    }
+	private final String updateStatement;
 
-    @Override
-    public UpdateRenderer getSource() {
-        return source;
-    }
+	private final Map<String, Object> parameters = new HashMap<>();
 
-    @Override
-    public Map<String, Object> getParameters() {
-        return parameters;
-    }
+	private final UpdateRenderer source;
 
-    @Override
-    public String getUpdateStatement() {
-        return updateStatement;
-    }
+	private DefaultUpdateStatementProvider(Builder builder) {
+		updateStatement = Objects.requireNonNull(builder.updateStatement);
+		parameters.putAll(builder.parameters);
+		source = builder.source;
+	}
 
-    public static Builder withUpdateStatement(String updateStatement) {
-        return new Builder().withUpdateStatement(updateStatement);
-    }
+	@Override
+	public UpdateRenderer getSource() {
+		return source;
+	}
 
-    public static class Builder {
-        private String updateStatement;
-        private final Map<String, Object> parameters = new HashMap<>();
-        private UpdateRenderer source;
+	@Override
+	public Map<String, Object> getParameters() {
+		return parameters;
+	}
 
-        public Builder withUpdateStatement(String updateStatement) {
-            this.updateStatement = updateStatement;
-            return this;
-        }
+	@Override
+	public String getUpdateStatement() {
+		return updateStatement;
+	}
 
-        public Builder withParameters(Map<String, Object> parameters) {
-            this.parameters.putAll(parameters);
-            return this;
-        }
+	public static Builder withUpdateStatement(String updateStatement) {
+		return new Builder().withUpdateStatement(updateStatement);
+	}
 
-        public Builder withSource(UpdateRenderer source) {
-            this.source = source;
-            return this;
-        }
+	public static class Builder {
 
-        public DefaultUpdateStatementProvider build() {
-            return new DefaultUpdateStatementProvider(this);
-        }
-    }
+		private String updateStatement;
+
+		private final Map<String, Object> parameters = new HashMap<>();
+
+		private UpdateRenderer source;
+
+		public Builder withUpdateStatement(String updateStatement) {
+			this.updateStatement = updateStatement;
+			return this;
+		}
+
+		public Builder withParameters(Map<String, Object> parameters) {
+			this.parameters.putAll(parameters);
+			return this;
+		}
+
+		public Builder withSource(UpdateRenderer source) {
+			this.source = source;
+			return this;
+		}
+
+		public DefaultUpdateStatementProvider build() {
+			return new DefaultUpdateStatementProvider(this);
+		}
+
+	}
+
 }

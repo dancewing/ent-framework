@@ -25,67 +25,76 @@ import org.mybatis.generator.api.dom.java.Parameter;
 
 public class MethodParts {
 
-    private final List<String> annotations;
-    private final List<String> bodyLines;
-    private final Set<FullyQualifiedJavaType> imports;
-    private final List<Parameter> parameters;
+	private final List<String> annotations;
 
-    private MethodParts(Builder builder) {
-        imports = builder.imports;
-        bodyLines = builder.bodyLines;
-        parameters = builder.parameters;
-        annotations = builder.annotations;
-    }
+	private final List<String> bodyLines;
 
-    public Set<FullyQualifiedJavaType> getImports() {
-        return imports;
-    }
+	private final Set<FullyQualifiedJavaType> imports;
 
-    public List<String> getAnnotations() {
-        return annotations;
-    }
+	private final List<Parameter> parameters;
 
-    public List<String> getBodyLines() {
-        return bodyLines;
-    }
+	private MethodParts(Builder builder) {
+		imports = builder.imports;
+		bodyLines = builder.bodyLines;
+		parameters = builder.parameters;
+		annotations = builder.annotations;
+	}
 
-    public List<Parameter> getParameters() {
-        return parameters;
-    }
+	public Set<FullyQualifiedJavaType> getImports() {
+		return imports;
+	}
 
-    public static class Builder {
-        private final List<String> bodyLines = new ArrayList<>();
-        private final Set<FullyQualifiedJavaType> imports = new HashSet<>();
-        private final List<Parameter> parameters = new ArrayList<>();
-        private final List<String> annotations = new ArrayList<>();
+	public List<String> getAnnotations() {
+		return annotations;
+	}
 
-        public Builder withAnnotation(String annotation) {
-            annotations.add(annotation);
-            return this;
-        }
+	public List<String> getBodyLines() {
+		return bodyLines;
+	}
 
-        public Builder withBodyLine(String bodyLine) {
-            this.bodyLines.add(bodyLine);
-            return this;
-        }
+	public List<Parameter> getParameters() {
+		return parameters;
+	}
 
-        public Builder withImport(FullyQualifiedJavaType importedType) {
-            this.imports.add(importedType);
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withImports(Set<FullyQualifiedJavaType> imports) {
-            this.imports.addAll(imports);
-            return this;
-        }
+		private final List<String> bodyLines = new ArrayList<>();
 
-        public Builder withParameter(Parameter parameter) {
-            parameters.add(parameter);
-            return this;
-        }
+		private final Set<FullyQualifiedJavaType> imports = new HashSet<>();
 
-        public MethodParts build() {
-            return new MethodParts(this);
-        }
-    }
+		private final List<Parameter> parameters = new ArrayList<>();
+
+		private final List<String> annotations = new ArrayList<>();
+
+		public Builder withAnnotation(String annotation) {
+			annotations.add(annotation);
+			return this;
+		}
+
+		public Builder withBodyLine(String bodyLine) {
+			this.bodyLines.add(bodyLine);
+			return this;
+		}
+
+		public Builder withImport(FullyQualifiedJavaType importedType) {
+			this.imports.add(importedType);
+			return this;
+		}
+
+		public Builder withImports(Set<FullyQualifiedJavaType> imports) {
+			this.imports.addAll(imports);
+			return this;
+		}
+
+		public Builder withParameter(Parameter parameter) {
+			parameters.add(parameter);
+			return this;
+		}
+
+		public MethodParts build() {
+			return new MethodParts(this);
+		}
+
+	}
+
 }

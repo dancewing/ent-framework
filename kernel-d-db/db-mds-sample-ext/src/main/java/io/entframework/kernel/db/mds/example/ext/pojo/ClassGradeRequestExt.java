@@ -10,4 +10,5 @@ package io.entframework.kernel.db.mds.example.ext.pojo;
 import io.entframework.kernel.db.mds.example.pojo.request.ClassGradeRequest;
 
 public class ClassGradeRequestExt extends ClassGradeRequest {
+
 }

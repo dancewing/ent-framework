@@ -21,28 +21,30 @@ import java.util.Optional;
 import org.mybatis.dynamic.sql.SqlTable;
 
 /**
- * Returns the alias for a table if specified, or the table name itself.
- * This is useful for join rendering when we always want to have an alias for the table.
+ * Returns the alias for a table if specified, or the table name itself. This is useful
+ * for join rendering when we always want to have an alias for the table.
  *
  * @author Jeff Butler
  */
 public class GuaranteedTableAliasCalculator extends ExplicitTableAliasCalculator {
 
-    private GuaranteedTableAliasCalculator(Map<SqlTable, String> aliases) {
-        super(aliases);
-    }
+	private GuaranteedTableAliasCalculator(Map<SqlTable, String> aliases) {
+		super(aliases);
+	}
 
-    @Override
-    public Optional<String> aliasForColumn(SqlTable table) {
-        Optional<String> alias = super.aliasForColumn(table);
-        if (alias.isPresent()) {
-            return alias;
-        } else {
-            return Optional.of(table.tableNameAtRuntime());
-        }
-    }
+	@Override
+	public Optional<String> aliasForColumn(SqlTable table) {
+		Optional<String> alias = super.aliasForColumn(table);
+		if (alias.isPresent()) {
+			return alias;
+		}
+		else {
+			return Optional.of(table.tableNameAtRuntime());
+		}
+	}
 
-    public static TableAliasCalculator of(Map<SqlTable, String> aliases) {
-        return new GuaranteedTableAliasCalculator(aliases);
-    }
+	public static TableAliasCalculator of(Map<SqlTable, String> aliases) {
+		return new GuaranteedTableAliasCalculator(aliases);
+	}
+
 }

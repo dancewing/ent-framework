@@ -21,26 +21,28 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @Entity
 @Table(value = "sys_file_storage", sqlSupport = SysFileStorageDynamicSqlSupport.class, tableProperty = "sysFileStorage")
 public class SysFileStorage extends BaseEntity {
-    /**
-     * 文件主键id，关联file_info表的主键
-     */
-    @Id
-    @Column(name = "file_id", jdbcType = JDBCType.BIGINT)
-    private Long fileId;
 
-    /**
-     * 具体文件的字节信息
-     */
-    @Column(name = "file_bytes", jdbcType = JDBCType.LONGVARBINARY)
-    private byte[] fileBytes;
+	/**
+	 * 文件主键id，关联file_info表的主键
+	 */
+	@Id
+	@Column(name = "file_id", jdbcType = JDBCType.BIGINT)
+	private Long fileId;
 
-    public SysFileStorage fileId(Long fileId) {
-        this.fileId = fileId;
-        return this;
-    }
+	/**
+	 * 具体文件的字节信息
+	 */
+	@Column(name = "file_bytes", jdbcType = JDBCType.LONGVARBINARY)
+	private byte[] fileBytes;
 
-    public SysFileStorage fileBytes(byte[] fileBytes) {
-        this.fileBytes = fileBytes;
-        return this;
-    }
+	public SysFileStorage fileId(Long fileId) {
+		this.fileId = fileId;
+		return this;
+	}
+
+	public SysFileStorage fileBytes(byte[] fileBytes) {
+		this.fileBytes = fileBytes;
+		return this;
+	}
+
 }

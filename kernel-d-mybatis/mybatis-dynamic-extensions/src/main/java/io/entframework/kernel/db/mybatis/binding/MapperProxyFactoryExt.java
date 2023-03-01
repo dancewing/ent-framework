@@ -7,28 +7,32 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MapperProxyFactoryExt<T> {
-    private final Class<T> mapperInterface;
-    private final Map<String, MapperProxyExt.MapperMethodInvoker> methodCache = new ConcurrentHashMap<>();
 
-    public MapperProxyFactoryExt(Class<T> mapperInterface) {
-        this.mapperInterface = mapperInterface;
-    }
+	private final Class<T> mapperInterface;
 
-    public Class<T> getMapperInterface() {
-        return mapperInterface;
-    }
+	private final Map<String, MapperProxyExt.MapperMethodInvoker> methodCache = new ConcurrentHashMap<>();
 
-    public Map<String, MapperProxyExt.MapperMethodInvoker> getMethodCache() {
-        return methodCache;
-    }
+	public MapperProxyFactoryExt(Class<T> mapperInterface) {
+		this.mapperInterface = mapperInterface;
+	}
 
-    @SuppressWarnings("unchecked")
-    protected T newInstance(MapperProxyExt<T> mapperProxy) {
-        return (T) Proxy.newProxyInstance(mapperInterface.getClassLoader(), new Class[]{mapperInterface}, mapperProxy);
-    }
+	public Class<T> getMapperInterface() {
+		return mapperInterface;
+	}
 
-    public T newInstance(SqlSession sqlSession) {
-        final MapperProxyExt<T> mapperProxy = new MapperProxyExt<>(sqlSession, mapperInterface, methodCache);
-        return newInstance(mapperProxy);
-    }
+	public Map<String, MapperProxyExt.MapperMethodInvoker> getMethodCache() {
+		return methodCache;
+	}
+
+	@SuppressWarnings("unchecked")
+	protected T newInstance(MapperProxyExt<T> mapperProxy) {
+		return (T) Proxy.newProxyInstance(mapperInterface.getClassLoader(), new Class[] { mapperInterface },
+				mapperProxy);
+	}
+
+	public T newInstance(SqlSession sqlSession) {
+		final MapperProxyExt<T> mapperProxy = new MapperProxyExt<>(sqlSession, mapperInterface, methodCache);
+		return newInstance(mapperProxy);
+	}
+
 }

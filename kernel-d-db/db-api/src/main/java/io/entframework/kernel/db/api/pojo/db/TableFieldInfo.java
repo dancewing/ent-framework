@@ -14,19 +14,19 @@ import lombok.Data;
 @Data
 public class TableFieldInfo {
 
-    /**
-     * 字段名称(和数据库中的字段名称一致，可能为带下划线的)
-     */
-    private String columnName;
+	/**
+	 * 字段名称(和数据库中的字段名称一致，可能为带下划线的)
+	 */
+	private String columnName;
 
-    /**
-     * 驼峰命名法的名称
-     */
-    private String camelFieldName;
+	/**
+	 * 驼峰命名法的名称
+	 */
+	private String camelFieldName;
 
-    /**
-     * 字段注释
-     */
-    private String columnComment;
+	/**
+	 * 字段注释
+	 */
+	private String columnComment;
 
 }

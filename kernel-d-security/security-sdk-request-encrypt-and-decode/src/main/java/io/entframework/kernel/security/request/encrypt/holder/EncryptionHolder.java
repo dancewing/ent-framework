@@ -11,34 +11,33 @@ package io.entframework.kernel.security.request.encrypt.holder;
  */
 public class EncryptionHolder {
 
-    private static final ThreadLocal<String> CONTEXT_HOLDER = new ThreadLocal<>();
+	private static final ThreadLocal<String> CONTEXT_HOLDER = new ThreadLocal<>();
 
-    /**
-     * 设置
-     *
-     * @param aesKey aesKey
-     * @date 2020/8/24
-     */
-    public static void setAesKey(String aesKey) {
-        CONTEXT_HOLDER.set(aesKey);
-    }
+	/**
+	 * 设置
+	 * @param aesKey aesKey
+	 * @date 2020/8/24
+	 */
+	public static void setAesKey(String aesKey) {
+		CONTEXT_HOLDER.set(aesKey);
+	}
 
-    /**
-     * 获取
-     *
-     * @date 2020/8/24
-     */
-    public static String getAesKey() {
-        return CONTEXT_HOLDER.get();
-    }
+	/**
+	 * 获取
+	 *
+	 * @date 2020/8/24
+	 */
+	public static String getAesKey() {
+		return CONTEXT_HOLDER.get();
+	}
 
-    /**
-     * 清除
-     *
-     * @date 2020/8/24
-     */
-    public static void clearAesKey() {
-        CONTEXT_HOLDER.remove();
-    }
+	/**
+	 * 清除
+	 *
+	 * @date 2020/8/24
+	 */
+	public static void clearAesKey() {
+		CONTEXT_HOLDER.remove();
+	}
 
 }

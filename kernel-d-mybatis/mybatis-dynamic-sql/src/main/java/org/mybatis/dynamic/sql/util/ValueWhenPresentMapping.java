@@ -23,30 +23,32 @@ import org.mybatis.dynamic.sql.SqlColumn;
 
 public class ValueWhenPresentMapping<T> extends AbstractColumnMapping {
 
-    private final Supplier<T> valueSupplier;
-    // keep a reference to the column so we don't lose the type
-    private final SqlColumn<T> localColumn;
+	private final Supplier<T> valueSupplier;
 
-    private ValueWhenPresentMapping(SqlColumn<T> column, Supplier<T> valueSupplier) {
-        super(column);
-        this.valueSupplier = Objects.requireNonNull(valueSupplier);
-        localColumn = Objects.requireNonNull(column);
-    }
+	// keep a reference to the column so we don't lose the type
+	private final SqlColumn<T> localColumn;
 
-    public Optional<Object> value() {
-        return Optional.ofNullable(valueSupplier.get()).map(this::convert);
-    }
+	private ValueWhenPresentMapping(SqlColumn<T> column, Supplier<T> valueSupplier) {
+		super(column);
+		this.valueSupplier = Objects.requireNonNull(valueSupplier);
+		localColumn = Objects.requireNonNull(column);
+	}
 
-    private Object convert(T value) {
-        return localColumn.convertParameterType(value);
-    }
+	public Optional<Object> value() {
+		return Optional.ofNullable(valueSupplier.get()).map(this::convert);
+	}
 
-    @Override
-    public <R> R accept(ColumnMappingVisitor<R> visitor) {
-        return visitor.visit(this);
-    }
+	private Object convert(T value) {
+		return localColumn.convertParameterType(value);
+	}
 
-    public static <T> ValueWhenPresentMapping<T> of(SqlColumn<T> column, Supplier<T> valueSupplier) {
-        return new ValueWhenPresentMapping<>(column, valueSupplier);
-    }
+	@Override
+	public <R> R accept(ColumnMappingVisitor<R> visitor) {
+		return visitor.visit(this);
+	}
+
+	public static <T> ValueWhenPresentMapping<T> of(SqlColumn<T> column, Supplier<T> valueSupplier) {
+		return new ValueWhenPresentMapping<>(column, valueSupplier);
+	}
+
 }

@@ -30,43 +30,46 @@ import issues.gh324.NameTableMapper;
 
 @Service
 public class SpringNameService {
-    @Autowired
-    private NameTableMapper mapper;
-    @Autowired
-    private PlatformTransactionManager transactionManager;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void insertRecord() {
-        NameRecord record = new NameRecord();
-        record.setId(1);
-        record.setName("Fred");
-        mapper.insert(record);
-    }
+	@Autowired
+	private NameTableMapper mapper;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void updateRecordAndCommit() {
-        NameRecord record = new NameRecord();
-        record.setId(1);
-        record.setName("Barney");
-        mapper.updateByPrimaryKey(record);
-    }
+	@Autowired
+	private PlatformTransactionManager transactionManager;
 
-    public void updateRecordAndRollback() {
-        TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
-        NameRecord record = new NameRecord();
-        record.setId(1);
-        record.setName("Barney");
-        mapper.updateByPrimaryKey(record);
-        transactionManager.rollback(txStatus);
-    }
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void insertRecord() {
+		NameRecord record = new NameRecord();
+		record.setId(1);
+		record.setName("Fred");
+		mapper.insert(record);
+	}
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public Optional<NameRecord> getRecord() {
-        return mapper.selectByPrimaryKey(1);
-    }
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void updateRecordAndCommit() {
+		NameRecord record = new NameRecord();
+		record.setId(1);
+		record.setName("Barney");
+		mapper.updateByPrimaryKey(record);
+	}
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void resetDatabase() {
-        mapper.deleteAll();
-    }
+	public void updateRecordAndRollback() {
+		TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
+		NameRecord record = new NameRecord();
+		record.setId(1);
+		record.setName("Barney");
+		mapper.updateByPrimaryKey(record);
+		transactionManager.rollback(txStatus);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public Optional<NameRecord> getRecord() {
+		return mapper.selectByPrimaryKey(1);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void resetDatabase() {
+		mapper.deleteAll();
+	}
+
 }

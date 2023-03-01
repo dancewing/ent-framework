@@ -11,9 +11,10 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class KernelFlywayAutoConfiguration {
 
-    @Bean
-    @Primary
-    public FlywayService flywayService() {
-        return new FlywayService();
-    }
+	@Bean
+	@Primary
+	public FlywayService flywayService() {
+		return new FlywayService();
+	}
+
 }

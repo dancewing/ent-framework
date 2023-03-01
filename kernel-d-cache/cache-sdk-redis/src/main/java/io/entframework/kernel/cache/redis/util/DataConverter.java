@@ -15,15 +15,15 @@ import org.redisson.client.protocol.ScoredEntry;
  *
  */
 public class DataConverter {
-    /**
-     * 将redisson的ScoredEntry转换为自定义的DistributedScoredEntry
-     * 对外不暴露redisson的ScoredEntry
-     *
-     * @param entry 实体信息
-     * @param <V>
-     * @return 自定义的DistributedScoredEntry
-     */
-    public static <V> DistributedScoredEntry<V> converter(ScoredEntry<V> entry) {
-        return new DistributedScoredEntry<>(entry.getScore(), entry.getValue());
-    }
+
+	/**
+	 * 将redisson的ScoredEntry转换为自定义的DistributedScoredEntry 对外不暴露redisson的ScoredEntry
+	 * @param entry 实体信息
+	 * @param <V>
+	 * @return 自定义的DistributedScoredEntry
+	 */
+	public static <V> DistributedScoredEntry<V> converter(ScoredEntry<V> entry) {
+		return new DistributedScoredEntry<>(entry.getScore(), entry.getValue());
+	}
+
 }

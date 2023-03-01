@@ -71,7 +71,7 @@ public class InitAdminService {
 			sysRoleResource.setRoleId(superAdminRole.getRoleId());
 			sysRoleResources.add(sysRoleResource);
 		}
-		//后台触发的插入操作，防止RecordableAutoFillInterceptor抛出异常
+		// 后台触发的插入操作，防止RecordableAutoFillInterceptor抛出异常
 		LoginUser loginUser = new LoginUser();
 		loginUser.setUserId(-1L);
 		loginUser.setAccount("system");

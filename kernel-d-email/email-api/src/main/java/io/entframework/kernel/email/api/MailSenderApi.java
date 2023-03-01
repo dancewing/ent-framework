@@ -12,20 +12,18 @@ import io.entframework.kernel.email.api.pojo.SendMailParam;
  */
 public interface MailSenderApi {
 
-    /**
-     * 发送普通邮件
-     *
-     * @param sendMailParam 发送邮件的参数
-     * @date 2020/10/23 17:30
-     */
-    void sendMail(SendMailParam sendMailParam);
+	/**
+	 * 发送普通邮件
+	 * @param sendMailParam 发送邮件的参数
+	 * @date 2020/10/23 17:30
+	 */
+	void sendMail(SendMailParam sendMailParam);
 
-    /**
-     * 发送html的邮件
-     *
-     * @param sendMailParam 发送邮件的参数
-     * @date 2020/10/23 17:30
-     */
-    void sendMailHtml(SendMailParam sendMailParam);
+	/**
+	 * 发送html的邮件
+	 * @param sendMailParam 发送邮件的参数
+	 * @date 2020/10/23 17:30
+	 */
+	void sendMailHtml(SendMailParam sendMailParam);
 
 }

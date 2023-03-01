@@ -19,51 +19,58 @@ import java.util.Optional;
 
 public class PagingModel {
 
-    private final Long limit;
-    private final Long offset;
-    private final Long fetchFirstRows;
+	private final Long limit;
 
-    private PagingModel(Builder builder) {
-        super();
-        limit = builder.limit;
-        offset = builder.offset;
-        fetchFirstRows = builder.fetchFirstRows;
-    }
+	private final Long offset;
 
-    public Optional<Long> limit() {
-        return Optional.ofNullable(limit);
-    }
+	private final Long fetchFirstRows;
 
-    public Optional<Long> offset() {
-        return Optional.ofNullable(offset);
-    }
+	private PagingModel(Builder builder) {
+		super();
+		limit = builder.limit;
+		offset = builder.offset;
+		fetchFirstRows = builder.fetchFirstRows;
+	}
 
-    public Optional<Long> fetchFirstRows() {
-        return Optional.ofNullable(fetchFirstRows);
-    }
+	public Optional<Long> limit() {
+		return Optional.ofNullable(limit);
+	}
 
-    public static class Builder {
-        private Long limit;
-        private Long offset;
-        private Long fetchFirstRows;
+	public Optional<Long> offset() {
+		return Optional.ofNullable(offset);
+	}
 
-        public Builder withLimit(Long limit) {
-            this.limit = limit;
-            return this;
-        }
+	public Optional<Long> fetchFirstRows() {
+		return Optional.ofNullable(fetchFirstRows);
+	}
 
-        public Builder withOffset(Long offset) {
-            this.offset = offset;
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withFetchFirstRows(Long fetchFirstRows) {
-            this.fetchFirstRows = fetchFirstRows;
-            return this;
-        }
+		private Long limit;
 
-        public PagingModel build() {
-            return new PagingModel(this);
-        }
-    }
+		private Long offset;
+
+		private Long fetchFirstRows;
+
+		public Builder withLimit(Long limit) {
+			this.limit = limit;
+			return this;
+		}
+
+		public Builder withOffset(Long offset) {
+			this.offset = offset;
+			return this;
+		}
+
+		public Builder withFetchFirstRows(Long fetchFirstRows) {
+			this.fetchFirstRows = fetchFirstRows;
+			return this;
+		}
+
+		public PagingModel build() {
+			return new PagingModel(this);
+		}
+
+	}
+
 }

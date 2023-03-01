@@ -6,4 +6,5 @@ import io.entframework.kernel.db.mds.example.pojo.request.ClassGradeRequest;
 import io.entframework.kernel.db.mds.example.pojo.response.ClassGradeResponse;
 
 public interface ClassGradeService extends BaseService<ClassGradeRequest, ClassGradeResponse, ClassGrade> {
+
 }

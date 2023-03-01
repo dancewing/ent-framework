@@ -15,4 +15,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(KernelRedisCacheProperties.class)
 public class KernelRedisCacheAutoConfiguration {
+
 }

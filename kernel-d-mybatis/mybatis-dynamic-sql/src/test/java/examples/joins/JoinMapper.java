@@ -25,15 +25,14 @@ import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 
 public interface JoinMapper {
-    @SelectProvider(type=SqlProviderAdapter.class, method="select")
-    @ResultMap("SimpleJoinResult")
-    List<OrderMaster> selectMany(SelectStatementProvider selectStatement);
 
-    @SelectProvider(type=SqlProviderAdapter.class, method="select")
-    @Results ({
-        @Result(column="user_id", property="userId"),
-        @Result(column="user_name", property="userName"),
-        @Result(column="parent_id", property="parentId")
-    })
-    List<User> selectUsers(SelectStatementProvider selectStatement);
+	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
+	@ResultMap("SimpleJoinResult")
+	List<OrderMaster> selectMany(SelectStatementProvider selectStatement);
+
+	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
+	@Results({ @Result(column = "user_id", property = "userId"), @Result(column = "user_name", property = "userName"),
+			@Result(column = "parent_id", property = "parentId") })
+	List<User> selectUsers(SelectStatementProvider selectStatement);
+
 }

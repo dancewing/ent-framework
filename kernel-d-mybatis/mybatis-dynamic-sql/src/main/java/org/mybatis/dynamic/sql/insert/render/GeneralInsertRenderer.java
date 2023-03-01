@@ -31,79 +31,73 @@ import org.mybatis.dynamic.sql.util.Messages;
 
 public class GeneralInsertRenderer {
 
-    private final GeneralInsertModel model;
-    private final RenderingStrategy renderingStrategy;
+	private final GeneralInsertModel model;
 
-    private GeneralInsertRenderer(Builder builder) {
-        model = Objects.requireNonNull(builder.model);
-        renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
-    }
+	private final RenderingStrategy renderingStrategy;
 
-    public GeneralInsertStatementProvider render() {
-        GeneralInsertValuePhraseVisitor visitor = new GeneralInsertValuePhraseVisitor(renderingStrategy);
-        List<Optional<FieldAndValueAndParameters>> fieldsAndValues = model.mapColumnMappings(m -> m.accept(visitor))
-                .collect(Collectors.toList());
+	private GeneralInsertRenderer(Builder builder) {
+		model = Objects.requireNonNull(builder.model);
+		renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
+	}
 
-        if (fieldsAndValues.stream().noneMatch(Optional::isPresent)) {
-            throw new InvalidSqlException(Messages.getString("ERROR.9")); //$NON-NLS-1$
-        }
+	public GeneralInsertStatementProvider render() {
+		GeneralInsertValuePhraseVisitor visitor = new GeneralInsertValuePhraseVisitor(renderingStrategy);
+		List<Optional<FieldAndValueAndParameters>> fieldsAndValues = model.mapColumnMappings(m -> m.accept(visitor))
+				.collect(Collectors.toList());
 
-        return DefaultGeneralInsertStatementProvider.withInsertStatement(calculateInsertStatement(fieldsAndValues))
-                .withParameters(calculateParameters(fieldsAndValues))
-                .build();
-    }
+		if (fieldsAndValues.stream().noneMatch(Optional::isPresent)) {
+			throw new InvalidSqlException(Messages.getString("ERROR.9")); //$NON-NLS-1$
+		}
 
-    private String calculateInsertStatement(List<Optional<FieldAndValueAndParameters>> fieldsAndValues) {
-        return "insert into" //$NON-NLS-1$
-                + spaceBefore(model.table().tableNameAtRuntime())
-                + spaceBefore(calculateColumnsPhrase(fieldsAndValues))
-                + spaceBefore(calculateValuesPhrase(fieldsAndValues));
-    }
+		return DefaultGeneralInsertStatementProvider.withInsertStatement(calculateInsertStatement(fieldsAndValues))
+				.withParameters(calculateParameters(fieldsAndValues)).build();
+	}
 
-    private String calculateColumnsPhrase(List<Optional<FieldAndValueAndParameters>> fieldsAndValues) {
-        return fieldsAndValues.stream()
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(FieldAndValueAndParameters::fieldName)
-                .collect(Collectors.joining(", ", "(", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    }
+	private String calculateInsertStatement(List<Optional<FieldAndValueAndParameters>> fieldsAndValues) {
+		return "insert into" //$NON-NLS-1$
+				+ spaceBefore(model.table().tableNameAtRuntime()) + spaceBefore(calculateColumnsPhrase(fieldsAndValues))
+				+ spaceBefore(calculateValuesPhrase(fieldsAndValues));
+	}
 
-    private String calculateValuesPhrase(List<Optional<FieldAndValueAndParameters>> fieldsAndValues) {
-        return fieldsAndValues.stream()
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(FieldAndValueAndParameters::valuePhrase)
-                .collect(Collectors.joining(", ", "values (", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    }
+	private String calculateColumnsPhrase(List<Optional<FieldAndValueAndParameters>> fieldsAndValues) {
+		return fieldsAndValues.stream().filter(Optional::isPresent).map(Optional::get)
+				.map(FieldAndValueAndParameters::fieldName).collect(Collectors.joining(", ", "(", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 
-    private Map<String, Object> calculateParameters(List<Optional<FieldAndValueAndParameters>> fieldsAndValues) {
-        return fieldsAndValues.stream()
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(FieldAndValueAndParameters::parameters)
-                .collect(HashMap::new, HashMap::putAll, HashMap::putAll);
-    }
+	private String calculateValuesPhrase(List<Optional<FieldAndValueAndParameters>> fieldsAndValues) {
+		return fieldsAndValues.stream().filter(Optional::isPresent).map(Optional::get)
+				.map(FieldAndValueAndParameters::valuePhrase).collect(Collectors.joining(", ", "values (", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 
-    public static Builder withInsertModel(GeneralInsertModel model) {
-        return new Builder().withInsertModel(model);
-    }
+	private Map<String, Object> calculateParameters(List<Optional<FieldAndValueAndParameters>> fieldsAndValues) {
+		return fieldsAndValues.stream().filter(Optional::isPresent).map(Optional::get)
+				.map(FieldAndValueAndParameters::parameters).collect(HashMap::new, HashMap::putAll, HashMap::putAll);
+	}
 
-    public static class Builder {
-        private GeneralInsertModel model;
-        private RenderingStrategy renderingStrategy;
+	public static Builder withInsertModel(GeneralInsertModel model) {
+		return new Builder().withInsertModel(model);
+	}
 
-        public Builder withInsertModel(GeneralInsertModel model) {
-            this.model = model;
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withRenderingStrategy(RenderingStrategy renderingStrategy) {
-            this.renderingStrategy = renderingStrategy;
-            return this;
-        }
+		private GeneralInsertModel model;
 
-        public GeneralInsertRenderer build() {
-            return new GeneralInsertRenderer(this);
-        }
-    }
+		private RenderingStrategy renderingStrategy;
+
+		public Builder withInsertModel(GeneralInsertModel model) {
+			this.model = model;
+			return this;
+		}
+
+		public Builder withRenderingStrategy(RenderingStrategy renderingStrategy) {
+			this.renderingStrategy = renderingStrategy;
+			return this;
+		}
+
+		public GeneralInsertRenderer build() {
+			return new GeneralInsertRenderer(this);
+		}
+
+	}
+
 }

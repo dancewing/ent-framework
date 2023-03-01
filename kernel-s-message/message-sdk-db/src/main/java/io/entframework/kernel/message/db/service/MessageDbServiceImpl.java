@@ -89,7 +89,8 @@ public class MessageDbServiceImpl implements MessageApi {
 		if (MessageConstants.RECEIVE_ALL_USER_FLAG.equals(receiveUserIds)) {
 			// 查询所有用户
 			userIds = userServiceApi.queryAllUserIdList(new SysUserRequest());
-		} else {
+		}
+		else {
 			String[] userIdArr = receiveUserIds.split(",");
 			userIds = Convert.toList(Long.class, userIdArr);
 		}
@@ -122,7 +123,8 @@ public class MessageDbServiceImpl implements MessageApi {
 					this.socketClientOperatorApi.sendMsgOfUserSession(
 							ServerMessageTypeEnum.SYS_NOTICE_MSG_TYPE.getCode(), item.getReceiveUserId().toString(),
 							item);
-				} catch (SocketException socketException) {
+				}
+				catch (SocketException socketException) {
 					// 该用户不在线
 				}
 			}
@@ -155,8 +157,7 @@ public class MessageDbServiceImpl implements MessageApi {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void batchReadFlagByMessageIds(String messageIds, MessageReadFlagEnum flagEnum) {
-		List<Long> ids = Arrays.stream(StringUtils.split(messageIds, ",")).map(NumberUtils::toLong)
-				.toList();
+		List<Long> ids = Arrays.stream(StringUtils.split(messageIds, ",")).map(NumberUtils::toLong).toList();
 		UpdateDSLCompleter completer = c -> c.set(SysMessageDynamicSqlSupport.readFlag).equalTo(flagEnum)
 				.where(SysMessageDynamicSqlSupport.messageId, SqlBuilder.isIn(ids));
 		this.generalRepository.update(SysMessage.class, completer);
@@ -173,8 +174,7 @@ public class MessageDbServiceImpl implements MessageApi {
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void batchDeleteByMessageIds(String messageIds) {
-		List<Long> ids = Arrays.stream(StringUtils.split(messageIds, ",")).map(NumberUtils::toLong)
-				.toList();
+		List<Long> ids = Arrays.stream(StringUtils.split(messageIds, ",")).map(NumberUtils::toLong).toList();
 		UpdateDSLCompleter completer = c -> c.set(SysMessageDynamicSqlSupport.delFlag).equalTo(YesOrNotEnum.Y)
 				.where(SysMessageDynamicSqlSupport.messageId, SqlBuilder.isIn(ids));
 		this.generalRepository.update(SysMessage.class, completer);

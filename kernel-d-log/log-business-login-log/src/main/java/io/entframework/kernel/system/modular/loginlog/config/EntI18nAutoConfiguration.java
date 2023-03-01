@@ -9,12 +9,16 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan(basePackages = {"io.entframework.kernel.system.modular.loginlog.controller", "io.entframework.kernel.system.modular.loginlog.converter", "io.entframework.kernel.system.modular.loginlog.service"})
+@ComponentScan(basePackages = { "io.entframework.kernel.system.modular.loginlog.controller",
+		"io.entframework.kernel.system.modular.loginlog.converter",
+		"io.entframework.kernel.system.modular.loginlog.service" })
 @EntityScan("io.entframework.kernel.system.modular.loginlog.entity")
 public class EntI18nAutoConfiguration {
-    @Bean
-    @ConditionalOnMissingBean(SysLoginLogService.class)
-    public SysLoginLogService sysLoginLogService() {
-        return new SysLoginLogServiceImpl();
-    }
+
+	@Bean
+	@ConditionalOnMissingBean(SysLoginLogService.class)
+	public SysLoginLogService sysLoginLogService() {
+		return new SysLoginLogServiceImpl();
+	}
+
 }

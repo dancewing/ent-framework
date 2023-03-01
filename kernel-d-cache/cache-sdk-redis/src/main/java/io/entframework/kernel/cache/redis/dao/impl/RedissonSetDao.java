@@ -6,7 +6,6 @@
  */
 package io.entframework.kernel.cache.redis.dao.impl;
 
-
 import io.entframework.kernel.cache.redis.dao.RedisSetDao;
 import io.entframework.kernel.rule.util.SplitterUtils;
 import org.redisson.api.RSet;
@@ -22,96 +21,96 @@ import java.util.Set;
  *
  */
 public class RedissonSetDao extends BaseRedissonDao implements RedisSetDao {
-    public RedissonSetDao(RedissonClient redissonClient) {
-        super(redissonClient);
-    }
 
-    @Override
-    public <V> Set<V> getSet(String key) {
-        return redissonClient.getSet(key);
-    }
+	public RedissonSetDao(RedissonClient redissonClient) {
+		super(redissonClient);
+	}
 
-    @Override
-    public <V> boolean contains(String key, V value) {
-        return redissonClient.getSet(key).contains(value);
-    }
+	@Override
+	public <V> Set<V> getSet(String key) {
+		return redissonClient.getSet(key);
+	}
 
-    @Override
-    public <V> boolean containsAll(String key, Collection<? extends V> values, int count) {
-        if (CollectionUtils.isEmpty(values)) {
-            return false;
-        }
+	@Override
+	public <V> boolean contains(String key, V value) {
+		return redissonClient.getSet(key).contains(value);
+	}
 
-        RSet<V> rSet = redissonClient.getSet(key);
-        if (values.size() <= count) {
-            return rSet.containsAll(values);
-        }
+	@Override
+	public <V> boolean containsAll(String key, Collection<? extends V> values, int count) {
+		if (CollectionUtils.isEmpty(values)) {
+			return false;
+		}
 
-        return SplitterUtils.split(values, count).stream().allMatch(rSet::containsAll);
-    }
+		RSet<V> rSet = redissonClient.getSet(key);
+		if (values.size() <= count) {
+			return rSet.containsAll(values);
+		}
 
-    @Override
-    public <V> Iterator<V> iterator(String key) {
-        return iterator(key, 10);
-    }
+		return SplitterUtils.split(values, count).stream().allMatch(rSet::containsAll);
+	}
 
-    @Override
-    public <V> Iterator<V> iterator(String key, int count) {
-        RSet<V> rSet = redissonClient.getSet(key);
-        return rSet.iterator(10);
-    }
+	@Override
+	public <V> Iterator<V> iterator(String key) {
+		return iterator(key, 10);
+	}
 
-    @Override
-    public <V> boolean add(String key, V value) {
-        RSet<V> rSet = redissonClient.getSet(key);
-        return rSet.add(value);
-    }
+	@Override
+	public <V> Iterator<V> iterator(String key, int count) {
+		RSet<V> rSet = redissonClient.getSet(key);
+		return rSet.iterator(10);
+	}
 
-    @Override
-    public <V> boolean addAll(String key, Collection<? extends V> values, int count) {
-        if (CollectionUtils.isEmpty(values)) {
-            return false;
-        }
+	@Override
+	public <V> boolean add(String key, V value) {
+		RSet<V> rSet = redissonClient.getSet(key);
+		return rSet.add(value);
+	}
 
-        RSet<V> rSet = redissonClient.getSet(key);
-        if (values.size() <= count) {
-            return rSet.addAll(values);
-        }
+	@Override
+	public <V> boolean addAll(String key, Collection<? extends V> values, int count) {
+		if (CollectionUtils.isEmpty(values)) {
+			return false;
+		}
 
-        return SplitterUtils.split(values, count).stream().map(rSet::addAll).findAny().isPresent();
-    }
+		RSet<V> rSet = redissonClient.getSet(key);
+		if (values.size() <= count) {
+			return rSet.addAll(values);
+		}
 
-    @Override
-    public <V> V removeRandom(String key) {
-        RSet<V> rSet = redissonClient.getSet(key);
-        return rSet.removeRandom();
-    }
+		return SplitterUtils.split(values, count).stream().map(rSet::addAll).findAny().isPresent();
+	}
 
-    @Override
-    public <V> Set<V> removeRandom(String key, int count) {
-        RSet<V> rSet = redissonClient.getSet(key);
-        return rSet.removeRandom(count);
-    }
+	@Override
+	public <V> V removeRandom(String key) {
+		RSet<V> rSet = redissonClient.getSet(key);
+		return rSet.removeRandom();
+	}
 
-    @Override
-    public <V> boolean remove(String key, V value) {
-        RSet<V> rSet = redissonClient.getSet(key);
-        return rSet.remove(value);
-    }
+	@Override
+	public <V> Set<V> removeRandom(String key, int count) {
+		RSet<V> rSet = redissonClient.getSet(key);
+		return rSet.removeRandom(count);
+	}
 
-    @Override
-    public <V> boolean removeAll(String key, Collection<? extends V> values, int count) {
-        if (CollectionUtils.isEmpty(values)) {
-            return false;
-        }
+	@Override
+	public <V> boolean remove(String key, V value) {
+		RSet<V> rSet = redissonClient.getSet(key);
+		return rSet.remove(value);
+	}
 
-        RSet<V> rSet = redissonClient.getSet(key);
-        if (values.size() <= count) {
-            return rSet.removeAll(values);
-        }
+	@Override
+	public <V> boolean removeAll(String key, Collection<? extends V> values, int count) {
+		if (CollectionUtils.isEmpty(values)) {
+			return false;
+		}
 
-        return SplitterUtils.split(values, count).stream().map(rSet::removeAll).findAny().isPresent();
-    }
+		RSet<V> rSet = redissonClient.getSet(key);
+		if (values.size() <= count) {
+			return rSet.removeAll(values);
+		}
 
+		return SplitterUtils.split(values, count).stream().map(rSet::removeAll).findAny().isPresent();
+	}
 
 }

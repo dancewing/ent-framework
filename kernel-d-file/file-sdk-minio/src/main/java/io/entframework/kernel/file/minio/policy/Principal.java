@@ -27,31 +27,30 @@ import java.util.Set;
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Principal {
-  @JsonProperty("AWS")
-  private Set<String> aws;
 
-  @JsonProperty("CanonicalUser")
-  private Set<String> canonicalUser;
+	@JsonProperty("AWS")
+	private Set<String> aws;
 
+	@JsonProperty("CanonicalUser")
+	private Set<String> canonicalUser;
 
-  public Principal() {
-  }
+	public Principal() {
+	}
 
+	public Principal(String aws) {
+		this.aws = new HashSet<>();
+		this.aws.add(aws);
+	}
 
-  public Principal(String aws) {
-    this.aws = new HashSet<>();
-    this.aws.add(aws);
-  }
+	/**
+	 * Returns AWS value.
+	 */
+	public Set<String> aws() {
+		if (this.aws == null) {
+			return null;
+		}
 
+		return new HashSet<>(this.aws);
+	}
 
-  /**
-   * Returns AWS value.
-   */
-  public Set<String> aws() {
-    if (this.aws == null) {
-      return null;
-    }
-
-    return new HashSet<>(this.aws);
-  }
 }

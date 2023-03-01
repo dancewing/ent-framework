@@ -40,7 +40,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Configuration
 @AllArgsConstructor
-@EnableConfigurationProperties({RouteProperties.class, AuthProperties.class})
+@EnableConfigurationProperties({ RouteProperties.class, AuthProperties.class })
 public class RouterFunctionConfiguration {
 
 	private final SwaggerResourceHandler swaggerResourceHandler;
@@ -49,16 +49,25 @@ public class RouterFunctionConfiguration {
 	 * 这里为支持的请求头，如果有自定义的header字段请自己添加
 	 */
 	private static final String ALLOWED_HEADERS = "X-Requested-With, Content-Type, Authorization, credential, X-XSRF-TOKEN, token, username, client";
+
 	private static final String ALLOWED_METHODS = "*";
+
 	private static final String ALLOWED_ORIGIN = "*";
+
 	private static final String ALLOWED_EXPOSE = "*";
+
 	private static final String MAX_AGE = "18000L";
 
 	private static final String ALLOWED_HEADERS_KEY = "Access-Control-Allow-Headers";
+
 	private static final String ALLOWED_METHODS_KEY = "Access-Control-Allow-Methods";
+
 	private static final String ALLOWED_ORIGIN_KEY = "Access-Control-Allow-Origin";
+
 	private static final String ALLOWED_EXPOSE_KEY = "Access-Control-Expose-Headers";
+
 	private static final String MAX_AGE_KEY = "Access-Control-Max-Age";
+
 	private static final String ALLOWED_CREDENTIALS_KEY = "Access-Control-Allow-Credentials";
 
 	/**
@@ -99,11 +108,11 @@ public class RouterFunctionConfiguration {
 		};
 	}
 
-
 	@Bean
 	public RouterFunction<ServerResponse> routerFunction() {
-		return RouterFunctions.route(RequestPredicates.GET("/swagger-resources")
-				.and(RequestPredicates.accept(MediaType.ALL)), swaggerResourceHandler);
+		return RouterFunctions.route(
+				RequestPredicates.GET("/swagger-resources").and(RequestPredicates.accept(MediaType.ALL)),
+				swaggerResourceHandler);
 
 	}
 

@@ -66,8 +66,7 @@ public class SysRoleController {
 	 * @date 2020/11/5 上午10:48
 	 */
 	@PostResource(name = "角色删除", path = "/sys-role/delete")
-	public ResponseData<Void> delete(
-			@RequestBody @Validated(BaseRequest.delete.class) SysRoleRequest sysRoleRequest) {
+	public ResponseData<Void> delete(@RequestBody @Validated(BaseRequest.delete.class) SysRoleRequest sysRoleRequest) {
 		sysRoleService.del(sysRoleRequest);
 		return ResponseData.OK_VOID;
 	}
@@ -197,4 +196,5 @@ public class SysRoleController {
 		sysRoleResourceService.grantResource(sysRoleParam);
 		return ResponseData.OK_VOID;
 	}
+
 }

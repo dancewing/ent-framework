@@ -21,51 +21,54 @@ import java.util.List;
 
 public class InitializationBlock {
 
-    private boolean isStatic;
-    private final List<String> bodyLines = new ArrayList<>();
-    private final List<String> javaDocLines = new ArrayList<>();
+	private boolean isStatic;
 
-    public InitializationBlock() {
-        this(false);
-    }
+	private final List<String> bodyLines = new ArrayList<>();
 
-    public InitializationBlock(boolean isStatic) {
-        this.isStatic = isStatic;
-    }
+	private final List<String> javaDocLines = new ArrayList<>();
 
-    public boolean isStatic() {
-        return isStatic;
-    }
+	public InitializationBlock() {
+		this(false);
+	}
 
-    public void setStatic(boolean isStatic) {
-        this.isStatic = isStatic;
-    }
+	public InitializationBlock(boolean isStatic) {
+		this.isStatic = isStatic;
+	}
 
-    public List<String> getBodyLines() {
-        return bodyLines;
-    }
+	public boolean isStatic() {
+		return isStatic;
+	}
 
-    public void addBodyLine(String line) {
-        bodyLines.add(line);
-    }
+	public void setStatic(boolean isStatic) {
+		this.isStatic = isStatic;
+	}
 
-    public void addBodyLine(int index, String line) {
-        bodyLines.add(index, line);
-    }
+	public List<String> getBodyLines() {
+		return bodyLines;
+	}
 
-    public void addBodyLines(Collection<String> lines) {
-        bodyLines.addAll(lines);
-    }
+	public void addBodyLine(String line) {
+		bodyLines.add(line);
+	}
 
-    public void addBodyLines(int index, Collection<String> lines) {
-        bodyLines.addAll(index, lines);
-    }
+	public void addBodyLine(int index, String line) {
+		bodyLines.add(index, line);
+	}
 
-    public List<String> getJavaDocLines() {
-        return javaDocLines;
-    }
+	public void addBodyLines(Collection<String> lines) {
+		bodyLines.addAll(lines);
+	}
 
-    public void addJavaDocLine(String javaDocLine) {
-        javaDocLines.add(javaDocLine);
-    }
+	public void addBodyLines(int index, Collection<String> lines) {
+		bodyLines.addAll(index, lines);
+	}
+
+	public List<String> getJavaDocLines() {
+		return javaDocLines;
+	}
+
+	public void addJavaDocLine(String javaDocLine) {
+		javaDocLines.add(javaDocLine);
+	}
+
 }

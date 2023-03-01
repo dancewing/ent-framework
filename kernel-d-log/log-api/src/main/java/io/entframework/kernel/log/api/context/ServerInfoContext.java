@@ -3,7 +3,6 @@
  ******************************************************************************/
 package io.entframework.kernel.log.api.context;
 
-
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 
@@ -14,27 +13,27 @@ import cn.hutool.core.text.CharSequenceUtil;
  */
 public class ServerInfoContext {
 
-    /**
-     * 服务器IP
-     */
-    private static String serverIp;
+	/**
+	 * 服务器IP
+	 */
+	private static String serverIp;
 
-    /**
-     * 禁止new创建
-     */
-    private ServerInfoContext() {
-    }
+	/**
+	 * 禁止new创建
+	 */
+	private ServerInfoContext() {
+	}
 
-    /**
-     * 获取server的ip
-     *
-     * @date 2020/10/27 17:56
-     */
-    public static String getServerIp() {
-        if (CharSequenceUtil.isEmpty(serverIp)) {
-            serverIp = NetUtil.getLocalhostStr();
-        }
-        return serverIp;
-    }
+	/**
+	 * 获取server的ip
+	 *
+	 * @date 2020/10/27 17:56
+	 */
+	public static String getServerIp() {
+		if (CharSequenceUtil.isEmpty(serverIp)) {
+			serverIp = NetUtil.getLocalhostStr();
+		}
+		return serverIp;
+	}
 
 }

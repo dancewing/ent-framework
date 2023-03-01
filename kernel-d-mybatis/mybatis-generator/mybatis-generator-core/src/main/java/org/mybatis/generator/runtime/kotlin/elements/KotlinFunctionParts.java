@@ -24,67 +24,76 @@ import org.mybatis.generator.api.dom.kotlin.KotlinArg;
 
 public class KotlinFunctionParts {
 
-    private final List<String> annotations;
-    private final List<String> codeLines;
-    private final Set<String> imports;
-    private final List<KotlinArg> arguments;
+	private final List<String> annotations;
 
-    private KotlinFunctionParts(Builder builder) {
-        imports = builder.imports;
-        codeLines = builder.codeLines;
-        arguments = builder.arguments;
-        annotations = builder.annotations;
-    }
+	private final List<String> codeLines;
 
-    public Set<String> getImports() {
-        return imports;
-    }
+	private final Set<String> imports;
 
-    public List<String> getAnnotations() {
-        return annotations;
-    }
+	private final List<KotlinArg> arguments;
 
-    public List<String> getCodeLines() {
-        return codeLines;
-    }
+	private KotlinFunctionParts(Builder builder) {
+		imports = builder.imports;
+		codeLines = builder.codeLines;
+		arguments = builder.arguments;
+		annotations = builder.annotations;
+	}
 
-    public List<KotlinArg> getArguments() {
-        return arguments;
-    }
+	public Set<String> getImports() {
+		return imports;
+	}
 
-    public static class Builder {
-        private final List<String> codeLines = new ArrayList<>();
-        private final Set<String> imports = new HashSet<>();
-        private final List<KotlinArg> arguments = new ArrayList<>();
-        private final List<String> annotations = new ArrayList<>();
+	public List<String> getAnnotations() {
+		return annotations;
+	}
 
-        public Builder withAnnotation(String annotation) {
-            annotations.add(annotation);
-            return this;
-        }
+	public List<String> getCodeLines() {
+		return codeLines;
+	}
 
-        public Builder withCodeLine(String codeLine) {
-            this.codeLines.add(codeLine);
-            return this;
-        }
+	public List<KotlinArg> getArguments() {
+		return arguments;
+	}
 
-        public Builder withImport(String im) {
-            this.imports.add(im);
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withImports(Set<String> imports) {
-            this.imports.addAll(imports);
-            return this;
-        }
+		private final List<String> codeLines = new ArrayList<>();
 
-        public Builder withArgument(KotlinArg argument) {
-            arguments.add(argument);
-            return this;
-        }
+		private final Set<String> imports = new HashSet<>();
 
-        public KotlinFunctionParts build() {
-            return new KotlinFunctionParts(this);
-        }
-    }
+		private final List<KotlinArg> arguments = new ArrayList<>();
+
+		private final List<String> annotations = new ArrayList<>();
+
+		public Builder withAnnotation(String annotation) {
+			annotations.add(annotation);
+			return this;
+		}
+
+		public Builder withCodeLine(String codeLine) {
+			this.codeLines.add(codeLine);
+			return this;
+		}
+
+		public Builder withImport(String im) {
+			this.imports.add(im);
+			return this;
+		}
+
+		public Builder withImports(Set<String> imports) {
+			this.imports.addAll(imports);
+			return this;
+		}
+
+		public Builder withArgument(KotlinArg argument) {
+			arguments.add(argument);
+			return this;
+		}
+
+		public KotlinFunctionParts build() {
+			return new KotlinFunctionParts(this);
+		}
+
+	}
+
 }

@@ -27,61 +27,53 @@ import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import java.util.List;
 
 /**
- * This is a general purpose mapper for executing various types of insert statements. This mapper is appropriate for
- * insert statements that do NOT expect generated keys.
+ * This is a general purpose mapper for executing various types of insert statements. This
+ * mapper is appropriate for insert statements that do NOT expect generated keys.
  *
  * @param <T> the type of record associated with this mapper
  */
 public interface GenericInsertMapper<T> {
-    /**
-     * Execute an insert statement with input fields mapped to values in a POJO.
-     *
-     * @param insertStatement the insert statement
-     * @return the number of rows affected
-     */
-    @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
-    int insert(InsertStatementProvider<T> insertStatement);
 
-    /**
-     * Execute an insert statement with input fields supplied directly.
-     *
-     * @param insertStatement
-     *            the insert statement
-     *
-     * @return the number of rows affected
-     */
-    @InsertProvider(type = SqlProviderAdapter.class, method = "generalInsert")
-    int generalInsert(GeneralInsertStatementProvider insertStatement);
+	/**
+	 * Execute an insert statement with input fields mapped to values in a POJO.
+	 * @param insertStatement the insert statement
+	 * @return the number of rows affected
+	 */
+	@InsertProvider(type = SqlProviderAdapter.class, method = "insert")
+	int insert(InsertStatementProvider<T> insertStatement);
 
-    /**
-     * Execute an insert statement with input fields supplied by a select statement.
-     *
-     * @param insertSelectStatement
-     *            the insert statement
-     *
-     * @return the number of rows affected
-     */
-    @InsertProvider(type = SqlProviderAdapter.class, method = "insertSelect")
-    int insertSelect(InsertSelectStatementProvider insertSelectStatement);
+	/**
+	 * Execute an insert statement with input fields supplied directly.
+	 * @param insertStatement the insert statement
+	 * @return the number of rows affected
+	 */
+	@InsertProvider(type = SqlProviderAdapter.class, method = "generalInsert")
+	int generalInsert(GeneralInsertStatementProvider insertStatement);
 
-    /**
-     * Execute an insert statement that inserts multiple rows. The row values are supplied by mapping to values in a
-     * List of POJOs.
-     *
-     * @param insertStatement
-     *            the insert statement
-     *
-     * @return the number of rows affected
-     */
-    @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
-    int insertMultiple(MultiRowInsertStatementProvider<T> insertStatement);
+	/**
+	 * Execute an insert statement with input fields supplied by a select statement.
+	 * @param insertSelectStatement the insert statement
+	 * @return the number of rows affected
+	 */
+	@InsertProvider(type = SqlProviderAdapter.class, method = "insertSelect")
+	int insertSelect(InsertSelectStatementProvider insertSelectStatement);
 
-    /**
-     * Flush batched insert statements and return details of the current batch. This is useful when there is no direct
-     * access to the @link({@link org.apache.ibatis.session.SqlSession}.
-     *
-     * @return details about the current batch including update counts, etc.
-     */
-    @Flush
-    List<BatchResult> flush();
+	/**
+	 * Execute an insert statement that inserts multiple rows. The row values are supplied
+	 * by mapping to values in a List of POJOs.
+	 * @param insertStatement the insert statement
+	 * @return the number of rows affected
+	 */
+	@InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
+	int insertMultiple(MultiRowInsertStatementProvider<T> insertStatement);
+
+	/**
+	 * Flush batched insert statements and return details of the current batch. This is
+	 * useful when there is no direct access to
+	 * the @link({@link org.apache.ibatis.session.SqlSession}.
+	 * @return details about the current batch including update counts, etc.
+	 */
+	@Flush
+	List<BatchResult> flush();
+
 }

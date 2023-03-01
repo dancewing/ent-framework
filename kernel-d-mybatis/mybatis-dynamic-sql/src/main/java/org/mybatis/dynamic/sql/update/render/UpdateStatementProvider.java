@@ -20,7 +20,9 @@ import org.mybatis.dynamic.sql.StatementSourceProvider;
 import java.util.Map;
 
 public interface UpdateStatementProvider extends StatementSourceProvider<UpdateRenderer> {
-    Map<String, Object> getParameters();
 
-    String getUpdateStatement();
+	Map<String, Object> getParameters();
+
+	String getUpdateStatement();
+
 }

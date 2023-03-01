@@ -24,33 +24,33 @@ import org.mybatis.dynamic.sql.select.function.AbstractTypeConvertingFunction;
 
 public class ToBase64 extends AbstractTypeConvertingFunction<byte[], String, ToBase64> {
 
-    protected ToBase64(BindableColumn<byte[]> column) {
-        super(column);
-    }
+	protected ToBase64(BindableColumn<byte[]> column) {
+		super(column);
+	}
 
-    @Override
-    public Optional<JDBCType> jdbcType() {
-        return Optional.of(JDBCType.VARCHAR);
-    }
+	@Override
+	public Optional<JDBCType> jdbcType() {
+		return Optional.of(JDBCType.VARCHAR);
+	}
 
-    @Override
-    public Optional<String> typeHandler() {
-        return Optional.empty();
-    }
+	@Override
+	public Optional<String> typeHandler() {
+		return Optional.empty();
+	}
 
-    @Override
-    public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
-        return "TO_BASE64(" //$NON-NLS-1$
-                + column.renderWithTableAlias(tableAliasCalculator)
-                + ")"; //$NON-NLS-1$
-    }
+	@Override
+	public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
+		return "TO_BASE64(" //$NON-NLS-1$
+				+ column.renderWithTableAlias(tableAliasCalculator) + ")"; //$NON-NLS-1$
+	}
 
-    @Override
-    protected ToBase64 copy() {
-        return new ToBase64(column);
-    }
+	@Override
+	protected ToBase64 copy() {
+		return new ToBase64(column);
+	}
 
-    public static ToBase64 toBase64(BindableColumn<byte[]> column) {
-        return new ToBase64(column);
-    }
+	public static ToBase64 toBase64(BindableColumn<byte[]> column) {
+		return new ToBase64(column);
+	}
+
 }

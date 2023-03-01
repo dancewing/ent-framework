@@ -31,76 +31,60 @@ import org.mybatis.dynamic.sql.where.render.WhereClauseProvider;
 import org.mybatis.dynamic.sql.where.render.WhereRenderer;
 
 public class WhereModel {
-    private final SqlCriterion initialCriterion;
-    private final List<AndOrCriteriaGroup> subCriteria = new ArrayList<>();
 
-    private final StatementConfiguration statementConfiguration;
+	private final SqlCriterion initialCriterion;
 
-    public WhereModel(SqlCriterion initialCriterion, List<AndOrCriteriaGroup> subCriteria,
-                      StatementConfiguration statementConfiguration) {
-        this.initialCriterion = initialCriterion;
-        this.subCriteria.addAll(subCriteria);
-        this.statementConfiguration = Objects.requireNonNull(statementConfiguration);
-    }
+	private final List<AndOrCriteriaGroup> subCriteria = new ArrayList<>();
 
-    public Optional<SqlCriterion> initialCriterion() {
-        return Optional.ofNullable(initialCriterion);
-    }
+	private final StatementConfiguration statementConfiguration;
 
-    public List<AndOrCriteriaGroup> subCriteria() {
-        return Collections.unmodifiableList(subCriteria);
-    }
+	public WhereModel(SqlCriterion initialCriterion, List<AndOrCriteriaGroup> subCriteria,
+			StatementConfiguration statementConfiguration) {
+		this.initialCriterion = initialCriterion;
+		this.subCriteria.addAll(subCriteria);
+		this.statementConfiguration = Objects.requireNonNull(statementConfiguration);
+	}
 
-    public boolean isNonRenderingClauseAllowed() {
-        return statementConfiguration.isNonRenderingWhereClauseAllowed();
-    }
+	public Optional<SqlCriterion> initialCriterion() {
+		return Optional.ofNullable(initialCriterion);
+	}
 
-    /**
-     * Renders a where clause without table aliases.
-     *
-     * @param renderingStrategy
-     *            rendering strategy
-     *
-     * @return rendered where clause
-     */
-    public Optional<WhereClauseProvider> render(RenderingStrategy renderingStrategy) {
-        return WhereRenderer.withWhereModel(this)
-                .withRenderingStrategy(renderingStrategy)
-                .withSequence(new AtomicInteger(1))
-                .withTableAliasCalculator(TableAliasCalculator.empty())
-                .build()
-                .render();
-    }
+	public List<AndOrCriteriaGroup> subCriteria() {
+		return Collections.unmodifiableList(subCriteria);
+	}
 
-    public Optional<WhereClauseProvider> render(RenderingStrategy renderingStrategy,
-            TableAliasCalculator tableAliasCalculator) {
-        return WhereRenderer.withWhereModel(this)
-                .withRenderingStrategy(renderingStrategy)
-                .withSequence(new AtomicInteger(1))
-                .withTableAliasCalculator(tableAliasCalculator)
-                .build()
-                .render();
-    }
+	public boolean isNonRenderingClauseAllowed() {
+		return statementConfiguration.isNonRenderingWhereClauseAllowed();
+	}
 
-    public Optional<WhereClauseProvider> render(RenderingStrategy renderingStrategy,
-            String parameterName) {
-        return WhereRenderer.withWhereModel(this)
-                .withRenderingStrategy(renderingStrategy)
-                .withSequence(new AtomicInteger(1))
-                .withTableAliasCalculator(TableAliasCalculator.empty())
-                .withParameterName(parameterName)
-                .build()
-                .render();
-    }
+	/**
+	 * Renders a where clause without table aliases.
+	 * @param renderingStrategy rendering strategy
+	 * @return rendered where clause
+	 */
+	public Optional<WhereClauseProvider> render(RenderingStrategy renderingStrategy) {
+		return WhereRenderer.withWhereModel(this).withRenderingStrategy(renderingStrategy)
+				.withSequence(new AtomicInteger(1)).withTableAliasCalculator(TableAliasCalculator.empty()).build()
+				.render();
+	}
 
-    public Optional<WhereClauseProvider> render(RenderingStrategy renderingStrategy,
-            TableAliasCalculator tableAliasCalculator, String parameterName) {
-        return WhereRenderer.withWhereModel(this)
-                .withRenderingStrategy(renderingStrategy)
-                .withSequence(new AtomicInteger(1))
-                .withTableAliasCalculator(tableAliasCalculator)
-                .withParameterName(parameterName)
-                .build()
-                .render();
-    }
+	public Optional<WhereClauseProvider> render(RenderingStrategy renderingStrategy,
+			TableAliasCalculator tableAliasCalculator) {
+		return WhereRenderer.withWhereModel(this).withRenderingStrategy(renderingStrategy)
+				.withSequence(new AtomicInteger(1)).withTableAliasCalculator(tableAliasCalculator).build().render();
+	}
+
+	public Optional<WhereClauseProvider> render(RenderingStrategy renderingStrategy, String parameterName) {
+		return WhereRenderer.withWhereModel(this).withRenderingStrategy(renderingStrategy)
+				.withSequence(new AtomicInteger(1)).withTableAliasCalculator(TableAliasCalculator.empty())
+				.withParameterName(parameterName).build().render();
+	}
+
+	public Optional<WhereClauseProvider> render(RenderingStrategy renderingStrategy,
+			TableAliasCalculator tableAliasCalculator, String parameterName) {
+		return WhereRenderer.withWhereModel(this).withRenderingStrategy(renderingStrategy)
+				.withSequence(new AtomicInteger(1)).withTableAliasCalculator(tableAliasCalculator)
+				.withParameterName(parameterName).build().render();
+	}
+
 }

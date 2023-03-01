@@ -14,4 +14,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 @Configuration
 public interface KernelMapRepository extends MongoRepository<KernelMapEntity, String> {
+
 }

@@ -10,73 +10,77 @@ import java.util.function.Supplier;
 
 public class InsertIgnoreDSL<T> implements Buildable<InsertIgnoreModel<T>> {
 
-    private final T record;
-    private final SqlTable table;
-    private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
+	private final T record;
 
-    private InsertIgnoreDSL(T record, SqlTable table) {
-        this.record = record;
-        this.table = table;
-    }
+	private final SqlTable table;
 
-    public <F> ColumnMappingFinisher<F> map(SqlColumn<F> column) {
-        return new ColumnMappingFinisher<>(column);
-    }
+	private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
 
-    @Override
-    public InsertIgnoreModel<T> build() {
-        return InsertIgnoreModel.withRecord(record)
-                .withTable(table)
-                .withColumnMappings(columnMappings)
-                .build();
-    }
+	private InsertIgnoreDSL(T record, SqlTable table) {
+		this.record = record;
+		this.table = table;
+	}
 
-    public static <T> IntoGatherer<T> insert(T record) {
-        return new IntoGatherer<>(record);
-    }
+	public <F> ColumnMappingFinisher<F> map(SqlColumn<F> column) {
+		return new ColumnMappingFinisher<>(column);
+	}
 
-    public static class IntoGatherer<T> {
-        private final T record;
+	@Override
+	public InsertIgnoreModel<T> build() {
+		return InsertIgnoreModel.withRecord(record).withTable(table).withColumnMappings(columnMappings).build();
+	}
 
-        private IntoGatherer(T record) {
-            this.record = record;
-        }
+	public static <T> IntoGatherer<T> insert(T record) {
+		return new IntoGatherer<>(record);
+	}
 
-        public InsertIgnoreDSL<T> into(SqlTable table) {
-            return new InsertIgnoreDSL<>(record, table);
-        }
-    }
+	public static class IntoGatherer<T> {
 
-    public class ColumnMappingFinisher<F> {
-        private final SqlColumn<F> column;
+		private final T record;
 
-        public ColumnMappingFinisher(SqlColumn<F> column) {
-            this.column = column;
-        }
+		private IntoGatherer(T record) {
+			this.record = record;
+		}
 
-        public InsertIgnoreDSL<T> toProperty(String property) {
-            columnMappings.add(PropertyMapping.of(column, property));
-            return InsertIgnoreDSL.this;
-        }
+		public InsertIgnoreDSL<T> into(SqlTable table) {
+			return new InsertIgnoreDSL<>(record, table);
+		}
 
-        public InsertIgnoreDSL<T> toPropertyWhenPresent(String property, Supplier<?> valueSupplier) {
-            columnMappings.add(PropertyWhenPresentMapping.of(column, property, valueSupplier));
-            return InsertIgnoreDSL.this;
-        }
+	}
 
-        public InsertIgnoreDSL<T> toNull() {
-            columnMappings.add(NullMapping.of(column));
-            return InsertIgnoreDSL.this;
-        }
+	public class ColumnMappingFinisher<F> {
 
-        public InsertIgnoreDSL<T> toConstant(String constant) {
-            columnMappings.add(ConstantMapping.of(column, constant));
-            return InsertIgnoreDSL.this;
-        }
+		private final SqlColumn<F> column;
 
-        public InsertIgnoreDSL<T> toStringConstant(String constant) {
-            columnMappings.add(StringConstantMapping.of(column, constant));
-            return InsertIgnoreDSL.this;
-        }
-    }
+		public ColumnMappingFinisher(SqlColumn<F> column) {
+			this.column = column;
+		}
+
+		public InsertIgnoreDSL<T> toProperty(String property) {
+			columnMappings.add(PropertyMapping.of(column, property));
+			return InsertIgnoreDSL.this;
+		}
+
+		public InsertIgnoreDSL<T> toPropertyWhenPresent(String property, Supplier<?> valueSupplier) {
+			columnMappings.add(PropertyWhenPresentMapping.of(column, property, valueSupplier));
+			return InsertIgnoreDSL.this;
+		}
+
+		public InsertIgnoreDSL<T> toNull() {
+			columnMappings.add(NullMapping.of(column));
+			return InsertIgnoreDSL.this;
+		}
+
+		public InsertIgnoreDSL<T> toConstant(String constant) {
+			columnMappings.add(ConstantMapping.of(column, constant));
+			return InsertIgnoreDSL.this;
+		}
+
+		public InsertIgnoreDSL<T> toStringConstant(String constant) {
+			columnMappings.add(StringConstantMapping.of(column, constant));
+			return InsertIgnoreDSL.this;
+		}
+
+	}
+
 }

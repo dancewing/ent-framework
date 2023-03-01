@@ -15,24 +15,24 @@ import lombok.Getter;
 @Getter
 public enum DefaultThirdExceptionEnum implements AbstractExceptionEnum {
 
-    /**
-     * 调用第三方服务出错（一级宏观错误码）
-     */
-    THIRD_PARTY_ERROR(RuleConstants.THIRD_ERROR_TYPE_CODE + RuleConstants.FIRST_LEVEL_WIDE_CODE, "第三方调用出现错误");
+	/**
+	 * 调用第三方服务出错（一级宏观错误码）
+	 */
+	THIRD_PARTY_ERROR(RuleConstants.THIRD_ERROR_TYPE_CODE + RuleConstants.FIRST_LEVEL_WIDE_CODE, "第三方调用出现错误");
 
-    /**
-     * 错误编码
-     */
-    private final String errorCode;
+	/**
+	 * 错误编码
+	 */
+	private final String errorCode;
 
-    /**
-     * 提示用户信息
-     */
-    private final String userTip;
+	/**
+	 * 提示用户信息
+	 */
+	private final String userTip;
 
-    DefaultThirdExceptionEnum(String errorCode, String userTip) {
-        this.errorCode = errorCode;
-        this.userTip = userTip;
-    }
+	DefaultThirdExceptionEnum(String errorCode, String userTip) {
+		this.errorCode = errorCode;
+		this.userTip = userTip;
+	}
 
 }

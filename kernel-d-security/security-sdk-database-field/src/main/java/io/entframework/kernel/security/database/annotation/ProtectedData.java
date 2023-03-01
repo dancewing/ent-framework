@@ -14,7 +14,7 @@ import java.lang.annotation.*;
  * @date 2021/7/3 10:54
  */
 @Inherited
-@Target({ElementType.TYPE})
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ProtectedData {
 

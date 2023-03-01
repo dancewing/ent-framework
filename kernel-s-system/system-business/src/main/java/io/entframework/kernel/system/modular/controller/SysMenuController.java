@@ -41,6 +41,7 @@ public class SysMenuController {
 
 	@Resource
 	private SysMenuService sysMenuService;
+
 	@Resource
 	private SysMenuResourceService sysMenuResourceService;
 
@@ -61,8 +62,7 @@ public class SysMenuController {
 	 * @date 2020/3/27 8:58
 	 */
 	@PostResource(name = "删除系统菜单", path = "/sys-menu/delete")
-	public ResponseData<Void> delete(
-			@RequestBody @Validated(BaseRequest.delete.class) SysMenuRequest sysMenuRequest) {
+	public ResponseData<Void> delete(@RequestBody @Validated(BaseRequest.delete.class) SysMenuRequest sysMenuRequest) {
 		sysMenuService.del(sysMenuRequest);
 		return ResponseData.OK_VOID;
 	}
@@ -165,4 +165,5 @@ public class SysMenuController {
 		sysMenuResourceService.addMenuResourceBind(sysMenuResourceRequest);
 		return ResponseData.OK_VOID;
 	}
+
 }

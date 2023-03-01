@@ -22,65 +22,74 @@ import java.util.Optional;
 
 public class KotlinArg {
 
-    private final String name;
-    private final String dataType;
-    private final String initializationString;
-    private final List<String> annotations;
+	private final String name;
 
-    private KotlinArg(Builder builder) {
-        name = Objects.requireNonNull(builder.name);
-        dataType = builder.dataType;
-        initializationString = builder.initializationString;
-        annotations = builder.annotations;
-    }
+	private final String dataType;
 
-    public String getName() {
-        return name;
-    }
+	private final String initializationString;
 
-    public Optional<String> getInitializationString() {
-        return Optional.ofNullable(initializationString);
-    }
+	private final List<String> annotations;
 
-    public Optional<String> getDataType() {
-        return Optional.ofNullable(dataType);
-    }
+	private KotlinArg(Builder builder) {
+		name = Objects.requireNonNull(builder.name);
+		dataType = builder.dataType;
+		initializationString = builder.initializationString;
+		annotations = builder.annotations;
+	}
 
-    public List<String> getAnnotations() {
-        return annotations;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public static Builder newArg(String name) {
-        return new Builder(name);
-    }
+	public Optional<String> getInitializationString() {
+		return Optional.ofNullable(initializationString);
+	}
 
-    public static class Builder {
-        private final String name;
-        private String dataType;
-        private String initializationString;
-        private final List<String> annotations = new ArrayList<>();
+	public Optional<String> getDataType() {
+		return Optional.ofNullable(dataType);
+	}
 
-        private Builder(String name) {
-            this.name = name;
-        }
+	public List<String> getAnnotations() {
+		return annotations;
+	}
 
-        public Builder withInitializationString(String initializationString) {
-            this.initializationString = initializationString;
-            return this;
-        }
+	public static Builder newArg(String name) {
+		return new Builder(name);
+	}
 
-        public Builder withDataType(String dataType) {
-            this.dataType = dataType;
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withAnnotation(String annotation) {
-            annotations.add(annotation);
-            return this;
-        }
+		private final String name;
 
-        public KotlinArg build() {
-            return new KotlinArg(this);
-        }
-    }
+		private String dataType;
+
+		private String initializationString;
+
+		private final List<String> annotations = new ArrayList<>();
+
+		private Builder(String name) {
+			this.name = name;
+		}
+
+		public Builder withInitializationString(String initializationString) {
+			this.initializationString = initializationString;
+			return this;
+		}
+
+		public Builder withDataType(String dataType) {
+			this.dataType = dataType;
+			return this;
+		}
+
+		public Builder withAnnotation(String annotation) {
+			annotations.add(annotation);
+			return this;
+		}
+
+		public KotlinArg build() {
+			return new KotlinArg(this);
+		}
+
+	}
+
 }

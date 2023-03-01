@@ -15,12 +15,13 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class TranslationException extends ServiceException {
 
-    public TranslationException(AbstractExceptionEnum exception, Object... params) {
-        super(TranslationConstants.I18N_MODULE_NAME, exception.getErrorCode(), CharSequenceUtil.format(exception.getUserTip(), params));
-    }
+	public TranslationException(AbstractExceptionEnum exception, Object... params) {
+		super(TranslationConstants.I18N_MODULE_NAME, exception.getErrorCode(),
+				CharSequenceUtil.format(exception.getUserTip(), params));
+	}
 
-    public TranslationException(AbstractExceptionEnum exception) {
-        super(TranslationConstants.I18N_MODULE_NAME, exception);
-    }
+	public TranslationException(AbstractExceptionEnum exception) {
+		super(TranslationConstants.I18N_MODULE_NAME, exception);
+	}
 
 }

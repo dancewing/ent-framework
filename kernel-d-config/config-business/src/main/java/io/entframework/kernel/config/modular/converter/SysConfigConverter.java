@@ -8,11 +8,15 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 public interface SysConfigConverter {
-    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    interface RequestConverter extends ObjectConverter<SysConfigRequest, SysConfig> {
-    }
 
-    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    interface ResponseConverter extends ObjectConverter<SysConfig, SysConfigResponse> {
-    }
+	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	interface RequestConverter extends ObjectConverter<SysConfigRequest, SysConfig> {
+
+	}
+
+	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	interface ResponseConverter extends ObjectConverter<SysConfig, SysConfigResponse> {
+
+	}
+
 }

@@ -19,11 +19,11 @@ import java.util.List;
  *
  * @date 2020/11/5 上午11:21
  */
-public interface SysRoleDataScopeService extends BaseService<SysRoleDataScopeRequest, SysRoleDataScopeResponse, SysRoleDataScope> {
+public interface SysRoleDataScopeService
+		extends BaseService<SysRoleDataScopeRequest, SysRoleDataScopeResponse, SysRoleDataScope> {
 
 	/**
 	 * 授权数据
-	 *
 	 * @param sysRoleRequest 授权参数
 	 * @date 2020/11/5 上午11:20
 	 */
@@ -31,7 +31,6 @@ public interface SysRoleDataScopeService extends BaseService<SysRoleDataScopeReq
 
 	/**
 	 * 根据角色id获取角色数据范围集合
-	 *
 	 * @param roleIdList 角色id集合
 	 * @return 数据范围id集合
 	 * @date 2020/11/5 上午11:21
@@ -40,7 +39,6 @@ public interface SysRoleDataScopeService extends BaseService<SysRoleDataScopeReq
 
 	/**
 	 * 新增
-	 *
 	 * @param sysRoleDataScopeRequest 参数对象
 	 * @date 2021/1/26 12:52
 	 */
@@ -48,7 +46,6 @@ public interface SysRoleDataScopeService extends BaseService<SysRoleDataScopeReq
 
 	/**
 	 * 删除
-	 *
 	 * @param sysRoleDataScopeRequest 参数对象
 	 * @date 2021/1/26 12:52
 	 */
@@ -56,7 +53,6 @@ public interface SysRoleDataScopeService extends BaseService<SysRoleDataScopeReq
 
 	/**
 	 * 根据角色id 删除角色数据范围
-	 *
 	 * @param roleId 角色id
 	 * @date 2021/1/26 12:52
 	 */
@@ -64,7 +60,6 @@ public interface SysRoleDataScopeService extends BaseService<SysRoleDataScopeReq
 
 	/**
 	 * 修改
-	 *
 	 * @param sysRoleDataScopeRequest 参数对象
 	 * @date 2021/1/26 12:52
 	 */
@@ -72,7 +67,6 @@ public interface SysRoleDataScopeService extends BaseService<SysRoleDataScopeReq
 
 	/**
 	 * 查询-详情
-	 *
 	 * @param sysRoleDataScopeRequest 参数对象
 	 * @date 2021/1/26 12:52
 	 */
@@ -80,7 +74,6 @@ public interface SysRoleDataScopeService extends BaseService<SysRoleDataScopeReq
 
 	/**
 	 * 查询-列表
-	 *
 	 * @param sysRoleDataScopeRequest 参数对象
 	 * @date 2021/1/26 12:52
 	 */

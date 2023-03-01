@@ -16,29 +16,35 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 public interface SysUserConverter {
-    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    interface RequestConverter extends ObjectConverter<SysUserRequest, SysUser> {
-        default HrPosition mapHrPositionRequestToHrPosition(HrPositionRequest hrPositionRequest) {
-            ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
-            return converterService.convert(hrPositionRequest, HrPosition.class);
-        }
 
-        default HrOrganization mapHrOrganizationRequestToHrOrganization(HrOrganizationRequest hrOrganizationRequest) {
-            ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
-            return converterService.convert(hrOrganizationRequest, HrOrganization.class);
-        }
-    }
+	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	interface RequestConverter extends ObjectConverter<SysUserRequest, SysUser> {
 
-    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    interface ResponseConverter extends ObjectConverter<SysUser, SysUserResponse> {
-        default HrPositionResponse mapHrPositionToHrPositionResponse(HrPosition hrPosition) {
-            ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
-            return converterService.convert(hrPosition, HrPositionResponse.class);
-        }
+		default HrPosition mapHrPositionRequestToHrPosition(HrPositionRequest hrPositionRequest) {
+			ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
+			return converterService.convert(hrPositionRequest, HrPosition.class);
+		}
 
-        default HrOrganizationResponse mapHrOrganizationToHrOrganizationResponse(HrOrganization hrOrganization) {
-            ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
-            return converterService.convert(hrOrganization, HrOrganizationResponse.class);
-        }
-    }
+		default HrOrganization mapHrOrganizationRequestToHrOrganization(HrOrganizationRequest hrOrganizationRequest) {
+			ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
+			return converterService.convert(hrOrganizationRequest, HrOrganization.class);
+		}
+
+	}
+
+	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	interface ResponseConverter extends ObjectConverter<SysUser, SysUserResponse> {
+
+		default HrPositionResponse mapHrPositionToHrPositionResponse(HrPosition hrPosition) {
+			ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
+			return converterService.convert(hrPosition, HrPositionResponse.class);
+		}
+
+		default HrOrganizationResponse mapHrOrganizationToHrOrganizationResponse(HrOrganization hrOrganization) {
+			ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
+			return converterService.convert(hrOrganization, HrOrganizationResponse.class);
+		}
+
+	}
+
 }

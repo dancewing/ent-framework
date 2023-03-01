@@ -20,16 +20,17 @@ import org.mybatis.dynamic.sql.BasicColumn;
 
 public class IsEqualToColumn<T> extends AbstractColumnComparisonCondition<T> {
 
-    protected IsEqualToColumn(BasicColumn column) {
-        super(column);
-    }
+	protected IsEqualToColumn(BasicColumn column) {
+		super(column);
+	}
 
-    @Override
-    protected String renderCondition(String leftColumn, String rightColumn) {
-        return leftColumn + " = " + rightColumn; //$NON-NLS-1$
-    }
+	@Override
+	protected String renderCondition(String leftColumn, String rightColumn) {
+		return leftColumn + " = " + rightColumn; //$NON-NLS-1$
+	}
 
-    public static <T> IsEqualToColumn<T> of(BasicColumn column) {
-        return new IsEqualToColumn<>(column);
-    }
+	public static <T> IsEqualToColumn<T> of(BasicColumn column) {
+		return new IsEqualToColumn<>(column);
+	}
+
 }

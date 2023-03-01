@@ -20,14 +20,15 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(EmailProperties.class)
 public class KernelEmailAutoConfiguration {
 
-    /**
-     * java mail方式发送邮件的接口
-     *
-     * @date 2020/12/1 11:32
-     */
-    @Bean
-    @ConditionalOnMissingBean(MailSenderApi.class)
-    public MailSenderApi mailSenderApi() {
-        return new JavaMailSender();
-    }
+	/**
+	 * java mail方式发送邮件的接口
+	 *
+	 * @date 2020/12/1 11:32
+	 */
+	@Bean
+	@ConditionalOnMissingBean(MailSenderApi.class)
+	public MailSenderApi mailSenderApi() {
+		return new JavaMailSender();
+	}
+
 }

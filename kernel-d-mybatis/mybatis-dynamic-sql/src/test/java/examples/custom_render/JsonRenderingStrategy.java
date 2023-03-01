@@ -20,8 +20,9 @@ import org.mybatis.dynamic.sql.render.MyBatis3RenderingStrategy;
 
 public class JsonRenderingStrategy extends MyBatis3RenderingStrategy {
 
-    @Override
-    public String getFormattedJdbcPlaceholder(BindableColumn<?> column, String prefix, String parameterName) {
-        return super.getFormattedJdbcPlaceholder(column, prefix, parameterName) + "::json";
-    }
+	@Override
+	public String getFormattedJdbcPlaceholder(BindableColumn<?> column, String prefix, String parameterName) {
+		return super.getFormattedJdbcPlaceholder(column, prefix, parameterName) + "::json";
+	}
+
 }

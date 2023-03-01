@@ -17,42 +17,42 @@ import lombok.Getter;
 @EnumHandler
 public enum MessagePriorityLevelEnum {
 
-    /**
-     * 高
-     */
-    HIGH("high", "高"),
+	/**
+	 * 高
+	 */
+	HIGH("high", "高"),
 
-    /**
-     * 中
-     */
-    MIDDLE("middle", "中"),
+	/**
+	 * 中
+	 */
+	MIDDLE("middle", "中"),
 
-    /**
-     * 低
-     */
-    LOW("low", "低");
+	/**
+	 * 低
+	 */
+	LOW("low", "低");
 
-    @JsonValue
-    @EnumValue
-    private final String code;
+	@JsonValue
+	@EnumValue
+	private final String code;
 
-    private final String name;
+	private final String name;
 
-    MessagePriorityLevelEnum(String code, String name) {
-        this.code = code;
-        this.name = name;
-    }
+	MessagePriorityLevelEnum(String code, String name) {
+		this.code = code;
+		this.name = name;
+	}
 
-    public static String getName(String code) {
-        if (code == null) {
-            return null;
-        }
-        for (MessagePriorityLevelEnum flagEnum : MessagePriorityLevelEnum.values()) {
-            if (flagEnum.getCode().equals(code)) {
-                return flagEnum.name;
-            }
-        }
-        return null;
-    }
+	public static String getName(String code) {
+		if (code == null) {
+			return null;
+		}
+		for (MessagePriorityLevelEnum flagEnum : MessagePriorityLevelEnum.values()) {
+			if (flagEnum.getCode().equals(code)) {
+				return flagEnum.name;
+			}
+		}
+		return null;
+	}
 
 }

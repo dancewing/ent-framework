@@ -22,64 +22,64 @@ import java.util.Optional;
 
 public class FragmentAndParameters {
 
-    private final String fragment;
-    private final Map<String, Object> parameters;
+	private final String fragment;
 
-    private FragmentAndParameters(Builder builder) {
-        fragment = Objects.requireNonNull(builder.fragment);
-        parameters = Objects.requireNonNull(builder.parameters);
-    }
+	private final Map<String, Object> parameters;
 
-    public String fragment() {
-        return fragment;
-    }
+	private FragmentAndParameters(Builder builder) {
+		fragment = Objects.requireNonNull(builder.fragment);
+		parameters = Objects.requireNonNull(builder.parameters);
+	}
 
-    public Map<String, Object> parameters() {
-        return parameters;
-    }
+	public String fragment() {
+		return fragment;
+	}
 
-    public FragmentAndParameters add(String newFragment) {
-        return withFragment(fragment + newFragment)
-                .withParameters(parameters)
-                .build();
-    }
+	public Map<String, Object> parameters() {
+		return parameters;
+	}
 
-    public FragmentAndParameters add(String newFragment, Map<String, Object> newParameters) {
-        return withFragment(fragment + newFragment)
-                .withParameters(parameters)
-                .withParameters(newParameters)
-                .build();
-    }
+	public FragmentAndParameters add(String newFragment) {
+		return withFragment(fragment + newFragment).withParameters(parameters).build();
+	}
 
-    public static Builder withFragment(String fragment) {
-        return new Builder().withFragment(fragment);
-    }
+	public FragmentAndParameters add(String newFragment, Map<String, Object> newParameters) {
+		return withFragment(fragment + newFragment).withParameters(parameters).withParameters(newParameters).build();
+	}
 
-    public static class Builder {
-        private String fragment;
-        private final Map<String, Object> parameters = new HashMap<>();
+	public static Builder withFragment(String fragment) {
+		return new Builder().withFragment(fragment);
+	}
 
-        public Builder withFragment(String fragment) {
-            this.fragment = fragment;
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withParameter(String key, Object value) {
-            parameters.put(key, value);
-            return this;
-        }
+		private String fragment;
 
-        public Builder withParameters(Map<String, Object> parameters) {
-            this.parameters.putAll(parameters);
-            return this;
-        }
+		private final Map<String, Object> parameters = new HashMap<>();
 
-        public FragmentAndParameters build() {
-            return new FragmentAndParameters(this);
-        }
+		public Builder withFragment(String fragment) {
+			this.fragment = fragment;
+			return this;
+		}
 
-        public Optional<FragmentAndParameters> buildOptional() {
-            return Optional.of(build());
-        }
-    }
+		public Builder withParameter(String key, Object value) {
+			parameters.put(key, value);
+			return this;
+		}
+
+		public Builder withParameters(Map<String, Object> parameters) {
+			this.parameters.putAll(parameters);
+			return this;
+		}
+
+		public FragmentAndParameters build() {
+			return new FragmentAndParameters(this);
+		}
+
+		public Optional<FragmentAndParameters> buildOptional() {
+			return Optional.of(build());
+		}
+
+	}
+
 }

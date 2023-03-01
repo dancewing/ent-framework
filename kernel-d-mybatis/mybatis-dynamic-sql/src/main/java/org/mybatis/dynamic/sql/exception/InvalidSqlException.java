@@ -16,9 +16,11 @@
 package org.mybatis.dynamic.sql.exception;
 
 public class InvalidSqlException extends DynamicSqlException {
-    private static final long serialVersionUID = 1666851020951347843L;
 
-    public InvalidSqlException(String message) {
-        super(message);
-    }
+	private static final long serialVersionUID = 1666851020951347843L;
+
+	public InvalidSqlException(String message) {
+		super(message);
+	}
+
 }

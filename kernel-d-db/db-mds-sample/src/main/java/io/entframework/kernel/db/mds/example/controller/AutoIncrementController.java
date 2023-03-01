@@ -7,4 +7,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @ApiResource(name = "AutoTest")
 public class AutoIncrementController extends BaseAutoIncrementController {
+
 }

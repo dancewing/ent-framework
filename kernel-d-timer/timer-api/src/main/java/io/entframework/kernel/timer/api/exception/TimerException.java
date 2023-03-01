@@ -15,12 +15,13 @@ import io.entframework.kernel.timer.api.constants.TimerConstants;
  */
 public class TimerException extends ServiceException {
 
-    public TimerException(AbstractExceptionEnum exception) {
-        super(TimerConstants.TIMER_MODULE_NAME, exception);
-    }
+	public TimerException(AbstractExceptionEnum exception) {
+		super(TimerConstants.TIMER_MODULE_NAME, exception);
+	}
 
-    public TimerException(AbstractExceptionEnum exception, Object... params) {
-        super(TimerConstants.TIMER_MODULE_NAME, exception.getErrorCode(), CharSequenceUtil.format(exception.getUserTip(), params));
-    }
+	public TimerException(AbstractExceptionEnum exception, Object... params) {
+		super(TimerConstants.TIMER_MODULE_NAME, exception.getErrorCode(),
+				CharSequenceUtil.format(exception.getUserTip(), params));
+	}
 
 }

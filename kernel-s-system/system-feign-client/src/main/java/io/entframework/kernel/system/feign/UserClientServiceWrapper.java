@@ -16,34 +16,36 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class UserClientServiceWrapper implements UserClientServiceApi {
-    private final UserClientServiceApi feignClient;
 
-    public UserClientServiceWrapper(UserClientServiceApi feignClient) {
-        this.feignClient = feignClient;
-    }
+	private final UserClientServiceApi feignClient;
 
-    @Override
-    public Boolean userExist(Long userId) {
-        return feignClient.userExist(userId);
-    }
+	public UserClientServiceWrapper(UserClientServiceApi feignClient) {
+		this.feignClient = feignClient;
+	}
 
-    @Override
-    public List<Long> queryAllUserIdList(SysUserRequest sysUserRequest) {
-        return feignClient.queryAllUserIdList(sysUserRequest);
-    }
+	@Override
+	public Boolean userExist(Long userId) {
+		return feignClient.userExist(userId);
+	}
 
-    @Override
-    public UserLoginInfoDTO getUserLoginInfo(String account) {
-        return feignClient.getUserLoginInfo(account);
-    }
+	@Override
+	public List<Long> queryAllUserIdList(SysUserRequest sysUserRequest) {
+		return feignClient.queryAllUserIdList(sysUserRequest);
+	}
 
-    @Override
-    public void updateUserLoginInfo(Long userId, LocalDateTime date, String ip) {
-        feignClient.updateUserLoginInfo(userId, date, ip);
-    }
+	@Override
+	public UserLoginInfoDTO getUserLoginInfo(String account) {
+		return feignClient.getUserLoginInfo(account);
+	}
 
-    @Override
-    public SysUserResponse getUserInfoByUserId(Long userId) {
-        return feignClient.getUserInfoByUserId(userId);
-    }
+	@Override
+	public void updateUserLoginInfo(Long userId, LocalDateTime date, String ip) {
+		feignClient.updateUserLoginInfo(userId, date, ip);
+	}
+
+	@Override
+	public SysUserResponse getUserInfoByUserId(Long userId) {
+		return feignClient.getUserInfoByUserId(userId);
+	}
+
 }

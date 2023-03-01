@@ -20,23 +20,23 @@ import org.mybatis.dynamic.sql.render.TableAliasCalculator;
 
 public class Upper<T> extends AbstractUniTypeFunction<T, Upper<T>> {
 
-    private Upper(BindableColumn<T> column) {
-        super(column);
-    }
+	private Upper(BindableColumn<T> column) {
+		super(column);
+	}
 
-    @Override
-    public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
-        return "upper(" //$NON-NLS-1$
-                + column.renderWithTableAlias(tableAliasCalculator)
-                + ")"; //$NON-NLS-1$
-    }
+	@Override
+	public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
+		return "upper(" //$NON-NLS-1$
+				+ column.renderWithTableAlias(tableAliasCalculator) + ")"; //$NON-NLS-1$
+	}
 
-    @Override
-    protected Upper<T> copy() {
-        return new Upper<>(column);
-    }
+	@Override
+	protected Upper<T> copy() {
+		return new Upper<>(column);
+	}
 
-    public static <T> Upper<T> of(BindableColumn<T> column) {
-        return new Upper<>(column);
-    }
+	public static <T> Upper<T> of(BindableColumn<T> column) {
+		return new Upper<>(column);
+	}
+
 }

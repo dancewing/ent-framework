@@ -105,4 +105,5 @@ public class SysThemeController {
 		sysThemeService.updateThemeStatus(sysThemeParam);
 		return ResponseData.OK_VOID;
 	}
+
 }

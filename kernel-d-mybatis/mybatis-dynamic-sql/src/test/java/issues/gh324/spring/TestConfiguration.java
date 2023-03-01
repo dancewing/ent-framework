@@ -30,29 +30,28 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 @MapperScan("issues.gh324")
 public class TestConfiguration {
-    @Bean
-    public DataSource dataSource() {
-        return new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.HSQL)
-                .generateUniqueName(true)
-                .addScript("classpath:/issues/gh324/CreateDB.sql")
-                .build();
-    }
 
-    @Bean
-    public SqlSessionFactory sqlSessionFactory() throws Exception {
-        SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
-        factoryBean.setDataSource(dataSource());
-        return factoryBean.getObject();
-    }
+	@Bean
+	public DataSource dataSource() {
+		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).generateUniqueName(true)
+				.addScript("classpath:/issues/gh324/CreateDB.sql").build();
+	}
 
-    @Bean
-    public PlatformTransactionManager platformTransactionManager() {
-        return new DataSourceTransactionManager(dataSource());
-    }
+	@Bean
+	public SqlSessionFactory sqlSessionFactory() throws Exception {
+		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
+		factoryBean.setDataSource(dataSource());
+		return factoryBean.getObject();
+	}
 
-    @Bean
-    SpringNameService nameService() {
-        return new SpringNameService();
-    }
+	@Bean
+	public PlatformTransactionManager platformTransactionManager() {
+		return new DataSourceTransactionManager(dataSource());
+	}
+
+	@Bean
+	SpringNameService nameService() {
+		return new SpringNameService();
+	}
+
 }

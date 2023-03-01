@@ -39,108 +39,93 @@ import org.mybatis.dynamic.sql.util.ValueWhenPresentMapping;
 
 public class SetPhraseVisitor extends UpdateMappingVisitor<Optional<FragmentAndParameters>> {
 
-    private final AtomicInteger sequence;
-    private final RenderingStrategy renderingStrategy;
-    private final Function<SqlColumn<?>, String> aliasedColumnNameFunction;
+	private final AtomicInteger sequence;
 
-    public SetPhraseVisitor(AtomicInteger sequence, RenderingStrategy renderingStrategy,
-                            TableAliasCalculator tableAliasCalculator) {
-        this.sequence = Objects.requireNonNull(sequence);
-        this.renderingStrategy = Objects.requireNonNull(renderingStrategy);
-        Objects.requireNonNull(tableAliasCalculator);
-        aliasedColumnNameFunction = c -> tableAliasCalculator.aliasForColumn(c.table())
-                .map(alias -> alias + "." + c.name())  //$NON-NLS-1$
-                .orElseGet(c::name);
-    }
+	private final RenderingStrategy renderingStrategy;
 
-    @Override
-    public Optional<FragmentAndParameters> visit(NullMapping mapping) {
-        return FragmentAndParameters
-                .withFragment(mapping.mapColumn(aliasedColumnNameFunction) + " = null") //$NON-NLS-1$
-                .buildOptional();
-    }
+	private final Function<SqlColumn<?>, String> aliasedColumnNameFunction;
 
-    @Override
-    public Optional<FragmentAndParameters> visit(ConstantMapping mapping) {
-        String fragment = mapping.mapColumn(aliasedColumnNameFunction) + " = " + mapping.constant(); //$NON-NLS-1$
-        return FragmentAndParameters.withFragment(fragment)
-                .buildOptional();
-    }
+	public SetPhraseVisitor(AtomicInteger sequence, RenderingStrategy renderingStrategy,
+			TableAliasCalculator tableAliasCalculator) {
+		this.sequence = Objects.requireNonNull(sequence);
+		this.renderingStrategy = Objects.requireNonNull(renderingStrategy);
+		Objects.requireNonNull(tableAliasCalculator);
+		aliasedColumnNameFunction = c -> tableAliasCalculator.aliasForColumn(c.table())
+				.map(alias -> alias + "." + c.name()) //$NON-NLS-1$
+				.orElseGet(c::name);
+	}
 
-    @Override
-    public Optional<FragmentAndParameters> visit(StringConstantMapping mapping) {
-        String fragment = mapping.mapColumn(aliasedColumnNameFunction)
-                + " = '" //$NON-NLS-1$
-                + mapping.constant()
-                + "'"; //$NON-NLS-1$
+	@Override
+	public Optional<FragmentAndParameters> visit(NullMapping mapping) {
+		return FragmentAndParameters.withFragment(mapping.mapColumn(aliasedColumnNameFunction) + " = null") //$NON-NLS-1$
+				.buildOptional();
+	}
 
-        return FragmentAndParameters.withFragment(fragment)
-                .buildOptional();
-    }
+	@Override
+	public Optional<FragmentAndParameters> visit(ConstantMapping mapping) {
+		String fragment = mapping.mapColumn(aliasedColumnNameFunction) + " = " + mapping.constant(); //$NON-NLS-1$
+		return FragmentAndParameters.withFragment(fragment).buildOptional();
+	}
 
-    @Override
-    public <T> Optional<FragmentAndParameters> visit(ValueMapping<T> mapping) {
-        return buildFragment(mapping, mapping.value());
-    }
+	@Override
+	public Optional<FragmentAndParameters> visit(StringConstantMapping mapping) {
+		String fragment = mapping.mapColumn(aliasedColumnNameFunction) + " = '" //$NON-NLS-1$
+				+ mapping.constant() + "'"; //$NON-NLS-1$
 
-    @Override
-    public <T> Optional<FragmentAndParameters> visit(ValueOrNullMapping<T> mapping) {
-        return mapping.value()
-                .map(v -> buildFragment(mapping, v))
-                .orElseGet(() -> FragmentAndParameters
-                        .withFragment(mapping.mapColumn(aliasedColumnNameFunction) + " = null") //$NON-NLS-1$
-                        .buildOptional()
-                );
-    }
+		return FragmentAndParameters.withFragment(fragment).buildOptional();
+	}
 
-    @Override
-    public <T> Optional<FragmentAndParameters> visit(ValueWhenPresentMapping<T> mapping) {
-        return mapping.value().flatMap(v -> buildFragment(mapping, v));
-    }
+	@Override
+	public <T> Optional<FragmentAndParameters> visit(ValueMapping<T> mapping) {
+		return buildFragment(mapping, mapping.value());
+	}
 
-    @Override
-    public Optional<FragmentAndParameters> visit(SelectMapping mapping) {
-        SelectStatementProvider selectStatement = SelectRenderer.withSelectModel(mapping.selectModel())
-                .withRenderingStrategy(renderingStrategy)
-                .withSequence(sequence)
-                .build()
-                .render();
+	@Override
+	public <T> Optional<FragmentAndParameters> visit(ValueOrNullMapping<T> mapping) {
+		return mapping.value().map(v -> buildFragment(mapping, v))
+				.orElseGet(() -> FragmentAndParameters
+						.withFragment(mapping.mapColumn(aliasedColumnNameFunction) + " = null") //$NON-NLS-1$
+						.buildOptional());
+	}
 
-        String fragment = mapping.mapColumn(aliasedColumnNameFunction)
-                + " = (" //$NON-NLS-1$
-                + selectStatement.getSelectStatement()
-                + ")"; //$NON-NLS-1$
+	@Override
+	public <T> Optional<FragmentAndParameters> visit(ValueWhenPresentMapping<T> mapping) {
+		return mapping.value().flatMap(v -> buildFragment(mapping, v));
+	}
 
-        return FragmentAndParameters.withFragment(fragment)
-                .withParameters(selectStatement.getParameters())
-                .buildOptional();
-    }
+	@Override
+	public Optional<FragmentAndParameters> visit(SelectMapping mapping) {
+		SelectStatementProvider selectStatement = SelectRenderer.withSelectModel(mapping.selectModel())
+				.withRenderingStrategy(renderingStrategy).withSequence(sequence).build().render();
 
-    @Override
-    public Optional<FragmentAndParameters> visit(ColumnToColumnMapping mapping) {
-        String setPhrase = mapping.mapColumn(aliasedColumnNameFunction)
-                + " = "  //$NON-NLS-1$
-                + mapping.rightColumn().renderWithTableAlias(TableAliasCalculator.empty());
+		String fragment = mapping.mapColumn(aliasedColumnNameFunction) + " = (" //$NON-NLS-1$
+				+ selectStatement.getSelectStatement() + ")"; //$NON-NLS-1$
 
-        return FragmentAndParameters.withFragment(setPhrase)
-                .buildOptional();
-    }
+		return FragmentAndParameters.withFragment(fragment).withParameters(selectStatement.getParameters())
+				.buildOptional();
+	}
 
-    private <T> Optional<FragmentAndParameters> buildFragment(AbstractColumnMapping mapping, T value) {
-        String mapKey = RenderingStrategy.formatParameterMapKey(sequence);
+	@Override
+	public Optional<FragmentAndParameters> visit(ColumnToColumnMapping mapping) {
+		String setPhrase = mapping.mapColumn(aliasedColumnNameFunction) + " = " //$NON-NLS-1$
+				+ mapping.rightColumn().renderWithTableAlias(TableAliasCalculator.empty());
 
-        String jdbcPlaceholder = mapping.mapColumn(c -> calculateJdbcPlaceholder(c, mapKey));
-        String setPhrase = mapping.mapColumn(aliasedColumnNameFunction)
-                + " = "  //$NON-NLS-1$
-                + jdbcPlaceholder;
+		return FragmentAndParameters.withFragment(setPhrase).buildOptional();
+	}
 
-        return FragmentAndParameters.withFragment(setPhrase)
-                .withParameter(mapKey, value)
-                .buildOptional();
-    }
+	private <T> Optional<FragmentAndParameters> buildFragment(AbstractColumnMapping mapping, T value) {
+		String mapKey = RenderingStrategy.formatParameterMapKey(sequence);
 
-    private String calculateJdbcPlaceholder(SqlColumn<?> column, String parameterName) {
-        return column.renderingStrategy().orElse(renderingStrategy)
-                .getFormattedJdbcPlaceholder(column, RenderingStrategy.DEFAULT_PARAMETER_PREFIX, parameterName);
-    }
+		String jdbcPlaceholder = mapping.mapColumn(c -> calculateJdbcPlaceholder(c, mapKey));
+		String setPhrase = mapping.mapColumn(aliasedColumnNameFunction) + " = " //$NON-NLS-1$
+				+ jdbcPlaceholder;
+
+		return FragmentAndParameters.withFragment(setPhrase).withParameter(mapKey, value).buildOptional();
+	}
+
+	private String calculateJdbcPlaceholder(SqlColumn<?> column, String parameterName) {
+		return column.renderingStrategy().orElse(renderingStrategy).getFormattedJdbcPlaceholder(column,
+				RenderingStrategy.DEFAULT_PARAMETER_PREFIX, parameterName);
+	}
+
 }

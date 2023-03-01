@@ -8,29 +8,30 @@ import java.util.Collection;
 
 public class MultiRowIgnoreInsertModel<T> extends AbstractMultiRowInsertModel<T> {
 
-    private MultiRowIgnoreInsertModel(Builder<T> builder) {
-        super(builder);
-    }
+	private MultiRowIgnoreInsertModel(Builder<T> builder) {
+		super(builder);
+	}
 
-    public MultiRowInsertStatementProvider<T> render(RenderingStrategy renderingStrategy) {
-        return MultiRowIgnoreInsertRenderer.withMultiRowIgnoreInsertModel(this)
-                .withRenderingStrategy(renderingStrategy)
-                .build()
-                .render();
-    }
+	public MultiRowInsertStatementProvider<T> render(RenderingStrategy renderingStrategy) {
+		return MultiRowIgnoreInsertRenderer.withMultiRowIgnoreInsertModel(this).withRenderingStrategy(renderingStrategy)
+				.build().render();
+	}
 
-    public static <T> Builder<T> withRecords(Collection<T> records) {
-        return new Builder<T>().withRecords(records);
-    }
+	public static <T> Builder<T> withRecords(Collection<T> records) {
+		return new Builder<T>().withRecords(records);
+	}
 
-    public static class Builder<T> extends AbstractBuilder<T, Builder<T>> {
-        @Override
-        protected Builder<T> getThis() {
-            return this;
-        }
+	public static class Builder<T> extends AbstractBuilder<T, Builder<T>> {
 
-        public MultiRowIgnoreInsertModel<T> build() {
-            return new MultiRowIgnoreInsertModel<>(this);
-        }
-    }
+		@Override
+		protected Builder<T> getThis() {
+			return this;
+		}
+
+		public MultiRowIgnoreInsertModel<T> build() {
+			return new MultiRowIgnoreInsertModel<>(this);
+		}
+
+	}
+
 }

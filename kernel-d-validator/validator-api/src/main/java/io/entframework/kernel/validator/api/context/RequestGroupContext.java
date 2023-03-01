@@ -10,33 +10,33 @@ package io.entframework.kernel.validator.api.context;
  */
 public class RequestGroupContext {
 
-    private static final ThreadLocal<Class<?>> GROUP_CLASS_HOLDER = new ThreadLocal<>();
+	private static final ThreadLocal<Class<?>> GROUP_CLASS_HOLDER = new ThreadLocal<>();
 
-    /**
-     * 设置临时的校验分组
-     *
-     * @date 2020/11/4 14:32
-     */
-    public static void set(Class<?> groupValue) {
-        GROUP_CLASS_HOLDER.set(groupValue);
-    }
+	/**
+	 * 设置临时的校验分组
+	 *
+	 * @date 2020/11/4 14:32
+	 */
+	public static void set(Class<?> groupValue) {
+		GROUP_CLASS_HOLDER.set(groupValue);
+	}
 
-    /**
-     * 获取临时校验分组
-     *
-     * @date 2020/11/4 14:32
-     */
-    public static Class<?> get() {
-        return GROUP_CLASS_HOLDER.get();
-    }
+	/**
+	 * 获取临时校验分组
+	 *
+	 * @date 2020/11/4 14:32
+	 */
+	public static Class<?> get() {
+		return GROUP_CLASS_HOLDER.get();
+	}
 
-    /**
-     * 清除临时缓存的校验分组
-     *
-     * @date 2020/11/4 14:32
-     */
-    public static void clear() {
-        GROUP_CLASS_HOLDER.remove();
-    }
+	/**
+	 * 清除临时缓存的校验分组
+	 *
+	 * @date 2020/11/4 14:32
+	 */
+	public static void clear() {
+		GROUP_CLASS_HOLDER.remove();
+	}
 
 }

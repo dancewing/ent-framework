@@ -20,32 +20,31 @@ import org.mybatis.dynamic.sql.render.TableAliasCalculator;
 
 public class Substring<T> extends AbstractUniTypeFunction<T, Substring<T>> {
 
-    private final int offset;
-    private final int length;
+	private final int offset;
 
-    private Substring(BindableColumn<T> column, int offset, int length) {
-        super(column);
-        this.offset = offset;
-        this.length = length;
-    }
+	private final int length;
 
-    @Override
-    public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
-        return "substring(" //$NON-NLS-1$
-                + column.renderWithTableAlias(tableAliasCalculator)
-                + ", " //$NON-NLS-1$
-                + offset
-                + ", " //$NON-NLS-1$
-                + length
-                + ")"; //$NON-NLS-1$
-    }
+	private Substring(BindableColumn<T> column, int offset, int length) {
+		super(column);
+		this.offset = offset;
+		this.length = length;
+	}
 
-    @Override
-    protected Substring<T> copy() {
-        return new Substring<>(column, offset, length);
-    }
+	@Override
+	public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
+		return "substring(" //$NON-NLS-1$
+				+ column.renderWithTableAlias(tableAliasCalculator) + ", " //$NON-NLS-1$
+				+ offset + ", " //$NON-NLS-1$
+				+ length + ")"; //$NON-NLS-1$
+	}
 
-    public static <T> Substring<T> of(BindableColumn<T> column, int offset, int length) {
-        return new Substring<>(column, offset, length);
-    }
+	@Override
+	protected Substring<T> copy() {
+		return new Substring<>(column, offset, length);
+	}
+
+	public static <T> Substring<T> of(BindableColumn<T> column, int offset, int length) {
+		return new Substring<>(column, offset, length);
+	}
+
 }

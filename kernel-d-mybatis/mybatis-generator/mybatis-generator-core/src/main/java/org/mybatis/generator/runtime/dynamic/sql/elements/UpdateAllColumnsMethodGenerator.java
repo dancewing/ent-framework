@@ -24,69 +24,73 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 
 public class UpdateAllColumnsMethodGenerator extends AbstractMethodGenerator {
-    private final FullyQualifiedJavaType recordType;
-    private final FragmentGenerator fragmentGenerator;
 
-    private UpdateAllColumnsMethodGenerator(Builder builder) {
-        super(builder);
-        recordType = builder.recordType;
-        fragmentGenerator = builder.fragmentGenerator;
-    }
+	private final FullyQualifiedJavaType recordType;
 
-    @Override
-    public MethodAndImports generateMethodAndImports() {
-        Set<FullyQualifiedJavaType> imports = new HashSet<>();
+	private final FragmentGenerator fragmentGenerator;
 
-        FullyQualifiedJavaType parameterAndReturnType = new FullyQualifiedJavaType(
-                "org.mybatis.dynamic.sql.update.UpdateDSL"); //$NON-NLS-1$
-        parameterAndReturnType.addTypeArgument(new FullyQualifiedJavaType(
-                "org.mybatis.dynamic.sql.update.UpdateModel")); //$NON-NLS-1$
-        imports.add(parameterAndReturnType);
+	private UpdateAllColumnsMethodGenerator(Builder builder) {
+		super(builder);
+		recordType = builder.recordType;
+		fragmentGenerator = builder.fragmentGenerator;
+	}
 
-        imports.add(recordType);
+	@Override
+	public MethodAndImports generateMethodAndImports() {
+		Set<FullyQualifiedJavaType> imports = new HashSet<>();
 
-        Method method = new Method("updateAllColumns"); //$NON-NLS-1$
-        method.setStatic(true);
-        context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
+		FullyQualifiedJavaType parameterAndReturnType = new FullyQualifiedJavaType(
+				"org.mybatis.dynamic.sql.update.UpdateDSL"); //$NON-NLS-1$
+		parameterAndReturnType
+				.addTypeArgument(new FullyQualifiedJavaType("org.mybatis.dynamic.sql.update.UpdateModel")); //$NON-NLS-1$
+		imports.add(parameterAndReturnType);
 
-        method.setReturnType(parameterAndReturnType);
-        method.addParameter(new Parameter(recordType, "row")); //$NON-NLS-1$
-        method.addParameter(new Parameter(parameterAndReturnType, "dsl")); //$NON-NLS-1$
+		imports.add(recordType);
 
-        method.addBodyLines(fragmentGenerator.getSetEqualLines(introspectedTable.getAllColumns(),
-                "return dsl", "        ", true)); //$NON-NLS-1$ //$NON-NLS-2$
+		Method method = new Method("updateAllColumns"); //$NON-NLS-1$
+		method.setStatic(true);
+		context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
 
-        return MethodAndImports.withMethod(method)
-                .withImports(imports)
-                .build();
-    }
+		method.setReturnType(parameterAndReturnType);
+		method.addParameter(new Parameter(recordType, "row")); //$NON-NLS-1$
+		method.addParameter(new Parameter(parameterAndReturnType, "dsl")); //$NON-NLS-1$
 
-    @Override
-    public boolean callPlugins(Method method, Interface interfaze) {
-        return context.getPlugins().clientUpdateAllColumnsMethodGenerated(method, interfaze, introspectedTable);
-    }
+		method.addBodyLines(
+				fragmentGenerator.getSetEqualLines(introspectedTable.getAllColumns(), "return dsl", "        ", true)); //$NON-NLS-1$ //$NON-NLS-2$
 
-    public static class Builder extends BaseBuilder<Builder> {
-        private FullyQualifiedJavaType recordType;
-        private FragmentGenerator fragmentGenerator;
+		return MethodAndImports.withMethod(method).withImports(imports).build();
+	}
 
-        public Builder withRecordType(FullyQualifiedJavaType recordType) {
-            this.recordType = recordType;
-            return this;
-        }
+	@Override
+	public boolean callPlugins(Method method, Interface interfaze) {
+		return context.getPlugins().clientUpdateAllColumnsMethodGenerated(method, interfaze, introspectedTable);
+	}
 
-        public Builder withFragmentGenerator(FragmentGenerator fragmentGenerator) {
-            this.fragmentGenerator = fragmentGenerator;
-            return this;
-        }
+	public static class Builder extends BaseBuilder<Builder> {
 
-        @Override
-        public Builder getThis() {
-            return this;
-        }
+		private FullyQualifiedJavaType recordType;
 
-        public UpdateAllColumnsMethodGenerator build() {
-            return new UpdateAllColumnsMethodGenerator(this);
-        }
-    }
+		private FragmentGenerator fragmentGenerator;
+
+		public Builder withRecordType(FullyQualifiedJavaType recordType) {
+			this.recordType = recordType;
+			return this;
+		}
+
+		public Builder withFragmentGenerator(FragmentGenerator fragmentGenerator) {
+			this.fragmentGenerator = fragmentGenerator;
+			return this;
+		}
+
+		@Override
+		public Builder getThis() {
+			return this;
+		}
+
+		public UpdateAllColumnsMethodGenerator build() {
+			return new UpdateAllColumnsMethodGenerator(this);
+		}
+
+	}
+
 }

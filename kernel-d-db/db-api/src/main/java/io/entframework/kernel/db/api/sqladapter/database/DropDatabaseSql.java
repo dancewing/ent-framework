@@ -14,24 +14,24 @@ import lombok.Getter;
 @Getter
 public class DropDatabaseSql extends AbstractSql {
 
-    @Override
-    protected String mysql() {
-        return "DROP DATABASE ?;";
-    }
+	@Override
+	protected String mysql() {
+		return "DROP DATABASE ?;";
+	}
 
-    @Override
-    protected String sqlServer() {
-        return "DROP DATABASE ?;";
-    }
+	@Override
+	protected String sqlServer() {
+		return "DROP DATABASE ?;";
+	}
 
-    @Override
-    protected String pgSql() {
-        return "DROP DATABASE ?;";
-    }
+	@Override
+	protected String pgSql() {
+		return "DROP DATABASE ?;";
+	}
 
-    @Override
-    protected String oracle() {
-        return "DROP DATASPACE ?;";
-    }
+	@Override
+	protected String oracle() {
+		return "DROP DATASPACE ?;";
+	}
 
 }

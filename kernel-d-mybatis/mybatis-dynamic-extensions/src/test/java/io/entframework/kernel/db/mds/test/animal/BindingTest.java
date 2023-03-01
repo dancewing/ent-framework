@@ -39,80 +39,88 @@ import static org.assertj.core.api.Assertions.fail;
  */
 class BindingTest {
 
-    private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
-    private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
+	private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
 
-    private SqlSessionFactory sqlSessionFactory;
+	private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
 
-    @BeforeEach
-    void setup() throws Exception {
-        Class.forName(JDBC_DRIVER);
-        InputStream is = getClass().getResourceAsStream("/examples/animal/data/CreateAnimalData.sql");
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
-            ScriptRunner sr = new ScriptRunner(connection);
-            sr.setLogWriter(null);
-            sr.runScript(new InputStreamReader(is));
-        }
+	private SqlSessionFactory sqlSessionFactory;
 
-        UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
-        Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
-        Configuration config = new KernelMybatisConfiguration(environment);
-        config.addMapper(AnimalDataMapper.class);
-        sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
-    }
+	@BeforeEach
+	void setup() throws Exception {
+		Class.forName(JDBC_DRIVER);
+		InputStream is = getClass().getResourceAsStream("/examples/animal/data/CreateAnimalData.sql");
+		try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
+			ScriptRunner sr = new ScriptRunner(connection);
+			sr.setLogWriter(null);
+			sr.runScript(new InputStreamReader(is));
+		}
 
-    @Test
-    void testBindInSelectList() {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        try {
-            Connection connection = sqlSession.getConnection();
+		UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
+		Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
+		Configuration config = new KernelMybatisConfiguration(environment);
+		config.addMapper(AnimalDataMapper.class);
+		sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
+	}
 
-            PreparedStatement ps = connection.prepareStatement("select brain_weight + ? as calc from AnimalData where id = ?");
-            ps.setDouble(1, 1.0);
-            ps.setInt(2, 1);
+	@Test
+	void testBindInSelectList() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try {
+			Connection connection = sqlSession.getConnection();
 
-            ResultSet rs = ps.executeQuery();
-            double calculatedWeight = 0.0;
-            if (rs.next()) {
-                calculatedWeight = rs.getDouble("CALC");
-            }
+			PreparedStatement ps = connection
+					.prepareStatement("select brain_weight + ? as calc from AnimalData where id = ?");
+			ps.setDouble(1, 1.0);
+			ps.setInt(2, 1);
 
-            rs.close();
-            ps.close();
+			ResultSet rs = ps.executeQuery();
+			double calculatedWeight = 0.0;
+			if (rs.next()) {
+				calculatedWeight = rs.getDouble("CALC");
+			}
 
-            assertThat(calculatedWeight).isEqualTo(1.005);
-        } catch (SQLException e) {
-            fail("SQL Exception", e);
-        } finally {
-            sqlSession.close();
-        }
-    }
+			rs.close();
+			ps.close();
 
-    @Test
-    void testBindInWeirdWhere() {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        try {
-            Connection connection = sqlSession.getConnection();
+			assertThat(calculatedWeight).isEqualTo(1.005);
+		}
+		catch (SQLException e) {
+			fail("SQL Exception", e);
+		}
+		finally {
+			sqlSession.close();
+		}
+	}
 
-            PreparedStatement ps = connection.prepareStatement("select brain_weight from AnimalData where brain_weight + ? > ? and id = ?");
-            ps.setDouble(1, 1.0);
-            ps.setDouble(2, 1.0);
-            ps.setInt(3, 1);
+	@Test
+	void testBindInWeirdWhere() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		try {
+			Connection connection = sqlSession.getConnection();
 
-            ResultSet rs = ps.executeQuery();
-            double calculatedWeight = 0.0;
-            if (rs.next()) {
-                calculatedWeight = rs.getDouble("BRAIN_WEIGHT");
-            }
+			PreparedStatement ps = connection
+					.prepareStatement("select brain_weight from AnimalData where brain_weight + ? > ? and id = ?");
+			ps.setDouble(1, 1.0);
+			ps.setDouble(2, 1.0);
+			ps.setInt(3, 1);
 
-            rs.close();
-            ps.close();
+			ResultSet rs = ps.executeQuery();
+			double calculatedWeight = 0.0;
+			if (rs.next()) {
+				calculatedWeight = rs.getDouble("BRAIN_WEIGHT");
+			}
 
-            assertThat(calculatedWeight).isEqualTo(.005);
-        } catch (SQLException e) {
-            fail("SQL Exception", e);
-        } finally {
-            sqlSession.close();
-        }
-    }
+			rs.close();
+			ps.close();
+
+			assertThat(calculatedWeight).isEqualTo(.005);
+		}
+		catch (SQLException e) {
+			fail("SQL Exception", e);
+		}
+		finally {
+			sqlSession.close();
+		}
+	}
+
 }

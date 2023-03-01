@@ -13,20 +13,20 @@ import lombok.Getter;
 @Getter
 public enum FieldMetadataTypeEnum {
 
-    /**
-     * 字段
-     */
-    FIELD(1),
+	/**
+	 * 字段
+	 */
+	FIELD(1),
 
-    /**
-     * 泛型
-     */
-    GENERIC(2);
+	/**
+	 * 泛型
+	 */
+	GENERIC(2);
 
-    FieldMetadataTypeEnum(Integer code) {
-        this.code = code;
-    }
+	FieldMetadataTypeEnum(Integer code) {
+		this.code = code;
+	}
 
-    private final Integer code;
+	private final Integer code;
 
 }

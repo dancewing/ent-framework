@@ -21,58 +21,65 @@ import java.util.Map;
 import java.util.Objects;
 
 public class DefaultSelectStatementProvider implements SelectStatementProvider {
-    private final String selectStatement;
-    private final Map<String, Object> parameters;
-    private final SelectRenderer source;
 
-    private DefaultSelectStatementProvider(Builder builder) {
-        selectStatement = Objects.requireNonNull(builder.selectStatement);
-        parameters = Collections.unmodifiableMap(Objects.requireNonNull(builder.parameters));
-        source = builder.source;
-    }
+	private final String selectStatement;
 
-    @Override
-    public SelectRenderer getSource() {
-        return source;
-    }
+	private final Map<String, Object> parameters;
 
-    @Override
-    public Map<String, Object> getParameters() {
-        return parameters;
-    }
+	private final SelectRenderer source;
 
-    @Override
-    public String getSelectStatement() {
-        return selectStatement;
-    }
+	private DefaultSelectStatementProvider(Builder builder) {
+		selectStatement = Objects.requireNonNull(builder.selectStatement);
+		parameters = Collections.unmodifiableMap(Objects.requireNonNull(builder.parameters));
+		source = builder.source;
+	}
 
-    public static Builder withSelectStatement(String selectStatement) {
-        return new Builder().withSelectStatement(selectStatement);
-    }
+	@Override
+	public SelectRenderer getSource() {
+		return source;
+	}
 
-    public static class Builder {
-        private String selectStatement;
-        private final Map<String, Object> parameters = new HashMap<>();
+	@Override
+	public Map<String, Object> getParameters() {
+		return parameters;
+	}
 
-        private SelectRenderer source;
+	@Override
+	public String getSelectStatement() {
+		return selectStatement;
+	}
 
-        public Builder withSelectStatement(String selectStatement) {
-            this.selectStatement = selectStatement;
-            return this;
-        }
+	public static Builder withSelectStatement(String selectStatement) {
+		return new Builder().withSelectStatement(selectStatement);
+	}
 
-        public Builder withParameters(Map<String, Object> parameters) {
-            this.parameters.putAll(parameters);
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withSource(SelectRenderer source) {
-            this.source = source;
-            return this;
-        }
+		private String selectStatement;
 
-        public DefaultSelectStatementProvider build() {
-            return new DefaultSelectStatementProvider(this);
-        }
-    }
+		private final Map<String, Object> parameters = new HashMap<>();
+
+		private SelectRenderer source;
+
+		public Builder withSelectStatement(String selectStatement) {
+			this.selectStatement = selectStatement;
+			return this;
+		}
+
+		public Builder withParameters(Map<String, Object> parameters) {
+			this.parameters.putAll(parameters);
+			return this;
+		}
+
+		public Builder withSource(SelectRenderer source) {
+			this.source = source;
+			return this;
+		}
+
+		public DefaultSelectStatementProvider build() {
+			return new DefaultSelectStatementProvider(this);
+		}
+
+	}
+
 }

@@ -21,42 +21,48 @@ import java.util.Map;
 import java.util.Objects;
 
 public class WhereClauseProvider {
-    private final String whereClause;
-    private final Map<String, Object> parameters;
 
-    private WhereClauseProvider(Builder builder) {
-        whereClause = Objects.requireNonNull(builder.whereClause);
-        parameters = Objects.requireNonNull(builder.parameters);
-    }
+	private final String whereClause;
 
-    public Map<String, Object> getParameters() {
-        return Collections.unmodifiableMap(parameters);
-    }
+	private final Map<String, Object> parameters;
 
-    public String getWhereClause() {
-        return whereClause;
-    }
+	private WhereClauseProvider(Builder builder) {
+		whereClause = Objects.requireNonNull(builder.whereClause);
+		parameters = Objects.requireNonNull(builder.parameters);
+	}
 
-    public static Builder withWhereClause(String whereClause) {
-        return new Builder().withWhereClause(whereClause);
-    }
+	public Map<String, Object> getParameters() {
+		return Collections.unmodifiableMap(parameters);
+	}
 
-    public static class Builder {
-        private String whereClause;
-        private final Map<String, Object> parameters = new HashMap<>();
+	public String getWhereClause() {
+		return whereClause;
+	}
 
-        public Builder withWhereClause(String whereClause) {
-            this.whereClause = whereClause;
-            return this;
-        }
+	public static Builder withWhereClause(String whereClause) {
+		return new Builder().withWhereClause(whereClause);
+	}
 
-        public Builder withParameters(Map<String, Object> parameters) {
-            this.parameters.putAll(parameters);
-            return this;
-        }
+	public static class Builder {
 
-        public WhereClauseProvider build() {
-            return new WhereClauseProvider(this);
-        }
-    }
+		private String whereClause;
+
+		private final Map<String, Object> parameters = new HashMap<>();
+
+		public Builder withWhereClause(String whereClause) {
+			this.whereClause = whereClause;
+			return this;
+		}
+
+		public Builder withParameters(Map<String, Object> parameters) {
+			this.parameters.putAll(parameters);
+			return this;
+		}
+
+		public WhereClauseProvider build() {
+			return new WhereClauseProvider(this);
+		}
+
+	}
+
 }

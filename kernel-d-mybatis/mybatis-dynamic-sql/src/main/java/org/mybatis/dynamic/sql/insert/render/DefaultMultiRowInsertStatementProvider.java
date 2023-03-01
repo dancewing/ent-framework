@@ -22,40 +22,45 @@ import java.util.Objects;
 
 public class DefaultMultiRowInsertStatementProvider<T> implements MultiRowInsertStatementProvider<T> {
 
-    private final List<T> records;
-    private final String insertStatement;
+	private final List<T> records;
 
-    private DefaultMultiRowInsertStatementProvider(Builder<T> builder) {
-        insertStatement = Objects.requireNonNull(builder.insertStatement);
-        records = Collections.unmodifiableList(builder.records);
-    }
+	private final String insertStatement;
 
-    @Override
-    public String getInsertStatement() {
-        return insertStatement;
-    }
+	private DefaultMultiRowInsertStatementProvider(Builder<T> builder) {
+		insertStatement = Objects.requireNonNull(builder.insertStatement);
+		records = Collections.unmodifiableList(builder.records);
+	}
 
-    @Override
-    public List<T> getRecords() {
-        return records;
-    }
+	@Override
+	public String getInsertStatement() {
+		return insertStatement;
+	}
 
-    public static class Builder<T> {
-        private final List<T> records = new ArrayList<>();
-        private String insertStatement;
+	@Override
+	public List<T> getRecords() {
+		return records;
+	}
 
-        public Builder<T> withRecords(List<T> records) {
-            this.records.addAll(records);
-            return this;
-        }
+	public static class Builder<T> {
 
-        public Builder<T> withInsertStatement(String insertStatement) {
-            this.insertStatement = insertStatement;
-            return this;
-        }
+		private final List<T> records = new ArrayList<>();
 
-        public DefaultMultiRowInsertStatementProvider<T> build() {
-            return new DefaultMultiRowInsertStatementProvider<>(this);
-        }
-    }
+		private String insertStatement;
+
+		public Builder<T> withRecords(List<T> records) {
+			this.records.addAll(records);
+			return this;
+		}
+
+		public Builder<T> withInsertStatement(String insertStatement) {
+			this.insertStatement = insertStatement;
+			return this;
+		}
+
+		public DefaultMultiRowInsertStatementProvider<T> build() {
+			return new DefaultMultiRowInsertStatementProvider<>(this);
+		}
+
+	}
+
 }

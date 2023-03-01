@@ -19,65 +19,65 @@ import org.mybatis.generator.api.dom.xml.Document;
 
 public class GeneratedXmlFile extends GeneratedFile {
 
-    private final Document document;
+	private final Document document;
 
-    private final String fileName;
+	private final String fileName;
 
-    private final String targetPackage;
+	private final String targetPackage;
 
-    private boolean isMergeable;
+	private boolean isMergeable;
 
-    private final XmlFormatter xmlFormatter;
+	private final XmlFormatter xmlFormatter;
 
-    private WriteMode writeMode;
+	private WriteMode writeMode;
 
-    public GeneratedXmlFile(Document document, String fileName,
-            String targetPackage, String targetProject, boolean isMergeable,
-            XmlFormatter xmlFormatter) {
-        super(targetProject);
-        this.document = document;
-        this.fileName = fileName;
-        this.targetPackage = targetPackage;
-        this.isMergeable = isMergeable;
-        this.xmlFormatter = xmlFormatter;
-        this.writeMode = WriteMode.OVER_WRITE;
-    }
+	public GeneratedXmlFile(Document document, String fileName, String targetPackage, String targetProject,
+			boolean isMergeable, XmlFormatter xmlFormatter) {
+		super(targetProject);
+		this.document = document;
+		this.fileName = fileName;
+		this.targetPackage = targetPackage;
+		this.isMergeable = isMergeable;
+		this.xmlFormatter = xmlFormatter;
+		this.writeMode = WriteMode.OVER_WRITE;
+	}
 
-    @Override
-    public String getFormattedContent() {
-        return xmlFormatter.getFormattedContent(document);
-    }
+	@Override
+	public String getFormattedContent() {
+		return xmlFormatter.getFormattedContent(document);
+	}
 
-    @Override
-    public String getFileName() {
-        return fileName;
-    }
+	@Override
+	public String getFileName() {
+		return fileName;
+	}
 
-    @Override
-    public String getTargetPackage() {
-        return targetPackage;
-    }
+	@Override
+	public String getTargetPackage() {
+		return targetPackage;
+	}
 
-    @Override
-    public boolean isMergeable() {
-        return isMergeable;
-    }
+	@Override
+	public boolean isMergeable() {
+		return isMergeable;
+	}
 
-    public void setMergeable(boolean isMergeable) {
-        this.isMergeable = isMergeable;
-    }
+	public void setMergeable(boolean isMergeable) {
+		this.isMergeable = isMergeable;
+	}
 
-    @Override
-    public String getFileEncoding() {
-        return "UTF-8"; //$NON-NLS-1$
-    }
+	@Override
+	public String getFileEncoding() {
+		return "UTF-8"; //$NON-NLS-1$
+	}
 
-    @Override
-    public WriteMode getWriteMode() {
-        return this.writeMode;
-    }
+	@Override
+	public WriteMode getWriteMode() {
+		return this.writeMode;
+	}
 
-    public void setWriteMode(WriteMode mode) {
-        this.writeMode = mode;
-    }
+	public void setWriteMode(WriteMode mode) {
+		this.writeMode = mode;
+	}
+
 }

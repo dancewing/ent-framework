@@ -16,15 +16,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KernelPayAutoConfiguration {
 
-    /**
-     * 支付 阿里支付实现
-     *
-     * @date 2021/05/29 21:38
-     */
-    @Bean
-    public PayApi payApi() {
-        return new AlipayServiceImpl();
-    }
+	/**
+	 * 支付 阿里支付实现
+	 *
+	 * @date 2021/05/29 21:38
+	 */
+	@Bean
+	public PayApi payApi() {
+		return new AlipayServiceImpl();
+	}
 
 }
-

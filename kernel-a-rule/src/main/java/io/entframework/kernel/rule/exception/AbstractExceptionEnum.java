@@ -14,20 +14,18 @@ package io.entframework.kernel.rule.exception;
  */
 public interface AbstractExceptionEnum {
 
-    /**
-     * 获取异常的状态码
-     *
-     * @return 状态码
-     * @date 2020/10/14 21:42
-     */
-    String getErrorCode();
+	/**
+	 * 获取异常的状态码
+	 * @return 状态码
+	 * @date 2020/10/14 21:42
+	 */
+	String getErrorCode();
 
-    /**
-     * 获取给用户提示信息
-     *
-     * @return 提示信息
-     * @date 2020/10/14 21:42
-     */
-    String getUserTip();
+	/**
+	 * 获取给用户提示信息
+	 * @return 提示信息
+	 * @date 2020/10/14 21:42
+	 */
+	String getUserTip();
 
 }

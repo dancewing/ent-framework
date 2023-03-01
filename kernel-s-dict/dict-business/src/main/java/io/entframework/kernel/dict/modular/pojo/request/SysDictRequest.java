@@ -140,4 +140,5 @@ public class SysDictRequest extends BaseRequest {
 	public @interface dictZTree {
 
 	}
+
 }

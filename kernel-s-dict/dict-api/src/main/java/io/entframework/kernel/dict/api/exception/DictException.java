@@ -15,12 +15,13 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class DictException extends ServiceException {
 
-    public DictException(AbstractExceptionEnum exception, Object... params) {
-        super(DictConstants.DICT_MODULE_NAME, exception.getErrorCode(), CharSequenceUtil.format(exception.getUserTip(), params));
-    }
+	public DictException(AbstractExceptionEnum exception, Object... params) {
+		super(DictConstants.DICT_MODULE_NAME, exception.getErrorCode(),
+				CharSequenceUtil.format(exception.getUserTip(), params));
+	}
 
-    public DictException(AbstractExceptionEnum exception) {
-        super(DictConstants.DICT_MODULE_NAME, exception);
-    }
+	public DictException(AbstractExceptionEnum exception) {
+		super(DictConstants.DICT_MODULE_NAME, exception);
+	}
 
 }

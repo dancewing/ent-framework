@@ -45,113 +45,97 @@ import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 
 class TypeConversionTest {
 
-    private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
-    private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
+	private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
 
-    private SqlSessionFactory sqlSessionFactory;
+	private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
 
-    @BeforeEach
-    void setup() throws Exception {
-        Class.forName(JDBC_DRIVER);
-        InputStream is = getClass().getResourceAsStream("/examples/type_conversion/CreateDB.sql");
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
-            ScriptRunner sr = new ScriptRunner(connection);
-            sr.setLogWriter(null);
-            sr.runScript(new InputStreamReader(is));
-        }
+	private SqlSessionFactory sqlSessionFactory;
 
-        UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
-        Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
-        Configuration config = new Configuration(environment);
-        config.addMapper(MyFilesMapper.class);
-        sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
-    }
+	@BeforeEach
+	void setup() throws Exception {
+		Class.forName(JDBC_DRIVER);
+		InputStream is = getClass().getResourceAsStream("/examples/type_conversion/CreateDB.sql");
+		try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
+			ScriptRunner sr = new ScriptRunner(connection);
+			sr.setLogWriter(null);
+			sr.runScript(new InputStreamReader(is));
+		}
 
-    @Test
-    void testFunctionInSelect() {
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-            MyFilesMapper mapper = session.getMapper(MyFilesMapper.class);
+		UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
+		Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
+		Configuration config = new Configuration(environment);
+		config.addMapper(MyFilesMapper.class);
+		sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
+	}
 
-            Random random = new Random();
-            byte[] randomBlob = new byte[1024];
-            random.nextBytes(randomBlob);
+	@Test
+	void testFunctionInSelect() {
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+			MyFilesMapper mapper = session.getMapper(MyFilesMapper.class);
 
-            GeneralInsertStatementProvider insertStatement = insertInto(myfiles)
-                    .set(fileId).toValue(1)
-                    .set(fileContents).toValue(randomBlob)
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3);
+			Random random = new Random();
+			byte[] randomBlob = new byte[1024];
+			random.nextBytes(randomBlob);
 
-            int rows = mapper.insert(insertStatement);
-            assertThat(rows).isEqualTo(1);
+			GeneralInsertStatementProvider insertStatement = insertInto(myfiles).set(fileId).toValue(1)
+					.set(fileContents).toValue(randomBlob).build().render(RenderingStrategies.MYBATIS3);
 
-            SelectStatementProvider selectStatement = select(fileId, fileContents)
-                    .from(myfiles)
-                    .where(fileId, isEqualTo(1))
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3);
+			int rows = mapper.insert(insertStatement);
+			assertThat(rows).isEqualTo(1);
 
-            Map<String, Object> row = mapper.generalSelect(selectStatement);
-            assertThat(row).containsExactly(entry("FILE_ID", 1), entry("FILE_CONTENTS", randomBlob));
+			SelectStatementProvider selectStatement = select(fileId, fileContents).from(myfiles)
+					.where(fileId, isEqualTo(1)).build().render(RenderingStrategies.MYBATIS3);
 
-            selectStatement = select(fileId, toBase64(fileContents).as("checksum"))
-                    .from(myfiles)
-                    .where(fileId, isEqualTo(1))
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3);
+			Map<String, Object> row = mapper.generalSelect(selectStatement);
+			assertThat(row).containsExactly(entry("FILE_ID", 1), entry("FILE_CONTENTS", randomBlob));
 
-            String expected = "select file_id, TO_BASE64(file_contents) as checksum from MyFiles "
-                    + "where file_id = #{parameters.p1,jdbcType=INTEGER}";
-            assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+			selectStatement = select(fileId, toBase64(fileContents).as("checksum")).from(myfiles)
+					.where(fileId, isEqualTo(1)).build().render(RenderingStrategies.MYBATIS3);
 
-            row = mapper.generalSelect(selectStatement);
+			String expected = "select file_id, TO_BASE64(file_contents) as checksum from MyFiles "
+					+ "where file_id = #{parameters.p1,jdbcType=INTEGER}";
+			assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
 
-            String base64 = Base64.getEncoder().encodeToString(randomBlob);
-            assertThat(row).contains(entry("FILE_ID", 1), entry("CHECKSUM", base64));
-        }
-    }
+			row = mapper.generalSelect(selectStatement);
 
-    @Test
-    void testFunctionInWhere() {
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-            MyFilesMapper mapper = session.getMapper(MyFilesMapper.class);
+			String base64 = Base64.getEncoder().encodeToString(randomBlob);
+			assertThat(row).contains(entry("FILE_ID", 1), entry("CHECKSUM", base64));
+		}
+	}
 
-            Random random = new Random();
-            byte[] randomBlob = new byte[1024];
-            random.nextBytes(randomBlob);
+	@Test
+	void testFunctionInWhere() {
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+			MyFilesMapper mapper = session.getMapper(MyFilesMapper.class);
 
-            GeneralInsertStatementProvider insertStatement = insertInto(myfiles)
-                    .set(fileId).toValue(1)
-                    .set(fileContents).toValue(randomBlob)
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3);
+			Random random = new Random();
+			byte[] randomBlob = new byte[1024];
+			random.nextBytes(randomBlob);
 
-            int rows = mapper.insert(insertStatement);
-            assertThat(rows).isEqualTo(1);
+			GeneralInsertStatementProvider insertStatement = insertInto(myfiles).set(fileId).toValue(1)
+					.set(fileContents).toValue(randomBlob).build().render(RenderingStrategies.MYBATIS3);
 
-            SelectStatementProvider selectStatement = select(fileId, fileContents)
-                    .from(myfiles)
-                    .where(fileId, isEqualTo(1))
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3);
+			int rows = mapper.insert(insertStatement);
+			assertThat(rows).isEqualTo(1);
 
-            Map<String, Object> row = mapper.generalSelect(selectStatement);
-            assertThat(row).contains(entry("FILE_ID", 1), entry("FILE_CONTENTS", randomBlob));
+			SelectStatementProvider selectStatement = select(fileId, fileContents).from(myfiles)
+					.where(fileId, isEqualTo(1)).build().render(RenderingStrategies.MYBATIS3);
 
-            String base64 = Base64.getEncoder().encodeToString(randomBlob);
-            selectStatement = select(fileId, fileContents)
-                    .from(myfiles)
-                    .where(toBase64(fileContents), isEqualTo(base64))
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3);
+			Map<String, Object> row = mapper.generalSelect(selectStatement);
+			assertThat(row).contains(entry("FILE_ID", 1), entry("FILE_CONTENTS", randomBlob));
 
-            String expected = "select file_id, file_contents from MyFiles "
-                    + "where TO_BASE64(file_contents) = #{parameters.p1,jdbcType=VARCHAR}";
-            assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+			String base64 = Base64.getEncoder().encodeToString(randomBlob);
+			selectStatement = select(fileId, fileContents).from(myfiles)
+					.where(toBase64(fileContents), isEqualTo(base64)).build().render(RenderingStrategies.MYBATIS3);
 
-            row = mapper.generalSelect(selectStatement);
+			String expected = "select file_id, file_contents from MyFiles "
+					+ "where TO_BASE64(file_contents) = #{parameters.p1,jdbcType=VARCHAR}";
+			assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
 
-            assertThat(row).contains(entry("FILE_ID", 1), entry("FILE_CONTENTS", randomBlob));
-        }
-    }
+			row = mapper.generalSelect(selectStatement);
+
+			assertThat(row).contains(entry("FILE_ID", 1), entry("FILE_CONTENTS", randomBlob));
+		}
+	}
+
 }

@@ -11,18 +11,19 @@ package io.entframework.kernel.system.api.constants;
  */
 public interface StatisticsCacheConstants {
 
-    /**
-     * 前缀
-     */
-    String INTERFACE_STATISTICS_PREFIX = "inter:";
+	/**
+	 * 前缀
+	 */
+	String INTERFACE_STATISTICS_PREFIX = "inter:";
 
-    /**
-     * 超时时间
-     */
-    Long INTERFACE_STATISTICS_CACHE_TIMEOUT_SECONDS = 3600L;
+	/**
+	 * 超时时间
+	 */
+	Long INTERFACE_STATISTICS_CACHE_TIMEOUT_SECONDS = 3600L;
 
-    /**
-     * AOP统计执行的顺序
-     */
-    int INTERFACE_STATISTICS_AOP_ORDER = 600;
+	/**
+	 * AOP统计执行的顺序
+	 */
+	int INTERFACE_STATISTICS_AOP_ORDER = 600;
+
 }

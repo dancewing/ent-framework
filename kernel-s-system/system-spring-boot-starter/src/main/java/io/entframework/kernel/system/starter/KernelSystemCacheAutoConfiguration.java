@@ -119,4 +119,5 @@ public class KernelSystemCacheAutoConfiguration {
 				.newTimedCache(StatisticsCacheConstants.INTERFACE_STATISTICS_CACHE_TIMEOUT_SECONDS);
 		return new DefaultMemoryCacheOperator<>(timedCache, StatisticsCacheConstants.INTERFACE_STATISTICS_PREFIX);
 	}
+
 }

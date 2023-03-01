@@ -10,12 +10,14 @@ package org.mybatis.dynamic.sql.annotation;
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD})
+@Target({ ElementType.FIELD, ElementType.METHOD })
 @Documented
 public @interface JoinColumn {
-    Class<?> target();
 
-    String left();
+	Class<?> target();
 
-    String right();
+	String left();
+
+	String right();
+
 }

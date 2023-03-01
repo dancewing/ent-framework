@@ -28,86 +28,90 @@ import org.mybatis.dynamic.sql.util.FragmentCollector;
 import org.mybatis.dynamic.sql.where.WhereModel;
 
 public class WhereRenderer {
-    private final WhereModel whereModel;
-    private final CriterionRenderer criterionRenderer;
 
-    private WhereRenderer(Builder builder) {
-        whereModel = Objects.requireNonNull(builder.whereModel);
+	private final WhereModel whereModel;
 
-        criterionRenderer = new CriterionRenderer.Builder()
-                .withSequence(builder.sequence)
-                .withRenderingStrategy(builder.renderingStrategy)
-                .withTableAliasCalculator(builder.tableAliasCalculator)
-                .withParameterName(builder.parameterName)
-                .build();
-    }
+	private final CriterionRenderer criterionRenderer;
 
-    public Optional<WhereClauseProvider> render() {
-        Optional<WhereClauseProvider> whereClause = whereModel.initialCriterion().map(this::renderWithInitialCriterion)
-                .orElseGet(this::renderWithoutInitialCriterion)
-                .map(rc -> WhereClauseProvider.withWhereClause(rc.fragmentAndParameters().fragment())
-                        .withParameters(rc.fragmentAndParameters().parameters())
-                        .build()
-                );
+	private WhereRenderer(Builder builder) {
+		whereModel = Objects.requireNonNull(builder.whereModel);
 
-        if (whereClause.isPresent() || whereModel.isNonRenderingClauseAllowed()) {
-            return whereClause;
-        } else {
-            throw new NonRenderingWhereClauseException();
-        }
-    }
+		criterionRenderer = new CriterionRenderer.Builder().withSequence(builder.sequence)
+				.withRenderingStrategy(builder.renderingStrategy).withTableAliasCalculator(builder.tableAliasCalculator)
+				.withParameterName(builder.parameterName).build();
+	}
 
-    private Optional<RenderedCriterion> renderWithInitialCriterion(SqlCriterion initialCriterion) {
-        return criterionRenderer.render(initialCriterion, whereModel.subCriteria(), this::calculateWhereClause);
-    }
+	public Optional<WhereClauseProvider> render() {
+		Optional<WhereClauseProvider> whereClause = whereModel.initialCriterion().map(this::renderWithInitialCriterion)
+				.orElseGet(this::renderWithoutInitialCriterion)
+				.map(rc -> WhereClauseProvider.withWhereClause(rc.fragmentAndParameters().fragment())
+						.withParameters(rc.fragmentAndParameters().parameters()).build());
 
-    private Optional<RenderedCriterion> renderWithoutInitialCriterion() {
-        return criterionRenderer.render(whereModel.subCriteria(), this::calculateWhereClause);
-    }
+		if (whereClause.isPresent() || whereModel.isNonRenderingClauseAllowed()) {
+			return whereClause;
+		}
+		else {
+			throw new NonRenderingWhereClauseException();
+		}
+	}
 
-    private String calculateWhereClause(FragmentCollector collector) {
-        return collector.fragments()
-                .collect(Collectors.joining(" ", "where ", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    }
+	private Optional<RenderedCriterion> renderWithInitialCriterion(SqlCriterion initialCriterion) {
+		return criterionRenderer.render(initialCriterion, whereModel.subCriteria(), this::calculateWhereClause);
+	}
 
-    public static Builder withWhereModel(WhereModel whereModel) {
-        return new Builder().withWhereModel(whereModel);
-    }
+	private Optional<RenderedCriterion> renderWithoutInitialCriterion() {
+		return criterionRenderer.render(whereModel.subCriteria(), this::calculateWhereClause);
+	}
 
-    public static class Builder {
-        private WhereModel whereModel;
-        private RenderingStrategy renderingStrategy;
-        private TableAliasCalculator tableAliasCalculator;
-        private AtomicInteger sequence;
-        private String parameterName;
+	private String calculateWhereClause(FragmentCollector collector) {
+		return collector.fragments().collect(Collectors.joining(" ", "where ", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 
-        public Builder withWhereModel(WhereModel whereModel) {
-            this.whereModel = whereModel;
-            return this;
-        }
+	public static Builder withWhereModel(WhereModel whereModel) {
+		return new Builder().withWhereModel(whereModel);
+	}
 
-        public Builder withRenderingStrategy(RenderingStrategy renderingStrategy) {
-            this.renderingStrategy = renderingStrategy;
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withTableAliasCalculator(TableAliasCalculator tableAliasCalculator) {
-            this.tableAliasCalculator = tableAliasCalculator;
-            return this;
-        }
+		private WhereModel whereModel;
 
-        public Builder withSequence(AtomicInteger sequence) {
-            this.sequence = sequence;
-            return this;
-        }
+		private RenderingStrategy renderingStrategy;
 
-        public Builder withParameterName(String parameterName) {
-            this.parameterName = parameterName;
-            return this;
-        }
+		private TableAliasCalculator tableAliasCalculator;
 
-        public WhereRenderer build() {
-            return new WhereRenderer(this);
-        }
-    }
+		private AtomicInteger sequence;
+
+		private String parameterName;
+
+		public Builder withWhereModel(WhereModel whereModel) {
+			this.whereModel = whereModel;
+			return this;
+		}
+
+		public Builder withRenderingStrategy(RenderingStrategy renderingStrategy) {
+			this.renderingStrategy = renderingStrategy;
+			return this;
+		}
+
+		public Builder withTableAliasCalculator(TableAliasCalculator tableAliasCalculator) {
+			this.tableAliasCalculator = tableAliasCalculator;
+			return this;
+		}
+
+		public Builder withSequence(AtomicInteger sequence) {
+			this.sequence = sequence;
+			return this;
+		}
+
+		public Builder withParameterName(String parameterName) {
+			this.parameterName = parameterName;
+			return this;
+		}
+
+		public WhereRenderer build() {
+			return new WhereRenderer(this);
+		}
+
+	}
+
 }

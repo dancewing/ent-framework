@@ -11,19 +11,29 @@ import lombok.Data;
  */
 @Data
 public class RedisCacheProperties {
-    /**
-     * Redis host
-     */
-    private String host;
-    private Integer port;
-    private String auth;
-    private Integer database;
-    private Boolean ssl;
-    private Integer connectionPoolSize;
-    private Integer connectionMinimumIdleSize;
-    private Integer idleConnectionTimeout;
-    /**
-     * redis集群存储节点数量
-     */
-    private Integer clusterNodeCount;
+
+	/**
+	 * Redis host
+	 */
+	private String host;
+
+	private Integer port;
+
+	private String auth;
+
+	private Integer database;
+
+	private Boolean ssl;
+
+	private Integer connectionPoolSize;
+
+	private Integer connectionMinimumIdleSize;
+
+	private Integer idleConnectionTimeout;
+
+	/**
+	 * redis集群存储节点数量
+	 */
+	private Integer clusterNodeCount;
+
 }

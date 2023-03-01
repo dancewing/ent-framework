@@ -17,13 +17,14 @@ import org.springframework.context.ApplicationContext;
 
 /**
  * {@link BaseRequest}的 value 生成器
- * 默认jackson在获取前台request传回来的数据时，使用{@link StdValueInstantiator}
- * 做参数的实例化，但是BaseRequest 为了保留扩展性
- * 在自定义Request后，并将其注册成Bean使前台Controller能顺利完成
+ * 默认jackson在获取前台request传回来的数据时，使用{@link StdValueInstantiator} 做参数的实例化，但是BaseRequest
+ * 为了保留扩展性 在自定义Request后，并将其注册成Bean使前台Controller能顺利完成
  * <p>
  * <pre>
- * @Bean
- * @Scope("prototype")
+ *
+
+@Bean
+ * &#64;Scope("prototype")
  * public StudentRequest studentRequest() {
  * return new StudentRequest();
  * }
@@ -32,18 +33,19 @@ import org.springframework.context.ApplicationContext;
  */
 public class BaseRequestValueInstantiators extends SimpleValueInstantiators {
 
+	private final ApplicationContext context;
 
-    private final ApplicationContext context;
+	public BaseRequestValueInstantiators(ApplicationContext applicationContext) {
+		this.context = applicationContext;
+	}
 
-    public BaseRequestValueInstantiators(ApplicationContext applicationContext) {
-        this.context = applicationContext;
-    }
+	@Override
+	public ValueInstantiator findValueInstantiator(DeserializationConfig config, BeanDescription beanDesc,
+			ValueInstantiator defaultInstantiator) {
+		if (BaseRequest.class.isAssignableFrom(beanDesc.getBeanClass())) {
+			return new BaseRequestInstantiator(this.context, defaultInstantiator);
+		}
+		return defaultInstantiator;
+	}
 
-    @Override
-    public ValueInstantiator findValueInstantiator(DeserializationConfig config, BeanDescription beanDesc, ValueInstantiator defaultInstantiator) {
-        if (BaseRequest.class.isAssignableFrom(beanDesc.getBeanClass())) {
-            return new BaseRequestInstantiator(this.context, defaultInstantiator);
-        }
-        return defaultInstantiator;
-    }
 }

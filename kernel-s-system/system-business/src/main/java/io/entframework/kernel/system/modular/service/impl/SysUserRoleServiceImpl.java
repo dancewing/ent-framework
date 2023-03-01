@@ -26,7 +26,8 @@ import java.util.List;
  *
  * @date 2020/11/6 10:28
  */
-public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleRequest, SysUserRoleResponse, SysUserRole> implements SysUserRoleService {
+public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleRequest, SysUserRoleResponse, SysUserRole>
+		implements SysUserRoleService {
 
 	@Resource(name = "userRoleCacheApi")
 	private CacheOperatorApi<List<Long>> userRoleCacheApi;
@@ -52,7 +53,8 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleRequest, 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void delByUserId(Long userId) {
-		this.getRepository().delete(getEntityClass(), c -> c.where(SysUserRoleDynamicSqlSupport.userId, SqlBuilder.isEqualTo(userId)));
+		this.getRepository().delete(getEntityClass(),
+				c -> c.where(SysUserRoleDynamicSqlSupport.userId, SqlBuilder.isEqualTo(userId)));
 	}
 
 	@Override
@@ -131,7 +133,6 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleRequest, 
 
 	/**
 	 * 根据主键查询
-	 *
 	 * @param sysUserRoleRequest dto实体
 	 * @return
 	 * @date 2021/2/3 15:02

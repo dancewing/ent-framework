@@ -7,4 +7,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @ApiResource(name = "班级")
 public class ClassGradeController extends BaseClassGradeController {
+
 }

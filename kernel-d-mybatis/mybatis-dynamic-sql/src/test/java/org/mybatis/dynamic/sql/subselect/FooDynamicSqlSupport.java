@@ -22,16 +22,23 @@ import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public class FooDynamicSqlSupport {
-    public static final Foo foo = new Foo();
-    public static final SqlColumn<Date> column1 = foo.column1;
-    public static final SqlColumn<Integer> column2 = foo.column2;
 
-    public static class Foo extends SqlTable {
-        public final SqlColumn<Date> column1 = column("column1", JDBCType.DATE);
-        public final SqlColumn<Integer> column2 = column("column2", JDBCType.INTEGER);
+	public static final Foo foo = new Foo();
 
-        public Foo() {
-            super("foo");
-        }
-    }
+	public static final SqlColumn<Date> column1 = foo.column1;
+
+	public static final SqlColumn<Integer> column2 = foo.column2;
+
+	public static class Foo extends SqlTable {
+
+		public final SqlColumn<Date> column1 = column("column1", JDBCType.DATE);
+
+		public final SqlColumn<Integer> column2 = column("column2", JDBCType.INTEGER);
+
+		public Foo() {
+			super("foo");
+		}
+
+	}
+
 }

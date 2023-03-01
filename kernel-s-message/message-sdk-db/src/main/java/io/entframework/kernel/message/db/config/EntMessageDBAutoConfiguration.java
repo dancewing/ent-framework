@@ -9,12 +9,15 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan(basePackages = {"io.entframework.kernel.message.db.controller", "io.entframework.kernel.message.db.converter", "io.entframework.kernel.message.db.service"})
+@ComponentScan(basePackages = { "io.entframework.kernel.message.db.controller",
+		"io.entframework.kernel.message.db.converter", "io.entframework.kernel.message.db.service" })
 @EntityScan("io.entframework.kernel.message.db.entity")
 public class EntMessageDBAutoConfiguration {
-    @Bean
-    @ConditionalOnMissingBean(SysMessageService.class)
-    public SysMessageService sysMessageService() {
-        return new SysMessageServiceImpl();
-    }
+
+	@Bean
+	@ConditionalOnMissingBean(SysMessageService.class)
+	public SysMessageService sysMessageService() {
+		return new SysMessageServiceImpl();
+	}
+
 }

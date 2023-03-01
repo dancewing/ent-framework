@@ -33,7 +33,8 @@ import java.util.List;
  *
  * @date 2020/12/19 18:21
  */
-public class SysRoleMenuServiceImpl extends BaseServiceImpl<SysRoleMenuRequest, SysRoleMenuResponse, SysRoleMenu> implements SysRoleMenuService {
+public class SysRoleMenuServiceImpl extends BaseServiceImpl<SysRoleMenuRequest, SysRoleMenuResponse, SysRoleMenu>
+		implements SysRoleMenuService {
 
 	@Resource
 	private GeneralMapperSupport generalMapperSupport;
@@ -57,29 +58,31 @@ public class SysRoleMenuServiceImpl extends BaseServiceImpl<SysRoleMenuRequest, 
 
 	private List<SysMenuResponse> getRoleMenus(List<Long> roleIds) {
 		SelectStatementProvider selectStatement = SqlBuilder.select(SysMenuDynamicSqlSupport.selectList)
-				.from(SysMenuDynamicSqlSupport.sysMenu)
-				.join(SysRoleMenuDynamicSqlSupport.sysRoleMenu)
+				.from(SysMenuDynamicSqlSupport.sysMenu).join(SysRoleMenuDynamicSqlSupport.sysRoleMenu)
 				.on(SysMenuDynamicSqlSupport.menuId, SqlBuilder.equalTo(SysRoleMenuDynamicSqlSupport.menuId))
-				.where(SysRoleMenuDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIds))
-				.build().render(RenderingStrategies.MYBATIS3);
+				.where(SysRoleMenuDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIds)).build()
+				.render(RenderingStrategies.MYBATIS3);
 		List<SysMenu> sysMenus = generalMapperSupport.selectMany(selectStatement);
-		return sysMenus.stream().map(sysMenu -> this.converterService.convert(sysMenus, SysMenuResponse.class)).toList();
+		return sysMenus.stream().map(sysMenu -> this.converterService.convert(sysMenus, SysMenuResponse.class))
+				.toList();
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void deleteByRoleId(Long roleId) {
-		this.getRepository().delete(getEntityClass(), c -> c.where(SysRoleMenuDynamicSqlSupport.roleId,
-				SqlBuilder.isEqualTo(roleId)));
+		this.getRepository().delete(getEntityClass(),
+				c -> c.where(SysRoleMenuDynamicSqlSupport.roleId, SqlBuilder.isEqualTo(roleId)));
 	}
 
 	@Override
 	public List<SysRoleMenu> getRoleMenus(Collection<Long> roleIds) {
-		return this.getRepository().select(getEntityClass(), c -> c.where(SysRoleMenuDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIds)));
+		return this.getRepository().select(getEntityClass(),
+				c -> c.where(SysRoleMenuDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIds)));
 	}
 
 	@Override
 	public List<SysRoleMenu> batchCreateEntity(List<SysRoleMenu> records) {
 		return this.getRepository().insertMultiple(records);
 	}
+
 }

@@ -32,31 +32,31 @@ import java.util.List;
 @ApiResource(name = "在线用户管理")
 public class OnlineUserController {
 
-    @Resource
-    private SysUserService sysUserService;
+	@Resource
+	private SysUserService sysUserService;
 
-    @Resource
-    private SessionManagerApi sessionManagerApi;
+	@Resource
+	private SessionManagerApi sessionManagerApi;
 
-    /**
-     * 当前在线用户列表
-     *
-     * @date 2021/1/11 22:53
-     */
-    @GetResource(name = "当前在线用户列表", path = "/sys-user/online-user-list")
-    public ResponseData<List<OnlineUserDTO>> onlineUserList(OnlineUserRequest onlineUserRequest) {
-        return ResponseData.ok(sysUserService.onlineUserList(onlineUserRequest));
-    }
+	/**
+	 * 当前在线用户列表
+	 *
+	 * @date 2021/1/11 22:53
+	 */
+	@GetResource(name = "当前在线用户列表", path = "/sys-user/online-user-list")
+	public ResponseData<List<OnlineUserDTO>> onlineUserList(OnlineUserRequest onlineUserRequest) {
+		return ResponseData.ok(sysUserService.onlineUserList(onlineUserRequest));
+	}
 
-    /**
-     * 踢掉在线用户
-     *
-     * @date 2021/1/11 22:53
-     */
-    @PostResource(name = "踢掉在线用户", path = "/sys-user/remove-session")
-    public ResponseData<Void> removeSession(@Valid @RequestBody OnlineUserRequest onlineUserRequest) {
-        sessionManagerApi.removeSession(onlineUserRequest.getToken());
-        return ResponseData.OK_VOID;
-    }
+	/**
+	 * 踢掉在线用户
+	 *
+	 * @date 2021/1/11 22:53
+	 */
+	@PostResource(name = "踢掉在线用户", path = "/sys-user/remove-session")
+	public ResponseData<Void> removeSession(@Valid @RequestBody OnlineUserRequest onlineUserRequest) {
+		sessionManagerApi.removeSession(onlineUserRequest.getToken());
+		return ResponseData.OK_VOID;
+	}
 
 }

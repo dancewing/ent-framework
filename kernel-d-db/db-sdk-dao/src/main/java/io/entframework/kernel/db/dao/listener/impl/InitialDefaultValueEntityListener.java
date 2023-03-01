@@ -13,13 +13,17 @@ import org.mybatis.dynamic.sql.util.meta.FieldAndColumn;
 import java.util.Optional;
 
 public class InitialDefaultValueEntityListener implements EntityListener {
-    @Override
-    public void beforeInsert(Object object) {
-        EntityMeta entityMeta = Entities.getInstance(object.getClass());
 
-        Optional<FieldAndColumn> logicDeleteOptional = entityMeta.findColumn(LogicDelete.class);
-        logicDeleteOptional.ifPresent(fieldAndColumn -> ReflectUtils.setFieldValue(object, fieldAndColumn.fieldName(), YesOrNotEnum.N));
-        Optional<FieldAndColumn> versionOptional = entityMeta.findColumn(Version.class);
-        versionOptional.ifPresent(fieldAndColumn -> ReflectUtils.setFieldValue(object, fieldAndColumn.fieldName(), VersionFieldUtils.getInitVersionVal(fieldAndColumn.fieldType())));
-    }
+	@Override
+	public void beforeInsert(Object object) {
+		EntityMeta entityMeta = Entities.getInstance(object.getClass());
+
+		Optional<FieldAndColumn> logicDeleteOptional = entityMeta.findColumn(LogicDelete.class);
+		logicDeleteOptional.ifPresent(
+				fieldAndColumn -> ReflectUtils.setFieldValue(object, fieldAndColumn.fieldName(), YesOrNotEnum.N));
+		Optional<FieldAndColumn> versionOptional = entityMeta.findColumn(Version.class);
+		versionOptional.ifPresent(fieldAndColumn -> ReflectUtils.setFieldValue(object, fieldAndColumn.fieldName(),
+				VersionFieldUtils.getInitVersionVal(fieldAndColumn.fieldType())));
+	}
+
 }

@@ -14,15 +14,17 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class CacheException extends ServiceException {
 
-    public CacheException(String errorCode, String userTip) {
-        super(CacheConstants.CACHE_MODULE_NAME, errorCode, userTip);
-    }
+	public CacheException(String errorCode, String userTip) {
+		super(CacheConstants.CACHE_MODULE_NAME, errorCode, userTip);
+	}
 
-    public CacheException(AbstractExceptionEnum exception, Object... params) {
-        super(CacheConstants.CACHE_MODULE_NAME, exception.getErrorCode(), CharSequenceUtil.format(exception.getUserTip(), params));
-    }
+	public CacheException(AbstractExceptionEnum exception, Object... params) {
+		super(CacheConstants.CACHE_MODULE_NAME, exception.getErrorCode(),
+				CharSequenceUtil.format(exception.getUserTip(), params));
+	}
 
-    public CacheException(AbstractExceptionEnum exception) {
-        super(CacheConstants.CACHE_MODULE_NAME, exception);
-    }
+	public CacheException(AbstractExceptionEnum exception) {
+		super(CacheConstants.CACHE_MODULE_NAME, exception);
+	}
+
 }

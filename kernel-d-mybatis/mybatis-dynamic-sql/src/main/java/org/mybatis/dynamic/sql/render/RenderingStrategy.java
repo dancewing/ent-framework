@@ -20,17 +20,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.mybatis.dynamic.sql.BindableColumn;
 
 public abstract class RenderingStrategy {
-    public static final String DEFAULT_PARAMETER_PREFIX = "parameters"; //$NON-NLS-1$
 
-    public static String formatParameterMapKey(AtomicInteger sequence) {
-        return "p" + sequence.getAndIncrement(); //$NON-NLS-1$
-    }
+	public static final String DEFAULT_PARAMETER_PREFIX = "parameters"; //$NON-NLS-1$
 
-    public abstract String getFormattedJdbcPlaceholder(BindableColumn<?> column, String prefix, String parameterName);
+	public static String formatParameterMapKey(AtomicInteger sequence) {
+		return "p" + sequence.getAndIncrement(); //$NON-NLS-1$
+	}
 
-    public abstract String getFormattedJdbcPlaceholder(String prefix, String parameterName);
+	public abstract String getFormattedJdbcPlaceholder(BindableColumn<?> column, String prefix, String parameterName);
 
-    public String getMultiRowFormattedJdbcPlaceholder(BindableColumn<?> column, String prefix, String parameterName) {
-        return getFormattedJdbcPlaceholder(column, prefix, parameterName);
-    }
+	public abstract String getFormattedJdbcPlaceholder(String prefix, String parameterName);
+
+	public String getMultiRowFormattedJdbcPlaceholder(BindableColumn<?> column, String prefix, String parameterName) {
+		return getFormattedJdbcPlaceholder(column, prefix, parameterName);
+	}
+
 }

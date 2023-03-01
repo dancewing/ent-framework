@@ -21,42 +21,41 @@ import java.util.HashSet;
 import java.util.Set;
 
 class Constants {
-  // Resource prefix for all aws resources.
-  public static final String AWS_RESOURCE_PREFIX = "arn:aws:s3:::";
 
-  // Common bucket actions for both read and write policies.
-  public static final Set<String> COMMON_BUCKET_ACTIONS = new HashSet<String>(Arrays.asList("s3:GetBucketLocation"));
+	// Resource prefix for all aws resources.
+	public static final String AWS_RESOURCE_PREFIX = "arn:aws:s3:::";
 
-  // Read only bucket actions.
-  public static final Set<String> READ_ONLY_BUCKET_ACTIONS = new HashSet<String>(Arrays.asList("s3:ListBucket"));
+	// Common bucket actions for both read and write policies.
+	public static final Set<String> COMMON_BUCKET_ACTIONS = new HashSet<String>(Arrays.asList("s3:GetBucketLocation"));
 
-  // Write only bucket actions.
-  public static final Set<String> WRITE_ONLY_BUCKET_ACTIONS =
-      new HashSet<String>(Arrays.asList("s3:ListBucketMultipartUploads"));
+	// Read only bucket actions.
+	public static final Set<String> READ_ONLY_BUCKET_ACTIONS = new HashSet<String>(Arrays.asList("s3:ListBucket"));
 
-  // Read only object actions.
-  public static final Set<String> READ_ONLY_OBJECT_ACTIONS = new HashSet<String>(Arrays.asList("s3:GetObject"));
+	// Write only bucket actions.
+	public static final Set<String> WRITE_ONLY_BUCKET_ACTIONS = new HashSet<String>(
+			Arrays.asList("s3:ListBucketMultipartUploads"));
 
-  // Write only object actions.
-  public static final Set<String> WRITE_ONLY_OBJECT_ACTIONS =
-      new HashSet<String>(Arrays.asList("s3:AbortMultipartUpload",
-                                        "s3:DeleteObject",
-                                        "s3:ListMultipartUploadParts",
-                                        "s3:PutObject"));
+	// Read only object actions.
+	public static final Set<String> READ_ONLY_OBJECT_ACTIONS = new HashSet<String>(Arrays.asList("s3:GetObject"));
 
-  // Read and write object actions.
-  public static final Set<String> READ_WRITE_OBJECT_ACTIONS = new HashSet<String>();
+	// Write only object actions.
+	public static final Set<String> WRITE_ONLY_OBJECT_ACTIONS = new HashSet<String>(
+			Arrays.asList("s3:AbortMultipartUpload", "s3:DeleteObject", "s3:ListMultipartUploadParts", "s3:PutObject"));
 
-  // All valid bucket and object actions.
-  public static final Set<String> VALID_ACTIONS =  new HashSet<String>();
+	// Read and write object actions.
+	public static final Set<String> READ_WRITE_OBJECT_ACTIONS = new HashSet<String>();
 
-  static {
-    READ_WRITE_OBJECT_ACTIONS.addAll(READ_ONLY_OBJECT_ACTIONS);
-    READ_WRITE_OBJECT_ACTIONS.addAll(WRITE_ONLY_OBJECT_ACTIONS);
+	// All valid bucket and object actions.
+	public static final Set<String> VALID_ACTIONS = new HashSet<String>();
 
-    VALID_ACTIONS.addAll(COMMON_BUCKET_ACTIONS);
-    VALID_ACTIONS.addAll(READ_ONLY_BUCKET_ACTIONS);
-    VALID_ACTIONS.addAll(WRITE_ONLY_BUCKET_ACTIONS);
-    VALID_ACTIONS.addAll(READ_WRITE_OBJECT_ACTIONS);
-  }
+	static {
+		READ_WRITE_OBJECT_ACTIONS.addAll(READ_ONLY_OBJECT_ACTIONS);
+		READ_WRITE_OBJECT_ACTIONS.addAll(WRITE_ONLY_OBJECT_ACTIONS);
+
+		VALID_ACTIONS.addAll(COMMON_BUCKET_ACTIONS);
+		VALID_ACTIONS.addAll(READ_ONLY_BUCKET_ACTIONS);
+		VALID_ACTIONS.addAll(WRITE_ONLY_BUCKET_ACTIONS);
+		VALID_ACTIONS.addAll(READ_WRITE_OBJECT_ACTIONS);
+	}
+
 }

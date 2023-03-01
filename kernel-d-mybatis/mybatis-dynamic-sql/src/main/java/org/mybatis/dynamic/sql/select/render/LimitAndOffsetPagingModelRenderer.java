@@ -23,43 +23,43 @@ import org.mybatis.dynamic.sql.select.PagingModel;
 import org.mybatis.dynamic.sql.util.FragmentAndParameters;
 
 public class LimitAndOffsetPagingModelRenderer {
-    private final RenderingStrategy renderingStrategy;
-    private final Long limit;
-    private final PagingModel pagingModel;
-    private final AtomicInteger sequence;
 
-    public LimitAndOffsetPagingModelRenderer(RenderingStrategy renderingStrategy,
-            Long limit, PagingModel pagingModel, AtomicInteger sequence) {
-        this.renderingStrategy = renderingStrategy;
-        this.limit = limit;
-        this.pagingModel = pagingModel;
-        this.sequence = sequence;
-    }
+	private final RenderingStrategy renderingStrategy;
 
-    public Optional<FragmentAndParameters> render() {
-        return pagingModel.offset().map(this::renderLimitAndOffset)
-                .orElseGet(this::renderLimitOnly);
-    }
+	private final Long limit;
 
-    private Optional<FragmentAndParameters> renderLimitOnly() {
-        String mapKey = RenderingStrategy.formatParameterMapKey(sequence);
-        return FragmentAndParameters.withFragment("limit " + renderPlaceholder(mapKey)) //$NON-NLS-1$
-                .withParameter(mapKey, limit)
-                .buildOptional();
-    }
+	private final PagingModel pagingModel;
 
-    private Optional<FragmentAndParameters> renderLimitAndOffset(Long offset) {
-        String mapKey1 = RenderingStrategy.formatParameterMapKey(sequence);
-        String mapKey2 = RenderingStrategy.formatParameterMapKey(sequence);
-        return FragmentAndParameters.withFragment("limit " + renderPlaceholder(mapKey1) //$NON-NLS-1$
-                    + " offset " + renderPlaceholder(mapKey2)) //$NON-NLS-1$
-                .withParameter(mapKey1, limit)
-                .withParameter(mapKey2, offset)
-                .buildOptional();
-    }
+	private final AtomicInteger sequence;
 
-    private String renderPlaceholder(String parameterName) {
-        return renderingStrategy.getFormattedJdbcPlaceholder(RenderingStrategy.DEFAULT_PARAMETER_PREFIX,
-                parameterName);
-    }
+	public LimitAndOffsetPagingModelRenderer(RenderingStrategy renderingStrategy, Long limit, PagingModel pagingModel,
+			AtomicInteger sequence) {
+		this.renderingStrategy = renderingStrategy;
+		this.limit = limit;
+		this.pagingModel = pagingModel;
+		this.sequence = sequence;
+	}
+
+	public Optional<FragmentAndParameters> render() {
+		return pagingModel.offset().map(this::renderLimitAndOffset).orElseGet(this::renderLimitOnly);
+	}
+
+	private Optional<FragmentAndParameters> renderLimitOnly() {
+		String mapKey = RenderingStrategy.formatParameterMapKey(sequence);
+		return FragmentAndParameters.withFragment("limit " + renderPlaceholder(mapKey)) //$NON-NLS-1$
+				.withParameter(mapKey, limit).buildOptional();
+	}
+
+	private Optional<FragmentAndParameters> renderLimitAndOffset(Long offset) {
+		String mapKey1 = RenderingStrategy.formatParameterMapKey(sequence);
+		String mapKey2 = RenderingStrategy.formatParameterMapKey(sequence);
+		return FragmentAndParameters.withFragment("limit " + renderPlaceholder(mapKey1) //$NON-NLS-1$
+				+ " offset " + renderPlaceholder(mapKey2)) //$NON-NLS-1$
+				.withParameter(mapKey1, limit).withParameter(mapKey2, offset).buildOptional();
+	}
+
+	private String renderPlaceholder(String parameterName) {
+		return renderingStrategy.getFormattedJdbcPlaceholder(RenderingStrategy.DEFAULT_PARAMETER_PREFIX, parameterName);
+	}
+
 }

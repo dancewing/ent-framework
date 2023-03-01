@@ -40,8 +40,9 @@ public class SysRoleRequest extends BaseRequest {
 	/**
 	 * 主键
 	 */
-	@NotNull(message = "roleId不能为空", groups = { update.class, delete.class, detail.class, updateStatus.class,
-			grantResource.class, grantDataScope.class, grantMenu.class })
+	@NotNull(message = "roleId不能为空",
+			groups = { update.class, delete.class, detail.class, updateStatus.class, grantResource.class,
+					grantDataScope.class, grantMenu.class })
 	@ChineseDescription("主键")
 	private Long roleId;
 
@@ -56,8 +57,8 @@ public class SysRoleRequest extends BaseRequest {
 	 * 角色编码
 	 */
 	@NotBlank(message = "角色编码不能为空", groups = { add.class, update.class })
-	@TableUniqueValue(message = "角色编码存在重复", groups = { add.class,
-			update.class }, tableName = "sys_role", columnName = "role_code", idFieldName = "role_id", excludeLogicDeleteItems = true)
+	@TableUniqueValue(message = "角色编码存在重复", groups = { add.class, update.class }, tableName = "sys_role",
+			columnName = "role_code", idFieldName = "role_id", excludeLogicDeleteItems = true)
 	@ChineseDescription("角色编码")
 	private String roleCode;
 

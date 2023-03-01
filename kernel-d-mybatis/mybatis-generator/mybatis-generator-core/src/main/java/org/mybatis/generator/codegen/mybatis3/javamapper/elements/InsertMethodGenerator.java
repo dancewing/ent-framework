@@ -26,48 +26,50 @@ import org.mybatis.generator.api.dom.java.Parameter;
 
 public class InsertMethodGenerator extends AbstractJavaMapperMethodGenerator {
 
-    private final boolean isSimple;
+	private final boolean isSimple;
 
-    public InsertMethodGenerator(boolean isSimple) {
-        super();
-        this.isSimple = isSimple;
-    }
+	public InsertMethodGenerator(boolean isSimple) {
+		super();
+		this.isSimple = isSimple;
+	}
 
-    @Override
-    public void addInterfaceElements(Interface interfaze) {
-        Method method = new Method(introspectedTable.getInsertStatementId());
+	@Override
+	public void addInterfaceElements(Interface interfaze) {
+		Method method = new Method(introspectedTable.getInsertStatementId());
 
-        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.setAbstract(true);
+		method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+		method.setVisibility(JavaVisibility.PUBLIC);
+		method.setAbstract(true);
 
-        FullyQualifiedJavaType parameterType;
-        if (isSimple) {
-            parameterType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
-        } else {
-            parameterType = introspectedTable.getRules().calculateAllFieldsClass();
-        }
+		FullyQualifiedJavaType parameterType;
+		if (isSimple) {
+			parameterType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
+		}
+		else {
+			parameterType = introspectedTable.getRules().calculateAllFieldsClass();
+		}
 
-        Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
-        importedTypes.add(parameterType);
-        method.addParameter(new Parameter(parameterType, "row")); //$NON-NLS-1$
+		Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
+		importedTypes.add(parameterType);
+		method.addParameter(new Parameter(parameterType, "row")); //$NON-NLS-1$
 
-        context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
 
-        addMapperAnnotations(method);
+		addMapperAnnotations(method);
 
-        if (context.getPlugins().clientInsertMethodGenerated(method, interfaze, introspectedTable)) {
-            addExtraImports(interfaze);
-            interfaze.addImportedTypes(importedTypes);
-            interfaze.addMethod(method);
-        }
-    }
+		if (context.getPlugins().clientInsertMethodGenerated(method, interfaze, introspectedTable)) {
+			addExtraImports(interfaze);
+			interfaze.addImportedTypes(importedTypes);
+			interfaze.addMethod(method);
+		}
+	}
 
-    public void addMapperAnnotations(Method method) {
-        // extension point for subclasses
-    }
+	public void addMapperAnnotations(Method method) {
+		// extension point for subclasses
+	}
 
-    public void addExtraImports(Interface interfaze) {
-        // extension point for subclasses
-    }
+	public void addExtraImports(Interface interfaze) {
+		// extension point for subclasses
+	}
+
 }

@@ -23,11 +23,12 @@ import java.util.List;
 
 class MethodLineReaderTest {
 
-    @Test
-    void testTotalLines() {
-        List<String> lines = ProviderApplyWhereMethodGenerator.getMethodLines();
-        assertEquals(90, lines.size());
-        assertEquals("firstCriteria = false;", lines.get(33));
-        assertEquals("}", lines.get(89));
-    }
+	@Test
+	void testTotalLines() {
+		List<String> lines = ProviderApplyWhereMethodGenerator.getMethodLines();
+		assertEquals(90, lines.size());
+		assertEquals("firstCriteria = false;", lines.get(33));
+		assertEquals("}", lines.get(89));
+	}
+
 }

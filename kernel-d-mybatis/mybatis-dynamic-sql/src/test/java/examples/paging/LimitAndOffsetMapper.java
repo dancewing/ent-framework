@@ -31,18 +31,18 @@ import examples.animal.data.AnimalData;
 
 public interface LimitAndOffsetMapper {
 
-    @SelectProvider(type=SqlProviderAdapter.class, method="select")
-    @Results(id="AnimalDataResult", value={
-        @Result(column="id", property="id", id=true),
-        @Result(column="animal_name", property="animalName"),
-        @Result(column="brain_weight", property="brainWeight"),
-        @Result(column="body_weight", property="bodyWeight")
-    })
-    List<AnimalData> selectMany(SelectStatementProvider selectStatement);
+	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
+	@Results(id = "AnimalDataResult",
+			value = { @Result(column = "id", property = "id", id = true),
+					@Result(column = "animal_name", property = "animalName"),
+					@Result(column = "brain_weight", property = "brainWeight"),
+					@Result(column = "body_weight", property = "bodyWeight") })
+	List<AnimalData> selectMany(SelectStatementProvider selectStatement);
 
-    default QueryExpressionDSL<LimitAndOffsetAdapter<List<AnimalData>>> selectWithLimitAndOffset(int limit, int offset) {
-        return SelectDSL.select(selectModel -> LimitAndOffsetAdapter.of(selectModel, this::selectMany, limit, offset),
-                id, animalName, brainWeight, bodyWeight)
-                .from(animalData);
-    }
+	default QueryExpressionDSL<LimitAndOffsetAdapter<List<AnimalData>>> selectWithLimitAndOffset(int limit,
+			int offset) {
+		return SelectDSL.select(selectModel -> LimitAndOffsetAdapter.of(selectModel, this::selectMany, limit, offset),
+				id, animalName, brainWeight, bodyWeight).from(animalData);
+	}
+
 }

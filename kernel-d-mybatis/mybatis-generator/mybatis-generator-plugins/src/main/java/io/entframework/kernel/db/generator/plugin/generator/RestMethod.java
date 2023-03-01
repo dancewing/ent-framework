@@ -5,60 +5,61 @@ import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.internal.util.JavaBeansUtil;
 
-
 public class RestMethod extends Method {
 
-    private String httpMethod = "GET";
-    private String url = "";
-    private String operation;
+	private String httpMethod = "GET";
 
-    private FullyQualifiedJavaType recordType;
+	private String url = "";
 
-    public RestMethod(String name) {
-        super(name);
-    }
+	private String operation;
 
-    public RestMethod(Method original) {
-        super(original);
-    }
+	private FullyQualifiedJavaType recordType;
 
-    public RestMethod(String name, String httpMethod, FullyQualifiedJavaType recordType) {
-        super(name);
-        this.httpMethod = httpMethod;
-        this.recordType = recordType;
-    }
+	public RestMethod(String name) {
+		super(name);
+	}
 
+	public RestMethod(Method original) {
+		super(original);
+	}
 
-    public String getHttpMethod() {
-        return httpMethod;
-    }
+	public RestMethod(String name, String httpMethod, FullyQualifiedJavaType recordType) {
+		super(name);
+		this.httpMethod = httpMethod;
+		this.recordType = recordType;
+	}
 
-    public void setHttpMethod(String httpMethod) {
-        this.httpMethod = httpMethod;
-    }
+	public String getHttpMethod() {
+		return httpMethod;
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public void setHttpMethod(String httpMethod) {
+		this.httpMethod = httpMethod;
+	}
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public String getOperation() {
-        return operation;
-    }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
-    public void setOperation(String operation) {
-        this.operation = operation;
-    }
+	public String getOperation() {
+		return operation;
+	}
 
-    public String getRestPath() {
-        String url = this.getUrl();
-        if (StringUtils.isEmpty(url)) {
-            url = "/"+ JavaBeansUtil.convertCamelCase(this.getName(), "-");
-        }
-        String modelObjectName = this.recordType.getShortName();
-        return "/"+ JavaBeansUtil.convertCamelCase(modelObjectName, "-") + url;
-    }
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+
+	public String getRestPath() {
+		String url = this.getUrl();
+		if (StringUtils.isEmpty(url)) {
+			url = "/" + JavaBeansUtil.convertCamelCase(this.getName(), "-");
+		}
+		String modelObjectName = this.recordType.getShortName();
+		return "/" + JavaBeansUtil.convertCamelCase(modelObjectName, "-") + url;
+	}
+
 }

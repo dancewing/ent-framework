@@ -15,12 +15,13 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class LogException extends ServiceException {
 
-    public LogException(AbstractExceptionEnum exception, Object... params) {
-        super(LogConstants.LOG_MODULE_NAME, exception.getErrorCode(), CharSequenceUtil.format(exception.getUserTip(), params));
-    }
+	public LogException(AbstractExceptionEnum exception, Object... params) {
+		super(LogConstants.LOG_MODULE_NAME, exception.getErrorCode(),
+				CharSequenceUtil.format(exception.getUserTip(), params));
+	}
 
-    public LogException(AbstractExceptionEnum exception) {
-        super(LogConstants.LOG_MODULE_NAME, exception);
-    }
+	public LogException(AbstractExceptionEnum exception) {
+		super(LogConstants.LOG_MODULE_NAME, exception);
+	}
 
 }

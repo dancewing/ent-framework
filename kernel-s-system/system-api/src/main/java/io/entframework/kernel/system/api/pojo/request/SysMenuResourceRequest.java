@@ -23,17 +23,17 @@ import java.util.List;
 @Data
 public class SysMenuResourceRequest extends BaseRequest {
 
-    /**
-     * 业务id不能为空
-     */
-    @NotNull(message = "菜单id不能为空", groups = {list.class, add.class})
-    @ChineseDescription("业务id")
-    private Long menuId;
+	/**
+	 * 业务id不能为空
+	 */
+	@NotNull(message = "菜单id不能为空", groups = { list.class, add.class })
+	@ChineseDescription("业务id")
+	private Long menuId;
 
-    /**
-     * 选中的资源
-     */
-    @ChineseDescription("选中的资源")
-    private List<String> selectedResource;
+	/**
+	 * 选中的资源
+	 */
+	@ChineseDescription("选中的资源")
+	private List<String> selectedResource;
 
 }

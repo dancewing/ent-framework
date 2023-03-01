@@ -17,47 +17,47 @@ import lombok.Getter;
 @EnumHandler
 public enum MessageBusinessTypeEnum {
 
-    /**
-     * 已读
-     */
-    SYS_NOTICE("sys_notice", "通知", "/sysNotice/detail");
-    @JsonValue
-    @EnumValue
-    private final String code;
+	/**
+	 * 已读
+	 */
+	SYS_NOTICE("sys_notice", "通知", "/sysNotice/detail");
 
-    private final String name;
+	@JsonValue
+	@EnumValue
+	private final String code;
 
-    private final String url;
+	private final String name;
 
+	private final String url;
 
-    MessageBusinessTypeEnum(String code, String name, String url) {
-        this.code = code;
-        this.name = name;
-        this.url = url;
-    }
+	MessageBusinessTypeEnum(String code, String name, String url) {
+		this.code = code;
+		this.name = name;
+		this.url = url;
+	}
 
-    public static MessageBusinessTypeEnum getByCode(String code) {
-        if (code == null) {
-            return null;
-        }
-        for (MessageBusinessTypeEnum flagEnum : MessageBusinessTypeEnum.values()) {
-            if (flagEnum.getCode().equals(code)) {
-                return flagEnum;
-            }
-        }
-        return null;
-    }
+	public static MessageBusinessTypeEnum getByCode(String code) {
+		if (code == null) {
+			return null;
+		}
+		for (MessageBusinessTypeEnum flagEnum : MessageBusinessTypeEnum.values()) {
+			if (flagEnum.getCode().equals(code)) {
+				return flagEnum;
+			}
+		}
+		return null;
+	}
 
-    public static String getName(String code) {
-        if (code == null) {
-            return null;
-        }
-        for (MessageBusinessTypeEnum flagEnum : MessageBusinessTypeEnum.values()) {
-            if (flagEnum.getCode().equals(code)) {
-                return flagEnum.name;
-            }
-        }
-        return null;
-    }
+	public static String getName(String code) {
+		if (code == null) {
+			return null;
+		}
+		for (MessageBusinessTypeEnum flagEnum : MessageBusinessTypeEnum.values()) {
+			if (flagEnum.getCode().equals(code)) {
+				return flagEnum.name;
+			}
+		}
+		return null;
+	}
 
 }

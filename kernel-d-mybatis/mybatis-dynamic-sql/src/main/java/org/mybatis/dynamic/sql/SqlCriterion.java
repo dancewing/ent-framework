@@ -21,26 +21,29 @@ import java.util.List;
 
 public abstract class SqlCriterion {
 
-    private final List<AndOrCriteriaGroup> subCriteria = new ArrayList<>();
+	private final List<AndOrCriteriaGroup> subCriteria = new ArrayList<>();
 
-    protected SqlCriterion(AbstractBuilder<?> builder) {
-        subCriteria.addAll(builder.subCriteria);
-    }
+	protected SqlCriterion(AbstractBuilder<?> builder) {
+		subCriteria.addAll(builder.subCriteria);
+	}
 
-    public List<AndOrCriteriaGroup> subCriteria() {
-        return Collections.unmodifiableList(subCriteria);
-    }
+	public List<AndOrCriteriaGroup> subCriteria() {
+		return Collections.unmodifiableList(subCriteria);
+	}
 
-    public abstract <R> R accept(SqlCriterionVisitor<R> visitor);
+	public abstract <R> R accept(SqlCriterionVisitor<R> visitor);
 
-    protected abstract static class AbstractBuilder<T extends AbstractBuilder<T>> {
-        private final List<AndOrCriteriaGroup> subCriteria = new ArrayList<>();
+	protected abstract static class AbstractBuilder<T extends AbstractBuilder<T>> {
 
-        public T withSubCriteria(List<AndOrCriteriaGroup> subCriteria) {
-            this.subCriteria.addAll(subCriteria);
-            return getThis();
-        }
+		private final List<AndOrCriteriaGroup> subCriteria = new ArrayList<>();
 
-        protected abstract T getThis();
-    }
+		public T withSubCriteria(List<AndOrCriteriaGroup> subCriteria) {
+			this.subCriteria.addAll(subCriteria);
+			return getThis();
+		}
+
+		protected abstract T getThis();
+
+	}
+
 }

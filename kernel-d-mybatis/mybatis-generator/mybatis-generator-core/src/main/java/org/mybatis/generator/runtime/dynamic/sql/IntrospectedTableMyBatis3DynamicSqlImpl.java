@@ -15,39 +15,37 @@ import org.mybatis.generator.codegen.mybatis3.IntrospectedTableMyBatis3Impl;
 
 public class IntrospectedTableMyBatis3DynamicSqlImpl extends IntrospectedTableMyBatis3Impl {
 
-    public IntrospectedTableMyBatis3DynamicSqlImpl() {
-        targetRuntime = TargetRuntime.MYBATIS3_DSQL;
-    }
+	public IntrospectedTableMyBatis3DynamicSqlImpl() {
+		targetRuntime = TargetRuntime.MYBATIS3_DSQL;
+	}
 
-    @Override
-    protected void calculateXmlMapperGenerator(AbstractJavaClientGenerator javaClientGenerator,
-            List<String> warnings,
-            ProgressCallback progressCallback) {
-        // no XML with dynamic SQL support
-        xmlMapperGenerator = null;
-    }
+	@Override
+	protected void calculateXmlMapperGenerator(AbstractJavaClientGenerator javaClientGenerator, List<String> warnings,
+			ProgressCallback progressCallback) {
+		// no XML with dynamic SQL support
+		xmlMapperGenerator = null;
+	}
 
-    @Override
-    protected AbstractJavaClientGenerator createJavaClientGenerator() {
-        if (context.getJavaClientGeneratorConfiguration() == null) {
-            return null;
-        }
+	@Override
+	protected AbstractJavaClientGenerator createJavaClientGenerator() {
+		if (context.getJavaClientGeneratorConfiguration() == null) {
+			return null;
+		}
 
-        return new DynamicSqlMapperExtGenerator(getClientProject());
-    }
+		return new DynamicSqlMapperExtGenerator(getClientProject());
+	}
 
-    @Override
-    protected void calculateJavaModelGenerators(List<String> warnings,
-            ProgressCallback progressCallback) {
+	@Override
+	protected void calculateJavaModelGenerators(List<String> warnings, ProgressCallback progressCallback) {
 
-        AbstractJavaGenerator javaGenerator = new DynamicSqlModelGenerator(getModelProject());
-        initializeAbstractGenerator(javaGenerator, warnings,
-                progressCallback);
-        javaGenerators.add(javaGenerator);
-    }
+		AbstractJavaGenerator javaGenerator = new DynamicSqlModelGenerator(getModelProject());
+		initializeAbstractGenerator(javaGenerator, warnings, progressCallback);
+		javaGenerators.add(javaGenerator);
+	}
 
-    @Override
-    public boolean requiresXMLGenerator() {
-        return false;
-    }
+	@Override
+	public boolean requiresXMLGenerator() {
+		return false;
+	}
+
 }

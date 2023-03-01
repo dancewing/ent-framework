@@ -8,11 +8,15 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 public interface HrPositionConverter {
-    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    interface RequestConverter extends ObjectConverter<HrPositionRequest, HrPosition> {
-    }
 
-    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    interface ResponseConverter extends ObjectConverter<HrPosition, HrPositionResponse> {
-    }
+	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	interface RequestConverter extends ObjectConverter<HrPositionRequest, HrPosition> {
+
+	}
+
+	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	interface ResponseConverter extends ObjectConverter<HrPosition, HrPositionResponse> {
+
+	}
+
 }

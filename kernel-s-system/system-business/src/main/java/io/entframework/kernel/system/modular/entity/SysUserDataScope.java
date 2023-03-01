@@ -20,41 +20,44 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(value = "sys_user_data_scope", sqlSupport = SysUserDataScopeDynamicSqlSupport.class, tableProperty = "sysUserDataScope")
+@Table(value = "sys_user_data_scope", sqlSupport = SysUserDataScopeDynamicSqlSupport.class,
+		tableProperty = "sysUserDataScope")
 public class SysUserDataScope extends BaseEntity implements Serializable {
-    /**
-     * 主键
-     */
-    @Id
-    @Column(name = "user_data_scope_id", jdbcType = JDBCType.BIGINT)
-    private Long userDataScopeId;
 
-    /**
-     * 用户id
-     */
-    @Column(name = "user_id", jdbcType = JDBCType.BIGINT)
-    private Long userId;
+	/**
+	 * 主键
+	 */
+	@Id
+	@Column(name = "user_data_scope_id", jdbcType = JDBCType.BIGINT)
+	private Long userDataScopeId;
 
-    /**
-     * 机构id
-     */
-    @Column(name = "org_id", jdbcType = JDBCType.BIGINT)
-    private Long orgId;
+	/**
+	 * 用户id
+	 */
+	@Column(name = "user_id", jdbcType = JDBCType.BIGINT)
+	private Long userId;
 
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 机构id
+	 */
+	@Column(name = "org_id", jdbcType = JDBCType.BIGINT)
+	private Long orgId;
 
-    public SysUserDataScope userDataScopeId(Long userDataScopeId) {
-        this.userDataScopeId = userDataScopeId;
-        return this;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public SysUserDataScope userId(Long userId) {
-        this.userId = userId;
-        return this;
-    }
+	public SysUserDataScope userDataScopeId(Long userDataScopeId) {
+		this.userDataScopeId = userDataScopeId;
+		return this;
+	}
 
-    public SysUserDataScope orgId(Long orgId) {
-        this.orgId = orgId;
-        return this;
-    }
+	public SysUserDataScope userId(Long userId) {
+		this.userId = userId;
+		return this;
+	}
+
+	public SysUserDataScope orgId(Long orgId) {
+		this.orgId = orgId;
+		return this;
+	}
+
 }

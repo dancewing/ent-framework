@@ -21,79 +21,70 @@ import java.util.List;
  */
 public interface SysTimersService extends BaseService<SysTimersRequest, SysTimersResponse, SysTimers> {
 
-    /**
-     * 添加定时任务
-     *
-     * @param sysTimersRequest 添加参数
-     * @date 2020/6/30 18:26
-     */
-    void add(SysTimersRequest sysTimersRequest);
+	/**
+	 * 添加定时任务
+	 * @param sysTimersRequest 添加参数
+	 * @date 2020/6/30 18:26
+	 */
+	void add(SysTimersRequest sysTimersRequest);
 
-    /**
-     * 删除定时任务
-     *
-     * @param sysTimersRequest 删除参数
-     * @date 2020/6/30 18:26
-     */
-    void del(SysTimersRequest sysTimersRequest);
+	/**
+	 * 删除定时任务
+	 * @param sysTimersRequest 删除参数
+	 * @date 2020/6/30 18:26
+	 */
+	void del(SysTimersRequest sysTimersRequest);
 
-    /**
-     * 编辑定时任务
-     *
-     * @param sysTimersRequest 编辑参数
-     * @date 2020/6/30 18:26
-     */
-    SysTimersResponse update(SysTimersRequest sysTimersRequest);
+	/**
+	 * 编辑定时任务
+	 * @param sysTimersRequest 编辑参数
+	 * @date 2020/6/30 18:26
+	 */
+	SysTimersResponse update(SysTimersRequest sysTimersRequest);
 
-    /**
-     * 启动任务
-     *
-     * @param sysTimersRequest 启动参数
-     * @date 2020/7/1 14:36
-     */
-    void start(SysTimersRequest sysTimersRequest);
+	/**
+	 * 启动任务
+	 * @param sysTimersRequest 启动参数
+	 * @date 2020/7/1 14:36
+	 */
+	void start(SysTimersRequest sysTimersRequest);
 
-    /**
-     * 停止任务
-     *
-     * @param sysTimersRequest 停止参数
-     * @date 2020/7/1 14:36
-     */
-    void stop(SysTimersRequest sysTimersRequest);
+	/**
+	 * 停止任务
+	 * @param sysTimersRequest 停止参数
+	 * @date 2020/7/1 14:36
+	 */
+	void stop(SysTimersRequest sysTimersRequest);
 
-    /**
-     * 查看详情定时任务
-     *
-     * @param sysTimersRequest 查看参数
-     * @return 定时任务
-     * @date 2020/6/30 18:26
-     */
-    SysTimers detail(SysTimersRequest sysTimersRequest);
+	/**
+	 * 查看详情定时任务
+	 * @param sysTimersRequest 查看参数
+	 * @return 定时任务
+	 * @date 2020/6/30 18:26
+	 */
+	SysTimers detail(SysTimersRequest sysTimersRequest);
 
-    /**
-     * 分页查询定时任务
-     *
-     * @param sysTimersRequest 查询参数
-     * @return 查询分页结果
-     * @date 2020/6/30 18:26
-     */
-    PageResult<SysTimersResponse> findPage(SysTimersRequest sysTimersRequest);
+	/**
+	 * 分页查询定时任务
+	 * @param sysTimersRequest 查询参数
+	 * @return 查询分页结果
+	 * @date 2020/6/30 18:26
+	 */
+	PageResult<SysTimersResponse> findPage(SysTimersRequest sysTimersRequest);
 
-    /**
-     * 查询所有定时任务
-     *
-     * @param sysTimersRequest 查询参数
-     * @return 定时任务列表
-     * @date 2020/6/30 18:26
-     */
-    List<SysTimersResponse> findList(SysTimersRequest sysTimersRequest);
+	/**
+	 * 查询所有定时任务
+	 * @param sysTimersRequest 查询参数
+	 * @return 定时任务列表
+	 * @date 2020/6/30 18:26
+	 */
+	List<SysTimersResponse> findList(SysTimersRequest sysTimersRequest);
 
-    /**
-     * 获取所有可执行的任务列表
-     *
-     * @return TimerTaskRunner的所有子类名称集合
-     * @date 2020/7/1 14:36
-     */
-    List<String> getActionClasses();
+	/**
+	 * 获取所有可执行的任务列表
+	 * @return TimerTaskRunner的所有子类名称集合
+	 * @date 2020/7/1 14:36
+	 */
+	List<String> getActionClasses();
 
 }

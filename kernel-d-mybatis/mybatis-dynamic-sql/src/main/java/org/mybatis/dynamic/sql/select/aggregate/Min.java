@@ -21,21 +21,22 @@ import org.mybatis.dynamic.sql.select.function.AbstractUniTypeFunction;
 
 public class Min<T> extends AbstractUniTypeFunction<T, Min<T>> {
 
-    private Min(BindableColumn<T> column) {
-        super(column);
-    }
+	private Min(BindableColumn<T> column) {
+		super(column);
+	}
 
-    @Override
-    public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
-        return "min(" + column.renderWithTableAlias(tableAliasCalculator) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-    }
+	@Override
+	public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
+		return "min(" + column.renderWithTableAlias(tableAliasCalculator) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-    @Override
-    protected Min<T> copy() {
-        return new Min<>(column);
-    }
+	@Override
+	protected Min<T> copy() {
+		return new Min<>(column);
+	}
 
-    public static <T> Min<T> of(BindableColumn<T> column) {
-        return new Min<>(column);
-    }
+	public static <T> Min<T> of(BindableColumn<T> column) {
+		return new Min<>(column);
+	}
+
 }

@@ -15,12 +15,13 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class FileException extends ServiceException {
 
-    public FileException(AbstractExceptionEnum exception) {
-        super(FileConstants.FILE_MODULE_NAME, exception);
-    }
+	public FileException(AbstractExceptionEnum exception) {
+		super(FileConstants.FILE_MODULE_NAME, exception);
+	}
 
-    public FileException(AbstractExceptionEnum exception, Object... params) {
-        super(FileConstants.FILE_MODULE_NAME, exception.getErrorCode(), CharSequenceUtil.format(exception.getUserTip(), params));
-    }
+	public FileException(AbstractExceptionEnum exception, Object... params) {
+		super(FileConstants.FILE_MODULE_NAME, exception.getErrorCode(),
+				CharSequenceUtil.format(exception.getUserTip(), params));
+	}
 
 }

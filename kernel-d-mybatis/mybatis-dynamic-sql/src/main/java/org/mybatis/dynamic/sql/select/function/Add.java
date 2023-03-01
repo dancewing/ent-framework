@@ -23,23 +23,23 @@ import org.mybatis.dynamic.sql.BindableColumn;
 
 public class Add<T> extends OperatorFunction<T> {
 
-    private Add(BindableColumn<T> firstColumn, BasicColumn secondColumn,
-            List<BasicColumn> subsequentColumns) {
-        super("+", firstColumn, secondColumn, subsequentColumns); //$NON-NLS-1$
-    }
+	private Add(BindableColumn<T> firstColumn, BasicColumn secondColumn, List<BasicColumn> subsequentColumns) {
+		super("+", firstColumn, secondColumn, subsequentColumns); //$NON-NLS-1$
+	}
 
-    @Override
-    protected Add<T> copy() {
-        return new Add<>(column, secondColumn, subsequentColumns);
-    }
+	@Override
+	protected Add<T> copy() {
+		return new Add<>(column, secondColumn, subsequentColumns);
+	}
 
-    public static <T> Add<T> of(BindableColumn<T> firstColumn, BasicColumn secondColumn,
-                                BasicColumn... subsequentColumns) {
-        return of(firstColumn, secondColumn, Arrays.asList(subsequentColumns));
-    }
+	public static <T> Add<T> of(BindableColumn<T> firstColumn, BasicColumn secondColumn,
+			BasicColumn... subsequentColumns) {
+		return of(firstColumn, secondColumn, Arrays.asList(subsequentColumns));
+	}
 
-    public static <T> Add<T> of(BindableColumn<T> firstColumn, BasicColumn secondColumn,
-            List<BasicColumn> subsequentColumns) {
-        return new Add<>(firstColumn, secondColumn, subsequentColumns);
-    }
+	public static <T> Add<T> of(BindableColumn<T> firstColumn, BasicColumn secondColumn,
+			List<BasicColumn> subsequentColumns) {
+		return new Add<>(firstColumn, secondColumn, subsequentColumns);
+	}
+
 }

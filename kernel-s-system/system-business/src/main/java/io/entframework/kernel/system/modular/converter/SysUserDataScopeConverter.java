@@ -8,11 +8,15 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 public interface SysUserDataScopeConverter {
-    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    interface RequestConverter extends ObjectConverter<SysUserDataScopeRequest, SysUserDataScope> {
-    }
 
-    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    interface ResponseConverter extends ObjectConverter<SysUserDataScope, SysUserDataScopeResponse> {
-    }
+	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	interface RequestConverter extends ObjectConverter<SysUserDataScopeRequest, SysUserDataScope> {
+
+	}
+
+	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	interface ResponseConverter extends ObjectConverter<SysUserDataScope, SysUserDataScopeResponse> {
+
+	}
+
 }

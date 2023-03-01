@@ -27,7 +27,7 @@ import java.util.Map;
 public class ErrorExceptionHandler extends DefaultErrorWebExceptionHandler {
 
 	public ErrorExceptionHandler(ErrorAttributes errorAttributes, WebProperties.Resources resourceProperties,
-								 ErrorProperties errorProperties, ApplicationContext applicationContext) {
+			ErrorProperties errorProperties, ApplicationContext applicationContext) {
 		super(errorAttributes, resourceProperties, errorProperties, applicationContext);
 	}
 
@@ -54,7 +54,7 @@ public class ErrorExceptionHandler extends DefaultErrorWebExceptionHandler {
 	/**
 	 * 获取异常属性
 	 */
-//	@Override
+	// @Override
 	protected Map<String, Object> getErrorAttributes(ServerRequest request) {
 		int code = 500;
 		Throwable error = super.getError(request);
@@ -69,7 +69,6 @@ public class ErrorExceptionHandler extends DefaultErrorWebExceptionHandler {
 
 	/**
 	 * 指定响应处理方法为JSON处理的方法
-	 *
 	 * @param errorAttributes
 	 */
 	@Override
@@ -79,7 +78,6 @@ public class ErrorExceptionHandler extends DefaultErrorWebExceptionHandler {
 
 	/**
 	 * 构建异常信息
-	 *
 	 * @param request
 	 * @param ex
 	 * @return

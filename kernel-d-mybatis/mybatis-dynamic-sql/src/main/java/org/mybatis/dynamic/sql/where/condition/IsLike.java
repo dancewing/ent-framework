@@ -21,47 +21,48 @@ import java.util.function.Predicate;
 import org.mybatis.dynamic.sql.AbstractSingleValueCondition;
 
 public class IsLike<T> extends AbstractSingleValueCondition<T> {
-    private static final IsLike<?> EMPTY = new IsLike<Object>(null) {
-        @Override
-        public boolean shouldRender() {
-            return false;
-        }
-    };
 
-    public static <T> IsLike<T> empty() {
-        @SuppressWarnings("unchecked")
-        IsLike<T> t = (IsLike<T>) EMPTY;
-        return t;
-    }
+	private static final IsLike<?> EMPTY = new IsLike<Object>(null) {
+		@Override
+		public boolean shouldRender() {
+			return false;
+		}
+	};
 
-    protected IsLike(T value) {
-        super(value);
-    }
+	public static <T> IsLike<T> empty() {
+		@SuppressWarnings("unchecked")
+		IsLike<T> t = (IsLike<T>) EMPTY;
+		return t;
+	}
 
-    @Override
-    public String renderCondition(String columnName, String placeholder) {
-        return columnName + " like " + placeholder; //$NON-NLS-1$
-    }
+	protected IsLike(T value) {
+		super(value);
+	}
 
-    public static <T> IsLike<T> of(T value) {
-        return new IsLike<>(value);
-    }
+	@Override
+	public String renderCondition(String columnName, String placeholder) {
+		return columnName + " like " + placeholder; //$NON-NLS-1$
+	}
 
-    @Override
-    public IsLike<T> filter(Predicate<? super T> predicate) {
-        return filterSupport(predicate, IsLike::empty, this);
-    }
+	public static <T> IsLike<T> of(T value) {
+		return new IsLike<>(value);
+	}
 
-    /**
-     * If renderable, apply the mapping to the value and return a new condition with the new value. Else return a
-     *     condition that will not render (this).
-     *
-     * @param mapper a mapping function to apply to the value, if renderable
-     * @param <R> type of the new condition
-     * @return a new condition with the result of applying the mapper to the value of this condition,
-     *     if renderable, otherwise a condition that will not render.
-     */
-    public <R> IsLike<R> map(Function<? super T, ? extends R> mapper) {
-        return mapSupport(mapper, IsLike::new, IsLike::empty);
-    }
+	@Override
+	public IsLike<T> filter(Predicate<? super T> predicate) {
+		return filterSupport(predicate, IsLike::empty, this);
+	}
+
+	/**
+	 * If renderable, apply the mapping to the value and return a new condition with the
+	 * new value. Else return a condition that will not render (this).
+	 * @param mapper a mapping function to apply to the value, if renderable
+	 * @param <R> type of the new condition
+	 * @return a new condition with the result of applying the mapper to the value of this
+	 * condition, if renderable, otherwise a condition that will not render.
+	 */
+	public <R> IsLike<R> map(Function<? super T, ? extends R> mapper) {
+		return mapSupport(mapper, IsLike::new, IsLike::empty);
+	}
+
 }

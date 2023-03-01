@@ -21,39 +21,38 @@ import java.util.Optional;
 import org.mybatis.dynamic.sql.render.RenderingStrategy;
 
 /**
- * Describes additional attributes of columns that are necessary for binding the column as a JDBC parameter.
- * Columns in where clauses are typically bound.
+ * Describes additional attributes of columns that are necessary for binding the column as
+ * a JDBC parameter. Columns in where clauses are typically bound.
  *
  * @author Jeff Butler
- *
- * @param <T>
- *            - the Java type that corresponds to this column
+ * @param <T> - the Java type that corresponds to this column
  */
 public interface BindableColumn<T> extends BasicColumn {
 
-    /**
-     * Override the base method definition to make it more specific to this interface.
-     */
-    @Override
-    BindableColumn<T> as(String alias);
+	/**
+	 * Override the base method definition to make it more specific to this interface.
+	 */
+	@Override
+	BindableColumn<T> as(String alias);
 
-    default Optional<JDBCType> jdbcType() {
-        return Optional.empty();
-    }
+	default Optional<JDBCType> jdbcType() {
+		return Optional.empty();
+	}
 
-    default Optional<String> typeHandler() {
-        return Optional.empty();
-    }
+	default Optional<String> typeHandler() {
+		return Optional.empty();
+	}
 
-    default Optional<RenderingStrategy> renderingStrategy() {
-        return Optional.empty();
-    }
+	default Optional<RenderingStrategy> renderingStrategy() {
+		return Optional.empty();
+	}
 
-    default Object convertParameterType(T value) {
-        return value;
-    }
+	default Object convertParameterType(T value) {
+		return value;
+	}
 
-    default Optional<Class<T>> javaType() {
-        return Optional.empty();
-    }
+	default Optional<Class<T>> javaType() {
+		return Optional.empty();
+	}
+
 }

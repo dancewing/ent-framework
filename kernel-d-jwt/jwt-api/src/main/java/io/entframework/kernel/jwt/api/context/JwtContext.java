@@ -13,13 +13,13 @@ import io.entframework.kernel.jwt.api.JwtApi;
  */
 public class JwtContext {
 
-    /**
-     * 获取jwt操作接口
-     *
-     * @date 2020/10/21 14:07
-     */
-    public static JwtApi me() {
-        return SpringUtil.getBean(JwtApi.class);
-    }
+	/**
+	 * 获取jwt操作接口
+	 *
+	 * @date 2020/10/21 14:07
+	 */
+	public static JwtApi me() {
+		return SpringUtil.getBean(JwtApi.class);
+	}
 
 }

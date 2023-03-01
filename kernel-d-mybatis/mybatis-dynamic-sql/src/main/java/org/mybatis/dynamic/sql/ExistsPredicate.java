@@ -22,29 +22,32 @@ import org.mybatis.dynamic.sql.select.SelectModel;
 import org.mybatis.dynamic.sql.util.Buildable;
 
 public class ExistsPredicate {
-    private final Buildable<SelectModel> selectModelBuilder;
-    private final String operator;
 
-    private ExistsPredicate(String operator, Buildable<SelectModel> selectModelBuilder) {
-        this.selectModelBuilder = Objects.requireNonNull(selectModelBuilder);
-        this.operator = Objects.requireNonNull(operator);
-    }
+	private final Buildable<SelectModel> selectModelBuilder;
 
-    public String operator() {
-        return operator;
-    }
+	private final String operator;
 
-    public Buildable<SelectModel> selectModelBuilder() {
-        return selectModelBuilder;
-    }
+	private ExistsPredicate(String operator, Buildable<SelectModel> selectModelBuilder) {
+		this.selectModelBuilder = Objects.requireNonNull(selectModelBuilder);
+		this.operator = Objects.requireNonNull(operator);
+	}
 
-    @NotNull
-    public static ExistsPredicate exists(Buildable<SelectModel> selectModelBuilder) {
-        return new ExistsPredicate("exists", selectModelBuilder); //$NON-NLS-1$
-    }
+	public String operator() {
+		return operator;
+	}
 
-    @NotNull
-    public static ExistsPredicate notExists(Buildable<SelectModel> selectModelBuilder) {
-        return new ExistsPredicate("not exists", selectModelBuilder); //$NON-NLS-1$
-    }
+	public Buildable<SelectModel> selectModelBuilder() {
+		return selectModelBuilder;
+	}
+
+	@NotNull
+	public static ExistsPredicate exists(Buildable<SelectModel> selectModelBuilder) {
+		return new ExistsPredicate("exists", selectModelBuilder); //$NON-NLS-1$
+	}
+
+	@NotNull
+	public static ExistsPredicate notExists(Buildable<SelectModel> selectModelBuilder) {
+		return new ExistsPredicate("not exists", selectModelBuilder); //$NON-NLS-1$
+	}
+
 }

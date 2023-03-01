@@ -20,41 +20,44 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(value = "sys_role_resource", sqlSupport = SysRoleResourceDynamicSqlSupport.class, tableProperty = "sysRoleResource")
+@Table(value = "sys_role_resource", sqlSupport = SysRoleResourceDynamicSqlSupport.class,
+		tableProperty = "sysRoleResource")
 public class SysRoleResource extends BaseEntity implements Serializable {
-    /**
-     * 主键
-     */
-    @Id
-    @Column(name = "role_resource_id", jdbcType = JDBCType.BIGINT)
-    private Long roleResourceId;
 
-    /**
-     * 角色id
-     */
-    @Column(name = "role_id", jdbcType = JDBCType.BIGINT)
-    private Long roleId;
+	/**
+	 * 主键
+	 */
+	@Id
+	@Column(name = "role_resource_id", jdbcType = JDBCType.BIGINT)
+	private Long roleResourceId;
 
-    /**
-     * 资源编码
-     */
-    @Column(name = "resource_code", jdbcType = JDBCType.VARCHAR)
-    private String resourceCode;
+	/**
+	 * 角色id
+	 */
+	@Column(name = "role_id", jdbcType = JDBCType.BIGINT)
+	private Long roleId;
 
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 资源编码
+	 */
+	@Column(name = "resource_code", jdbcType = JDBCType.VARCHAR)
+	private String resourceCode;
 
-    public SysRoleResource roleResourceId(Long roleResourceId) {
-        this.roleResourceId = roleResourceId;
-        return this;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public SysRoleResource roleId(Long roleId) {
-        this.roleId = roleId;
-        return this;
-    }
+	public SysRoleResource roleResourceId(Long roleResourceId) {
+		this.roleResourceId = roleResourceId;
+		return this;
+	}
 
-    public SysRoleResource resourceCode(String resourceCode) {
-        this.resourceCode = resourceCode;
-        return this;
-    }
+	public SysRoleResource roleId(Long roleId) {
+		this.roleId = roleId;
+		return this;
+	}
+
+	public SysRoleResource resourceCode(String resourceCode) {
+		this.resourceCode = resourceCode;
+		return this;
+	}
+
 }

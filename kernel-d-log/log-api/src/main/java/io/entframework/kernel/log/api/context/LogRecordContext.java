@@ -13,13 +13,13 @@ import io.entframework.kernel.log.api.LogRecordApi;
  */
 public class LogRecordContext {
 
-    /**
-     * 获取日志操作api
-     *
-     * @date 2020/10/27 16:19
-     */
-    public static LogRecordApi me() {
-        return SpringUtil.getBean(LogRecordApi.class);
-    }
+	/**
+	 * 获取日志操作api
+	 *
+	 * @date 2020/10/27 16:19
+	 */
+	public static LogRecordApi me() {
+		return SpringUtil.getBean(LogRecordApi.class);
+	}
 
 }

@@ -20,11 +20,11 @@ import java.util.List;
  *
  * @date 2022/02/10 21:17
  */
-public interface SysStatisticsUrlService extends BaseService<SysStatisticsUrlRequest, SysStatisticsUrlResponse, SysStatisticsUrl> {
+public interface SysStatisticsUrlService
+		extends BaseService<SysStatisticsUrlRequest, SysStatisticsUrlResponse, SysStatisticsUrl> {
 
 	/**
 	 * 新增
-	 *
 	 * @param sysStatisticsUrlRequest 请求参数
 	 * @date 2022/02/10 21:17
 	 */
@@ -32,7 +32,6 @@ public interface SysStatisticsUrlService extends BaseService<SysStatisticsUrlReq
 
 	/**
 	 * 删除
-	 *
 	 * @param sysStatisticsUrlRequest 请求参数
 	 * @date 2022/02/10 21:17
 	 */
@@ -40,7 +39,6 @@ public interface SysStatisticsUrlService extends BaseService<SysStatisticsUrlReq
 
 	/**
 	 * 编辑
-	 *
 	 * @param sysStatisticsUrlRequest 请求参数
 	 * @date 2022/02/10 21:17
 	 */
@@ -48,7 +46,6 @@ public interface SysStatisticsUrlService extends BaseService<SysStatisticsUrlReq
 
 	/**
 	 * 查询详情
-	 *
 	 * @param sysStatisticsUrlRequest 请求参数
 	 * @date 2022/02/10 21:17
 	 */
@@ -56,7 +53,6 @@ public interface SysStatisticsUrlService extends BaseService<SysStatisticsUrlReq
 
 	/**
 	 * 获取列表
-	 *
 	 * @param sysStatisticsUrlRequest 请求参数
 	 * @return List<SysStatisticsUrl> 返回结果
 	 * @date 2022/02/10 21:17
@@ -65,7 +61,6 @@ public interface SysStatisticsUrlService extends BaseService<SysStatisticsUrlReq
 
 	/**
 	 * 获取列表（带分页）
-	 *
 	 * @param sysStatisticsUrlRequest 请求参数
 	 * @return PageResult<SysStatisticsUrl> 返回结果
 	 * @date 2022/02/10 21:17
@@ -73,4 +68,5 @@ public interface SysStatisticsUrlService extends BaseService<SysStatisticsUrlReq
 	PageResult<SysStatisticsUrlResponse> findPage(SysStatisticsUrlRequest sysStatisticsUrlRequest);
 
 	List<Long> getMenuIdsByStatUrlIdList(List<Long> statUrlIds);
+
 }

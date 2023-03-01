@@ -27,60 +27,55 @@ import java.util.Set;
 @Data
 public class SysMenuButtonRequest extends BaseRequest {
 
-    /**
-     * 主键
-     */
-    @NotNull(message = "按钮id不能为空", groups = {update.class, detail.class, delete.class})
-    @ChineseDescription("主键")
-    private Long buttonId;
+	/**
+	 * 主键
+	 */
+	@NotNull(message = "按钮id不能为空", groups = { update.class, detail.class, delete.class })
+	@ChineseDescription("主键")
+	private Long buttonId;
 
-    /**
-     * 菜单按钮主键集合
-     */
-    @NotEmpty(message = "菜单按钮主键集合不能为空", groups = {batchDelete.class})
-    @ChineseDescription("菜单按钮主键集合")
-    private Set<@NotNull(message = "菜单按钮主键集合不能为空", groups = {batchDelete.class}) Long> buttonIds;
+	/**
+	 * 菜单按钮主键集合
+	 */
+	@NotEmpty(message = "菜单按钮主键集合不能为空", groups = { batchDelete.class })
+	@ChineseDescription("菜单按钮主键集合")
+	private Set<@NotNull(message = "菜单按钮主键集合不能为空", groups = { batchDelete.class }) Long> buttonIds;
 
-    /**
-     * 菜单id，按钮需要挂在菜单下
-     */
-    @NotNull(message = "菜单id不能为空", groups = {add.class, update.class, list.class, def.class})
-    @ChineseDescription("菜单id，按钮需要挂在菜单下")
-    private Long menuId;
+	/**
+	 * 菜单id，按钮需要挂在菜单下
+	 */
+	@NotNull(message = "菜单id不能为空", groups = { add.class, update.class, list.class, def.class })
+	@ChineseDescription("菜单id，按钮需要挂在菜单下")
+	private Long menuId;
 
-    /**
-     * 按钮的名称
-     */
-    @NotBlank(message = "按钮名称不能为空", groups = {add.class, update.class})
-    @ChineseDescription("按钮的名称")
-    private String buttonName;
+	/**
+	 * 按钮的名称
+	 */
+	@NotBlank(message = "按钮名称不能为空", groups = { add.class, update.class })
+	@ChineseDescription("按钮的名称")
+	private String buttonName;
 
-    /**
-     * 按钮的编码
-     */
-    @NotBlank(message = "按钮编码不能为空", groups = {add.class, update.class})
-    @TableUniqueValue(
-            message = "按钮编码存在重复",
-            groups = {add.class, update.class},
-            tableName = "sys_menu_button",
-            columnName = "button_code",
-            idFieldName = "button_id",
-            excludeLogicDeleteItems = true)
-    @ChineseDescription("按钮的编码")
-    private String buttonCode;
+	/**
+	 * 按钮的编码
+	 */
+	@NotBlank(message = "按钮编码不能为空", groups = { add.class, update.class })
+	@TableUniqueValue(message = "按钮编码存在重复", groups = { add.class, update.class }, tableName = "sys_menu_button",
+			columnName = "button_code", idFieldName = "button_id", excludeLogicDeleteItems = true)
+	@ChineseDescription("按钮的编码")
+	private String buttonCode;
 
-    /**
-     * 批量删除验证分组
-     */
-    public @interface batchDelete {
+	/**
+	 * 批量删除验证分组
+	 */
+	public @interface batchDelete {
 
-    }
+	}
 
-    /**
-     * 一键添加系统默认按钮
-     */
-    public @interface def {
+	/**
+	 * 一键添加系统默认按钮
+	 */
+	public @interface def {
 
-    }
+	}
 
 }

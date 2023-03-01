@@ -19,53 +19,61 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class KotlinNamedItem {
-    private final String name;
-    private final List<KotlinModifier> modifiers = new ArrayList<>();
-    private final List<String> annotations = new ArrayList<>();
 
-    protected KotlinNamedItem(AbstractBuilder<?> builder) {
-        name = builder.name;
-        modifiers.addAll(builder.modifiers);
-        annotations.addAll(builder.annotations);
-    }
+	private final String name;
 
-    public String getName() {
-        return name;
-    }
+	private final List<KotlinModifier> modifiers = new ArrayList<>();
 
-    public List<KotlinModifier> getModifiers() {
-        return modifiers;
-    }
+	private final List<String> annotations = new ArrayList<>();
 
-    public void addAnnotation(String annotation) {
-        annotations.add(annotation);
-    }
+	protected KotlinNamedItem(AbstractBuilder<?> builder) {
+		name = builder.name;
+		modifiers.addAll(builder.modifiers);
+		annotations.addAll(builder.annotations);
+	}
 
-    public List<String> getAnnotations() {
-        return annotations;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public abstract <R> R accept(KotlinNamedItemVisitor<R> visitor);
+	public List<KotlinModifier> getModifiers() {
+		return modifiers;
+	}
 
-    public abstract static class AbstractBuilder<T extends AbstractBuilder<T>> {
-        private final String name;
-        private final List<KotlinModifier> modifiers = new ArrayList<>();
-        private final List<String> annotations = new ArrayList<>();
+	public void addAnnotation(String annotation) {
+		annotations.add(annotation);
+	}
 
-        protected AbstractBuilder(String name) {
-            this.name = name;
-        }
+	public List<String> getAnnotations() {
+		return annotations;
+	}
 
-        public T withModifier(KotlinModifier modifier) {
-            modifiers.add(modifier);
-            return getThis();
-        }
+	public abstract <R> R accept(KotlinNamedItemVisitor<R> visitor);
 
-        public T withAnnotation(String annotation) {
-            annotations.add(annotation);
-            return getThis();
-        }
+	public abstract static class AbstractBuilder<T extends AbstractBuilder<T>> {
 
-        protected abstract T getThis();
-    }
+		private final String name;
+
+		private final List<KotlinModifier> modifiers = new ArrayList<>();
+
+		private final List<String> annotations = new ArrayList<>();
+
+		protected AbstractBuilder(String name) {
+			this.name = name;
+		}
+
+		public T withModifier(KotlinModifier modifier) {
+			modifiers.add(modifier);
+			return getThis();
+		}
+
+		public T withAnnotation(String annotation) {
+			annotations.add(annotation);
+			return getThis();
+		}
+
+		protected abstract T getThis();
+
+	}
+
 }

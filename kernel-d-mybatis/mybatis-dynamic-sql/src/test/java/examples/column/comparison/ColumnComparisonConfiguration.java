@@ -28,19 +28,18 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 @Configuration
 @MapperScan("examples.column.comparison")
 public class ColumnComparisonConfiguration {
-    @Bean
-    public DataSource datasource() {
-        return new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.HSQL)
-                .generateUniqueName(true)
-                .addScript("classpath:/examples/column/comparison/CreateDB.sql")
-                .build();
-    }
 
-    @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
-        SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
-        factoryBean.setDataSource(dataSource);
-        return factoryBean.getObject();
-    }
+	@Bean
+	public DataSource datasource() {
+		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).generateUniqueName(true)
+				.addScript("classpath:/examples/column/comparison/CreateDB.sql").build();
+	}
+
+	@Bean
+	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
+		factoryBean.setDataSource(dataSource);
+		return factoryBean.getObject();
+	}
+
 }

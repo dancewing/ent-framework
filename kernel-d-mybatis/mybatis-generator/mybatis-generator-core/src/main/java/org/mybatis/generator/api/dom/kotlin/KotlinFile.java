@@ -24,59 +24,66 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class KotlinFile {
-    private final String fileName;
-    private final List<String> fileCommentLines = new ArrayList<>();
-    private final Set<String> imports = new TreeSet<>();
-    private String packageDefinition;
-    private final List<KotlinNamedItem> namedItems = new ArrayList<>();
 
-    public KotlinFile(String fileName) {
-        Objects.requireNonNull(fileName);
+	private final String fileName;
 
-        if (fileName.endsWith(".kt")) { //$NON-NLS-1$
-            this.fileName = fileName;
-        } else {
-            this.fileName = fileName + ".kt"; //$NON-NLS-1$
-        }
-    }
+	private final List<String> fileCommentLines = new ArrayList<>();
 
-    public String getFileName() {
-        return fileName;
-    }
+	private final Set<String> imports = new TreeSet<>();
 
-    public List<String> getFileCommentLines() {
-        return fileCommentLines;
-    }
+	private String packageDefinition;
 
-    public void addFileCommentLine(String fileComentLine) {
-        fileCommentLines.add(fileComentLine);
-    }
+	private final List<KotlinNamedItem> namedItems = new ArrayList<>();
 
-    public Set<String> getImports() {
-        return imports;
-    }
+	public KotlinFile(String fileName) {
+		Objects.requireNonNull(fileName);
 
-    public void addImport(String i) {
-        imports.add(i);
-    }
+		if (fileName.endsWith(".kt")) { //$NON-NLS-1$
+			this.fileName = fileName;
+		}
+		else {
+			this.fileName = fileName + ".kt"; //$NON-NLS-1$
+		}
+	}
 
-    public void addImports(Collection<String> imports) {
-        this.imports.addAll(imports);
-    }
+	public String getFileName() {
+		return fileName;
+	}
 
-    public Optional<String> getPackage() {
-        return Optional.ofNullable(packageDefinition);
-    }
+	public List<String> getFileCommentLines() {
+		return fileCommentLines;
+	}
 
-    public void setPackage(String p) {
-        this.packageDefinition = p;
-    }
+	public void addFileCommentLine(String fileComentLine) {
+		fileCommentLines.add(fileComentLine);
+	}
 
-    public void addNamedItem(KotlinNamedItem namedItem) {
-        namedItems.add(namedItem);
-    }
+	public Set<String> getImports() {
+		return imports;
+	}
 
-    public List<KotlinNamedItem> getNamedItems() {
-        return namedItems;
-    }
+	public void addImport(String i) {
+		imports.add(i);
+	}
+
+	public void addImports(Collection<String> imports) {
+		this.imports.addAll(imports);
+	}
+
+	public Optional<String> getPackage() {
+		return Optional.ofNullable(packageDefinition);
+	}
+
+	public void setPackage(String p) {
+		this.packageDefinition = p;
+	}
+
+	public void addNamedItem(KotlinNamedItem namedItem) {
+		namedItems.add(namedItem);
+	}
+
+	public List<KotlinNamedItem> getNamedItems() {
+		return namedItems;
+	}
+
 }

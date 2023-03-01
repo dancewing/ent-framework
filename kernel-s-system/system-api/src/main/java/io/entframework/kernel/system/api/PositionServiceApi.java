@@ -10,11 +10,12 @@ package io.entframework.kernel.system.api;
  * @date 2021/3/24 17:20
  */
 public interface PositionServiceApi {
-    /**
-     * 查询职位总数
-     *
-     * @date 2022/2/9 9:37
-     */
-    long positionNum();
+
+	/**
+	 * 查询职位总数
+	 *
+	 * @date 2022/2/9 9:37
+	 */
+	long positionNum();
 
 }

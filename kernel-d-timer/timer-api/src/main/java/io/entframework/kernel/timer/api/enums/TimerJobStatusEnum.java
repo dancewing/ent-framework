@@ -19,28 +19,30 @@ import lombok.Getter;
 @EnumHandler
 public enum TimerJobStatusEnum implements SupperEnum<Integer> {
 
-    /**
-     * 启动状态
-     */
-    RUNNING(1, "RUNNING"),
+	/**
+	 * 启动状态
+	 */
+	RUNNING(1, "RUNNING"),
 
-    /**
-     * 停止状态
-     */
-    STOP(2, "STOP");
+	/**
+	 * 停止状态
+	 */
+	STOP(2, "STOP");
 
-    @JsonValue
-    @EnumValue
-    private final Integer value;
-    private final String label;
+	@JsonValue
+	@EnumValue
+	private final Integer value;
 
-    TimerJobStatusEnum(Integer value, String label) {
-        this.value = value;
-        this.label = label;
-    }
+	private final String label;
 
-    @JsonCreator
-    public static TimerJobStatusEnum valueToEnum(Integer value) {
-        return SupperEnum.fromValue(TimerJobStatusEnum.class, value);
-    }
+	TimerJobStatusEnum(Integer value, String label) {
+		this.value = value;
+		this.label = label;
+	}
+
+	@JsonCreator
+	public static TimerJobStatusEnum valueToEnum(Integer value) {
+		return SupperEnum.fromValue(TimerJobStatusEnum.class, value);
+	}
+
 }

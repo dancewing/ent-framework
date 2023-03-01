@@ -30,92 +30,83 @@ import org.mybatis.dynamic.sql.AbstractListValueCondition;
 import org.mybatis.dynamic.sql.Callback;
 
 public class IsIn<T> extends AbstractListValueCondition<T> {
-    private static final IsIn<?> EMPTY = new IsIn<>(Collections.emptyList());
 
-    public static <T> IsIn<T> empty() {
-        @SuppressWarnings("unchecked")
-        IsIn<T> t = (IsIn<T>) EMPTY;
-        return t;
-    }
+	private static final IsIn<?> EMPTY = new IsIn<>(Collections.emptyList());
 
-    /**
-     * Build an empty condition.
-     *
-     * @return a new empty condition
-     *
-     * @deprecated in favor of the statement configuration functions
-     */
-    @Deprecated
-    private <S> IsIn<S> emptyWithCallBack() {
-        return new IsIn<>(Collections.emptyList(), emptyCallback);
-    }
+	public static <T> IsIn<T> empty() {
+		@SuppressWarnings("unchecked")
+		IsIn<T> t = (IsIn<T>) EMPTY;
+		return t;
+	}
 
-    protected IsIn(Collection<T> values) {
-        super(values);
-    }
+	/**
+	 * Build an empty condition.
+	 * @return a new empty condition
+	 * @deprecated in favor of the statement configuration functions
+	 */
+	@Deprecated
+	private <S> IsIn<S> emptyWithCallBack() {
+		return new IsIn<>(Collections.emptyList(), emptyCallback);
+	}
 
-    /**
-     * Build a new condition with a callback.
-     *
-     * @param values
-     *            values
-     * @param emptyCallback
-     *            empty callback
-     *
-     * @deprecated in favor of the statement configuration functions
-     */
-    @Deprecated
-    protected IsIn(Collection<T> values, Callback emptyCallback) {
-        super(values, emptyCallback);
-    }
+	protected IsIn(Collection<T> values) {
+		super(values);
+	}
 
-    @Override
-    public String renderCondition(String columnName, Stream<String> placeholders) {
-        return spaceAfter(columnName)
-                + placeholders.collect(Collectors.joining(",", "in (", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    }
+	/**
+	 * Build a new condition with a callback.
+	 * @param values values
+	 * @param emptyCallback empty callback
+	 * @deprecated in favor of the statement configuration functions
+	 */
+	@Deprecated
+	protected IsIn(Collection<T> values, Callback emptyCallback) {
+		super(values, emptyCallback);
+	}
 
-    /**
-     * Build a new condition with a callback.
-     *
-     * @param callback
-     *            a callback function - typically throws an exception to block the statement from executing
-     *
-     * @return this condition
-     *
-     * @deprecated in favor of the statement configuration functions
-     */
-    @Deprecated
-    @Override
-    public IsIn<T> withListEmptyCallback(Callback callback) {
-        return new IsIn<>(values, callback);
-    }
+	@Override
+	public String renderCondition(String columnName, Stream<String> placeholders) {
+		return spaceAfter(columnName) + placeholders.collect(Collectors.joining(",", "in (", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 
-    @Override
-    public IsIn<T> filter(Predicate<? super T> predicate) {
-        return filterSupport(predicate, IsIn::new, this, this::emptyWithCallBack);
-    }
+	/**
+	 * Build a new condition with a callback.
+	 * @param callback a callback function - typically throws an exception to block the
+	 * statement from executing
+	 * @return this condition
+	 * @deprecated in favor of the statement configuration functions
+	 */
+	@Deprecated
+	@Override
+	public IsIn<T> withListEmptyCallback(Callback callback) {
+		return new IsIn<>(values, callback);
+	}
 
-    /**
-     * If renderable, apply the mapping to each value in the list return a new condition with the mapped values.
-     *     Else return a condition that will not render (this).
-     *
-     * @param mapper a mapping function to apply to the values, if renderable
-     * @param <R> type of the new condition
-     * @return a new condition with mapped values if renderable, otherwise a condition
-     *     that will not render.
-     */
-    public <R> IsIn<R> map(Function<? super T, ? extends R> mapper) {
-        BiFunction<Collection<R>, Callback, IsIn<R>> constructor = IsIn::new;
-        return mapSupport(mapper, constructor, this::emptyWithCallBack);
-    }
+	@Override
+	public IsIn<T> filter(Predicate<? super T> predicate) {
+		return filterSupport(predicate, IsIn::new, this, this::emptyWithCallBack);
+	}
 
-    @SafeVarargs
-    public static <T> IsIn<T> of(T... values) {
-        return of(Arrays.asList(values));
-    }
+	/**
+	 * If renderable, apply the mapping to each value in the list return a new condition
+	 * with the mapped values. Else return a condition that will not render (this).
+	 * @param mapper a mapping function to apply to the values, if renderable
+	 * @param <R> type of the new condition
+	 * @return a new condition with mapped values if renderable, otherwise a condition
+	 * that will not render.
+	 */
+	public <R> IsIn<R> map(Function<? super T, ? extends R> mapper) {
+		BiFunction<Collection<R>, Callback, IsIn<R>> constructor = IsIn::new;
+		return mapSupport(mapper, constructor, this::emptyWithCallBack);
+	}
 
-    public static <T> IsIn<T> of(Collection<T> values) {
-        return new IsIn<>(values);
-    }
+	@SafeVarargs
+	public static <T> IsIn<T> of(T... values) {
+		return of(Arrays.asList(values));
+	}
+
+	public static <T> IsIn<T> of(Collection<T> values) {
+		return new IsIn<>(values);
+	}
+
 }

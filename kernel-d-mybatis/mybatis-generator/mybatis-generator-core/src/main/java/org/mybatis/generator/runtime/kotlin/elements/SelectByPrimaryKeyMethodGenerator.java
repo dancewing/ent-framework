@@ -20,62 +20,68 @@ import org.mybatis.generator.api.dom.kotlin.KotlinFunction;
 import org.mybatis.generator.runtime.dynamic.sql.elements.Utils;
 
 public class SelectByPrimaryKeyMethodGenerator extends AbstractKotlinFunctionGenerator {
-    private final String mapperName;
-    private final KotlinFragmentGenerator fragmentGenerator;
 
-    private SelectByPrimaryKeyMethodGenerator(Builder builder) {
-        super(builder);
-        mapperName = builder.mapperName;
-        fragmentGenerator = builder.fragmentGenerator;
-    }
+	private final String mapperName;
 
-    @Override
-    public KotlinFunctionAndImports generateMethodAndImports() {
-        if (!Utils.generateSelectByPrimaryKey(introspectedTable)) {
-            return null;
-        }
+	private final KotlinFragmentGenerator fragmentGenerator;
 
-        KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports.withFunction(
-                KotlinFunction.newOneLineFunction(mapperName + ".selectByPrimaryKey") //$NON-NLS-1$
-                .withCodeLine("selectOne {") //$NON-NLS-1$
-                .build())
-                .build();
+	private SelectByPrimaryKeyMethodGenerator(Builder builder) {
+		super(builder);
+		mapperName = builder.mapperName;
+		fragmentGenerator = builder.fragmentGenerator;
+	}
 
-        addFunctionComment(functionAndImports);
+	@Override
+	public KotlinFunctionAndImports generateMethodAndImports() {
+		if (!Utils.generateSelectByPrimaryKey(introspectedTable)) {
+			return null;
+		}
 
-        KotlinFunctionParts functionParts = fragmentGenerator.getPrimaryKeyWhereClauseAndParameters();
-        acceptParts(functionAndImports, functionParts);
+		KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports
+				.withFunction(KotlinFunction.newOneLineFunction(mapperName + ".selectByPrimaryKey") //$NON-NLS-1$
+						.withCodeLine("selectOne {") //$NON-NLS-1$
+						.build())
+				.build();
 
-        return functionAndImports;
-    }
+		addFunctionComment(functionAndImports);
 
-    @Override
-    public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
-        return context.getPlugins().clientSelectByPrimaryKeyMethodGenerated(kotlinFunction, kotlinFile,
-                introspectedTable);
-    }
+		KotlinFunctionParts functionParts = fragmentGenerator.getPrimaryKeyWhereClauseAndParameters();
+		acceptParts(functionAndImports, functionParts);
 
-    public static class Builder extends BaseBuilder<Builder> {
-        private String mapperName;
-        private KotlinFragmentGenerator fragmentGenerator;
+		return functionAndImports;
+	}
 
-        public Builder withMapperName(String mapperName) {
-            this.mapperName = mapperName;
-            return this;
-        }
+	@Override
+	public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
+		return context.getPlugins().clientSelectByPrimaryKeyMethodGenerated(kotlinFunction, kotlinFile,
+				introspectedTable);
+	}
 
-        public Builder withFragmentGenerator(KotlinFragmentGenerator fragmentGenerator) {
-            this.fragmentGenerator = fragmentGenerator;
-            return this;
-        }
+	public static class Builder extends BaseBuilder<Builder> {
 
-        @Override
-        public Builder getThis() {
-            return this;
-        }
+		private String mapperName;
 
-        public SelectByPrimaryKeyMethodGenerator build() {
-            return new SelectByPrimaryKeyMethodGenerator(this);
-        }
-    }
+		private KotlinFragmentGenerator fragmentGenerator;
+
+		public Builder withMapperName(String mapperName) {
+			this.mapperName = mapperName;
+			return this;
+		}
+
+		public Builder withFragmentGenerator(KotlinFragmentGenerator fragmentGenerator) {
+			this.fragmentGenerator = fragmentGenerator;
+			return this;
+		}
+
+		@Override
+		public Builder getThis() {
+			return this;
+		}
+
+		public SelectByPrimaryKeyMethodGenerator build() {
+			return new SelectByPrimaryKeyMethodGenerator(this);
+		}
+
+	}
+
 }

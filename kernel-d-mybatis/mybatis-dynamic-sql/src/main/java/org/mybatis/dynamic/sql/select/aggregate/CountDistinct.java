@@ -22,28 +22,29 @@ import org.mybatis.dynamic.sql.render.TableAliasCalculator;
 
 public class CountDistinct extends AbstractCount {
 
-    private final BasicColumn column;
+	private final BasicColumn column;
 
-    private CountDistinct(BasicColumn column) {
-        this.column = Objects.requireNonNull(column);
-    }
+	private CountDistinct(BasicColumn column) {
+		this.column = Objects.requireNonNull(column);
+	}
 
-    private CountDistinct(BasicColumn column, String alias) {
-        super(alias);
-        this.column = Objects.requireNonNull(column);
-    }
+	private CountDistinct(BasicColumn column, String alias) {
+		super(alias);
+		this.column = Objects.requireNonNull(column);
+	}
 
-    @Override
-    public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
-        return "count(distinct " + column.renderWithTableAlias(tableAliasCalculator) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-    }
+	@Override
+	public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
+		return "count(distinct " + column.renderWithTableAlias(tableAliasCalculator) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-    @Override
-    public CountDistinct as(String alias) {
-        return new CountDistinct(column, alias);
-    }
+	@Override
+	public CountDistinct as(String alias) {
+		return new CountDistinct(column, alias);
+	}
 
-    public static CountDistinct of(BasicColumn column) {
-        return new CountDistinct(column);
-    }
+	public static CountDistinct of(BasicColumn column) {
+		return new CountDistinct(column);
+	}
+
 }

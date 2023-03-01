@@ -26,96 +26,97 @@ import org.mybatis.generator.config.GeneratedKey;
 
 public class BasicMultipleInsertMethodGenerator extends AbstractMethodGenerator {
 
-    private final FullyQualifiedJavaType recordType;
+	private final FullyQualifiedJavaType recordType;
 
-    private BasicMultipleInsertMethodGenerator(Builder builder) {
-        super(builder);
-        recordType = builder.recordType;
-    }
+	private BasicMultipleInsertMethodGenerator(Builder builder) {
+		super(builder);
+		recordType = builder.recordType;
+	}
 
-    @Override
-    public MethodAndImports generateMethodAndImports() {
-        if (!Utils.generateMultipleRowInsert(introspectedTable)) {
-            return null;
-        }
+	@Override
+	public MethodAndImports generateMethodAndImports() {
+		if (!Utils.generateMultipleRowInsert(introspectedTable)) {
+			return null;
+		}
 
-        return introspectedTable.getGeneratedKey().map(this::generateMethodWithGeneratedKeys).orElse(null);
-    }
+		return introspectedTable.getGeneratedKey().map(this::generateMethodWithGeneratedKeys).orElse(null);
+	}
 
-    private MethodAndImports generateMethodWithGeneratedKeys(GeneratedKey gk) {
-        Set<FullyQualifiedJavaType> imports = new HashSet<>();
+	private MethodAndImports generateMethodWithGeneratedKeys(GeneratedKey gk) {
+		Set<FullyQualifiedJavaType> imports = new HashSet<>();
 
-        imports.add(new FullyQualifiedJavaType("org.mybatis.dynamic.sql.util.SqlProviderAdapter")); //$NON-NLS-1$)
-        imports.add(new FullyQualifiedJavaType("org.apache.ibatis.annotations.InsertProvider")); //$NON-NLS-1$
-        imports.add(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Param")); //$NON-NLS-1$
+		imports.add(new FullyQualifiedJavaType("org.mybatis.dynamic.sql.util.SqlProviderAdapter")); //$NON-NLS-1$ )
+		imports.add(new FullyQualifiedJavaType("org.apache.ibatis.annotations.InsertProvider")); //$NON-NLS-1$
+		imports.add(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Param")); //$NON-NLS-1$
 
-        Parameter parm1 = new Parameter(FullyQualifiedJavaType.getStringInstance(), "insertStatement"); //$NON-NLS-1$
-        parm1.addAnnotation("@Param(\"insertStatement\")"); //$NON-NLS-1$
+		Parameter parm1 = new Parameter(FullyQualifiedJavaType.getStringInstance(), "insertStatement"); //$NON-NLS-1$
+		parm1.addAnnotation("@Param(\"insertStatement\")"); //$NON-NLS-1$
 
-        FullyQualifiedJavaType recordListType = FullyQualifiedJavaType.getNewListInstance();
-        recordListType.addTypeArgument(recordType);
-        imports.add(recordListType);
+		FullyQualifiedJavaType recordListType = FullyQualifiedJavaType.getNewListInstance();
+		recordListType.addTypeArgument(recordType);
+		imports.add(recordListType);
 
-        Parameter parm2 = new Parameter(recordListType, "records"); //$NON-NLS-1$
-        parm2.addAnnotation("@Param(\"records\")"); //$NON-NLS-1$
+		Parameter parm2 = new Parameter(recordListType, "records"); //$NON-NLS-1$
+		parm2.addAnnotation("@Param(\"records\")"); //$NON-NLS-1$
 
-        Method method = new Method("insertMultiple"); //$NON-NLS-1$
-        method.setAbstract(true);
-        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        method.addParameter(parm1);
-        method.addParameter(parm2);
-        context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
-        method.addAnnotation("@InsertProvider(type=SqlProviderAdapter.class, " //$NON-NLS-1$
-                + "method=\"insertMultipleWithGeneratedKeys\")"); //$NON-NLS-1$
+		Method method = new Method("insertMultiple"); //$NON-NLS-1$
+		method.setAbstract(true);
+		method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+		method.addParameter(parm1);
+		method.addParameter(parm2);
+		context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
+		method.addAnnotation("@InsertProvider(type=SqlProviderAdapter.class, " //$NON-NLS-1$
+				+ "method=\"insertMultipleWithGeneratedKeys\")"); //$NON-NLS-1$
 
-        MethodAndImports.Builder builder = MethodAndImports.withMethod(method)
-                .withImports(imports);
+		MethodAndImports.Builder builder = MethodAndImports.withMethod(method).withImports(imports);
 
-        MethodParts methodParts = getGeneratedKeyAnnotation(gk);
-        acceptParts(builder, method, methodParts);
+		MethodParts methodParts = getGeneratedKeyAnnotation(gk);
+		acceptParts(builder, method, methodParts);
 
-        return builder.build();
-    }
+		return builder.build();
+	}
 
-    private MethodParts getGeneratedKeyAnnotation(GeneratedKey gk) {
-        MethodParts.Builder builder = new MethodParts.Builder();
+	private MethodParts getGeneratedKeyAnnotation(GeneratedKey gk) {
+		MethodParts.Builder builder = new MethodParts.Builder();
 
-        StringBuilder sb = new StringBuilder();
-        introspectedTable.getColumn(gk.getColumn()).ifPresent(introspectedColumn -> {
-            if (gk.isJdbcStandard()) {
-                // only jdbc standard keys are supported for multiple insert
-                builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Options")); //$NON-NLS-1$
-                sb.append("@Options(useGeneratedKeys=true,keyProperty=\"records."); //$NON-NLS-1$
-                sb.append(introspectedColumn.getJavaProperty());
-                sb.append("\")"); //$NON-NLS-1$
-                builder.withAnnotation(sb.toString());
-            }
-        });
+		StringBuilder sb = new StringBuilder();
+		introspectedTable.getColumn(gk.getColumn()).ifPresent(introspectedColumn -> {
+			if (gk.isJdbcStandard()) {
+				// only jdbc standard keys are supported for multiple insert
+				builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Options")); //$NON-NLS-1$
+				sb.append("@Options(useGeneratedKeys=true,keyProperty=\"records."); //$NON-NLS-1$
+				sb.append(introspectedColumn.getJavaProperty());
+				sb.append("\")"); //$NON-NLS-1$
+				builder.withAnnotation(sb.toString());
+			}
+		});
 
-        return builder.build();
-    }
+		return builder.build();
+	}
 
-    @Override
-    public boolean callPlugins(Method method, Interface interfaze) {
-        return context.getPlugins().clientBasicInsertMultipleMethodGenerated(method, interfaze, introspectedTable);
-    }
+	@Override
+	public boolean callPlugins(Method method, Interface interfaze) {
+		return context.getPlugins().clientBasicInsertMultipleMethodGenerated(method, interfaze, introspectedTable);
+	}
 
-    public static class Builder extends BaseBuilder<Builder> {
+	public static class Builder extends BaseBuilder<Builder> {
 
-        private FullyQualifiedJavaType recordType;
+		private FullyQualifiedJavaType recordType;
 
-        public Builder withRecordType(FullyQualifiedJavaType recordType) {
-            this.recordType = recordType;
-            return this;
-        }
+		public Builder withRecordType(FullyQualifiedJavaType recordType) {
+			this.recordType = recordType;
+			return this;
+		}
 
-        @Override
-        public Builder getThis() {
-            return this;
-        }
+		@Override
+		public Builder getThis() {
+			return this;
+		}
 
-        public BasicMultipleInsertMethodGenerator build() {
-            return new BasicMultipleInsertMethodGenerator(this);
-        }
-    }
+		public BasicMultipleInsertMethodGenerator build() {
+			return new BasicMultipleInsertMethodGenerator(this);
+		}
+
+	}
+
 }

@@ -23,63 +23,67 @@ import org.mybatis.generator.runtime.dynamic.sql.elements.Utils;
 
 public class DeleteByPrimaryKeyMethodGenerator extends AbstractKotlinFunctionGenerator {
 
-    private final KotlinFragmentGenerator fragmentGenerator;
-    private final String mapperName;
+	private final KotlinFragmentGenerator fragmentGenerator;
 
-    private DeleteByPrimaryKeyMethodGenerator(Builder builder) {
-        super(builder);
-        fragmentGenerator = builder.fragmentGenerator;
-        mapperName = Objects.requireNonNull(builder.mapperName);
-    }
+	private final String mapperName;
 
-    @Override
-    public KotlinFunctionAndImports generateMethodAndImports() {
-        if (!Utils.generateDeleteByPrimaryKey(introspectedTable)) {
-            return null;
-        }
+	private DeleteByPrimaryKeyMethodGenerator(Builder builder) {
+		super(builder);
+		fragmentGenerator = builder.fragmentGenerator;
+		mapperName = Objects.requireNonNull(builder.mapperName);
+	}
 
-        KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports.withFunction(
-                KotlinFunction.newOneLineFunction(mapperName + ".deleteByPrimaryKey") //$NON-NLS-1$
-                .withCodeLine("delete {") //$NON-NLS-1$
-                .build())
-                .build();
+	@Override
+	public KotlinFunctionAndImports generateMethodAndImports() {
+		if (!Utils.generateDeleteByPrimaryKey(introspectedTable)) {
+			return null;
+		}
 
-        addFunctionComment(functionAndImports);
+		KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports
+				.withFunction(KotlinFunction.newOneLineFunction(mapperName + ".deleteByPrimaryKey") //$NON-NLS-1$
+						.withCodeLine("delete {") //$NON-NLS-1$
+						.build())
+				.build();
 
-        KotlinFunctionParts functionParts = fragmentGenerator.getPrimaryKeyWhereClauseAndParameters();
-        acceptParts(functionAndImports, functionParts);
+		addFunctionComment(functionAndImports);
 
-        return functionAndImports;
-    }
+		KotlinFunctionParts functionParts = fragmentGenerator.getPrimaryKeyWhereClauseAndParameters();
+		acceptParts(functionAndImports, functionParts);
 
-    @Override
-    public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
-        return context.getPlugins().clientDeleteByPrimaryKeyMethodGenerated(kotlinFunction, kotlinFile,
-                introspectedTable);
-    }
+		return functionAndImports;
+	}
 
-    public static class Builder extends BaseBuilder<Builder> {
+	@Override
+	public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
+		return context.getPlugins().clientDeleteByPrimaryKeyMethodGenerated(kotlinFunction, kotlinFile,
+				introspectedTable);
+	}
 
-        private KotlinFragmentGenerator fragmentGenerator;
-        private String mapperName;
+	public static class Builder extends BaseBuilder<Builder> {
 
-        public Builder withFragmentGenerator(KotlinFragmentGenerator fragmentGenerator) {
-            this.fragmentGenerator = fragmentGenerator;
-            return this;
-        }
+		private KotlinFragmentGenerator fragmentGenerator;
 
-        public Builder withMapperName(String mapperName) {
-            this.mapperName = mapperName;
-            return this;
-        }
+		private String mapperName;
 
-        @Override
-        public Builder getThis() {
-            return this;
-        }
+		public Builder withFragmentGenerator(KotlinFragmentGenerator fragmentGenerator) {
+			this.fragmentGenerator = fragmentGenerator;
+			return this;
+		}
 
-        public DeleteByPrimaryKeyMethodGenerator build() {
-            return new DeleteByPrimaryKeyMethodGenerator(this);
-        }
-    }
+		public Builder withMapperName(String mapperName) {
+			this.mapperName = mapperName;
+			return this;
+		}
+
+		@Override
+		public Builder getThis() {
+			return this;
+		}
+
+		public DeleteByPrimaryKeyMethodGenerator build() {
+			return new DeleteByPrimaryKeyMethodGenerator(this);
+		}
+
+	}
+
 }

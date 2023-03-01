@@ -28,37 +28,39 @@ import java.util.List;
 @Slf4j
 public class TaskRunListener extends ApplicationReadyListener implements Ordered {
 
-    @Override
-    public void eventCallback(ApplicationReadyEvent event) {
+	@Override
+	public void eventCallback(ApplicationReadyEvent event) {
 
-        SysTimersService sysTimersService = SpringUtil.getBean(SysTimersService.class);
-        TimerExeService timerExeService = SpringUtil.getBean(TimerExeService.class);
+		SysTimersService sysTimersService = SpringUtil.getBean(SysTimersService.class);
+		TimerExeService timerExeService = SpringUtil.getBean(TimerExeService.class);
 
-        log.info("开启任务调度");
-        // 开启任务调度
-        timerExeService.start();
+		log.info("开启任务调度");
+		// 开启任务调度
+		timerExeService.start();
 
-        // 获取数据库所有开启状态的任务
-        SysTimersRequest sysTimersRequest = new SysTimersRequest();
-        sysTimersRequest.setDelFlag(YesOrNotEnum.N);
-        sysTimersRequest.setJobStatus(TimerJobStatusEnum.RUNNING);
-        List<SysTimersResponse> list = sysTimersService.findList(sysTimersRequest);
+		// 获取数据库所有开启状态的任务
+		SysTimersRequest sysTimersRequest = new SysTimersRequest();
+		sysTimersRequest.setDelFlag(YesOrNotEnum.N);
+		sysTimersRequest.setJobStatus(TimerJobStatusEnum.RUNNING);
+		List<SysTimersResponse> list = sysTimersService.findList(sysTimersRequest);
 
-        // 添加定时任务到调度器
-        for (SysTimersResponse sysTimers : list) {
-            try {
-                timerExeService.startTimer(String.valueOf(sysTimers.getTimerId()), sysTimers.getCron(), sysTimers.getActionClass(), sysTimers.getParams());
-            } catch (Exception exception) {
-                // 遇到错误直接略过这个定时器（可能多个项目公用库）
-                log.error("定时器初始化遇到错误，略过该定时器！", exception);
-            }
-        }
+		// 添加定时任务到调度器
+		for (SysTimersResponse sysTimers : list) {
+			try {
+				timerExeService.startTimer(String.valueOf(sysTimers.getTimerId()), sysTimers.getCron(),
+						sysTimers.getActionClass(), sysTimers.getParams());
+			}
+			catch (Exception exception) {
+				// 遇到错误直接略过这个定时器（可能多个项目公用库）
+				log.error("定时器初始化遇到错误，略过该定时器！", exception);
+			}
+		}
 
-    }
+	}
 
-    @Override
-    public int getOrder() {
-        return LOWEST_PRECEDENCE - 300;
-    }
+	@Override
+	public int getOrder() {
+		return LOWEST_PRECEDENCE - 300;
+	}
 
 }

@@ -16,65 +16,66 @@ import java.util.List;
 
 public class GeneratedPlainFile extends GeneratedFile {
 
-    private final String fileName;
+	private final String fileName;
 
-    private final String targetPackage;
+	private final String targetPackage;
 
-    private List<String> bodyLine = new ArrayList<>();
+	private List<String> bodyLine = new ArrayList<>();
 
-    private boolean isMergeable;
+	private boolean isMergeable;
 
-    private WriteMode writeMode;
+	private WriteMode writeMode;
 
-    public GeneratedPlainFile(String targetProject, String fileName, String targetPackage) {
-        super(targetProject);
-        this.fileName = fileName;
-        this.targetPackage = targetPackage;
-    }
+	public GeneratedPlainFile(String targetProject, String fileName, String targetPackage) {
+		super(targetProject);
+		this.fileName = fileName;
+		this.targetPackage = targetPackage;
+	}
 
-    public void addBodyLine(String line) {
-        this.bodyLine.add(line);
-    }
+	public void addBodyLine(String line) {
+		this.bodyLine.add(line);
+	}
 
-    @Override
-    public String getFormattedContent() {
-        return StringUtils.join(bodyLine, "\n");
-    }
+	@Override
+	public String getFormattedContent() {
+		return StringUtils.join(bodyLine, "\n");
+	}
 
-    @Override
-    public String getFileName() {
-        return this.fileName;
-    }
+	@Override
+	public String getFileName() {
+		return this.fileName;
+	}
 
-    @Override
-    public String getTargetPackage() {
-        return this.targetPackage;
-    }
+	@Override
+	public String getTargetPackage() {
+		return this.targetPackage;
+	}
 
-    @Override
-    public boolean isMergeable() {
-        return this.isMergeable;
-    }
+	@Override
+	public boolean isMergeable() {
+		return this.isMergeable;
+	}
 
-    @Override
-    public String getFileEncoding() {
-        return "UTF-8";
-    }
+	@Override
+	public String getFileEncoding() {
+		return "UTF-8";
+	}
 
-    @Override
-    public WriteMode getWriteMode() {
-        return this.writeMode;
-    }
+	@Override
+	public WriteMode getWriteMode() {
+		return this.writeMode;
+	}
 
-    public void setMergeable(boolean mergeable) {
-        isMergeable = mergeable;
-    }
+	public void setMergeable(boolean mergeable) {
+		isMergeable = mergeable;
+	}
 
-    public void setWriteMode(WriteMode writeMode) {
-        this.writeMode = writeMode;
-    }
+	public void setWriteMode(WriteMode writeMode) {
+		this.writeMode = writeMode;
+	}
 
-    public List<String> getBodyLine() {
-        return bodyLine;
-    }
+	public List<String> getBodyLine() {
+		return bodyLine;
+	}
+
 }

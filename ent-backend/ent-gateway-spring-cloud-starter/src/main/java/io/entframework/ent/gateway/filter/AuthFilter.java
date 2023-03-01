@@ -30,12 +30,15 @@ import java.util.Set;
 
 /**
  * 鉴权认证
+ *
  * @author jeff_qian
  */
 @Slf4j
 public class AuthFilter implements GlobalFilter, Ordered {
+
 	@Resource
 	private AuthProperties authProperties;
+
 	@Resource
 	private SessionManagerApi sessionManagerApi;
 
@@ -61,7 +64,8 @@ public class AuthFilter implements GlobalFilter, Ordered {
 		if (CharSequenceUtil.isNotBlank(token)) {
 			try {
 				sessionManagerApi.validateToken(token);
-			} catch (AuthException authException) {
+			}
+			catch (AuthException authException) {
 				if (AuthExceptionEnum.AUTH_EXPIRED_ERROR.getErrorCode().equals(authException.getErrorCode())) {
 					sessionManagerApi.destroySessionCookie();
 					throw authException;
@@ -85,8 +89,9 @@ public class AuthFilter implements GlobalFilter, Ordered {
 				sessionManagerApi.checkAuth(token, path);
 			}
 
-			//如果需要检查权限
-			if (resourceDefinition.getRequiredPermissionFlag() != null && resourceDefinition.getRequiredPermissionFlag()) {
+			// 如果需要检查权限
+			if (resourceDefinition.getRequiredPermissionFlag() != null
+					&& resourceDefinition.getRequiredPermissionFlag()) {
 				// 1. 校验token是否传参
 				if (CharSequenceUtil.isEmpty(token)) {
 					throw new AuthException(AuthExceptionEnum.TOKEN_GET_ERROR);
@@ -102,21 +107,26 @@ public class AuthFilter implements GlobalFilter, Ordered {
 				Set<String> resourceUrls = session.getResourceUrls();
 				if (resourceUrls == null || resourceUrls.isEmpty()) {
 					throw new AuthException(AuthExceptionEnum.PERMISSION_RES_VALIDATE_ERROR);
-				} else {
+				}
+				else {
 					if (!resourceUrls.contains(path)) {
 						throw new AuthException(AuthExceptionEnum.PERMISSION_RES_VALIDATE_ERROR);
 					}
 				}
 			}
-		} else {
+		}
+		else {
 			throw new AuthException(AuthExceptionEnum.RESOURCE_DEFINITION_ERROR);
 		}
 		return chain.filter(exchange);
 	}
 
 	private boolean isSkip(String path) {
-		return AuthProvider.getDefaultSkipUrl().stream().map(url -> url.replace(AuthProvider.TARGET, AuthProvider.REPLACEMENT)).anyMatch(path::startsWith)
-			|| authProperties.getSkipUrl().stream().map(url -> url.replace(AuthProvider.TARGET, AuthProvider.REPLACEMENT)).anyMatch(path::startsWith);
+		return AuthProvider.getDefaultSkipUrl().stream()
+				.map(url -> url.replace(AuthProvider.TARGET, AuthProvider.REPLACEMENT)).anyMatch(path::startsWith)
+				|| authProperties.getSkipUrl().stream()
+						.map(url -> url.replace(AuthProvider.TARGET, AuthProvider.REPLACEMENT))
+						.anyMatch(path::startsWith);
 	}
 
 	@Override

@@ -7,15 +7,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class AutoIncrementDaoTest extends JUnitDaoWithFraud {
-    @Test
-    void testInsert() {
 
-        AutoIncrement autoIncrement = new AutoIncrement();
-        autoIncrement.setUsername("test");
-        generalRepository.insert(autoIncrement);
-        assertAll(
-                () -> assertThat(autoIncrement.getId()).isNotNull(),
-                () -> assertThat(autoIncrement.getId()).isPositive()
-        );
-    }
+	@Test
+	void testInsert() {
+
+		AutoIncrement autoIncrement = new AutoIncrement();
+		autoIncrement.setUsername("test");
+		generalRepository.insert(autoIncrement);
+		assertAll(() -> assertThat(autoIncrement.getId()).isNotNull(),
+				() -> assertThat(autoIncrement.getId()).isPositive());
+	}
+
 }

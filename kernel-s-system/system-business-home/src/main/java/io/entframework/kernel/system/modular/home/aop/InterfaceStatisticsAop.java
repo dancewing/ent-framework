@@ -70,7 +70,8 @@ public class InterfaceStatisticsAop implements Ordered {
 		// 执行统计业务，只统计指定的几个接口
 		try {
 			saveRequestCount();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			// 统计业务出现异常打印日志
 			log.error("接口统计出现异常！", e);
 		}
@@ -107,7 +108,8 @@ public class InterfaceStatisticsAop implements Ordered {
 		Map<Long, Integer> userStatList = null;
 		if (!requestCountCacheApi.contains(String.valueOf(userId))) {
 			userStatList = new HashMap<>();
-		} else {
+		}
+		else {
 			userStatList = requestCountCacheApi.get(String.valueOf(userId));
 		}
 
@@ -116,7 +118,8 @@ public class InterfaceStatisticsAop implements Ordered {
 		if (urlCount != null) {
 			int newUrlCount = urlCount + 1;
 			userStatList.put(statUrlId, newUrlCount);
-		} else {
+		}
+		else {
 			// 没有缓存就从库里查询这个用户的访问记录
 			Integer userUrlCount = sysStatisticsCountService.getUserUrlCount(userId, statUrlId);
 			userStatList.put(statUrlId, userUrlCount);

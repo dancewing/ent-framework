@@ -28,53 +28,53 @@ import java.util.List;
 @Slf4j
 public class DbLogManagerServiceImpl implements LogManagerApi {
 
-    @Resource
-    private SysLogService sysLogService;
+	@Resource
+	private SysLogService sysLogService;
 
-    @Override
-    public List<LogRecordDTO> findList(SysLogRequest sysLogRequest) {
-        List<SysLogResponse> sysLogList = this.sysLogService.findList(sysLogRequest);
-        List<LogRecordDTO> logRecordDTOList = CollUtil.newArrayList();
-        BeanUtil.copyProperties(sysLogList, logRecordDTOList);
-        return logRecordDTOList;
-    }
+	@Override
+	public List<LogRecordDTO> findList(SysLogRequest sysLogRequest) {
+		List<SysLogResponse> sysLogList = this.sysLogService.findList(sysLogRequest);
+		List<LogRecordDTO> logRecordDTOList = CollUtil.newArrayList();
+		BeanUtil.copyProperties(sysLogList, logRecordDTOList);
+		return logRecordDTOList;
+	}
 
-    @Override
-    public PageResult<LogRecordDTO> findPage(SysLogRequest sysLogRequest) {
-        PageResult<SysLogResponse> sysLogPageResult = this.sysLogService.findPage(sysLogRequest);
+	@Override
+	public PageResult<LogRecordDTO> findPage(SysLogRequest sysLogRequest) {
+		PageResult<SysLogResponse> sysLogPageResult = this.sysLogService.findPage(sysLogRequest);
 
-        // 分页类型转换
-        PageResult<LogRecordDTO> logRecordDTOPageResult = new PageResult<>();
-        BeanUtil.copyProperties(sysLogPageResult, logRecordDTOPageResult);
+		// 分页类型转换
+		PageResult<LogRecordDTO> logRecordDTOPageResult = new PageResult<>();
+		BeanUtil.copyProperties(sysLogPageResult, logRecordDTOPageResult);
 
-        // 转化数组
-        List<SysLogResponse> rows = sysLogPageResult.getItems();
-        ArrayList<LogRecordDTO> newRows = new ArrayList<>();
-        for (SysLogResponse row : rows) {
-            LogRecordDTO logRecordDTO = new LogRecordDTO();
-            BeanUtil.copyProperties(row, logRecordDTO);
+		// 转化数组
+		List<SysLogResponse> rows = sysLogPageResult.getItems();
+		ArrayList<LogRecordDTO> newRows = new ArrayList<>();
+		for (SysLogResponse row : rows) {
+			LogRecordDTO logRecordDTO = new LogRecordDTO();
+			BeanUtil.copyProperties(row, logRecordDTO);
 
-            // 设置请求和响应为空，减少带宽开销
-            logRecordDTO.setRequestResult(null);
-            logRecordDTO.setRequestResult(null);
-            newRows.add(logRecordDTO);
-        }
-        logRecordDTOPageResult.setItems(newRows);
+			// 设置请求和响应为空，减少带宽开销
+			logRecordDTO.setRequestResult(null);
+			logRecordDTO.setRequestResult(null);
+			newRows.add(logRecordDTO);
+		}
+		logRecordDTOPageResult.setItems(newRows);
 
-        return logRecordDTOPageResult;
-    }
+		return logRecordDTOPageResult;
+	}
 
-    @Override
-    public void del(SysLogRequest sysLogRequest) {
-        this.sysLogService.del(sysLogRequest);
-    }
+	@Override
+	public void del(SysLogRequest sysLogRequest) {
+		this.sysLogService.del(sysLogRequest);
+	}
 
-    @Override
-    public LogRecordDTO detail(SysLogRequest sysLogRequest) {
-        SysLogResponse detail = this.sysLogService.detail(sysLogRequest);
-        LogRecordDTO logRecordDTO = new LogRecordDTO();
-        BeanUtil.copyProperties(detail, logRecordDTO);
-        return logRecordDTO;
-    }
+	@Override
+	public LogRecordDTO detail(SysLogRequest sysLogRequest) {
+		SysLogResponse detail = this.sysLogService.detail(sysLogRequest);
+		LogRecordDTO logRecordDTO = new LogRecordDTO();
+		BeanUtil.copyProperties(detail, logRecordDTO);
+		return logRecordDTO;
+	}
 
 }

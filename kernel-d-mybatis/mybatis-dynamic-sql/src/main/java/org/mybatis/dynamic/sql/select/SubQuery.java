@@ -22,48 +22,54 @@ import org.mybatis.dynamic.sql.TableExpression;
 import org.mybatis.dynamic.sql.TableExpressionVisitor;
 
 public class SubQuery implements TableExpression {
-    private final SelectModel selectModel;
-    private final String alias;
 
-    private SubQuery(Builder builder) {
-        selectModel = Objects.requireNonNull(builder.selectModel);
-        alias = builder.alias;
-    }
+	private final SelectModel selectModel;
 
-    public SelectModel selectModel() {
-        return selectModel;
-    }
+	private final String alias;
 
-    public Optional<String> alias() {
-        return Optional.ofNullable(alias);
-    }
+	private SubQuery(Builder builder) {
+		selectModel = Objects.requireNonNull(builder.selectModel);
+		alias = builder.alias;
+	}
 
-    @Override
-    public boolean isSubQuery() {
-        return true;
-    }
+	public SelectModel selectModel() {
+		return selectModel;
+	}
 
-    @Override
-    public <R> R accept(TableExpressionVisitor<R> visitor) {
-        return visitor.visit(this);
-    }
+	public Optional<String> alias() {
+		return Optional.ofNullable(alias);
+	}
 
-    public static class Builder {
-        private SelectModel selectModel;
-        private String alias;
+	@Override
+	public boolean isSubQuery() {
+		return true;
+	}
 
-        public Builder withSelectModel(SelectModel selectModel) {
-            this.selectModel = selectModel;
-            return this;
-        }
+	@Override
+	public <R> R accept(TableExpressionVisitor<R> visitor) {
+		return visitor.visit(this);
+	}
 
-        public Builder withAlias(String alias) {
-            this.alias = alias;
-            return this;
-        }
+	public static class Builder {
 
-        public SubQuery build() {
-            return new SubQuery(this);
-        }
-    }
+		private SelectModel selectModel;
+
+		private String alias;
+
+		public Builder withSelectModel(SelectModel selectModel) {
+			this.selectModel = selectModel;
+			return this;
+		}
+
+		public Builder withAlias(String alias) {
+			this.alias = alias;
+			return this;
+		}
+
+		public SubQuery build() {
+			return new SubQuery(this);
+		}
+
+	}
+
 }

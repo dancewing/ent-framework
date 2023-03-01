@@ -8,11 +8,15 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 public interface SysLogConverter {
-    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    interface RequestConverter extends ObjectConverter<SysLogRequest, SysLog> {
-    }
 
-    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    interface ResponseConverter extends ObjectConverter<SysLog, SysLogResponse> {
-    }
+	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	interface RequestConverter extends ObjectConverter<SysLogRequest, SysLog> {
+
+	}
+
+	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	interface ResponseConverter extends ObjectConverter<SysLog, SysLogResponse> {
+
+	}
+
 }

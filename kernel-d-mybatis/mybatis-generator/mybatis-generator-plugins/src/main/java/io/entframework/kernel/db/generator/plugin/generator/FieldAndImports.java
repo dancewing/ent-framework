@@ -11,69 +11,77 @@ import java.util.Set;
 
 @Data
 public class FieldAndImports {
-    private final List<Field> fields;
-    private final Set<FullyQualifiedJavaType> imports;
-    private final Set<String> staticImports;
 
-    private FieldAndImports(FieldAndImports.Builder builder) {
-        fields = builder.fields;
-        imports = builder.imports;
-        staticImports = builder.staticImports;
-    }
+	private final List<Field> fields;
 
-    public List<Field> getFields() {
-        return fields;
-    }
+	private final Set<FullyQualifiedJavaType> imports;
 
-    public Set<FullyQualifiedJavaType> getImports() {
-        return imports;
-    }
+	private final Set<String> staticImports;
 
-    public Set<String> getStaticImports() {
-        return staticImports;
-    }
+	private FieldAndImports(FieldAndImports.Builder builder) {
+		fields = builder.fields;
+		imports = builder.imports;
+		staticImports = builder.staticImports;
+	}
 
-    public static FieldAndImports.Builder withField(Field method) {
-        return new FieldAndImports.Builder().withField(method);
-    }
+	public List<Field> getFields() {
+		return fields;
+	}
 
-    public static class Builder {
-        private final List<Field> fields = new ArrayList<>();
-        private final Set<FullyQualifiedJavaType> imports = new HashSet<>();
-        private final Set<String> staticImports = new HashSet<>();
+	public Set<FullyQualifiedJavaType> getImports() {
+		return imports;
+	}
 
-        public FieldAndImports.Builder withField(Field field) {
-            this.fields.add(field);
-            return this;
-        }
+	public Set<String> getStaticImports() {
+		return staticImports;
+	}
 
-        public FieldAndImports.Builder withImport(FullyQualifiedJavaType importedType) {
-            this.imports.add(importedType);
-            return this;
-        }
+	public static FieldAndImports.Builder withField(Field method) {
+		return new FieldAndImports.Builder().withField(method);
+	}
 
-        public FieldAndImports.Builder withImport(String importedType) {
-            this.imports.add(new FullyQualifiedJavaType(importedType));
-            return this;
-        }
+	public static class Builder {
 
-        public FieldAndImports.Builder withImports(Set<FullyQualifiedJavaType> imports) {
-            this.imports.addAll(imports);
-            return this;
-        }
+		private final List<Field> fields = new ArrayList<>();
 
-        public FieldAndImports.Builder withStaticImport(String staticImport) {
-            this.staticImports.add(staticImport);
-            return this;
-        }
+		private final Set<FullyQualifiedJavaType> imports = new HashSet<>();
 
-        public FieldAndImports.Builder withStaticImports(Set<String> staticImports) {
-            this.staticImports.addAll(staticImports);
-            return this;
-        }
+		private final Set<String> staticImports = new HashSet<>();
 
-        public FieldAndImports build() {
-            return new FieldAndImports(this);
-        }
-    }
+		public FieldAndImports.Builder withField(Field field) {
+			this.fields.add(field);
+			return this;
+		}
+
+		public FieldAndImports.Builder withImport(FullyQualifiedJavaType importedType) {
+			this.imports.add(importedType);
+			return this;
+		}
+
+		public FieldAndImports.Builder withImport(String importedType) {
+			this.imports.add(new FullyQualifiedJavaType(importedType));
+			return this;
+		}
+
+		public FieldAndImports.Builder withImports(Set<FullyQualifiedJavaType> imports) {
+			this.imports.addAll(imports);
+			return this;
+		}
+
+		public FieldAndImports.Builder withStaticImport(String staticImport) {
+			this.staticImports.add(staticImport);
+			return this;
+		}
+
+		public FieldAndImports.Builder withStaticImports(Set<String> staticImports) {
+			this.staticImports.addAll(staticImports);
+			return this;
+		}
+
+		public FieldAndImports build() {
+			return new FieldAndImports(this);
+		}
+
+	}
+
 }

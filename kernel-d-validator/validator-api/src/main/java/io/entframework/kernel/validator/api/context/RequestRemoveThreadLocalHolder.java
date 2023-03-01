@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class RequestRemoveThreadLocalHolder implements RemoveThreadLocalApi {
 
-    @Override
-    public void removeThreadLocalAction() {
-        RequestGroupContext.clear();
-        RequestParamContext.clear();
-    }
+	@Override
+	public void removeThreadLocalAction() {
+		RequestGroupContext.clear();
+		RequestParamContext.clear();
+	}
 
 }

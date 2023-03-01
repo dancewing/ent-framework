@@ -13,8 +13,8 @@ import io.entframework.kernel.cache.redis.AbstractRedisHashCacheOperator;
  */
 public class DefaultRedisHashCacheOperator<T> extends AbstractRedisHashCacheOperator<T> {
 
-    public DefaultRedisHashCacheOperator(CacheManager<T> cacheManager) {
-        super(cacheManager);
-    }
+	public DefaultRedisHashCacheOperator(CacheManager<T> cacheManager) {
+		super(cacheManager);
+	}
 
 }

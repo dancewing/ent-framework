@@ -21,48 +21,54 @@ import java.util.Optional;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public class TableAliasCalculatorWithParent implements TableAliasCalculator {
-    private final TableAliasCalculator parent;
-    private final TableAliasCalculator child;
 
-    private TableAliasCalculatorWithParent(Builder builder) {
-        parent = Objects.requireNonNull(builder.parent);
-        child = Objects.requireNonNull(builder.child);
-    }
+	private final TableAliasCalculator parent;
 
-    @Override
-    public Optional<String> aliasForColumn(SqlTable table) {
-        Optional<String> answer = child.aliasForColumn(table);
-        if (answer.isPresent()) {
-            return answer;
-        }
-        return parent.aliasForColumn(table);
-    }
+	private final TableAliasCalculator child;
 
-    @Override
-    public Optional<String> aliasForTable(SqlTable table) {
-        Optional<String> answer = child.aliasForTable(table);
-        if (answer.isPresent()) {
-            return answer;
-        }
-        return parent.aliasForTable(table);
-    }
+	private TableAliasCalculatorWithParent(Builder builder) {
+		parent = Objects.requireNonNull(builder.parent);
+		child = Objects.requireNonNull(builder.child);
+	}
 
-    public static class Builder {
-        private TableAliasCalculator parent;
-        private TableAliasCalculator child;
+	@Override
+	public Optional<String> aliasForColumn(SqlTable table) {
+		Optional<String> answer = child.aliasForColumn(table);
+		if (answer.isPresent()) {
+			return answer;
+		}
+		return parent.aliasForColumn(table);
+	}
 
-        public Builder withParent(TableAliasCalculator parent) {
-            this.parent = parent;
-            return this;
-        }
+	@Override
+	public Optional<String> aliasForTable(SqlTable table) {
+		Optional<String> answer = child.aliasForTable(table);
+		if (answer.isPresent()) {
+			return answer;
+		}
+		return parent.aliasForTable(table);
+	}
 
-        public Builder withChild(TableAliasCalculator child) {
-            this.child = child;
-            return this;
-        }
+	public static class Builder {
 
-        public TableAliasCalculatorWithParent build() {
-            return new TableAliasCalculatorWithParent(this);
-        }
-    }
+		private TableAliasCalculator parent;
+
+		private TableAliasCalculator child;
+
+		public Builder withParent(TableAliasCalculator parent) {
+			this.parent = parent;
+			return this;
+		}
+
+		public Builder withChild(TableAliasCalculator child) {
+			this.child = child;
+			return this;
+		}
+
+		public TableAliasCalculatorWithParent build() {
+			return new TableAliasCalculatorWithParent(this);
+		}
+
+	}
+
 }

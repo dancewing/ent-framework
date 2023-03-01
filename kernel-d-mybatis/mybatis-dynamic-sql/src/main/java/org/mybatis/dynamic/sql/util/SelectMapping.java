@@ -20,23 +20,24 @@ import org.mybatis.dynamic.sql.select.SelectModel;
 
 public class SelectMapping extends AbstractColumnMapping {
 
-    private final SelectModel selectModel;
+	private final SelectModel selectModel;
 
-    private SelectMapping(SqlColumn<?> column, Buildable<SelectModel> selectModelBuilder) {
-        super(column);
-        selectModel = selectModelBuilder.build();
-    }
+	private SelectMapping(SqlColumn<?> column, Buildable<SelectModel> selectModelBuilder) {
+		super(column);
+		selectModel = selectModelBuilder.build();
+	}
 
-    public SelectModel selectModel() {
-        return selectModel;
-    }
+	public SelectModel selectModel() {
+		return selectModel;
+	}
 
-    @Override
-    public <R> R accept(ColumnMappingVisitor<R> visitor) {
-        return visitor.visit(this);
-    }
+	@Override
+	public <R> R accept(ColumnMappingVisitor<R> visitor) {
+		return visitor.visit(this);
+	}
 
-    public static SelectMapping of(SqlColumn<?> column, Buildable<SelectModel> selectModelBuilder) {
-        return new SelectMapping(column, selectModelBuilder);
-    }
+	public static SelectMapping of(SqlColumn<?> column, Buildable<SelectModel> selectModelBuilder) {
+		return new SelectMapping(column, selectModelBuilder);
+	}
+
 }

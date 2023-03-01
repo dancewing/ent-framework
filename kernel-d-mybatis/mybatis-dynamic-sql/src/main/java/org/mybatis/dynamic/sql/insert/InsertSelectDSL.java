@@ -27,66 +27,71 @@ import org.mybatis.dynamic.sql.util.Buildable;
 
 public class InsertSelectDSL implements Buildable<InsertSelectModel> {
 
-    private final SqlTable table;
-    private final InsertColumnListModel columnList;
-    private final SelectModel selectModel;
+	private final SqlTable table;
 
-    private InsertSelectDSL(SqlTable table, InsertColumnListModel columnList, SelectModel selectModel) {
-        this.table = Objects.requireNonNull(table);
-        this.selectModel = Objects.requireNonNull(selectModel);
-        this.columnList = columnList;
-    }
+	private final InsertColumnListModel columnList;
 
-    private InsertSelectDSL(SqlTable table, SelectModel selectModel) {
-        this.table = Objects.requireNonNull(table);
-        this.selectModel = Objects.requireNonNull(selectModel);
-        this.columnList = null;
-    }
+	private final SelectModel selectModel;
 
-    @NotNull
-    @Override
-    public InsertSelectModel build() {
-        return InsertSelectModel.withTable(table)
-                .withColumnList(columnList)
-                .withSelectModel(selectModel)
-                .build();
-    }
+	private InsertSelectDSL(SqlTable table, InsertColumnListModel columnList, SelectModel selectModel) {
+		this.table = Objects.requireNonNull(table);
+		this.selectModel = Objects.requireNonNull(selectModel);
+		this.columnList = columnList;
+	}
 
-    public static InsertColumnGatherer insertInto(SqlTable table) {
-        return new InsertColumnGatherer(table);
-    }
+	private InsertSelectDSL(SqlTable table, SelectModel selectModel) {
+		this.table = Objects.requireNonNull(table);
+		this.selectModel = Objects.requireNonNull(selectModel);
+		this.columnList = null;
+	}
 
-    public static class InsertColumnGatherer {
-        private final SqlTable table;
+	@NotNull
+	@Override
+	public InsertSelectModel build() {
+		return InsertSelectModel.withTable(table).withColumnList(columnList).withSelectModel(selectModel).build();
+	}
 
-        private InsertColumnGatherer(SqlTable table) {
-            this.table = table;
-        }
+	public static InsertColumnGatherer insertInto(SqlTable table) {
+		return new InsertColumnGatherer(table);
+	}
 
-        public SelectGatherer withColumnList(SqlColumn<?>... columns) {
-            return withColumnList(Arrays.asList(columns));
-        }
+	public static class InsertColumnGatherer {
 
-        public SelectGatherer withColumnList(List<SqlColumn<?>> columns) {
-            return new SelectGatherer(table, columns);
-        }
+		private final SqlTable table;
 
-        public InsertSelectDSL withSelectStatement(Buildable<SelectModel> selectModelBuilder) {
-            return new InsertSelectDSL(table, selectModelBuilder.build());
-        }
-    }
+		private InsertColumnGatherer(SqlTable table) {
+			this.table = table;
+		}
 
-    public static class SelectGatherer {
-        private final SqlTable table;
-        private final InsertColumnListModel columnList;
+		public SelectGatherer withColumnList(SqlColumn<?>... columns) {
+			return withColumnList(Arrays.asList(columns));
+		}
 
-        private SelectGatherer(SqlTable table, List<SqlColumn<?>> columns) {
-            this.table = table;
-            columnList = InsertColumnListModel.of(columns);
-        }
+		public SelectGatherer withColumnList(List<SqlColumn<?>> columns) {
+			return new SelectGatherer(table, columns);
+		}
 
-        public InsertSelectDSL withSelectStatement(Buildable<SelectModel> selectModelBuilder) {
-            return new InsertSelectDSL(table, columnList, selectModelBuilder.build());
-        }
-    }
+		public InsertSelectDSL withSelectStatement(Buildable<SelectModel> selectModelBuilder) {
+			return new InsertSelectDSL(table, selectModelBuilder.build());
+		}
+
+	}
+
+	public static class SelectGatherer {
+
+		private final SqlTable table;
+
+		private final InsertColumnListModel columnList;
+
+		private SelectGatherer(SqlTable table, List<SqlColumn<?>> columns) {
+			this.table = table;
+			columnList = InsertColumnListModel.of(columns);
+		}
+
+		public InsertSelectDSL withSelectStatement(Buildable<SelectModel> selectModelBuilder) {
+			return new InsertSelectDSL(table, columnList, selectModelBuilder.build());
+		}
+
+	}
+
 }

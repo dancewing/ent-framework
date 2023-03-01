@@ -42,7 +42,8 @@ public class SysUserCreateFactory {
 		if (ObjectUtil.isEmpty(sysUser.getPassword())) {
 			String defaultPassword = SystemConfigExpander.getDefaultPassWord();
 			sysUser.setPassword(passwordStoredEncryptApi.encrypt(defaultPassword));
-		} else {
+		}
+		else {
 			// 密码不为空，则将密码加密存储到库中
 			sysUser.setPassword(passwordStoredEncryptApi.encrypt(sysUser.getPassword()));
 		}

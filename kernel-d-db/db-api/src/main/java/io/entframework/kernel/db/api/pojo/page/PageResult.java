@@ -17,36 +17,36 @@ import java.util.List;
 @Data
 public class PageResult<T> implements Serializable {
 
-    private static final long serialVersionUID = -1L;
+	private static final long serialVersionUID = -1L;
 
-    /**
-     * 第几页
-     */
-    @ChineseDescription("第几页,从1开始")
-    private Integer pageNo = 1;
+	/**
+	 * 第几页
+	 */
+	@ChineseDescription("第几页,从1开始")
+	private Integer pageNo = 1;
 
-    /**
-     * 每页条数
-     */
-    @ChineseDescription("每页条数")
-    private Integer pageSize = 20;
+	/**
+	 * 每页条数
+	 */
+	@ChineseDescription("每页条数")
+	private Integer pageSize = 20;
 
-    /**
-     * 总页数
-     */
-    @ChineseDescription("总页数")
-    private Integer totalPage = 0;
+	/**
+	 * 总页数
+	 */
+	@ChineseDescription("总页数")
+	private Integer totalPage = 0;
 
-    /**
-     * 总记录数
-     */
-    @ChineseDescription("总记录数")
-    private Integer totalRows = 0;
+	/**
+	 * 总记录数
+	 */
+	@ChineseDescription("总记录数")
+	private Integer totalRows = 0;
 
-    /**
-     * 结果集
-     */
-    @ChineseDescription("结果集")
-    private List<T> items;
+	/**
+	 * 结果集
+	 */
+	@ChineseDescription("结果集")
+	private List<T> items;
 
 }

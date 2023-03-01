@@ -18,18 +18,18 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020/12/1 14:34
  */
 @Configuration
-@EnableConfigurationProperties({JwtProperties.class})
+@EnableConfigurationProperties({ JwtProperties.class })
 public class KernelJwtAutoConfiguration {
 
-    /**
-     * jwt操作工具类的配置
-     *
-     * @date 2020/12/1 14:40
-     */
-    @Bean
-    @ConditionalOnMissingBean(JwtApi.class)
-    public JwtApi jwtApi(JwtProperties jwtProperties) {
-        return new JwtTokenOperator(jwtProperties);
-    }
+	/**
+	 * jwt操作工具类的配置
+	 *
+	 * @date 2020/12/1 14:40
+	 */
+	@Bean
+	@ConditionalOnMissingBean(JwtApi.class)
+	public JwtApi jwtApi(JwtProperties jwtProperties) {
+		return new JwtTokenOperator(jwtProperties);
+	}
 
 }

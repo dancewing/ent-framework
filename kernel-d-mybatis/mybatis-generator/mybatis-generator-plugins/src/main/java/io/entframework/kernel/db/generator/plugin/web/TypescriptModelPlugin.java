@@ -24,175 +24,185 @@ import java.util.List;
  * 生成Typescript的Request类
  */
 public class TypescriptModelPlugin extends AbstractWebPlugin {
-    private final List<GeneratedFile> generatedFiles = new ArrayList<>();
 
-    private ClassInfo pojoRequestRootClassInfo;
+	private final List<GeneratedFile> generatedFiles = new ArrayList<>();
 
-    protected String pojoRequestRootClass = "";
+	private ClassInfo pojoRequestRootClassInfo;
 
-    @Override
-    public boolean validate(List<String> warnings) {
-        boolean validate = super.validate(warnings);
+	protected String pojoRequestRootClass = "";
 
-        this.pojoRequestRootClass = this.properties.getProperty("pojoRequestRootClass");
+	@Override
+	public boolean validate(List<String> warnings) {
+		boolean validate = super.validate(warnings);
 
-        if (StringUtils.isNotEmpty(this.pojoRequestRootClass)) {
-            this.pojoRequestRootClassInfo = ClassInfo.getInstance(this.pojoRequestRootClass);
-        }
+		this.pojoRequestRootClass = this.properties.getProperty("pojoRequestRootClass");
 
-        return validate;
-    }
+		if (StringUtils.isNotEmpty(this.pojoRequestRootClass)) {
+			this.pojoRequestRootClassInfo = ClassInfo.getInstance(this.pojoRequestRootClass);
+		}
 
-    @Override
-    public void initialized(IntrospectedTable introspectedTable) {
-        if (this.pojoRequestRootClassInfo != null) {
-            TopLevelClass pojoRequestRootClass = this.pojoRequestRootClassInfo.toTopLevelClass();
-            FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(this.typescriptModelPackage + "." + pojoRequestRootClass.getType().getShortName());
-            TypescriptTopLevelClass tsRootModelClass = new TypescriptTopLevelClass(WebUtils.convertToTypescriptImportType(this.projectRootAlias, fqjt));
+		return validate;
+	}
 
-            convertToTypescriptTopLevelClass(pojoRequestRootClass, tsRootModelClass);
+	@Override
+	public void initialized(IntrospectedTable introspectedTable) {
+		if (this.pojoRequestRootClassInfo != null) {
+			TopLevelClass pojoRequestRootClass = this.pojoRequestRootClassInfo.toTopLevelClass();
+			FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(
+					this.typescriptModelPackage + "." + pojoRequestRootClass.getType().getShortName());
+			TypescriptTopLevelClass tsRootModelClass = new TypescriptTopLevelClass(
+					WebUtils.convertToTypescriptImportType(this.projectRootAlias, fqjt));
 
-            tsRootModelClass.setWriteMode(WriteMode.SKIP_ON_EXIST);
+			convertToTypescriptTopLevelClass(pojoRequestRootClass, tsRootModelClass);
 
-            this.generatedFiles.add(new GeneratedTypescriptFile(tsRootModelClass,
-                    context.getJavaModelGeneratorConfiguration().getTargetProject(),
-                    context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
-                    new DefaultTypescriptFormatter(this.context), this.projectRootAlias));
-        }
-    }
+			tsRootModelClass.setWriteMode(WriteMode.SKIP_ON_EXIST);
 
-    public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass,
-                                                 IntrospectedTable introspectedTable) {
-        //设置java文件不写磁盘
-        topLevelClass.setWriteMode(WriteMode.NEVER);
-        generatedFiles.add(generatePojoClass(topLevelClass, introspectedTable));
-        return true;
-    }
+			this.generatedFiles.add(new GeneratedTypescriptFile(tsRootModelClass,
+					context.getJavaModelGeneratorConfiguration().getTargetProject(),
+					context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
+					new DefaultTypescriptFormatter(this.context), this.projectRootAlias));
+		}
+	}
 
-    private GeneratedFile generatePojoClass(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        String modelObjectName = topLevelClass.getType().getShortNameWithoutTypeArguments();
-        FullyQualifiedTypescriptType tsBaseModelJavaType = WebUtils.convertToTypescriptImportType(this.projectRootAlias,
-                new FullyQualifiedTypescriptType(this.typescriptModelPackage + "." + modelObjectName));
-        TypescriptTopLevelClass tsBaseModelClass = new TypescriptTopLevelClass(tsBaseModelJavaType);
-        tsBaseModelClass.setWriteMode(this.writeMode == null ? WriteMode.OVER_WRITE : this.writeMode);
+	public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+		// 设置java文件不写磁盘
+		topLevelClass.setWriteMode(WriteMode.NEVER);
+		generatedFiles.add(generatePojoClass(topLevelClass, introspectedTable));
+		return true;
+	}
 
-        tsBaseModelClass.setVisibility(JavaVisibility.PUBLIC);
+	private GeneratedFile generatePojoClass(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+		String modelObjectName = topLevelClass.getType().getShortNameWithoutTypeArguments();
+		FullyQualifiedTypescriptType tsBaseModelJavaType = WebUtils.convertToTypescriptImportType(this.projectRootAlias,
+				new FullyQualifiedTypescriptType(this.typescriptModelPackage + "." + modelObjectName));
+		TypescriptTopLevelClass tsBaseModelClass = new TypescriptTopLevelClass(tsBaseModelJavaType);
+		tsBaseModelClass.setWriteMode(this.writeMode == null ? WriteMode.OVER_WRITE : this.writeMode);
 
-        GeneratorUtils.addComment(tsBaseModelClass, topLevelClass.getDescription() + " 服务请求类");
+		tsBaseModelClass.setVisibility(JavaVisibility.PUBLIC);
 
-        FullyQualifiedJavaType tsRequestJavaType = new FullyQualifiedJavaType(modelObjectName);
-        TypescriptTopLevelClass tsRequestClass = new TypescriptTopLevelClass(tsRequestJavaType);
+		GeneratorUtils.addComment(tsBaseModelClass, topLevelClass.getDescription() + " 服务请求类");
 
-        PojoFieldsGenerator pojoFieldsGenerator = new PojoFieldsGenerator(this.context, this.codingStyle,
-                this.typescriptModelPackage, "",
-                this.typescriptModelPackage, "", tsBaseModelJavaType);
+		FullyQualifiedJavaType tsRequestJavaType = new FullyQualifiedJavaType(modelObjectName);
+		TypescriptTopLevelClass tsRequestClass = new TypescriptTopLevelClass(tsRequestJavaType);
 
-        FieldAndImports fieldAndImports = pojoFieldsGenerator.generatePojoRequest(topLevelClass, introspectedTable);
-        TopLevelClass tmpRequestClass = new TopLevelClass(tsRequestJavaType);
-        fieldAndImports.getFields().forEach(tmpRequestClass::addField);
-        fieldAndImports.getImports().forEach(tmpRequestClass::addImportedType);
+		PojoFieldsGenerator pojoFieldsGenerator = new PojoFieldsGenerator(this.context, this.codingStyle,
+				this.typescriptModelPackage, "", this.typescriptModelPackage, "", tsBaseModelJavaType);
 
-        //补全其他字段，比如在BaseEntity父类中的
-/*        List<IntrospectedColumn> columns = introspectedTable.getAllColumns();
-        columns.forEach(column -> {
-            if (!GeneratorUtils.hasField(tmpRequestClass, column.getJavaProperty())) {
-                Field field = new Field(column.getJavaProperty(), column.getFullyQualifiedJavaType());
-                field.setDescription(GeneratorUtils.getFieldDescription(column));
-                field.setAttribute(Constants.FIELD_EXT_ATTR, true);
-                GeneratorUtils.addFieldComment(field, column);
-                tmpRequestClass.addField(field);
-            }
-        });*/
+		FieldAndImports fieldAndImports = pojoFieldsGenerator.generatePojoRequest(topLevelClass, introspectedTable);
+		TopLevelClass tmpRequestClass = new TopLevelClass(tsRequestJavaType);
+		fieldAndImports.getFields().forEach(tmpRequestClass::addField);
+		fieldAndImports.getImports().forEach(tmpRequestClass::addImportedType);
 
-        convertToTypescriptTopLevelClass(tmpRequestClass, tsRequestClass);
+		// 补全其他字段，比如在BaseEntity父类中的
+		/*
+		 * List<IntrospectedColumn> columns = introspectedTable.getAllColumns();
+		 * columns.forEach(column -> { if (!GeneratorUtils.hasField(tmpRequestClass,
+		 * column.getJavaProperty())) { Field field = new Field(column.getJavaProperty(),
+		 * column.getFullyQualifiedJavaType());
+		 * field.setDescription(GeneratorUtils.getFieldDescription(column));
+		 * field.setAttribute(Constants.FIELD_EXT_ATTR, true);
+		 * GeneratorUtils.addFieldComment(field, column); tmpRequestClass.addField(field);
+		 * } });
+		 */
 
-        if (StringUtils.isNotEmpty(this.pojoRequestRootClass)) {
-            FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(this.pojoRequestRootClass);
-            String fileName = WebUtils.getFileName(fqjt.getShortName());
-            String tsRootClass = this.typescriptModelPackage + "." + fileName + "." + fqjt.getShortName();
-            tsRequestClass.setSuperClass(tsRootClass);
-            tsRequestClass.addImportedType(new FullyQualifiedTypescriptType(this.projectRootAlias, tsRootClass));
-        }
-        tsBaseModelClass.addImportedTypes(tsRequestClass.getImportedTypes());
-        tsBaseModelClass.addInnerClass(tsRequestClass);
+		convertToTypescriptTopLevelClass(tmpRequestClass, tsRequestClass);
 
-        introspectedTable.setAttribute(Constants.INTROSPECTED_TABLE_WRAPPER_TYPESCRIPT_CLASS, tsRequestClass);
+		if (StringUtils.isNotEmpty(this.pojoRequestRootClass)) {
+			FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(this.pojoRequestRootClass);
+			String fileName = WebUtils.getFileName(fqjt.getShortName());
+			String tsRootClass = this.typescriptModelPackage + "." + fileName + "." + fqjt.getShortName();
+			tsRequestClass.setSuperClass(tsRootClass);
+			tsRequestClass.addImportedType(new FullyQualifiedTypescriptType(this.projectRootAlias, tsRootClass));
+		}
+		tsBaseModelClass.addImportedTypes(tsRequestClass.getImportedTypes());
+		tsBaseModelClass.addInnerClass(tsRequestClass);
 
-        tsBaseModelClass.setAttribute(Constants.WEB_PROJECT_ROOT_ALIAS, this.projectRootAlias);
-        tsBaseModelClass.getInnerEnums().addAll(topLevelClass.getInnerEnums());
+		introspectedTable.setAttribute(Constants.INTROSPECTED_TABLE_WRAPPER_TYPESCRIPT_CLASS, tsRequestClass);
 
-        InitializationBlock initializationBlock = new InitializationBlock();
-        initializationBlock.addBodyLine(String.format("export type %sPageModel = BasicFetchResult<%s>;", modelObjectName, modelObjectName));
-        tsBaseModelClass.addImportedType(new FullyQualifiedTypescriptType("", "fe-ent-core.lib.logics.model.BasicFetchResult"));
-        tsBaseModelClass.addInitializationBlock(initializationBlock);
+		tsBaseModelClass.setAttribute(Constants.WEB_PROJECT_ROOT_ALIAS, this.projectRootAlias);
+		tsBaseModelClass.getInnerEnums().addAll(topLevelClass.getInnerEnums());
 
-        return new GeneratedTypescriptFile(tsBaseModelClass,
-                context.getJavaModelGeneratorConfiguration().getTargetProject(),
-                context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
-                new DefaultTypescriptFormatter(this.context), this.projectRootAlias);
-    }
+		InitializationBlock initializationBlock = new InitializationBlock();
+		initializationBlock.addBodyLine(
+				String.format("export type %sPageModel = BasicFetchResult<%s>;", modelObjectName, modelObjectName));
+		tsBaseModelClass
+				.addImportedType(new FullyQualifiedTypescriptType("", "fe-ent-core.lib.logics.model.BasicFetchResult"));
+		tsBaseModelClass.addInitializationBlock(initializationBlock);
 
+		return new GeneratedTypescriptFile(tsBaseModelClass,
+				context.getJavaModelGeneratorConfiguration().getTargetProject(),
+				context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
+				new DefaultTypescriptFormatter(this.context), this.projectRootAlias);
+	}
 
-    /**
-     * 转换Field类型
-     * @param topLevelClass
-     * @param tsRequestClass
-     */
-    private void convertToTypescriptTopLevelClass(TopLevelClass topLevelClass, TypescriptTopLevelClass tsRequestClass) {
-        List<Field> fields = topLevelClass.getFields();
-        for (Field field : fields) {
-            FullyQualifiedJavaType fieldType = field.getType();
-            Field pojoRequestField = new Field(field);
-            if (GeneratorUtils.isRelationField(field)) {
-                if (fieldType.getTypeArguments().size() > 0) {
-                    //集合类型
-                    fieldType = WebUtils.convertToTypescriptImportType(this.projectRootAlias, fieldType.getTypeArguments().get(0));
-                    pojoRequestField.setType(fieldType);
-                    tsRequestClass.addImportedType(fieldType);
-                } else {
-                    fieldType = WebUtils.convertToTypescriptImportType(this.projectRootAlias, fieldType);
-                    pojoRequestField.setType(fieldType);
-                    tsRequestClass.addImportedType(fieldType);
-                }
-            } else if (GeneratorUtils.isInnerEnum(field)) {
-                //转换成TypeScriptJavaType，这个的field type 还是 java形式的
-                FullyQualifiedJavaType fqjt = field.getType();
-                String hostFileName = WebUtils.getFileName(StringUtils.substringAfterLast(fqjt.getPackageName(), "."));
+	/**
+	 * 转换Field类型
+	 * @param topLevelClass
+	 * @param tsRequestClass
+	 */
+	private void convertToTypescriptTopLevelClass(TopLevelClass topLevelClass, TypescriptTopLevelClass tsRequestClass) {
+		List<Field> fields = topLevelClass.getFields();
+		for (Field field : fields) {
+			FullyQualifiedJavaType fieldType = field.getType();
+			Field pojoRequestField = new Field(field);
+			if (GeneratorUtils.isRelationField(field)) {
+				if (fieldType.getTypeArguments().size() > 0) {
+					// 集合类型
+					fieldType = WebUtils.convertToTypescriptImportType(this.projectRootAlias,
+							fieldType.getTypeArguments().get(0));
+					pojoRequestField.setType(fieldType);
+					tsRequestClass.addImportedType(fieldType);
+				}
+				else {
+					fieldType = WebUtils.convertToTypescriptImportType(this.projectRootAlias, fieldType);
+					pojoRequestField.setType(fieldType);
+					tsRequestClass.addImportedType(fieldType);
+				}
+			}
+			else if (GeneratorUtils.isInnerEnum(field)) {
+				// 转换成TypeScriptJavaType，这个的field type 还是 java形式的
+				FullyQualifiedJavaType fqjt = field.getType();
+				String hostFileName = WebUtils.getFileName(StringUtils.substringAfterLast(fqjt.getPackageName(), "."));
 
-                pojoRequestField.setType(new FullyQualifiedTypescriptType(this.projectRootAlias, this.typescriptModelPackage + "." + hostFileName + "." + fqjt.getShortName()));
-            } else {
-                //判断是否需要生成Field对应的class文件
-                String javaType = fieldType.getFullyQualifiedNameWithoutTypeParameters();
-                if (!StringUtils.startsWith(javaType, "java")) {
-                    ClassInfo classInfo = ClassInfo.getInstance(javaType);
-                    if (classInfo != null) {
-                        if (classInfo.isEnum()) {
-                            TopLevelEnumeration topLevelEnumeration = classInfo.toTopLevelEnumeration(this.enumTargetPackage);
-                            FullyQualifiedJavaType fqjt = topLevelEnumeration.getType();
-                            fieldType = new FullyQualifiedTypescriptType(this.projectRootAlias, fqjt.getPackageName() + "." + WebUtils.getFileName(fqjt.getShortName()) +"." + fqjt.getShortName());
-                            pojoRequestField.setType(fieldType);
-                            pojoRequestField.setAttribute(Constants.TABLE_ENUM_FIELD_ATTR, topLevelEnumeration);
-                            this.generatedFiles.add(new GeneratedTypescriptFile(topLevelEnumeration,
-                                    context.getJavaModelGeneratorConfiguration().getTargetProject(),
-                                    context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
-                                    new DefaultTypescriptFormatter(this.context), this.projectRootAlias));
-                        }
-                    } else {
-                        fieldType = FullyQualifiedJavaType.getObjectInstance();
-                        pojoRequestField.setType(fieldType);
-                    }
-                }
+				pojoRequestField.setType(new FullyQualifiedTypescriptType(this.projectRootAlias,
+						this.typescriptModelPackage + "." + hostFileName + "." + fqjt.getShortName()));
+			}
+			else {
+				// 判断是否需要生成Field对应的class文件
+				String javaType = fieldType.getFullyQualifiedNameWithoutTypeParameters();
+				if (!StringUtils.startsWith(javaType, "java")) {
+					ClassInfo classInfo = ClassInfo.getInstance(javaType);
+					if (classInfo != null) {
+						if (classInfo.isEnum()) {
+							TopLevelEnumeration topLevelEnumeration = classInfo
+									.toTopLevelEnumeration(this.enumTargetPackage);
+							FullyQualifiedJavaType fqjt = topLevelEnumeration.getType();
+							fieldType = new FullyQualifiedTypescriptType(this.projectRootAlias, fqjt.getPackageName()
+									+ "." + WebUtils.getFileName(fqjt.getShortName()) + "." + fqjt.getShortName());
+							pojoRequestField.setType(fieldType);
+							pojoRequestField.setAttribute(Constants.TABLE_ENUM_FIELD_ATTR, topLevelEnumeration);
+							this.generatedFiles.add(new GeneratedTypescriptFile(topLevelEnumeration,
+									context.getJavaModelGeneratorConfiguration().getTargetProject(),
+									context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
+									new DefaultTypescriptFormatter(this.context), this.projectRootAlias));
+						}
+					}
+					else {
+						fieldType = FullyQualifiedJavaType.getObjectInstance();
+						pojoRequestField.setType(fieldType);
+					}
+				}
 
-                tsRequestClass.addImportedType(fieldType);
-            }
+				tsRequestClass.addImportedType(fieldType);
+			}
 
-            pojoRequestField.setVisibility(JavaVisibility.PRIVATE);
-            tsRequestClass.addField(pojoRequestField);
-        }
-    }
+			pojoRequestField.setVisibility(JavaVisibility.PRIVATE);
+			tsRequestClass.addField(pojoRequestField);
+		}
+	}
 
+	public List<GeneratedFile> contextGenerateAdditionalFiles() {
+		return generatedFiles;
+	}
 
-    public List<GeneratedFile> contextGenerateAdditionalFiles() {
-        return generatedFiles;
-    }
 }

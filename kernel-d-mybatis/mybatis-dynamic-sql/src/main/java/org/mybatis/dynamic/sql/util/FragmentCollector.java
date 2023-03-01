@@ -23,50 +23,47 @@ import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 public class FragmentCollector {
-    final List<FragmentAndParameters> fragments = new ArrayList<>();
 
-    FragmentCollector() {
-        super();
-    }
+	final List<FragmentAndParameters> fragments = new ArrayList<>();
 
-    private FragmentCollector(FragmentAndParameters initialFragment) {
-        add(initialFragment);
-    }
+	FragmentCollector() {
+		super();
+	}
 
-    public void add(FragmentAndParameters fragmentAndParameters) {
-        fragments.add(fragmentAndParameters);
-    }
+	private FragmentCollector(FragmentAndParameters initialFragment) {
+		add(initialFragment);
+	}
 
-    public FragmentCollector merge(FragmentCollector other) {
-        fragments.addAll(other.fragments);
-        return this;
-    }
+	public void add(FragmentAndParameters fragmentAndParameters) {
+		fragments.add(fragmentAndParameters);
+	}
 
-    public Stream<String> fragments() {
-        return fragments.stream()
-                .map(FragmentAndParameters::fragment);
-    }
+	public FragmentCollector merge(FragmentCollector other) {
+		fragments.addAll(other.fragments);
+		return this;
+	}
 
-    public Map<String, Object> parameters() {
-        return fragments.stream()
-                .map(FragmentAndParameters::parameters)
-                .collect(HashMap::new, HashMap::putAll, HashMap::putAll);
-    }
+	public Stream<String> fragments() {
+		return fragments.stream().map(FragmentAndParameters::fragment);
+	}
 
-    public boolean hasMultipleFragments() {
-        return fragments.size() > 1;
-    }
+	public Map<String, Object> parameters() {
+		return fragments.stream().map(FragmentAndParameters::parameters).collect(HashMap::new, HashMap::putAll,
+				HashMap::putAll);
+	}
 
-    public static Collector<FragmentAndParameters, FragmentCollector, FragmentCollector> collect() {
-        return Collector.of(FragmentCollector::new,
-                FragmentCollector::add,
-                FragmentCollector::merge);
-    }
+	public boolean hasMultipleFragments() {
+		return fragments.size() > 1;
+	}
 
-    public static Collector<FragmentAndParameters, FragmentCollector, FragmentCollector> collect(
-            FragmentAndParameters initialFragment) {
-        return Collector.of(() -> new FragmentCollector(initialFragment),
-                FragmentCollector::add,
-                FragmentCollector::merge);
-    }
+	public static Collector<FragmentAndParameters, FragmentCollector, FragmentCollector> collect() {
+		return Collector.of(FragmentCollector::new, FragmentCollector::add, FragmentCollector::merge);
+	}
+
+	public static Collector<FragmentAndParameters, FragmentCollector, FragmentCollector> collect(
+			FragmentAndParameters initialFragment) {
+		return Collector.of(() -> new FragmentCollector(initialFragment), FragmentCollector::add,
+				FragmentCollector::merge);
+	}
+
 }

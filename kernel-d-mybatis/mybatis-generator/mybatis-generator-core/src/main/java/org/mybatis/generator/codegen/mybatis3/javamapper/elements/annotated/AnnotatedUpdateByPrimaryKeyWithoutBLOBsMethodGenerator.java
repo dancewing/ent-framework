@@ -21,27 +21,29 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.UpdateByPrimaryKeyWithoutBLOBsMethodGenerator;
 
 public class AnnotatedUpdateByPrimaryKeyWithoutBLOBsMethodGenerator
-        extends UpdateByPrimaryKeyWithoutBLOBsMethodGenerator {
+		extends UpdateByPrimaryKeyWithoutBLOBsMethodGenerator {
 
-    private final boolean isSimple;
+	private final boolean isSimple;
 
-    public AnnotatedUpdateByPrimaryKeyWithoutBLOBsMethodGenerator(boolean isSimple) {
-        super();
-        this.isSimple = isSimple;
-    }
+	public AnnotatedUpdateByPrimaryKeyWithoutBLOBsMethodGenerator(boolean isSimple) {
+		super();
+		this.isSimple = isSimple;
+	}
 
-    @Override
-    public void addMapperAnnotations(Method method) {
-        if (isSimple) {
-            buildUpdateByPrimaryKeyAnnotations(introspectedTable.getNonPrimaryKeyColumns())
-                    .forEach(method::addAnnotation);
-        } else {
-            buildUpdateByPrimaryKeyAnnotations(introspectedTable.getBaseColumns()).forEach(method::addAnnotation);
-        }
-    }
+	@Override
+	public void addMapperAnnotations(Method method) {
+		if (isSimple) {
+			buildUpdateByPrimaryKeyAnnotations(introspectedTable.getNonPrimaryKeyColumns())
+					.forEach(method::addAnnotation);
+		}
+		else {
+			buildUpdateByPrimaryKeyAnnotations(introspectedTable.getBaseColumns()).forEach(method::addAnnotation);
+		}
+	}
 
-    @Override
-    public void addExtraImports(Interface interfaze) {
-        interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Update")); //$NON-NLS-1$
-    }
+	@Override
+	public void addExtraImports(Interface interfaze) {
+		interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Update")); //$NON-NLS-1$
+	}
+
 }

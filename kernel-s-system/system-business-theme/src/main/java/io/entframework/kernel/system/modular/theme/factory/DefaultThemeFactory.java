@@ -24,65 +24,66 @@ import java.util.HashMap;
 @Data
 public class DefaultThemeFactory {
 
-    /**
-     * 获取系统默认主题
-     *
-     * @date 2022/1/11 9:31
-     */
-    public static DefaultTheme getSystemDefaultTheme() {
-        DefaultTheme defaultTheme = new DefaultTheme();
-        defaultTheme.setGunsMgrBeiUrl("https://beian.miit.gov.cn/");
-        defaultTheme.setGunsMgrBeiNo("京ICP备001-1");
-        defaultTheme.setGunsMgrFavicon("1479753047148322818");
-        defaultTheme.setGunsMgrFooterText("stylefeng开源技术 javaguns.com");
-        defaultTheme.setGunsMgrLogo("1479753047148322818");
-        defaultTheme.setGunsMgrName("Guns Tech.");
-        defaultTheme.setGunsMgrLoginBackgroundImg("1479751422149074948");
-        return defaultTheme;
-    }
+	/**
+	 * 获取系统默认主题
+	 *
+	 * @date 2022/1/11 9:31
+	 */
+	public static DefaultTheme getSystemDefaultTheme() {
+		DefaultTheme defaultTheme = new DefaultTheme();
+		defaultTheme.setGunsMgrBeiUrl("https://beian.miit.gov.cn/");
+		defaultTheme.setGunsMgrBeiNo("京ICP备001-1");
+		defaultTheme.setGunsMgrFavicon("1479753047148322818");
+		defaultTheme.setGunsMgrFooterText("stylefeng开源技术 javaguns.com");
+		defaultTheme.setGunsMgrLogo("1479753047148322818");
+		defaultTheme.setGunsMgrName("Guns Tech.");
+		defaultTheme.setGunsMgrLoginBackgroundImg("1479751422149074948");
+		return defaultTheme;
+	}
 
-    /**
-     * 通过jsonObject解析默认主题数据
-     *
-     * @date 2022/1/11 9:31
-     */
-    public static DefaultTheme parseDefaultTheme(JSONObject jsonObject) {
+	/**
+	 * 通过jsonObject解析默认主题数据
+	 *
+	 * @date 2022/1/11 9:31
+	 */
+	public static DefaultTheme parseDefaultTheme(JSONObject jsonObject) {
 
-        // 初始化主题参数
-        DefaultTheme defaultTheme = new DefaultTheme();
+		// 初始化主题参数
+		DefaultTheme defaultTheme = new DefaultTheme();
 
-        // 存放没有被set值的key列表
-        ArrayList<String> noneSetKeys = new ArrayList<>();
+		// 存放没有被set值的key列表
+		ArrayList<String> noneSetKeys = new ArrayList<>();
 
-        // 遍历Key值，为对应的key属性赋值
-        for (String jsonObjectKey : jsonObject.keySet()) {
-            String propertyName = CharSequenceUtil.toCamelCase(jsonObjectKey);
-            try {
-                PropertyDescriptor propertyDescriptor = new PropertyDescriptor(propertyName, DefaultTheme.class);
-                Method writeMethod = propertyDescriptor.getWriteMethod();
-                writeMethod.invoke(defaultTheme, jsonObject.getString(jsonObjectKey));
-            } catch (IntrospectionException | InvocationTargetException | IllegalAccessException e) {
-                noneSetKeys.add(jsonObjectKey);
-            }
-        }
+		// 遍历Key值，为对应的key属性赋值
+		for (String jsonObjectKey : jsonObject.keySet()) {
+			String propertyName = CharSequenceUtil.toCamelCase(jsonObjectKey);
+			try {
+				PropertyDescriptor propertyDescriptor = new PropertyDescriptor(propertyName, DefaultTheme.class);
+				Method writeMethod = propertyDescriptor.getWriteMethod();
+				writeMethod.invoke(defaultTheme, jsonObject.getString(jsonObjectKey));
+			}
+			catch (IntrospectionException | InvocationTargetException | IllegalAccessException e) {
+				noneSetKeys.add(jsonObjectKey);
+			}
+		}
 
-        // 遍历没有被set值的key，放到单独的map中
-        HashMap<String, String> otherInfos = new HashMap<>();
-        for (String noneSetKey : noneSetKeys) {
-            String propertyName = CharSequenceUtil.toCamelCase(noneSetKey);
-            String value = jsonObject.getString(noneSetKey);
-            otherInfos.put(propertyName, value);
-        }
-        defaultTheme.setOtherConfigs(otherInfos);
+		// 遍历没有被set值的key，放到单独的map中
+		HashMap<String, String> otherInfos = new HashMap<>();
+		for (String noneSetKey : noneSetKeys) {
+			String propertyName = CharSequenceUtil.toCamelCase(noneSetKey);
+			String value = jsonObject.getString(noneSetKey);
+			otherInfos.put(propertyName, value);
+		}
+		defaultTheme.setOtherConfigs(otherInfos);
 
-        return defaultTheme;
-    }
+		return defaultTheme;
+	}
 
-    public static void main(String[] args) throws Exception {
-        DefaultTheme defaultTheme = new DefaultTheme();
-        PropertyDescriptor propertyDescriptor = new PropertyDescriptor("abc", DefaultTheme.class);
-        Method writeMethod = propertyDescriptor.getWriteMethod();
-        writeMethod.invoke(defaultTheme, "123123");
-    }
+	public static void main(String[] args) throws Exception {
+		DefaultTheme defaultTheme = new DefaultTheme();
+		PropertyDescriptor propertyDescriptor = new PropertyDescriptor("abc", DefaultTheme.class);
+		Method writeMethod = propertyDescriptor.getWriteMethod();
+		writeMethod.invoke(defaultTheme, "123123");
+	}
 
 }

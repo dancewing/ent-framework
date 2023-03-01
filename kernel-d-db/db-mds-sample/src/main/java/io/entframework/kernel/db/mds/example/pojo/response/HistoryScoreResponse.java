@@ -18,39 +18,41 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HistoryScoreResponse extends BaseResponse {
-    /**
-     * Id
-     */
-    @ChineseDescription("Id")
-    private Long id;
 
-    /**
-     * 学生ID
-     */
-    @ChineseDescription("学生ID")
-    private Long studentId;
+	/**
+	 * Id
+	 */
+	@ChineseDescription("Id")
+	private Long id;
 
-    /**
-     * 考试时间
-     */
-    @ChineseDescription("考试时间")
-    private LocalDateTime examTime;
+	/**
+	 * 学生ID
+	 */
+	@ChineseDescription("学生ID")
+	private Long studentId;
 
-    /**
-     * 考试类型[MONTHLY(0):月考,MID_TERM(1):期中,FINAL(2):期末]
-     */
-    @ChineseDescription("考试类型")
-    private ExamType examType;
+	/**
+	 * 考试时间
+	 */
+	@ChineseDescription("考试时间")
+	private LocalDateTime examTime;
 
-    /**
-     * 总分数
-     */
-    @ChineseDescription("总分数")
-    private Integer totalScore;
+	/**
+	 * 考试类型[MONTHLY(0):月考,MID_TERM(1):期中,FINAL(2):期末]
+	 */
+	@ChineseDescription("考试类型")
+	private ExamType examType;
 
-    /**
-     * 分数
-     */
-    @ChineseDescription("分数")
-    private Map<String, Integer> score;
+	/**
+	 * 总分数
+	 */
+	@ChineseDescription("总分数")
+	private Integer totalScore;
+
+	/**
+	 * 分数
+	 */
+	@ChineseDescription("分数")
+	private Map<String, Integer> score;
+
 }

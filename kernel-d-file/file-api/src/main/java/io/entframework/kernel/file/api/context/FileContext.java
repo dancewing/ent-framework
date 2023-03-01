@@ -13,13 +13,13 @@ import io.entframework.kernel.file.api.FileOperatorApi;
  */
 public class FileContext {
 
-    /**
-     * 获取文件操作接口
-     *
-     * @date 2020/10/17 14:30
-     */
-    public static FileOperatorApi me() {
-        return SpringUtil.getBean(FileOperatorApi.class);
-    }
+	/**
+	 * 获取文件操作接口
+	 *
+	 * @date 2020/10/17 14:30
+	 */
+	public static FileOperatorApi me() {
+		return SpringUtil.getBean(FileOperatorApi.class);
+	}
 
 }

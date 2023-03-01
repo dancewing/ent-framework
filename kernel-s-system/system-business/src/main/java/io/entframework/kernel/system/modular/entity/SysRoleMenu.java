@@ -22,39 +22,41 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @Entity
 @Table(value = "sys_role_menu", sqlSupport = SysRoleMenuDynamicSqlSupport.class, tableProperty = "sysRoleMenu")
 public class SysRoleMenu extends BaseEntity implements Serializable {
-    /**
-     * 主键
-     */
-    @Id
-    @Column(name = "role_menu_id", jdbcType = JDBCType.BIGINT)
-    private Long roleMenuId;
 
-    /**
-     * 角色id
-     */
-    @Column(name = "role_id", jdbcType = JDBCType.BIGINT)
-    private Long roleId;
+	/**
+	 * 主键
+	 */
+	@Id
+	@Column(name = "role_menu_id", jdbcType = JDBCType.BIGINT)
+	private Long roleMenuId;
 
-    /**
-     * 菜单id
-     */
-    @Column(name = "menu_id", jdbcType = JDBCType.BIGINT)
-    private Long menuId;
+	/**
+	 * 角色id
+	 */
+	@Column(name = "role_id", jdbcType = JDBCType.BIGINT)
+	private Long roleId;
 
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 菜单id
+	 */
+	@Column(name = "menu_id", jdbcType = JDBCType.BIGINT)
+	private Long menuId;
 
-    public SysRoleMenu roleMenuId(Long roleMenuId) {
-        this.roleMenuId = roleMenuId;
-        return this;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public SysRoleMenu roleId(Long roleId) {
-        this.roleId = roleId;
-        return this;
-    }
+	public SysRoleMenu roleMenuId(Long roleMenuId) {
+		this.roleMenuId = roleMenuId;
+		return this;
+	}
 
-    public SysRoleMenu menuId(Long menuId) {
-        this.menuId = menuId;
-        return this;
-    }
+	public SysRoleMenu roleId(Long roleId) {
+		this.roleId = roleId;
+		return this;
+	}
+
+	public SysRoleMenu menuId(Long menuId) {
+		this.menuId = menuId;
+		return this;
+	}
+
 }

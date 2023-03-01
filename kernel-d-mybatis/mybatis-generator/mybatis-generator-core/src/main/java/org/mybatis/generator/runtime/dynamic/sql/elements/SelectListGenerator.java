@@ -27,58 +27,62 @@ import org.mybatis.generator.config.Context;
 
 public class SelectListGenerator {
 
-    private final FragmentGenerator fragmentGenerator;
-    private final Context context;
-    private final IntrospectedTable introspectedTable;
+	private final FragmentGenerator fragmentGenerator;
 
-    private SelectListGenerator(Builder builder) {
-        this.fragmentGenerator = Objects.requireNonNull(builder.fragmentGenerator);
-        this.context = Objects.requireNonNull(builder.context);
-        this.introspectedTable = Objects.requireNonNull(builder.introspectedTable);
-    }
+	private final Context context;
 
-    public FieldAndImports generateFieldAndImports() {
-        Set<FullyQualifiedJavaType> imports = new HashSet<>();
+	private final IntrospectedTable introspectedTable;
 
-        FullyQualifiedJavaType fieldType =
-                new FullyQualifiedJavaType("org.mybatis.dynamic.sql.BasicColumn[]"); //$NON-NLS-1$
-        imports.add(fieldType);
-        Field field = new Field("selectList", fieldType); //$NON-NLS-1$
-        field.setInitializationString("BasicColumn.columnList(" //$NON-NLS-1$
-                + fragmentGenerator.getSelectList() + ")"); //$NON-NLS-1$
-        context.getCommentGenerator().addFieldAnnotation(field, introspectedTable, imports);
+	private SelectListGenerator(Builder builder) {
+		this.fragmentGenerator = Objects.requireNonNull(builder.fragmentGenerator);
+		this.context = Objects.requireNonNull(builder.context);
+		this.introspectedTable = Objects.requireNonNull(builder.introspectedTable);
+	}
 
-        return FieldAndImports.withField(field)
-                .withImports(imports)
-                .build();
-    }
+	public FieldAndImports generateFieldAndImports() {
+		Set<FullyQualifiedJavaType> imports = new HashSet<>();
 
-    public boolean callPlugins(Field field, Interface interfaze) {
-        return context.getPlugins().clientSelectListFieldGenerated(field, interfaze, introspectedTable);
-    }
+		FullyQualifiedJavaType fieldType = new FullyQualifiedJavaType("org.mybatis.dynamic.sql.BasicColumn[]"); //$NON-NLS-1$
+		imports.add(fieldType);
+		Field field = new Field("selectList", fieldType); //$NON-NLS-1$
+		field.setInitializationString("BasicColumn.columnList(" //$NON-NLS-1$
+				+ fragmentGenerator.getSelectList() + ")"); //$NON-NLS-1$
+		context.getCommentGenerator().addFieldAnnotation(field, introspectedTable, imports);
 
-    public static class Builder {
-        private FragmentGenerator fragmentGenerator;
-        private Context context;
-        private IntrospectedTable introspectedTable;
+		return FieldAndImports.withField(field).withImports(imports).build();
+	}
 
-        public Builder withFragmentGenerator(FragmentGenerator fragmentGenerator) {
-            this.fragmentGenerator = fragmentGenerator;
-            return this;
-        }
+	public boolean callPlugins(Field field, Interface interfaze) {
+		return context.getPlugins().clientSelectListFieldGenerated(field, interfaze, introspectedTable);
+	}
 
-        public Builder withContext(Context context) {
-            this.context = context;
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withIntrospectedTable(IntrospectedTable introspectedTable) {
-            this.introspectedTable = introspectedTable;
-            return this;
-        }
+		private FragmentGenerator fragmentGenerator;
 
-        public SelectListGenerator build() {
-            return new SelectListGenerator(this);
-        }
-    }
+		private Context context;
+
+		private IntrospectedTable introspectedTable;
+
+		public Builder withFragmentGenerator(FragmentGenerator fragmentGenerator) {
+			this.fragmentGenerator = fragmentGenerator;
+			return this;
+		}
+
+		public Builder withContext(Context context) {
+			this.context = context;
+			return this;
+		}
+
+		public Builder withIntrospectedTable(IntrospectedTable introspectedTable) {
+			this.introspectedTable = introspectedTable;
+			return this;
+		}
+
+		public SelectListGenerator build() {
+			return new SelectListGenerator(this);
+		}
+
+	}
+
 }

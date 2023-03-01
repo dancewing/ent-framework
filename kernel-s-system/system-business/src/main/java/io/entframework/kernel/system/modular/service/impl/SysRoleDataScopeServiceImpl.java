@@ -27,7 +27,8 @@ import java.util.Set;
  *
  * @date 2020/11/5 下午4:32
  */
-public class SysRoleDataScopeServiceImpl extends BaseServiceImpl<SysRoleDataScopeRequest, SysRoleDataScopeResponse, SysRoleDataScope>
+public class SysRoleDataScopeServiceImpl
+		extends BaseServiceImpl<SysRoleDataScopeRequest, SysRoleDataScopeResponse, SysRoleDataScope>
 		implements SysRoleDataScopeService, RoleDataScopeServiceApi {
 
 	public SysRoleDataScopeServiceImpl() {
@@ -57,8 +58,10 @@ public class SysRoleDataScopeServiceImpl extends BaseServiceImpl<SysRoleDataScop
 
 	@Override
 	public List<Long> getRoleDataScopeIdList(List<Long> roleIdList) {
-		return this.getRepository().select(getEntityClass(), c -> c.where(SysRoleDataScopeDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIdList))).stream()
-				.map(SysRoleDataScope::getOrganizationId).toList();
+		return this.getRepository()
+				.select(getEntityClass(),
+						c -> c.where(SysRoleDataScopeDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIdList)))
+				.stream().map(SysRoleDataScope::getOrganizationId).toList();
 	}
 
 	@Override
@@ -86,7 +89,8 @@ public class SysRoleDataScopeServiceImpl extends BaseServiceImpl<SysRoleDataScop
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void delByOrgIds(Set<Long> orgIds) {
-		this.getRepository().delete(getEntityClass(), c -> c.where(SysRoleDataScopeDynamicSqlSupport.organizationId, SqlBuilder.isIn(orgIds)));
+		this.getRepository().delete(getEntityClass(),
+				c -> c.where(SysRoleDataScopeDynamicSqlSupport.organizationId, SqlBuilder.isIn(orgIds)));
 	}
 
 	@Override
@@ -110,11 +114,11 @@ public class SysRoleDataScopeServiceImpl extends BaseServiceImpl<SysRoleDataScop
 
 	/**
 	 * 根据主键查询
-	 *
 	 * @param sysRoleDataScopeRequest dto实体
 	 * @date 2021/2/3 15:02
 	 */
 	private SysRoleDataScope querySysRoleDataScopeById(SysRoleDataScopeRequest sysRoleDataScopeRequest) {
 		return this.getRepository().get(getEntityClass(), sysRoleDataScopeRequest.getRoleDataScopeId());
 	}
+
 }

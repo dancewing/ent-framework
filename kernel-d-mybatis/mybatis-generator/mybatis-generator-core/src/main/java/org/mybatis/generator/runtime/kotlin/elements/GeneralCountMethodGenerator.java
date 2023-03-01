@@ -23,59 +23,63 @@ import org.mybatis.generator.api.dom.kotlin.KotlinFunction;
 
 public class GeneralCountMethodGenerator extends AbstractKotlinFunctionGenerator {
 
-    private final String mapperName;
-    private final String tableFieldImport;
+	private final String mapperName;
 
-    private GeneralCountMethodGenerator(Builder builder) {
-        super(builder);
-        mapperName = Objects.requireNonNull(builder.mapperName);
-        tableFieldImport = Objects.requireNonNull(builder.tableFieldImport);
-    }
+	private final String tableFieldImport;
 
-    @Override
-    public KotlinFunctionAndImports generateMethodAndImports() {
-        KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports.withFunction(
-                KotlinFunction.newOneLineFunction(mapperName + ".count") //$NON-NLS-1$
-                .withArgument(KotlinArg.newArg("completer") //$NON-NLS-1$
-                        .withDataType("CountCompleter") //$NON-NLS-1$
-                        .build())
-                .withCodeLine("countFrom(this::count, " + tableFieldName + ", completer)") //$NON-NLS-1$ //$NON-NLS-2$
-                .build())
-                .withImport("org.mybatis.dynamic.sql.util.kotlin.CountCompleter") //$NON-NLS-1$
-                .withImport("org.mybatis.dynamic.sql.util.kotlin.mybatis3.countFrom") //$NON-NLS-1$
-                .withImport(tableFieldImport)
-                .build();
+	private GeneralCountMethodGenerator(Builder builder) {
+		super(builder);
+		mapperName = Objects.requireNonNull(builder.mapperName);
+		tableFieldImport = Objects.requireNonNull(builder.tableFieldImport);
+	}
 
-        addFunctionComment(functionAndImports);
-        return functionAndImports;
-    }
+	@Override
+	public KotlinFunctionAndImports generateMethodAndImports() {
+		KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports
+				.withFunction(KotlinFunction.newOneLineFunction(mapperName + ".count") //$NON-NLS-1$
+						.withArgument(KotlinArg.newArg("completer") //$NON-NLS-1$
+								.withDataType("CountCompleter") //$NON-NLS-1$
+								.build())
+						.withCodeLine("countFrom(this::count, " + tableFieldName + ", completer)") //$NON-NLS-1$ //$NON-NLS-2$
+						.build())
+				.withImport("org.mybatis.dynamic.sql.util.kotlin.CountCompleter") //$NON-NLS-1$
+				.withImport("org.mybatis.dynamic.sql.util.kotlin.mybatis3.countFrom") //$NON-NLS-1$
+				.withImport(tableFieldImport).build();
 
-    @Override
-    public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
-        return context.getPlugins().clientGeneralCountMethodGenerated(kotlinFunction, kotlinFile, introspectedTable);
-    }
+		addFunctionComment(functionAndImports);
+		return functionAndImports;
+	}
 
-    public static class Builder extends BaseBuilder<Builder> {
-        private String mapperName;
-        private String tableFieldImport;
+	@Override
+	public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
+		return context.getPlugins().clientGeneralCountMethodGenerated(kotlinFunction, kotlinFile, introspectedTable);
+	}
 
-        public Builder withTableFieldImport(String tableFieldImport) {
-            this.tableFieldImport = tableFieldImport;
-            return this;
-        }
+	public static class Builder extends BaseBuilder<Builder> {
 
-        public Builder withMapperName(String mapperName) {
-            this.mapperName = mapperName;
-            return this;
-        }
+		private String mapperName;
 
-        @Override
-        public Builder getThis() {
-            return this;
-        }
+		private String tableFieldImport;
 
-        public GeneralCountMethodGenerator build() {
-            return new GeneralCountMethodGenerator(this);
-        }
-    }
+		public Builder withTableFieldImport(String tableFieldImport) {
+			this.tableFieldImport = tableFieldImport;
+			return this;
+		}
+
+		public Builder withMapperName(String mapperName) {
+			this.mapperName = mapperName;
+			return this;
+		}
+
+		@Override
+		public Builder getThis() {
+			return this;
+		}
+
+		public GeneralCountMethodGenerator build() {
+			return new GeneralCountMethodGenerator(this);
+		}
+
+	}
+
 }

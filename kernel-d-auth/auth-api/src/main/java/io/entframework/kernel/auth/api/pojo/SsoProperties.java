@@ -16,9 +16,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "kernel.auth.sso")
 public class SsoProperties {
 
-    /**
-     * 是否开启，true-开启单点，false-关闭单点
-     */
-    private boolean openFlag = false;
+	/**
+	 * 是否开启，true-开启单点，false-关闭单点
+	 */
+	private boolean openFlag = false;
 
 }

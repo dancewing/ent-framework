@@ -43,131 +43,131 @@ import org.xml.sax.SAXParseException;
 
 public class ConfigurationParser {
 
-    private final List<String> warnings;
-    private final List<String> parseErrors;
-    private final Properties extraProperties;
+	private final List<String> warnings;
 
-    public ConfigurationParser(List<String> warnings) {
-        this(null, warnings);
-    }
+	private final List<String> parseErrors;
 
-    /**
-     * This constructor accepts a properties object which may be used to specify
-     * an additional property set.  Typically this property set will be Ant or Maven properties
-     * specified in the build.xml file or the POM.
-     *
-     * <p>If there are name collisions between the different property sets, they will be
-     * resolved in this order:
-     *
-     * <ol>
-     *   <li>System properties take highest precedence</li>
-     *   <li>Properties specified in the &lt;properties&gt; configuration
-     *       element are next</li>
-     *   <li>Properties specified in this "extra" property set are
-     *       lowest precedence.</li>
-     * </ol>
-     *
-     * @param extraProperties an (optional) set of properties used to resolve property
-     *     references in the configuration file
-     * @param warnings any warnings are added to this array
-     */
-    public ConfigurationParser(Properties extraProperties, List<String> warnings) {
-        super();
-        this.extraProperties = extraProperties;
+	private final Properties extraProperties;
 
-        if (warnings == null) {
-            this.warnings = new ArrayList<>();
-        } else {
-            this.warnings = warnings;
-        }
+	public ConfigurationParser(List<String> warnings) {
+		this(null, warnings);
+	}
 
-        parseErrors = new ArrayList<>();
-    }
+	/**
+	 * This constructor accepts a properties object which may be used to specify an
+	 * additional property set. Typically this property set will be Ant or Maven
+	 * properties specified in the build.xml file or the POM.
+	 *
+	 * <p>
+	 * If there are name collisions between the different property sets, they will be
+	 * resolved in this order:
+	 *
+	 * <ol>
+	 * <li>System properties take highest precedence</li>
+	 * <li>Properties specified in the &lt;properties&gt; configuration element are
+	 * next</li>
+	 * <li>Properties specified in this "extra" property set are lowest precedence.</li>
+	 * </ol>
+	 * @param extraProperties an (optional) set of properties used to resolve property
+	 * references in the configuration file
+	 * @param warnings any warnings are added to this array
+	 */
+	public ConfigurationParser(Properties extraProperties, List<String> warnings) {
+		super();
+		this.extraProperties = extraProperties;
 
-    public Configuration parseConfiguration(File inputFile) throws IOException,
-            XMLParserException {
+		if (warnings == null) {
+			this.warnings = new ArrayList<>();
+		}
+		else {
+			this.warnings = warnings;
+		}
 
-        FileReader fr = new FileReader(inputFile);
+		parseErrors = new ArrayList<>();
+	}
 
-        return parseConfiguration(fr);
-    }
+	public Configuration parseConfiguration(File inputFile) throws IOException, XMLParserException {
 
-    public Configuration parseConfiguration(Reader reader) throws IOException,
-            XMLParserException {
+		FileReader fr = new FileReader(inputFile);
 
-        InputSource is = new InputSource(reader);
+		return parseConfiguration(fr);
+	}
 
-        return parseConfiguration(is);
-    }
+	public Configuration parseConfiguration(Reader reader) throws IOException, XMLParserException {
 
-    public Configuration parseConfiguration(InputStream inputStream)
-            throws IOException, XMLParserException {
+		InputSource is = new InputSource(reader);
 
-        InputSource is = new InputSource(inputStream);
+		return parseConfiguration(is);
+	}
 
-        return parseConfiguration(is);
-    }
+	public Configuration parseConfiguration(InputStream inputStream) throws IOException, XMLParserException {
 
-    private Configuration parseConfiguration(InputSource inputSource)
-            throws IOException, XMLParserException {
-        parseErrors.clear();
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-        factory.setValidating(true);
+		InputSource is = new InputSource(inputStream);
 
-        try {
-            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            builder.setEntityResolver(new ParserEntityResolver());
+		return parseConfiguration(is);
+	}
 
-            ParserErrorHandler handler = new ParserErrorHandler(warnings,
-                    parseErrors);
-            builder.setErrorHandler(handler);
+	private Configuration parseConfiguration(InputSource inputSource) throws IOException, XMLParserException {
+		parseErrors.clear();
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+		factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+		factory.setValidating(true);
 
-            Document document = null;
-            try {
-                document = builder.parse(inputSource);
-            } catch (SAXParseException e) {
-                throw new XMLParserException(parseErrors);
-            } catch (SAXException e) {
-                if (e.getException() == null) {
-                    parseErrors.add(e.getMessage());
-                } else {
-                    parseErrors.add(e.getException().getMessage());
-                }
-            }
+		try {
+			factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			builder.setEntityResolver(new ParserEntityResolver());
 
-            if (document == null || !parseErrors.isEmpty()) {
-                throw new XMLParserException(parseErrors);
-            }
+			ParserErrorHandler handler = new ParserErrorHandler(warnings, parseErrors);
+			builder.setErrorHandler(handler);
 
-            Configuration config;
-            Element rootNode = document.getDocumentElement();
-            DocumentType docType = document.getDoctype();
-            if (rootNode.getNodeType() == Node.ELEMENT_NODE
-                    && docType.getPublicId().equals(
-                            XmlConstants.MYBATIS_GENERATOR_CONFIG_PUBLIC_ID)) {
-                config = parseMyBatisGeneratorConfiguration(rootNode);
-            } else {
-                throw new XMLParserException(getString("RuntimeError.5")); //$NON-NLS-1$
-            }
+			Document document = null;
+			try {
+				document = builder.parse(inputSource);
+			}
+			catch (SAXParseException e) {
+				throw new XMLParserException(parseErrors);
+			}
+			catch (SAXException e) {
+				if (e.getException() == null) {
+					parseErrors.add(e.getMessage());
+				}
+				else {
+					parseErrors.add(e.getException().getMessage());
+				}
+			}
 
-            if (!parseErrors.isEmpty()) {
-                throw new XMLParserException(parseErrors);
-            }
+			if (document == null || !parseErrors.isEmpty()) {
+				throw new XMLParserException(parseErrors);
+			}
 
-            return config;
-        } catch (ParserConfigurationException e) {
-            parseErrors.add(e.getMessage());
-            throw new XMLParserException(parseErrors);
-        }
-    }
+			Configuration config;
+			Element rootNode = document.getDocumentElement();
+			DocumentType docType = document.getDoctype();
+			if (rootNode.getNodeType() == Node.ELEMENT_NODE
+					&& docType.getPublicId().equals(XmlConstants.MYBATIS_GENERATOR_CONFIG_PUBLIC_ID)) {
+				config = parseMyBatisGeneratorConfiguration(rootNode);
+			}
+			else {
+				throw new XMLParserException(getString("RuntimeError.5")); //$NON-NLS-1$
+			}
 
-    private Configuration parseMyBatisGeneratorConfiguration(Element rootNode)
-            throws XMLParserException {
-        MyBatisGeneratorConfigurationParser parser = new MyBatisGeneratorConfigurationParser(
-                extraProperties);
-        return parser.parseConfiguration(rootNode);
-    }
+			if (!parseErrors.isEmpty()) {
+				throw new XMLParserException(parseErrors);
+			}
+
+			return config;
+		}
+		catch (ParserConfigurationException e) {
+			parseErrors.add(e.getMessage());
+			throw new XMLParserException(parseErrors);
+		}
+	}
+
+	private Configuration parseMyBatisGeneratorConfiguration(Element rootNode) throws XMLParserException {
+		MyBatisGeneratorConfigurationParser parser = new MyBatisGeneratorConfigurationParser(extraProperties);
+		return parser.parseConfiguration(rootNode);
+	}
+
 }

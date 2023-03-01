@@ -17,44 +17,44 @@ import java.time.LocalDate;
 @Data
 public class SimpleUserInfo implements Serializable {
 
-    /**
-     * 昵称
-     */
-    private String nickName;
+	/**
+	 * 昵称
+	 */
+	private String nickName;
 
-    /**
-     * 姓名
-     */
-    private String realName;
+	/**
+	 * 姓名
+	 */
+	private String realName;
 
-    /**
-     * 头像
-     */
-    private Long avatar;
+	/**
+	 * 头像
+	 */
+	private Long avatar;
 
-    /**
-     * 生日
-     */
-    private LocalDate birthday;
+	/**
+	 * 生日
+	 */
+	private LocalDate birthday;
 
-    /**
-     * 性别（M-男，F-女）
-     */
-    private GenderEnum sex;
+	/**
+	 * 性别（M-男，F-女）
+	 */
+	private GenderEnum sex;
 
-    /**
-     * 邮箱
-     */
-    private String email;
+	/**
+	 * 邮箱
+	 */
+	private String email;
 
-    /**
-     * 手机
-     */
-    private String phone;
+	/**
+	 * 手机
+	 */
+	private String phone;
 
-    /**
-     * 电话
-     */
-    private String tel;
+	/**
+	 * 电话
+	 */
+	private String tel;
 
 }

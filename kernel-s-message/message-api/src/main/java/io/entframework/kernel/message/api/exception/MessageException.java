@@ -15,12 +15,13 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class MessageException extends ServiceException {
 
-    public MessageException(AbstractExceptionEnum exception, Object... params) {
-        super(MessageConstants.MESSAGE_MODULE_NAME, exception.getErrorCode(), CharSequenceUtil.format(exception.getUserTip(), params));
-    }
+	public MessageException(AbstractExceptionEnum exception, Object... params) {
+		super(MessageConstants.MESSAGE_MODULE_NAME, exception.getErrorCode(),
+				CharSequenceUtil.format(exception.getUserTip(), params));
+	}
 
-    public MessageException(AbstractExceptionEnum exception) {
-        super(MessageConstants.MESSAGE_MODULE_NAME, exception);
-    }
+	public MessageException(AbstractExceptionEnum exception) {
+		super(MessageConstants.MESSAGE_MODULE_NAME, exception);
+	}
 
 }

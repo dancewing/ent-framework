@@ -14,8 +14,8 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class MonitorException extends ServiceException {
 
-    public MonitorException(AbstractExceptionEnum exception) {
-        super(MonitorConstants.MONITOR_MODULE_NAME, exception);
-    }
+	public MonitorException(AbstractExceptionEnum exception) {
+		super(MonitorConstants.MONITOR_MODULE_NAME, exception);
+	}
 
 }

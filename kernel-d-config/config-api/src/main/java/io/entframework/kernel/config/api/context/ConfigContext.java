@@ -19,27 +19,27 @@ import static io.entframework.kernel.config.api.exception.enums.ConfigExceptionE
  */
 public class ConfigContext {
 
-    private static ConfigApi CONFIG_API = null;
+	private static ConfigApi CONFIG_API = null;
 
-    /**
-     * 获取config操作接口
-     *
-     * @date 2020/10/17 14:30
-     */
-    public static ConfigApi me() {
-        if (CONFIG_API == null) {
-            throw new ConfigException(CONFIG_CONTAINER_IS_NULL);
-        }
-        return CONFIG_API;
-    }
+	/**
+	 * 获取config操作接口
+	 *
+	 * @date 2020/10/17 14:30
+	 */
+	public static ConfigApi me() {
+		if (CONFIG_API == null) {
+			throw new ConfigException(CONFIG_CONTAINER_IS_NULL);
+		}
+		return CONFIG_API;
+	}
 
-    /**
-     * 设置config api的实现
-     *
-     * @date 2020/12/4 14:35
-     */
-    public static void setConfigApi(ConfigApi configApi) {
-        CONFIG_API = configApi;
-    }
+	/**
+	 * 设置config api的实现
+	 *
+	 * @date 2020/12/4 14:35
+	 */
+	public static void setConfigApi(ConfigApi configApi) {
+		CONFIG_API = configApi;
+	}
 
 }

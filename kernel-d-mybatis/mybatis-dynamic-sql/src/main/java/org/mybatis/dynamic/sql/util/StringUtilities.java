@@ -19,63 +19,64 @@ import java.util.Optional;
 
 public interface StringUtilities {
 
-    static String spaceAfter(Optional<String> in) {
-        return in.map(StringUtilities::spaceAfter)
-                .orElse(""); //$NON-NLS-1$
-    }
+	static String spaceAfter(Optional<String> in) {
+		return in.map(StringUtilities::spaceAfter).orElse(""); //$NON-NLS-1$
+	}
 
-    static String spaceAfter(String in) {
-        return in + " "; //$NON-NLS-1$
-    }
+	static String spaceAfter(String in) {
+		return in + " "; //$NON-NLS-1$
+	}
 
-    static String spaceBefore(Optional<String> in) {
-        return in.map(StringUtilities::spaceBefore)
-                .orElse(""); //$NON-NLS-1$
-    }
+	static String spaceBefore(Optional<String> in) {
+		return in.map(StringUtilities::spaceBefore).orElse(""); //$NON-NLS-1$
+	}
 
-    static String spaceBefore(String in) {
-        return " " + in; //$NON-NLS-1$
-    }
+	static String spaceBefore(String in) {
+		return " " + in; //$NON-NLS-1$
+	}
 
-    static String safelyUpperCase(String s) {
-        return s == null ? null : s.toUpperCase();
-    }
+	static String safelyUpperCase(String s) {
+		return s == null ? null : s.toUpperCase();
+	}
 
-    static String toCamelCase(String inputString) {
-        StringBuilder sb = new StringBuilder();
+	static String toCamelCase(String inputString) {
+		StringBuilder sb = new StringBuilder();
 
-        boolean nextUpperCase = false;
+		boolean nextUpperCase = false;
 
-        for (int i = 0; i < inputString.length(); i++) {
-            char c = inputString.charAt(i);
-            if (Character.isLetterOrDigit(c)) {
-                if (nextUpperCase) {
-                    sb.append(Character.toUpperCase(c));
-                    nextUpperCase = false;
-                } else {
-                    sb.append(Character.toLowerCase(c));
-                }
-            } else {
-                if (sb.length() > 0) {
-                    nextUpperCase = true;
-                }
-            }
-        }
+		for (int i = 0; i < inputString.length(); i++) {
+			char c = inputString.charAt(i);
+			if (Character.isLetterOrDigit(c)) {
+				if (nextUpperCase) {
+					sb.append(Character.toUpperCase(c));
+					nextUpperCase = false;
+				}
+				else {
+					sb.append(Character.toLowerCase(c));
+				}
+			}
+			else {
+				if (sb.length() > 0) {
+					nextUpperCase = true;
+				}
+			}
+		}
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    static boolean containsText(CharSequence str) {
-        int strLen = str.length();
-        for (int i = 0; i < strLen; i++) {
-            if (!Character.isWhitespace(str.charAt(i))) {
-                return true;
-            }
-        }
-        return false;
-    }
+	static boolean containsText(CharSequence str) {
+		int strLen = str.length();
+		for (int i = 0; i < strLen; i++) {
+			if (!Character.isWhitespace(str.charAt(i))) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    static boolean hasText(String str) {
-        return (str != null && !str.isEmpty() && containsText(str));
-    }
+	static boolean hasText(String str) {
+		return (str != null && !str.isEmpty() && containsText(str));
+	}
+
 }

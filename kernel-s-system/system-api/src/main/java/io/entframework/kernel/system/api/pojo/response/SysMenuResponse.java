@@ -146,4 +146,5 @@ public class SysMenuResponse implements AbstractTreeNode<SysMenuResponse> {
 	public void setChildrenNodes(List<SysMenuResponse> childrenNodes) {
 		this.children = childrenNodes;
 	}
+
 }

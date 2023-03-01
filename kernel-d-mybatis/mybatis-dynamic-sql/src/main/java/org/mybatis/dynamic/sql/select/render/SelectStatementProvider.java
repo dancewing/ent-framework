@@ -20,7 +20,9 @@ import org.mybatis.dynamic.sql.StatementSourceProvider;
 import java.util.Map;
 
 public interface SelectStatementProvider extends StatementSourceProvider<SelectRenderer> {
-    Map<String, Object> getParameters();
 
-    String getSelectStatement();
+	Map<String, Object> getParameters();
+
+	String getSelectStatement();
+
 }

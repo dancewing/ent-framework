@@ -10,5 +10,7 @@ package io.entframework.kernel.converter.support;
 import org.springframework.lang.Nullable;
 
 public interface ObjectConversionService extends org.springframework.core.convert.ConversionService {
-    void copy(@Nullable Object source, @Nullable Object target);
+
+	void copy(@Nullable Object source, @Nullable Object target);
+
 }

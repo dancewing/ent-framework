@@ -16,23 +16,25 @@
 package org.mybatis.dynamic.sql.util;
 
 public abstract class GeneralInsertMappingVisitor<R> implements ColumnMappingVisitor<R> {
-    @Override
-    public final R visit(SelectMapping mapping) {
-        throw new UnsupportedOperationException(Messages.getInternalErrorString(1));
-    }
 
-    @Override
-    public final R visit(PropertyMapping mapping) {
-        throw new UnsupportedOperationException(Messages.getInternalErrorString(2));
-    }
+	@Override
+	public final R visit(SelectMapping mapping) {
+		throw new UnsupportedOperationException(Messages.getInternalErrorString(1));
+	}
 
-    @Override
-    public final R visit(PropertyWhenPresentMapping mapping) {
-        throw new UnsupportedOperationException(Messages.getInternalErrorString(3));
-    }
+	@Override
+	public final R visit(PropertyMapping mapping) {
+		throw new UnsupportedOperationException(Messages.getInternalErrorString(2));
+	}
 
-    @Override
-    public final R visit(ColumnToColumnMapping columnMapping) {
-        throw new UnsupportedOperationException(Messages.getInternalErrorString(4));
-    }
+	@Override
+	public final R visit(PropertyWhenPresentMapping mapping) {
+		throw new UnsupportedOperationException(Messages.getInternalErrorString(3));
+	}
+
+	@Override
+	public final R visit(ColumnToColumnMapping columnMapping) {
+		throw new UnsupportedOperationException(Messages.getInternalErrorString(4));
+	}
+
 }

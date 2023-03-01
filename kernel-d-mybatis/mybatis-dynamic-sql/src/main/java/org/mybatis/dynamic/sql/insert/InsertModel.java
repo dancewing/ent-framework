@@ -31,65 +31,70 @@ import org.mybatis.dynamic.sql.util.AbstractColumnMapping;
 import org.mybatis.dynamic.sql.util.Messages;
 
 public class InsertModel<T> {
-    private final SqlTable table;
-    private final T row;
-    private final List<AbstractColumnMapping> columnMappings;
 
-    private InsertModel(Builder<T> builder) {
-        table = Objects.requireNonNull(builder.table);
-        row = Objects.requireNonNull(builder.row);
-        columnMappings = Objects.requireNonNull(builder.columnMappings);
-        if (columnMappings.isEmpty()) {
-            throw new InvalidSqlException(Messages.getString("ERROR.7")); //$NON-NLS-1$
-        }
-    }
+	private final SqlTable table;
 
-    public <R> Stream<R> mapColumnMappings(Function<AbstractColumnMapping, R> mapper) {
-        return columnMappings.stream().map(mapper);
-    }
+	private final T row;
 
-    public T row() {
-        return row;
-    }
+	private final List<AbstractColumnMapping> columnMappings;
 
-    public SqlTable table() {
-        return table;
-    }
+	private InsertModel(Builder<T> builder) {
+		table = Objects.requireNonNull(builder.table);
+		row = Objects.requireNonNull(builder.row);
+		columnMappings = Objects.requireNonNull(builder.columnMappings);
+		if (columnMappings.isEmpty()) {
+			throw new InvalidSqlException(Messages.getString("ERROR.7")); //$NON-NLS-1$
+		}
+	}
 
-    @NotNull
-    public InsertStatementProvider<T> render(RenderingStrategy renderingStrategy) {
-        return InsertRenderer.withInsertModel(this)
-                .withRenderingStrategy(renderingStrategy)
-                .build()
-                .render();
-    }
+	public <R> Stream<R> mapColumnMappings(Function<AbstractColumnMapping, R> mapper) {
+		return columnMappings.stream().map(mapper);
+	}
 
-    public static <T> Builder<T> withRow(T row) {
-        return new Builder<T>().withRow(row);
-    }
+	public T row() {
+		return row;
+	}
 
-    public static class Builder<T> {
-        private SqlTable table;
-        private T row;
-        private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
+	public SqlTable table() {
+		return table;
+	}
 
-        public Builder<T> withTable(SqlTable table) {
-            this.table = table;
-            return this;
-        }
+	@NotNull
+	public InsertStatementProvider<T> render(RenderingStrategy renderingStrategy) {
+		return InsertRenderer.withInsertModel(this).withRenderingStrategy(renderingStrategy).build().render();
+	}
 
-        public Builder<T> withRow(T row) {
-            this.row = row;
-            return this;
-        }
+	public static <T> Builder<T> withRow(T row) {
+		return new Builder<T>().withRow(row);
+	}
 
-        public Builder<T> withColumnMappings(List<AbstractColumnMapping> columnMappings) {
-            this.columnMappings.addAll(columnMappings);
-            return this;
-        }
+	public static class Builder<T> {
 
-        public InsertModel<T> build() {
-            return new InsertModel<>(this);
-        }
-    }
+		private SqlTable table;
+
+		private T row;
+
+		private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
+
+		public Builder<T> withTable(SqlTable table) {
+			this.table = table;
+			return this;
+		}
+
+		public Builder<T> withRow(T row) {
+			this.row = row;
+			return this;
+		}
+
+		public Builder<T> withColumnMappings(List<AbstractColumnMapping> columnMappings) {
+			this.columnMappings.addAll(columnMappings);
+			return this;
+		}
+
+		public InsertModel<T> build() {
+			return new InsertModel<>(this);
+		}
+
+	}
+
 }

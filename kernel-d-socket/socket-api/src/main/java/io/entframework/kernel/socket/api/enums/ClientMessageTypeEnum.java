@@ -16,22 +16,23 @@ import lombok.Getter;
 @Getter
 public enum ClientMessageTypeEnum {
 
-    /**
-     * 用户连接鉴权
-     */
-    USER_CONNECTION_AUTHENTICATION("200000", "用户连接鉴权"),
+	/**
+	 * 用户连接鉴权
+	 */
+	USER_CONNECTION_AUTHENTICATION("200000", "用户连接鉴权"),
 
-    /**
-     * 用户心跳消息类型
-     */
-    USER_HEART("299999", "用户心跳消息类型");
+	/**
+	 * 用户心跳消息类型
+	 */
+	USER_HEART("299999", "用户心跳消息类型");
 
-    private final String code;
+	private final String code;
 
-    private final String name;
+	private final String name;
 
-    ClientMessageTypeEnum(String code, String name) {
-        this.code = code;
-        this.name = name;
-    }
+	ClientMessageTypeEnum(String code, String name) {
+		this.code = code;
+		this.name = name;
+	}
+
 }

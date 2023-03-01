@@ -43,8 +43,7 @@ public class DictTypeController {
 	 */
 	@PostResource(name = "添加字典类型", path = "/dict-type/add", requiredPermission = false)
 	@BusinessLog
-	public ResponseData<Void> add(
-			@RequestBody @Validated(BaseRequest.add.class) SysDictTypeRequest dictTypeRequest) {
+	public ResponseData<Void> add(@RequestBody @Validated(BaseRequest.add.class) SysDictTypeRequest dictTypeRequest) {
 		this.sysDictTypeService.add(dictTypeRequest);
 		return ResponseData.OK_VOID;
 	}

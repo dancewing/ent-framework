@@ -16,29 +16,35 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 public interface ClassGradeConverter {
-    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    interface RequestConverter extends ObjectConverter<ClassGradeRequest, ClassGrade> {
-        default Student mapStudentRequestToStudent(StudentRequest studentRequest) {
-            ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
-            return converterService.convert(studentRequest, Student.class);
-        }
 
-        default Teacher mapTeacherRequestToTeacher(TeacherRequest teacherRequest) {
-            ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
-            return converterService.convert(teacherRequest, Teacher.class);
-        }
-    }
+	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	interface RequestConverter extends ObjectConverter<ClassGradeRequest, ClassGrade> {
 
-    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    interface ResponseConverter extends ObjectConverter<ClassGrade, ClassGradeResponse> {
-        default StudentResponse mapStudentToStudentResponse(Student student) {
-            ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
-            return converterService.convert(student, StudentResponse.class);
-        }
+		default Student mapStudentRequestToStudent(StudentRequest studentRequest) {
+			ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
+			return converterService.convert(studentRequest, Student.class);
+		}
 
-        default TeacherResponse mapTeacherToTeacherResponse(Teacher teacher) {
-            ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
-            return converterService.convert(teacher, TeacherResponse.class);
-        }
-    }
+		default Teacher mapTeacherRequestToTeacher(TeacherRequest teacherRequest) {
+			ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
+			return converterService.convert(teacherRequest, Teacher.class);
+		}
+
+	}
+
+	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	interface ResponseConverter extends ObjectConverter<ClassGrade, ClassGradeResponse> {
+
+		default StudentResponse mapStudentToStudentResponse(Student student) {
+			ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
+			return converterService.convert(student, StudentResponse.class);
+		}
+
+		default TeacherResponse mapTeacherToTeacherResponse(Teacher teacher) {
+			ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
+			return converterService.convert(teacher, TeacherResponse.class);
+		}
+
+	}
+
 }

@@ -8,4 +8,5 @@
 package io.entframework.kernel.db.mds.example.ext.converter;
 
 public interface StudentExtConverter {
+
 }

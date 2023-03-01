@@ -22,42 +22,47 @@ import org.mybatis.generator.api.dom.kotlin.KotlinProperty;
 
 public class KotlinPropertyAndImports {
 
-    private final KotlinProperty property;
-    private final Set<String> imports;
+	private final KotlinProperty property;
 
-    private KotlinPropertyAndImports(Builder builder) {
-        property = builder.property;
-        imports = builder.imports;
-    }
+	private final Set<String> imports;
 
-    public KotlinProperty getProperty() {
-        return property;
-    }
+	private KotlinPropertyAndImports(Builder builder) {
+		property = builder.property;
+		imports = builder.imports;
+	}
 
-    public Set<String> getImports() {
-        return imports;
-    }
+	public KotlinProperty getProperty() {
+		return property;
+	}
 
-    public static Builder withProperty(KotlinProperty property) {
-        return new Builder().withProperty(property);
-    }
+	public Set<String> getImports() {
+		return imports;
+	}
 
-    public static class Builder {
-        private KotlinProperty property;
-        private final Set<String> imports = new HashSet<>();
+	public static Builder withProperty(KotlinProperty property) {
+		return new Builder().withProperty(property);
+	}
 
-        public Builder withProperty(KotlinProperty property) {
-            this.property = property;
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withImports(Set<String> imports) {
-            this.imports.addAll(imports);
-            return this;
-        }
+		private KotlinProperty property;
 
-        public KotlinPropertyAndImports build() {
-            return new KotlinPropertyAndImports(this);
-        }
-    }
+		private final Set<String> imports = new HashSet<>();
+
+		public Builder withProperty(KotlinProperty property) {
+			this.property = property;
+			return this;
+		}
+
+		public Builder withImports(Set<String> imports) {
+			this.imports.addAll(imports);
+			return this;
+		}
+
+		public KotlinPropertyAndImports build() {
+			return new KotlinPropertyAndImports(this);
+		}
+
+	}
+
 }

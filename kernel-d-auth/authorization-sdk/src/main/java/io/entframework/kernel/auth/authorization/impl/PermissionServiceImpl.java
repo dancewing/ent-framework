@@ -24,32 +24,33 @@ import java.util.Set;
  */
 public class PermissionServiceImpl implements PermissionServiceApi {
 
-    @Resource
-    private SessionManagerApi sessionManagerApi;
+	@Resource
+	private SessionManagerApi sessionManagerApi;
 
-    @Override
-    public void checkPermission(String token, String requestUrl) {
+	@Override
+	public void checkPermission(String token, String requestUrl) {
 
-        // 1. 校验token是否传参
-        if (CharSequenceUtil.isEmpty(token)) {
-            throw new AuthException(AuthExceptionEnum.TOKEN_GET_ERROR);
-        }
+		// 1. 校验token是否传参
+		if (CharSequenceUtil.isEmpty(token)) {
+			throw new AuthException(AuthExceptionEnum.TOKEN_GET_ERROR);
+		}
 
-        // 2. 获取token对应的用户信息
-        LoginUser session = sessionManagerApi.getSession(token);
-        if (session == null) {
-            throw new AuthException(AuthExceptionEnum.AUTH_EXPIRED_ERROR);
-        }
+		// 2. 获取token对应的用户信息
+		LoginUser session = sessionManagerApi.getSession(token);
+		if (session == null) {
+			throw new AuthException(AuthExceptionEnum.AUTH_EXPIRED_ERROR);
+		}
 
-        // 3. 验证用户有没有当前url的权限
-        Set<String> resourceUrls = session.getResourceUrls();
-        if (resourceUrls == null || resourceUrls.isEmpty()) {
-            throw new AuthException(AuthExceptionEnum.PERMISSION_RES_VALIDATE_ERROR);
-        } else {
-            if (!resourceUrls.contains(requestUrl)) {
-                throw new AuthException(AuthExceptionEnum.PERMISSION_RES_VALIDATE_ERROR);
-            }
-        }
-    }
+		// 3. 验证用户有没有当前url的权限
+		Set<String> resourceUrls = session.getResourceUrls();
+		if (resourceUrls == null || resourceUrls.isEmpty()) {
+			throw new AuthException(AuthExceptionEnum.PERMISSION_RES_VALIDATE_ERROR);
+		}
+		else {
+			if (!resourceUrls.contains(requestUrl)) {
+				throw new AuthException(AuthExceptionEnum.PERMISSION_RES_VALIDATE_ERROR);
+			}
+		}
+	}
 
 }

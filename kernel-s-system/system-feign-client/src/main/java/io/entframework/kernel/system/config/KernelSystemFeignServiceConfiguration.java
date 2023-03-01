@@ -21,13 +21,14 @@ import org.springframework.context.annotation.Import;
 @Import(FeignClientsConfiguration.class)
 public class KernelSystemFeignServiceConfiguration {
 
-    @Value("${kernel.base-server.user:http://ent-admin}")
-    private String baseServerUrl;
+	@Value("${kernel.base-server.user:http://ent-admin}")
+	private String baseServerUrl;
 
-    @Bean
-    @ConditionalOnMissingBean(UserClientServiceApi.class)
-    public UserClientServiceApi userClientServiceApi(CloudFeignFactory cloudFeignFactory){
-        UserClientServiceApi feignClient = cloudFeignFactory.build(UserClientServiceApi.class, baseServerUrl);
-        return new UserClientServiceWrapper(feignClient);
-    }
+	@Bean
+	@ConditionalOnMissingBean(UserClientServiceApi.class)
+	public UserClientServiceApi userClientServiceApi(CloudFeignFactory cloudFeignFactory) {
+		UserClientServiceApi feignClient = cloudFeignFactory.build(UserClientServiceApi.class, baseServerUrl);
+		return new UserClientServiceWrapper(feignClient);
+	}
+
 }

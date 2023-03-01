@@ -10,14 +10,14 @@ package io.entframework.kernel.mongodb.api.constants;
  */
 public interface MongodbConstants {
 
-    /**
-     * mongodb模块的名称
-     */
-    String MONGODB_MODULE_NAME = "kernel-d-mongodb";
+	/**
+	 * mongodb模块的名称
+	 */
+	String MONGODB_MODULE_NAME = "kernel-d-mongodb";
 
-    /**
-     * 异常枚举的步进值
-     */
-    String MONGODB_EXCEPTION_STEP_CODE = "70";
+	/**
+	 * 异常枚举的步进值
+	 */
+	String MONGODB_EXCEPTION_STEP_CODE = "70";
 
 }

@@ -30,230 +30,232 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @Entity
 @Table(value = "sys_user", sqlSupport = SysUserDynamicSqlSupport.class, tableProperty = "sysUser")
 public class SysUser extends BaseEntity implements Serializable {
-    /**
-     * 主键
-     */
-    @Id
-    @Column(name = "user_id", jdbcType = JDBCType.BIGINT)
-    private Long userId;
 
-    /**
-     * 姓名
-     */
-    @Column(name = "real_name", jdbcType = JDBCType.VARCHAR)
-    private String realName;
+	/**
+	 * 主键
+	 */
+	@Id
+	@Column(name = "user_id", jdbcType = JDBCType.BIGINT)
+	private Long userId;
 
-    /**
-     * 昵称
-     */
-    @Column(name = "nick_name", jdbcType = JDBCType.VARCHAR)
-    private String nickName;
+	/**
+	 * 姓名
+	 */
+	@Column(name = "real_name", jdbcType = JDBCType.VARCHAR)
+	private String realName;
 
-    /**
-     * 账号
-     */
-    @Column(name = "account", jdbcType = JDBCType.VARCHAR)
-    private String account;
+	/**
+	 * 昵称
+	 */
+	@Column(name = "nick_name", jdbcType = JDBCType.VARCHAR)
+	private String nickName;
 
-    /**
-     * 密码，加密方式为BCrypt
-     */
-    @Column(name = "password", jdbcType = JDBCType.VARCHAR)
-    private String password;
+	/**
+	 * 账号
+	 */
+	@Column(name = "account", jdbcType = JDBCType.VARCHAR)
+	private String account;
 
-    /**
-     * 头像，存的为文件id
-     */
-    @Column(name = "avatar", jdbcType = JDBCType.BIGINT)
-    private Long avatar;
+	/**
+	 * 密码，加密方式为BCrypt
+	 */
+	@Column(name = "password", jdbcType = JDBCType.VARCHAR)
+	private String password;
 
-    /**
-     * 生日
-     */
-    @Column(name = "birthday", jdbcType = JDBCType.DATE)
-    private LocalDate birthday;
+	/**
+	 * 头像，存的为文件id
+	 */
+	@Column(name = "avatar", jdbcType = JDBCType.BIGINT)
+	private Long avatar;
 
-    /**
-     * 性别：M-男，F-女
-     */
-    @Column(name = "sex", jdbcType = JDBCType.CHAR)
-    private GenderEnum sex;
+	/**
+	 * 生日
+	 */
+	@Column(name = "birthday", jdbcType = JDBCType.DATE)
+	private LocalDate birthday;
 
-    /**
-     * 邮箱
-     */
-    @Column(name = "email", jdbcType = JDBCType.VARCHAR)
-    private String email;
+	/**
+	 * 性别：M-男，F-女
+	 */
+	@Column(name = "sex", jdbcType = JDBCType.CHAR)
+	private GenderEnum sex;
 
-    /**
-     * 手机
-     */
-    @Column(name = "phone", jdbcType = JDBCType.VARCHAR)
-    private String phone;
+	/**
+	 * 邮箱
+	 */
+	@Column(name = "email", jdbcType = JDBCType.VARCHAR)
+	private String email;
 
-    /**
-     * 电话
-     */
-    @Column(name = "tel", jdbcType = JDBCType.VARCHAR)
-    private String tel;
+	/**
+	 * 手机
+	 */
+	@Column(name = "phone", jdbcType = JDBCType.VARCHAR)
+	private String phone;
 
-    /**
-     * 是否是超级管理员：Y-是，N-否
-     */
-    @Column(name = "super_admin_flag", jdbcType = JDBCType.CHAR)
-    private YesOrNotEnum superAdminFlag;
+	/**
+	 * 电话
+	 */
+	@Column(name = "tel", jdbcType = JDBCType.VARCHAR)
+	private String tel;
 
-    /**
-     * 所属机构id
-     */
-    @Column(name = "org_id", jdbcType = JDBCType.BIGINT)
-    private Long orgId;
+	/**
+	 * 是否是超级管理员：Y-是，N-否
+	 */
+	@Column(name = "super_admin_flag", jdbcType = JDBCType.CHAR)
+	private YesOrNotEnum superAdminFlag;
 
-    /**
-     * 职位id
-     */
-    @Column(name = "position_id", jdbcType = JDBCType.BIGINT)
-    private Long positionId;
+	/**
+	 * 所属机构id
+	 */
+	@Column(name = "org_id", jdbcType = JDBCType.BIGINT)
+	private Long orgId;
 
-    /**
-     * 状态：1-正常，2-冻结
-     */
-    @Column(name = "status_flag", jdbcType = JDBCType.TINYINT)
-    private UserStatusEnum statusFlag;
+	/**
+	 * 职位id
+	 */
+	@Column(name = "position_id", jdbcType = JDBCType.BIGINT)
+	private Long positionId;
 
-    /**
-     * 登录次数
-     */
-    @Column(name = "login_count", jdbcType = JDBCType.INTEGER)
-    private Integer loginCount;
+	/**
+	 * 状态：1-正常，2-冻结
+	 */
+	@Column(name = "status_flag", jdbcType = JDBCType.TINYINT)
+	private UserStatusEnum statusFlag;
 
-    /**
-     * 最后登陆IP
-     */
-    @Column(name = "last_login_ip", jdbcType = JDBCType.VARCHAR)
-    private String lastLoginIp;
+	/**
+	 * 登录次数
+	 */
+	@Column(name = "login_count", jdbcType = JDBCType.INTEGER)
+	private Integer loginCount;
 
-    /**
-     * 最后登陆时间
-     */
-    @Column(name = "last_login_time", jdbcType = JDBCType.TIMESTAMP)
-    private LocalDateTime lastLoginTime;
+	/**
+	 * 最后登陆IP
+	 */
+	@Column(name = "last_login_ip", jdbcType = JDBCType.VARCHAR)
+	private String lastLoginIp;
 
-    /**
-     * 删除标记：Y-已删除，N-未删除
-     */
-    @Column(name = "del_flag", jdbcType = JDBCType.CHAR)
-    @LogicDelete
-    private YesOrNotEnum delFlag;
+	/**
+	 * 最后登陆时间
+	 */
+	@Column(name = "last_login_time", jdbcType = JDBCType.TIMESTAMP)
+	private LocalDateTime lastLoginTime;
 
-    /**
-     * 职位id
-     */
-    @ManyToOne
-    @JoinColumn(target = HrPosition.class, left = "positionId", right = "positionId")
-    private HrPosition position;
+	/**
+	 * 删除标记：Y-已删除，N-未删除
+	 */
+	@Column(name = "del_flag", jdbcType = JDBCType.CHAR)
+	@LogicDelete
+	private YesOrNotEnum delFlag;
 
-    /**
-     * 所属机构id
-     */
-    @ManyToOne
-    @JoinColumn(target = HrOrganization.class, left = "orgId", right = "orgId")
-    private HrOrganization organization;
+	/**
+	 * 职位id
+	 */
+	@ManyToOne
+	@JoinColumn(target = HrPosition.class, left = "positionId", right = "positionId")
+	private HrPosition position;
 
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 所属机构id
+	 */
+	@ManyToOne
+	@JoinColumn(target = HrOrganization.class, left = "orgId", right = "orgId")
+	private HrOrganization organization;
 
-    public SysUser userId(Long userId) {
-        this.userId = userId;
-        return this;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public SysUser realName(String realName) {
-        this.realName = realName;
-        return this;
-    }
+	public SysUser userId(Long userId) {
+		this.userId = userId;
+		return this;
+	}
 
-    public SysUser nickName(String nickName) {
-        this.nickName = nickName;
-        return this;
-    }
+	public SysUser realName(String realName) {
+		this.realName = realName;
+		return this;
+	}
 
-    public SysUser account(String account) {
-        this.account = account;
-        return this;
-    }
+	public SysUser nickName(String nickName) {
+		this.nickName = nickName;
+		return this;
+	}
 
-    public SysUser password(String password) {
-        this.password = password;
-        return this;
-    }
+	public SysUser account(String account) {
+		this.account = account;
+		return this;
+	}
 
-    public SysUser avatar(Long avatar) {
-        this.avatar = avatar;
-        return this;
-    }
+	public SysUser password(String password) {
+		this.password = password;
+		return this;
+	}
 
-    public SysUser birthday(LocalDate birthday) {
-        this.birthday = birthday;
-        return this;
-    }
+	public SysUser avatar(Long avatar) {
+		this.avatar = avatar;
+		return this;
+	}
 
-    public SysUser sex(GenderEnum sex) {
-        this.sex = sex;
-        return this;
-    }
+	public SysUser birthday(LocalDate birthday) {
+		this.birthday = birthday;
+		return this;
+	}
 
-    public SysUser email(String email) {
-        this.email = email;
-        return this;
-    }
+	public SysUser sex(GenderEnum sex) {
+		this.sex = sex;
+		return this;
+	}
 
-    public SysUser phone(String phone) {
-        this.phone = phone;
-        return this;
-    }
+	public SysUser email(String email) {
+		this.email = email;
+		return this;
+	}
 
-    public SysUser tel(String tel) {
-        this.tel = tel;
-        return this;
-    }
+	public SysUser phone(String phone) {
+		this.phone = phone;
+		return this;
+	}
 
-    public SysUser superAdminFlag(YesOrNotEnum superAdminFlag) {
-        this.superAdminFlag = superAdminFlag;
-        return this;
-    }
+	public SysUser tel(String tel) {
+		this.tel = tel;
+		return this;
+	}
 
-    public SysUser orgId(Long orgId) {
-        this.orgId = orgId;
-        return this;
-    }
+	public SysUser superAdminFlag(YesOrNotEnum superAdminFlag) {
+		this.superAdminFlag = superAdminFlag;
+		return this;
+	}
 
-    public SysUser positionId(Long positionId) {
-        this.positionId = positionId;
-        return this;
-    }
+	public SysUser orgId(Long orgId) {
+		this.orgId = orgId;
+		return this;
+	}
 
-    public SysUser statusFlag(UserStatusEnum statusFlag) {
-        this.statusFlag = statusFlag;
-        return this;
-    }
+	public SysUser positionId(Long positionId) {
+		this.positionId = positionId;
+		return this;
+	}
 
-    public SysUser loginCount(Integer loginCount) {
-        this.loginCount = loginCount;
-        return this;
-    }
+	public SysUser statusFlag(UserStatusEnum statusFlag) {
+		this.statusFlag = statusFlag;
+		return this;
+	}
 
-    public SysUser lastLoginIp(String lastLoginIp) {
-        this.lastLoginIp = lastLoginIp;
-        return this;
-    }
+	public SysUser loginCount(Integer loginCount) {
+		this.loginCount = loginCount;
+		return this;
+	}
 
-    public SysUser lastLoginTime(LocalDateTime lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-        return this;
-    }
+	public SysUser lastLoginIp(String lastLoginIp) {
+		this.lastLoginIp = lastLoginIp;
+		return this;
+	}
 
-    public SysUser delFlag(YesOrNotEnum delFlag) {
-        this.delFlag = delFlag;
-        return this;
-    }
+	public SysUser lastLoginTime(LocalDateTime lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
+		return this;
+	}
+
+	public SysUser delFlag(YesOrNotEnum delFlag) {
+		this.delFlag = delFlag;
+		return this;
+	}
+
 }

@@ -27,91 +27,93 @@ import org.mybatis.dynamic.sql.insert.render.InsertStatementProvider;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
 
 class InsertStatementTest {
-    private static final SqlTable foo = SqlTable.of("foo");
-    private static final SqlColumn<Integer> id = foo.column("id", JDBCType.INTEGER);
-    private static final SqlColumn<String> firstName = foo.column("first_name", JDBCType.VARCHAR);
-    private static final SqlColumn<String> lastName = foo.column("last_name", JDBCType.VARCHAR);
-    private static final SqlColumn<String> occupation = foo.column("occupation", JDBCType.VARCHAR);
 
-    @Test
-    void testFullInsertStatementBuilder() {
-        TestRecord record = new TestRecord();
-        record.setLastName("jones");
-        record.setOccupation("dino driver");
+	private static final SqlTable foo = SqlTable.of("foo");
 
-        InsertStatementProvider<?> insertStatement = insert(record)
-                .into(foo)
-                .map(id).toProperty("id")
-                .map(firstName).toProperty("firstName")
-                .map(lastName).toProperty("lastName")
-                .map(occupation).toProperty("occupation")
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
+	private static final SqlColumn<Integer> id = foo.column("id", JDBCType.INTEGER);
 
-        String expected = "insert into foo (id, first_name, last_name, occupation) "
-                + "values (#{row.id,jdbcType=INTEGER}, "
-                + "#{row.firstName,jdbcType=VARCHAR}, " + "#{row.lastName,jdbcType=VARCHAR}, "
-                + "#{row.occupation,jdbcType=VARCHAR})";
-        assertThat(insertStatement.getInsertStatement()).isEqualTo(expected);
-    }
+	private static final SqlColumn<String> firstName = foo.column("first_name", JDBCType.VARCHAR);
 
-    @Test
-    void testSelectiveInsertStatementBuilder() {
-        TestRecord record = new TestRecord();
-        record.setLastName("jones");
-        record.setOccupation("dino driver");
+	private static final SqlColumn<String> lastName = foo.column("last_name", JDBCType.VARCHAR);
 
-        InsertStatementProvider<?> insertStatement = insert(record)
-                .into(foo)
-                .map(id).toPropertyWhenPresent("id", record::getId)
-                .map(firstName).toPropertyWhenPresent("firstName", record::getFirstName)
-                .map(lastName).toPropertyWhenPresent("lastName", record::getLastName)
-                .map(occupation).toPropertyWhenPresent("occupation", record::getOccupation)
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
+	private static final SqlColumn<String> occupation = foo.column("occupation", JDBCType.VARCHAR);
 
-        String expected = "insert into foo (last_name, occupation) "
-                + "values (#{row.lastName,jdbcType=VARCHAR}, "
-                + "#{row.occupation,jdbcType=VARCHAR})";
-        assertThat(insertStatement.getInsertStatement()).isEqualTo(expected);
-    }
+	@Test
+	void testFullInsertStatementBuilder() {
+		TestRecord record = new TestRecord();
+		record.setLastName("jones");
+		record.setOccupation("dino driver");
 
-    static class TestRecord {
-        private Integer id;
-        private String firstName;
-        private String lastName;
-        private String occupation;
+		InsertStatementProvider<?> insertStatement = insert(record).into(foo).map(id).toProperty("id").map(firstName)
+				.toProperty("firstName").map(lastName).toProperty("lastName").map(occupation).toProperty("occupation")
+				.build().render(RenderingStrategies.MYBATIS3);
 
-        Integer getId() {
-            return id;
-        }
+		String expected = "insert into foo (id, first_name, last_name, occupation) "
+				+ "values (#{row.id,jdbcType=INTEGER}, " + "#{row.firstName,jdbcType=VARCHAR}, "
+				+ "#{row.lastName,jdbcType=VARCHAR}, " + "#{row.occupation,jdbcType=VARCHAR})";
+		assertThat(insertStatement.getInsertStatement()).isEqualTo(expected);
+	}
 
-        void setId(Integer id) {
-            this.id = id;
-        }
+	@Test
+	void testSelectiveInsertStatementBuilder() {
+		TestRecord record = new TestRecord();
+		record.setLastName("jones");
+		record.setOccupation("dino driver");
 
-        String getFirstName() {
-            return firstName;
-        }
+		InsertStatementProvider<?> insertStatement = insert(record).into(foo).map(id)
+				.toPropertyWhenPresent("id", record::getId).map(firstName)
+				.toPropertyWhenPresent("firstName", record::getFirstName).map(lastName)
+				.toPropertyWhenPresent("lastName", record::getLastName).map(occupation)
+				.toPropertyWhenPresent("occupation", record::getOccupation).build()
+				.render(RenderingStrategies.MYBATIS3);
 
-        void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
+		String expected = "insert into foo (last_name, occupation) " + "values (#{row.lastName,jdbcType=VARCHAR}, "
+				+ "#{row.occupation,jdbcType=VARCHAR})";
+		assertThat(insertStatement.getInsertStatement()).isEqualTo(expected);
+	}
 
-        String getLastName() {
-            return lastName;
-        }
+	static class TestRecord {
 
-        void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
+		private Integer id;
 
-        String getOccupation() {
-            return occupation;
-        }
+		private String firstName;
 
-        void setOccupation(String occupation) {
-            this.occupation = occupation;
-        }
-    }
+		private String lastName;
+
+		private String occupation;
+
+		Integer getId() {
+			return id;
+		}
+
+		void setId(Integer id) {
+			this.id = id;
+		}
+
+		String getFirstName() {
+			return firstName;
+		}
+
+		void setFirstName(String firstName) {
+			this.firstName = firstName;
+		}
+
+		String getLastName() {
+			return lastName;
+		}
+
+		void setLastName(String lastName) {
+			this.lastName = lastName;
+		}
+
+		String getOccupation() {
+			return occupation;
+		}
+
+		void setOccupation(String occupation) {
+			this.occupation = occupation;
+		}
+
+	}
+
 }

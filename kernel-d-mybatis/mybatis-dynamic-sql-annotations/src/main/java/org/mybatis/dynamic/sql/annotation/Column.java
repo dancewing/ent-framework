@@ -13,15 +13,16 @@ import java.lang.annotation.*;
 import java.sql.JDBCType;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD})
+@Target({ ElementType.FIELD, ElementType.METHOD })
 @Documented
 public @interface Column {
-    String name() default "";
 
-    JDBCType jdbcType();
+	String name() default "";
 
-    boolean descending() default false;
-    
-    Class<? extends TypeHandler> typeHandler() default TypeHandler.class;
+	JDBCType jdbcType();
+
+	boolean descending() default false;
+
+	Class<? extends TypeHandler> typeHandler() default TypeHandler.class;
 
 }

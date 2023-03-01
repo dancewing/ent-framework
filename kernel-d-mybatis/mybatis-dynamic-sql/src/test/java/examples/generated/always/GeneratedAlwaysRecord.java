@@ -16,40 +16,45 @@
 package examples.generated.always;
 
 public class GeneratedAlwaysRecord {
-    private Integer id;
-    private String firstName;
-    private String lastName;
-    private String fullName;
 
-    public Integer getId() {
-        return id;
-    }
+	private Integer id;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private String firstName;
 
-    public String getFirstName() {
-        return firstName;
-    }
+	private String lastName;
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	private String fullName;
 
-    public String getLastName() {
-        return lastName;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getFullName() {
-        return fullName;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
 }

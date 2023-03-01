@@ -36,105 +36,91 @@ import org.mybatis.dynamic.sql.where.condition.IsEqualTo;
 import org.mybatis.dynamic.sql.where.render.CriterionRenderer;
 
 class CriterionRendererTest {
-    @Test
-    void testAliasWithIgnore() {
-        SqlTable table = SqlTable.of("foo");
-        SqlColumn<Integer> column = table.column("id", JDBCType.INTEGER);
 
-        IsEqualTo<Integer> condition = SqlBuilder.isEqualTo(() -> 3);
-        ColumnAndConditionCriterion<Integer> criterion = ColumnAndConditionCriterion.withColumn(column)
-                .withCondition(condition)
-                .build();
-        AtomicInteger sequence = new AtomicInteger(1);
+	@Test
+	void testAliasWithIgnore() {
+		SqlTable table = SqlTable.of("foo");
+		SqlColumn<Integer> column = table.column("id", JDBCType.INTEGER);
 
-        CriterionRenderer renderer = new CriterionRenderer.Builder()
-                .withSequence(sequence)
-                .withRenderingStrategy(RenderingStrategies.MYBATIS3)
-                .withTableAliasCalculator(TableAliasCalculator.empty())
-                .build();
+		IsEqualTo<Integer> condition = SqlBuilder.isEqualTo(() -> 3);
+		ColumnAndConditionCriterion<Integer> criterion = ColumnAndConditionCriterion.withColumn(column)
+				.withCondition(condition).build();
+		AtomicInteger sequence = new AtomicInteger(1);
 
-        assertThat(criterion.accept(renderer)).hasValueSatisfying(rc -> {
-            FragmentAndParameters fp = rc.fragmentAndParametersWithConnector();
-            assertThat(fp.fragment()).isEqualTo("id = #{parameters.p1,jdbcType=INTEGER}");
-            assertThat(fp.parameters()).hasSize(1);
-        });
-    }
+		CriterionRenderer renderer = new CriterionRenderer.Builder().withSequence(sequence)
+				.withRenderingStrategy(RenderingStrategies.MYBATIS3)
+				.withTableAliasCalculator(TableAliasCalculator.empty()).build();
 
-    @Test
-    void testAliasWithoutIgnore() {
-        SqlTable table = SqlTable.of("foo");
-        SqlColumn<Integer> column = table.column("id", JDBCType.INTEGER);
-        IsEqualTo<Integer> condition = SqlBuilder.isEqualTo(() -> 3);
-        ColumnAndConditionCriterion<Integer> criterion = ColumnAndConditionCriterion.withColumn(column)
-                .withCondition(condition)
-                .build();
-        AtomicInteger sequence = new AtomicInteger(1);
-        Map<SqlTable, String> tableAliases = new HashMap<>();
-        tableAliases.put(table, "a");
+		assertThat(criterion.accept(renderer)).hasValueSatisfying(rc -> {
+			FragmentAndParameters fp = rc.fragmentAndParametersWithConnector();
+			assertThat(fp.fragment()).isEqualTo("id = #{parameters.p1,jdbcType=INTEGER}");
+			assertThat(fp.parameters()).hasSize(1);
+		});
+	}
 
-        CriterionRenderer renderer = new CriterionRenderer.Builder()
-                .withSequence(sequence)
-                .withRenderingStrategy(RenderingStrategies.MYBATIS3)
-                .withTableAliasCalculator(ExplicitTableAliasCalculator.of(tableAliases))
-                .build();
+	@Test
+	void testAliasWithoutIgnore() {
+		SqlTable table = SqlTable.of("foo");
+		SqlColumn<Integer> column = table.column("id", JDBCType.INTEGER);
+		IsEqualTo<Integer> condition = SqlBuilder.isEqualTo(() -> 3);
+		ColumnAndConditionCriterion<Integer> criterion = ColumnAndConditionCriterion.withColumn(column)
+				.withCondition(condition).build();
+		AtomicInteger sequence = new AtomicInteger(1);
+		Map<SqlTable, String> tableAliases = new HashMap<>();
+		tableAliases.put(table, "a");
 
-        assertThat(criterion.accept(renderer)).hasValueSatisfying(rc -> {
-            FragmentAndParameters fp = rc.fragmentAndParametersWithConnector();
-            assertThat(fp.fragment()).isEqualTo("a.id = #{parameters.p1,jdbcType=INTEGER}");
-            assertThat(fp.parameters()).hasSize(1);
-        });
-    }
+		CriterionRenderer renderer = new CriterionRenderer.Builder().withSequence(sequence)
+				.withRenderingStrategy(RenderingStrategies.MYBATIS3)
+				.withTableAliasCalculator(ExplicitTableAliasCalculator.of(tableAliases)).build();
 
-    @Test
-    void testTypeHandler() {
-        SqlTable table = SqlTable.of("foo");
-        SqlColumn<Date> column = new SqlColumn.Builder<Date>()
-                .withName("id")
-                .withTable(table)
-                .withJdbcType(JDBCType.DATE)
-                .withTypeHandler("foo.Bar")
-                .build();
-        IsEqualTo<Date> condition = SqlBuilder.isEqualTo(new Date());
-        ColumnAndConditionCriterion<Date> criterion = ColumnAndConditionCriterion.withColumn(column)
-                .withCondition(condition)
-                .build();
-        AtomicInteger sequence = new AtomicInteger(1);
+		assertThat(criterion.accept(renderer)).hasValueSatisfying(rc -> {
+			FragmentAndParameters fp = rc.fragmentAndParametersWithConnector();
+			assertThat(fp.fragment()).isEqualTo("a.id = #{parameters.p1,jdbcType=INTEGER}");
+			assertThat(fp.parameters()).hasSize(1);
+		});
+	}
 
-        CriterionRenderer renderer = new CriterionRenderer.Builder()
-                .withSequence(sequence)
-                .withRenderingStrategy(RenderingStrategies.MYBATIS3)
-                .withTableAliasCalculator(TableAliasCalculator.empty())
-                .build();
+	@Test
+	void testTypeHandler() {
+		SqlTable table = SqlTable.of("foo");
+		SqlColumn<Date> column = new SqlColumn.Builder<Date>().withName("id").withTable(table)
+				.withJdbcType(JDBCType.DATE).withTypeHandler("foo.Bar").build();
+		IsEqualTo<Date> condition = SqlBuilder.isEqualTo(new Date());
+		ColumnAndConditionCriterion<Date> criterion = ColumnAndConditionCriterion.withColumn(column)
+				.withCondition(condition).build();
+		AtomicInteger sequence = new AtomicInteger(1);
 
-        assertThat(criterion.accept(renderer)).hasValueSatisfying(rc -> {
-            FragmentAndParameters fp = rc.fragmentAndParametersWithConnector();
-            assertThat(fp.fragment()).isEqualTo("id = #{parameters.p1,jdbcType=DATE,typeHandler=foo.Bar}");
-            assertThat(fp.parameters()).hasSize(1);
-        });
-    }
+		CriterionRenderer renderer = new CriterionRenderer.Builder().withSequence(sequence)
+				.withRenderingStrategy(RenderingStrategies.MYBATIS3)
+				.withTableAliasCalculator(TableAliasCalculator.empty()).build();
 
-    @Test
-    void testTypeHandlerAndAlias() {
-        SqlTable table = SqlTable.of("foo");
-        SqlColumn<Integer> column = table.column("id", JDBCType.INTEGER, "foo.Bar");
-        IsEqualTo<Integer> condition = SqlBuilder.isEqualTo(() -> 3);
-        ColumnAndConditionCriterion<Integer> criterion = ColumnAndConditionCriterion.withColumn(column)
-                .withCondition(condition)
-                .build();
-        AtomicInteger sequence = new AtomicInteger(1);
-        Map<SqlTable, String> tableAliases = new HashMap<>();
-        tableAliases.put(table, "a");
+		assertThat(criterion.accept(renderer)).hasValueSatisfying(rc -> {
+			FragmentAndParameters fp = rc.fragmentAndParametersWithConnector();
+			assertThat(fp.fragment()).isEqualTo("id = #{parameters.p1,jdbcType=DATE,typeHandler=foo.Bar}");
+			assertThat(fp.parameters()).hasSize(1);
+		});
+	}
 
-        CriterionRenderer renderer = new CriterionRenderer.Builder()
-                .withSequence(sequence)
-                .withRenderingStrategy(RenderingStrategies.MYBATIS3)
-                .withTableAliasCalculator(ExplicitTableAliasCalculator.of(tableAliases))
-                .build();
+	@Test
+	void testTypeHandlerAndAlias() {
+		SqlTable table = SqlTable.of("foo");
+		SqlColumn<Integer> column = table.column("id", JDBCType.INTEGER, "foo.Bar");
+		IsEqualTo<Integer> condition = SqlBuilder.isEqualTo(() -> 3);
+		ColumnAndConditionCriterion<Integer> criterion = ColumnAndConditionCriterion.withColumn(column)
+				.withCondition(condition).build();
+		AtomicInteger sequence = new AtomicInteger(1);
+		Map<SqlTable, String> tableAliases = new HashMap<>();
+		tableAliases.put(table, "a");
 
-        assertThat(criterion.accept(renderer)).hasValueSatisfying(rc -> {
-            FragmentAndParameters fp = rc.fragmentAndParametersWithConnector();
-            assertThat(fp.fragment()).isEqualTo("a.id = #{parameters.p1,jdbcType=INTEGER,typeHandler=foo.Bar}");
-            assertThat(fp.parameters()).hasSize(1);
-        });
-    }
+		CriterionRenderer renderer = new CriterionRenderer.Builder().withSequence(sequence)
+				.withRenderingStrategy(RenderingStrategies.MYBATIS3)
+				.withTableAliasCalculator(ExplicitTableAliasCalculator.of(tableAliases)).build();
+
+		assertThat(criterion.accept(renderer)).hasValueSatisfying(rc -> {
+			FragmentAndParameters fp = rc.fragmentAndParametersWithConnector();
+			assertThat(fp.fragment()).isEqualTo("a.id = #{parameters.p1,jdbcType=INTEGER,typeHandler=foo.Bar}");
+			assertThat(fp.parameters()).hasSize(1);
+		});
+	}
+
 }

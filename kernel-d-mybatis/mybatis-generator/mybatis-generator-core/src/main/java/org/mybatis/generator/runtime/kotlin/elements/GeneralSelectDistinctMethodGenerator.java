@@ -20,52 +20,56 @@ import org.mybatis.generator.api.dom.kotlin.KotlinFile;
 import org.mybatis.generator.api.dom.kotlin.KotlinFunction;
 
 public class GeneralSelectDistinctMethodGenerator extends AbstractKotlinFunctionGenerator {
-    private final String mapperName;
 
-    private GeneralSelectDistinctMethodGenerator(Builder builder) {
-        super(builder);
-        mapperName = builder.mapperName;
-    }
+	private final String mapperName;
 
-    @Override
-    public KotlinFunctionAndImports generateMethodAndImports() {
-        KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports.withFunction(
-                KotlinFunction.newOneLineFunction(mapperName + ".selectDistinct") //$NON-NLS-1$
-                .withArgument(KotlinArg.newArg("completer") //$NON-NLS-1$
-                        .withDataType("SelectCompleter") //$NON-NLS-1$
-                        .build())
-                .withCodeLine("selectDistinct(this::selectMany, columnList, " + tableFieldName //$NON-NLS-1$
-                        + ", completer)") //$NON-NLS-1$
-                .build())
-                .withImport("org.mybatis.dynamic.sql.util.kotlin.SelectCompleter") //$NON-NLS-1$
-                .withImport("org.mybatis.dynamic.sql.util.kotlin.mybatis3.selectDistinct") //$NON-NLS-1$
-                .build();
+	private GeneralSelectDistinctMethodGenerator(Builder builder) {
+		super(builder);
+		mapperName = builder.mapperName;
+	}
 
-        addFunctionComment(functionAndImports);
-        return functionAndImports;
-    }
+	@Override
+	public KotlinFunctionAndImports generateMethodAndImports() {
+		KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports
+				.withFunction(KotlinFunction.newOneLineFunction(mapperName + ".selectDistinct") //$NON-NLS-1$
+						.withArgument(KotlinArg.newArg("completer") //$NON-NLS-1$
+								.withDataType("SelectCompleter") //$NON-NLS-1$
+								.build())
+						.withCodeLine("selectDistinct(this::selectMany, columnList, " + tableFieldName //$NON-NLS-1$
+								+ ", completer)") //$NON-NLS-1$
+						.build())
+				.withImport("org.mybatis.dynamic.sql.util.kotlin.SelectCompleter") //$NON-NLS-1$
+				.withImport("org.mybatis.dynamic.sql.util.kotlin.mybatis3.selectDistinct") //$NON-NLS-1$
+				.build();
 
-    @Override
-    public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
-        return context.getPlugins().clientGeneralSelectDistinctMethodGenerated(kotlinFunction, kotlinFile,
-                introspectedTable);
-    }
+		addFunctionComment(functionAndImports);
+		return functionAndImports;
+	}
 
-    public static class Builder extends BaseBuilder<Builder> {
-        private String mapperName;
+	@Override
+	public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
+		return context.getPlugins().clientGeneralSelectDistinctMethodGenerated(kotlinFunction, kotlinFile,
+				introspectedTable);
+	}
 
-        public Builder withMapperName(String mapperName) {
-            this.mapperName = mapperName;
-            return this;
-        }
+	public static class Builder extends BaseBuilder<Builder> {
 
-        @Override
-        public Builder getThis() {
-            return this;
-        }
+		private String mapperName;
 
-        public GeneralSelectDistinctMethodGenerator build() {
-            return new GeneralSelectDistinctMethodGenerator(this);
-        }
-    }
+		public Builder withMapperName(String mapperName) {
+			this.mapperName = mapperName;
+			return this;
+		}
+
+		@Override
+		public Builder getThis() {
+			return this;
+		}
+
+		public GeneralSelectDistinctMethodGenerator build() {
+			return new GeneralSelectDistinctMethodGenerator(this);
+		}
+
+	}
+
 }

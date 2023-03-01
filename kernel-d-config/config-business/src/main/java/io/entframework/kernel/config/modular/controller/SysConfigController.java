@@ -138,9 +138,11 @@ public class SysConfigController {
 	 *
 	 * @date 2021/7/8 16:36
 	 */
-	@GetResource(name = "获取后端服务部署的地址", path = "/sys-config/get-backend-deploy-url", requiredLogin = false, requiredPermission = false)
+	@GetResource(name = "获取后端服务部署的地址", path = "/sys-config/get-backend-deploy-url", requiredLogin = false,
+			requiredPermission = false)
 	public ResponseData<String> getBackendDeployUrl() {
 		String serverDeployHost = sysConfigService.getServerDeployHost();
 		return ResponseData.ok(serverDeployHost);
 	}
+
 }

@@ -10,14 +10,15 @@ package org.mybatis.dynamic.sql.annotation;
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target({ ElementType.TYPE })
 @Documented
 @Inherited
 public @interface Table {
-    String value() default "";
 
-    Class<?> sqlSupport() default void.class;
+	String value() default "";
 
-    String tableProperty() default "";
+	Class<?> sqlSupport() default void.class;
+
+	String tableProperty() default "";
 
 }

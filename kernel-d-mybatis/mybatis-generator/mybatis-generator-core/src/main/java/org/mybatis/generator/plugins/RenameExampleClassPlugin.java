@@ -26,11 +26,11 @@ import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
 
 /**
- * This plugin demonstrates overriding the initialized() method to rename the
- * generated example classes. Instead of xxxExample, the classes will be named
- * xxxCriteria.
+ * This plugin demonstrates overriding the initialized() method to rename the generated
+ * example classes. Instead of xxxExample, the classes will be named xxxCriteria.
  *
- * <p>This plugin accepts two properties:
+ * <p>
+ * This plugin accepts two properties:
  *
  * <ul>
  * <li><code>searchString</code> (required) the regular expression of the name
@@ -38,8 +38,9 @@ import org.mybatis.generator.api.PluginAdapter;
  * <li><code>replaceString</code> (required) the replacement String.</li>
  * </ul>
  *
- * <p>For example, to change the name of the generated Example classes from
- * xxxExample to xxxCriteria, specify the following:
+ * <p>
+ * For example, to change the name of the generated Example classes from xxxExample to
+ * xxxCriteria, specify the following:
  *
  * <dl>
  * <dt>searchString</dt>
@@ -48,47 +49,49 @@ import org.mybatis.generator.api.PluginAdapter;
  * <dd>Criteria</dd>
  * </dl>
  *
- *
  * @author Jeff Butler
  *
  */
 public class RenameExampleClassPlugin extends PluginAdapter {
-    private String replaceString;
-    private Pattern pattern;
 
-    @Override
-    public boolean validate(List<String> warnings) {
+	private String replaceString;
 
-        String searchString = properties.getProperty("searchString"); //$NON-NLS-1$
-        replaceString = properties.getProperty("replaceString"); //$NON-NLS-1$
+	private Pattern pattern;
 
-        boolean valid = stringHasValue(searchString)
-                && stringHasValue(replaceString);
+	@Override
+	public boolean validate(List<String> warnings) {
 
-        if (valid) {
-            pattern = Pattern.compile(searchString);
-        } else {
-            if (!stringHasValue(searchString)) {
-                warnings.add(getString("ValidationError.18", //$NON-NLS-1$
-                        "RenameExampleClassPlugin", //$NON-NLS-1$
-                        "searchString")); //$NON-NLS-1$
-            }
-            if (!stringHasValue(replaceString)) {
-                warnings.add(getString("ValidationError.18", //$NON-NLS-1$
-                        "RenameExampleClassPlugin", //$NON-NLS-1$
-                        "replaceString")); //$NON-NLS-1$
-            }
-        }
+		String searchString = properties.getProperty("searchString"); //$NON-NLS-1$
+		replaceString = properties.getProperty("replaceString"); //$NON-NLS-1$
 
-        return valid;
-    }
+		boolean valid = stringHasValue(searchString) && stringHasValue(replaceString);
 
-    @Override
-    public void initialized(IntrospectedTable introspectedTable) {
-        String oldType = introspectedTable.getExampleType();
-        Matcher matcher = pattern.matcher(oldType);
-        oldType = matcher.replaceAll(replaceString);
+		if (valid) {
+			pattern = Pattern.compile(searchString);
+		}
+		else {
+			if (!stringHasValue(searchString)) {
+				warnings.add(getString("ValidationError.18", //$NON-NLS-1$
+						"RenameExampleClassPlugin", //$NON-NLS-1$
+						"searchString")); //$NON-NLS-1$
+			}
+			if (!stringHasValue(replaceString)) {
+				warnings.add(getString("ValidationError.18", //$NON-NLS-1$
+						"RenameExampleClassPlugin", //$NON-NLS-1$
+						"replaceString")); //$NON-NLS-1$
+			}
+		}
 
-        introspectedTable.setExampleType(oldType);
-    }
+		return valid;
+	}
+
+	@Override
+	public void initialized(IntrospectedTable introspectedTable) {
+		String oldType = introspectedTable.getExampleType();
+		Matcher matcher = pattern.matcher(oldType);
+		oldType = matcher.replaceAll(replaceString);
+
+		introspectedTable.setExampleType(oldType);
+	}
+
 }

@@ -24,38 +24,40 @@ import org.mybatis.generator.api.dom.java.Method;
 
 public class UpdateByExampleWithoutBLOBsMethodGenerator extends AbstractJavaMapperMethodGenerator {
 
-    public UpdateByExampleWithoutBLOBsMethodGenerator() {
-        super();
-    }
+	public UpdateByExampleWithoutBLOBsMethodGenerator() {
+		super();
+	}
 
-    @Override
-    public void addInterfaceElements(Interface interfaze) {
-        String statementId = introspectedTable.getUpdateByExampleStatementId();
-        FullyQualifiedJavaType parameterType;
-        if (introspectedTable.getRules().generateBaseRecordClass()) {
-            parameterType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
-        } else {
-            parameterType = new FullyQualifiedJavaType(introspectedTable.getPrimaryKeyType());
-        }
-        Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
+	@Override
+	public void addInterfaceElements(Interface interfaze) {
+		String statementId = introspectedTable.getUpdateByExampleStatementId();
+		FullyQualifiedJavaType parameterType;
+		if (introspectedTable.getRules().generateBaseRecordClass()) {
+			parameterType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
+		}
+		else {
+			parameterType = new FullyQualifiedJavaType(introspectedTable.getPrimaryKeyType());
+		}
+		Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
 
-        Method method = buildBasicUpdateByExampleMethod(statementId, parameterType, importedTypes);
+		Method method = buildBasicUpdateByExampleMethod(statementId, parameterType, importedTypes);
 
-        addMapperAnnotations(method);
+		addMapperAnnotations(method);
 
-        if (context.getPlugins()
-                .clientUpdateByExampleWithoutBLOBsMethodGenerated(method, interfaze, introspectedTable)) {
-            addExtraImports(interfaze);
-            interfaze.addImportedTypes(importedTypes);
-            interfaze.addMethod(method);
-        }
-    }
+		if (context.getPlugins().clientUpdateByExampleWithoutBLOBsMethodGenerated(method, interfaze,
+				introspectedTable)) {
+			addExtraImports(interfaze);
+			interfaze.addImportedTypes(importedTypes);
+			interfaze.addMethod(method);
+		}
+	}
 
-    public void addMapperAnnotations(Method method) {
-        // extension point for subclasses
-    }
+	public void addMapperAnnotations(Method method) {
+		// extension point for subclasses
+	}
 
-    public void addExtraImports(Interface interfaze) {
-        // extension point for subclasses
-    }
+	public void addExtraImports(Interface interfaze) {
+		// extension point for subclasses
+	}
+
 }

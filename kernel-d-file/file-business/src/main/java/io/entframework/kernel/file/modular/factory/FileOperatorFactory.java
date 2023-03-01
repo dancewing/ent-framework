@@ -18,31 +18,32 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class FileOperatorFactory {
 
-    private static final Map<FileStorageEnum, FileOperatorApi> fileOperatorApis = new ConcurrentHashMap<>();
+	private static final Map<FileStorageEnum, FileOperatorApi> fileOperatorApis = new ConcurrentHashMap<>();
 
-    public FileOperatorFactory(Collection<FileOperatorApi> operatorApis) {
-        if (operatorApis!=null) {
-            Iterator<FileOperatorApi> iterator = operatorApis.iterator();
-            while (iterator.hasNext()) {
-                FileOperatorApi fileOperatorApi = iterator.next();
-                if (fileOperatorApi.getFileLocationEnum() == null) {
-                    throw new FileException(FileExceptionEnum.FILE_STORAGE_TYPE_NOT_NULL);
-                }
-                fileOperatorApis.put(fileOperatorApi.getFileLocationEnum(), fileOperatorApi);
-            }
-        }
-    }
+	public FileOperatorFactory(Collection<FileOperatorApi> operatorApis) {
+		if (operatorApis != null) {
+			Iterator<FileOperatorApi> iterator = operatorApis.iterator();
+			while (iterator.hasNext()) {
+				FileOperatorApi fileOperatorApi = iterator.next();
+				if (fileOperatorApi.getFileLocationEnum() == null) {
+					throw new FileException(FileExceptionEnum.FILE_STORAGE_TYPE_NOT_NULL);
+				}
+				fileOperatorApis.put(fileOperatorApi.getFileLocationEnum(), fileOperatorApi);
+			}
+		}
+	}
 
-    public FileOperatorApi getFileOperatorApi(FileStorageEnum fileStorageEnum) {
-        Assert.notNull(fileStorageEnum, "参数 FileStorageEnum 不能为null");
-        if (fileOperatorApis.containsKey(fileStorageEnum)) {
-            return fileOperatorApis.get(fileStorageEnum);
-        }
-        throw new FileException(FileExceptionEnum.FILE_STORAGE_NOT_FOUND, fileStorageEnum.getValue());
-    }
+	public FileOperatorApi getFileOperatorApi(FileStorageEnum fileStorageEnum) {
+		Assert.notNull(fileStorageEnum, "参数 FileStorageEnum 不能为null");
+		if (fileOperatorApis.containsKey(fileStorageEnum)) {
+			return fileOperatorApis.get(fileStorageEnum);
+		}
+		throw new FileException(FileExceptionEnum.FILE_STORAGE_NOT_FOUND, fileStorageEnum.getValue());
+	}
 
-    public FileOperatorApi getFileOperatorApi(Integer fileLocation) {
-        Assert.notNull(fileLocation, "参数 FileStorage 不能为null");
-        return getFileOperatorApi(FileStorageEnum.getStorage(fileLocation));
-    }
+	public FileOperatorApi getFileOperatorApi(Integer fileLocation) {
+		Assert.notNull(fileLocation, "参数 FileStorage 不能为null");
+		return getFileOperatorApi(FileStorageEnum.getStorage(fileLocation));
+	}
+
 }

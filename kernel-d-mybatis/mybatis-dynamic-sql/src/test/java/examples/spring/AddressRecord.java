@@ -16,40 +16,45 @@
 package examples.spring;
 
 public class AddressRecord {
-    private Integer id;
-    private String streetAddress;
-    private String city;
-    private String state;
 
-    public Integer getId() {
-        return id;
-    }
+	private Integer id;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private String streetAddress;
 
-    public String getStreetAddress() {
-        return streetAddress;
-    }
+	private String city;
 
-    public void setStreetAddress(String streetAddress) {
-        this.streetAddress = streetAddress;
-    }
+	private String state;
 
-    public String getCity() {
-        return city;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getState() {
-        return state;
-    }
+	public String getStreetAddress() {
+		return streetAddress;
+	}
 
-    public void setState(String state) {
-        this.state = state;
-    }
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
 }

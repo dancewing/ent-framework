@@ -28,69 +28,76 @@ import java.util.Set;
 
 @Service
 public class MenuServiceImpl implements MenuServiceApi {
-    @Resource
-    private GeneralRepository generalRepository;
-    @Resource
-    private RoleServiceApi roleServiceApi;
 
-    @Override
-    public boolean hasMenu(Long appId) {
-        return generalRepository.count(SysMenu.class, c -> c.where(SysMenuDynamicSqlSupport.appId, SqlBuilder.isEqualTo(appId))) > 0L;
-    }
+	@Resource
+	private GeneralRepository generalRepository;
 
-    @Override
-    public List<Long> getUserAppIdList() {
-        // 非超级管理员获取自己的菜单
-        List<SysMenu> list;
-        if (!LoginContext.me().getSuperAdminFlag()) {
-            List<Long> currentUserMenuIds = this.getCurrentUserMenuIds();
-            list = this.generalRepository.select(SysMenu.class, c -> c.where(SysMenuDynamicSqlSupport.menuId, SqlBuilder.isIn(currentUserMenuIds))
-                    .groupBy(SysMenuDynamicSqlSupport.appId));
-        } else {
-            list = this.generalRepository.select(SysMenu.class, c -> c.groupBy(SysMenuDynamicSqlSupport.appId));
-        }
-        return list.stream().map(SysMenu::getAppId).toList();
-    }
+	@Resource
+	private RoleServiceApi roleServiceApi;
 
-    @Override
-    public Set<Long> getMenuAllParentMenuId(Set<Long> menuIds) {
-        Set<Long> parentMenuIds = new HashSet<>();
+	@Override
+	public boolean hasMenu(Long appId) {
+		return generalRepository.count(SysMenu.class,
+				c -> c.where(SysMenuDynamicSqlSupport.appId, SqlBuilder.isEqualTo(appId))) > 0L;
+	}
 
-        // 查询所有菜单信息
-        List<SysMenu> sysMenus = this.generalRepository.select(SysMenu.class, c -> c.where(SysMenuDynamicSqlSupport.menuId, SqlBuilder.isIn(menuIds)));
-        if (ObjectUtil.isEmpty(sysMenus)) {
-            return parentMenuIds;
-        }
+	@Override
+	public List<Long> getUserAppIdList() {
+		// 非超级管理员获取自己的菜单
+		List<SysMenu> list;
+		if (!LoginContext.me().getSuperAdminFlag()) {
+			List<Long> currentUserMenuIds = this.getCurrentUserMenuIds();
+			list = this.generalRepository.select(SysMenu.class,
+					c -> c.where(SysMenuDynamicSqlSupport.menuId, SqlBuilder.isIn(currentUserMenuIds))
+							.groupBy(SysMenuDynamicSqlSupport.appId));
+		}
+		else {
+			list = this.generalRepository.select(SysMenu.class, c -> c.groupBy(SysMenuDynamicSqlSupport.appId));
+		}
+		return list.stream().map(SysMenu::getAppId).toList();
+	}
 
-        // 获取所有父菜单ID
-        for (SysMenu sysMenu : sysMenus) {
-            String menuPids = sysMenu.getMenuPids().replace("\\[", "").replace("\\]", "");
-            String[] ids = menuPids.split(SymbolConstant.COMMA);
-            for (String id : ids) {
-                parentMenuIds.add(Long.parseLong(id));
-            }
-        }
+	@Override
+	public Set<Long> getMenuAllParentMenuId(Set<Long> menuIds) {
+		Set<Long> parentMenuIds = new HashSet<>();
 
-        return parentMenuIds;
-    }
+		// 查询所有菜单信息
+		List<SysMenu> sysMenus = this.generalRepository.select(SysMenu.class,
+				c -> c.where(SysMenuDynamicSqlSupport.menuId, SqlBuilder.isIn(menuIds)));
+		if (ObjectUtil.isEmpty(sysMenus)) {
+			return parentMenuIds;
+		}
 
-    private List<Long> getCurrentUserMenuIds() {
+		// 获取所有父菜单ID
+		for (SysMenu sysMenu : sysMenus) {
+			String menuPids = sysMenu.getMenuPids().replace("\\[", "").replace("\\]", "");
+			String[] ids = menuPids.split(SymbolConstant.COMMA);
+			for (String id : ids) {
+				parentMenuIds.add(Long.parseLong(id));
+			}
+		}
 
-        // 获取当前用户的角色id集合
-        LoginUser loginUser = LoginContext.me().getLoginUser();
-        List<Long> roleIdList = loginUser.getSimpleRoleInfoList().stream().map(SimpleRoleInfo::getRoleId).toList();
+		return parentMenuIds;
+	}
 
-        // 当前用户角色为空，则没菜单
-        if (ObjectUtil.isEmpty(roleIdList)) {
-            return CollUtil.newArrayList();
-        }
+	private List<Long> getCurrentUserMenuIds() {
 
-        // 获取角色拥有的菜单id集合
-        List<Long> menuIdList = roleServiceApi.getMenuIdsByRoleIds(roleIdList);
-        if (ObjectUtil.isEmpty(menuIdList)) {
-            return CollUtil.newArrayList();
-        }
+		// 获取当前用户的角色id集合
+		LoginUser loginUser = LoginContext.me().getLoginUser();
+		List<Long> roleIdList = loginUser.getSimpleRoleInfoList().stream().map(SimpleRoleInfo::getRoleId).toList();
 
-        return menuIdList;
-    }
+		// 当前用户角色为空，则没菜单
+		if (ObjectUtil.isEmpty(roleIdList)) {
+			return CollUtil.newArrayList();
+		}
+
+		// 获取角色拥有的菜单id集合
+		List<Long> menuIdList = roleServiceApi.getMenuIdsByRoleIds(roleIdList);
+		if (ObjectUtil.isEmpty(menuIdList)) {
+			return CollUtil.newArrayList();
+		}
+
+		return menuIdList;
+	}
+
 }

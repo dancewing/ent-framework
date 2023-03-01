@@ -25,80 +25,79 @@ import org.mybatis.generator.api.dom.java.Parameter;
 
 public class BasicInsertMethodGenerator extends AbstractMethodGenerator {
 
-    private final FullyQualifiedJavaType recordType;
-    private final FragmentGenerator fragmentGenerator;
+	private final FullyQualifiedJavaType recordType;
 
-    private BasicInsertMethodGenerator(Builder builder) {
-        super(builder);
-        recordType = builder.recordType;
-        fragmentGenerator = builder.fragmentGenerator;
-    }
+	private final FragmentGenerator fragmentGenerator;
 
-    @Override
-    public MethodAndImports generateMethodAndImports() {
-        Set<FullyQualifiedJavaType> imports = new HashSet<>();
+	private BasicInsertMethodGenerator(Builder builder) {
+		super(builder);
+		recordType = builder.recordType;
+		fragmentGenerator = builder.fragmentGenerator;
+	}
 
-        FullyQualifiedJavaType adapter =
-                new FullyQualifiedJavaType("org.mybatis.dynamic.sql.util.SqlProviderAdapter"); //$NON-NLS-1$
-        FullyQualifiedJavaType annotation =
-                new FullyQualifiedJavaType("org.apache.ibatis.annotations.InsertProvider"); //$NON-NLS-1$
+	@Override
+	public MethodAndImports generateMethodAndImports() {
+		Set<FullyQualifiedJavaType> imports = new HashSet<>();
 
-        imports.add(new FullyQualifiedJavaType(
-                "org.mybatis.dynamic.sql.insert.render.InsertStatementProvider")); //$NON-NLS-1$
-        imports.add(adapter);
-        imports.add(annotation);
+		FullyQualifiedJavaType adapter = new FullyQualifiedJavaType("org.mybatis.dynamic.sql.util.SqlProviderAdapter"); //$NON-NLS-1$
+		FullyQualifiedJavaType annotation = new FullyQualifiedJavaType("org.apache.ibatis.annotations.InsertProvider"); //$NON-NLS-1$
 
-        FullyQualifiedJavaType parameterType =
-                new FullyQualifiedJavaType(
-                        "org.mybatis.dynamic.sql.insert.render.InsertStatementProvider"); //$NON-NLS-1$
-        imports.add(recordType);
-        parameterType.addTypeArgument(recordType);
+		imports.add(new FullyQualifiedJavaType("org.mybatis.dynamic.sql.insert.render.InsertStatementProvider")); //$NON-NLS-1$
+		imports.add(adapter);
+		imports.add(annotation);
 
-        Method method = new Method("insert"); //$NON-NLS-1$
-        method.setAbstract(true);
-        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        method.addParameter(new Parameter(parameterType, "insertStatement")); //$NON-NLS-1$
-        context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
-        method.addAnnotation("@InsertProvider(type=SqlProviderAdapter.class, method=\"insert\")"); //$NON-NLS-1$
+		FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType(
+				"org.mybatis.dynamic.sql.insert.render.InsertStatementProvider"); //$NON-NLS-1$
+		imports.add(recordType);
+		parameterType.addTypeArgument(recordType);
 
-        MethodAndImports.Builder builder = MethodAndImports.withMethod(method)
-                .withImports(imports);
+		Method method = new Method("insert"); //$NON-NLS-1$
+		method.setAbstract(true);
+		method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+		method.addParameter(new Parameter(parameterType, "insertStatement")); //$NON-NLS-1$
+		context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
+		method.addAnnotation("@InsertProvider(type=SqlProviderAdapter.class, method=\"insert\")"); //$NON-NLS-1$
 
-        introspectedTable.getGeneratedKey().ifPresent(gk -> {
-            MethodParts methodParts = fragmentGenerator.getGeneratedKeyAnnotation(gk);
-            acceptParts(builder, method, methodParts);
-        });
+		MethodAndImports.Builder builder = MethodAndImports.withMethod(method).withImports(imports);
 
-        return builder.build();
-    }
+		introspectedTable.getGeneratedKey().ifPresent(gk -> {
+			MethodParts methodParts = fragmentGenerator.getGeneratedKeyAnnotation(gk);
+			acceptParts(builder, method, methodParts);
+		});
 
-    @Override
-    public boolean callPlugins(Method method, Interface interfaze) {
-        return context.getPlugins().clientBasicInsertMethodGenerated(method, interfaze, introspectedTable);
-    }
+		return builder.build();
+	}
 
-    public static class Builder extends BaseBuilder<Builder> {
+	@Override
+	public boolean callPlugins(Method method, Interface interfaze) {
+		return context.getPlugins().clientBasicInsertMethodGenerated(method, interfaze, introspectedTable);
+	}
 
-        private FullyQualifiedJavaType recordType;
-        private FragmentGenerator fragmentGenerator;
+	public static class Builder extends BaseBuilder<Builder> {
 
-        public Builder withRecordType(FullyQualifiedJavaType recordType) {
-            this.recordType = recordType;
-            return this;
-        }
+		private FullyQualifiedJavaType recordType;
 
-        public Builder withFragmentGenerator(FragmentGenerator fragmentGenerator) {
-            this.fragmentGenerator = fragmentGenerator;
-            return this;
-        }
+		private FragmentGenerator fragmentGenerator;
 
-        @Override
-        public Builder getThis() {
-            return this;
-        }
+		public Builder withRecordType(FullyQualifiedJavaType recordType) {
+			this.recordType = recordType;
+			return this;
+		}
 
-        public BasicInsertMethodGenerator build() {
-            return new BasicInsertMethodGenerator(this);
-        }
-    }
+		public Builder withFragmentGenerator(FragmentGenerator fragmentGenerator) {
+			this.fragmentGenerator = fragmentGenerator;
+			return this;
+		}
+
+		@Override
+		public Builder getThis() {
+			return this;
+		}
+
+		public BasicInsertMethodGenerator build() {
+			return new BasicInsertMethodGenerator(this);
+		}
+
+	}
+
 }

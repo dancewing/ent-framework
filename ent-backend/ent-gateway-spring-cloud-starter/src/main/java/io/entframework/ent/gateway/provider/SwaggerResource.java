@@ -13,48 +13,49 @@ import com.google.common.collect.ComparisonChain;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SwaggerResource implements Comparable<SwaggerResource> {
-    private String name;
-    private String url;
-    private String swaggerVersion;
 
-    @JsonProperty("name")
-    public String getName() {
-        return name;
-    }
+	private String name;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	private String url;
 
-    /**
-     * Use url going forward rather than location
-     *
-     * @return url
-     * @since 2.8.0
-     */
-    @JsonProperty("url")
-    public String getUrl() {
-        return url;
-    }
+	private String swaggerVersion;
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+	@JsonProperty("name")
+	public String getName() {
+		return name;
+	}
 
-    @JsonProperty("swaggerVersion")
-    public String getSwaggerVersion() {
-        return swaggerVersion;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setSwaggerVersion(String swaggerVersion) {
-        this.swaggerVersion = swaggerVersion;
-    }
+	/**
+	 * Use url going forward rather than location
+	 * @return url
+	 * @since 2.8.0
+	 */
+	@JsonProperty("url")
+	public String getUrl() {
+		return url;
+	}
 
-    @Override
-    public int compareTo(SwaggerResource other) {
-        return ComparisonChain.start()
-                .compare(this.swaggerVersion, other.swaggerVersion)
-                .compare(this.name, other.name)
-                .result();
-    }
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	@JsonProperty("swaggerVersion")
+	public String getSwaggerVersion() {
+		return swaggerVersion;
+	}
+
+	public void setSwaggerVersion(String swaggerVersion) {
+		this.swaggerVersion = swaggerVersion;
+	}
+
+	@Override
+	public int compareTo(SwaggerResource other) {
+		return ComparisonChain.start().compare(this.swaggerVersion, other.swaggerVersion).compare(this.name, other.name)
+				.result();
+	}
+
 }

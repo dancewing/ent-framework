@@ -75,4 +75,5 @@ public class SysThemeTemplateFieldRequest extends BaseRequest {
 	 */
 	@ChineseDescription("属性描述")
 	private String fieldDescription;
+
 }

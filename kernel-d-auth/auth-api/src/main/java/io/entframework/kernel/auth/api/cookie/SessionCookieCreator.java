@@ -17,28 +17,27 @@ import jakarta.servlet.http.Cookie;
  */
 public abstract class SessionCookieCreator {
 
-    /**
-     * 创建cookie的操作
-     * <p>
-     * 这里不要重写这个方法，重写后名称对不上可能导致登录后权限校验失败
-     *
-     * @param cookieName            cookie的名称
-     * @param cookieValue           cookie的值
-     * @param sessionExpiredSeconds cookie过期时间
-     * @date 2020/12/27 13:29
-     */
-    public Cookie createCookie(String cookieName, String cookieValue, Integer sessionExpiredSeconds) {
-        Cookie cookie = new Cookie(cookieName, cookieValue);
-        cookie.setMaxAge(sessionExpiredSeconds);
-        this.expandCookieProp(cookie);
-        return cookie;
-    }
+	/**
+	 * 创建cookie的操作
+	 * <p>
+	 * 这里不要重写这个方法，重写后名称对不上可能导致登录后权限校验失败
+	 * @param cookieName cookie的名称
+	 * @param cookieValue cookie的值
+	 * @param sessionExpiredSeconds cookie过期时间
+	 * @date 2020/12/27 13:29
+	 */
+	public Cookie createCookie(String cookieName, String cookieValue, Integer sessionExpiredSeconds) {
+		Cookie cookie = new Cookie(cookieName, cookieValue);
+		cookie.setMaxAge(sessionExpiredSeconds);
+		this.expandCookieProp(cookie);
+		return cookie;
+	}
 
-    /**
-     * 拓展cookie的配置
-     *
-     * @date 2020/12/27 13:41
-     */
-    public abstract void expandCookieProp(Cookie cookie);
+	/**
+	 * 拓展cookie的配置
+	 *
+	 * @date 2020/12/27 13:41
+	 */
+	public abstract void expandCookieProp(Cookie cookie);
 
 }

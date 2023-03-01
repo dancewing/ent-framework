@@ -17,40 +17,40 @@ import com.wf.captcha.SpecCaptcha;
  */
 public class ImageCaptchaService implements ImageCaptchaApi {
 
-    private final CacheOperatorApi<String> cacheOperatorApi;
+	private final CacheOperatorApi<String> cacheOperatorApi;
 
-    public ImageCaptchaService(CacheOperatorApi<String> cacheOperatorApi) {
-        this.cacheOperatorApi = cacheOperatorApi;
-    }
+	public ImageCaptchaService(CacheOperatorApi<String> cacheOperatorApi) {
+		this.cacheOperatorApi = cacheOperatorApi;
+	}
 
-    @Override
-    public ImageCaptcha captcha() {
-        SpecCaptcha specCaptcha = new SpecCaptcha(130, 48, 5);
-        String verCode = specCaptcha.text().toLowerCase();
-        String verKey = IdUtil.simpleUUID();
-        cacheOperatorApi.put(verKey, verCode);
-        return ImageCaptcha.builder().verImage(specCaptcha.toBase64()).verKey(verKey).build();
-    }
+	@Override
+	public ImageCaptcha captcha() {
+		SpecCaptcha specCaptcha = new SpecCaptcha(130, 48, 5);
+		String verCode = specCaptcha.text().toLowerCase();
+		String verKey = IdUtil.simpleUUID();
+		cacheOperatorApi.put(verKey, verCode);
+		return ImageCaptcha.builder().verImage(specCaptcha.toBase64()).verKey(verKey).build();
+	}
 
-    @Override
-    public boolean validateCaptcha(String verKey, String verCode) {
-        if (CharSequenceUtil.isAllEmpty(verKey, verCode)) {
-            return false;
-        }
+	@Override
+	public boolean validateCaptcha(String verKey, String verCode) {
+		if (CharSequenceUtil.isAllEmpty(verKey, verCode)) {
+			return false;
+		}
 
-        if (!verCode.trim().toLowerCase().equals(cacheOperatorApi.get(verKey))) {
-            return false;
-        }
+		if (!verCode.trim().toLowerCase().equals(cacheOperatorApi.get(verKey))) {
+			return false;
+		}
 
-        //删除缓存中验证码
-        cacheOperatorApi.remove(verKey);
+		// 删除缓存中验证码
+		cacheOperatorApi.remove(verKey);
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public String getVerCode(String verKey) {
-        return cacheOperatorApi.get(verKey);
-    }
+	@Override
+	public String getVerCode(String verKey) {
+		return cacheOperatorApi.get(verKey);
+	}
 
 }

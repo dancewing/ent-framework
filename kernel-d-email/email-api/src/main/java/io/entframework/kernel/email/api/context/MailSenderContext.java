@@ -13,13 +13,13 @@ import io.entframework.kernel.email.api.MailSenderApi;
  */
 public class MailSenderContext {
 
-    /**
-     * 获取邮件发送的接口
-     *
-     * @date 2020/10/26 10:16
-     */
-    public static MailSenderApi me() {
-        return SpringUtil.getBean(MailSenderApi.class);
-    }
+	/**
+	 * 获取邮件发送的接口
+	 *
+	 * @date 2020/10/26 10:16
+	 */
+	public static MailSenderApi me() {
+		return SpringUtil.getBean(MailSenderApi.class);
+	}
 
 }

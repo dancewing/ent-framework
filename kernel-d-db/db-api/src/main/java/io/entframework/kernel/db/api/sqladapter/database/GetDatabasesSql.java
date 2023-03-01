@@ -14,23 +14,24 @@ import lombok.Getter;
 @Getter
 public class GetDatabasesSql extends AbstractSql {
 
-    @Override
-    protected String mysql() {
-        return "show databases;";
-    }
+	@Override
+	protected String mysql() {
+		return "show databases;";
+	}
 
-    @Override
-    protected String sqlServer() {
-        return "";
-    }
+	@Override
+	protected String sqlServer() {
+		return "";
+	}
 
-    @Override
-    protected String pgSql() {
-        return "";
-    }
+	@Override
+	protected String pgSql() {
+		return "";
+	}
 
-    @Override
-    protected String oracle() {
-        return "";
-    }
+	@Override
+	protected String oracle() {
+		return "";
+	}
+
 }

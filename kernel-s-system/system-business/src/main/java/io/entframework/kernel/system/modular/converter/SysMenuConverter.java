@@ -13,19 +13,25 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 public interface SysMenuConverter {
-    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    interface RequestConverter extends ObjectConverter<SysMenuRequest, SysMenu> {
-        default SysApp mapSysAppRequestToSysApp(SysAppRequest sysAppRequest) {
-            ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
-            return converterService.convert(sysAppRequest, SysApp.class);
-        }
-    }
 
-    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    interface ResponseConverter extends ObjectConverter<SysMenu, SysMenuResponse> {
-        default SysAppResponse mapSysAppToSysAppResponse(SysApp sysApp) {
-            ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
-            return converterService.convert(sysApp, SysAppResponse.class);
-        }
-    }
+	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	interface RequestConverter extends ObjectConverter<SysMenuRequest, SysMenu> {
+
+		default SysApp mapSysAppRequestToSysApp(SysAppRequest sysAppRequest) {
+			ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
+			return converterService.convert(sysAppRequest, SysApp.class);
+		}
+
+	}
+
+	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	interface ResponseConverter extends ObjectConverter<SysMenu, SysMenuResponse> {
+
+		default SysAppResponse mapSysAppToSysAppResponse(SysApp sysApp) {
+			ObjectConversionService converterService = SpringUtil.getBean(ObjectConversionService.class);
+			return converterService.convert(sysApp, SysAppResponse.class);
+		}
+
+	}
+
 }

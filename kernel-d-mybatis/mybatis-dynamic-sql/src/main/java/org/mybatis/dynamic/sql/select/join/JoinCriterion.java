@@ -21,54 +21,61 @@ import org.mybatis.dynamic.sql.BasicColumn;
 
 public class JoinCriterion {
 
-    private final String connector;
-    private final BasicColumn leftColumn;
-    private final JoinCondition joinCondition;
+	private final String connector;
 
-    private JoinCriterion(Builder builder) {
-        connector = Objects.requireNonNull(builder.connector);
-        leftColumn = Objects.requireNonNull(builder.joinColumn);
-        joinCondition = Objects.requireNonNull(builder.joinCondition);
-    }
+	private final BasicColumn leftColumn;
 
-    public String connector() {
-        return connector;
-    }
+	private final JoinCondition joinCondition;
 
-    public BasicColumn leftColumn() {
-        return leftColumn;
-    }
+	private JoinCriterion(Builder builder) {
+		connector = Objects.requireNonNull(builder.connector);
+		leftColumn = Objects.requireNonNull(builder.joinColumn);
+		joinCondition = Objects.requireNonNull(builder.joinCondition);
+	}
 
-    public BasicColumn rightColumn() {
-        return joinCondition.rightColumn();
-    }
+	public String connector() {
+		return connector;
+	}
 
-    public String operator() {
-        return joinCondition.operator();
-    }
+	public BasicColumn leftColumn() {
+		return leftColumn;
+	}
 
-    public static class Builder {
-        private String connector;
-        private BasicColumn joinColumn;
-        private JoinCondition joinCondition;
+	public BasicColumn rightColumn() {
+		return joinCondition.rightColumn();
+	}
 
-        public Builder withConnector(String connector) {
-            this.connector = connector;
-            return this;
-        }
+	public String operator() {
+		return joinCondition.operator();
+	}
 
-        public Builder withJoinColumn(BasicColumn joinColumn) {
-            this.joinColumn = joinColumn;
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withJoinCondition(JoinCondition joinCondition) {
-            this.joinCondition = joinCondition;
-            return this;
-        }
+		private String connector;
 
-        public JoinCriterion build() {
-            return new JoinCriterion(this);
-        }
-    }
+		private BasicColumn joinColumn;
+
+		private JoinCondition joinCondition;
+
+		public Builder withConnector(String connector) {
+			this.connector = connector;
+			return this;
+		}
+
+		public Builder withJoinColumn(BasicColumn joinColumn) {
+			this.joinColumn = joinColumn;
+			return this;
+		}
+
+		public Builder withJoinCondition(JoinCondition joinCondition) {
+			this.joinCondition = joinCondition;
+			return this;
+		}
+
+		public JoinCriterion build() {
+			return new JoinCriterion(this);
+		}
+
+	}
+
 }

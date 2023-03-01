@@ -29,77 +29,66 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mybatis.dynamic.sql.SqlBuilder.select;
 
 public class NonResultSetMapperTest {
-    private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
-    private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
 
-    private SqlSessionFactory sqlSessionFactory;
+	private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
 
-    @BeforeEach
-    void setup() throws Exception {
-        Class.forName(JDBC_DRIVER);
-        InputStream is = getClass().getResourceAsStream("/examples/animal/data/CreateAnimalData.sql");
-        assert is != null;
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
-            ScriptRunner sr = new ScriptRunner(connection);
-            sr.setLogWriter(null);
-            sr.runScript(new InputStreamReader(is));
-        }
+	private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
 
-        UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
-        Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
-        KernelMybatisConfiguration config = new KernelMybatisConfiguration(environment);
-        config.addMapper(AnimalDataMapper.class);
-        config.addMapper(NonResultSetAnimalDataMapper.class);
-        config.addMapper(GeneralMapperSupport.class);
-        sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
-    }
+	private SqlSessionFactory sqlSessionFactory;
 
-    @Test
-    void testSelectAllRows() {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            NonResultSetAnimalDataMapper mapper = sqlSession.getMapper(NonResultSetAnimalDataMapper.class);
-            SelectStatementProvider selectStatement = select(id, animalName, bodyWeight, brainWeight)
-                    .from(AnimalData.class)
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3);
-            List<AnimalData> animals = mapper.selectMany(selectStatement);
-            assertAll(
-                    () -> assertThat(animals).hasSize(65),
-                    () -> assertThat(animals.get(0).getId()).isEqualTo(1)
-            );
-        }
-    }
+	@BeforeEach
+	void setup() throws Exception {
+		Class.forName(JDBC_DRIVER);
+		InputStream is = getClass().getResourceAsStream("/examples/animal/data/CreateAnimalData.sql");
+		assert is != null;
+		try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
+			ScriptRunner sr = new ScriptRunner(connection);
+			sr.setLogWriter(null);
+			sr.runScript(new InputStreamReader(is));
+		}
 
-    @Test
-    void testSelectOneRow() {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            NonResultSetAnimalDataMapper mapper = sqlSession.getMapper(NonResultSetAnimalDataMapper.class);
-            SelectStatementProvider selectStatement = select(id, animalName, bodyWeight, brainWeight)
-                    .from(AnimalDataDynamicSqlSupport.animalData)
-                    .where(id, SqlBuilder.isEqualTo(1))
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3);
-            AnimalData animal = mapper.selectOne(selectStatement);
-            assertAll(
-                    () -> assertThat(animal.getId()).isEqualTo(1)
-            );
-        }
-    }
+		UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
+		Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
+		KernelMybatisConfiguration config = new KernelMybatisConfiguration(environment);
+		config.addMapper(AnimalDataMapper.class);
+		config.addMapper(NonResultSetAnimalDataMapper.class);
+		config.addMapper(GeneralMapperSupport.class);
+		sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
+	}
 
-    @Test
-    void testSelectOptionalOneRow() {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            NonResultSetAnimalDataMapper mapper = sqlSession.getMapper(NonResultSetAnimalDataMapper.class);
-            SelectStatementProvider selectStatement = select(id, animalName, bodyWeight, brainWeight)
-                    .from(AnimalDataDynamicSqlSupport.animalData)
-                    .where(id, SqlBuilder.isEqualTo(1))
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3);
-            Optional<AnimalData> animal = mapper.selectOptionalOne(selectStatement);
-            assertAll(
-                    () -> assertTrue(animal.isPresent()),
-                    () -> assertThat(animal.get().getId()).isEqualTo(1)
-            );
-        }
-    }
+	@Test
+	void testSelectAllRows() {
+		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+			NonResultSetAnimalDataMapper mapper = sqlSession.getMapper(NonResultSetAnimalDataMapper.class);
+			SelectStatementProvider selectStatement = select(id, animalName, bodyWeight, brainWeight)
+					.from(AnimalData.class).build().render(RenderingStrategies.MYBATIS3);
+			List<AnimalData> animals = mapper.selectMany(selectStatement);
+			assertAll(() -> assertThat(animals).hasSize(65), () -> assertThat(animals.get(0).getId()).isEqualTo(1));
+		}
+	}
+
+	@Test
+	void testSelectOneRow() {
+		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+			NonResultSetAnimalDataMapper mapper = sqlSession.getMapper(NonResultSetAnimalDataMapper.class);
+			SelectStatementProvider selectStatement = select(id, animalName, bodyWeight, brainWeight)
+					.from(AnimalDataDynamicSqlSupport.animalData).where(id, SqlBuilder.isEqualTo(1)).build()
+					.render(RenderingStrategies.MYBATIS3);
+			AnimalData animal = mapper.selectOne(selectStatement);
+			assertAll(() -> assertThat(animal.getId()).isEqualTo(1));
+		}
+	}
+
+	@Test
+	void testSelectOptionalOneRow() {
+		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+			NonResultSetAnimalDataMapper mapper = sqlSession.getMapper(NonResultSetAnimalDataMapper.class);
+			SelectStatementProvider selectStatement = select(id, animalName, bodyWeight, brainWeight)
+					.from(AnimalDataDynamicSqlSupport.animalData).where(id, SqlBuilder.isEqualTo(1)).build()
+					.render(RenderingStrategies.MYBATIS3);
+			Optional<AnimalData> animal = mapper.selectOptionalOne(selectStatement);
+			assertAll(() -> assertTrue(animal.isPresent()), () -> assertThat(animal.get().getId()).isEqualTo(1));
+		}
+	}
+
 }

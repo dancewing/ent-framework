@@ -15,24 +15,25 @@ import lombok.Getter;
 @Getter
 public enum DefaultUserExceptionEnum implements AbstractExceptionEnum {
 
-    /**
-     * 用户端错误（一级宏观错误码）
-     */
-    USER_OPERATION_ERROR(RuleConstants.USER_OPERATION_ERROR_TYPE_CODE + RuleConstants.FIRST_LEVEL_WIDE_CODE, "执行失败，请检查操作是否正常");
+	/**
+	 * 用户端错误（一级宏观错误码）
+	 */
+	USER_OPERATION_ERROR(RuleConstants.USER_OPERATION_ERROR_TYPE_CODE + RuleConstants.FIRST_LEVEL_WIDE_CODE,
+			"执行失败，请检查操作是否正常");
 
-    /**
-     * 错误编码
-     */
-    private final String errorCode;
+	/**
+	 * 错误编码
+	 */
+	private final String errorCode;
 
-    /**
-     * 提示用户信息
-     */
-    private final String userTip;
+	/**
+	 * 提示用户信息
+	 */
+	private final String userTip;
 
-    DefaultUserExceptionEnum(String errorCode, String userTip) {
-        this.errorCode = errorCode;
-        this.userTip = userTip;
-    }
+	DefaultUserExceptionEnum(String errorCode, String userTip) {
+		this.errorCode = errorCode;
+		this.userTip = userTip;
+	}
 
 }

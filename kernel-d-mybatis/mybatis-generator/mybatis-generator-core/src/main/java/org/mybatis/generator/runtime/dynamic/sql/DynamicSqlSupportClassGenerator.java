@@ -28,168 +28,170 @@ import org.mybatis.generator.internal.util.StringUtility;
 import org.mybatis.generator.internal.util.messages.Messages;
 
 public class DynamicSqlSupportClassGenerator {
-    private IntrospectedTable introspectedTable;
-    private CommentGenerator commentGenerator;
-    private List<String> warnings;
 
-    private DynamicSqlSupportClassGenerator() {
-        super();
-    }
+	private IntrospectedTable introspectedTable;
 
-    public TopLevelClass generate() {
-        TopLevelClass topLevelClass = buildBasicClass();
-        Field tableField = calculateTableDefinition(topLevelClass);
-        topLevelClass.addImportedType(tableField.getType());
-        topLevelClass.addField(tableField);
+	private CommentGenerator commentGenerator;
 
-        InnerClass innerClass = buildInnerTableClass(topLevelClass);
-        topLevelClass.addInnerClass(innerClass);
+	private List<String> warnings;
 
-        List<IntrospectedColumn> columns = introspectedTable.getAllColumns();
-        for (IntrospectedColumn column : columns) {
-            handleColumn(topLevelClass, innerClass, column, tableField.getName());
-        }
+	private DynamicSqlSupportClassGenerator() {
+		super();
+	}
 
-        FullyQualifiedJavaType fieldType =
-                new FullyQualifiedJavaType("org.mybatis.dynamic.sql.BasicColumn[]"); //$NON-NLS-1$
-        topLevelClass.addImportedType(fieldType);
-        Field selectListField = new Field("selectList", fieldType); //$NON-NLS-1$
+	public TopLevelClass generate() {
+		TopLevelClass topLevelClass = buildBasicClass();
+		Field tableField = calculateTableDefinition(topLevelClass);
+		topLevelClass.addImportedType(tableField.getType());
+		topLevelClass.addField(tableField);
 
-        String fieldList = StringUtils.join(columns.stream().map(IntrospectedColumn::getJavaProperty).collect(Collectors.toList()), ", ");
-        selectListField.setInitializationString("BasicColumn.columnList(" //$NON-NLS-1$
-                + fieldList + ")"); //$NON-NLS-1$
-        selectListField.setVisibility(JavaVisibility.PUBLIC);
-        selectListField.setStatic(true);
-        selectListField.setFinal(true);
-        topLevelClass.addField(selectListField);
+		InnerClass innerClass = buildInnerTableClass(topLevelClass);
+		topLevelClass.addInnerClass(innerClass);
 
-        return topLevelClass;
-    }
+		List<IntrospectedColumn> columns = introspectedTable.getAllColumns();
+		for (IntrospectedColumn column : columns) {
+			handleColumn(topLevelClass, innerClass, column, tableField.getName());
+		}
 
-    private TopLevelClass buildBasicClass() {
-        TopLevelClass topLevelClass = new TopLevelClass(introspectedTable.getMyBatisDynamicSqlSupportType());
-        topLevelClass.setVisibility(JavaVisibility.PUBLIC);
-        topLevelClass.setFinal(true);
-        topLevelClass.addImportedType(new FullyQualifiedJavaType("org.mybatis.dynamic.sql.SqlColumn")); //$NON-NLS-1$
-        topLevelClass.addImportedType(
-                new FullyQualifiedJavaType("org.mybatis.dynamic.sql.AliasableSqlTable")); //$NON-NLS-1$
-        topLevelClass.addImportedType(new FullyQualifiedJavaType("java.sql.JDBCType")); //$NON-NLS-1$
-        return topLevelClass;
-    }
+		FullyQualifiedJavaType fieldType = new FullyQualifiedJavaType("org.mybatis.dynamic.sql.BasicColumn[]"); //$NON-NLS-1$
+		topLevelClass.addImportedType(fieldType);
+		Field selectListField = new Field("selectList", fieldType); //$NON-NLS-1$
 
-    private InnerClass buildInnerTableClass(TopLevelClass topLevelClass) {
-        FullyQualifiedJavaType fqjt =
-                new FullyQualifiedJavaType(introspectedTable.getMyBatisDynamicSQLTableObjectName());
-        InnerClass innerClass = new InnerClass(fqjt.getShortName());
-        innerClass.setVisibility(JavaVisibility.PUBLIC);
-        innerClass.setStatic(true);
-        innerClass.setFinal(true);
-        innerClass.setSuperClass(new FullyQualifiedJavaType("org.mybatis.dynamic.sql.AliasableSqlTable<" //$NON-NLS-1$
-                        + fqjt.getShortName() + ">")); //$NON-NLS-1$
+		String fieldList = StringUtils
+				.join(columns.stream().map(IntrospectedColumn::getJavaProperty).collect(Collectors.toList()), ", ");
+		selectListField.setInitializationString("BasicColumn.columnList(" //$NON-NLS-1$
+				+ fieldList + ")"); //$NON-NLS-1$
+		selectListField.setVisibility(JavaVisibility.PUBLIC);
+		selectListField.setStatic(true);
+		selectListField.setFinal(true);
+		topLevelClass.addField(selectListField);
 
-        Method method = new Method(fqjt.getShortName());
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.setConstructor(true);
-        method.addBodyLine("super(\"" //$NON-NLS-1$
-                + escapeStringForJava(introspectedTable.getFullyQualifiedTableNameAtRuntime())
-                + "\", " + fqjt.getShortName() + "::new" //$NON-NLS-1$ //$NON-NLS-2$
-                + ");"); //$NON-NLS-1$
-        innerClass.addMethod(method);
+		return topLevelClass;
+	}
 
-        commentGenerator.addClassAnnotation(innerClass, introspectedTable, topLevelClass.getImportedTypes());
+	private TopLevelClass buildBasicClass() {
+		TopLevelClass topLevelClass = new TopLevelClass(introspectedTable.getMyBatisDynamicSqlSupportType());
+		topLevelClass.setVisibility(JavaVisibility.PUBLIC);
+		topLevelClass.setFinal(true);
+		topLevelClass.addImportedType(new FullyQualifiedJavaType("org.mybatis.dynamic.sql.SqlColumn")); //$NON-NLS-1$
+		topLevelClass.addImportedType(new FullyQualifiedJavaType("org.mybatis.dynamic.sql.AliasableSqlTable")); //$NON-NLS-1$
+		topLevelClass.addImportedType(new FullyQualifiedJavaType("java.sql.JDBCType")); //$NON-NLS-1$
+		return topLevelClass;
+	}
 
-        return innerClass;
-    }
+	private InnerClass buildInnerTableClass(TopLevelClass topLevelClass) {
+		FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(
+				introspectedTable.getMyBatisDynamicSQLTableObjectName());
+		InnerClass innerClass = new InnerClass(fqjt.getShortName());
+		innerClass.setVisibility(JavaVisibility.PUBLIC);
+		innerClass.setStatic(true);
+		innerClass.setFinal(true);
+		innerClass.setSuperClass(new FullyQualifiedJavaType("org.mybatis.dynamic.sql.AliasableSqlTable<" //$NON-NLS-1$
+				+ fqjt.getShortName() + ">")); //$NON-NLS-1$
 
-    private Field calculateTableDefinition(TopLevelClass topLevelClass) {
-        FullyQualifiedJavaType fqjt =
-                new FullyQualifiedJavaType(introspectedTable.getMyBatisDynamicSQLTableObjectName());
-        String fieldName =
-                JavaBeansUtil.getValidPropertyName(introspectedTable.getMyBatisDynamicSQLTableObjectName());
-        Field field = new Field(fieldName, fqjt);
-        commentGenerator.addFieldAnnotation(field, introspectedTable, topLevelClass.getImportedTypes());
-        field.setVisibility(JavaVisibility.PUBLIC);
-        field.setStatic(true);
-        field.setFinal(true);
+		Method method = new Method(fqjt.getShortName());
+		method.setVisibility(JavaVisibility.PUBLIC);
+		method.setConstructor(true);
+		method.addBodyLine("super(\"" //$NON-NLS-1$
+				+ escapeStringForJava(introspectedTable.getFullyQualifiedTableNameAtRuntime()) + "\", " //$NON-NLS-1$
+				+ fqjt.getShortName() + "::new" //$NON-NLS-1$
+				+ ");"); //$NON-NLS-1$
+		innerClass.addMethod(method);
 
-        String initializationString = String.format("new %s()", //$NON-NLS-1$
-                escapeStringForJava(introspectedTable.getMyBatisDynamicSQLTableObjectName()));
-        field.setInitializationString(initializationString);
-        return field;
-    }
+		commentGenerator.addClassAnnotation(innerClass, introspectedTable, topLevelClass.getImportedTypes());
 
-    private void handleColumn(TopLevelClass topLevelClass, InnerClass innerClass,
-            IntrospectedColumn column, String tableFieldName) {
-        topLevelClass.addImportedType(column.getFullyQualifiedJavaType());
+		return innerClass;
+	}
 
-        FullyQualifiedJavaType javaType;
-        if (column.getFullyQualifiedJavaType().isPrimitive()) {
-            javaType = column.getFullyQualifiedJavaType().getPrimitiveTypeWrapper();
-        } else {
-            javaType = column.getFullyQualifiedJavaType();
-        }
+	private Field calculateTableDefinition(TopLevelClass topLevelClass) {
+		FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(
+				introspectedTable.getMyBatisDynamicSQLTableObjectName());
+		String fieldName = JavaBeansUtil.getValidPropertyName(introspectedTable.getMyBatisDynamicSQLTableObjectName());
+		Field field = new Field(fieldName, fqjt);
+		commentGenerator.addFieldAnnotation(field, introspectedTable, topLevelClass.getImportedTypes());
+		field.setVisibility(JavaVisibility.PUBLIC);
+		field.setStatic(true);
+		field.setFinal(true);
 
-        FullyQualifiedJavaType fieldType = calculateFieldType(javaType);
-        String fieldName = column.getJavaProperty();
+		String initializationString = String.format("new %s()", //$NON-NLS-1$
+				escapeStringForJava(introspectedTable.getMyBatisDynamicSQLTableObjectName()));
+		field.setInitializationString(initializationString);
+		return field;
+	}
 
-        if (fieldName.equals(tableFieldName)) {
-            // name collision, skip the shortcut field
-            warnings.add(
-                    Messages.getString("Warning.29", //$NON-NLS-1$
-                            fieldName, topLevelClass.getType().getFullyQualifiedName()));
-        } else {
-            // shortcut field
-            Field field = new Field(fieldName, fieldType);
-            field.setVisibility(JavaVisibility.PUBLIC);
-            field.setStatic(true);
-            field.setFinal(true);
-            field.setInitializationString(tableFieldName + "." + fieldName); //$NON-NLS-1$
-            commentGenerator.addFieldAnnotation(field, introspectedTable, column, topLevelClass.getImportedTypes());
-            topLevelClass.addField(field);
-        }
+	private void handleColumn(TopLevelClass topLevelClass, InnerClass innerClass, IntrospectedColumn column,
+			String tableFieldName) {
+		topLevelClass.addImportedType(column.getFullyQualifiedJavaType());
 
-        // inner class field
-        Field field = new Field(fieldName, fieldType);
-        field.setVisibility(JavaVisibility.PUBLIC);
-        field.setFinal(true);
-        field.setInitializationString(calculateInnerInitializationString(column, javaType));
-        innerClass.addField(field);
-    }
+		FullyQualifiedJavaType javaType;
+		if (column.getFullyQualifiedJavaType().isPrimitive()) {
+			javaType = column.getFullyQualifiedJavaType().getPrimitiveTypeWrapper();
+		}
+		else {
+			javaType = column.getFullyQualifiedJavaType();
+		}
 
-    private FullyQualifiedJavaType calculateFieldType(FullyQualifiedJavaType javaType) {
-        return new FullyQualifiedJavaType(String.format("SqlColumn<%s>", javaType.getShortName())); //$NON-NLS-1$
-    }
+		FullyQualifiedJavaType fieldType = calculateFieldType(javaType);
+		String fieldName = column.getJavaProperty();
 
-    private String calculateInnerInitializationString(IntrospectedColumn column, FullyQualifiedJavaType javaType) {
-        StringBuilder initializationString = new StringBuilder();
+		if (fieldName.equals(tableFieldName)) {
+			// name collision, skip the shortcut field
+			warnings.add(Messages.getString("Warning.29", //$NON-NLS-1$
+					fieldName, topLevelClass.getType().getFullyQualifiedName()));
+		}
+		else {
+			// shortcut field
+			Field field = new Field(fieldName, fieldType);
+			field.setVisibility(JavaVisibility.PUBLIC);
+			field.setStatic(true);
+			field.setFinal(true);
+			field.setInitializationString(tableFieldName + "." + fieldName); //$NON-NLS-1$
+			commentGenerator.addFieldAnnotation(field, introspectedTable, column, topLevelClass.getImportedTypes());
+			topLevelClass.addField(field);
+		}
 
-        initializationString.append(String.format("column(\"%s\", JDBCType.%s", //$NON-NLS-1$ //$NON-NLS-2$
-                escapeStringForJava(getEscapedColumnName(column)),
-                column.getJdbcTypeName()));
+		// inner class field
+		Field field = new Field(fieldName, fieldType);
+		field.setVisibility(JavaVisibility.PUBLIC);
+		field.setFinal(true);
+		field.setInitializationString(calculateInnerInitializationString(column, javaType));
+		innerClass.addField(field);
+	}
 
-        if (StringUtility.stringHasValue(column.getTypeHandler())) {
-            initializationString.append(String.format(", \"%s\")", column.getTypeHandler())); //$NON-NLS-1$
-        } else {
-            initializationString.append(')'); //$NON-NLS-1$
-        }
+	private FullyQualifiedJavaType calculateFieldType(FullyQualifiedJavaType javaType) {
+		return new FullyQualifiedJavaType(String.format("SqlColumn<%s>", javaType.getShortName())); //$NON-NLS-1$
+	}
 
+	private String calculateInnerInitializationString(IntrospectedColumn column, FullyQualifiedJavaType javaType) {
+		StringBuilder initializationString = new StringBuilder();
 
-        if (StringUtility.isTrue(
-                column.getProperties().getProperty(PropertyRegistry.COLUMN_OVERRIDE_FORCE_JAVA_TYPE))) {
-            initializationString.append(".withJavaType("); //$NON-NLS-1$
-            initializationString.append(javaType.getShortName());
-            initializationString.append(".class)"); //$NON-NLS-1$
-        }
+		initializationString.append(String.format("column(\"%s\", JDBCType.%s", //$NON-NLS-1$ //$NON-NLS-2$
+				escapeStringForJava(getEscapedColumnName(column)), column.getJdbcTypeName()));
 
-        return initializationString.toString();
-    }
+		if (StringUtility.stringHasValue(column.getTypeHandler())) {
+			initializationString.append(String.format(", \"%s\")", column.getTypeHandler())); //$NON-NLS-1$
+		}
+		else {
+			initializationString.append(')'); // $NON-NLS-1$
+		}
 
-    public static DynamicSqlSupportClassGenerator of(IntrospectedTable introspectedTable,
-            CommentGenerator commentGenerator, List<String> warnings) {
-        DynamicSqlSupportClassGenerator generator = new DynamicSqlSupportClassGenerator();
-        generator.introspectedTable = introspectedTable;
-        generator.commentGenerator = commentGenerator;
-        generator.warnings = warnings;
-        return generator;
-    }
+		if (StringUtility
+				.isTrue(column.getProperties().getProperty(PropertyRegistry.COLUMN_OVERRIDE_FORCE_JAVA_TYPE))) {
+			initializationString.append(".withJavaType("); //$NON-NLS-1$
+			initializationString.append(javaType.getShortName());
+			initializationString.append(".class)"); //$NON-NLS-1$
+		}
+
+		return initializationString.toString();
+	}
+
+	public static DynamicSqlSupportClassGenerator of(IntrospectedTable introspectedTable,
+			CommentGenerator commentGenerator, List<String> warnings) {
+		DynamicSqlSupportClassGenerator generator = new DynamicSqlSupportClassGenerator();
+		generator.introspectedTable = introspectedTable;
+		generator.commentGenerator = commentGenerator;
+		generator.warnings = warnings;
+		return generator;
+	}
+
 }

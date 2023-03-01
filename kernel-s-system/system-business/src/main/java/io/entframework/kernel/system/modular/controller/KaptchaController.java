@@ -27,33 +27,33 @@ import jakarta.annotation.Resource;
 @ApiResource(name = "用户登录图形验证码")
 public class KaptchaController {
 
-    @Resource
-    private ImageCaptchaApi captchaApi;
+	@Resource
+	private ImageCaptchaApi captchaApi;
 
-    @Resource
-    private DragCaptchaApi dragCaptchaApi;
+	@Resource
+	private DragCaptchaApi dragCaptchaApi;
 
-    /**
-     * 获取图形验证码
-     *
-     * @date 2021/7/5 12:00
-     */
-    @GetResource(name = "获取图形验证码", path = "/captcha", requiredPermission = false, requiredLogin = false)
-    public ResponseData<ImageCaptcha> captcha() {
-        return ResponseData.ok(captchaApi.captcha());
-    }
+	/**
+	 * 获取图形验证码
+	 *
+	 * @date 2021/7/5 12:00
+	 */
+	@GetResource(name = "获取图形验证码", path = "/captcha", requiredPermission = false, requiredLogin = false)
+	public ResponseData<ImageCaptcha> captcha() {
+		return ResponseData.ok(captchaApi.captcha());
+	}
 
-    /**
-     * 获取拖拽验证码
-     *
-     * @date 2021/7/5 12:00
-     */
-    @GetResource(name = "获取图形验证码", path = "/drag-captcha", requiredPermission = false, requiredLogin = false)
-    public ResponseData<DragCaptchaImageDTO> dragCaptcha() {
-        DragCaptchaImageDTO captcha = dragCaptchaApi.createCaptcha();
-        captcha.setSrcImage(RuleConstants.BASE64_IMG_PREFIX + captcha.getSrcImage());
-        captcha.setCutImage(RuleConstants.BASE64_IMG_PREFIX + captcha.getCutImage());
-        return ResponseData.ok(captcha);
-    }
+	/**
+	 * 获取拖拽验证码
+	 *
+	 * @date 2021/7/5 12:00
+	 */
+	@GetResource(name = "获取图形验证码", path = "/drag-captcha", requiredPermission = false, requiredLogin = false)
+	public ResponseData<DragCaptchaImageDTO> dragCaptcha() {
+		DragCaptchaImageDTO captcha = dragCaptchaApi.createCaptcha();
+		captcha.setSrcImage(RuleConstants.BASE64_IMG_PREFIX + captcha.getSrcImage());
+		captcha.setCutImage(RuleConstants.BASE64_IMG_PREFIX + captcha.getCutImage());
+		return ResponseData.ok(captcha);
+	}
 
 }

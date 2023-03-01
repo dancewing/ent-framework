@@ -8,12 +8,16 @@ import io.entframework.kernel.db.mds.example.service.HistoryScoreService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class HistoryScoreServiceImpl extends BaseServiceImpl<HistoryScoreRequest, HistoryScoreResponse, HistoryScore> implements HistoryScoreService {
-    public HistoryScoreServiceImpl() {
-        super(HistoryScoreRequest.class, HistoryScoreResponse.class, HistoryScore.class);
-    }
+public class HistoryScoreServiceImpl extends BaseServiceImpl<HistoryScoreRequest, HistoryScoreResponse, HistoryScore>
+		implements HistoryScoreService {
 
-    public HistoryScoreServiceImpl(Class<? extends HistoryScoreRequest> requestClass, Class<? extends HistoryScoreResponse> responseClass, Class<? extends HistoryScore> entityClass) {
-        super(requestClass, responseClass, entityClass);
-    }
+	public HistoryScoreServiceImpl() {
+		super(HistoryScoreRequest.class, HistoryScoreResponse.class, HistoryScore.class);
+	}
+
+	public HistoryScoreServiceImpl(Class<? extends HistoryScoreRequest> requestClass,
+			Class<? extends HistoryScoreResponse> responseClass, Class<? extends HistoryScore> entityClass) {
+		super(requestClass, responseClass, entityClass);
+	}
+
 }

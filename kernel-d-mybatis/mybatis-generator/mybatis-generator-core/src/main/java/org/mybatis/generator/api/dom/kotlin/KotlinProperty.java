@@ -20,83 +20,92 @@ import java.util.Optional;
 
 public class KotlinProperty extends KotlinNamedItem {
 
-    private final String dataType;
-    private final String initializationString;
-    private final Type type;
+	private final String dataType;
 
-    public enum Type {
-        VAL("val"), //$NON-NLS-1$
-        VAR("var"); //$NON-NLS-1$
+	private final String initializationString;
 
-        private final String value;
+	private final Type type;
 
-        Type(String value) {
-            this.value = value;
-        }
+	public enum Type {
 
-        public String getValue() {
-            return value;
-        }
-    }
+		VAL("val"), //$NON-NLS-1$
+		VAR("var"); //$NON-NLS-1$
 
-    private KotlinProperty(Builder builder) {
-        super(builder);
-        dataType = builder.dataType;
-        initializationString = builder.initializationString;
-        type = Objects.requireNonNull(builder.type);
-    }
+		private final String value;
 
-    public Optional<String> getInitializationString() {
-        return Optional.ofNullable(initializationString);
-    }
+		Type(String value) {
+			this.value = value;
+		}
 
-    public Optional<String> getDataType() {
-        return Optional.ofNullable(dataType);
-    }
+		public String getValue() {
+			return value;
+		}
 
-    public Type getType() {
-        return type;
-    }
+	}
 
-    @Override
-    public <R> R accept(KotlinNamedItemVisitor<R> visitor) {
-        return visitor.visit(this);
-    }
+	private KotlinProperty(Builder builder) {
+		super(builder);
+		dataType = builder.dataType;
+		initializationString = builder.initializationString;
+		type = Objects.requireNonNull(builder.type);
+	}
 
-    public static Builder newVal(String name) {
-        return new Builder(Type.VAL, name);
-    }
+	public Optional<String> getInitializationString() {
+		return Optional.ofNullable(initializationString);
+	}
 
-    public static Builder newVar(String name) {
-        return new Builder(Type.VAR, name);
-    }
+	public Optional<String> getDataType() {
+		return Optional.ofNullable(dataType);
+	}
 
-    public static class Builder extends AbstractBuilder<Builder> {
-        private String dataType;
-        private String initializationString;
-        private final Type type;
+	public Type getType() {
+		return type;
+	}
 
-        private Builder(Type type, String name) {
-            super(name);
-            this.type = type;
-        }
+	@Override
+	public <R> R accept(KotlinNamedItemVisitor<R> visitor) {
+		return visitor.visit(this);
+	}
 
-        public Builder withInitializationString(String initializationString) {
-            this.initializationString = initializationString;
-            return this;
-        }
+	public static Builder newVal(String name) {
+		return new Builder(Type.VAL, name);
+	}
 
-        public Builder withDataType(String dataType) {
-            this.dataType = dataType;
-            return this;
-        }
+	public static Builder newVar(String name) {
+		return new Builder(Type.VAR, name);
+	}
 
-        public Builder getThis() {
-            return this;
-        }
+	public static class Builder extends AbstractBuilder<Builder> {
 
-        public KotlinProperty build() {
-            return new KotlinProperty(this);
-        }
-    }
+		private String dataType;
+
+		private String initializationString;
+
+		private final Type type;
+
+		private Builder(Type type, String name) {
+			super(name);
+			this.type = type;
+		}
+
+		public Builder withInitializationString(String initializationString) {
+			this.initializationString = initializationString;
+			return this;
+		}
+
+		public Builder withDataType(String dataType) {
+			this.dataType = dataType;
+			return this;
+		}
+
+		public Builder getThis() {
+			return this;
+		}
+
+		public KotlinProperty build() {
+			return new KotlinProperty(this);
+		}
+
+	}
+
 }

@@ -10,14 +10,14 @@ package io.entframework.kernel.groovy.api.constants;
  */
 public interface GroovyConstants {
 
-    /**
-     * groovy模块的名称
-     */
-    String GROOVY_MODULE_NAME = "kernel-d-groovy";
+	/**
+	 * groovy模块的名称
+	 */
+	String GROOVY_MODULE_NAME = "kernel-d-groovy";
 
-    /**
-     * 异常枚举的步进值
-     */
-    String GROOVY_EXCEPTION_STEP_CODE = "26";
+	/**
+	 * 异常枚举的步进值
+	 */
+	String GROOVY_EXCEPTION_STEP_CODE = "26";
 
 }

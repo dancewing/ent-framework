@@ -16,7 +16,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClassGradeServiceExt extends ClassGradeServiceImpl {
 
-    public ClassGradeServiceExt() {
-        super(ClassGradeRequestExt.class, ClassGradeResponseExt.class, ClassGradeExt.class);
-    }
+	public ClassGradeServiceExt() {
+		super(ClassGradeRequestExt.class, ClassGradeResponseExt.class, ClassGradeExt.class);
+	}
+
 }

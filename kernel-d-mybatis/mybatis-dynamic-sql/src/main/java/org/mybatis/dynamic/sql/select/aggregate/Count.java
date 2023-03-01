@@ -22,28 +22,29 @@ import org.mybatis.dynamic.sql.render.TableAliasCalculator;
 
 public class Count extends AbstractCount {
 
-    private final BasicColumn column;
+	private final BasicColumn column;
 
-    private Count(BasicColumn column) {
-        this.column = Objects.requireNonNull(column);
-    }
+	private Count(BasicColumn column) {
+		this.column = Objects.requireNonNull(column);
+	}
 
-    private Count(BasicColumn column, String alias) {
-        super(alias);
-        this.column = Objects.requireNonNull(column);
-    }
+	private Count(BasicColumn column, String alias) {
+		super(alias);
+		this.column = Objects.requireNonNull(column);
+	}
 
-    @Override
-    public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
-        return "count(" + column.renderWithTableAlias(tableAliasCalculator) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-    }
+	@Override
+	public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
+		return "count(" + column.renderWithTableAlias(tableAliasCalculator) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-    @Override
-    public Count as(String alias) {
-        return new Count(column, alias);
-    }
+	@Override
+	public Count as(String alias) {
+		return new Count(column, alias);
+	}
 
-    public static Count of(BasicColumn column) {
-        return new Count(column);
-    }
+	public static Count of(BasicColumn column) {
+		return new Count(column);
+	}
+
 }

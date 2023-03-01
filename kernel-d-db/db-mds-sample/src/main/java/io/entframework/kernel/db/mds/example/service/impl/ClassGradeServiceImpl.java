@@ -8,12 +8,16 @@ import io.entframework.kernel.db.mds.example.service.ClassGradeService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ClassGradeServiceImpl extends BaseServiceImpl<ClassGradeRequest, ClassGradeResponse, ClassGrade> implements ClassGradeService {
-    public ClassGradeServiceImpl() {
-        super(ClassGradeRequest.class, ClassGradeResponse.class, ClassGrade.class);
-    }
+public class ClassGradeServiceImpl extends BaseServiceImpl<ClassGradeRequest, ClassGradeResponse, ClassGrade>
+		implements ClassGradeService {
 
-    public ClassGradeServiceImpl(Class<? extends ClassGradeRequest> requestClass, Class<? extends ClassGradeResponse> responseClass, Class<? extends ClassGrade> entityClass) {
-        super(requestClass, responseClass, entityClass);
-    }
+	public ClassGradeServiceImpl() {
+		super(ClassGradeRequest.class, ClassGradeResponse.class, ClassGrade.class);
+	}
+
+	public ClassGradeServiceImpl(Class<? extends ClassGradeRequest> requestClass,
+			Class<? extends ClassGradeResponse> responseClass, Class<? extends ClassGrade> entityClass) {
+		super(requestClass, responseClass, entityClass);
+	}
+
 }

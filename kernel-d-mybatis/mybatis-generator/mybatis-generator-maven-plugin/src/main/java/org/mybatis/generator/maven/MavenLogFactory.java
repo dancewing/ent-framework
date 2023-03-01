@@ -21,14 +21,15 @@ import org.mybatis.generator.logging.Log;
 
 public class MavenLogFactory implements AbstractLogFactory {
 
-    private final MavenLogImpl logImplementation;
+	private final MavenLogImpl logImplementation;
 
-    MavenLogFactory(Mojo mojo) {
-        logImplementation = new MavenLogImpl(mojo.getLog());
-    }
+	MavenLogFactory(Mojo mojo) {
+		logImplementation = new MavenLogImpl(mojo.getLog());
+	}
 
-    @Override
-    public Log getLog(Class<?> targetClass) {
-        return logImplementation;
-    }
+	@Override
+	public Log getLog(Class<?> targetClass) {
+		return logImplementation;
+	}
+
 }

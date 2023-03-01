@@ -52,7 +52,9 @@ import java.util.*;
  *
  * @date 2020/11/04 11:05
  */
-public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationRequest, HrOrganizationResponse, HrOrganization> implements HrOrganizationService {
+public class HrOrganizationServiceImpl
+		extends BaseServiceImpl<HrOrganizationRequest, HrOrganizationResponse, HrOrganization>
+		implements HrOrganizationService {
 
 	@Resource
 	private GeneralMapperSupport generalMapperSupport;
@@ -101,8 +103,9 @@ public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationReq
 		DataScopeUtil.quickValidateDataScope(organizationId);
 
 		// 该机构下有员工，则不能删
-		long count = getRepository().count(SysUser.class, c -> c.where(SysUserDynamicSqlSupport.orgId, SqlBuilder.isEqualTo(hrOrganization.getOrgId()))
-				.and(SysUserDynamicSqlSupport.delFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N)));
+		long count = getRepository().count(SysUser.class,
+				c -> c.where(SysUserDynamicSqlSupport.orgId, SqlBuilder.isEqualTo(hrOrganization.getOrgId()))
+						.and(SysUserDynamicSqlSupport.delFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N)));
 		if (count > 0) {
 			throw new SystemModularException(OrganizationExceptionEnum.DELETE_ORGANIZATION_ERROR);
 		}
@@ -140,7 +143,7 @@ public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationReq
 		this.fillParentIds(hrOrganization);
 
 		// 不能修改状态，用修改状态接口修改状态
-		//hrOrganization.setStatusFlag();
+		// hrOrganization.setStatusFlag();
 
 		// 更新这条记录
 		this.getRepository().update(hrOrganization);
@@ -210,8 +213,8 @@ public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationReq
 		Set<Long> allLevelParentIds = new HashSet<>(organizationIds);
 
 		// 查询出这些节点的pids字段
-		List<HrOrganization> organizationList = this.getRepository()
-				.select(getEntityClass(), c -> c.where(HrOrganizationDynamicSqlSupport.orgId, SqlBuilder.isIn(organizationIds)));
+		List<HrOrganization> organizationList = this.getRepository().select(getEntityClass(),
+				c -> c.where(HrOrganizationDynamicSqlSupport.orgId, SqlBuilder.isIn(organizationIds)));
 		if (organizationList == null || organizationList.isEmpty()) {
 			return allLevelParentIds;
 		}
@@ -242,8 +245,8 @@ public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationReq
 	@Override
 	public List<HrOrganizationResponse> orgList() {
 
-		QueryExpressionDSL<SelectModel>.QueryExpressionWhereBuilder builder = SqlBuilder.select(HrOrganizationDynamicSqlSupport.selectList)
-				.from(getEntityClass()).where();
+		QueryExpressionDSL<SelectModel>.QueryExpressionWhereBuilder builder = SqlBuilder
+				.select(HrOrganizationDynamicSqlSupport.selectList).from(getEntityClass()).where();
 
 		// 如果是超级管理员 或 数据范围是所有，则不过滤数据范围
 		boolean needToDataScope = true;
@@ -279,8 +282,8 @@ public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationReq
 		SelectStatementProvider selectStatement = builder.build().render(RenderingStrategies.MYBATIS3);
 		// 返回数据
 		List<HrOrganization> list = this.generalMapperSupport.selectMany(selectStatement);
-		return list.stream().filter(Objects::nonNull).map(hrOrganization -> this.converterService.convert(hrOrganization, getResponseClass()))
-				.toList();
+		return list.stream().filter(Objects::nonNull)
+				.map(hrOrganization -> this.converterService.convert(hrOrganization, getResponseClass())).toList();
 	}
 
 	/**
@@ -309,7 +312,8 @@ public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationReq
 		if (TreeConstants.DEFAULT_PARENT_ID.equals(hrOrganization.getOrgParentId())) {
 			hrOrganization.setOrgPids(SymbolConstant.LEFT_SQUARE_BRACKETS + TreeConstants.DEFAULT_PARENT_ID
 					+ SymbolConstant.RIGHT_SQUARE_BRACKETS + SymbolConstant.COMMA);
-		} else {
+		}
+		else {
 			// 获取父组织机构
 			HrOrganizationRequest hrOrganizationRequest = new HrOrganizationRequest();
 			hrOrganizationRequest.setOrgId(hrOrganization.getOrgParentId());
@@ -328,8 +332,9 @@ public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationReq
 	 */
 	private List<HrOrganization> findListByDataScope(HrOrganizationRequest hrOrganizationRequest) {
 
-		QueryExpressionDSL<SelectModel>.QueryExpressionWhereBuilder builder = SqlBuilder.select(HrOrganizationDynamicSqlSupport.selectList)
-				.from(HrOrganizationDynamicSqlSupport.hrOrganization).where();
+		QueryExpressionDSL<SelectModel>.QueryExpressionWhereBuilder builder = SqlBuilder
+				.select(HrOrganizationDynamicSqlSupport.selectList).from(HrOrganizationDynamicSqlSupport.hrOrganization)
+				.where();
 
 		// 数据范围过滤
 		// 如果是超级管理员，或者数据范围权限是所有，则不过滤数据范围
@@ -359,4 +364,5 @@ public class HrOrganizationServiceImpl extends BaseServiceImpl<HrOrganizationReq
 
 		return this.generalMapperSupport.selectMany(selectStatement);
 	}
+
 }

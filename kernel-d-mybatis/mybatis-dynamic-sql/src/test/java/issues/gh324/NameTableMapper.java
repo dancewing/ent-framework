@@ -31,49 +31,43 @@ import static issues.gh324.NameTableDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
 @CacheNamespace(implementation = ObservableCache.class)
-public interface NameTableMapper extends CommonCountMapper, CommonDeleteMapper, GenericInsertMapper<NameRecord>, CommonUpdateMapper {
-    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    @Results(id = "NameTableResult", value = {
-            @Result(column = "id", property = "id", id = true),
-            @Result(column = "name", property = "name")
-    })
-    List<NameRecord> selectMany(SelectStatementProvider selectStatement);
+public interface NameTableMapper
+		extends CommonCountMapper, CommonDeleteMapper, GenericInsertMapper<NameRecord>, CommonUpdateMapper {
 
-    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    @ResultMap("NameTableResult")
-    Optional<NameRecord> selectOne(SelectStatementProvider selectStatement);
+	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
+	@Results(id = "NameTableResult",
+			value = { @Result(column = "id", property = "id", id = true), @Result(column = "name", property = "name") })
+	List<NameRecord> selectMany(SelectStatementProvider selectStatement);
 
-    BasicColumn[] selectList = BasicColumn.columnList(id, name);
+	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
+	@ResultMap("NameTableResult")
+	Optional<NameRecord> selectOne(SelectStatementProvider selectStatement);
 
-    default Optional<NameRecord> selectOne(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectOne(this::selectOne, selectList, nameTable, completer);
-    }
+	BasicColumn[] selectList = BasicColumn.columnList(id, name);
 
-    default Optional<NameRecord> selectByPrimaryKey(Integer id_) {
-        return selectOne(c ->
-                c.where(id, isEqualTo(id_))
-        );
-    }
+	default Optional<NameRecord> selectOne(SelectDSLCompleter completer) {
+		return MyBatis3Utils.selectOne(this::selectOne, selectList, nameTable, completer);
+	}
 
-    default int insert(NameRecord record) {
-        return MyBatis3Utils.insert(this::insert, record, nameTable, c ->
-                c.map(id).toProperty("id")
-                        .map(name).toProperty("name")
-        );
-    }
+	default Optional<NameRecord> selectByPrimaryKey(Integer id_) {
+		return selectOne(c -> c.where(id, isEqualTo(id_)));
+	}
 
-    default int update(UpdateDSLCompleter completer) {
-        return MyBatis3Utils.update(this::update, nameTable, completer);
-    }
+	default int insert(NameRecord record) {
+		return MyBatis3Utils.insert(this::insert, record, nameTable,
+				c -> c.map(id).toProperty("id").map(name).toProperty("name"));
+	}
 
-    default int updateByPrimaryKey(NameRecord record) {
-        return update(c ->
-                c.set(name).equalTo(record::getName)
-                        .where(id, isEqualTo(record::getId))
-        );
-    }
+	default int update(UpdateDSLCompleter completer) {
+		return MyBatis3Utils.update(this::update, nameTable, completer);
+	}
 
-    default int deleteAll() {
-        return MyBatis3Utils.deleteFrom(this::delete, nameTable, DeleteDSLCompleter.allRows());
-    }
+	default int updateByPrimaryKey(NameRecord record) {
+		return update(c -> c.set(name).equalTo(record::getName).where(id, isEqualTo(record::getId)));
+	}
+
+	default int deleteAll() {
+		return MyBatis3Utils.deleteFrom(this::delete, nameTable, DeleteDSLCompleter.allRows());
+	}
+
 }

@@ -22,21 +22,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SysUserRoleResponse extends BaseResponse {
-    /**
-     * 主键
-     */
-    @ChineseDescription("主键")
-    private Long userRoleId;
 
-    /**
-     * 用户id
-     */
-    @ChineseDescription("用户id")
-    private Long userId;
+	/**
+	 * 主键
+	 */
+	@ChineseDescription("主键")
+	private Long userRoleId;
 
-    /**
-     * 角色id
-     */
-    @ChineseDescription("角色id")
-    private Long roleId;
+	/**
+	 * 用户id
+	 */
+	@ChineseDescription("用户id")
+	private Long userId;
+
+	/**
+	 * 角色id
+	 */
+	@ChineseDescription("角色id")
+	private Long roleId;
+
 }

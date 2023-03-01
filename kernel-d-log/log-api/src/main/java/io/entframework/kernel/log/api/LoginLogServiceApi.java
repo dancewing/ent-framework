@@ -3,7 +3,6 @@
  ******************************************************************************/
 package io.entframework.kernel.log.api;
 
-
 import io.entframework.kernel.log.api.pojo.loginlog.SysLoginLogRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @date 2021/1/13 11:12
  */
 public interface LoginLogServiceApi {
-    @PostMapping(path = "/client/login-log/add")
-    boolean add(@RequestBody SysLoginLogRequest request);
+
+	@PostMapping(path = "/client/login-log/add")
+	boolean add(@RequestBody SysLoginLogRequest request);
+
 }

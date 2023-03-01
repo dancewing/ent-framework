@@ -43,88 +43,92 @@ import java.util.Optional;
 @Service
 public class MongoFileServiceImpl implements MongoFileService, MongoFileApi<MongoFileEntity, String> {
 
-    @Resource
-    private MongoFileMapper mongoFileMapper;
+	@Resource
+	private MongoFileMapper mongoFileMapper;
 
-    @Resource
-    private GridFsTemplate gridFsTemplate;
+	@Resource
+	private GridFsTemplate gridFsTemplate;
 
-    @Resource
-    private GridFSBucket gridFSBucket;
+	@Resource
+	private GridFSBucket gridFSBucket;
 
-    @Override
-    public MongoFileEntity saveFile(MultipartFile file) {
-        MongoFileEntity fileDocument = new MongoFileEntity();
-        String originalFilename = file.getOriginalFilename();
-        fileDocument.setName(originalFilename);
-        fileDocument.setUploadDate(new Date());
-        try {
-            // 填充登录用户的userId
-            LoginUser loginUser = LoginContext.me().getLoginUser();
-            fileDocument.setUploadUserId(loginUser.getUserId());
-        } catch (Exception e) {
-            // 获取不到用户登录信息，就不填充
-        }
-        if (originalFilename != null) {
-            fileDocument.setSuffix(originalFilename.substring(originalFilename.lastIndexOf(".")));
-        }
+	@Override
+	public MongoFileEntity saveFile(MultipartFile file) {
+		MongoFileEntity fileDocument = new MongoFileEntity();
+		String originalFilename = file.getOriginalFilename();
+		fileDocument.setName(originalFilename);
+		fileDocument.setUploadDate(new Date());
+		try {
+			// 填充登录用户的userId
+			LoginUser loginUser = LoginContext.me().getLoginUser();
+			fileDocument.setUploadUserId(loginUser.getUserId());
+		}
+		catch (Exception e) {
+			// 获取不到用户登录信息，就不填充
+		}
+		if (originalFilename != null) {
+			fileDocument.setSuffix(originalFilename.substring(originalFilename.lastIndexOf(".")));
+		}
 
-        try {
-            ObjectId store = gridFsTemplate.store(file.getInputStream(), IdUtil.simpleUUID(), file.getContentType());
-            fileDocument.setGridfsId(String.valueOf(store));
-            return mongoFileMapper.save(fileDocument);
-        } catch (IOException ex) {
-            log.error(ex.getMessage());
-        }
-        return fileDocument;
-    }
+		try {
+			ObjectId store = gridFsTemplate.store(file.getInputStream(), IdUtil.simpleUUID(), file.getContentType());
+			fileDocument.setGridfsId(String.valueOf(store));
+			return mongoFileMapper.save(fileDocument);
+		}
+		catch (IOException ex) {
+			log.error(ex.getMessage());
+		}
+		return fileDocument;
+	}
 
-    @Override
-    public void removeFile(String id) {
-        Optional<MongoFileEntity> fileDocumentOptional = mongoFileMapper.findById(id);
-        if (fileDocumentOptional.isPresent()) {
-            mongoFileMapper.deleteById(id);
-            gridFsTemplate.delete(new Query().addCriteria(Criteria.where("_id").is(fileDocumentOptional.get().getGridfsId())));
-        }
-    }
+	@Override
+	public void removeFile(String id) {
+		Optional<MongoFileEntity> fileDocumentOptional = mongoFileMapper.findById(id);
+		if (fileDocumentOptional.isPresent()) {
+			mongoFileMapper.deleteById(id);
+			gridFsTemplate.delete(
+					new Query().addCriteria(Criteria.where("_id").is(fileDocumentOptional.get().getGridfsId())));
+		}
+	}
 
-    @Override
-    public Optional<MongoFileEntity> getFileById(String id) {
-        Optional<MongoFileEntity> fileDocumentOptional = mongoFileMapper.findById(id);
-        if (fileDocumentOptional.isPresent()) {
-            MongoFileEntity fileDocument = fileDocumentOptional.get();
-            Query gridQuery = new Query().addCriteria(Criteria.where("_id").is(fileDocument.getGridfsId()));
-            GridFSFile fsFile = gridFsTemplate.findOne(gridQuery);
-            if (fsFile == null) {
-                return Optional.empty();
-            }
-            try (GridFSDownloadStream in = gridFSBucket.openDownloadStream(fsFile.getObjectId())) {
-                if (in.getGridFSFile().getLength() > 0) {
-                    GridFsResource resource = new GridFsResource(fsFile, in);
-                    fileDocument.setContent(IoUtil.readBytes(resource.getInputStream()));
-                    return Optional.of(fileDocument);
-                } else {
-                    return Optional.empty();
-                }
-            } catch (IOException e) {
-                log.error(e.getMessage());
-            }
-        }
-        return Optional.empty();
-    }
+	@Override
+	public Optional<MongoFileEntity> getFileById(String id) {
+		Optional<MongoFileEntity> fileDocumentOptional = mongoFileMapper.findById(id);
+		if (fileDocumentOptional.isPresent()) {
+			MongoFileEntity fileDocument = fileDocumentOptional.get();
+			Query gridQuery = new Query().addCriteria(Criteria.where("_id").is(fileDocument.getGridfsId()));
+			GridFSFile fsFile = gridFsTemplate.findOne(gridQuery);
+			if (fsFile == null) {
+				return Optional.empty();
+			}
+			try (GridFSDownloadStream in = gridFSBucket.openDownloadStream(fsFile.getObjectId())) {
+				if (in.getGridFSFile().getLength() > 0) {
+					GridFsResource resource = new GridFsResource(fsFile, in);
+					fileDocument.setContent(IoUtil.readBytes(resource.getInputStream()));
+					return Optional.of(fileDocument);
+				}
+				else {
+					return Optional.empty();
+				}
+			}
+			catch (IOException e) {
+				log.error(e.getMessage());
+			}
+		}
+		return Optional.empty();
+	}
 
-    @Override
-    public PageResult<MongoFileEntity> getFilesByPage(MongoFileEntity fileDocument) {
-        Integer pageIndex = fileDocument.getPageNo();
-        Integer pageSize = fileDocument.getPageSize();
-        Sort sort = Sort.by(Sort.Direction.DESC, "uploadDate");
-        PageRequest pageRequest = PageRequest.of(pageIndex - 1, pageSize, sort);
-        Example<MongoFileEntity> example = Example.of(fileDocument, ExampleMatcher.matching()
-                .withIgnoreCase(true)
-                .withIgnorePaths("_class", "pageSize", "pageNo", "content")
-        );
-        Page<MongoFileEntity> all = mongoFileMapper.findAll(example, pageRequest);
-        return PageResultFactory.createPageResult(all.getContent(), mongoFileMapper.count(example), pageSize, pageIndex);
-    }
+	@Override
+	public PageResult<MongoFileEntity> getFilesByPage(MongoFileEntity fileDocument) {
+		Integer pageIndex = fileDocument.getPageNo();
+		Integer pageSize = fileDocument.getPageSize();
+		Sort sort = Sort.by(Sort.Direction.DESC, "uploadDate");
+		PageRequest pageRequest = PageRequest.of(pageIndex - 1, pageSize, sort);
+		Example<MongoFileEntity> example = Example.of(fileDocument, ExampleMatcher.matching().withIgnoreCase(true)
+				.withIgnorePaths("_class", "pageSize", "pageNo", "content"));
+		Page<MongoFileEntity> all = mongoFileMapper.findAll(example, pageRequest);
+		return PageResultFactory.createPageResult(all.getContent(), mongoFileMapper.count(example), pageSize,
+				pageIndex);
+	}
 
 }

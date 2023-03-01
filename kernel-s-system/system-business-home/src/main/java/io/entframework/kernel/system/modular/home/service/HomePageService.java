@@ -21,31 +21,32 @@ import java.util.List;
  */
 public interface HomePageService {
 
-    /**
-     * 获取在线用户统计
-     *
-     * @date 2022/2/11 20:40
-     */
-    OnlineUserStat getOnlineUserList(OnlineUserRequest onlineUserRequest);
+	/**
+	 * 获取在线用户统计
+	 *
+	 * @date 2022/2/11 20:40
+	 */
+	OnlineUserStat getOnlineUserList(OnlineUserRequest onlineUserRequest);
 
-    /**
-     * 获取首页公司部门人员信息统计
-     *
-     * @date 2022/2/11 21:03
-     */
-    HomeCompanyInfo getHomeCompanyInfo();
+	/**
+	 * 获取首页公司部门人员信息统计
+	 *
+	 * @date 2022/2/11 21:03
+	 */
+	HomeCompanyInfo getHomeCompanyInfo();
 
-    /**
-     * 获取常用功能集合
-     *
-     * @date 2022/2/11 22:02
-     */
-    List<SysMenu> getCommonFunctions();
+	/**
+	 * 获取常用功能集合
+	 *
+	 * @date 2022/2/11 22:02
+	 */
+	List<SysMenu> getCommonFunctions();
 
-    /**
-     * 将缓存中的访问次数信息保存到数据库
-     *
-     * @date 2022/2/11 22:02
-     */
-    void saveStatisticsCacheToDb();
+	/**
+	 * 将缓存中的访问次数信息保存到数据库
+	 *
+	 * @date 2022/2/11 22:02
+	 */
+	void saveStatisticsCacheToDb();
+
 }

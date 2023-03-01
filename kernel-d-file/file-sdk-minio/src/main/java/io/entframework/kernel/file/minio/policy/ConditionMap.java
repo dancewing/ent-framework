@@ -19,28 +19,29 @@ package io.entframework.kernel.file.minio.policy;
 import java.util.Hashtable;
 
 class ConditionMap extends Hashtable<String, ConditionKeyMap> {
-  public ConditionMap() {
-    super();
-  }
 
+	public ConditionMap() {
+		super();
+	}
 
-  public ConditionMap(String key, ConditionKeyMap value) {
-    super();
+	public ConditionMap(String key, ConditionKeyMap value) {
+		super();
 
-    this.put(key, value);
-  }
+		this.put(key, value);
+	}
 
+	@Override
+	public ConditionKeyMap put(String key, ConditionKeyMap value) {
+		ConditionKeyMap existingValue = super.get(key);
 
-  @Override
-  public ConditionKeyMap put(String key, ConditionKeyMap value) {
-    ConditionKeyMap existingValue = super.get(key);
+		if (existingValue == null) {
+			existingValue = new ConditionKeyMap(value);
+		}
+		else {
+			existingValue.putAll(value);
+		}
 
-    if (existingValue == null) {
-      existingValue = new ConditionKeyMap(value);
-    } else {
-      existingValue.putAll(value);
-    }
+		return super.put(key, existingValue);
+	}
 
-    return super.put(key, existingValue);
-  }
 }

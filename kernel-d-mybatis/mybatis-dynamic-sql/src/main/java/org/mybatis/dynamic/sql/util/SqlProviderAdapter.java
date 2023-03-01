@@ -35,74 +35,71 @@ import java.util.stream.Collectors;
  */
 public class SqlProviderAdapter {
 
-    public String delete(DeleteStatementProvider deleteStatement) {
-        return deleteStatement.getDeleteStatement();
-    }
+	public String delete(DeleteStatementProvider deleteStatement) {
+		return deleteStatement.getDeleteStatement();
+	}
 
-    public String generalInsert(GeneralInsertStatementProvider insertStatement) {
-        return insertStatement.getInsertStatement();
-    }
+	public String generalInsert(GeneralInsertStatementProvider insertStatement) {
+		return insertStatement.getInsertStatement();
+	}
 
-    public String insert(InsertStatementProvider<?> insertStatement) {
-        return insertStatement.getInsertStatement();
-    }
+	public String insert(InsertStatementProvider<?> insertStatement) {
+		return insertStatement.getInsertStatement();
+	}
 
-    public String insertMultiple(MultiRowInsertStatementProvider<?> insertStatement) {
-        return insertStatement.getInsertStatement();
-    }
+	public String insertMultiple(MultiRowInsertStatementProvider<?> insertStatement) {
+		return insertStatement.getInsertStatement();
+	}
 
-    /**
-     * This adapter method is intended for use with MyBatis' &#064;InsertProvider annotation when there are generated
-     * values expected from executing the insert statement. The canonical method signature for using this adapter method
-     * is as follows:
-     *
-     * <pre>
-     * public interface FooMapper {
-     *     &#064;InsertProvider(type=SqlProviderAdapter.class, method="insertMultipleWithGeneratedKeys")
-     *     &#064;Options(useGeneratedKeys=true, keyProperty="records.id")
-     *     int insertMultiple(String insertStatement, &#064;Param("records") List&lt;Foo&gt; records)
-     * }
-     * </pre>
-     *
-     * @param parameterMap
-     *            The parameter map is automatically created by MyBatis when there are multiple parameters in the insert
-     *            method.
-     *
-     * @return the SQL statement contained in the parameter map. This is assumed to be the one and only map entry of
-     *         type String.
-     */
-    public String insertMultipleWithGeneratedKeys(Map<String, Object> parameterMap) {
-        List<String> entries = parameterMap.entrySet().stream()
-                .filter(e -> e.getKey().startsWith("param")) //$NON-NLS-1$
-                .map(Map.Entry::getValue)
-                .filter(String.class::isInstance)
-                .map(String.class::cast)
-                .collect(Collectors.toList());
+	/**
+	 * This adapter method is intended for use with MyBatis' &#064;InsertProvider
+	 * annotation when there are generated values expected from executing the insert
+	 * statement. The canonical method signature for using this adapter method is as
+	 * follows:
+	 *
+	 * <pre>
+	 * public interface FooMapper {
+	 *     &#064;InsertProvider(type=SqlProviderAdapter.class, method="insertMultipleWithGeneratedKeys")
+	 *     &#064;Options(useGeneratedKeys=true, keyProperty="records.id")
+	 *     int insertMultiple(String insertStatement, &#064;Param("records") List&lt;Foo&gt; records)
+	 * }
+	 * </pre>
+	 * @param parameterMap The parameter map is automatically created by MyBatis when
+	 * there are multiple parameters in the insert method.
+	 * @return the SQL statement contained in the parameter map. This is assumed to be the
+	 * one and only map entry of type String.
+	 */
+	public String insertMultipleWithGeneratedKeys(Map<String, Object> parameterMap) {
+		List<String> entries = parameterMap.entrySet().stream().filter(e -> e.getKey().startsWith("param")) //$NON-NLS-1$
+				.map(Map.Entry::getValue).filter(String.class::isInstance).map(String.class::cast)
+				.collect(Collectors.toList());
 
-        if (entries.size() == 1) {
-            return entries.get(0);
-        } else {
-            throw new IllegalArgumentException(Messages.getString("ERROR.30")); //$NON-NLS-1$
-        }
-    }
+		if (entries.size() == 1) {
+			return entries.get(0);
+		}
+		else {
+			throw new IllegalArgumentException(Messages.getString("ERROR.30")); //$NON-NLS-1$
+		}
+	}
 
-    public String insertSelect(InsertSelectStatementProvider insertStatement) {
-        return insertStatement.getInsertStatement();
-    }
+	public String insertSelect(InsertSelectStatementProvider insertStatement) {
+		return insertStatement.getInsertStatement();
+	}
 
-    public String select(SelectStatementProvider selectStatement) {
-        return selectStatement.getSelectStatement();
-    }
+	public String select(SelectStatementProvider selectStatement) {
+		return selectStatement.getSelectStatement();
+	}
 
-    public String update(UpdateStatementProvider updateStatement) {
-        return updateStatement.getUpdateStatement();
-    }
+	public String update(UpdateStatementProvider updateStatement) {
+		return updateStatement.getUpdateStatement();
+	}
 
-    public String updateRow(UpdateRowStatementProvider<?> updateStatement) {
-        return updateStatement.getUpdateStatement();
-    }
+	public String updateRow(UpdateRowStatementProvider<?> updateStatement) {
+		return updateStatement.getUpdateStatement();
+	}
 
-    public String updateRowSelect(UpdateRowStatementProvider<?> updateStatement) {
-        return updateStatement.getUpdateStatement();
-    }
+	public String updateRowSelect(UpdateRowStatementProvider<?> updateStatement) {
+		return updateStatement.getUpdateStatement();
+	}
+
 }

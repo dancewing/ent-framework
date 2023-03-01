@@ -21,31 +21,33 @@ import java.util.List;
 
 @RestController
 public class SysUserClientController {
-    @Resource
-    private UserServiceApi userServiceApi;
 
-    @GetMapping(path = "/client/sys-user/user-exist")
-    public Boolean userExist(Long userId) {
-        return userServiceApi.userExist(userId);
-    }
+	@Resource
+	private UserServiceApi userServiceApi;
 
-    @GetMapping(path = "/client/sys-user/query-all-user-id-list")
-    public List<Long> queryAllUserIdList(SysUserRequest sysUserRequest) {
-        return userServiceApi.queryAllUserIdList(sysUserRequest);
-    }
+	@GetMapping(path = "/client/sys-user/user-exist")
+	public Boolean userExist(Long userId) {
+		return userServiceApi.userExist(userId);
+	}
 
-    @GetMapping(path = "/client/sys-user/get-user-login-info")
-    public UserLoginInfoDTO getUserLoginInfo(String account) {
-        return userServiceApi.getUserLoginInfo(account);
-    }
+	@GetMapping(path = "/client/sys-user/query-all-user-id-list")
+	public List<Long> queryAllUserIdList(SysUserRequest sysUserRequest) {
+		return userServiceApi.queryAllUserIdList(sysUserRequest);
+	}
 
-    @GetMapping(path = "/client/sys-user/update-user-login-info")
-    public void updateUserLoginInfo(Long userId, LocalDateTime date, String ip) {
-        userServiceApi.updateUserLoginInfo(userId, date, ip);
-    }
+	@GetMapping(path = "/client/sys-user/get-user-login-info")
+	public UserLoginInfoDTO getUserLoginInfo(String account) {
+		return userServiceApi.getUserLoginInfo(account);
+	}
 
-    @GetMapping(path = "/client/sys-user/get-user-info-by-user-id")
-    public SysUserResponse getUserInfoByUserId(Long userId) {
-        return userServiceApi.getUserInfoByUserId(userId);
-    }
+	@GetMapping(path = "/client/sys-user/update-user-login-info")
+	public void updateUserLoginInfo(Long userId, LocalDateTime date, String ip) {
+		userServiceApi.updateUserLoginInfo(userId, date, ip);
+	}
+
+	@GetMapping(path = "/client/sys-user/get-user-info-by-user-id")
+	public SysUserResponse getUserInfoByUserId(Long userId) {
+		return userServiceApi.getUserInfoByUserId(userId);
+	}
+
 }

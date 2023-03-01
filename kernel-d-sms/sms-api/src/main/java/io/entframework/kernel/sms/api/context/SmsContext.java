@@ -13,13 +13,13 @@ import io.entframework.kernel.sms.api.SmsSenderApi;
  */
 public class SmsContext {
 
-    /**
-     * 获取短信发送接口
-     *
-     * @date 2020/10/26 16:54
-     */
-    public static SmsSenderApi me() {
-        return SpringUtil.getBean(SmsSenderApi.class);
-    }
+	/**
+	 * 获取短信发送接口
+	 *
+	 * @date 2020/10/26 16:54
+	 */
+	public static SmsSenderApi me() {
+		return SpringUtil.getBean(SmsSenderApi.class);
+	}
 
 }

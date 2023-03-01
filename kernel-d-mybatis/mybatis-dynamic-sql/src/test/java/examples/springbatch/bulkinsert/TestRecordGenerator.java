@@ -21,27 +21,25 @@ import examples.springbatch.common.PersonRecord;
 
 public class TestRecordGenerator implements ItemReader<PersonRecord> {
 
-    private int index = 0;
+	private int index = 0;
 
-    private static PersonRecord[] testRecords = {
-            new PersonRecord("Fred", "Flintstone"),
-            new PersonRecord("Wilma", "Flintstone"),
-            new PersonRecord("Pebbles", "Flintstone"),
-            new PersonRecord("Barney", "Rubble"),
-            new PersonRecord("Betty", "Rubble"),
-            new PersonRecord("Bamm Bamm", "Rubble")
-    };
+	private static PersonRecord[] testRecords = { new PersonRecord("Fred", "Flintstone"),
+			new PersonRecord("Wilma", "Flintstone"), new PersonRecord("Pebbles", "Flintstone"),
+			new PersonRecord("Barney", "Rubble"), new PersonRecord("Betty", "Rubble"),
+			new PersonRecord("Bamm Bamm", "Rubble") };
 
-    @Override
-    public PersonRecord read() {
-        if (index < testRecords.length) {
-            return (testRecords[index++]);
-        } else {
-            return null;
-        }
-    }
+	@Override
+	public PersonRecord read() {
+		if (index < testRecords.length) {
+			return (testRecords[index++]);
+		}
+		else {
+			return null;
+		}
+	}
 
-    public static int recordCount() {
-        return testRecords.length;
-    }
+	public static int recordCount() {
+		return testRecords.length;
+	}
+
 }

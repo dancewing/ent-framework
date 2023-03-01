@@ -44,4 +44,5 @@ public enum GenderEnum implements SupperEnum<String> {
 	public static GenderEnum valueToEnum(String value) {
 		return SupperEnum.fromValue(GenderEnum.class, value);
 	}
+
 }

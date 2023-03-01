@@ -12,12 +12,11 @@ package io.entframework.kernel.timer.api;
  */
 public interface TimerAction {
 
-    /**
-     * 任务执行的具体内容
-     *
-     * @param params 任务参数
-     * @date 2020/6/28 21:29
-     */
-    void action(String params);
+	/**
+	 * 任务执行的具体内容
+	 * @param params 任务参数
+	 * @date 2020/6/28 21:29
+	 */
+	void action(String params);
 
 }

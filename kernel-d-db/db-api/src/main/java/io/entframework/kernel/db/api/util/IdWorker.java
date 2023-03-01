@@ -9,92 +9,90 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class IdWorker {
-    /**
-     * 主机和进程的机器码
-     */
-    private static IdentifierGenerator IDENTIFIER_GENERATOR = new DefaultIdentifierGenerator();
 
-    /**
-     * 毫秒格式化时间
-     */
-    public static final DateTimeFormatter MILLISECOND = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
+	/**
+	 * 主机和进程的机器码
+	 */
+	private static IdentifierGenerator IDENTIFIER_GENERATOR = new DefaultIdentifierGenerator();
 
-    /**
-     * 获取唯一ID
-     *
-     * @return id
-     */
-    public static long getId() {
-        return getId(null);
-    }
+	/**
+	 * 毫秒格式化时间
+	 */
+	public static final DateTimeFormatter MILLISECOND = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
 
-    /**
-     * 获取唯一ID
-     *
-     * @return id
-     */
-    public static long getId(Object entity) {
-        return IDENTIFIER_GENERATOR.nextId(entity).longValue();
-    }
+	/**
+	 * 获取唯一ID
+	 * @return id
+	 */
+	public static long getId() {
+		return getId(null);
+	}
 
-    /**
-     * 获取唯一ID
-     *
-     * @return id
-     */
-    public static String getIdStr() {
-        return getIdStr(null);
-    }
+	/**
+	 * 获取唯一ID
+	 * @return id
+	 */
+	public static long getId(Object entity) {
+		return IDENTIFIER_GENERATOR.nextId(entity).longValue();
+	}
 
-    /**
-     * 获取唯一ID
-     *
-     * @return id
-     */
-    public static String getIdStr(Object entity) {
-        return IDENTIFIER_GENERATOR.nextId(entity).toString();
-    }
+	/**
+	 * 获取唯一ID
+	 * @return id
+	 */
+	public static String getIdStr() {
+		return getIdStr(null);
+	}
 
-    /**
-     * 格式化的毫秒时间
-     */
-    public static String getMillisecond() {
-        return LocalDateTime.now().format(MILLISECOND);
-    }
+	/**
+	 * 获取唯一ID
+	 * @return id
+	 */
+	public static String getIdStr(Object entity) {
+		return IDENTIFIER_GENERATOR.nextId(entity).toString();
+	}
 
-    /**
-     * 时间 ID = Time + ID
-     * <p>例如：可用于商品订单 ID</p>
-     */
-    public static String getTimeId() {
-        return getMillisecond() + getIdStr();
-    }
+	/**
+	 * 格式化的毫秒时间
+	 */
+	public static String getMillisecond() {
+		return LocalDateTime.now().format(MILLISECOND);
+	}
 
-    /**
-     * 有参构造器
-     *
-     * @param workerId     工作机器 ID
-     * @param dataCenterId 序列号
-     * @see #setIdentifierGenerator(IdentifierGenerator)
-     */
-    public static void initSequence(long workerId, long dataCenterId) {
-        IDENTIFIER_GENERATOR = new DefaultIdentifierGenerator(workerId, dataCenterId);
-    }
+	/**
+	 * 时间 ID = Time + ID
+	 * <p>
+	 * 例如：可用于商品订单 ID
+	 * </p>
+	 */
+	public static String getTimeId() {
+		return getMillisecond() + getIdStr();
+	}
 
-    /**
-     * 自定义id 生成方式
-     *
-     * @param identifierGenerator id 生成器
-     */
-    public static void setIdentifierGenerator(IdentifierGenerator identifierGenerator) {
-        IDENTIFIER_GENERATOR = identifierGenerator;
-    }
+	/**
+	 * 有参构造器
+	 * @param workerId 工作机器 ID
+	 * @param dataCenterId 序列号
+	 * @see #setIdentifierGenerator(IdentifierGenerator)
+	 */
+	public static void initSequence(long workerId, long dataCenterId) {
+		IDENTIFIER_GENERATOR = new DefaultIdentifierGenerator(workerId, dataCenterId);
+	}
 
-    /**
-     * 使用ThreadLocalRandom获取UUID获取更优的效果 去掉"-"
-     */
-    public static String get32UUID() {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        return new UUID(random.nextLong(), random.nextLong()).toString().replace("-", "");
-    }
+	/**
+	 * 自定义id 生成方式
+	 * @param identifierGenerator id 生成器
+	 */
+	public static void setIdentifierGenerator(IdentifierGenerator identifierGenerator) {
+		IDENTIFIER_GENERATOR = identifierGenerator;
+	}
+
+	/**
+	 * 使用ThreadLocalRandom获取UUID获取更优的效果 去掉"-"
+	 */
+	public static String get32UUID() {
+		ThreadLocalRandom random = ThreadLocalRandom.current();
+		return new UUID(random.nextLong(), random.nextLong()).toString().replace("-", "");
+	}
+
 }

@@ -19,14 +19,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "kernel.auth.jwt")
 public class JwtProperties {
 
-    /**
-     * jwt秘钥
-     */
-    private String jwtSecret = "1928374650abcdefffasrrwafsfjasdiuer1233assssqqq99811sjkfassskddss";
+	/**
+	 * jwt秘钥
+	 */
+	private String jwtSecret = "1928374650abcdefffasrrwafsfjasdiuer1233assssqqq99811sjkfassskddss";
 
-    /**
-     * 过期时间（秒）
-     */
-    private Long expiredSeconds = 259200L;
+	/**
+	 * 过期时间（秒）
+	 */
+	private Long expiredSeconds = 259200L;
 
 }

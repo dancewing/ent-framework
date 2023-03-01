@@ -28,72 +28,74 @@ import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.config.PropertyRegistry;
 
 public abstract class AbstractJavaGenerator extends AbstractGenerator {
-    public abstract List<CompilationUnit> getCompilationUnits();
 
-    private final String project;
+	public abstract List<CompilationUnit> getCompilationUnits();
 
-    protected AbstractJavaGenerator(String project) {
-        this.project = project;
-    }
+	private final String project;
 
-    public String getProject() {
-        return project;
-    }
+	protected AbstractJavaGenerator(String project) {
+		this.project = project;
+	}
 
-    public static Method getGetter(Field field) {
-        Method method = new Method(getGetterMethodName(field.getName(), field.getType()));
-        method.setReturnType(field.getType());
-        method.setVisibility(JavaVisibility.PUBLIC);
-        String s = "return " + field.getName() + ';'; //$NON-NLS-1$
+	public String getProject() {
+		return project;
+	}
 
-        method.addBodyLine(s);
-        return method;
-    }
+	public static Method getGetter(Field field) {
+		Method method = new Method(getGetterMethodName(field.getName(), field.getType()));
+		method.setReturnType(field.getType());
+		method.setVisibility(JavaVisibility.PUBLIC);
+		String s = "return " + field.getName() + ';'; //$NON-NLS-1$
 
-    public String getRootClass() {
-        String rootClass = introspectedTable.getTableConfigurationProperty(PropertyRegistry.ANY_ROOT_CLASS);
-        if (rootClass == null) {
-            Properties properties = context.getJavaModelGeneratorConfiguration().getProperties();
-            rootClass = properties.getProperty(PropertyRegistry.ANY_ROOT_CLASS);
-        }
+		method.addBodyLine(s);
+		return method;
+	}
 
-        return rootClass;
-    }
+	public String getRootClass() {
+		String rootClass = introspectedTable.getTableConfigurationProperty(PropertyRegistry.ANY_ROOT_CLASS);
+		if (rootClass == null) {
+			Properties properties = context.getJavaModelGeneratorConfiguration().getProperties();
+			rootClass = properties.getProperty(PropertyRegistry.ANY_ROOT_CLASS);
+		}
 
-    protected void addDefaultConstructor(TopLevelClass topLevelClass) {
-        topLevelClass.addMethod(getDefaultConstructor(topLevelClass));
-    }
+		return rootClass;
+	}
 
-    protected void addDefaultConstructorWithGeneratedAnnotatoin(TopLevelClass topLevelClass) {
-        topLevelClass.addMethod(getDefaultConstructorWithGeneratedAnnotation(topLevelClass));
-    }
+	protected void addDefaultConstructor(TopLevelClass topLevelClass) {
+		topLevelClass.addMethod(getDefaultConstructor(topLevelClass));
+	}
 
-    private Method getDefaultConstructor(TopLevelClass topLevelClass) {
-        Method method = getBasicConstructor(topLevelClass);
-        addGeneratedJavaDoc(method);
-        return method;
-    }
+	protected void addDefaultConstructorWithGeneratedAnnotatoin(TopLevelClass topLevelClass) {
+		topLevelClass.addMethod(getDefaultConstructorWithGeneratedAnnotation(topLevelClass));
+	}
 
-    private Method getDefaultConstructorWithGeneratedAnnotation(TopLevelClass topLevelClass) {
-        Method method = getBasicConstructor(topLevelClass);
-        addGeneratedAnnotation(method, topLevelClass);
-        return method;
-    }
+	private Method getDefaultConstructor(TopLevelClass topLevelClass) {
+		Method method = getBasicConstructor(topLevelClass);
+		addGeneratedJavaDoc(method);
+		return method;
+	}
 
-    private Method getBasicConstructor(TopLevelClass topLevelClass) {
-        Method method = new Method(topLevelClass.getType().getShortName());
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.setConstructor(true);
-        method.addBodyLine("super();"); //$NON-NLS-1$
-        return method;
-    }
+	private Method getDefaultConstructorWithGeneratedAnnotation(TopLevelClass topLevelClass) {
+		Method method = getBasicConstructor(topLevelClass);
+		addGeneratedAnnotation(method, topLevelClass);
+		return method;
+	}
 
-    private void addGeneratedJavaDoc(Method method) {
-        context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
-    }
+	private Method getBasicConstructor(TopLevelClass topLevelClass) {
+		Method method = new Method(topLevelClass.getType().getShortName());
+		method.setVisibility(JavaVisibility.PUBLIC);
+		method.setConstructor(true);
+		method.addBodyLine("super();"); //$NON-NLS-1$
+		return method;
+	}
 
-    private void addGeneratedAnnotation(Method method, TopLevelClass topLevelClass) {
-        context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable,
-                topLevelClass.getImportedTypes());
-    }
+	private void addGeneratedJavaDoc(Method method) {
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
+	}
+
+	private void addGeneratedAnnotation(Method method, TopLevelClass topLevelClass) {
+		context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable,
+				topLevelClass.getImportedTypes());
+	}
+
 }

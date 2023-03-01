@@ -17,16 +17,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class EncryptAlgorithmAutoConfiguration {
 
-    /**
-     * 数据库加密算法
-     *
-     * @return {@link EncryptAlgorithmApi}
-     * @date 2021/7/5 10:16
-     **/
-    @Bean
-    @ConditionalOnMissingBean(EncryptAlgorithmApi.class)
-    public EncryptAlgorithmApi encryptAlgorithmApi() {
-        return new AesEncryptAlgorithmApiImpl();
-    }
+	/**
+	 * 数据库加密算法
+	 * @return {@link EncryptAlgorithmApi}
+	 * @date 2021/7/5 10:16
+	 **/
+	@Bean
+	@ConditionalOnMissingBean(EncryptAlgorithmApi.class)
+	public EncryptAlgorithmApi encryptAlgorithmApi() {
+		return new AesEncryptAlgorithmApiImpl();
+	}
 
 }

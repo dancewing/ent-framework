@@ -13,21 +13,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SysThemeTemplateRelResponse extends BaseResponse {
-    /**
-     * 主键
-     */
-    @ChineseDescription("主键")
-    private Long relationId;
 
-    /**
-     * 模板主键id
-     */
-    @ChineseDescription("模板主键id")
-    private Long templateId;
+	/**
+	 * 主键
+	 */
+	@ChineseDescription("主键")
+	private Long relationId;
 
-    /**
-     * 属性编码
-     */
-    @ChineseDescription("属性编码")
-    private String fieldCode;
+	/**
+	 * 模板主键id
+	 */
+	@ChineseDescription("模板主键id")
+	private Long templateId;
+
+	/**
+	 * 属性编码
+	 */
+	@ChineseDescription("属性编码")
+	private String fieldCode;
+
 }

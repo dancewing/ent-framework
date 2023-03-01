@@ -30,84 +30,87 @@ import org.mybatis.generator.runtime.kotlin.elements.AbstractKotlinFunctionGener
 
 public class ColumnListGenerator {
 
-    private final Context context;
-    private final IntrospectedTable introspectedTable;
-    private final String supportObjectImport;
-    private final String tableFieldName;
+	private final Context context;
 
-    private ColumnListGenerator(Builder builder) {
-        this.context = Objects.requireNonNull(builder.context);
-        this.introspectedTable = Objects.requireNonNull(builder.introspectedTable);
-        this.supportObjectImport = Objects.requireNonNull(builder.supportObjectImport);
-        this.tableFieldName = Objects.requireNonNull(builder.tableFieldName);
-    }
+	private final IntrospectedTable introspectedTable;
 
-    public KotlinPropertyAndImports generatePropertyAndImports() {
-        List<FieldNameAndImport> fieldsAndImports = introspectedTable.getAllColumns().stream()
-                .map(this::calculateFieldAndImport)
-                .collect(Collectors.toList());
+	private final String supportObjectImport;
 
-        KotlinPropertyAndImports propertyAndImports = KotlinPropertyAndImports.withProperty(
-                KotlinProperty.newVal("columnList") //$NON-NLS-1$
-                .withModifier(KotlinModifier.PRIVATE)
-                .withInitializationString(getInitializationString(fieldsAndImports))
-                .build())
-                .withImports(getImports(fieldsAndImports))
-                .build();
+	private final String tableFieldName;
 
-        context.getCommentGenerator().addGeneralPropertyComment(propertyAndImports.getProperty(), introspectedTable,
-                propertyAndImports.getImports());
-        return propertyAndImports;
-    }
+	private ColumnListGenerator(Builder builder) {
+		this.context = Objects.requireNonNull(builder.context);
+		this.introspectedTable = Objects.requireNonNull(builder.introspectedTable);
+		this.supportObjectImport = Objects.requireNonNull(builder.supportObjectImport);
+		this.tableFieldName = Objects.requireNonNull(builder.tableFieldName);
+	}
 
-    private FieldNameAndImport calculateFieldAndImport(IntrospectedColumn column) {
-        return AbstractKotlinFunctionGenerator.calculateFieldNameAndImport(tableFieldName, supportObjectImport, column);
-    }
+	public KotlinPropertyAndImports generatePropertyAndImports() {
+		List<FieldNameAndImport> fieldsAndImports = introspectedTable.getAllColumns().stream()
+				.map(this::calculateFieldAndImport).collect(Collectors.toList());
 
-    private String getInitializationString(List<FieldNameAndImport> fieldsAndImports) {
-        return fieldsAndImports.stream()
-                .map(FieldNameAndImport::fieldName)
-                .collect(Collectors.joining(", ", "listOf(", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    }
+		KotlinPropertyAndImports propertyAndImports = KotlinPropertyAndImports
+				.withProperty(KotlinProperty.newVal("columnList") //$NON-NLS-1$
+						.withModifier(KotlinModifier.PRIVATE)
+						.withInitializationString(getInitializationString(fieldsAndImports)).build())
+				.withImports(getImports(fieldsAndImports)).build();
 
-    private Set<String> getImports(List<FieldNameAndImport> fieldsAndImports) {
-        return fieldsAndImports.stream()
-                .map(FieldNameAndImport::importString)
-                .collect(Collectors.toSet());
-    }
+		context.getCommentGenerator().addGeneralPropertyComment(propertyAndImports.getProperty(), introspectedTable,
+				propertyAndImports.getImports());
+		return propertyAndImports;
+	}
 
-    public boolean callPlugins(KotlinProperty kotlinProperty, KotlinFile kotlinFile) {
-        return context.getPlugins().clientColumnListPropertyGenerated(kotlinProperty, kotlinFile, introspectedTable);
-    }
+	private FieldNameAndImport calculateFieldAndImport(IntrospectedColumn column) {
+		return AbstractKotlinFunctionGenerator.calculateFieldNameAndImport(tableFieldName, supportObjectImport, column);
+	}
 
-    public static class Builder {
-        private Context context;
-        private IntrospectedTable introspectedTable;
-        private String supportObjectImport;
-        private String tableFieldName;
+	private String getInitializationString(List<FieldNameAndImport> fieldsAndImports) {
+		return fieldsAndImports.stream().map(FieldNameAndImport::fieldName)
+				.collect(Collectors.joining(", ", "listOf(", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 
-        public Builder withSupportObjectImport(String supportObjectImport) {
-            this.supportObjectImport = supportObjectImport;
-            return this;
-        }
+	private Set<String> getImports(List<FieldNameAndImport> fieldsAndImports) {
+		return fieldsAndImports.stream().map(FieldNameAndImport::importString).collect(Collectors.toSet());
+	}
 
-        public Builder withContext(Context context) {
-            this.context = context;
-            return this;
-        }
+	public boolean callPlugins(KotlinProperty kotlinProperty, KotlinFile kotlinFile) {
+		return context.getPlugins().clientColumnListPropertyGenerated(kotlinProperty, kotlinFile, introspectedTable);
+	}
 
-        public Builder withIntrospectedTable(IntrospectedTable introspectedTable) {
-            this.introspectedTable = introspectedTable;
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withTableFieldName(String tableFieldName) {
-            this.tableFieldName = tableFieldName;
-            return this;
-        }
+		private Context context;
 
-        public ColumnListGenerator build() {
-            return new ColumnListGenerator(this);
-        }
-    }
+		private IntrospectedTable introspectedTable;
+
+		private String supportObjectImport;
+
+		private String tableFieldName;
+
+		public Builder withSupportObjectImport(String supportObjectImport) {
+			this.supportObjectImport = supportObjectImport;
+			return this;
+		}
+
+		public Builder withContext(Context context) {
+			this.context = context;
+			return this;
+		}
+
+		public Builder withIntrospectedTable(IntrospectedTable introspectedTable) {
+			this.introspectedTable = introspectedTable;
+			return this;
+		}
+
+		public Builder withTableFieldName(String tableFieldName) {
+			this.tableFieldName = tableFieldName;
+			return this;
+		}
+
+		public ColumnListGenerator build() {
+			return new ColumnListGenerator(this);
+		}
+
+	}
+
 }

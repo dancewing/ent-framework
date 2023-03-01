@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2021/5/30 21:51
  */
 @Configuration
-@ComponentScan(basePackages = {"io.entframework.kernel.office"})
+@ComponentScan(basePackages = { "io.entframework.kernel.office" })
 public class ExcelAutoConfiguration {
+
 }

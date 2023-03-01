@@ -8,44 +8,46 @@
 package io.entframework.kernel.rule.plugin;
 
 /**
- *
  * @author jeff_qian
  */
 public abstract class AbstractModuleMeta implements ModuleMeta {
 
-    private final String name;
-    private final String flywayTableSuffix;
-    private final String flywayLocations;
-    private String version;
+	private final String name;
 
-    protected AbstractModuleMeta(String name, String flywayTableSuffix, String flywayLocations) {
-        this.name = name;
-        this.flywayTableSuffix = flywayTableSuffix;
-        this.flywayLocations = flywayLocations;
-    }
+	private final String flywayTableSuffix;
 
-    @Override
-    public String getName() {
-        return name;
-    }
+	private final String flywayLocations;
 
-    @Override
-    public String getFlywayTableSuffix() {
-        return flywayTableSuffix;
-    }
+	private String version;
 
-    @Override
-    public String getFlywayLocations() {
-        return flywayLocations;
-    }
+	protected AbstractModuleMeta(String name, String flywayTableSuffix, String flywayLocations) {
+		this.name = name;
+		this.flywayTableSuffix = flywayTableSuffix;
+		this.flywayLocations = flywayLocations;
+	}
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
+	@Override
+	public String getName() {
+		return name;
+	}
 
-    @Override
-    public String getVersion() {
-        return version;
-    }
+	@Override
+	public String getFlywayTableSuffix() {
+		return flywayTableSuffix;
+	}
+
+	@Override
+	public String getFlywayLocations() {
+		return flywayLocations;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	@Override
+	public String getVersion() {
+		return version;
+	}
 
 }

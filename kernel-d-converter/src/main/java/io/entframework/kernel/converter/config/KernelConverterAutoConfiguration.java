@@ -21,23 +21,24 @@ import java.util.Collection;
 @Configuration
 public class KernelConverterAutoConfiguration {
 
-    private final ListableBeanFactory beanFactory;
+	private final ListableBeanFactory beanFactory;
 
-    public KernelConverterAutoConfiguration(ListableBeanFactory beanFactory) {
-        this.beanFactory = beanFactory;
-    }
+	public KernelConverterAutoConfiguration(ListableBeanFactory beanFactory) {
+		this.beanFactory = beanFactory;
+	}
 
-    @Primary
-    @Bean
-    public ObjectConversionService objectConversionService() {
-        ConverterService converterService = new ConverterService();
-        addBeans(converterService, this.beanFactory);
-        return converterService;
-    }
+	@Primary
+	@Bean
+	public ObjectConversionService objectConversionService() {
+		ConverterService converterService = new ConverterService();
+		addBeans(converterService, this.beanFactory);
+		return converterService;
+	}
 
-    @SuppressWarnings("raw")
-    public static void addBeans(ObjectConverterRegistry registry, ListableBeanFactory beanFactory) {
-        Collection<ObjectConverter> objectConverters = beanFactory.getBeansOfType(ObjectConverter.class).values();
-        objectConverters.forEach(registry::addConverter);
-    }
+	@SuppressWarnings("raw")
+	public static void addBeans(ObjectConverterRegistry registry, ListableBeanFactory beanFactory) {
+		Collection<ObjectConverter> objectConverters = beanFactory.getBeansOfType(ObjectConverter.class).values();
+		objectConverters.forEach(registry::addConverter);
+	}
+
 }

@@ -11,12 +11,13 @@ import io.entframework.kernel.config.api.context.ConfigContext;
  */
 public class LoginConfigExpander {
 
-    /**
-     * 获取帐号错误次数校验开关
-     *
-     * @date 2022/1/24 15:48
-     */
-    public static boolean getAccountErrorDetectionFlag() {
-        return ConfigContext.me().getSysConfigValueWithDefault("ACCOUNT_ERROR_DETECTION", Boolean.class, false);
-    }
+	/**
+	 * 获取帐号错误次数校验开关
+	 *
+	 * @date 2022/1/24 15:48
+	 */
+	public static boolean getAccountErrorDetectionFlag() {
+		return ConfigContext.me().getSysConfigValueWithDefault("ACCOUNT_ERROR_DETECTION", Boolean.class, false);
+	}
+
 }

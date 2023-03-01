@@ -16,13 +16,15 @@
 package org.mybatis.dynamic.sql.exception;
 
 public class DynamicSqlException extends RuntimeException {
-    private static final long serialVersionUID = 349021672061361244L;
 
-    public DynamicSqlException(String message) {
-        super(message);
-    }
+	private static final long serialVersionUID = 349021672061361244L;
 
-    public DynamicSqlException(String message, Throwable cause) {
-        super(message, cause);
-    }
+	public DynamicSqlException(String message) {
+		super(message);
+	}
+
+	public DynamicSqlException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
 }

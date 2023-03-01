@@ -13,13 +13,13 @@ import io.entframework.kernel.pinyin.api.PinYinApi;
  */
 public class PinyinContext {
 
-    /**
-     * 获取拼音工具类
-     *
-     * @date 2020/12/4 9:36
-     */
-    public static PinYinApi me() {
-        return SpringUtil.getBean(PinYinApi.class);
-    }
+	/**
+	 * 获取拼音工具类
+	 *
+	 * @date 2020/12/4 9:36
+	 */
+	public static PinYinApi me() {
+		return SpringUtil.getBean(PinYinApi.class);
+	}
 
 }

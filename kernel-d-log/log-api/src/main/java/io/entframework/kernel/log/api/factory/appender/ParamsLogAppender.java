@@ -15,18 +15,19 @@ import java.util.Map;
  */
 public class ParamsLogAppender {
 
-    /**
-     * 参数信息追加
-     *
-     * @date 2020/10/28 17:48
-     */
-    public static void appendAuthedHttpLog(LogRecordDTO logRecordDTO, Map<String, Object> requestParam, Object response) {
+	/**
+	 * 参数信息追加
+	 *
+	 * @date 2020/10/28 17:48
+	 */
+	public static void appendAuthedHttpLog(LogRecordDTO logRecordDTO, Map<String, Object> requestParam,
+			Object response) {
 
-        // 追加请求参数信息
-        logRecordDTO.setRequestParams(JSON.toJSONString(requestParam));
+		// 追加请求参数信息
+		logRecordDTO.setRequestParams(JSON.toJSONString(requestParam));
 
-        // 追加相应参数信息
-        logRecordDTO.setRequestResult(JSON.toJSONString(response));
-    }
+		// 追加相应参数信息
+		logRecordDTO.setRequestResult(JSON.toJSONString(response));
+	}
 
 }

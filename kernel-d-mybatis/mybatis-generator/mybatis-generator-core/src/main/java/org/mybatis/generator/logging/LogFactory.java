@@ -30,79 +30,85 @@ import org.mybatis.generator.logging.slf4j.Slf4jLoggingLogFactory;
  *
  */
 public class LogFactory {
-    private static AbstractLogFactory theFactory;
-    public static final String MARKER = "MYBATIS-GENERATOR"; //$NON-NLS-1$
 
-    static {
-        tryImplementation(new Slf4jLoggingLogFactory());
-        tryImplementation(new JakartaCommonsLoggingLogFactory());
-        tryImplementation(new Log4j2LoggingLogFactory());
-        tryImplementation(new Jdk14LoggingLogFactory());
-        tryImplementation(new NoLoggingLogFactory());
-    }
+	private static AbstractLogFactory theFactory;
 
-    private LogFactory() {}
+	public static final String MARKER = "MYBATIS-GENERATOR"; //$NON-NLS-1$
 
-    public static Log getLog(Class<?> clazz) {
-        try {
-            return theFactory.getLog(clazz);
-        } catch (Exception t) {
-            throw new RuntimeException(getString("RuntimeError.21", //$NON-NLS-1$
-                    clazz.getName(), t.getMessage()), t);
-        }
-    }
+	static {
+		tryImplementation(new Slf4jLoggingLogFactory());
+		tryImplementation(new JakartaCommonsLoggingLogFactory());
+		tryImplementation(new Log4j2LoggingLogFactory());
+		tryImplementation(new Jdk14LoggingLogFactory());
+		tryImplementation(new NoLoggingLogFactory());
+	}
 
-    /**
-     * This method will switch the logging implementation to Java native
-     * logging. This is useful in situations where you want to use Java native
-     * logging to log activity but Log4J is on the classpath. Note that this
-     * method is only effective for log classes obtained after calling this
-     * method. If you intend to use this method you should call it before
-     * calling any other method.
-     */
-    public static synchronized void forceJavaLogging() {
-        setImplementation(new Jdk14LoggingLogFactory());
-    }
+	private LogFactory() {
+	}
 
-    public static synchronized void forceSlf4jLogging() {
-        setImplementation(new Slf4jLoggingLogFactory());
-    }
+	public static Log getLog(Class<?> clazz) {
+		try {
+			return theFactory.getLog(clazz);
+		}
+		catch (Exception t) {
+			throw new RuntimeException(getString("RuntimeError.21", //$NON-NLS-1$
+					clazz.getName(), t.getMessage()), t);
+		}
+	}
 
-    public static synchronized void forceCommonsLogging() {
-        setImplementation(new JakartaCommonsLoggingLogFactory());
-    }
+	/**
+	 * This method will switch the logging implementation to Java native logging. This is
+	 * useful in situations where you want to use Java native logging to log activity but
+	 * Log4J is on the classpath. Note that this method is only effective for log classes
+	 * obtained after calling this method. If you intend to use this method you should
+	 * call it before calling any other method.
+	 */
+	public static synchronized void forceJavaLogging() {
+		setImplementation(new Jdk14LoggingLogFactory());
+	}
 
-    public static synchronized void forceLog4j2Logging() {
-        setImplementation(new Log4j2LoggingLogFactory());
-    }
+	public static synchronized void forceSlf4jLogging() {
+		setImplementation(new Slf4jLoggingLogFactory());
+	}
 
-    public static synchronized void forceNoLogging() {
-        setImplementation(new NoLoggingLogFactory());
-    }
+	public static synchronized void forceCommonsLogging() {
+		setImplementation(new JakartaCommonsLoggingLogFactory());
+	}
 
-    public static void setLogFactory(AbstractLogFactory logFactory) {
-        setImplementation(logFactory);
-    }
+	public static synchronized void forceLog4j2Logging() {
+		setImplementation(new Log4j2LoggingLogFactory());
+	}
 
-    private static void tryImplementation(AbstractLogFactory factory) {
-        if (theFactory == null) {
-            try {
-                setImplementation(factory);
-            } catch (LogException e) {
-                // ignore
-            }
-        }
-    }
+	public static synchronized void forceNoLogging() {
+		setImplementation(new NoLoggingLogFactory());
+	}
 
-    private static void setImplementation(AbstractLogFactory factory) {
-        try {
-            Log log = factory.getLog(LogFactory.class);
-            if (log.isDebugEnabled()) {
-                log.debug("Logging initialized using '" + factory + "' adapter."); //$NON-NLS-1$ //$NON-NLS-2$
-            }
-            theFactory = factory;
-        } catch (Throwable t) {
-            throw new LogException("Error setting Log implementation.  Cause: " + t.getMessage(), t); //$NON-NLS-1$
-        }
-    }
+	public static void setLogFactory(AbstractLogFactory logFactory) {
+		setImplementation(logFactory);
+	}
+
+	private static void tryImplementation(AbstractLogFactory factory) {
+		if (theFactory == null) {
+			try {
+				setImplementation(factory);
+			}
+			catch (LogException e) {
+				// ignore
+			}
+		}
+	}
+
+	private static void setImplementation(AbstractLogFactory factory) {
+		try {
+			Log log = factory.getLog(LogFactory.class);
+			if (log.isDebugEnabled()) {
+				log.debug("Logging initialized using '" + factory + "' adapter."); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			theFactory = factory;
+		}
+		catch (Throwable t) {
+			throw new LogException("Error setting Log implementation.  Cause: " + t.getMessage(), t); //$NON-NLS-1$
+		}
+	}
+
 }

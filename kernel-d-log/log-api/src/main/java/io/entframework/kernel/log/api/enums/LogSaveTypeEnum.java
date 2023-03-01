@@ -13,20 +13,20 @@ import lombok.Getter;
 @Getter
 public enum LogSaveTypeEnum {
 
-    /**
-     * 存储到数据库
-     */
-    DB("db"),
+	/**
+	 * 存储到数据库
+	 */
+	DB("db"),
 
-    /**
-     * 存储到文件
-     */
-    FILE("file");
+	/**
+	 * 存储到文件
+	 */
+	FILE("file");
 
-    LogSaveTypeEnum(String code) {
-        this.code = code;
-    }
+	LogSaveTypeEnum(String code) {
+		this.code = code;
+	}
 
-    private final String code;
+	private final String code;
 
 }

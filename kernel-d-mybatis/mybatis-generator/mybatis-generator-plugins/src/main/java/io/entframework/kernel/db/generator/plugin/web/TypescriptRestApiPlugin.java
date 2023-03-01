@@ -31,96 +31,103 @@ import java.util.ArrayList;
 import java.util.List;
 
 /***
- * 数据模型构建后都会执行
- * 生成rest api
+ * 数据模型构建后都会执行 生成rest api
  */
 public class TypescriptRestApiPlugin extends AbstractWebPlugin {
-    private final List<GeneratedFile> generatedFiles = new ArrayList<>();
 
-    private String apiPrefix;
+	private final List<GeneratedFile> generatedFiles = new ArrayList<>();
 
-    @Override
-    public boolean validate(List<String> warnings) {
-        boolean validate = super.validate(warnings);
+	private String apiPrefix;
 
-        this.apiPrefix = this.properties.getProperty("apiPrefix");
+	@Override
+	public boolean validate(List<String> warnings) {
+		boolean validate = super.validate(warnings);
 
-        return validate;
-    }
+		this.apiPrefix = this.properties.getProperty("apiPrefix");
 
-    @Override
-    public void initialized(IntrospectedTable introspectedTable) {
-    }
+		return validate;
+	}
 
-    public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass,
-                                                 IntrospectedTable introspectedTable) {
-        //设置java文件不写磁盘
-        topLevelClass.setWriteMode(WriteMode.NEVER);
-        generatedFiles.add(generateRestApiClass(topLevelClass, introspectedTable));
-        return true;
-    }
+	@Override
+	public void initialized(IntrospectedTable introspectedTable) {
+	}
 
-    private GeneratedFile generateRestApiClass(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        String modelObjectName = topLevelClass.getType().getShortNameWithoutTypeArguments();
-        FullyQualifiedTypescriptType tsApiModelJavaType = new FullyQualifiedTypescriptType(this.projectRootAlias, this.apiTargetPackage + "." + WebUtils.getFileName(modelObjectName) + "." + modelObjectName);
-        TypescriptTopLevelClass tsBaseModelClass = new TypescriptTopLevelClass(tsApiModelJavaType);
-        tsBaseModelClass.setWriteMode(this.writeMode == null ? WriteMode.OVER_WRITE : this.writeMode);
+	public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+		// 设置java文件不写磁盘
+		topLevelClass.setWriteMode(WriteMode.NEVER);
+		generatedFiles.add(generateRestApiClass(topLevelClass, introspectedTable));
+		return true;
+	}
 
-        tsBaseModelClass.setVisibility(JavaVisibility.PUBLIC);
+	private GeneratedFile generateRestApiClass(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+		String modelObjectName = topLevelClass.getType().getShortNameWithoutTypeArguments();
+		FullyQualifiedTypescriptType tsApiModelJavaType = new FullyQualifiedTypescriptType(this.projectRootAlias,
+				this.apiTargetPackage + "." + WebUtils.getFileName(modelObjectName) + "." + modelObjectName);
+		TypescriptTopLevelClass tsBaseModelClass = new TypescriptTopLevelClass(tsApiModelJavaType);
+		tsBaseModelClass.setWriteMode(this.writeMode == null ? WriteMode.OVER_WRITE : this.writeMode);
 
-        GeneratorUtils.addComment(tsBaseModelClass, topLevelClass.getDescription() + " 服务请求类");
+		tsBaseModelClass.setVisibility(JavaVisibility.PUBLIC);
 
-        FullyQualifiedJavaType recordType = new FullyQualifiedJavaType(typescriptModelPackage + "." + modelObjectName);
+		GeneratorUtils.addComment(tsBaseModelClass, topLevelClass.getDescription() + " 服务请求类");
 
-        FullyQualifiedJavaType requestJavaType = new FullyQualifiedTypescriptType(this.projectRootAlias, typescriptModelPackage + "." + WebUtils.getFileName(modelObjectName) + "." + modelObjectName);
-        FullyQualifiedJavaType responseJavaType = new FullyQualifiedTypescriptType(this.projectRootAlias,typescriptModelPackage + "." + WebUtils.getFileName(modelObjectName) + "." + modelObjectName);
-        RestMethodsGenerator restMethodsGenerator = new RestMethodsGenerator(recordType, requestJavaType, responseJavaType, false);
-        restMethodsGenerator.generate();
-        RestMethodAndImports methodAndImports = restMethodsGenerator.build();
+		FullyQualifiedJavaType recordType = new FullyQualifiedJavaType(typescriptModelPackage + "." + modelObjectName);
 
-        methodAndImports.getMethods().forEach(method -> {
-            String methodName = method.getName();
-            String returnTypeName = "void";
-            if (method.getReturnType().isPresent()) {
-                FullyQualifiedJavaType returnType = method.getReturnType().get();
-                if (returnType.getFullyQualifiedNameWithoutTypeParameters().equals("io.entframework.kernel.db.api.pojo.page.PageResult")) {
-                    FullyQualifiedJavaType arg = returnType.getTypeArguments().get(0);
-                    String newTypeName = arg.getShortName() + "PageModel";
-                    FullyQualifiedJavaType newType = new FullyQualifiedTypescriptType(this.projectRootAlias, this.typescriptModelPackage + "." + WebUtils.getFileName(arg.getShortName()) + "." + newTypeName);
-                    returnTypeName = newTypeName;
-                    method.setReturnType(newType);
-                    methodAndImports.getImports().removeIf(javaType -> javaType.equals(returnType));
-                    methodAndImports.getImports().add(newType);
-                } else{
-                    returnTypeName = RenderingUtilities.calculateTypescriptTypeName(null, returnType);
-                }
-            }
-            Parameter parameter = method.getParameters().get(0);
-            if (StringUtils.equals("POST", method.getHttpMethod())) {
-                method.addBodyLine(String.format("defHttp.post<%s>({ url: '%s%s', data: %s });",
-                        returnTypeName, apiPrefix,
-                        method.getRestPath(), parameter.getName()));
-            }
-            if (StringUtils.equals("GET", method.getHttpMethod())) {
-                method.addBodyLine(String.format("defHttp.get<%s>({ url: '%s%s', data: %s });",
-                        returnTypeName, apiPrefix,
-                        method.getRestPath(), parameter.getName()));
-            }
-            method.setName(modelObjectName + StringUtils.capitalize(methodName));
-        });
+		FullyQualifiedJavaType requestJavaType = new FullyQualifiedTypescriptType(this.projectRootAlias,
+				typescriptModelPackage + "." + WebUtils.getFileName(modelObjectName) + "." + modelObjectName);
+		FullyQualifiedJavaType responseJavaType = new FullyQualifiedTypescriptType(this.projectRootAlias,
+				typescriptModelPackage + "." + WebUtils.getFileName(modelObjectName) + "." + modelObjectName);
+		RestMethodsGenerator restMethodsGenerator = new RestMethodsGenerator(recordType, requestJavaType,
+				responseJavaType, false);
+		restMethodsGenerator.generate();
+		RestMethodAndImports methodAndImports = restMethodsGenerator.build();
 
-        methodAndImports.getMethods().forEach(tsBaseModelClass::addMethod);
-        tsBaseModelClass.addImportedTypes(methodAndImports.getImports());
-        tsBaseModelClass.setAttribute(Constants.WEB_PROJECT_ROOT_ALIAS, this.projectRootAlias);
-        tsBaseModelClass.addImportedType(new FullyQualifiedTypescriptType("", "fe-ent-core.lib.utils.http.axios.defHttp"));
+		methodAndImports.getMethods().forEach(method -> {
+			String methodName = method.getName();
+			String returnTypeName = "void";
+			if (method.getReturnType().isPresent()) {
+				FullyQualifiedJavaType returnType = method.getReturnType().get();
+				if (returnType.getFullyQualifiedNameWithoutTypeParameters()
+						.equals("io.entframework.kernel.db.api.pojo.page.PageResult")) {
+					FullyQualifiedJavaType arg = returnType.getTypeArguments().get(0);
+					String newTypeName = arg.getShortName() + "PageModel";
+					FullyQualifiedJavaType newType = new FullyQualifiedTypescriptType(this.projectRootAlias,
+							this.typescriptModelPackage + "." + WebUtils.getFileName(arg.getShortName()) + "."
+									+ newTypeName);
+					returnTypeName = newTypeName;
+					method.setReturnType(newType);
+					methodAndImports.getImports().removeIf(javaType -> javaType.equals(returnType));
+					methodAndImports.getImports().add(newType);
+				}
+				else {
+					returnTypeName = RenderingUtilities.calculateTypescriptTypeName(null, returnType);
+				}
+			}
+			Parameter parameter = method.getParameters().get(0);
+			if (StringUtils.equals("POST", method.getHttpMethod())) {
+				method.addBodyLine(String.format("defHttp.post<%s>({ url: '%s%s', data: %s });", returnTypeName,
+						apiPrefix, method.getRestPath(), parameter.getName()));
+			}
+			if (StringUtils.equals("GET", method.getHttpMethod())) {
+				method.addBodyLine(String.format("defHttp.get<%s>({ url: '%s%s', data: %s });", returnTypeName,
+						apiPrefix, method.getRestPath(), parameter.getName()));
+			}
+			method.setName(modelObjectName + StringUtils.capitalize(methodName));
+		});
 
-        return new GeneratedTypescriptFile(tsBaseModelClass,
-                context.getJavaModelGeneratorConfiguration().getTargetProject(),
-                context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
-                new DefaultTypescriptFormatter(this.context), this.projectRootAlias);
-    }
+		methodAndImports.getMethods().forEach(tsBaseModelClass::addMethod);
+		tsBaseModelClass.addImportedTypes(methodAndImports.getImports());
+		tsBaseModelClass.setAttribute(Constants.WEB_PROJECT_ROOT_ALIAS, this.projectRootAlias);
+		tsBaseModelClass
+				.addImportedType(new FullyQualifiedTypescriptType("", "fe-ent-core.lib.utils.http.axios.defHttp"));
 
-    public List<GeneratedFile> contextGenerateAdditionalFiles() {
-        return generatedFiles;
-    }
+		return new GeneratedTypescriptFile(tsBaseModelClass,
+				context.getJavaModelGeneratorConfiguration().getTargetProject(),
+				context.getProperty(PropertyRegistry.CONTEXT_JAVA_FILE_ENCODING),
+				new DefaultTypescriptFormatter(this.context), this.projectRootAlias);
+	}
+
+	public List<GeneratedFile> contextGenerateAdditionalFiles() {
+		return generatedFiles;
+	}
+
 }

@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class EncryptRemoveThreadLocalHolder implements RemoveThreadLocalApi {
 
-    @Override
-    public void removeThreadLocalAction() {
-        EncryptionHolder.clearAesKey();
-    }
+	@Override
+	public void removeThreadLocalAction() {
+		EncryptionHolder.clearAesKey();
+	}
 
 }

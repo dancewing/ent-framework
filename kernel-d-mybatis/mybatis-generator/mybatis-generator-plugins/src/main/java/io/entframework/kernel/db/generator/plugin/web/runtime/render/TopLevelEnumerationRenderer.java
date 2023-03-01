@@ -23,17 +23,17 @@ import java.util.stream.Collectors;
 
 public class TopLevelEnumerationRenderer {
 
-    public String render(TopLevelEnumeration topLevelEnumeration) {
-        List<String> lines = new ArrayList<>();
+	public String render(TopLevelEnumeration topLevelEnumeration) {
+		List<String> lines = new ArrayList<>();
 
-        lines.addAll(topLevelEnumeration.getFileCommentLines());
-        //lines.addAll(renderPackage(topLevelEnumeration));
-        //lines.addAll(renderStaticImports(topLevelEnumeration));
-        lines.addAll(RenderingUtilities.renderImports(topLevelEnumeration));
-        lines.addAll(RenderingUtilities.renderInnerEnumNoIndent(topLevelEnumeration, topLevelEnumeration));
-        lines = RenderingUtilities.removeLastEmptyLine(lines);
-        lines.add("");
-        return lines.stream()
-                .collect(Collectors.joining(System.getProperty("line.separator"))); //$NON-NLS-1$
-    }
+		lines.addAll(topLevelEnumeration.getFileCommentLines());
+		// lines.addAll(renderPackage(topLevelEnumeration));
+		// lines.addAll(renderStaticImports(topLevelEnumeration));
+		lines.addAll(RenderingUtilities.renderImports(topLevelEnumeration));
+		lines.addAll(RenderingUtilities.renderInnerEnumNoIndent(topLevelEnumeration, topLevelEnumeration));
+		lines = RenderingUtilities.removeLastEmptyLine(lines);
+		lines.add("");
+		return lines.stream().collect(Collectors.joining(System.getProperty("line.separator"))); //$NON-NLS-1$
+	}
+
 }

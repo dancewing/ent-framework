@@ -36,4 +36,5 @@ public class KernelSystemHomeStatisticsAutoConfiguration {
 	public InterfaceStatisticsTimer interfaceStatisticsHolder() {
 		return new InterfaceStatisticsTimer();
 	}
+
 }

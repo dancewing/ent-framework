@@ -24,48 +24,48 @@ import org.mybatis.generator.api.dom.java.JavaDomUtils;
 
 public class FieldRenderer {
 
-    public List<String> render(Field field, CompilationUnit compilationUnit) {
-        List<String> lines = new ArrayList<>();
+	public List<String> render(Field field, CompilationUnit compilationUnit) {
+		List<String> lines = new ArrayList<>();
 
-        lines.addAll(field.getJavaDocLines());
-        lines.addAll(field.getAnnotations());
-        lines.add(renderField(field, compilationUnit));
+		lines.addAll(field.getJavaDocLines());
+		lines.addAll(field.getAnnotations());
+		lines.add(renderField(field, compilationUnit));
 
-        return lines;
-    }
+		return lines;
+	}
 
-    private String renderField(Field field, CompilationUnit compilationUnit) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(field.getVisibility().getValue());
+	private String renderField(Field field, CompilationUnit compilationUnit) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(field.getVisibility().getValue());
 
-        if (field.isStatic()) {
-            sb.append("static "); //$NON-NLS-1$
-        }
+		if (field.isStatic()) {
+			sb.append("static "); //$NON-NLS-1$
+		}
 
-        if (field.isFinal()) {
-            sb.append("final "); //$NON-NLS-1$
-        }
+		if (field.isFinal()) {
+			sb.append("final "); //$NON-NLS-1$
+		}
 
-        if (field.isTransient()) {
-            sb.append("transient "); //$NON-NLS-1$
-        }
+		if (field.isTransient()) {
+			sb.append("transient "); //$NON-NLS-1$
+		}
 
-        if (field.isVolatile()) {
-            sb.append("volatile "); //$NON-NLS-1$
-        }
+		if (field.isVolatile()) {
+			sb.append("volatile "); //$NON-NLS-1$
+		}
 
-        sb.append(JavaDomUtils.calculateTypeName(compilationUnit, field.getType()));
-        sb.append(' ');
-        sb.append(field.getName());
-        sb.append(renderInitializationString(field));
-        sb.append(';');
+		sb.append(JavaDomUtils.calculateTypeName(compilationUnit, field.getType()));
+		sb.append(' ');
+		sb.append(field.getName());
+		sb.append(renderInitializationString(field));
+		sb.append(';');
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    private String renderInitializationString(Field field) {
-        return field.getInitializationString()
-                .map(is -> " = " + is) //$NON-NLS-1$
-                .orElse(""); //$NON-NLS-1$
-    }
+	private String renderInitializationString(Field field) {
+		return field.getInitializationString().map(is -> " = " + is) //$NON-NLS-1$
+				.orElse(""); //$NON-NLS-1$
+	}
+
 }

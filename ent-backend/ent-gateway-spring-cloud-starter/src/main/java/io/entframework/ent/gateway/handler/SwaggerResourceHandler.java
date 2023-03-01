@@ -23,25 +23,26 @@ import reactor.core.publisher.Mono;
 
 /**
  * SwaggerResourceHandler
+ *
  * @author jeff_qian
  */
 @Slf4j
 @Component
 @AllArgsConstructor
 public class SwaggerResourceHandler implements HandlerFunction<ServerResponse> {
+
 	private final SwaggerProvider swaggerProvider;
 
 	/**
 	 * Handle the given request.
-	 *
 	 * @param request the request to handler
 	 * @return the response
 	 */
 	@Override
 	@NotNull
 	public Mono<ServerResponse> handle(@NotNull ServerRequest request) {
-		return ServerResponse.status(HttpStatus.OK)
-				.contentType(MediaType.APPLICATION_JSON)
+		return ServerResponse.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
 				.body(BodyInserters.fromValue(swaggerProvider.get()));
 	}
+
 }

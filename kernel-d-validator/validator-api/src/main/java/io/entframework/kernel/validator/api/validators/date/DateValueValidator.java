@@ -19,37 +19,41 @@ import jakarta.validation.ConstraintValidatorContext;
  */
 public class DateValueValidator implements ConstraintValidator<DateValue, Object> {
 
-    private Boolean required;
+	private Boolean required;
 
-    private String format;
+	private String format;
 
-    @Override
-    public void initialize(DateValue constraintAnnotation) {
-        this.required = constraintAnnotation.required();
-        this.format = constraintAnnotation.format();
-    }
+	@Override
+	public void initialize(DateValue constraintAnnotation) {
+		this.required = constraintAnnotation.required();
+		this.format = constraintAnnotation.format();
+	}
 
-    @Override
-    public boolean isValid(Object value, ConstraintValidatorContext context) {
+	@Override
+	public boolean isValid(Object value, ConstraintValidatorContext context) {
 
-        String dateValue = String.valueOf(value);
+		String dateValue = String.valueOf(value);
 
-        if (CharSequenceUtil.isEmpty(dateValue)) {
-            // 校验是不是必填
-            if (required) {
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            try {
-                // 校验日期格式
-                DateUtil.parse(dateValue, format);
-                return true;
-            } catch (Exception e) {
-                return false;
-            }
-        }
+		if (CharSequenceUtil.isEmpty(dateValue)) {
+			// 校验是不是必填
+			if (required) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		else {
+			try {
+				// 校验日期格式
+				DateUtil.parse(dateValue, format);
+				return true;
+			}
+			catch (Exception e) {
+				return false;
+			}
+		}
 
-    }
+	}
+
 }

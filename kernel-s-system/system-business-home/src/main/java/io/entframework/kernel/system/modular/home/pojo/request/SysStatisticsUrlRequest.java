@@ -17,38 +17,40 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SysStatisticsUrlRequest extends BaseRequest {
-    /**
-     * 主键ID
-     */
-    @NotNull(message = "主键ID不能为空", groups = {update.class, delete.class, detail.class, updateStatus.class})
-    @ChineseDescription("主键ID")
-    private Long statUrlId;
 
-    /**
-     * 被统计名称
-     */
-    @ChineseDescription("被统计名称")
-    private String statName;
+	/**
+	 * 主键ID
+	 */
+	@NotNull(message = "主键ID不能为空", groups = { update.class, delete.class, detail.class, updateStatus.class })
+	@ChineseDescription("主键ID")
+	private Long statUrlId;
 
-    /**
-     * 被统计菜单ID
-     */
-    @ChineseDescription("被统计菜单ID")
-    private Long statMenuId;
+	/**
+	 * 被统计名称
+	 */
+	@ChineseDescription("被统计名称")
+	private String statName;
 
-    /**
-     * 被统计的URL
-     */
-    @ChineseDescription("被统计的URL")
-    private String statUrl;
+	/**
+	 * 被统计菜单ID
+	 */
+	@ChineseDescription("被统计菜单ID")
+	private Long statMenuId;
 
-    /**
-     * 是否常驻显示，Y-是，N-否
-     */
-    @ChineseDescription("是否常驻显示，Y-是，N-否")
-    private YesOrNotEnum alwaysShow;
+	/**
+	 * 被统计的URL
+	 */
+	@ChineseDescription("被统计的URL")
+	private String statUrl;
 
-    @NotNull(message = "ID集合不能为空", groups = {batchDelete.class})
-    @ChineseDescription("ID集合")
-    private java.util.List<Long> statUrlIds;
+	/**
+	 * 是否常驻显示，Y-是，N-否
+	 */
+	@ChineseDescription("是否常驻显示，Y-是，N-否")
+	private YesOrNotEnum alwaysShow;
+
+	@NotNull(message = "ID集合不能为空", groups = { batchDelete.class })
+	@ChineseDescription("ID集合")
+	private java.util.List<Long> statUrlIds;
+
 }

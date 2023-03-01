@@ -11,17 +11,18 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableConfigurationProperties({FileServerProperties.class})
+@EnableConfigurationProperties({ FileServerProperties.class })
 @ComponentScan(basePackages = "io.entframework.kernel.oss.controller")
 public class EntOssAutoConfiguration implements WebMvcConfigurer {
 
-    @Bean
-    public HandlerInterceptor virtualHostInterceptor() {
-        return new VirtualHostInterceptor();
-    }
+	@Bean
+	public HandlerInterceptor virtualHostInterceptor() {
+		return new VirtualHostInterceptor();
+	}
 
-    @Override
-    public void addInterceptors(InterceptorRegistry interceptor) {
-        interceptor.addInterceptor(virtualHostInterceptor()).addPathPatterns("/**");
-    }
+	@Override
+	public void addInterceptors(InterceptorRegistry interceptor) {
+		interceptor.addInterceptor(virtualHostInterceptor()).addPathPatterns("/**");
+	}
+
 }

@@ -17,37 +17,37 @@ import lombok.Getter;
 @EnumHandler
 public enum MessageReadFlagEnum {
 
-    /**
-     * 未读
-     */
-    UNREAD(0, "未读"),
+	/**
+	 * 未读
+	 */
+	UNREAD(0, "未读"),
 
-    /**
-     * 已读
-     */
-    READ(1, "已读");
+	/**
+	 * 已读
+	 */
+	READ(1, "已读");
 
-    @JsonValue
-    @EnumValue
-    private final Integer code;
+	@JsonValue
+	@EnumValue
+	private final Integer code;
 
-    private final String name;
+	private final String name;
 
-    MessageReadFlagEnum(Integer code, String name) {
-        this.code = code;
-        this.name = name;
-    }
+	MessageReadFlagEnum(Integer code, String name) {
+		this.code = code;
+		this.name = name;
+	}
 
-    public static String getName(Integer code) {
-        if (code == null) {
-            return null;
-        }
-        for (MessageReadFlagEnum flagEnum : MessageReadFlagEnum.values()) {
-            if (flagEnum.getCode().equals(code)) {
-                return flagEnum.name;
-            }
-        }
-        return null;
-    }
+	public static String getName(Integer code) {
+		if (code == null) {
+			return null;
+		}
+		for (MessageReadFlagEnum flagEnum : MessageReadFlagEnum.values()) {
+			if (flagEnum.getCode().equals(code)) {
+				return flagEnum.name;
+			}
+		}
+		return null;
+	}
 
 }

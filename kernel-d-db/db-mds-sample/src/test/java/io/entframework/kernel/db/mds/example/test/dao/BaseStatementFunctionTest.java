@@ -20,18 +20,17 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BaseStatementFunctionTest extends JUnitDaoWithFraud {
-    @Test
-    void testSelectManyStatement() {
-        Student tsc = fraudStudent();
-        Student scd = generalRepository.insert(tsc);
-        SelectStatementProvider statement = SqlBuilder
-                .select(StudentDynamicSqlSupport.selectList)
-                .from(Student.class)
-                .where(StudentDynamicSqlSupport.delFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        List<Student> students = generalMapperSupport.selectMany(statement);
-        assertEquals(1, students.size());
-        assertEquals(scd.getId(), students.get(0).getId());
-    }
+
+	@Test
+	void testSelectManyStatement() {
+		Student tsc = fraudStudent();
+		Student scd = generalRepository.insert(tsc);
+		SelectStatementProvider statement = SqlBuilder.select(StudentDynamicSqlSupport.selectList).from(Student.class)
+				.where(StudentDynamicSqlSupport.delFlag, SqlBuilder.isEqualTo(YesOrNotEnum.N)).build()
+				.render(RenderingStrategies.MYBATIS3);
+		List<Student> students = generalMapperSupport.selectMany(statement);
+		assertEquals(1, students.size());
+		assertEquals(scd.getId(), students.get(0).getId());
+	}
+
 }

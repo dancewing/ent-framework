@@ -22,48 +22,44 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AlipayServiceImpl implements AlipayService, PayApi {
 
-    @Override
-    public String page(String orderName, String outTradeNo, String total, String returnUrl) {
-        try {
-            return Factory.Payment.Page().pay(orderName, outTradeNo, total, returnUrl).body;
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return e.getMessage();
-        }
-    }
+	@Override
+	public String page(String orderName, String outTradeNo, String total, String returnUrl) {
+		try {
+			return Factory.Payment.Page().pay(orderName, outTradeNo, total, returnUrl).body;
+		}
+		catch (Exception e) {
+			log.error(e.getMessage());
+			return e.getMessage();
+		}
+	}
 
-    @Override
-    public String wap(String orderName, String outTradeNo, String total, String quitUrl, String returnUrl) {
-        try {
-            return Factory.Payment.Wap().pay(orderName, outTradeNo, total, quitUrl, returnUrl).body;
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return e.getMessage();
-        }
-    }
+	@Override
+	public String wap(String orderName, String outTradeNo, String total, String quitUrl, String returnUrl) {
+		try {
+			return Factory.Payment.Wap().pay(orderName, outTradeNo, total, quitUrl, returnUrl).body;
+		}
+		catch (Exception e) {
+			log.error(e.getMessage());
+			return e.getMessage();
+		}
+	}
 
-    @Override
-    public TradeRefundResponse refund(String outTradeNo, String refundAmount) {
-        try {
-            AlipayTradeRefundResponse response = Factory.Payment.Common().refund(outTradeNo, refundAmount);
-            if (AlipayConstants.ALIPAY_REFUND_SUCCESS_CODE.equals(response.getCode())) {
-                return TradeRefundResponse.builder()
-                        .code(PayConstants.REFUND_SUCCESS_CODE)
-                        .msg(response.getMsg())
-                        .outTradeNo(response.getOutTradeNo())
-                        .refundFee(response.getRefundFee())
-                        .tradeNo(response.getTradeNo())
-                        .gmtRefundPay(response.getGmtRefundPay())
-                        .buyerLogonId(response.buyerLogonId)
-                        .buyerUserId(response.buyerUserId)
-                        .data(response)
-                        .build();
-            }
-            return TradeRefundResponse.error(response.msg, response);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return TradeRefundResponse.error(e.getMessage());
-        }
-    }
+	@Override
+	public TradeRefundResponse refund(String outTradeNo, String refundAmount) {
+		try {
+			AlipayTradeRefundResponse response = Factory.Payment.Common().refund(outTradeNo, refundAmount);
+			if (AlipayConstants.ALIPAY_REFUND_SUCCESS_CODE.equals(response.getCode())) {
+				return TradeRefundResponse.builder().code(PayConstants.REFUND_SUCCESS_CODE).msg(response.getMsg())
+						.outTradeNo(response.getOutTradeNo()).refundFee(response.getRefundFee())
+						.tradeNo(response.getTradeNo()).gmtRefundPay(response.getGmtRefundPay())
+						.buyerLogonId(response.buyerLogonId).buyerUserId(response.buyerUserId).data(response).build();
+			}
+			return TradeRefundResponse.error(response.msg, response);
+		}
+		catch (Exception e) {
+			log.error(e.getMessage());
+			return TradeRefundResponse.error(e.getMessage());
+		}
+	}
 
 }

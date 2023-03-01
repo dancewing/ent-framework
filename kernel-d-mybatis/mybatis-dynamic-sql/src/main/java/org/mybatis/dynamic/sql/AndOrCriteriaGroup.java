@@ -22,59 +22,66 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * This class represents a criteria group with either an AND or an OR connector.
- * This class is intentionally NOT derived from SqlCriterion because we only want it to be
+ * This class represents a criteria group with either an AND or an OR connector. This
+ * class is intentionally NOT derived from SqlCriterion because we only want it to be
  * available where an AND or an OR condition is appropriate.
  *
  * @author Jeff Butler
- *
  * @since 1.4.0
  */
 public class AndOrCriteriaGroup {
-    private final String connector;
-    private final SqlCriterion initialCriterion;
-    private final List<AndOrCriteriaGroup> subCriteria;
 
-    private AndOrCriteriaGroup(Builder builder) {
-        connector = Objects.requireNonNull(builder.connector);
-        initialCriterion = builder.initialCriterion;
-        subCriteria = builder.subCriteria;
-    }
+	private final String connector;
 
-    public String connector() {
-        return connector;
-    }
+	private final SqlCriterion initialCriterion;
 
-    public Optional<SqlCriterion> initialCriterion() {
-        return Optional.ofNullable(initialCriterion);
-    }
+	private final List<AndOrCriteriaGroup> subCriteria;
 
-    public List<AndOrCriteriaGroup> subCriteria() {
-        return Collections.unmodifiableList(subCriteria);
-    }
+	private AndOrCriteriaGroup(Builder builder) {
+		connector = Objects.requireNonNull(builder.connector);
+		initialCriterion = builder.initialCriterion;
+		subCriteria = builder.subCriteria;
+	}
 
-    public static class Builder {
-        private String connector;
-        private SqlCriterion initialCriterion;
-        private final List<AndOrCriteriaGroup> subCriteria = new ArrayList<>();
+	public String connector() {
+		return connector;
+	}
 
-        public Builder withConnector(String connector) {
-            this.connector = connector;
-            return this;
-        }
+	public Optional<SqlCriterion> initialCriterion() {
+		return Optional.ofNullable(initialCriterion);
+	}
 
-        public Builder withInitialCriterion(SqlCriterion initialCriterion) {
-            this.initialCriterion = initialCriterion;
-            return this;
-        }
+	public List<AndOrCriteriaGroup> subCriteria() {
+		return Collections.unmodifiableList(subCriteria);
+	}
 
-        public Builder withSubCriteria(List<AndOrCriteriaGroup> subCriteria) {
-            this.subCriteria.addAll(subCriteria);
-            return this;
-        }
+	public static class Builder {
 
-        public AndOrCriteriaGroup build() {
-            return new AndOrCriteriaGroup(this);
-        }
-    }
+		private String connector;
+
+		private SqlCriterion initialCriterion;
+
+		private final List<AndOrCriteriaGroup> subCriteria = new ArrayList<>();
+
+		public Builder withConnector(String connector) {
+			this.connector = connector;
+			return this;
+		}
+
+		public Builder withInitialCriterion(SqlCriterion initialCriterion) {
+			this.initialCriterion = initialCriterion;
+			return this;
+		}
+
+		public Builder withSubCriteria(List<AndOrCriteriaGroup> subCriteria) {
+			this.subCriteria.addAll(subCriteria);
+			return this;
+		}
+
+		public AndOrCriteriaGroup build() {
+			return new AndOrCriteriaGroup(this);
+		}
+
+	}
+
 }

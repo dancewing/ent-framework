@@ -5,13 +5,17 @@ import java.util.List;
 
 /**
  * 鉴权配置
+ *
  * @author jeff_qian
  */
 public class AuthProvider {
 
 	public static final String TARGET = "/**";
+
 	public static final String REPLACEMENT = "";
+
 	public static final String AUTH_HEAD_KEY = "Authorization";
+
 	public static final String AUTH_PARAM_KEY = "token";
 
 	private static List<String> defaultSkipUrl = new ArrayList<>();

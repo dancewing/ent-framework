@@ -55,7 +55,8 @@ import java.util.stream.Collectors;
  *
  * @date 2020/11/5 上午11:33
  */
-public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleRequest, SysRoleResponse, SysRole> implements SysRoleService {
+public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleRequest, SysRoleResponse, SysRole>
+		implements SysRoleService {
 
 	@Resource
 	private SysUserRoleService sysUserRoleService;
@@ -146,8 +147,8 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleRequest, SysRoleR
 		SysRole sysRole = this.querySysRole(sysRoleRequest);
 
 		// 不能修改超级管理员编码
-		if (SystemConstants.SUPER_ADMIN_ROLE_CODE.equals(sysRole.getRoleCode()) &&
-				!sysRole.getRoleCode().equals(sysRoleRequest.getRoleCode())) {
+		if (SystemConstants.SUPER_ADMIN_ROLE_CODE.equals(sysRole.getRoleCode())
+				&& !sysRole.getRoleCode().equals(sysRoleRequest.getRoleCode())) {
 			throw new SystemModularException(SysRoleExceptionEnum.SUPER_ADMIN_ROLE_CODE_ERROR);
 		}
 
@@ -195,18 +196,20 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleRequest, SysRoleR
 		// 只查询正常状态 // 根据角色名称或编码模糊查询
 
 		// 根据排序升序排列，序号越小越在前
-		this.getRepository().select(getEntityClass(), c -> c.where(SysRoleDynamicSqlSupport.statusFlag, SqlBuilder.isEqualTo(StatusEnum.ENABLE))
-				.and(SysRoleDynamicSqlSupport.roleName,
-						SqlBuilder.isLike(sysRoleParam.getRoleName()).filter(ObjectUtil::isNotNull),
-						SqlBuilder.or(SysRoleDynamicSqlSupport.roleCode,
-								SqlBuilder.isLike(sysRoleParam.getRoleName()).filter(ObjectUtil::isNotNull)))
-				.orderBy(SysRoleDynamicSqlSupport.roleSort)).forEach(sysRole -> {
-			SimpleDict simpleDict = new SimpleDict();
-			simpleDict.setId(sysRole.getRoleId());
-			simpleDict.setName(sysRole.getRoleName() + SymbolConstant.LEFT_SQUARE_BRACKETS
-					+ sysRole.getRoleCode() + SymbolConstant.RIGHT_SQUARE_BRACKETS);
-			dictList.add(simpleDict);
-		});
+		this.getRepository().select(getEntityClass(),
+				c -> c.where(SysRoleDynamicSqlSupport.statusFlag, SqlBuilder.isEqualTo(StatusEnum.ENABLE))
+						.and(SysRoleDynamicSqlSupport.roleName,
+								SqlBuilder.isLike(sysRoleParam.getRoleName()).filter(ObjectUtil::isNotNull),
+								SqlBuilder.or(SysRoleDynamicSqlSupport.roleCode,
+										SqlBuilder.isLike(sysRoleParam.getRoleName()).filter(ObjectUtil::isNotNull)))
+						.orderBy(SysRoleDynamicSqlSupport.roleSort))
+				.forEach(sysRole -> {
+					SimpleDict simpleDict = new SimpleDict();
+					simpleDict.setId(sysRole.getRoleId());
+					simpleDict.setName(sysRole.getRoleName() + SymbolConstant.LEFT_SQUARE_BRACKETS
+							+ sysRole.getRoleCode() + SymbolConstant.RIGHT_SQUARE_BRACKETS);
+					dictList.add(simpleDict);
+				});
 		return dictList;
 	}
 
@@ -357,8 +360,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleRequest, SysRoleR
 			// 从数据库查询数据范围
 			List<SysRoleDataScopeResponse> list = this.sysRoleDataScopeService.select(sysRoleDataScopeRequest);
 			if (!list.isEmpty()) {
-				List<Long> realScopes = list.stream().map(SysRoleDataScopeResponse::getOrganizationId)
-						.toList();
+				List<Long> realScopes = list.stream().map(SysRoleDataScopeResponse::getOrganizationId).toList();
 				result.addAll(realScopes);
 
 				// 添加结果到缓存中
@@ -405,8 +407,8 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleRequest, SysRoleR
 			// 从数据库查询角色绑定的资源
 			List<SysRoleResourceResponse> sysRoleResources = sysRoleResourceService.select(sysRoleResourceRequest);
 
-			List<String> sysResourceCodes = sysRoleResources.parallelStream().map(SysRoleResourceResponse::getResourceCode)
-					.toList();
+			List<String> sysResourceCodes = sysRoleResources.parallelStream()
+					.map(SysRoleResourceResponse::getResourceCode).toList();
 			if (ObjectUtil.isNotEmpty(sysResourceCodes)) {
 				result.addAll(sysResourceCodes);
 				roleResourceCacheApi.put(key, sysResourceCodes);
@@ -465,7 +467,6 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleRequest, SysRoleR
 
 	/**
 	 * 获取系统角色
-	 *
 	 * @param sysRoleRequest 请求信息
 	 * @date 2020/11/5 下午4:12
 	 */
@@ -478,7 +479,8 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleRequest, SysRoleR
 			return sysRoleCache;
 		}
 
-		Optional<SysRole> sysRole = this.getRepository().selectByPrimaryKey(getEntityClass(), sysRoleRequest.getRoleId());
+		Optional<SysRole> sysRole = this.getRepository().selectByPrimaryKey(getEntityClass(),
+				sysRoleRequest.getRoleId());
 		if (sysRole.isEmpty()) {
 			throw new SystemModularException(SysRoleExceptionEnum.ROLE_NOT_EXIST);
 		}

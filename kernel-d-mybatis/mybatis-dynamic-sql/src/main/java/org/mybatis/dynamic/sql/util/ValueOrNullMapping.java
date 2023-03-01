@@ -23,26 +23,28 @@ import org.mybatis.dynamic.sql.SqlColumn;
 
 public class ValueOrNullMapping<T> extends AbstractColumnMapping {
 
-    private final Supplier<T> valueSupplier;
-    // keep a reference to the column so we don't lose the type
-    private final SqlColumn<T> localColumn;
+	private final Supplier<T> valueSupplier;
 
-    private ValueOrNullMapping(SqlColumn<T> column, Supplier<T> valueSupplier) {
-        super(column);
-        this.valueSupplier = Objects.requireNonNull(valueSupplier);
-        localColumn = Objects.requireNonNull(column);
-    }
+	// keep a reference to the column so we don't lose the type
+	private final SqlColumn<T> localColumn;
 
-    public Optional<Object> value() {
-        return Optional.ofNullable(localColumn.convertParameterType(valueSupplier.get()));
-    }
+	private ValueOrNullMapping(SqlColumn<T> column, Supplier<T> valueSupplier) {
+		super(column);
+		this.valueSupplier = Objects.requireNonNull(valueSupplier);
+		localColumn = Objects.requireNonNull(column);
+	}
 
-    @Override
-    public <R> R accept(ColumnMappingVisitor<R> visitor) {
-        return visitor.visit(this);
-    }
+	public Optional<Object> value() {
+		return Optional.ofNullable(localColumn.convertParameterType(valueSupplier.get()));
+	}
 
-    public static <T> ValueOrNullMapping<T> of(SqlColumn<T> column, Supplier<T> valueSupplier) {
-        return new ValueOrNullMapping<>(column, valueSupplier);
-    }
+	@Override
+	public <R> R accept(ColumnMappingVisitor<R> visitor) {
+		return visitor.visit(this);
+	}
+
+	public static <T> ValueOrNullMapping<T> of(SqlColumn<T> column, Supplier<T> valueSupplier) {
+		return new ValueOrNullMapping<>(column, valueSupplier);
+	}
+
 }

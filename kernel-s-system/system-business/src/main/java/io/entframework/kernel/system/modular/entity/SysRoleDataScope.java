@@ -20,41 +20,44 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(value = "sys_role_data_scope", sqlSupport = SysRoleDataScopeDynamicSqlSupport.class, tableProperty = "sysRoleDataScope")
+@Table(value = "sys_role_data_scope", sqlSupport = SysRoleDataScopeDynamicSqlSupport.class,
+		tableProperty = "sysRoleDataScope")
 public class SysRoleDataScope extends BaseEntity implements Serializable {
-    /**
-     * 主键
-     */
-    @Id
-    @Column(name = "role_data_scope_id", jdbcType = JDBCType.BIGINT)
-    private Long roleDataScopeId;
 
-    /**
-     * 角色id
-     */
-    @Column(name = "role_id", jdbcType = JDBCType.BIGINT)
-    private Long roleId;
+	/**
+	 * 主键
+	 */
+	@Id
+	@Column(name = "role_data_scope_id", jdbcType = JDBCType.BIGINT)
+	private Long roleDataScopeId;
 
-    /**
-     * 机构id
-     */
-    @Column(name = "organization_id", jdbcType = JDBCType.BIGINT)
-    private Long organizationId;
+	/**
+	 * 角色id
+	 */
+	@Column(name = "role_id", jdbcType = JDBCType.BIGINT)
+	private Long roleId;
 
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 机构id
+	 */
+	@Column(name = "organization_id", jdbcType = JDBCType.BIGINT)
+	private Long organizationId;
 
-    public SysRoleDataScope roleDataScopeId(Long roleDataScopeId) {
-        this.roleDataScopeId = roleDataScopeId;
-        return this;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public SysRoleDataScope roleId(Long roleId) {
-        this.roleId = roleId;
-        return this;
-    }
+	public SysRoleDataScope roleDataScopeId(Long roleDataScopeId) {
+		this.roleDataScopeId = roleDataScopeId;
+		return this;
+	}
 
-    public SysRoleDataScope organizationId(Long organizationId) {
-        this.organizationId = organizationId;
-        return this;
-    }
+	public SysRoleDataScope roleId(Long roleId) {
+		this.roleId = roleId;
+		return this;
+	}
+
+	public SysRoleDataScope organizationId(Long organizationId) {
+		this.organizationId = organizationId;
+		return this;
+	}
+
 }

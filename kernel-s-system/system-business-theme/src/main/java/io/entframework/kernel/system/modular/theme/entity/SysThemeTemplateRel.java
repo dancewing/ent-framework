@@ -20,41 +20,44 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(value = "sys_theme_template_rel", sqlSupport = SysThemeTemplateRelDynamicSqlSupport.class, tableProperty = "sysThemeTemplateRel")
+@Table(value = "sys_theme_template_rel", sqlSupport = SysThemeTemplateRelDynamicSqlSupport.class,
+		tableProperty = "sysThemeTemplateRel")
 public class SysThemeTemplateRel extends BaseEntity implements Serializable {
-    /**
-     * 主键
-     */
-    @Id
-    @Column(name = "relation_id", jdbcType = JDBCType.BIGINT)
-    private Long relationId;
 
-    /**
-     * 模板主键id
-     */
-    @Column(name = "template_id", jdbcType = JDBCType.BIGINT)
-    private Long templateId;
+	/**
+	 * 主键
+	 */
+	@Id
+	@Column(name = "relation_id", jdbcType = JDBCType.BIGINT)
+	private Long relationId;
 
-    /**
-     * 属性编码
-     */
-    @Column(name = "field_code", jdbcType = JDBCType.VARCHAR)
-    private String fieldCode;
+	/**
+	 * 模板主键id
+	 */
+	@Column(name = "template_id", jdbcType = JDBCType.BIGINT)
+	private Long templateId;
 
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 属性编码
+	 */
+	@Column(name = "field_code", jdbcType = JDBCType.VARCHAR)
+	private String fieldCode;
 
-    public SysThemeTemplateRel relationId(Long relationId) {
-        this.relationId = relationId;
-        return this;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public SysThemeTemplateRel templateId(Long templateId) {
-        this.templateId = templateId;
-        return this;
-    }
+	public SysThemeTemplateRel relationId(Long relationId) {
+		this.relationId = relationId;
+		return this;
+	}
 
-    public SysThemeTemplateRel fieldCode(String fieldCode) {
-        this.fieldCode = fieldCode;
-        return this;
-    }
+	public SysThemeTemplateRel templateId(Long templateId) {
+		this.templateId = templateId;
+		return this;
+	}
+
+	public SysThemeTemplateRel fieldCode(String fieldCode) {
+		this.fieldCode = fieldCode;
+		return this;
+	}
+
 }

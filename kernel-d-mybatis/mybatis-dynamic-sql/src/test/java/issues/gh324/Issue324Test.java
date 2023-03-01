@@ -20,60 +20,62 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 class Issue324Test {
-    private NameService nameService = new NameService();
 
-    @Test
-    void testCacheWithAutoCommitOnUpdate() {
-        nameService.resetDatabase();
+	private NameService nameService = new NameService();
 
-        nameService.insertRecord();
-        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
-        assertThat(ObservableCache.getInstance().getHits()).isZero();
+	@Test
+	void testCacheWithAutoCommitOnUpdate() {
+		nameService.resetDatabase();
 
-        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
-        assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
+		nameService.insertRecord();
+		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
+		assertThat(ObservableCache.getInstance().getHits()).isZero();
 
-        nameService.updateRecordWithAutoCommit();
-        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsBarney);
-        assertThat(ObservableCache.getInstance().getHits()).isZero();
+		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
+		assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
 
-        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsBarney);
-        assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
-    }
+		nameService.updateRecordWithAutoCommit();
+		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsBarney);
+		assertThat(ObservableCache.getInstance().getHits()).isZero();
 
-    @Test
-    void testCacheWithNoAutoCommitOnUpdateAndNoExplicitCommit() {
-        nameService.resetDatabase();
+		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsBarney);
+		assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
+	}
 
-        nameService.insertRecord();
-        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
-        assertThat(ObservableCache.getInstance().getHits()).isZero();
+	@Test
+	void testCacheWithNoAutoCommitOnUpdateAndNoExplicitCommit() {
+		nameService.resetDatabase();
 
-        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
-        assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
+		nameService.insertRecord();
+		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
+		assertThat(ObservableCache.getInstance().getHits()).isZero();
 
-        // the update should rollback
-        nameService.updateRecordWithoutAutoCommitAndNoExplicitCommit();
-        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
-        assertThat(ObservableCache.getInstance().getHits()).isEqualTo(2);
-    }
+		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
+		assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
 
-    @Test
-    void testCacheWithNoAutoCommitOnUpdateAndExplicitCommit() {
-        nameService.resetDatabase();
+		// the update should rollback
+		nameService.updateRecordWithoutAutoCommitAndNoExplicitCommit();
+		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
+		assertThat(ObservableCache.getInstance().getHits()).isEqualTo(2);
+	}
 
-        nameService.insertRecord();
-        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
-        assertThat(ObservableCache.getInstance().getHits()).isZero();
+	@Test
+	void testCacheWithNoAutoCommitOnUpdateAndExplicitCommit() {
+		nameService.resetDatabase();
 
-        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
-        assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
+		nameService.insertRecord();
+		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
+		assertThat(ObservableCache.getInstance().getHits()).isZero();
 
-        nameService.updateRecordWithoutAutoCommitAndExplicitCommit();
-        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsBarney);
-        assertThat(ObservableCache.getInstance().getHits()).isZero();
+		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
+		assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
 
-        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsBarney);
-        assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
-    }
+		nameService.updateRecordWithoutAutoCommitAndExplicitCommit();
+		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsBarney);
+		assertThat(ObservableCache.getInstance().getHits()).isZero();
+
+		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsBarney);
+		assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
+	}
+
 }

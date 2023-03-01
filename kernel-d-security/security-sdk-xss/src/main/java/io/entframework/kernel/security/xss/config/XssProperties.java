@@ -19,19 +19,19 @@ import java.util.List;
 @ConfigurationProperties(prefix = "kernel.security.xss")
 public class XssProperties {
 
-    /**
-     * 总控开关
-     */
-    private boolean enabled = true;
+	/**
+	 * 总控开关
+	 */
+	private boolean enabled = true;
 
-    /**
-     * xss过滤的servlet范围，用在设置filter的urlPattern
-     */
-    private String urlPatterns = SecurityConstants.DEFAULT_XSS_PATTERN;
+	/**
+	 * xss过滤的servlet范围，用在设置filter的urlPattern
+	 */
+	private String urlPatterns = SecurityConstants.DEFAULT_XSS_PATTERN;
 
-    /**
-     * 不被xss过滤的url（ANT风格表达式）
-     */
-    private List<String> urlExclusion;
+	/**
+	 * 不被xss过滤的url（ANT风格表达式）
+	 */
+	private List<String> urlExclusion;
 
 }

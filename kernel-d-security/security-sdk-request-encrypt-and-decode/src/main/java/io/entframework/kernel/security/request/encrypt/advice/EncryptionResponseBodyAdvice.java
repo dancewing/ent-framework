@@ -40,65 +40,68 @@ import java.util.Date;
 @SuppressWarnings("all")
 public class EncryptionResponseBodyAdvice implements ResponseBodyAdvice {
 
-    static {
-        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
-            // 添加PKCS7Padding支持
-            // Security.addProvider(new com.sun.crypto.provider.SunJCE());
-            Security.addProvider(new BouncyCastleProvider());
-        }
-    }
+	static {
+		if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
+			// 添加PKCS7Padding支持
+			// Security.addProvider(new com.sun.crypto.provider.SunJCE());
+			Security.addProvider(new BouncyCastleProvider());
+		}
+	}
 
-    @Override
-    public boolean supports(MethodParameter returnType, Class converterType) {
-        return true;
-    }
+	@Override
+	public boolean supports(MethodParameter returnType, Class converterType) {
+		return true;
+	}
 
-    @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        if (null != body) {
+	@Override
+	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
+			Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+		if (null != body) {
 
-            PostResource annotation = returnType.getMethod().getAnnotation(PostResource.class);
+			PostResource annotation = returnType.getMethod().getAnnotation(PostResource.class);
 
-            if (annotation != null) {
-                if (annotation.requiredEncryption()) {
-                    // 判断响应实体是否是 ResponseData
-                    if (body instanceof ResponseData) {
-                        // 转换类型
-                        ResponseData responseData = (ResponseData) body;
+			if (annotation != null) {
+				if (annotation.requiredEncryption()) {
+					// 判断响应实体是否是 ResponseData
+					if (body instanceof ResponseData) {
+						// 转换类型
+						ResponseData responseData = (ResponseData) body;
 
-                        Object data = responseData.getData();
+						Object data = responseData.getData();
 
-                        // 将返回的数据格式化成json字符串
-                        String respJsonStr = JSON.toJSONString(data);
+						// 将返回的数据格式化成json字符串
+						String respJsonStr = JSON.toJSONString(data);
 
-                        // 从 ThreadLocal 中获取 aes key
-                        String aesKey = EncryptionHolder.getAesKey();
+						// 从 ThreadLocal 中获取 aes key
+						String aesKey = EncryptionHolder.getAesKey();
 
-                        // 偏移
-                        byte[] iv = HexUtil.decodeHex(SecureUtil.md5(CharSequenceUtil.format("{}{}", aesKey, DateUtil.format(new Date(), "yyyyMMdd"))));
+						// 偏移
+						byte[] iv = HexUtil.decodeHex(SecureUtil
+								.md5(CharSequenceUtil.format("{}{}", aesKey, DateUtil.format(new Date(), "yyyyMMdd"))));
 
-                        if (CharSequenceUtil.isNotBlank(aesKey)) {
+						if (CharSequenceUtil.isNotBlank(aesKey)) {
 
-                            byte[] keyByte = Base64.decode(aesKey.getBytes(CharsetUtil.CHARSET_UTF_8));
+							byte[] keyByte = Base64.decode(aesKey.getBytes(CharsetUtil.CHARSET_UTF_8));
 
-                            // AES
-                            AES aes = new AES("CFB", "PKCS7Padding", keyByte, iv);
-                            String encryptBase64 = aes.encryptBase64(respJsonStr);
+							// AES
+							AES aes = new AES("CFB", "PKCS7Padding", keyByte, iv);
+							String encryptBase64 = aes.encryptBase64(respJsonStr);
 
-                            responseData.setData(encryptBase64);
+							responseData.setData(encryptBase64);
 
-                        }
+						}
 
-                        // 清除当前线程中的aes key
-                        EncryptionHolder.clearAesKey();
+						// 清除当前线程中的aes key
+						EncryptionHolder.clearAesKey();
 
-                        return responseData;
+						return responseData;
 
-                    }
-                }
-            }
+					}
+				}
+			}
 
-        }
-        return body;
-    }
+		}
+		return body;
+	}
+
 }

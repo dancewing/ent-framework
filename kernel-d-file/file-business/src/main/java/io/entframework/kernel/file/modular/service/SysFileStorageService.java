@@ -17,7 +17,8 @@ import io.entframework.kernel.file.modular.entity.SysFileStorage;
  *
  * @date 2022/01/08 15:53
  */
-public interface SysFileStorageService extends BaseService<SysFileStorageRequest, SysFileStorageResponse, SysFileStorage> {
+public interface SysFileStorageService
+		extends BaseService<SysFileStorageRequest, SysFileStorageResponse, SysFileStorage> {
 
 	/**
 	 * 将文件存储在库中
@@ -28,7 +29,6 @@ public interface SysFileStorageService extends BaseService<SysFileStorageRequest
 
 	/**
 	 * 获取文件的访问url
-	 *
 	 * @param fileId 文件id
 	 * @date 2022/1/8 16:12
 	 */
@@ -36,7 +36,6 @@ public interface SysFileStorageService extends BaseService<SysFileStorageRequest
 
 	/**
 	 * 获取文件不带鉴权的访问url
-	 *
 	 * @param fileId 文件id
 	 * @date 2022/1/8 16:12
 	 */

@@ -23,99 +23,111 @@ import org.mybatis.generator.api.dom.kotlin.KotlinFunction;
 import org.mybatis.generator.config.Context;
 
 public abstract class AbstractKotlinFunctionGenerator {
-    protected final Context context;
-    protected final IntrospectedTable introspectedTable;
-    protected final String tableFieldName;
 
-    protected AbstractKotlinFunctionGenerator(BaseBuilder<?> builder) {
-        context = builder.context;
-        introspectedTable = builder.introspectedTable;
-        tableFieldName = builder.tableFieldName;
-    }
+	protected final Context context;
 
-    protected void acceptParts(KotlinFile kotlinFile, KotlinFunction kotlinFunction,
-            KotlinFunctionParts functionParts) {
-        for (KotlinArg argument : functionParts.getArguments()) {
-            kotlinFunction.addArgument(argument);
-        }
+	protected final IntrospectedTable introspectedTable;
 
-        for (String annotation : functionParts.getAnnotations()) {
-            kotlinFunction.addAnnotation(annotation);
-        }
+	protected final String tableFieldName;
 
-        kotlinFunction.addCodeLines(functionParts.getCodeLines());
-        kotlinFile.addImports(functionParts.getImports());
-    }
+	protected AbstractKotlinFunctionGenerator(BaseBuilder<?> builder) {
+		context = builder.context;
+		introspectedTable = builder.introspectedTable;
+		tableFieldName = builder.tableFieldName;
+	}
 
-    protected void acceptParts(KotlinFunctionAndImports functionAndImports, KotlinFunctionParts functionParts) {
-        for (KotlinArg argument : functionParts.getArguments()) {
-            functionAndImports.getFunction().addArgument(argument);
-        }
+	protected void acceptParts(KotlinFile kotlinFile, KotlinFunction kotlinFunction,
+			KotlinFunctionParts functionParts) {
+		for (KotlinArg argument : functionParts.getArguments()) {
+			kotlinFunction.addArgument(argument);
+		}
 
-        for (String annotation : functionParts.getAnnotations()) {
-            functionAndImports.getFunction().addAnnotation(annotation);
-        }
+		for (String annotation : functionParts.getAnnotations()) {
+			kotlinFunction.addAnnotation(annotation);
+		}
 
-        functionAndImports.getFunction().addCodeLines(functionParts.getCodeLines());
-        functionAndImports.getImports().addAll(functionParts.getImports());
-    }
+		kotlinFunction.addCodeLines(functionParts.getCodeLines());
+		kotlinFile.addImports(functionParts.getImports());
+	}
 
-    protected void addFunctionComment(KotlinFunctionAndImports functionAndImports) {
-        context.getCommentGenerator().addGeneralFunctionComment(functionAndImports.getFunction(), introspectedTable,
-                functionAndImports.getImports());
-    }
+	protected void acceptParts(KotlinFunctionAndImports functionAndImports, KotlinFunctionParts functionParts) {
+		for (KotlinArg argument : functionParts.getArguments()) {
+			functionAndImports.getFunction().addArgument(argument);
+		}
 
-    public static FieldNameAndImport calculateFieldNameAndImport(String tableFieldName, String supportObjectImport,
-                                                     IntrospectedColumn column) {
-        FieldNameAndImport answer = new FieldNameAndImport();
-        answer.fieldName = column.getJavaProperty();
-        if (answer.fieldName.equals(tableFieldName)) {
-            // name collision, no shortcut generated
-            answer.fieldName = tableFieldName + "." + answer.fieldName; //$NON-NLS-1$
-            answer.importString = supportObjectImport + "." + tableFieldName; //$NON-NLS-1$
-        } else {
-            answer.importString = supportObjectImport + "." + answer.fieldName; //$NON-NLS-1$
-        }
-        return answer;
-    }
+		for (String annotation : functionParts.getAnnotations()) {
+			functionAndImports.getFunction().addAnnotation(annotation);
+		}
 
-    public static class FieldNameAndImport {
-        private String fieldName;
-        private String importString;
+		functionAndImports.getFunction().addCodeLines(functionParts.getCodeLines());
+		functionAndImports.getImports().addAll(functionParts.getImports());
+	}
 
-        public String fieldName() {
-            return fieldName;
-        }
+	protected void addFunctionComment(KotlinFunctionAndImports functionAndImports) {
+		context.getCommentGenerator().addGeneralFunctionComment(functionAndImports.getFunction(), introspectedTable,
+				functionAndImports.getImports());
+	}
 
-        public String importString() {
-            return importString;
-        }
-    }
+	public static FieldNameAndImport calculateFieldNameAndImport(String tableFieldName, String supportObjectImport,
+			IntrospectedColumn column) {
+		FieldNameAndImport answer = new FieldNameAndImport();
+		answer.fieldName = column.getJavaProperty();
+		if (answer.fieldName.equals(tableFieldName)) {
+			// name collision, no shortcut generated
+			answer.fieldName = tableFieldName + "." + answer.fieldName; //$NON-NLS-1$
+			answer.importString = supportObjectImport + "." + tableFieldName; //$NON-NLS-1$
+		}
+		else {
+			answer.importString = supportObjectImport + "." + answer.fieldName; //$NON-NLS-1$
+		}
+		return answer;
+	}
 
-    public abstract KotlinFunctionAndImports generateMethodAndImports();
+	public static class FieldNameAndImport {
 
-    public abstract boolean callPlugins(KotlinFunction method, KotlinFile kotlinFile);
+		private String fieldName;
 
-    public abstract static class BaseBuilder<T extends BaseBuilder<T>> {
-        private Context context;
-        private IntrospectedTable introspectedTable;
-        private String tableFieldName;
+		private String importString;
 
-        public T withContext(Context context) {
-            this.context = context;
-            return getThis();
-        }
+		public String fieldName() {
+			return fieldName;
+		}
 
-        public T withTableFieldName(String tableFieldName) {
-            this.tableFieldName = tableFieldName;
-            return getThis();
-        }
+		public String importString() {
+			return importString;
+		}
 
-        public T withIntrospectedTable(IntrospectedTable introspectedTable) {
-            this.introspectedTable = introspectedTable;
-            return getThis();
-        }
+	}
 
-        public abstract T getThis();
-    }
+	public abstract KotlinFunctionAndImports generateMethodAndImports();
+
+	public abstract boolean callPlugins(KotlinFunction method, KotlinFile kotlinFile);
+
+	public abstract static class BaseBuilder<T extends BaseBuilder<T>> {
+
+		private Context context;
+
+		private IntrospectedTable introspectedTable;
+
+		private String tableFieldName;
+
+		public T withContext(Context context) {
+			this.context = context;
+			return getThis();
+		}
+
+		public T withTableFieldName(String tableFieldName) {
+			this.tableFieldName = tableFieldName;
+			return getThis();
+		}
+
+		public T withIntrospectedTable(IntrospectedTable introspectedTable) {
+			this.introspectedTable = introspectedTable;
+			return getThis();
+		}
+
+		public abstract T getThis();
+
+	}
+
 }

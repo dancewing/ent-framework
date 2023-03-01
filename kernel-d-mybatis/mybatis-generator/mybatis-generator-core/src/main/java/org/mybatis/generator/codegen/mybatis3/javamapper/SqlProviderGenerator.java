@@ -40,151 +40,149 @@ import org.mybatis.generator.codegen.mybatis3.javamapper.elements.sqlprovider.Pr
 
 public class SqlProviderGenerator extends AbstractJavaGenerator {
 
-    public SqlProviderGenerator(String project) {
-        super(project);
-    }
+	public SqlProviderGenerator(String project) {
+		super(project);
+	}
 
-    @Override
-    public List<CompilationUnit> getCompilationUnits() {
-        progressCallback.startTask(getString("Progress.18", //$NON-NLS-1$
-                introspectedTable.getFullyQualifiedTable().toString()));
-        CommentGenerator commentGenerator = context.getCommentGenerator();
+	@Override
+	public List<CompilationUnit> getCompilationUnits() {
+		progressCallback.startTask(getString("Progress.18", //$NON-NLS-1$
+				introspectedTable.getFullyQualifiedTable().toString()));
+		CommentGenerator commentGenerator = context.getCommentGenerator();
 
-        FullyQualifiedJavaType type = new FullyQualifiedJavaType(introspectedTable.getMyBatis3SqlProviderType());
-        TopLevelClass topLevelClass = new TopLevelClass(type);
-        topLevelClass.setVisibility(JavaVisibility.PUBLIC);
-        commentGenerator.addJavaFileComment(topLevelClass);
+		FullyQualifiedJavaType type = new FullyQualifiedJavaType(introspectedTable.getMyBatis3SqlProviderType());
+		TopLevelClass topLevelClass = new TopLevelClass(type);
+		topLevelClass.setVisibility(JavaVisibility.PUBLIC);
+		commentGenerator.addJavaFileComment(topLevelClass);
 
-        boolean addApplyWhereMethod;
-        addApplyWhereMethod = addCountByExampleMethod(topLevelClass);
-        addApplyWhereMethod |= addDeleteByExampleMethod(topLevelClass);
-        addInsertSelectiveMethod(topLevelClass);
-        addApplyWhereMethod |= addSelectByExampleWithBLOBsMethod(topLevelClass);
-        addApplyWhereMethod |= addSelectByExampleWithoutBLOBsMethod(topLevelClass);
-        addApplyWhereMethod |= addUpdateByExampleSelectiveMethod(topLevelClass);
-        addApplyWhereMethod |= addUpdateByExampleWithBLOBsMethod(topLevelClass);
-        addApplyWhereMethod |= addUpdateByExampleWithoutBLOBsMethod(topLevelClass);
-        addUpdateByPrimaryKeySelectiveMethod(topLevelClass);
+		boolean addApplyWhereMethod;
+		addApplyWhereMethod = addCountByExampleMethod(topLevelClass);
+		addApplyWhereMethod |= addDeleteByExampleMethod(topLevelClass);
+		addInsertSelectiveMethod(topLevelClass);
+		addApplyWhereMethod |= addSelectByExampleWithBLOBsMethod(topLevelClass);
+		addApplyWhereMethod |= addSelectByExampleWithoutBLOBsMethod(topLevelClass);
+		addApplyWhereMethod |= addUpdateByExampleSelectiveMethod(topLevelClass);
+		addApplyWhereMethod |= addUpdateByExampleWithBLOBsMethod(topLevelClass);
+		addApplyWhereMethod |= addUpdateByExampleWithoutBLOBsMethod(topLevelClass);
+		addUpdateByPrimaryKeySelectiveMethod(topLevelClass);
 
-        if (addApplyWhereMethod) {
-            addApplyWhereMethod(topLevelClass);
-        }
+		if (addApplyWhereMethod) {
+			addApplyWhereMethod(topLevelClass);
+		}
 
-        List<CompilationUnit> answer = new ArrayList<>();
+		List<CompilationUnit> answer = new ArrayList<>();
 
-        if (!topLevelClass.getMethods().isEmpty()
-                && context.getPlugins().providerGenerated(topLevelClass, introspectedTable)) {
-            answer.add(topLevelClass);
-        }
+		if (!topLevelClass.getMethods().isEmpty()
+				&& context.getPlugins().providerGenerated(topLevelClass, introspectedTable)) {
+			answer.add(topLevelClass);
+		}
 
-        return answer;
-    }
+		return answer;
+	}
 
-    protected boolean addCountByExampleMethod(TopLevelClass topLevelClass) {
-        boolean rc = false;
-        if (introspectedTable.getRules().generateCountByExample()) {
-            AbstractJavaProviderMethodGenerator methodGenerator = new ProviderCountByExampleMethodGenerator();
-            initializeAndExecuteGenerator(methodGenerator, topLevelClass);
-            rc = true;
-        }
+	protected boolean addCountByExampleMethod(TopLevelClass topLevelClass) {
+		boolean rc = false;
+		if (introspectedTable.getRules().generateCountByExample()) {
+			AbstractJavaProviderMethodGenerator methodGenerator = new ProviderCountByExampleMethodGenerator();
+			initializeAndExecuteGenerator(methodGenerator, topLevelClass);
+			rc = true;
+		}
 
-        return rc;
-    }
+		return rc;
+	}
 
-    protected boolean addDeleteByExampleMethod(TopLevelClass topLevelClass) {
-        boolean rc = false;
-        if (introspectedTable.getRules().generateDeleteByExample()) {
-            AbstractJavaProviderMethodGenerator methodGenerator = new ProviderDeleteByExampleMethodGenerator();
-            initializeAndExecuteGenerator(methodGenerator, topLevelClass);
-            rc = true;
-        }
+	protected boolean addDeleteByExampleMethod(TopLevelClass topLevelClass) {
+		boolean rc = false;
+		if (introspectedTable.getRules().generateDeleteByExample()) {
+			AbstractJavaProviderMethodGenerator methodGenerator = new ProviderDeleteByExampleMethodGenerator();
+			initializeAndExecuteGenerator(methodGenerator, topLevelClass);
+			rc = true;
+		}
 
-        return rc;
-    }
+		return rc;
+	}
 
-    protected void addInsertSelectiveMethod(TopLevelClass topLevelClass) {
-        if (introspectedTable.getRules().generateInsertSelective()) {
-            AbstractJavaProviderMethodGenerator methodGenerator = new ProviderInsertSelectiveMethodGenerator();
-            initializeAndExecuteGenerator(methodGenerator, topLevelClass);
-        }
-    }
+	protected void addInsertSelectiveMethod(TopLevelClass topLevelClass) {
+		if (introspectedTable.getRules().generateInsertSelective()) {
+			AbstractJavaProviderMethodGenerator methodGenerator = new ProviderInsertSelectiveMethodGenerator();
+			initializeAndExecuteGenerator(methodGenerator, topLevelClass);
+		}
+	}
 
-    protected boolean addSelectByExampleWithBLOBsMethod(TopLevelClass topLevelClass) {
-        boolean rc = false;
-        if (introspectedTable.getRules().generateSelectByExampleWithBLOBs()) {
-            AbstractJavaProviderMethodGenerator methodGenerator = new ProviderSelectByExampleWithBLOBsMethodGenerator();
-            initializeAndExecuteGenerator(methodGenerator, topLevelClass);
-            rc = true;
-        }
+	protected boolean addSelectByExampleWithBLOBsMethod(TopLevelClass topLevelClass) {
+		boolean rc = false;
+		if (introspectedTable.getRules().generateSelectByExampleWithBLOBs()) {
+			AbstractJavaProviderMethodGenerator methodGenerator = new ProviderSelectByExampleWithBLOBsMethodGenerator();
+			initializeAndExecuteGenerator(methodGenerator, topLevelClass);
+			rc = true;
+		}
 
-        return rc;
-    }
+		return rc;
+	}
 
-    protected boolean addSelectByExampleWithoutBLOBsMethod(TopLevelClass topLevelClass) {
-        boolean rc = false;
-        if (introspectedTable.getRules().generateSelectByExampleWithoutBLOBs()) {
-            AbstractJavaProviderMethodGenerator methodGenerator =
-                    new ProviderSelectByExampleWithoutBLOBsMethodGenerator();
-            initializeAndExecuteGenerator(methodGenerator, topLevelClass);
-            rc = true;
-        }
+	protected boolean addSelectByExampleWithoutBLOBsMethod(TopLevelClass topLevelClass) {
+		boolean rc = false;
+		if (introspectedTable.getRules().generateSelectByExampleWithoutBLOBs()) {
+			AbstractJavaProviderMethodGenerator methodGenerator = new ProviderSelectByExampleWithoutBLOBsMethodGenerator();
+			initializeAndExecuteGenerator(methodGenerator, topLevelClass);
+			rc = true;
+		}
 
-        return rc;
-    }
+		return rc;
+	}
 
-    protected boolean addUpdateByExampleSelectiveMethod(TopLevelClass topLevelClass) {
-        boolean rc = false;
-        if (introspectedTable.getRules().generateUpdateByExampleSelective()) {
-            AbstractJavaProviderMethodGenerator methodGenerator = new ProviderUpdateByExampleSelectiveMethodGenerator();
-            initializeAndExecuteGenerator(methodGenerator, topLevelClass);
-            rc = true;
-        }
+	protected boolean addUpdateByExampleSelectiveMethod(TopLevelClass topLevelClass) {
+		boolean rc = false;
+		if (introspectedTable.getRules().generateUpdateByExampleSelective()) {
+			AbstractJavaProviderMethodGenerator methodGenerator = new ProviderUpdateByExampleSelectiveMethodGenerator();
+			initializeAndExecuteGenerator(methodGenerator, topLevelClass);
+			rc = true;
+		}
 
-        return rc;
-    }
+		return rc;
+	}
 
-    protected boolean addUpdateByExampleWithBLOBsMethod(TopLevelClass topLevelClass) {
-        boolean rc = false;
-        if (introspectedTable.getRules().generateUpdateByExampleWithBLOBs()) {
-            AbstractJavaProviderMethodGenerator methodGenerator = new ProviderUpdateByExampleWithBLOBsMethodGenerator();
-            initializeAndExecuteGenerator(methodGenerator, topLevelClass);
-            rc = true;
-        }
+	protected boolean addUpdateByExampleWithBLOBsMethod(TopLevelClass topLevelClass) {
+		boolean rc = false;
+		if (introspectedTable.getRules().generateUpdateByExampleWithBLOBs()) {
+			AbstractJavaProviderMethodGenerator methodGenerator = new ProviderUpdateByExampleWithBLOBsMethodGenerator();
+			initializeAndExecuteGenerator(methodGenerator, topLevelClass);
+			rc = true;
+		}
 
-        return rc;
-    }
+		return rc;
+	}
 
-    protected boolean addUpdateByExampleWithoutBLOBsMethod(TopLevelClass topLevelClass) {
-        boolean rc = false;
-        if (introspectedTable.getRules().generateUpdateByExampleWithoutBLOBs()) {
-            AbstractJavaProviderMethodGenerator methodGenerator =
-                    new ProviderUpdateByExampleWithoutBLOBsMethodGenerator();
-            initializeAndExecuteGenerator(methodGenerator, topLevelClass);
-            rc = true;
-        }
+	protected boolean addUpdateByExampleWithoutBLOBsMethod(TopLevelClass topLevelClass) {
+		boolean rc = false;
+		if (introspectedTable.getRules().generateUpdateByExampleWithoutBLOBs()) {
+			AbstractJavaProviderMethodGenerator methodGenerator = new ProviderUpdateByExampleWithoutBLOBsMethodGenerator();
+			initializeAndExecuteGenerator(methodGenerator, topLevelClass);
+			rc = true;
+		}
 
-        return rc;
-    }
+		return rc;
+	}
 
-    protected void addUpdateByPrimaryKeySelectiveMethod(TopLevelClass topLevelClass) {
-        if (introspectedTable.getRules().generateUpdateByPrimaryKeySelective()) {
-            AbstractJavaProviderMethodGenerator methodGenerator =
-                    new ProviderUpdateByPrimaryKeySelectiveMethodGenerator();
-            initializeAndExecuteGenerator(methodGenerator, topLevelClass);
-        }
-    }
+	protected void addUpdateByPrimaryKeySelectiveMethod(TopLevelClass topLevelClass) {
+		if (introspectedTable.getRules().generateUpdateByPrimaryKeySelective()) {
+			AbstractJavaProviderMethodGenerator methodGenerator = new ProviderUpdateByPrimaryKeySelectiveMethodGenerator();
+			initializeAndExecuteGenerator(methodGenerator, topLevelClass);
+		}
+	}
 
-    protected void addApplyWhereMethod(TopLevelClass topLevelClass) {
-        AbstractJavaProviderMethodGenerator methodGenerator = new ProviderApplyWhereMethodGenerator();
-        initializeAndExecuteGenerator(methodGenerator, topLevelClass);
-    }
+	protected void addApplyWhereMethod(TopLevelClass topLevelClass) {
+		AbstractJavaProviderMethodGenerator methodGenerator = new ProviderApplyWhereMethodGenerator();
+		initializeAndExecuteGenerator(methodGenerator, topLevelClass);
+	}
 
-    protected void initializeAndExecuteGenerator(AbstractJavaProviderMethodGenerator methodGenerator,
-                                                 TopLevelClass topLevelClass) {
-        methodGenerator.setContext(context);
-        methodGenerator.setIntrospectedTable(introspectedTable);
-        methodGenerator.setProgressCallback(progressCallback);
-        methodGenerator.setWarnings(warnings);
-        methodGenerator.addClassElements(topLevelClass);
-    }
+	protected void initializeAndExecuteGenerator(AbstractJavaProviderMethodGenerator methodGenerator,
+			TopLevelClass topLevelClass) {
+		methodGenerator.setContext(context);
+		methodGenerator.setIntrospectedTable(introspectedTable);
+		methodGenerator.setProgressCallback(progressCallback);
+		methodGenerator.setWarnings(warnings);
+		methodGenerator.addClassElements(topLevelClass);
+	}
+
 }

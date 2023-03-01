@@ -15,12 +15,13 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class AuthException extends ServiceException {
 
-    public AuthException(AbstractExceptionEnum exception, Object... params) {
-        super(AuthConstants.AUTH_MODULE_NAME, exception.getErrorCode(), CharSequenceUtil.format(exception.getUserTip(), params));
-    }
+	public AuthException(AbstractExceptionEnum exception, Object... params) {
+		super(AuthConstants.AUTH_MODULE_NAME, exception.getErrorCode(),
+				CharSequenceUtil.format(exception.getUserTip(), params));
+	}
 
-    public AuthException(AbstractExceptionEnum exception) {
-        super(AuthConstants.AUTH_MODULE_NAME, exception);
-    }
+	public AuthException(AbstractExceptionEnum exception) {
+		super(AuthConstants.AUTH_MODULE_NAME, exception);
+	}
 
 }

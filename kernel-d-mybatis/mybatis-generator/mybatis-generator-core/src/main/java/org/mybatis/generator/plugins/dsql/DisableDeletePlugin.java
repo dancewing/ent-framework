@@ -32,32 +32,33 @@ import org.mybatis.generator.api.dom.kotlin.KotlinFunction;
  */
 public class DisableDeletePlugin extends PluginAdapter {
 
-    @Override
-    public boolean validate(List<String> warnings) {
-        return true;
-    }
+	@Override
+	public boolean validate(List<String> warnings) {
+		return true;
+	}
 
-    @Override
-    public boolean clientDeleteByPrimaryKeyMethodGenerated(Method method, Interface interfaze,
-            IntrospectedTable introspectedTable) {
-        return false;
-    }
+	@Override
+	public boolean clientDeleteByPrimaryKeyMethodGenerated(Method method, Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		return false;
+	}
 
-    @Override
-    public boolean clientDeleteByPrimaryKeyMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
-            IntrospectedTable introspectedTable) {
-        return false;
-    }
+	@Override
+	public boolean clientDeleteByPrimaryKeyMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
+			IntrospectedTable introspectedTable) {
+		return false;
+	}
 
-    @Override
-    public boolean clientGeneralDeleteMethodGenerated(Method method, Interface interfaze,
-            IntrospectedTable introspectedTable) {
-        return false;
-    }
+	@Override
+	public boolean clientGeneralDeleteMethodGenerated(Method method, Interface interfaze,
+			IntrospectedTable introspectedTable) {
+		return false;
+	}
 
-    @Override
-    public boolean clientGeneralDeleteMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
-            IntrospectedTable introspectedTable) {
-        return false;
-    }
+	@Override
+	public boolean clientGeneralDeleteMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
+			IntrospectedTable introspectedTable) {
+		return false;
+	}
+
 }

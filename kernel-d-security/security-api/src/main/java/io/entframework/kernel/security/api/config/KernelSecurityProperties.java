@@ -7,5 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = SecurityConstants.SECURITY_PREFIX)
 @Data
 public class KernelSecurityProperties {
-    public boolean cosEnabled = true;
+
+	public boolean cosEnabled = true;
+
 }

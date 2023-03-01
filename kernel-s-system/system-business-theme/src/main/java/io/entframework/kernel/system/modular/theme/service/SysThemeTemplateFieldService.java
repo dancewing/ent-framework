@@ -20,7 +20,8 @@ import java.util.List;
  *
  * @date 2021/12/17 10:30
  */
-public interface SysThemeTemplateFieldService extends BaseService<SysThemeTemplateFieldRequest, SysThemeTemplateFieldResponse, SysThemeTemplateField> {
+public interface SysThemeTemplateFieldService
+		extends BaseService<SysThemeTemplateFieldRequest, SysThemeTemplateFieldResponse, SysThemeTemplateField> {
 
 	/**
 	 * 增加系统主题模板属性
@@ -52,7 +53,6 @@ public interface SysThemeTemplateFieldService extends BaseService<SysThemeTempla
 
 	/**
 	 * 查询系统主题模板属性列表
-	 *
 	 * @return 分页结果
 	 * @date 2021/12/24 9:29
 	 */
@@ -78,4 +78,5 @@ public interface SysThemeTemplateFieldService extends BaseService<SysThemeTempla
 	 * @date 2022/1/1 22:24
 	 */
 	boolean getKeyFileFlag(String code);
+
 }

@@ -30,86 +30,92 @@ import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 
 public class UpdateByPrimaryKeyMethodGenerator extends AbstractMethodGenerator {
-    private final FullyQualifiedJavaType recordType;
-    private final FragmentGenerator fragmentGenerator;
 
-    private UpdateByPrimaryKeyMethodGenerator(Builder builder) {
-        super(builder);
-        recordType = builder.recordType;
-        fragmentGenerator = builder.fragmentGenerator;
-    }
+	private final FullyQualifiedJavaType recordType;
 
-    @Override
-    public MethodAndImports generateMethodAndImports() {
-        if (!Utils.generateUpdateByPrimaryKey(introspectedTable)) {
-            return null;
-        }
+	private final FragmentGenerator fragmentGenerator;
 
-        Set<FullyQualifiedJavaType> imports = new HashSet<>();
+	private UpdateByPrimaryKeyMethodGenerator(Builder builder) {
+		super(builder);
+		recordType = builder.recordType;
+		fragmentGenerator = builder.fragmentGenerator;
+	}
 
-        imports.add(recordType);
+	@Override
+	public MethodAndImports generateMethodAndImports() {
+		if (!Utils.generateUpdateByPrimaryKey(introspectedTable)) {
+			return null;
+		}
 
-        Method method = new Method("updateByPrimaryKey"); //$NON-NLS-1$
-        method.setDefault(true);
-        context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
+		Set<FullyQualifiedJavaType> imports = new HashSet<>();
 
-        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        method.addParameter(new Parameter(recordType, "row")); //$NON-NLS-1$
+		imports.add(recordType);
 
-        method.addBodyLine("return update(c ->"); //$NON-NLS-1$
+		Method method = new Method("updateByPrimaryKey"); //$NON-NLS-1$
+		method.setDefault(true);
+		context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
 
-        MethodAndImports.Builder builder = MethodAndImports.withMethod(method).withImports(imports);
-        Optional<IntrospectedColumn> versionColumnOpt = Utils.getVersionColumn(introspectedTable);
-        if (versionColumnOpt.isPresent()) {
-            IntrospectedColumn versionColumn = versionColumnOpt.get();
-            List<IntrospectedColumn> columns = introspectedTable.getNonPrimaryKeyColumns().stream()
-                    .filter(column -> !StringUtils.equals(column.getActualColumnName(), versionColumn.getActualColumnName()))
-                    .collect(Collectors.toList());
-            method.addBodyLines(fragmentGenerator.getSetEqualLines(columns,
-                    "    c", "    ", false)); //$NON-NLS-1$ //$NON-NLS-2$
-            String versionSetValue = Utils.getSetVersionValue(versionColumn, tableFieldName, builder);
-            if (StringUtils.isNotEmpty(versionSetValue)) {
-                method.addBodyLine(versionSetValue);
-            }
-            method.addBodyLines(fragmentGenerator.getPrimaryKeyWhereClauseForUpdate("    ")); //$NON-NLS-1$
-            method.addBodyLine(Utils.setVersionWhereClauseForUpdate(versionColumn, tableFieldName));
-        } else {
-            method.addBodyLines(fragmentGenerator.getSetEqualLines(introspectedTable.getNonPrimaryKeyColumns(),
-                    "    c", "    ", false)); //$NON-NLS-1$ //$NON-NLS-2$
-            method.addBodyLines(fragmentGenerator.getPrimaryKeyWhereClauseForUpdate("    ")); //$NON-NLS-1$
-        }
+		method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+		method.addParameter(new Parameter(recordType, "row")); //$NON-NLS-1$
 
-        method.addBodyLine(");"); //$NON-NLS-1$
-        return builder.build();
-    }
+		method.addBodyLine("return update(c ->"); //$NON-NLS-1$
 
-    @Override
-    public boolean callPlugins(Method method, Interface interfaze) {
-        return context.getPlugins().clientUpdateByPrimaryKeyWithBLOBsMethodGenerated(method,
-                interfaze, introspectedTable);
-    }
+		MethodAndImports.Builder builder = MethodAndImports.withMethod(method).withImports(imports);
+		Optional<IntrospectedColumn> versionColumnOpt = Utils.getVersionColumn(introspectedTable);
+		if (versionColumnOpt.isPresent()) {
+			IntrospectedColumn versionColumn = versionColumnOpt.get();
+			List<IntrospectedColumn> columns = introspectedTable.getNonPrimaryKeyColumns().stream().filter(
+					column -> !StringUtils.equals(column.getActualColumnName(), versionColumn.getActualColumnName()))
+					.collect(Collectors.toList());
+			method.addBodyLines(fragmentGenerator.getSetEqualLines(columns, "    c", "    ", false)); //$NON-NLS-1$ //$NON-NLS-2$
+			String versionSetValue = Utils.getSetVersionValue(versionColumn, tableFieldName, builder);
+			if (StringUtils.isNotEmpty(versionSetValue)) {
+				method.addBodyLine(versionSetValue);
+			}
+			method.addBodyLines(fragmentGenerator.getPrimaryKeyWhereClauseForUpdate("    ")); //$NON-NLS-1$
+			method.addBodyLine(Utils.setVersionWhereClauseForUpdate(versionColumn, tableFieldName));
+		}
+		else {
+			method.addBodyLines(fragmentGenerator.getSetEqualLines(introspectedTable.getNonPrimaryKeyColumns(), "    c", //$NON-NLS-1$
+					"    ", false)); //$NON-NLS-1$
+			method.addBodyLines(fragmentGenerator.getPrimaryKeyWhereClauseForUpdate("    ")); //$NON-NLS-1$
+		}
 
-    public static class Builder extends BaseBuilder<Builder> {
-        private FullyQualifiedJavaType recordType;
-        private FragmentGenerator fragmentGenerator;
+		method.addBodyLine(");"); //$NON-NLS-1$
+		return builder.build();
+	}
 
-        public Builder withRecordType(FullyQualifiedJavaType recordType) {
-            this.recordType = recordType;
-            return this;
-        }
+	@Override
+	public boolean callPlugins(Method method, Interface interfaze) {
+		return context.getPlugins().clientUpdateByPrimaryKeyWithBLOBsMethodGenerated(method, interfaze,
+				introspectedTable);
+	}
 
-        public Builder withFragmentGenerator(FragmentGenerator fragmentGenerator) {
-            this.fragmentGenerator = fragmentGenerator;
-            return this;
-        }
+	public static class Builder extends BaseBuilder<Builder> {
 
-        @Override
-        public Builder getThis() {
-            return this;
-        }
+		private FullyQualifiedJavaType recordType;
 
-        public UpdateByPrimaryKeyMethodGenerator build() {
-            return new UpdateByPrimaryKeyMethodGenerator(this);
-        }
-    }
+		private FragmentGenerator fragmentGenerator;
+
+		public Builder withRecordType(FullyQualifiedJavaType recordType) {
+			this.recordType = recordType;
+			return this;
+		}
+
+		public Builder withFragmentGenerator(FragmentGenerator fragmentGenerator) {
+			this.fragmentGenerator = fragmentGenerator;
+			return this;
+		}
+
+		@Override
+		public Builder getThis() {
+			return this;
+		}
+
+		public UpdateByPrimaryKeyMethodGenerator build() {
+			return new UpdateByPrimaryKeyMethodGenerator(this);
+		}
+
+	}
+
 }

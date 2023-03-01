@@ -27,117 +27,119 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @Entity
 @Table(value = "sys_role", sqlSupport = SysRoleDynamicSqlSupport.class, tableProperty = "sysRole")
 public class SysRole extends BaseEntity implements Serializable {
-    /**
-     * 主键id
-     */
-    @Id
-    @Column(name = "role_id", jdbcType = JDBCType.BIGINT)
-    private Long roleId;
 
-    /**
-     * 角色名称
-     */
-    @Column(name = "role_name", jdbcType = JDBCType.VARCHAR)
-    private String roleName;
+	/**
+	 * 主键id
+	 */
+	@Id
+	@Column(name = "role_id", jdbcType = JDBCType.BIGINT)
+	private Long roleId;
 
-    /**
-     * 角色编码
-     */
-    @Column(name = "role_code", jdbcType = JDBCType.VARCHAR)
-    private String roleCode;
+	/**
+	 * 角色名称
+	 */
+	@Column(name = "role_name", jdbcType = JDBCType.VARCHAR)
+	private String roleName;
 
-    /**
-     * 序号
-     */
-    @Column(name = "role_sort", jdbcType = JDBCType.DECIMAL)
-    private BigDecimal roleSort;
+	/**
+	 * 角色编码
+	 */
+	@Column(name = "role_code", jdbcType = JDBCType.VARCHAR)
+	private String roleCode;
 
-    /**
-     * 数据范围类型：10-仅本人数据，20-本部门数据，30-本部门及以下数据，40-指定部门数据，50-全部数据
-     */
-    @Column(name = "data_scope_type", jdbcType = JDBCType.TINYINT)
-    private DataScopeTypeEnum dataScopeType;
+	/**
+	 * 序号
+	 */
+	@Column(name = "role_sort", jdbcType = JDBCType.DECIMAL)
+	private BigDecimal roleSort;
 
-    /**
-     * 状态：1-启用，2-禁用
-     */
-    @Column(name = "status_flag", jdbcType = JDBCType.TINYINT)
-    private StatusEnum statusFlag;
+	/**
+	 * 数据范围类型：10-仅本人数据，20-本部门数据，30-本部门及以下数据，40-指定部门数据，50-全部数据
+	 */
+	@Column(name = "data_scope_type", jdbcType = JDBCType.TINYINT)
+	private DataScopeTypeEnum dataScopeType;
 
-    /**
-     * 备注
-     */
-    @Column(name = "remark", jdbcType = JDBCType.VARCHAR)
-    private String remark;
+	/**
+	 * 状态：1-启用，2-禁用
+	 */
+	@Column(name = "status_flag", jdbcType = JDBCType.TINYINT)
+	private StatusEnum statusFlag;
 
-    /**
-     * 是否删除：Y-已删除，N-未删除
-     */
-    @Column(name = "del_flag", jdbcType = JDBCType.CHAR)
-    @LogicDelete
-    private YesOrNotEnum delFlag;
+	/**
+	 * 备注
+	 */
+	@Column(name = "remark", jdbcType = JDBCType.VARCHAR)
+	private String remark;
 
-    /**
-     * 是否是系统角色:Y-是,N-否
-     */
-    @Column(name = "role_system_flag", jdbcType = JDBCType.CHAR)
-    private YesOrNotEnum roleSystemFlag;
+	/**
+	 * 是否删除：Y-已删除，N-未删除
+	 */
+	@Column(name = "del_flag", jdbcType = JDBCType.CHAR)
+	@LogicDelete
+	private YesOrNotEnum delFlag;
 
-    /**
-     * 字典:角色类型
-     */
-    @Column(name = "role_type_code", jdbcType = JDBCType.VARCHAR)
-    private String roleTypeCode;
+	/**
+	 * 是否是系统角色:Y-是,N-否
+	 */
+	@Column(name = "role_system_flag", jdbcType = JDBCType.CHAR)
+	private YesOrNotEnum roleSystemFlag;
 
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 字典:角色类型
+	 */
+	@Column(name = "role_type_code", jdbcType = JDBCType.VARCHAR)
+	private String roleTypeCode;
 
-    public SysRole roleId(Long roleId) {
-        this.roleId = roleId;
-        return this;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public SysRole roleName(String roleName) {
-        this.roleName = roleName;
-        return this;
-    }
+	public SysRole roleId(Long roleId) {
+		this.roleId = roleId;
+		return this;
+	}
 
-    public SysRole roleCode(String roleCode) {
-        this.roleCode = roleCode;
-        return this;
-    }
+	public SysRole roleName(String roleName) {
+		this.roleName = roleName;
+		return this;
+	}
 
-    public SysRole roleSort(BigDecimal roleSort) {
-        this.roleSort = roleSort;
-        return this;
-    }
+	public SysRole roleCode(String roleCode) {
+		this.roleCode = roleCode;
+		return this;
+	}
 
-    public SysRole dataScopeType(DataScopeTypeEnum dataScopeType) {
-        this.dataScopeType = dataScopeType;
-        return this;
-    }
+	public SysRole roleSort(BigDecimal roleSort) {
+		this.roleSort = roleSort;
+		return this;
+	}
 
-    public SysRole statusFlag(StatusEnum statusFlag) {
-        this.statusFlag = statusFlag;
-        return this;
-    }
+	public SysRole dataScopeType(DataScopeTypeEnum dataScopeType) {
+		this.dataScopeType = dataScopeType;
+		return this;
+	}
 
-    public SysRole remark(String remark) {
-        this.remark = remark;
-        return this;
-    }
+	public SysRole statusFlag(StatusEnum statusFlag) {
+		this.statusFlag = statusFlag;
+		return this;
+	}
 
-    public SysRole delFlag(YesOrNotEnum delFlag) {
-        this.delFlag = delFlag;
-        return this;
-    }
+	public SysRole remark(String remark) {
+		this.remark = remark;
+		return this;
+	}
 
-    public SysRole roleSystemFlag(YesOrNotEnum roleSystemFlag) {
-        this.roleSystemFlag = roleSystemFlag;
-        return this;
-    }
+	public SysRole delFlag(YesOrNotEnum delFlag) {
+		this.delFlag = delFlag;
+		return this;
+	}
 
-    public SysRole roleTypeCode(String roleTypeCode) {
-        this.roleTypeCode = roleTypeCode;
-        return this;
-    }
+	public SysRole roleSystemFlag(YesOrNotEnum roleSystemFlag) {
+		this.roleSystemFlag = roleSystemFlag;
+		return this;
+	}
+
+	public SysRole roleTypeCode(String roleTypeCode) {
+		this.roleTypeCode = roleTypeCode;
+		return this;
+	}
+
 }

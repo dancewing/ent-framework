@@ -7,7 +7,6 @@
 
 package io.entframework.ent.gateway.provider;
 
-
 import io.entframework.ent.gateway.props.RouteProperties;
 import io.entframework.ent.gateway.props.RouteResource;
 import lombok.AllArgsConstructor;
@@ -25,6 +24,7 @@ import java.util.List;
 @Component
 @AllArgsConstructor
 public class SwaggerProvider {
+
 	private static final String API_URI = "/v2/api-docs";
 
 	private RouteProperties routeProperties;
@@ -40,8 +40,10 @@ public class SwaggerProvider {
 		SwaggerResource swaggerResource = new SwaggerResource();
 		swaggerResource.setName(routeResource.getName());
 		if (StringUtils.isNotEmpty(routeResource.getGroup())) {
-			swaggerResource.setUrl(routeResource.getLocation().concat(API_URI).concat("?group=").concat(routeResource.getGroup()));
-		} else {
+			swaggerResource.setUrl(
+					routeResource.getLocation().concat(API_URI).concat("?group=").concat(routeResource.getGroup()));
+		}
+		else {
 			swaggerResource.setUrl(routeResource.getLocation().concat(API_URI));
 		}
 		swaggerResource.setSwaggerVersion(routeResource.getVersion());

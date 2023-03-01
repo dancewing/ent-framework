@@ -21,28 +21,31 @@ import java.util.Set;
  * @author jeff_qian
  */
 @Configuration
-@ImportAutoConfiguration({ErrorHandlerConfiguration.class, RouterFunctionConfiguration.class,
-        SwaggerResourceConfiguration.class})
+@ImportAutoConfiguration({ ErrorHandlerConfiguration.class, RouterFunctionConfiguration.class,
+		SwaggerResourceConfiguration.class })
 public class EntGatewayAutoConfiguration {
 
-    @Bean
-    public AuthFilter authFilter(){
-        return new AuthFilter();
-    }
+	@Bean
+	public AuthFilter authFilter() {
+		return new AuthFilter();
+	}
 
+	@Bean(name = LoginCacheConstants.LOGIN_USER_CACHE_BEAN_NAME)
+	public CacheOperatorApi<LoginUser> loginUserCache(RedisCacheManagerFactory redisCacheManagerFactory) {
+		return new DefaultRedisCacheOperator<>(redisCacheManagerFactory
+				.createCache(LoginCacheConstants.LOGIN_USER_CACHE_BEAN_NAME, AuthConstants.LOGGED_TOKEN_PREFIX));
+	}
 
-    @Bean(name = LoginCacheConstants.LOGIN_USER_CACHE_BEAN_NAME)
-    public CacheOperatorApi<LoginUser> loginUserCache(RedisCacheManagerFactory redisCacheManagerFactory) {
-        return new DefaultRedisCacheOperator<>(redisCacheManagerFactory.createCache(LoginCacheConstants.LOGIN_USER_CACHE_BEAN_NAME, AuthConstants.LOGGED_TOKEN_PREFIX));
-    }
+	@Bean(name = LoginCacheConstants.ALL_USER_LOGIN_TOKEN_CACHE_BEAN_NAME)
+	public CacheOperatorApi<Set<String>> allUserLoginTokenCache(RedisCacheManagerFactory redisCacheManagerFactory) {
+		return new DefaultRedisCacheOperator<>(redisCacheManagerFactory.createCache(
+				LoginCacheConstants.ALL_USER_LOGIN_TOKEN_CACHE_BEAN_NAME, AuthConstants.LOGGED_USERID_PREFIX));
+	}
 
-    @Bean(name = LoginCacheConstants.ALL_USER_LOGIN_TOKEN_CACHE_BEAN_NAME)
-    public CacheOperatorApi<Set<String>> allUserLoginTokenCache(RedisCacheManagerFactory redisCacheManagerFactory) {
-        return new DefaultRedisCacheOperator<>(redisCacheManagerFactory.createCache(LoginCacheConstants.ALL_USER_LOGIN_TOKEN_CACHE_BEAN_NAME, AuthConstants.LOGGED_USERID_PREFIX));
-    }
+	@Bean(name = ResourceConstants.RESOURCE_CACHE_BEAN_NAME)
+	public CacheOperatorApi<ResourceDefinition> resourceCache(RedisCacheManagerFactory redisCacheManagerFactory) {
+		return new DefaultRedisHashCacheOperator<>(redisCacheManagerFactory
+				.createCache(ResourceConstants.RESOURCE_CACHE_BEAN_NAME, ScannerConstants.RESOURCE_CACHE_KEY));
+	}
 
-    @Bean(name = ResourceConstants.RESOURCE_CACHE_BEAN_NAME)
-    public CacheOperatorApi<ResourceDefinition> resourceCache(RedisCacheManagerFactory redisCacheManagerFactory) {
-        return new DefaultRedisHashCacheOperator<>(redisCacheManagerFactory.createCache(ResourceConstants.RESOURCE_CACHE_BEAN_NAME, ScannerConstants.RESOURCE_CACHE_KEY));
-    }
 }

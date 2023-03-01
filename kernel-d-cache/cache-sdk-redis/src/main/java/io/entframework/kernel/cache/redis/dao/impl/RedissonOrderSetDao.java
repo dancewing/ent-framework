@@ -6,7 +6,6 @@
  */
 package io.entframework.kernel.cache.redis.dao.impl;
 
-
 import io.entframework.kernel.cache.redis.dao.RedisOrderSetDao;
 import io.entframework.kernel.rule.util.SplitterUtils;
 import org.redisson.api.RSortedSet;
@@ -22,78 +21,80 @@ import java.util.Set;
  *
  */
 public class RedissonOrderSetDao extends BaseRedissonDao implements RedisOrderSetDao {
-    public RedissonOrderSetDao(RedissonClient redissonClient) {
-        super(redissonClient);
-    }
 
-    @Override
-    public <V> Set<V> getSet(String key) {
-        return redissonClient.getSortedSet(key);
-    }
+	public RedissonOrderSetDao(RedissonClient redissonClient) {
+		super(redissonClient);
+	}
 
-    @Override
-    public <V> boolean contains(String key, V value) {
-        RSortedSet<V> rSortedSet = redissonClient.getSortedSet(key);
-        return rSortedSet.contains(value);
-    }
+	@Override
+	public <V> Set<V> getSet(String key) {
+		return redissonClient.getSortedSet(key);
+	}
 
-    @Override
-    public <V> boolean containsAll(String key, Collection<? extends V> values, int count) {
-        if (CollectionUtils.isEmpty(values)) {
-            return false;
-        }
+	@Override
+	public <V> boolean contains(String key, V value) {
+		RSortedSet<V> rSortedSet = redissonClient.getSortedSet(key);
+		return rSortedSet.contains(value);
+	}
 
-        RSortedSet<V> rSortedSet = redissonClient.getSortedSet(key);
-        if (values.size() <= count) {
-            return rSortedSet.containsAll(values);
-        }
+	@Override
+	public <V> boolean containsAll(String key, Collection<? extends V> values, int count) {
+		if (CollectionUtils.isEmpty(values)) {
+			return false;
+		}
 
-        return SplitterUtils.split(values, count).stream().allMatch(rSortedSet::containsAll);
-    }
+		RSortedSet<V> rSortedSet = redissonClient.getSortedSet(key);
+		if (values.size() <= count) {
+			return rSortedSet.containsAll(values);
+		}
 
-    @Override
-    public <V> Iterator<V> iterator(String key) {
-        RSortedSet<V> rSortedSet = redissonClient.getSortedSet(key);
-        return rSortedSet.iterator();
-    }
+		return SplitterUtils.split(values, count).stream().allMatch(rSortedSet::containsAll);
+	}
 
-    @Override
-    public <V> boolean add(String key, V value) {
-        RSortedSet<V> rSortedSet = redissonClient.getSortedSet(key);
-        return rSortedSet.add(value);
-    }
+	@Override
+	public <V> Iterator<V> iterator(String key) {
+		RSortedSet<V> rSortedSet = redissonClient.getSortedSet(key);
+		return rSortedSet.iterator();
+	}
 
-    @Override
-    public <V> boolean addAll(String key, Collection<? extends V> values, int count) {
-        if (CollectionUtils.isEmpty(values)) {
-            return false;
-        }
+	@Override
+	public <V> boolean add(String key, V value) {
+		RSortedSet<V> rSortedSet = redissonClient.getSortedSet(key);
+		return rSortedSet.add(value);
+	}
 
-        RSortedSet<V> rSortedSet = redissonClient.getSortedSet(key);
-        if (values.size() <= count) {
-            return rSortedSet.addAll(values);
-        }
+	@Override
+	public <V> boolean addAll(String key, Collection<? extends V> values, int count) {
+		if (CollectionUtils.isEmpty(values)) {
+			return false;
+		}
 
-        return SplitterUtils.split(values, count).stream().anyMatch(rSortedSet::addAll);
-    }
+		RSortedSet<V> rSortedSet = redissonClient.getSortedSet(key);
+		if (values.size() <= count) {
+			return rSortedSet.addAll(values);
+		}
 
-    @Override
-    public <V> boolean remove(String key, V value) {
-        RSortedSet<V> rSortedSet = redissonClient.getSortedSet(key);
-        return rSortedSet.remove(value);
-    }
+		return SplitterUtils.split(values, count).stream().anyMatch(rSortedSet::addAll);
+	}
 
-    @Override
-    public <V> boolean removeAll(String key, Collection<? extends V> values, int count) {
-        if (CollectionUtils.isEmpty(values)) {
-            return false;
-        }
+	@Override
+	public <V> boolean remove(String key, V value) {
+		RSortedSet<V> rSortedSet = redissonClient.getSortedSet(key);
+		return rSortedSet.remove(value);
+	}
 
-        RSortedSet<V> rSortedSet = redissonClient.getSortedSet(key);
-        if (values.size() <= count) {
-            return rSortedSet.removeAll(values);
-        }
+	@Override
+	public <V> boolean removeAll(String key, Collection<? extends V> values, int count) {
+		if (CollectionUtils.isEmpty(values)) {
+			return false;
+		}
 
-        return SplitterUtils.split(values, count).stream().anyMatch(rSortedSet::removeAll);
-    }
+		RSortedSet<V> rSortedSet = redissonClient.getSortedSet(key);
+		if (values.size() <= count) {
+			return rSortedSet.removeAll(values);
+		}
+
+		return SplitterUtils.split(values, count).stream().anyMatch(rSortedSet::removeAll);
+	}
+
 }

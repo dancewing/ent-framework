@@ -14,11 +14,12 @@ import io.entframework.kernel.cache.memory.AbstractMemoryCacheOperator;
  */
 public class DefaultMemoryCacheOperator<T> extends AbstractMemoryCacheOperator<T> {
 
-    public DefaultMemoryCacheOperator(TimedCache<String, T> timedCache) {
-        super(timedCache, CacheConstants.DEFAULT_OBJECT_CACHE_PREFIX);
-    }
+	public DefaultMemoryCacheOperator(TimedCache<String, T> timedCache) {
+		super(timedCache, CacheConstants.DEFAULT_OBJECT_CACHE_PREFIX);
+	}
 
-    public DefaultMemoryCacheOperator(TimedCache<String, T> timedCache, String prefix) {
-        super(timedCache, prefix);
-    }
+	public DefaultMemoryCacheOperator(TimedCache<String, T> timedCache, String prefix) {
+		super(timedCache, prefix);
+	}
+
 }

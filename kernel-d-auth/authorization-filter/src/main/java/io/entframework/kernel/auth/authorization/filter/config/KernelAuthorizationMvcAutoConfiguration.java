@@ -17,21 +17,23 @@ import jakarta.annotation.Resource;
 
 @Configuration
 public class KernelAuthorizationMvcAutoConfiguration implements WebMvcConfigurer {
-    @Resource
-    private AuthJwtTokenSecurityInterceptor authJwtTokenSecurityInterceptor;
 
-    @Resource
-    private PermissionSecurityInterceptor permissionSecurityInterceptor;
+	@Resource
+	private AuthJwtTokenSecurityInterceptor authJwtTokenSecurityInterceptor;
 
-    /**
-     * 配置项目拦截器
-     *
-     * @author fengshuonan
-     * @date 2020/12/18 9:43
-     */
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authJwtTokenSecurityInterceptor);
-        registry.addInterceptor(permissionSecurityInterceptor);
-    }
+	@Resource
+	private PermissionSecurityInterceptor permissionSecurityInterceptor;
+
+	/**
+	 * 配置项目拦截器
+	 *
+	 * @author fengshuonan
+	 * @date 2020/12/18 9:43
+	 */
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(authJwtTokenSecurityInterceptor);
+		registry.addInterceptor(permissionSecurityInterceptor);
+	}
+
 }

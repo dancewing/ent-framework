@@ -22,21 +22,22 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 
 public class ProviderSelectByExampleWithBLOBsMethodGenerator
-        extends ProviderSelectByExampleWithoutBLOBsMethodGenerator {
+		extends ProviderSelectByExampleWithoutBLOBsMethodGenerator {
 
-    @Override
-    public List<IntrospectedColumn> getColumns() {
-        return introspectedTable.getAllColumns();
-    }
+	@Override
+	public List<IntrospectedColumn> getColumns() {
+		return introspectedTable.getAllColumns();
+	}
 
-    @Override
-    public String getMethodName() {
-        return introspectedTable.getSelectByExampleWithBLOBsStatementId();
-    }
+	@Override
+	public String getMethodName() {
+		return introspectedTable.getSelectByExampleWithBLOBsStatementId();
+	}
 
-    @Override
-    public boolean callPlugins(Method method, TopLevelClass topLevelClass) {
-        return context.getPlugins()
-                .providerSelectByExampleWithBLOBsMethodGenerated(method, topLevelClass, introspectedTable);
-    }
+	@Override
+	public boolean callPlugins(Method method, TopLevelClass topLevelClass) {
+		return context.getPlugins().providerSelectByExampleWithBLOBsMethodGenerated(method, topLevelClass,
+				introspectedTable);
+	}
+
 }

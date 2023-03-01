@@ -33,7 +33,9 @@ import java.util.Optional;
  *
  * @date 2021/12/17 13:58
  */
-public class SysThemeTemplateServiceImpl extends BaseServiceImpl<SysThemeTemplateRequest, SysThemeTemplateResponse, SysThemeTemplate> implements SysThemeTemplateService {
+public class SysThemeTemplateServiceImpl
+		extends BaseServiceImpl<SysThemeTemplateRequest, SysThemeTemplateResponse, SysThemeTemplate>
+		implements SysThemeTemplateService {
 
 	public SysThemeTemplateServiceImpl() {
 		super(SysThemeTemplateRequest.class, SysThemeTemplateResponse.class, SysThemeTemplate.class);
@@ -87,7 +89,8 @@ public class SysThemeTemplateServiceImpl extends BaseServiceImpl<SysThemeTemplat
 		}
 
 		// 删除关联关系
-		getRepository().delete(SysThemeTemplateRel.class, c -> c.where(SysThemeTemplateRelDynamicSqlSupport.templateId, SqlBuilder.isEqualTo(sysThemeTemplate.getTemplateId())));
+		getRepository().delete(SysThemeTemplateRel.class, c -> c.where(SysThemeTemplateRelDynamicSqlSupport.templateId,
+				SqlBuilder.isEqualTo(sysThemeTemplate.getTemplateId())));
 
 		// 删除模板
 		this.getRepository().deleteByPrimaryKey(getEntityClass(), sysThemeTemplate.getTemplateId());
@@ -111,7 +114,8 @@ public class SysThemeTemplateServiceImpl extends BaseServiceImpl<SysThemeTemplat
 		// 系统主题模板被使用，不允许禁用
 		SysThemeRequest request = new SysThemeRequest();
 		request.setTemplateId(sysThemeTemplate.getTemplateId());
-		long sysThemeNum = getRepository().count(SysTheme.class, c -> c.where(SysThemeDynamicSqlSupport.templateId, SqlBuilder.isEqualTo(sysThemeTemplate.getTemplateId())));
+		long sysThemeNum = getRepository().count(SysTheme.class, c -> c.where(SysThemeDynamicSqlSupport.templateId,
+				SqlBuilder.isEqualTo(sysThemeTemplate.getTemplateId())));
 		if (sysThemeNum > 0) {
 			throw new SystemModularException(SysThemeTemplateExceptionEnum.TEMPLATE_IS_USED);
 		}
@@ -119,10 +123,12 @@ public class SysThemeTemplateServiceImpl extends BaseServiceImpl<SysThemeTemplat
 		// 修改状态
 		if (YesOrNotEnum.Y == sysThemeTemplate.getStatusFlag()) {
 			sysThemeTemplate.setStatusFlag(YesOrNotEnum.N);
-		} else {
+		}
+		else {
 			// 如果该模板没有属性不允许启用
-			List<SysThemeTemplateRel> sysThemeTemplateRels = getRepository().select(SysThemeTemplateRel.class, c -> c.where(SysThemeTemplateRelDynamicSqlSupport.templateId,
-					SqlBuilder.isEqualTo(sysThemeTemplate.getTemplateId())));
+			List<SysThemeTemplateRel> sysThemeTemplateRels = getRepository().select(SysThemeTemplateRel.class,
+					c -> c.where(SysThemeTemplateRelDynamicSqlSupport.templateId,
+							SqlBuilder.isEqualTo(sysThemeTemplate.getTemplateId())));
 
 			if (sysThemeTemplateRels.isEmpty()) {
 				throw new SystemModularException(SysThemeTemplateExceptionEnum.TEMPLATE_NOT_ATTRIBUTE);
@@ -136,7 +142,8 @@ public class SysThemeTemplateServiceImpl extends BaseServiceImpl<SysThemeTemplat
 
 	@Override
 	public List<SysThemeTemplateFieldResponse> detail(SysThemeTemplateRequest sysThemeTemplateRequest) {
-		//return sysThemeTemplateMapper.sysThemeTemplateDetail(sysThemeTemplateRequest.getTemplateId());
+		// return
+		// sysThemeTemplateMapper.sysThemeTemplateDetail(sysThemeTemplateRequest.getTemplateId());
 		throw new RuntimeException();
 	}
 
@@ -146,10 +153,12 @@ public class SysThemeTemplateServiceImpl extends BaseServiceImpl<SysThemeTemplat
 	 * @date 2021/12/17 14:28
 	 */
 	private SysThemeTemplate querySysThemeTemplateById(SysThemeTemplateRequest sysThemeTemplateRequest) {
-		Optional<SysThemeTemplate> sysThemeTemplate = this.getRepository().selectByPrimaryKey(getEntityClass(), sysThemeTemplateRequest.getTemplateId());
+		Optional<SysThemeTemplate> sysThemeTemplate = this.getRepository().selectByPrimaryKey(getEntityClass(),
+				sysThemeTemplateRequest.getTemplateId());
 		if (!sysThemeTemplate.isPresent()) {
 			throw new SystemModularException(SysThemeTemplateExceptionEnum.TEMPLATE_NOT_EXIT);
 		}
 		return sysThemeTemplate.get();
 	}
+
 }

@@ -25,7 +25,6 @@ public interface SysConfigService extends BaseService<SysConfigRequest, SysConfi
 
 	/**
 	 * 添加系统参数配置
-	 *
 	 * @param sysConfigRequest 添加参数
 	 * @date 2020/4/14 11:14
 	 */
@@ -33,7 +32,6 @@ public interface SysConfigService extends BaseService<SysConfigRequest, SysConfi
 
 	/**
 	 * 删除系统参数配置
-	 *
 	 * @param sysConfigRequest 删除参数
 	 * @date 2020/4/14 11:15
 	 */
@@ -41,7 +39,6 @@ public interface SysConfigService extends BaseService<SysConfigRequest, SysConfi
 
 	/**
 	 * 更新系统参数配置
-	 *
 	 * @param sysConfigRequest 更新参数
 	 * @date 2020/4/14 11:15
 	 */
@@ -49,7 +46,6 @@ public interface SysConfigService extends BaseService<SysConfigRequest, SysConfi
 
 	/**
 	 * 查看系统参数配置
-	 *
 	 * @param sysConfigRequest 查看参数
 	 * @return 系统参数配置
 	 * @date 2020/4/14 11:15
@@ -58,7 +54,6 @@ public interface SysConfigService extends BaseService<SysConfigRequest, SysConfi
 
 	/**
 	 * 查询系统参数配置
-	 *
 	 * @param sysConfigRequest 查询参数
 	 * @return 查询分页结果
 	 * @date 2020/4/14 11:14
@@ -67,7 +62,6 @@ public interface SysConfigService extends BaseService<SysConfigRequest, SysConfi
 
 	/**
 	 * 查询系统参数配置
-	 *
 	 * @param sysConfigRequest 查询参数
 	 * @return 系统参数配置列表
 	 * @date 2020/4/14 11:14
@@ -83,7 +77,6 @@ public interface SysConfigService extends BaseService<SysConfigRequest, SysConfi
 
 	/**
 	 * 获取配置是否初始化的标志
-	 *
 	 * @return true-系统已经初始化，false-系统没有初始化
 	 * @date 2021/7/8 17:20
 	 */
@@ -102,4 +95,5 @@ public interface SysConfigService extends BaseService<SysConfigRequest, SysConfi
 	 * @date 2022/3/3 14:23
 	 */
 	String getServerDeployHost();
+
 }

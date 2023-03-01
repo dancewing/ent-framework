@@ -28,17 +28,17 @@ import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 
 public interface NamesTableMapper {
-    @SelectProvider(type=SqlProviderAdapter.class, method="select")
-    @Results(id="NamesTableResult", value={
-            @Result(column="id", property="id", id=true),
-            @Result(column="names", property="names", typeHandler = StringArrayTypeHandler.class)
-    })
-    List<NamesRecord> selectMany(SelectStatementProvider selectStatement);
 
-    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    @ResultMap("NamesTableResult")
-    Optional<NamesRecord> selectOne(SelectStatementProvider selectStatement);
+	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
+	@Results(id = "NamesTableResult", value = { @Result(column = "id", property = "id", id = true),
+			@Result(column = "names", property = "names", typeHandler = StringArrayTypeHandler.class) })
+	List<NamesRecord> selectMany(SelectStatementProvider selectStatement);
 
-    @InsertProvider(type = SqlProviderAdapter.class, method = "generalInsert")
-    int generalInsert(GeneralInsertStatementProvider insertStatement);
+	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
+	@ResultMap("NamesTableResult")
+	Optional<NamesRecord> selectOne(SelectStatementProvider selectStatement);
+
+	@InsertProvider(type = SqlProviderAdapter.class, method = "generalInsert")
+	int generalInsert(GeneralInsertStatementProvider insertStatement);
+
 }

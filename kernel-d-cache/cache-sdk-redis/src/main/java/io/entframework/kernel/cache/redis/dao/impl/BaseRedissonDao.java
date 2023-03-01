@@ -20,83 +20,84 @@ import java.util.concurrent.TimeUnit;
  *
  */
 public abstract class BaseRedissonDao implements RedisBaseDao {
-    protected RedissonClient redissonClient;
 
-    protected BaseRedissonDao(RedissonClient redissonClient) {
-        this.redissonClient = redissonClient;
-    }
+	protected RedissonClient redissonClient;
 
-    @Override
-    public long ttl(String key) {
-        return redissonClient.getKeys().remainTimeToLive(key);
-    }
+	protected BaseRedissonDao(RedissonClient redissonClient) {
+		this.redissonClient = redissonClient;
+	}
 
-    @Override
-    public Iterable<String> getKeys(String prefix) {
-        return getKeys(prefix, 10);
-    }
+	@Override
+	public long ttl(String key) {
+		return redissonClient.getKeys().remainTimeToLive(key);
+	}
 
-    @Override
-    public Iterable<String> getKeys(String prefix, int count) {
-        RKeys keys = redissonClient.getKeys();
+	@Override
+	public Iterable<String> getKeys(String prefix) {
+		return getKeys(prefix, 10);
+	}
 
-        String redisKey = prefix + "*";
-        if (count <= 0) {
-            count = 10;
-        } else if (count > 100) {
-            count = 100;
-        }
+	@Override
+	public Iterable<String> getKeys(String prefix, int count) {
+		RKeys keys = redissonClient.getKeys();
 
-        return keys.getKeysByPattern(redisKey, count);
-    }
+		String redisKey = prefix + "*";
+		if (count <= 0) {
+			count = 10;
+		}
+		else if (count > 100) {
+			count = 100;
+		}
 
-    @Override
-    public boolean expire(String key, long timeToLive, TimeUnit timeUnit) {
-        return redissonClient.getKeys().expire(key, timeToLive, timeUnit);
-    }
+		return keys.getKeysByPattern(redisKey, count);
+	}
 
-    @Override
-    public boolean expireAt(String key, long timestamp) {
-        return redissonClient.getKeys().expireAt(key, timestamp);
-    }
+	@Override
+	public boolean expire(String key, long timeToLive, TimeUnit timeUnit) {
+		return redissonClient.getKeys().expire(key, timeToLive, timeUnit);
+	}
 
-    @Override
-    public boolean clearExpire(String key) {
-        return redissonClient.getKeys().clearExpire(key);
-    }
+	@Override
+	public boolean expireAt(String key, long timestamp) {
+		return redissonClient.getKeys().expireAt(key, timestamp);
+	}
 
-    @Override
-    public long delete(int count, String... keys) {
-        if (ArrayUtils.isEmpty(keys)) {
-            return 0;
-        }
+	@Override
+	public boolean clearExpire(String key) {
+		return redissonClient.getKeys().clearExpire(key);
+	}
 
-        RKeys rKeys = redissonClient.getKeys();
-        if (keys.length <= count) {
-            return rKeys.delete(keys);
-        }
+	@Override
+	public long delete(int count, String... keys) {
+		if (ArrayUtils.isEmpty(keys)) {
+			return 0;
+		}
 
-        return SplitterUtils.split(keys, count).stream().map(rKeys::delete)
-                .reduce(Long::sum).orElse(0L);
-    }
+		RKeys rKeys = redissonClient.getKeys();
+		if (keys.length <= count) {
+			return rKeys.delete(keys);
+		}
 
-    @Override
-    public long deleteByPrefix(String prefix) {
-        return redissonClient.getKeys().deleteByPattern(prefix + "*");
-    }
+		return SplitterUtils.split(keys, count).stream().map(rKeys::delete).reduce(Long::sum).orElse(0L);
+	}
 
-    @Override
-    public long countExists(int count, String... names) {
-        if (ArrayUtils.isEmpty(names)) {
-            return 0;
-        }
+	@Override
+	public long deleteByPrefix(String prefix) {
+		return redissonClient.getKeys().deleteByPattern(prefix + "*");
+	}
 
-        RKeys rKeys = redissonClient.getKeys();
-        if (names.length <= count) {
-            return rKeys.countExists(names);
-        }
+	@Override
+	public long countExists(int count, String... names) {
+		if (ArrayUtils.isEmpty(names)) {
+			return 0;
+		}
 
-        return SplitterUtils.split(names, count).stream().map(rKeys::countExists)
-                .reduce(Long::sum).orElse(0L);
-    }
+		RKeys rKeys = redissonClient.getKeys();
+		if (names.length <= count) {
+			return rKeys.countExists(names);
+		}
+
+		return SplitterUtils.split(names, count).stream().map(rKeys::countExists).reduce(Long::sum).orElse(0L);
+	}
+
 }

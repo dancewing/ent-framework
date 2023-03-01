@@ -35,310 +35,307 @@ import org.mybatis.generator.internal.util.JavaBeansUtil;
 
 public class FragmentGenerator {
 
-    private final IntrospectedTable introspectedTable;
-    private final String resultMapId;
-    private final String tableFieldName;
+	private final IntrospectedTable introspectedTable;
 
-    private FragmentGenerator(Builder builder) {
-        this.introspectedTable = builder.introspectedTable;
-        this.resultMapId = builder.resultMapId;
-        tableFieldName = builder.tableFieldName;
-    }
+	private final String resultMapId;
 
-    public String getSelectList() {
-        return introspectedTable.getAllColumns().stream()
-                .map(c -> AbstractMethodGenerator.calculateFieldName(tableFieldName, c))
-                .collect(Collectors.joining(", ")); //$NON-NLS-1$
-    }
+	private final String tableFieldName;
 
-    public MethodParts getPrimaryKeyWhereClauseAndParameters() {
-        MethodParts.Builder builder = new MethodParts.Builder();
+	private FragmentGenerator(Builder builder) {
+		this.introspectedTable = builder.introspectedTable;
+		this.resultMapId = builder.resultMapId;
+		tableFieldName = builder.tableFieldName;
+	}
 
-        boolean first = true;
-        for (IntrospectedColumn column : introspectedTable.getPrimaryKeyColumns()) {
-            String fieldName = AbstractMethodGenerator.calculateFieldName(tableFieldName, column);
-            builder.withImport(column.getFullyQualifiedJavaType());
-            builder.withParameter(new Parameter(
-                    column.getFullyQualifiedJavaType(), column.getJavaProperty() + "_")); //$NON-NLS-1$
-            if (first) {
-                builder.withBodyLine("    c.where(" + fieldName //$NON-NLS-1$
-                        + ", isEqualTo(" + column.getJavaProperty() //$NON-NLS-1$
-                        + "_))"); //$NON-NLS-1$
-                first = false;
-            } else {
-                builder.withBodyLine("    .and(" + fieldName //$NON-NLS-1$
-                        + ", isEqualTo(" + column.getJavaProperty() //$NON-NLS-1$
-                        + "_))"); //$NON-NLS-1$
-            }
-        }
-        builder.withBodyLine(");"); //$NON-NLS-1$
+	public String getSelectList() {
+		return introspectedTable.getAllColumns().stream()
+				.map(c -> AbstractMethodGenerator.calculateFieldName(tableFieldName, c))
+				.collect(Collectors.joining(", ")); //$NON-NLS-1$
+	}
 
-        return builder.build();
-    }
+	public MethodParts getPrimaryKeyWhereClauseAndParameters() {
+		MethodParts.Builder builder = new MethodParts.Builder();
 
-    public List<String> getPrimaryKeyWhereClauseForUpdate(String prefix) {
-        List<String> lines = new ArrayList<>();
+		boolean first = true;
+		for (IntrospectedColumn column : introspectedTable.getPrimaryKeyColumns()) {
+			String fieldName = AbstractMethodGenerator.calculateFieldName(tableFieldName, column);
+			builder.withImport(column.getFullyQualifiedJavaType());
+			builder.withParameter(new Parameter(column.getFullyQualifiedJavaType(), column.getJavaProperty() + "_")); //$NON-NLS-1$
+			if (first) {
+				builder.withBodyLine("    c.where(" + fieldName //$NON-NLS-1$
+						+ ", isEqualTo(" + column.getJavaProperty() //$NON-NLS-1$
+						+ "_))"); //$NON-NLS-1$
+				first = false;
+			}
+			else {
+				builder.withBodyLine("    .and(" + fieldName //$NON-NLS-1$
+						+ ", isEqualTo(" + column.getJavaProperty() //$NON-NLS-1$
+						+ "_))"); //$NON-NLS-1$
+			}
+		}
+		builder.withBodyLine(");"); //$NON-NLS-1$
 
-        boolean first = true;
-        for (IntrospectedColumn column : introspectedTable.getPrimaryKeyColumns()) {
-            String fieldName = AbstractMethodGenerator.calculateFieldName(tableFieldName, column);
-            String methodName = JavaBeansUtil.getGetterMethodName(
-                    column.getJavaProperty(), column.getFullyQualifiedJavaType());
-            if (first) {
-                lines.add(prefix + ".where(" + fieldName //$NON-NLS-1$
-                        + ", isEqualTo(row::" + methodName //$NON-NLS-1$
-                        + "))"); //$NON-NLS-1$
-                first = false;
-            } else {
-                lines.add(prefix + ".and(" + fieldName //$NON-NLS-1$
-                        + ", isEqualTo(row::" + methodName //$NON-NLS-1$
-                        + "))"); //$NON-NLS-1$
-            }
-        }
+		return builder.build();
+	}
 
-        return lines;
-    }
+	public List<String> getPrimaryKeyWhereClauseForUpdate(String prefix) {
+		List<String> lines = new ArrayList<>();
 
-    public MethodParts getAnnotatedConstructorArgs() {
-        MethodParts.Builder builder = new MethodParts.Builder();
+		boolean first = true;
+		for (IntrospectedColumn column : introspectedTable.getPrimaryKeyColumns()) {
+			String fieldName = AbstractMethodGenerator.calculateFieldName(tableFieldName, column);
+			String methodName = JavaBeansUtil.getGetterMethodName(column.getJavaProperty(),
+					column.getFullyQualifiedJavaType());
+			if (first) {
+				lines.add(prefix + ".where(" + fieldName //$NON-NLS-1$
+						+ ", isEqualTo(row::" + methodName //$NON-NLS-1$
+						+ "))"); //$NON-NLS-1$
+				first = false;
+			}
+			else {
+				lines.add(prefix + ".and(" + fieldName //$NON-NLS-1$
+						+ ", isEqualTo(row::" + methodName //$NON-NLS-1$
+						+ "))"); //$NON-NLS-1$
+			}
+		}
 
-        builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.type.JdbcType")); //$NON-NLS-1$
-        builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.annotations.ConstructorArgs")); //$NON-NLS-1$
-        builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Arg")); //$NON-NLS-1$
+		return lines;
+	}
 
-        builder.withAnnotation("@ConstructorArgs({"); //$NON-NLS-1$
+	public MethodParts getAnnotatedConstructorArgs() {
+		MethodParts.Builder builder = new MethodParts.Builder();
 
-        StringBuilder sb = new StringBuilder();
+		builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.type.JdbcType")); //$NON-NLS-1$
+		builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.annotations.ConstructorArgs")); //$NON-NLS-1$
+		builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Arg")); //$NON-NLS-1$
 
-        Set<FullyQualifiedJavaType> imports = new HashSet<>();
-        Iterator<IntrospectedColumn> iterPk = introspectedTable.getPrimaryKeyColumns().iterator();
-        Iterator<IntrospectedColumn> iterNonPk = introspectedTable.getNonPrimaryKeyColumns().iterator();
-        while (iterPk.hasNext()) {
-            IntrospectedColumn introspectedColumn = iterPk.next();
-            sb.setLength(0);
-            javaIndent(sb, 1);
-            sb.append(getArgAnnotation(imports, introspectedColumn, true));
+		builder.withAnnotation("@ConstructorArgs({"); //$NON-NLS-1$
 
-            if (iterPk.hasNext() || iterNonPk.hasNext()) {
-                sb.append(',');
-            }
+		StringBuilder sb = new StringBuilder();
 
-            builder.withAnnotation(sb.toString());
-        }
+		Set<FullyQualifiedJavaType> imports = new HashSet<>();
+		Iterator<IntrospectedColumn> iterPk = introspectedTable.getPrimaryKeyColumns().iterator();
+		Iterator<IntrospectedColumn> iterNonPk = introspectedTable.getNonPrimaryKeyColumns().iterator();
+		while (iterPk.hasNext()) {
+			IntrospectedColumn introspectedColumn = iterPk.next();
+			sb.setLength(0);
+			javaIndent(sb, 1);
+			sb.append(getArgAnnotation(imports, introspectedColumn, true));
 
-        while (iterNonPk.hasNext()) {
-            IntrospectedColumn introspectedColumn = iterNonPk.next();
-            sb.setLength(0);
-            javaIndent(sb, 1);
-            sb.append(getArgAnnotation(imports, introspectedColumn, false));
+			if (iterPk.hasNext() || iterNonPk.hasNext()) {
+				sb.append(',');
+			}
 
-            if (iterNonPk.hasNext()) {
-                sb.append(',');
-            }
+			builder.withAnnotation(sb.toString());
+		}
 
-            builder.withAnnotation(sb.toString());
-        }
+		while (iterNonPk.hasNext()) {
+			IntrospectedColumn introspectedColumn = iterNonPk.next();
+			sb.setLength(0);
+			javaIndent(sb, 1);
+			sb.append(getArgAnnotation(imports, introspectedColumn, false));
 
-        builder.withAnnotation("})") //$NON-NLS-1$
-                .withImports(imports);
+			if (iterNonPk.hasNext()) {
+				sb.append(',');
+			}
 
-        return builder.build();
-    }
+			builder.withAnnotation(sb.toString());
+		}
 
-    public MethodParts getAnnotatedResults() {
-        MethodParts.Builder builder = new MethodParts.Builder();
+		builder.withAnnotation("})") //$NON-NLS-1$
+				.withImports(imports);
 
-        builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.type.JdbcType")); //$NON-NLS-1$
-        builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Result")); //$NON-NLS-1$
-        builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Results")); //$NON-NLS-1$
+		return builder.build();
+	}
 
-        builder.withAnnotation("@Results(id=\"" + resultMapId + "\", value = {"); //$NON-NLS-1$ //$NON-NLS-2$
+	public MethodParts getAnnotatedResults() {
+		MethodParts.Builder builder = new MethodParts.Builder();
 
-        StringBuilder sb = new StringBuilder();
+		builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.type.JdbcType")); //$NON-NLS-1$
+		builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Result")); //$NON-NLS-1$
+		builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Results")); //$NON-NLS-1$
 
-        Set<FullyQualifiedJavaType> imports = new HashSet<>();
-        Iterator<IntrospectedColumn> iterPk = introspectedTable.getPrimaryKeyColumns().iterator();
-        Iterator<IntrospectedColumn> iterNonPk = introspectedTable.getNonPrimaryKeyColumns().iterator();
-        while (iterPk.hasNext()) {
-            IntrospectedColumn introspectedColumn = iterPk.next();
-            sb.setLength(0);
-            javaIndent(sb, 1);
-            sb.append(getResultAnnotation(imports, introspectedColumn, true));
+		builder.withAnnotation("@Results(id=\"" + resultMapId + "\", value = {"); //$NON-NLS-1$ //$NON-NLS-2$
 
-            if (iterPk.hasNext() || iterNonPk.hasNext()) {
-                sb.append(',');
-            }
+		StringBuilder sb = new StringBuilder();
 
-            builder.withAnnotation(sb.toString());
-        }
+		Set<FullyQualifiedJavaType> imports = new HashSet<>();
+		Iterator<IntrospectedColumn> iterPk = introspectedTable.getPrimaryKeyColumns().iterator();
+		Iterator<IntrospectedColumn> iterNonPk = introspectedTable.getNonPrimaryKeyColumns().iterator();
+		while (iterPk.hasNext()) {
+			IntrospectedColumn introspectedColumn = iterPk.next();
+			sb.setLength(0);
+			javaIndent(sb, 1);
+			sb.append(getResultAnnotation(imports, introspectedColumn, true));
 
-        while (iterNonPk.hasNext()) {
-            IntrospectedColumn introspectedColumn = iterNonPk.next();
-            sb.setLength(0);
-            javaIndent(sb, 1);
-            sb.append(getResultAnnotation(imports, introspectedColumn, false));
+			if (iterPk.hasNext() || iterNonPk.hasNext()) {
+				sb.append(',');
+			}
 
-            if (iterNonPk.hasNext()) {
-                sb.append(',');
-            }
+			builder.withAnnotation(sb.toString());
+		}
 
-            builder.withAnnotation(sb.toString());
-        }
+		while (iterNonPk.hasNext()) {
+			IntrospectedColumn introspectedColumn = iterNonPk.next();
+			sb.setLength(0);
+			javaIndent(sb, 1);
+			sb.append(getResultAnnotation(imports, introspectedColumn, false));
 
-        builder.withAnnotation("})") //$NON-NLS-1$
-                .withImports(imports);
+			if (iterNonPk.hasNext()) {
+				sb.append(',');
+			}
 
-        return builder.build();
-    }
+			builder.withAnnotation(sb.toString());
+		}
 
-    private String getArgAnnotation(Set<FullyQualifiedJavaType> imports, IntrospectedColumn introspectedColumn,
-                                    boolean idColumn) {
-        imports.add(introspectedColumn.getFullyQualifiedJavaType());
+		builder.withAnnotation("})") //$NON-NLS-1$
+				.withImports(imports);
 
-        return "@Arg(column=\"" //$NON-NLS-1$
-                + introspectedColumn.getActualColumnName()
-                + "\", javaType=" //$NON-NLS-1$
-                + introspectedColumn.getFullyQualifiedJavaType().getShortName()
-                + ".class" //$NON-NLS-1$
-                + generateAdditionalItems(imports, introspectedColumn, idColumn)
-                + ')';//$NON-NLS-1$
-    }
+		return builder.build();
+	}
 
-    private String getResultAnnotation(Set<FullyQualifiedJavaType> imports, IntrospectedColumn introspectedColumn,
-            boolean idColumn) {
-        return "@Result(column=\"" //$NON-NLS-1$
-                + introspectedColumn.getActualColumnName()
-                + "\", property=\"" //$NON-NLS-1$
-                + introspectedColumn.getJavaProperty()
-                + '\"'
-                + generateAdditionalItems(imports, introspectedColumn, idColumn)
-                + ')'; //$NON-NLS-1$
-    }
+	private String getArgAnnotation(Set<FullyQualifiedJavaType> imports, IntrospectedColumn introspectedColumn,
+			boolean idColumn) {
+		imports.add(introspectedColumn.getFullyQualifiedJavaType());
 
-    private String generateAdditionalItems(Set<FullyQualifiedJavaType> imports, IntrospectedColumn introspectedColumn,
-                                           boolean idColumn) {
-        StringBuilder sb = new StringBuilder();
+		return "@Arg(column=\"" //$NON-NLS-1$
+				+ introspectedColumn.getActualColumnName() + "\", javaType=" //$NON-NLS-1$
+				+ introspectedColumn.getFullyQualifiedJavaType().getShortName() + ".class" //$NON-NLS-1$
+				+ generateAdditionalItems(imports, introspectedColumn, idColumn) + ')';// $NON-NLS-1$
+	}
 
-        if (stringHasValue(introspectedColumn.getTypeHandler())) {
-            FullyQualifiedJavaType fqjt =
-                    new FullyQualifiedJavaType(introspectedColumn.getTypeHandler());
-            imports.add(fqjt);
-            sb.append(", typeHandler="); //$NON-NLS-1$
-            sb.append(fqjt.getShortName());
-            sb.append(".class"); //$NON-NLS-1$
-        }
+	private String getResultAnnotation(Set<FullyQualifiedJavaType> imports, IntrospectedColumn introspectedColumn,
+			boolean idColumn) {
+		return "@Result(column=\"" //$NON-NLS-1$
+				+ introspectedColumn.getActualColumnName() + "\", property=\"" //$NON-NLS-1$
+				+ introspectedColumn.getJavaProperty() + '\"'
+				+ generateAdditionalItems(imports, introspectedColumn, idColumn) + ')'; // $NON-NLS-1$
+	}
 
-        sb.append(", jdbcType=JdbcType."); //$NON-NLS-1$
-        sb.append(introspectedColumn.getJdbcTypeName());
-        if (idColumn) {
-            sb.append(", id=true"); //$NON-NLS-1$
-        }
+	private String generateAdditionalItems(Set<FullyQualifiedJavaType> imports, IntrospectedColumn introspectedColumn,
+			boolean idColumn) {
+		StringBuilder sb = new StringBuilder();
 
-        return sb.toString();
-    }
+		if (stringHasValue(introspectedColumn.getTypeHandler())) {
+			FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(introspectedColumn.getTypeHandler());
+			imports.add(fqjt);
+			sb.append(", typeHandler="); //$NON-NLS-1$
+			sb.append(fqjt.getShortName());
+			sb.append(".class"); //$NON-NLS-1$
+		}
 
-    public MethodParts getGeneratedKeyAnnotation(GeneratedKey gk) {
-        MethodParts.Builder builder = new MethodParts.Builder();
+		sb.append(", jdbcType=JdbcType."); //$NON-NLS-1$
+		sb.append(introspectedColumn.getJdbcTypeName());
+		if (idColumn) {
+			sb.append(", id=true"); //$NON-NLS-1$
+		}
 
-        StringBuilder sb = new StringBuilder();
-        introspectedTable.getColumn(gk.getColumn()).ifPresent(introspectedColumn -> {
-            if (gk.isJdbcStandard()) {
-                builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Options")); //$NON-NLS-1$
-                sb.append("@Options(useGeneratedKeys=true,keyProperty=\"row."); //$NON-NLS-1$
-                sb.append(introspectedColumn.getJavaProperty());
-                sb.append("\")"); //$NON-NLS-1$
-            } else {
-                builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.annotations.SelectKey")); //$NON-NLS-1$
-                FullyQualifiedJavaType fqjt = introspectedColumn.getFullyQualifiedJavaType();
-                sb.append("@SelectKey(statement=\""); //$NON-NLS-1$
-                sb.append(gk.getRuntimeSqlStatement());
-                sb.append("\", keyProperty=\"row."); //$NON-NLS-1$
-                sb.append(introspectedColumn.getJavaProperty());
-                sb.append("\", before="); //$NON-NLS-1$
-                sb.append(gk.isIdentity() ? "false" : "true"); //$NON-NLS-1$ //$NON-NLS-2$
-                sb.append(", resultType="); //$NON-NLS-1$
-                sb.append(fqjt.getShortName());
-                sb.append(".class)"); //$NON-NLS-1$
-            }
-            builder.withAnnotation(sb.toString());
-        });
+		return sb.toString();
+	}
 
-        return builder.build();
-    }
+	public MethodParts getGeneratedKeyAnnotation(GeneratedKey gk) {
+		MethodParts.Builder builder = new MethodParts.Builder();
 
-    public List<String> getSetEqualLines(List<IntrospectedColumn> columnList, String firstLinePrefix,
-            String subsequentLinePrefix, boolean terminate) {
-        return getSetLines(columnList, firstLinePrefix, subsequentLinePrefix, terminate,
-                "equalTo"); //$NON-NLS-1$
-    }
+		StringBuilder sb = new StringBuilder();
+		introspectedTable.getColumn(gk.getColumn()).ifPresent(introspectedColumn -> {
+			if (gk.isJdbcStandard()) {
+				builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Options")); //$NON-NLS-1$
+				sb.append("@Options(useGeneratedKeys=true,keyProperty=\"row."); //$NON-NLS-1$
+				sb.append(introspectedColumn.getJavaProperty());
+				sb.append("\")"); //$NON-NLS-1$
+			}
+			else {
+				builder.withImport(new FullyQualifiedJavaType("org.apache.ibatis.annotations.SelectKey")); //$NON-NLS-1$
+				FullyQualifiedJavaType fqjt = introspectedColumn.getFullyQualifiedJavaType();
+				sb.append("@SelectKey(statement=\""); //$NON-NLS-1$
+				sb.append(gk.getRuntimeSqlStatement());
+				sb.append("\", keyProperty=\"row."); //$NON-NLS-1$
+				sb.append(introspectedColumn.getJavaProperty());
+				sb.append("\", before="); //$NON-NLS-1$
+				sb.append(gk.isIdentity() ? "false" : "true"); //$NON-NLS-1$ //$NON-NLS-2$
+				sb.append(", resultType="); //$NON-NLS-1$
+				sb.append(fqjt.getShortName());
+				sb.append(".class)"); //$NON-NLS-1$
+			}
+			builder.withAnnotation(sb.toString());
+		});
 
-    public List<String> getSetEqualWhenPresentLines(List<IntrospectedColumn> columnList, String firstLinePrefix,
-            String subsequentLinePrefix, boolean terminate) {
-        return getSetLines(columnList, firstLinePrefix, subsequentLinePrefix, terminate,
-                "equalToWhenPresent"); //$NON-NLS-1$
-    }
+		return builder.build();
+	}
 
-    private List<String> getSetLines(List<IntrospectedColumn> columnList, String firstLinePrefix,
-                                 String subsequentLinePrefix, boolean terminate, String fragment) {
-        List<String> lines = new ArrayList<>();
-        List<IntrospectedColumn> columns = ListUtilities.removeIdentityAndGeneratedAlwaysColumns(columnList);
-        Iterator<IntrospectedColumn> iter = columns.iterator();
-        boolean first = true;
-        while (iter.hasNext()) {
-            IntrospectedColumn column = iter.next();
-            String fieldName = AbstractMethodGenerator.calculateFieldName(tableFieldName, column);
-            String methodName = JavaBeansUtil.getGetterMethodName(column.getJavaProperty(),
-                    column.getFullyQualifiedJavaType());
+	public List<String> getSetEqualLines(List<IntrospectedColumn> columnList, String firstLinePrefix,
+			String subsequentLinePrefix, boolean terminate) {
+		return getSetLines(columnList, firstLinePrefix, subsequentLinePrefix, terminate, "equalTo"); //$NON-NLS-1$
+	}
 
-            String start;
-            if (first) {
-                start = firstLinePrefix;
-                first = false;
-            } else {
-                start = subsequentLinePrefix;
-            }
+	public List<String> getSetEqualWhenPresentLines(List<IntrospectedColumn> columnList, String firstLinePrefix,
+			String subsequentLinePrefix, boolean terminate) {
+		return getSetLines(columnList, firstLinePrefix, subsequentLinePrefix, terminate, "equalToWhenPresent"); //$NON-NLS-1$
+	}
 
-            String line = start
-                    + ".set(" //$NON-NLS-1$
-                    + fieldName
-                    + ")." //$NON-NLS-1$
-                    + fragment
-                    + "(row::" //$NON-NLS-1$
-                    + methodName
-                    + ")"; //$NON-NLS-1$
+	private List<String> getSetLines(List<IntrospectedColumn> columnList, String firstLinePrefix,
+			String subsequentLinePrefix, boolean terminate, String fragment) {
+		List<String> lines = new ArrayList<>();
+		List<IntrospectedColumn> columns = ListUtilities.removeIdentityAndGeneratedAlwaysColumns(columnList);
+		Iterator<IntrospectedColumn> iter = columns.iterator();
+		boolean first = true;
+		while (iter.hasNext()) {
+			IntrospectedColumn column = iter.next();
+			String fieldName = AbstractMethodGenerator.calculateFieldName(tableFieldName, column);
+			String methodName = JavaBeansUtil.getGetterMethodName(column.getJavaProperty(),
+					column.getFullyQualifiedJavaType());
 
-            if (terminate && !iter.hasNext()) {
-                line += ";"; //$NON-NLS-1$
-            }
+			String start;
+			if (first) {
+				start = firstLinePrefix;
+				first = false;
+			}
+			else {
+				start = subsequentLinePrefix;
+			}
 
-            lines.add(line);
-        }
+			String line = start + ".set(" //$NON-NLS-1$
+					+ fieldName + ")." //$NON-NLS-1$
+					+ fragment + "(row::" //$NON-NLS-1$
+					+ methodName + ")"; //$NON-NLS-1$
 
-        return lines;
-    }
+			if (terminate && !iter.hasNext()) {
+				line += ";"; //$NON-NLS-1$
+			}
 
-    public static class Builder {
-        private IntrospectedTable introspectedTable;
-        private String resultMapId;
-        private String tableFieldName;
+			lines.add(line);
+		}
 
-        public Builder withIntrospectedTable(IntrospectedTable introspectedTable) {
-            this.introspectedTable = introspectedTable;
-            return this;
-        }
+		return lines;
+	}
 
-        public Builder withResultMapId(String resultMapId) {
-            this.resultMapId = resultMapId;
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withTableFieldName(String tableFieldName) {
-            this.tableFieldName = tableFieldName;
-            return this;
-        }
+		private IntrospectedTable introspectedTable;
 
-        public FragmentGenerator build() {
-            return new FragmentGenerator(this);
-        }
-    }
+		private String resultMapId;
+
+		private String tableFieldName;
+
+		public Builder withIntrospectedTable(IntrospectedTable introspectedTable) {
+			this.introspectedTable = introspectedTable;
+			return this;
+		}
+
+		public Builder withResultMapId(String resultMapId) {
+			this.resultMapId = resultMapId;
+			return this;
+		}
+
+		public Builder withTableFieldName(String tableFieldName) {
+			this.tableFieldName = tableFieldName;
+			return this;
+		}
+
+		public FragmentGenerator build() {
+			return new FragmentGenerator(this);
+		}
+
+	}
+
 }

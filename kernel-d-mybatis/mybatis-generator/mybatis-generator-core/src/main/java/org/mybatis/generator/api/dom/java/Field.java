@@ -18,73 +18,80 @@ package org.mybatis.generator.api.dom.java;
 import java.util.Optional;
 
 public class Field extends JavaElement {
-    private FullyQualifiedJavaType type;
-    private String name;
-    private String initializationString;
-    private boolean isTransient;
-    private boolean isVolatile;
-    private boolean isFinal;
 
-    public Field(String name, FullyQualifiedJavaType type) {
-        this.name = name;
-        this.type = type;
-    }
+	private FullyQualifiedJavaType type;
 
-    public Field(Field field) {
-        super(field);
-        this.type = field.type;
-        this.name = field.name;
-        this.initializationString = field.initializationString;
-        this.isTransient = field.isTransient;
-        this.isVolatile = field.isVolatile;
-        this.isFinal = field.isFinal;
-    }
+	private String name;
 
-    public String getName() {
-        return name;
-    }
+	private String initializationString;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	private boolean isTransient;
 
-    public FullyQualifiedJavaType getType() {
-        return type;
-    }
+	private boolean isVolatile;
 
-    public void setType(FullyQualifiedJavaType type) {
-        this.type = type;
-    }
+	private boolean isFinal;
 
-    public Optional<String> getInitializationString() {
-        return Optional.ofNullable(initializationString);
-    }
+	public Field(String name, FullyQualifiedJavaType type) {
+		this.name = name;
+		this.type = type;
+	}
 
-    public void setInitializationString(String initializationString) {
-        this.initializationString = initializationString;
-    }
+	public Field(Field field) {
+		super(field);
+		this.type = field.type;
+		this.name = field.name;
+		this.initializationString = field.initializationString;
+		this.isTransient = field.isTransient;
+		this.isVolatile = field.isVolatile;
+		this.isFinal = field.isFinal;
+	}
 
-    public boolean isTransient() {
-        return isTransient;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setTransient(boolean isTransient) {
-        this.isTransient = isTransient;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public boolean isVolatile() {
-        return isVolatile;
-    }
+	public FullyQualifiedJavaType getType() {
+		return type;
+	}
 
-    public void setVolatile(boolean isVolatile) {
-        this.isVolatile = isVolatile;
-    }
+	public void setType(FullyQualifiedJavaType type) {
+		this.type = type;
+	}
 
-    public boolean isFinal() {
-        return isFinal;
-    }
+	public Optional<String> getInitializationString() {
+		return Optional.ofNullable(initializationString);
+	}
 
-    public void setFinal(boolean isFinal) {
-        this.isFinal = isFinal;
-    }
+	public void setInitializationString(String initializationString) {
+		this.initializationString = initializationString;
+	}
+
+	public boolean isTransient() {
+		return isTransient;
+	}
+
+	public void setTransient(boolean isTransient) {
+		this.isTransient = isTransient;
+	}
+
+	public boolean isVolatile() {
+		return isVolatile;
+	}
+
+	public void setVolatile(boolean isVolatile) {
+		this.isVolatile = isVolatile;
+	}
+
+	public boolean isFinal() {
+		return isFinal;
+	}
+
+	public void setFinal(boolean isFinal) {
+		this.isFinal = isFinal;
+	}
+
 }

@@ -14,21 +14,22 @@ import lombok.Getter;
  */
 @Getter
 public enum DefaultSystemExceptionEnum implements AbstractExceptionEnum {
-    CAN_NOT_READ_FIELD(RuleConstants.USER_OPERATION_ERROR_TYPE_CODE + RuleConstants.FIRST_LEVEL_WIDE_CODE, "不能读取字段");
 
-    /**
-     * 错误编码
-     */
-    private final String errorCode;
+	CAN_NOT_READ_FIELD(RuleConstants.USER_OPERATION_ERROR_TYPE_CODE + RuleConstants.FIRST_LEVEL_WIDE_CODE, "不能读取字段");
 
-    /**
-     * 提示用户信息
-     */
-    private final String userTip;
+	/**
+	 * 错误编码
+	 */
+	private final String errorCode;
 
-    DefaultSystemExceptionEnum(String errorCode, String userTip) {
-        this.errorCode = errorCode;
-        this.userTip = userTip;
-    }
+	/**
+	 * 提示用户信息
+	 */
+	private final String userTip;
+
+	DefaultSystemExceptionEnum(String errorCode, String userTip) {
+		this.errorCode = errorCode;
+		this.userTip = userTip;
+	}
 
 }

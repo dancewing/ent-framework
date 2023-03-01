@@ -19,27 +19,30 @@ package org.mybatis.dynamic.sql;
  * This class represents a criteria group with a NOT.
  *
  * @author Jeff Butler
- *
  * @since 1.4.0
  */
 public class NotCriterion extends CriteriaGroup {
-    private NotCriterion(Builder builder) {
-        super(builder);
-    }
 
-    @Override
-    public <R> R accept(SqlCriterionVisitor<R> visitor) {
-        return visitor.visit(this);
-    }
+	private NotCriterion(Builder builder) {
+		super(builder);
+	}
 
-    public static class Builder extends AbstractGroupBuilder<Builder> {
-        public NotCriterion build() {
-            return new NotCriterion(this);
-        }
+	@Override
+	public <R> R accept(SqlCriterionVisitor<R> visitor) {
+		return visitor.visit(this);
+	}
 
-        @Override
-        protected Builder getThis() {
-            return this;
-        }
-    }
+	public static class Builder extends AbstractGroupBuilder<Builder> {
+
+		public NotCriterion build() {
+			return new NotCriterion(this);
+		}
+
+		@Override
+		protected Builder getThis() {
+			return this;
+		}
+
+	}
+
 }

@@ -20,15 +20,17 @@ import java.util.Objects;
 import org.mybatis.dynamic.sql.BasicColumn;
 
 public abstract class JoinCondition {
-    private final BasicColumn rightColumn;
 
-    protected JoinCondition(BasicColumn rightColumn) {
-        this.rightColumn = Objects.requireNonNull(rightColumn);
-    }
+	private final BasicColumn rightColumn;
 
-    public BasicColumn rightColumn() {
-        return rightColumn;
-    }
+	protected JoinCondition(BasicColumn rightColumn) {
+		this.rightColumn = Objects.requireNonNull(rightColumn);
+	}
 
-    public abstract String operator();
+	public BasicColumn rightColumn() {
+		return rightColumn;
+	}
+
+	public abstract String operator();
+
 }

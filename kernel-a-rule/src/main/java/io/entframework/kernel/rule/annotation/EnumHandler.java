@@ -9,5 +9,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface EnumHandler {
-    String value() default "value";
+
+	String value() default "value";
+
 }

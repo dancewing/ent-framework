@@ -16,54 +16,61 @@
 package examples.simple;
 
 public class AddressRecord {
-    private Integer id;
-    private String streetAddress;
-    private String city;
-    private String state;
-    private AddressType addressType;
 
-    public Integer getId() {
-        return id;
-    }
+	private Integer id;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private String streetAddress;
 
-    public String getStreetAddress() {
-        return streetAddress;
-    }
+	private String city;
 
-    public void setStreetAddress(String streetAddress) {
-        this.streetAddress = streetAddress;
-    }
+	private String state;
 
-    public String getCity() {
-        return city;
-    }
+	private AddressType addressType;
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getState() {
-        return state;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setState(String state) {
-        this.state = state;
-    }
+	public String getStreetAddress() {
+		return streetAddress;
+	}
 
-    public AddressType getAddressType() {
-        return addressType;
-    }
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
+	}
 
-    public void setAddressType(AddressType addressType) {
-        this.addressType = addressType;
-    }
+	public String getCity() {
+		return city;
+	}
 
-    public enum AddressType {
-        HOME,
-        BUSINESS
-    }
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public AddressType getAddressType() {
+		return addressType;
+	}
+
+	public void setAddressType(AddressType addressType) {
+		this.addressType = addressType;
+	}
+
+	public enum AddressType {
+
+		HOME, BUSINESS
+
+	}
+
 }

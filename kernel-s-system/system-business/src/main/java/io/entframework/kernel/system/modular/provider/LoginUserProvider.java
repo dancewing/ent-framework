@@ -29,29 +29,29 @@ import jakarta.annotation.Resource;
 @RestController
 public class LoginUserProvider implements LoginUserRemoteApi {
 
-    @Resource
-    private SessionManagerApi sessionManagerApi;
+	@Resource
+	private SessionManagerApi sessionManagerApi;
 
-    @Resource
-    private UserServiceApi userServiceApi;
+	@Resource
+	private UserServiceApi userServiceApi;
 
-    @Override
-    public LoginUser getLoginUserByToken(@RequestBody LoginUserRequest loginUserRequest) {
-        if (CharSequenceUtil.isBlank(loginUserRequest.getToken())) {
-            throw new SystemModularException(SysUserExceptionEnum.TOKEN_EMPTY);
-        }
-        return sessionManagerApi.getSession(loginUserRequest.getToken());
-    }
+	@Override
+	public LoginUser getLoginUserByToken(@RequestBody LoginUserRequest loginUserRequest) {
+		if (CharSequenceUtil.isBlank(loginUserRequest.getToken())) {
+			throw new SystemModularException(SysUserExceptionEnum.TOKEN_EMPTY);
+		}
+		return sessionManagerApi.getSession(loginUserRequest.getToken());
+	}
 
-    @Override
-    public SessionValidateResponse haveSession(@RequestParam("token") String token) {
-        boolean validateFlag = sessionManagerApi.haveSession(token);
-        return new SessionValidateResponse(validateFlag);
-    }
+	@Override
+	public SessionValidateResponse haveSession(@RequestParam("token") String token) {
+		boolean validateFlag = sessionManagerApi.haveSession(token);
+		return new SessionValidateResponse(validateFlag);
+	}
 
-    @Override
-    public LoginUser getEffectiveLoginUser(@RequestBody LoginUser loginUser) {
-        return userServiceApi.getEffectiveLoginUser(loginUser);
-    }
+	@Override
+	public LoginUser getEffectiveLoginUser(@RequestBody LoginUser loginUser) {
+		return userServiceApi.getEffectiveLoginUser(loginUser);
+	}
 
 }

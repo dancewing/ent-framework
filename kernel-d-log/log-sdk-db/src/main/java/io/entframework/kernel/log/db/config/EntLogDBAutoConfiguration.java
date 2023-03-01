@@ -9,12 +9,15 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan(basePackages = {"io.entframework.kernel.log.db.controller", "io.entframework.kernel.log.db.converter", "io.entframework.kernel.log.db.service"})
+@ComponentScan(basePackages = { "io.entframework.kernel.log.db.controller", "io.entframework.kernel.log.db.converter",
+		"io.entframework.kernel.log.db.service" })
 @EntityScan("io.entframework.kernel.log.db.entity")
 public class EntLogDBAutoConfiguration {
-    @Bean
-    @ConditionalOnMissingBean(SysLogService.class)
-    public SysLogService sysLogService() {
-        return new SysLogServiceImpl();
-    }
+
+	@Bean
+	@ConditionalOnMissingBean(SysLogService.class)
+	public SysLogService sysLogService() {
+		return new SysLogServiceImpl();
+	}
+
 }

@@ -12,104 +12,108 @@ import org.mybatis.generator.config.JoinTarget;
 import java.time.LocalDateTime;
 
 public class ModelField {
-    private final Field field;
-    private final IntrospectedColumn column;
-    public ModelField(Field field, IntrospectedColumn column) {
-        this.field = field;
-        this.column = column;
-    }
 
-    public FullyQualifiedJavaType getJavaType() {
-        return field.getType();
-    }
+	private final Field field;
 
-    public String getName() {
-        return field.getName();
-    }
+	private final IntrospectedColumn column;
 
+	public ModelField(Field field, IntrospectedColumn column) {
+		this.field = field;
+		this.column = column;
+	}
 
-    public String getDescription() {
-        return field.getDescription();
-    }
+	public FullyQualifiedJavaType getJavaType() {
+		return field.getType();
+	}
 
-    public int getLength() {
-        return column.getLength();
-    }
+	public String getName() {
+		return field.getName();
+	}
 
-    public boolean isRequired() {
-        return !column.isNullable();
-    }
+	public String getDescription() {
+		return field.getDescription();
+	}
 
-    public int getScale() {
-        return column.getScale();
-    }
+	public int getLength() {
+		return column.getLength();
+	}
 
-    public String getFieldType() {
+	public boolean isRequired() {
+		return !column.isNullable();
+	}
 
-        if (StringUtils.equalsAny(this.field.getType().getShortName(), "boolean", "Boolean")) {
-            return "boolean";
-        }
-        if (this.field.getAttribute(Constants.TABLE_ENUM_FIELD_ATTR) != null) {
-            return "enum";
-        }
-        if (this.field.getAttribute(Constants.TARGET_FIELD_RELATION) != null) {
-            return "relation";
-        }
-        if (this.column.isStringColumn()) {
-            return "string";
-        }
-        if (this.column.isNumberColumn()) {
-            return "number";
-        }
-        if (this.column.isBLOBColumn()) {
-            return "blob";
-        }
-        if (this.column.isJDBCDateColumn()) {
-            return "date";
-        }
-        if (this.column.isJDBCTimeColumn()) {
-            return "time";
-        }
-        if (StringUtils.equals(LocalDateTime.class.getName(), this.column.getFullyQualifiedJavaType().getFullyQualifiedName())) {
-            return "date-time";
-        }
-        return "string";
-    }
+	public int getScale() {
+		return column.getScale();
+	}
 
-    public String getRemarks() {
-        return column.getRemarks();
-    }
+	public String getFieldType() {
 
-    public String getDefaultValue() {
-        return column.getDefaultValue();
-    }
+		if (StringUtils.equalsAny(this.field.getType().getShortName(), "boolean", "Boolean")) {
+			return "boolean";
+		}
+		if (this.field.getAttribute(Constants.TABLE_ENUM_FIELD_ATTR) != null) {
+			return "enum";
+		}
+		if (this.field.getAttribute(Constants.TARGET_FIELD_RELATION) != null) {
+			return "relation";
+		}
+		if (this.column.isStringColumn()) {
+			return "string";
+		}
+		if (this.column.isNumberColumn()) {
+			return "number";
+		}
+		if (this.column.isBLOBColumn()) {
+			return "blob";
+		}
+		if (this.column.isJDBCDateColumn()) {
+			return "date";
+		}
+		if (this.column.isJDBCTimeColumn()) {
+			return "time";
+		}
+		if (StringUtils.equals(LocalDateTime.class.getName(),
+				this.column.getFullyQualifiedJavaType().getFullyQualifiedName())) {
+			return "date-time";
+		}
+		return "string";
+	}
 
-    public boolean isBasic() {
-        return field.getAttribute(Constants.FIELD_EXT_ATTR) == null;
-    }
+	public String getRemarks() {
+		return column.getRemarks();
+	}
 
-    public boolean isRelationField() {
-        return GeneratorUtils.isRelationField(this.field);
-    }
+	public String getDefaultValue() {
+		return column.getDefaultValue();
+	}
 
-    public boolean isRelationOne() {
-        return isRelationField() && isRelationType(JoinTarget.JoinType.ONE);
-    }
+	public boolean isBasic() {
+		return field.getAttribute(Constants.FIELD_EXT_ATTR) == null;
+	}
 
-    public boolean isRelationMany() {
-        return isRelationField() && isRelationType(JoinTarget.JoinType.MORE);
-    }
+	public boolean isRelationField() {
+		return GeneratorUtils.isRelationField(this.field);
+	}
 
-    private boolean isRelationType(JoinTarget.JoinType joinType) {
-        Relation relation = (Relation) field.getAttribute(Constants.FIELD_RELATION);
-        return relation.getJoinType() == joinType;
-    }
+	public boolean isRelationOne() {
+		return isRelationField() && isRelationType(JoinTarget.JoinType.ONE);
+	}
 
-    public Relation getRelation() {
-       return (Relation) field.getAttribute(Constants.FIELD_RELATION);
-    }
+	public boolean isRelationMany() {
+		return isRelationField() && isRelationType(JoinTarget.JoinType.MORE);
+	}
 
-    public Relation getTargetRelation() {
-        return (Relation) field.getAttribute(Constants.TARGET_FIELD_RELATION);
-    }
+	private boolean isRelationType(JoinTarget.JoinType joinType) {
+		Relation relation = (Relation) field.getAttribute(Constants.FIELD_RELATION);
+		return relation.getJoinType() == joinType;
+	}
+
+	public Relation getRelation() {
+		return (Relation) field.getAttribute(Constants.FIELD_RELATION);
+	}
+
+	public Relation getTargetRelation() {
+		return (Relation) field.getAttribute(Constants.TARGET_FIELD_RELATION);
+	}
+
 }

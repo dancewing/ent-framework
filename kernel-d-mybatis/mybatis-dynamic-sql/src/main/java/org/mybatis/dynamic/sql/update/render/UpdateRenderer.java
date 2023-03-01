@@ -34,116 +34,106 @@ import java.util.stream.Collectors;
 import static org.mybatis.dynamic.sql.util.StringUtilities.spaceBefore;
 
 public class UpdateRenderer {
-    private final UpdateModel updateModel;
-    private final RenderingStrategy renderingStrategy;
-    private final AtomicInteger sequence = new AtomicInteger(1);
-    private final TableAliasCalculator tableAliasCalculator;
 
-    private UpdateRenderer(Builder builder) {
-        updateModel = Objects.requireNonNull(builder.updateModel);
-        renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
-        tableAliasCalculator = builder.updateModel.tableAlias()
-                .map(a -> ExplicitTableAliasCalculator.of(updateModel.table(), a))
-                .orElseGet(TableAliasCalculator::empty);
-    }
+	private final UpdateModel updateModel;
 
-    public UpdateStatementProvider render() {
-        SetPhraseVisitor visitor = new SetPhraseVisitor(sequence, renderingStrategy, tableAliasCalculator);
+	private final RenderingStrategy renderingStrategy;
 
-        List<Optional<FragmentAndParameters>> fragmentsAndParameters =
-                updateModel.mapColumnMappings(m -> m.accept(visitor))
-                        .toList();
+	private final AtomicInteger sequence = new AtomicInteger(1);
 
-        if (fragmentsAndParameters.stream().noneMatch(Optional::isPresent)) {
-            throw new InvalidSqlException(Messages.getString("ERROR.18")); //$NON-NLS-1$
-        }
+	private final TableAliasCalculator tableAliasCalculator;
 
-        return updateModel.whereModel()
-                .flatMap(this::renderWhereClause)
-                .map(wc -> renderWithWhereClause(fragmentsAndParameters, wc))
-                .orElseGet(() -> renderWithoutWhereClause(fragmentsAndParameters));
-    }
+	private UpdateRenderer(Builder builder) {
+		updateModel = Objects.requireNonNull(builder.updateModel);
+		renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
+		tableAliasCalculator = builder.updateModel.tableAlias()
+				.map(a -> ExplicitTableAliasCalculator.of(updateModel.table(), a))
+				.orElseGet(TableAliasCalculator::empty);
+	}
 
-    private UpdateStatementProvider renderWithWhereClause(List<Optional<FragmentAndParameters>> fragmentsAndParameters,
-            WhereClauseProvider whereClause) {
-        return DefaultUpdateStatementProvider
-                .withUpdateStatement(calculateUpdateStatement(fragmentsAndParameters, whereClause))
-                .withParameters(calculateParameters(fragmentsAndParameters))
-                .withParameters(whereClause.getParameters())
-                .withSource(this)
-                .build();
-    }
+	public UpdateStatementProvider render() {
+		SetPhraseVisitor visitor = new SetPhraseVisitor(sequence, renderingStrategy, tableAliasCalculator);
 
-    private String calculateUpdateStatement(List<Optional<FragmentAndParameters>> fragmentsAndParameters,
-            WhereClauseProvider whereClause) {
-        return calculateUpdateStatement(fragmentsAndParameters)
-                + spaceBefore(whereClause.getWhereClause());
-    }
+		List<Optional<FragmentAndParameters>> fragmentsAndParameters = updateModel
+				.mapColumnMappings(m -> m.accept(visitor)).toList();
 
-    private String calculateUpdateStatement(List<Optional<FragmentAndParameters>> fragmentsAndParameters) {
-        SqlTable table = updateModel.table();
-        String tableName = table.tableNameAtRuntime();
-        String aliasedTableName = tableAliasCalculator.aliasForTable(table)
-                .map(a -> tableName + " " + a).orElse(tableName); //$NON-NLS-1$
+		if (fragmentsAndParameters.stream().noneMatch(Optional::isPresent)) {
+			throw new InvalidSqlException(Messages.getString("ERROR.18")); //$NON-NLS-1$
+		}
 
-        return "update" //$NON-NLS-1$
-                + spaceBefore(aliasedTableName)
-                + spaceBefore(calculateSetPhrase(fragmentsAndParameters));
-    }
+		return updateModel.whereModel().flatMap(this::renderWhereClause)
+				.map(wc -> renderWithWhereClause(fragmentsAndParameters, wc))
+				.orElseGet(() -> renderWithoutWhereClause(fragmentsAndParameters));
+	}
 
-    private UpdateStatementProvider renderWithoutWhereClause(
-            List<Optional<FragmentAndParameters>> fragmentsAndParameters) {
-        return DefaultUpdateStatementProvider.withUpdateStatement(calculateUpdateStatement(fragmentsAndParameters))
-                .withParameters(calculateParameters(fragmentsAndParameters))
-                .withSource(this)
-                .build();
-    }
+	private UpdateStatementProvider renderWithWhereClause(List<Optional<FragmentAndParameters>> fragmentsAndParameters,
+			WhereClauseProvider whereClause) {
+		return DefaultUpdateStatementProvider
+				.withUpdateStatement(calculateUpdateStatement(fragmentsAndParameters, whereClause))
+				.withParameters(calculateParameters(fragmentsAndParameters)).withParameters(whereClause.getParameters())
+				.withSource(this).build();
+	}
 
-    private String calculateSetPhrase(List<Optional<FragmentAndParameters>> fragmentsAndParameters) {
-        return fragmentsAndParameters.stream()
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(FragmentAndParameters::fragment)
-                .collect(Collectors.joining(", ", "set ", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    }
+	private String calculateUpdateStatement(List<Optional<FragmentAndParameters>> fragmentsAndParameters,
+			WhereClauseProvider whereClause) {
+		return calculateUpdateStatement(fragmentsAndParameters) + spaceBefore(whereClause.getWhereClause());
+	}
 
-    private Map<String, Object> calculateParameters(List<Optional<FragmentAndParameters>> fragmentsAndParameters) {
-        return fragmentsAndParameters.stream()
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(FragmentAndParameters::parameters)
-                .collect(HashMap::new, HashMap::putAll, HashMap::putAll);
-    }
+	private String calculateUpdateStatement(List<Optional<FragmentAndParameters>> fragmentsAndParameters) {
+		SqlTable table = updateModel.table();
+		String tableName = table.tableNameAtRuntime();
+		String aliasedTableName = tableAliasCalculator.aliasForTable(table).map(a -> tableName + " " + a) //$NON-NLS-1$
+				.orElse(tableName);
 
-    private Optional<WhereClauseProvider> renderWhereClause(WhereModel whereModel) {
-        return WhereRenderer.withWhereModel(whereModel)
-                .withRenderingStrategy(renderingStrategy)
-                .withSequence(sequence)
-                .withTableAliasCalculator(tableAliasCalculator)
-                .build()
-                .render();
-    }
+		return "update" //$NON-NLS-1$
+				+ spaceBefore(aliasedTableName) + spaceBefore(calculateSetPhrase(fragmentsAndParameters));
+	}
 
-    public static Builder withUpdateModel(UpdateModel updateModel) {
-        return new Builder().withUpdateModel(updateModel);
-    }
+	private UpdateStatementProvider renderWithoutWhereClause(
+			List<Optional<FragmentAndParameters>> fragmentsAndParameters) {
+		return DefaultUpdateStatementProvider.withUpdateStatement(calculateUpdateStatement(fragmentsAndParameters))
+				.withParameters(calculateParameters(fragmentsAndParameters)).withSource(this).build();
+	}
 
-    public static class Builder {
-        private UpdateModel updateModel;
-        private RenderingStrategy renderingStrategy;
+	private String calculateSetPhrase(List<Optional<FragmentAndParameters>> fragmentsAndParameters) {
+		return fragmentsAndParameters.stream().filter(Optional::isPresent).map(Optional::get)
+				.map(FragmentAndParameters::fragment).collect(Collectors.joining(", ", "set ", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 
-        public Builder withUpdateModel(UpdateModel updateModel) {
-            this.updateModel = updateModel;
-            return this;
-        }
+	private Map<String, Object> calculateParameters(List<Optional<FragmentAndParameters>> fragmentsAndParameters) {
+		return fragmentsAndParameters.stream().filter(Optional::isPresent).map(Optional::get)
+				.map(FragmentAndParameters::parameters).collect(HashMap::new, HashMap::putAll, HashMap::putAll);
+	}
 
-        public Builder withRenderingStrategy(RenderingStrategy renderingStrategy) {
-            this.renderingStrategy = renderingStrategy;
-            return this;
-        }
+	private Optional<WhereClauseProvider> renderWhereClause(WhereModel whereModel) {
+		return WhereRenderer.withWhereModel(whereModel).withRenderingStrategy(renderingStrategy).withSequence(sequence)
+				.withTableAliasCalculator(tableAliasCalculator).build().render();
+	}
 
-        public UpdateRenderer build() {
-            return new UpdateRenderer(this);
-        }
-    }
+	public static Builder withUpdateModel(UpdateModel updateModel) {
+		return new Builder().withUpdateModel(updateModel);
+	}
+
+	public static class Builder {
+
+		private UpdateModel updateModel;
+
+		private RenderingStrategy renderingStrategy;
+
+		public Builder withUpdateModel(UpdateModel updateModel) {
+			this.updateModel = updateModel;
+			return this;
+		}
+
+		public Builder withRenderingStrategy(RenderingStrategy renderingStrategy) {
+			this.renderingStrategy = renderingStrategy;
+			return this;
+		}
+
+		public UpdateRenderer build() {
+			return new UpdateRenderer(this);
+		}
+
+	}
+
 }

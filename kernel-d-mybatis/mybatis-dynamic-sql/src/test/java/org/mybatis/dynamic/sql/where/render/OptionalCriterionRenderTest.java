@@ -28,326 +28,270 @@ import org.mybatis.dynamic.sql.SqlTable;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
 
 class OptionalCriterionRenderTest {
-    private static final SqlTable person = SqlTable.of("person");
-    private static final SqlColumn<Integer> id = person.column("id");
-    private static final SqlColumn<String> firstName = person.column("first_name");
-    private static final SqlColumn<String> lastName = person.column("last_name");
 
-    @Test
-    void testNoRenderableCriteria() {
-        Integer nullId = null;
+	private static final SqlTable person = SqlTable.of("person");
 
-        Optional<WhereClauseProvider> whereClause = where(id, isEqualToWhenPresent(nullId))
-                .configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+	private static final SqlColumn<Integer> id = person.column("id");
 
-        assertThat(whereClause).isEmpty();
-    }
+	private static final SqlColumn<String> firstName = person.column("first_name");
 
-    @Test
-    void testNoRenderableCriteriaWithIf() {
-        Integer nullId = null;
+	private static final SqlColumn<String> lastName = person.column("last_name");
 
-        Optional<WhereClauseProvider> whereClause = where(id, isEqualTo(nullId).filter(Objects::nonNull))
-                .configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+	@Test
+	void testNoRenderableCriteria() {
+		Integer nullId = null;
 
-        assertThat(whereClause).isEmpty();
-    }
+		Optional<WhereClauseProvider> whereClause = where(id, isEqualToWhenPresent(nullId))
+				.configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true)).build()
+				.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-    @Test
-    void testDisabledIsNull() {
-        Optional<WhereClauseProvider> whereClause = where(id, isNull().filter(() -> false))
-                .configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+		assertThat(whereClause).isEmpty();
+	}
 
-        assertThat(whereClause).isEmpty();
-    }
+	@Test
+	void testNoRenderableCriteriaWithIf() {
+		Integer nullId = null;
 
-    @Test
-    void testEnabledIsNull() {
-        Optional<WhereClauseProvider> whereClause = where(id, isNull().filter(() -> true))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+		Optional<WhereClauseProvider> whereClause = where(id, isEqualTo(nullId).filter(Objects::nonNull))
+				.configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true)).build()
+				.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-        assertThat(whereClause).hasValueSatisfying(wc -> {
-            assertThat(wc.getWhereClause()).isEqualTo("where id is null");
-            assertThat(wc.getParameters()).isEmpty();
-        });
-    }
+		assertThat(whereClause).isEmpty();
+	}
 
-    @Test
-    void testDisabledIsNotNull() {
-        Optional<WhereClauseProvider> whereClause = where(id, isNotNull().filter(() -> false))
-                .configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+	@Test
+	void testDisabledIsNull() {
+		Optional<WhereClauseProvider> whereClause = where(id, isNull().filter(() -> false))
+				.configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true)).build()
+				.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-        assertThat(whereClause).isEmpty();
-    }
+		assertThat(whereClause).isEmpty();
+	}
 
-    @Test
-    void testEnabledIsNotNull() {
-        Optional<WhereClauseProvider> whereClause = where(id, isNotNull().filter(() -> true))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+	@Test
+	void testEnabledIsNull() {
+		Optional<WhereClauseProvider> whereClause = where(id, isNull().filter(() -> true)).build()
+				.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-        assertThat(whereClause).hasValueSatisfying(wc -> {
-            assertThat(wc.getWhereClause()).isEqualTo("where id is not null");
-            assertThat(wc.getParameters()).isEmpty();
-        });
-    }
+		assertThat(whereClause).hasValueSatisfying(wc -> {
+			assertThat(wc.getWhereClause()).isEqualTo("where id is null");
+			assertThat(wc.getParameters()).isEmpty();
+		});
+	}
 
-    @Test
-    void testOneRenderableCriteriaBeforeNull() {
-        String nullFirstName = null;
+	@Test
+	void testDisabledIsNotNull() {
+		Optional<WhereClauseProvider> whereClause = where(id, isNotNull().filter(() -> false))
+				.configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true)).build()
+				.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-        Optional<WhereClauseProvider> whereClause = where(id, isEqualToWhenPresent(22))
-                .and(firstName, isEqualToWhenPresent(nullFirstName))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+		assertThat(whereClause).isEmpty();
+	}
 
-        assertThat(whereClause).hasValueSatisfying(wc -> {
-            assertThat(wc.getParameters()).containsExactly(entry("p1", 22));
-            assertThat(wc.getWhereClause()).isEqualTo("where id = :p1");
-        });
-    }
+	@Test
+	void testEnabledIsNotNull() {
+		Optional<WhereClauseProvider> whereClause = where(id, isNotNull().filter(() -> true)).build()
+				.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-    @Test
-    void testOneRenderableCriteriaBeforeNull2() {
-        String nullFirstName = null;
+		assertThat(whereClause).hasValueSatisfying(wc -> {
+			assertThat(wc.getWhereClause()).isEqualTo("where id is not null");
+			assertThat(wc.getParameters()).isEmpty();
+		});
+	}
 
-        Optional<WhereClauseProvider> whereClause = where(id, isEqualToWhenPresent(22), and(firstName, isEqualToWhenPresent(nullFirstName)))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+	@Test
+	void testOneRenderableCriteriaBeforeNull() {
+		String nullFirstName = null;
 
-        assertThat(whereClause).hasValueSatisfying(wc -> {
-            assertThat(wc.getParameters()).containsExactly(entry("p1", 22));
-            assertThat(wc.getWhereClause()).isEqualTo("where id = :p1");
-        });
-    }
+		Optional<WhereClauseProvider> whereClause = where(id, isEqualToWhenPresent(22))
+				.and(firstName, isEqualToWhenPresent(nullFirstName)).build()
+				.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-    @Test
-    void testOneRenderableCriteriaAfterNull() {
-        Integer nullId = null;
+		assertThat(whereClause).hasValueSatisfying(wc -> {
+			assertThat(wc.getParameters()).containsExactly(entry("p1", 22));
+			assertThat(wc.getWhereClause()).isEqualTo("where id = :p1");
+		});
+	}
 
-        Optional<WhereClauseProvider> whereClause = where(id, isEqualToWhenPresent(nullId))
-                .and(firstName, isEqualToWhenPresent("fred"))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+	@Test
+	void testOneRenderableCriteriaBeforeNull2() {
+		String nullFirstName = null;
 
-        assertThat(whereClause).hasValueSatisfying(wc -> {
-            assertThat(wc.getParameters()).containsExactly(entry("p1", "fred"));
-            assertThat(wc.getWhereClause()).isEqualTo("where first_name = :p1");
-        });
-    }
+		Optional<WhereClauseProvider> whereClause = where(id, isEqualToWhenPresent(22),
+				and(firstName, isEqualToWhenPresent(nullFirstName))).build()
+						.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-    @Test
-    void testOneRenderableCriteriaAfterNull2() {
-        Integer nullId = null;
+		assertThat(whereClause).hasValueSatisfying(wc -> {
+			assertThat(wc.getParameters()).containsExactly(entry("p1", 22));
+			assertThat(wc.getWhereClause()).isEqualTo("where id = :p1");
+		});
+	}
 
-        Optional<WhereClauseProvider> whereClause = where(id, isEqualToWhenPresent(nullId), and(firstName, isEqualToWhenPresent("fred")))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+	@Test
+	void testOneRenderableCriteriaAfterNull() {
+		Integer nullId = null;
 
-        assertThat(whereClause).hasValueSatisfying(wc -> {
-            assertThat(wc.getParameters()).containsExactly(entry("p1", "fred"));
-            assertThat(wc.getWhereClause()).isEqualTo("where first_name = :p1");
-        });
-    }
+		Optional<WhereClauseProvider> whereClause = where(id, isEqualToWhenPresent(nullId))
+				.and(firstName, isEqualToWhenPresent("fred")).build()
+				.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-    @Test
-    void testOverrideFirstConnector() {
-        Integer nullId = null;
+		assertThat(whereClause).hasValueSatisfying(wc -> {
+			assertThat(wc.getParameters()).containsExactly(entry("p1", "fred"));
+			assertThat(wc.getWhereClause()).isEqualTo("where first_name = :p1");
+		});
+	}
 
-        Optional<WhereClauseProvider> whereClause = where(id, isEqualToWhenPresent(nullId), and(firstName, isEqualToWhenPresent("fred")), or(lastName, isEqualTo("flintstone")))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+	@Test
+	void testOneRenderableCriteriaAfterNull2() {
+		Integer nullId = null;
 
-        assertThat(whereClause).hasValueSatisfying(wc -> {
-            assertThat(wc.getParameters()).containsExactly(entry("p1", "fred"), entry("p2", "flintstone"));
-            assertThat(wc.getWhereClause()).isEqualTo("where (first_name = :p1 or last_name = :p2)");
-        });
-    }
+		Optional<WhereClauseProvider> whereClause = where(id, isEqualToWhenPresent(nullId),
+				and(firstName, isEqualToWhenPresent("fred"))).build()
+						.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-    @Test
-    void testWhereExists() {
-        Optional<WhereClauseProvider> whereClause = where(
-                exists(
-                        select(person.allColumns())
-                        .from(person)
-                        .where(id, isEqualTo(3))
-                ))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+		assertThat(whereClause).hasValueSatisfying(wc -> {
+			assertThat(wc.getParameters()).containsExactly(entry("p1", "fred"));
+			assertThat(wc.getWhereClause()).isEqualTo("where first_name = :p1");
+		});
+	}
 
-        assertThat(whereClause).hasValueSatisfying(wc -> {
-            assertThat(wc.getParameters()).containsExactly(entry("p1", 3));
-            assertThat(wc.getWhereClause()).isEqualTo("where exists (select * from person where id = :p1)");
-        });
-    }
+	@Test
+	void testOverrideFirstConnector() {
+		Integer nullId = null;
 
-    @Test
-    void testWhereExistsOr() {
-        Optional<WhereClauseProvider> whereClause = where(
-                exists(
-                        select(person.allColumns())
-                        .from(person)
-                        .where(id, isEqualTo(3))
-                ),
-                or(exists(
-                        select(person.allColumns())
-                        .from(person)
-                        .where(id, isEqualTo(4))
-                )))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+		Optional<WhereClauseProvider> whereClause = where(id, isEqualToWhenPresent(nullId),
+				and(firstName, isEqualToWhenPresent("fred")), or(lastName, isEqualTo("flintstone"))).build()
+						.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-        String expected = "where (exists (select * from person where id = :p1) " +
-                "or exists (select * from person where id = :p2))";
+		assertThat(whereClause).hasValueSatisfying(wc -> {
+			assertThat(wc.getParameters()).containsExactly(entry("p1", "fred"), entry("p2", "flintstone"));
+			assertThat(wc.getWhereClause()).isEqualTo("where (first_name = :p1 or last_name = :p2)");
+		});
+	}
 
-        assertThat(whereClause).hasValueSatisfying(wc -> {
-            assertThat(wc.getParameters()).containsExactly(entry("p1", 3), entry("p2", 4));
-            assertThat(wc.getWhereClause()).isEqualTo(expected);
-        });
-    }
+	@Test
+	void testWhereExists() {
+		Optional<WhereClauseProvider> whereClause = where(
+				exists(select(person.allColumns()).from(person).where(id, isEqualTo(3)))).build()
+						.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-    @Test
-    void testWhereExistsOrOr() {
-        Optional<WhereClauseProvider> whereClause = where(
-                exists(
-                        select(person.allColumns())
-                                .from(person)
-                                .where(id, isEqualTo(3))
-                ),
-                or(exists(
-                        select(person.allColumns())
-                                .from(person)
-                                .where(id, isEqualTo(4))
-                ), or(exists(
-                        select(person.allColumns())
-                                .from(person)
-                                .where(id, isEqualTo(5))
+		assertThat(whereClause).hasValueSatisfying(wc -> {
+			assertThat(wc.getParameters()).containsExactly(entry("p1", 3));
+			assertThat(wc.getWhereClause()).isEqualTo("where exists (select * from person where id = :p1)");
+		});
+	}
 
-                        )
-                )))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+	@Test
+	void testWhereExistsOr() {
+		Optional<WhereClauseProvider> whereClause = where(
+				exists(select(person.allColumns()).from(person).where(id, isEqualTo(3))),
+				or(exists(select(person.allColumns()).from(person).where(id, isEqualTo(4))))).build()
+						.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-        String expected = "where (exists (select * from person where id = :p1) " +
-                "or (exists (select * from person where id = :p2) " +
-                "or exists (select * from person where id = :p3)))";
+		String expected = "where (exists (select * from person where id = :p1) "
+				+ "or exists (select * from person where id = :p2))";
 
-        assertThat(whereClause).hasValueSatisfying(wc -> {
-            assertThat(wc.getParameters()).containsExactly(entry("p1", 3), entry("p2", 4), entry("p3", 5));
-            assertThat(wc.getWhereClause()).isEqualTo(expected);
-        });
-    }
+		assertThat(whereClause).hasValueSatisfying(wc -> {
+			assertThat(wc.getParameters()).containsExactly(entry("p1", 3), entry("p2", 4));
+			assertThat(wc.getWhereClause()).isEqualTo(expected);
+		});
+	}
 
-    @Test
-    void testWhereExistsAnd() {
-        Optional<WhereClauseProvider> whereClause = where(
-                exists(
-                        select(person.allColumns())
-                                .from(person)
-                                .where(id, isEqualTo(3))
-                ),
-                and(exists(
-                        select(person.allColumns())
-                                .from(person)
-                                .where(id, isEqualTo(4))
-                )))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+	@Test
+	void testWhereExistsOrOr() {
+		Optional<WhereClauseProvider> whereClause = where(
+				exists(select(person.allColumns()).from(person).where(id, isEqualTo(3))),
+				or(exists(select(person.allColumns()).from(person).where(id, isEqualTo(4))),
+						or(exists(select(person.allColumns()).from(person).where(id, isEqualTo(5))
 
-        String expected = "where (exists (select * from person where id = :p1) " +
-                "and exists (select * from person where id = :p2))";
+						)))).build().render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-        assertThat(whereClause).hasValueSatisfying(wc -> {
-            assertThat(wc.getParameters()).containsExactly(entry("p1", 3), entry("p2", 4));
-            assertThat(wc.getWhereClause()).isEqualTo(expected);
-        });
-    }
+		String expected = "where (exists (select * from person where id = :p1) "
+				+ "or (exists (select * from person where id = :p2) "
+				+ "or exists (select * from person where id = :p3)))";
 
-    @Test
-    void testWhereExistsAndAnd() {
-        Optional<WhereClauseProvider> whereClause = where(
-                exists(
-                        select(person.allColumns())
-                                .from(person)
-                                .where(id, isEqualTo(3))
-                ),
-                and(exists(
-                        select(person.allColumns())
-                                .from(person)
-                                .where(id, isEqualTo(4))
-                ), and(exists(
-                        select(person.allColumns())
-                                .from(person)
-                                .where(id, isEqualTo(5))
+		assertThat(whereClause).hasValueSatisfying(wc -> {
+			assertThat(wc.getParameters()).containsExactly(entry("p1", 3), entry("p2", 4), entry("p3", 5));
+			assertThat(wc.getWhereClause()).isEqualTo(expected);
+		});
+	}
 
-                        )
-                )))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+	@Test
+	void testWhereExistsAnd() {
+		Optional<WhereClauseProvider> whereClause = where(
+				exists(select(person.allColumns()).from(person).where(id, isEqualTo(3))),
+				and(exists(select(person.allColumns()).from(person).where(id, isEqualTo(4))))).build()
+						.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-        String expected = "where (exists (select * from person where id = :p1) " +
-                "and (exists (select * from person where id = :p2) " +
-                "and exists (select * from person where id = :p3)))";
+		String expected = "where (exists (select * from person where id = :p1) "
+				+ "and exists (select * from person where id = :p2))";
 
-        assertThat(whereClause).hasValueSatisfying(wc -> {
-            assertThat(wc.getParameters()).containsExactly(entry("p1", 3), entry("p2", 4), entry("p3", 5));
-            assertThat(wc.getWhereClause()).isEqualTo(expected);
-        });
-    }
+		assertThat(whereClause).hasValueSatisfying(wc -> {
+			assertThat(wc.getParameters()).containsExactly(entry("p1", 3), entry("p2", 4));
+			assertThat(wc.getWhereClause()).isEqualTo(expected);
+		});
+	}
 
-    @Test
-    void testCollapsingCriteriaGroup1() {
-        String name1 = null;
+	@Test
+	void testWhereExistsAndAnd() {
+		Optional<WhereClauseProvider> whereClause = where(
+				exists(select(person.allColumns()).from(person).where(id, isEqualTo(3))),
+				and(exists(select(person.allColumns()).from(person).where(id, isEqualTo(4))),
+						and(exists(select(person.allColumns()).from(person).where(id, isEqualTo(5))
 
-        Optional<WhereClauseProvider> whereClause = where(
-                group(firstName, isEqualToWhenPresent(name1)), or(lastName, isEqualToWhenPresent(name1)))
-                .configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+						)))).build().render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-        assertThat(whereClause).isEmpty();
-    }
+		String expected = "where (exists (select * from person where id = :p1) "
+				+ "and (exists (select * from person where id = :p2) "
+				+ "and exists (select * from person where id = :p3)))";
 
-    @Test
-    void testCollapsingCriteriaGroup2() {
-        String name1 = null;
+		assertThat(whereClause).hasValueSatisfying(wc -> {
+			assertThat(wc.getParameters()).containsExactly(entry("p1", 3), entry("p2", 4), entry("p3", 5));
+			assertThat(wc.getWhereClause()).isEqualTo(expected);
+		});
+	}
 
-        Optional<WhereClauseProvider> whereClause = where(
-                group(firstName, isEqualTo("Fred")), or(lastName, isEqualToWhenPresent(name1)))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+	@Test
+	void testCollapsingCriteriaGroup1() {
+		String name1 = null;
 
-        String expected = "where first_name = :p1";
+		Optional<WhereClauseProvider> whereClause = where(group(firstName, isEqualToWhenPresent(name1)),
+				or(lastName, isEqualToWhenPresent(name1)))
+						.configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true)).build()
+						.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-        assertThat(whereClause).hasValueSatisfying(wc -> {
-            assertThat(wc.getParameters()).containsExactly(entry("p1", "Fred"));
-            assertThat(wc.getWhereClause()).isEqualTo(expected);
-        });
-    }
+		assertThat(whereClause).isEmpty();
+	}
 
-    @Test
-    void testCollapsingCriteriaGroup3() {
-        String name1 = null;
+	@Test
+	void testCollapsingCriteriaGroup2() {
+		String name1 = null;
 
-        Optional<WhereClauseProvider> whereClause = where(
-                group(firstName, isEqualTo("Fred")), or(lastName, isEqualToWhenPresent(name1)), or(firstName, isEqualTo("Betty")))
-                .build()
-                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+		Optional<WhereClauseProvider> whereClause = where(group(firstName, isEqualTo("Fred")),
+				or(lastName, isEqualToWhenPresent(name1))).build().render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-        String expected = "where (first_name = :p1 or first_name = :p2)";
+		String expected = "where first_name = :p1";
 
-        assertThat(whereClause).hasValueSatisfying(wc -> {
-            assertThat(wc.getParameters()).containsExactly(entry("p1", "Fred"), entry("p2", "Betty"));
-            assertThat(wc.getWhereClause()).isEqualTo(expected);
-        });
-    }
+		assertThat(whereClause).hasValueSatisfying(wc -> {
+			assertThat(wc.getParameters()).containsExactly(entry("p1", "Fred"));
+			assertThat(wc.getWhereClause()).isEqualTo(expected);
+		});
+	}
+
+	@Test
+	void testCollapsingCriteriaGroup3() {
+		String name1 = null;
+
+		Optional<WhereClauseProvider> whereClause = where(group(firstName, isEqualTo("Fred")),
+				or(lastName, isEqualToWhenPresent(name1)), or(firstName, isEqualTo("Betty"))).build()
+						.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+
+		String expected = "where (first_name = :p1 or first_name = :p2)";
+
+		assertThat(whereClause).hasValueSatisfying(wc -> {
+			assertThat(wc.getParameters()).containsExactly(entry("p1", "Fred"), entry("p2", "Betty"));
+			assertThat(wc.getWhereClause()).isEqualTo(expected);
+		});
+	}
+
 }

@@ -23,17 +23,18 @@ import jakarta.annotation.Resource;
 @ApiResource(name = "订单接口（测试seata）")
 public class OrderController {
 
-    @Resource
-    private OrderService orderService;
+	@Resource
+	private OrderService orderService;
 
-    /**
-     * 创建订单
-     *
-     * @date 2021/4/20 20:11
-     */
-    @GetResource(name = "创建订单", path = "/order/create", requiredPermission = false, requiredLogin = false)
-    public Order create(@RequestParam("userId") String userId, @RequestParam("commodityCode") String commodityCode, @RequestParam("orderCount") Integer orderCount) {
-        return orderService.create(userId, commodityCode, orderCount);
-    }
+	/**
+	 * 创建订单
+	 *
+	 * @date 2021/4/20 20:11
+	 */
+	@GetResource(name = "创建订单", path = "/order/create", requiredPermission = false, requiredLogin = false)
+	public Order create(@RequestParam("userId") String userId, @RequestParam("commodityCode") String commodityCode,
+			@RequestParam("orderCount") Integer orderCount) {
+		return orderService.create(userId, commodityCode, orderCount);
+	}
 
 }

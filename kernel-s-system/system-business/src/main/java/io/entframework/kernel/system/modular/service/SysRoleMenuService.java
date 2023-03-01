@@ -21,6 +21,7 @@ import java.util.List;
  * @date 2020/12/19 18:21
  */
 public interface SysRoleMenuService extends BaseService<SysRoleMenuRequest, SysRoleMenuResponse, SysRoleMenu> {
+
 	CheckedKeys<Long> getRoleMenuCheckedKeys(List<Long> roleIds);
 
 	void deleteByRoleId(Long roleId);
@@ -28,4 +29,5 @@ public interface SysRoleMenuService extends BaseService<SysRoleMenuRequest, SysR
 	List<SysRoleMenu> getRoleMenus(Collection<Long> roleIds);
 
 	List<SysRoleMenu> batchCreateEntity(List<SysRoleMenu> request);
+
 }

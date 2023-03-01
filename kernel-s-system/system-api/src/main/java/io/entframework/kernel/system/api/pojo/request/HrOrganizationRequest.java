@@ -64,8 +64,8 @@ public class HrOrganizationRequest extends BaseRequest {
 	 * 组织编码
 	 */
 	@NotBlank(message = "组织编码不能为空", groups = { add.class, update.class })
-	@TableUniqueValue(message = "组织编码存在重复", groups = { add.class,
-			update.class }, tableName = "hr_organization", columnName = "org_code", idFieldName = "org_id", excludeLogicDeleteItems = true)
+	@TableUniqueValue(message = "组织编码存在重复", groups = { add.class, update.class }, tableName = "hr_organization",
+			columnName = "org_code", idFieldName = "org_id", excludeLogicDeleteItems = true)
 	@ChineseDescription("组织编码")
 	private String orgCode;
 
@@ -108,12 +108,14 @@ public class HrOrganizationRequest extends BaseRequest {
 	 * 组织机构树zTree形式
 	 */
 	public @interface roleBindOrgScope {
+
 	}
 
 	/**
 	 * 查询用户的数据范围
 	 */
 	public @interface userBindOrgScope {
+
 	}
 
 }

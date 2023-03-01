@@ -16,125 +16,129 @@
 package org.mybatis.generator.api.dom.java;
 
 public class PrimitiveTypeWrapper extends FullyQualifiedJavaType {
-    private static PrimitiveTypeWrapper booleanInstance;
-    private static PrimitiveTypeWrapper byteInstance;
-    private static PrimitiveTypeWrapper characterInstance;
-    private static PrimitiveTypeWrapper doubleInstance;
-    private static PrimitiveTypeWrapper floatInstance;
-    private static PrimitiveTypeWrapper integerInstance;
-    private static PrimitiveTypeWrapper longInstance;
-    private static PrimitiveTypeWrapper shortInstance;
 
-    private final String toPrimitiveMethod;
+	private static PrimitiveTypeWrapper booleanInstance;
 
-    /**
-     * Use the static getXXXInstance methods to gain access to one of the type
-     * wrappers.
-     *
-     * @param fullyQualifiedName
-     *            fully qualified name of the wrapper type
-     * @param toPrimitiveMethod
-     *            the method that returns the wrapped primitive
-     */
-    private PrimitiveTypeWrapper(String fullyQualifiedName,
-            String toPrimitiveMethod) {
-        super(fullyQualifiedName);
-        this.toPrimitiveMethod = toPrimitiveMethod;
-    }
+	private static PrimitiveTypeWrapper byteInstance;
 
-    public String getToPrimitiveMethod() {
-        return toPrimitiveMethod;
-    }
+	private static PrimitiveTypeWrapper characterInstance;
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
+	private static PrimitiveTypeWrapper doubleInstance;
 
-        if (!(obj instanceof PrimitiveTypeWrapper)) {
-            return false;
-        }
+	private static PrimitiveTypeWrapper floatInstance;
 
-        PrimitiveTypeWrapper other = (PrimitiveTypeWrapper) obj;
+	private static PrimitiveTypeWrapper integerInstance;
 
-        return getFullyQualifiedName().equals(other.getFullyQualifiedName());
-    }
+	private static PrimitiveTypeWrapper longInstance;
 
-    @Override
-    public int hashCode() {
-        return getFullyQualifiedName().hashCode();
-    }
+	private static PrimitiveTypeWrapper shortInstance;
 
-    public static PrimitiveTypeWrapper getBooleanInstance() {
-        if (booleanInstance == null) {
-            booleanInstance = new PrimitiveTypeWrapper("java.lang.Boolean", //$NON-NLS-1$
-                    "booleanValue()"); //$NON-NLS-1$
-        }
+	private final String toPrimitiveMethod;
 
-        return booleanInstance;
-    }
+	/**
+	 * Use the static getXXXInstance methods to gain access to one of the type wrappers.
+	 * @param fullyQualifiedName fully qualified name of the wrapper type
+	 * @param toPrimitiveMethod the method that returns the wrapped primitive
+	 */
+	private PrimitiveTypeWrapper(String fullyQualifiedName, String toPrimitiveMethod) {
+		super(fullyQualifiedName);
+		this.toPrimitiveMethod = toPrimitiveMethod;
+	}
 
-    public static PrimitiveTypeWrapper getByteInstance() {
-        if (byteInstance == null) {
-            byteInstance = new PrimitiveTypeWrapper("java.lang.Byte", //$NON-NLS-1$
-                    "byteValue()"); //$NON-NLS-1$
-        }
+	public String getToPrimitiveMethod() {
+		return toPrimitiveMethod;
+	}
 
-        return byteInstance;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
 
-    public static PrimitiveTypeWrapper getCharacterInstance() {
-        if (characterInstance == null) {
-            characterInstance = new PrimitiveTypeWrapper("java.lang.Character", //$NON-NLS-1$
-                    "charValue()"); //$NON-NLS-1$
-        }
+		if (!(obj instanceof PrimitiveTypeWrapper)) {
+			return false;
+		}
 
-        return characterInstance;
-    }
+		PrimitiveTypeWrapper other = (PrimitiveTypeWrapper) obj;
 
-    public static PrimitiveTypeWrapper getDoubleInstance() {
-        if (doubleInstance == null) {
-            doubleInstance = new PrimitiveTypeWrapper("java.lang.Double", //$NON-NLS-1$
-                    "doubleValue()"); //$NON-NLS-1$
-        }
+		return getFullyQualifiedName().equals(other.getFullyQualifiedName());
+	}
 
-        return doubleInstance;
-    }
+	@Override
+	public int hashCode() {
+		return getFullyQualifiedName().hashCode();
+	}
 
-    public static PrimitiveTypeWrapper getFloatInstance() {
-        if (floatInstance == null) {
-            floatInstance = new PrimitiveTypeWrapper("java.lang.Float", //$NON-NLS-1$
-                    "floatValue()"); //$NON-NLS-1$
-        }
+	public static PrimitiveTypeWrapper getBooleanInstance() {
+		if (booleanInstance == null) {
+			booleanInstance = new PrimitiveTypeWrapper("java.lang.Boolean", //$NON-NLS-1$
+					"booleanValue()"); //$NON-NLS-1$
+		}
 
-        return floatInstance;
-    }
+		return booleanInstance;
+	}
 
-    public static PrimitiveTypeWrapper getIntegerInstance() {
-        if (integerInstance == null) {
-            integerInstance = new PrimitiveTypeWrapper("java.lang.Integer", //$NON-NLS-1$
-                    "intValue()"); //$NON-NLS-1$
-        }
+	public static PrimitiveTypeWrapper getByteInstance() {
+		if (byteInstance == null) {
+			byteInstance = new PrimitiveTypeWrapper("java.lang.Byte", //$NON-NLS-1$
+					"byteValue()"); //$NON-NLS-1$
+		}
 
-        return integerInstance;
-    }
+		return byteInstance;
+	}
 
-    public static PrimitiveTypeWrapper getLongInstance() {
-        if (longInstance == null) {
-            longInstance = new PrimitiveTypeWrapper("java.lang.Long", //$NON-NLS-1$
-                    "longValue()"); //$NON-NLS-1$
-        }
+	public static PrimitiveTypeWrapper getCharacterInstance() {
+		if (characterInstance == null) {
+			characterInstance = new PrimitiveTypeWrapper("java.lang.Character", //$NON-NLS-1$
+					"charValue()"); //$NON-NLS-1$
+		}
 
-        return longInstance;
-    }
+		return characterInstance;
+	}
 
-    public static PrimitiveTypeWrapper getShortInstance() {
-        if (shortInstance == null) {
-            shortInstance = new PrimitiveTypeWrapper("java.lang.Short", //$NON-NLS-1$
-                    "shortValue()"); //$NON-NLS-1$
-        }
+	public static PrimitiveTypeWrapper getDoubleInstance() {
+		if (doubleInstance == null) {
+			doubleInstance = new PrimitiveTypeWrapper("java.lang.Double", //$NON-NLS-1$
+					"doubleValue()"); //$NON-NLS-1$
+		}
 
-        return shortInstance;
-    }
+		return doubleInstance;
+	}
+
+	public static PrimitiveTypeWrapper getFloatInstance() {
+		if (floatInstance == null) {
+			floatInstance = new PrimitiveTypeWrapper("java.lang.Float", //$NON-NLS-1$
+					"floatValue()"); //$NON-NLS-1$
+		}
+
+		return floatInstance;
+	}
+
+	public static PrimitiveTypeWrapper getIntegerInstance() {
+		if (integerInstance == null) {
+			integerInstance = new PrimitiveTypeWrapper("java.lang.Integer", //$NON-NLS-1$
+					"intValue()"); //$NON-NLS-1$
+		}
+
+		return integerInstance;
+	}
+
+	public static PrimitiveTypeWrapper getLongInstance() {
+		if (longInstance == null) {
+			longInstance = new PrimitiveTypeWrapper("java.lang.Long", //$NON-NLS-1$
+					"longValue()"); //$NON-NLS-1$
+		}
+
+		return longInstance;
+	}
+
+	public static PrimitiveTypeWrapper getShortInstance() {
+		if (shortInstance == null) {
+			shortInstance = new PrimitiveTypeWrapper("java.lang.Short", //$NON-NLS-1$
+					"shortValue()"); //$NON-NLS-1$
+		}
+
+		return shortInstance;
+	}
+
 }

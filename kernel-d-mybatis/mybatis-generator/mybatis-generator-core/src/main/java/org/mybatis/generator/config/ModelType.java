@@ -23,26 +23,30 @@ import static org.mybatis.generator.internal.util.messages.Messages.getString;
  * @author Jeff Butler
  */
 public enum ModelType {
-    HIERARCHICAL("hierarchical"), //$NON-NLS-1$
-    FLAT("flat"), //$NON-NLS-1$
-    CONDITIONAL("conditional"); //$NON-NLS-1$
 
-    private final String type;
+	HIERARCHICAL("hierarchical"), //$NON-NLS-1$
+	FLAT("flat"), //$NON-NLS-1$
+	CONDITIONAL("conditional"); //$NON-NLS-1$
 
-    ModelType(String type) {
-        this.type = type;
-    }
+	private final String type;
 
-    public static ModelType getModelType(String type) {
-        if (HIERARCHICAL.type.equalsIgnoreCase(type)) {
-            return HIERARCHICAL;
-        } else if (FLAT.type.equalsIgnoreCase(type)) {
-            return FLAT;
-        } else if (CONDITIONAL.type.equalsIgnoreCase(type)) {
-            return CONDITIONAL;
-        } else {
-            throw new RuntimeException(getString(
-                    "RuntimeError.13", type)); //$NON-NLS-1$
-        }
-    }
+	ModelType(String type) {
+		this.type = type;
+	}
+
+	public static ModelType getModelType(String type) {
+		if (HIERARCHICAL.type.equalsIgnoreCase(type)) {
+			return HIERARCHICAL;
+		}
+		else if (FLAT.type.equalsIgnoreCase(type)) {
+			return FLAT;
+		}
+		else if (CONDITIONAL.type.equalsIgnoreCase(type)) {
+			return CONDITIONAL;
+		}
+		else {
+			throw new RuntimeException(getString("RuntimeError.13", type)); //$NON-NLS-1$
+		}
+	}
+
 }

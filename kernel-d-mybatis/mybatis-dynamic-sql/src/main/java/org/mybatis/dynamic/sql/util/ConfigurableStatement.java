@@ -20,5 +20,7 @@ import java.util.function.Consumer;
 import org.mybatis.dynamic.sql.configuration.StatementConfiguration;
 
 public interface ConfigurableStatement<R> {
-    R configureStatement(Consumer<StatementConfiguration> consumer);
+
+	R configureStatement(Consumer<StatementConfiguration> consumer);
+
 }

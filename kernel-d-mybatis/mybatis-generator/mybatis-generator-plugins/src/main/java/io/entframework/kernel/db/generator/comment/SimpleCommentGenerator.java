@@ -14,97 +14,102 @@ import java.util.Set;
 import static org.mybatis.generator.internal.util.StringUtility.isTrue;
 
 public class SimpleCommentGenerator extends DefaultCommentGenerator {
-    private final Properties properties = new Properties();
-    private boolean suppressDate;
 
-    private boolean suppressAllComments;
+	private final Properties properties = new Properties();
 
-    /**
-     * If suppressAllComments is true, this option is ignored.
-     */
-    private boolean addRemarkComments;
+	private boolean suppressDate;
 
-    private SimpleDateFormat dateFormat;
+	private boolean suppressAllComments;
 
-    public SimpleCommentGenerator() {
-        super();
-        suppressDate = false;
-        suppressAllComments = false;
-        addRemarkComments = true;
-    }
+	/**
+	 * If suppressAllComments is true, this option is ignored.
+	 */
+	private boolean addRemarkComments;
 
-    public void addConfigurationProperties(Properties props) {
-        this.properties.putAll(props);
+	private SimpleDateFormat dateFormat;
 
-        if (StringUtility.stringHasValue(properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_SUPPRESS_DATE))) {
-            suppressDate = isTrue(properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_SUPPRESS_DATE));
-        }
-        if (StringUtility.stringHasValue(properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_SUPPRESS_ALL_COMMENTS))) {
-            suppressAllComments = isTrue(properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_SUPPRESS_ALL_COMMENTS));
-        }
-        if (StringUtility.stringHasValue(properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_ADD_REMARK_COMMENTS))) {
-            addRemarkComments = isTrue(properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_ADD_REMARK_COMMENTS));
-        }
+	public SimpleCommentGenerator() {
+		super();
+		suppressDate = false;
+		suppressAllComments = false;
+		addRemarkComments = true;
+	}
 
-        String dateFormatString = properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_DATE_FORMAT);
-        if (StringUtility.stringHasValue(dateFormatString)) {
-            dateFormat = new SimpleDateFormat(dateFormatString);
-        }
-    }
+	public void addConfigurationProperties(Properties props) {
+		this.properties.putAll(props);
 
-    @Override
-    public void addGeneralMethodAnnotation(Method method, IntrospectedTable introspectedTable,
-                                           Set<FullyQualifiedJavaType> imports) {
-    }
+		if (StringUtility.stringHasValue(properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_SUPPRESS_DATE))) {
+			suppressDate = isTrue(properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_SUPPRESS_DATE));
+		}
+		if (StringUtility
+				.stringHasValue(properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_SUPPRESS_ALL_COMMENTS))) {
+			suppressAllComments = isTrue(
+					properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_SUPPRESS_ALL_COMMENTS));
+		}
+		if (StringUtility
+				.stringHasValue(properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_ADD_REMARK_COMMENTS))) {
+			addRemarkComments = isTrue(properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_ADD_REMARK_COMMENTS));
+		}
 
-    @Override
-    public void addGeneralMethodAnnotation(Method method, IntrospectedTable introspectedTable,
-                                           IntrospectedColumn introspectedColumn, Set<FullyQualifiedJavaType> imports) {
-    }
+		String dateFormatString = properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_DATE_FORMAT);
+		if (StringUtility.stringHasValue(dateFormatString)) {
+			dateFormat = new SimpleDateFormat(dateFormatString);
+		}
+	}
 
-    @Override
-    public void addFieldAnnotation(Field field, IntrospectedTable introspectedTable,
-                                   Set<FullyQualifiedJavaType> imports) {
-    }
+	@Override
+	public void addGeneralMethodAnnotation(Method method, IntrospectedTable introspectedTable,
+			Set<FullyQualifiedJavaType> imports) {
+	}
 
+	@Override
+	public void addGeneralMethodAnnotation(Method method, IntrospectedTable introspectedTable,
+			IntrospectedColumn introspectedColumn, Set<FullyQualifiedJavaType> imports) {
+	}
 
-    @Override
-    public void addFieldAnnotation(Field field, IntrospectedTable introspectedTable,
-                                   IntrospectedColumn introspectedColumn, Set<FullyQualifiedJavaType> imports) {
-    }
+	@Override
+	public void addFieldAnnotation(Field field, IntrospectedTable introspectedTable,
+			Set<FullyQualifiedJavaType> imports) {
+	}
 
-    @Override
-    public void addClassAnnotation(InnerClass innerClass, IntrospectedTable introspectedTable,
-                                   Set<FullyQualifiedJavaType> imports) {
-    }
+	@Override
+	public void addFieldAnnotation(Field field, IntrospectedTable introspectedTable,
+			IntrospectedColumn introspectedColumn, Set<FullyQualifiedJavaType> imports) {
+	}
 
-    @Override
-    public void addGetterComment(Method method, IntrospectedTable introspectedTable,
-                                 IntrospectedColumn introspectedColumn) {
-    }
+	@Override
+	public void addClassAnnotation(InnerClass innerClass, IntrospectedTable introspectedTable,
+			Set<FullyQualifiedJavaType> imports) {
+	}
 
-    @Override
-    public void addSetterComment(Method method, IntrospectedTable introspectedTable,
-                                 IntrospectedColumn introspectedColumn) {
-    }
+	@Override
+	public void addGetterComment(Method method, IntrospectedTable introspectedTable,
+			IntrospectedColumn introspectedColumn) {
+	}
 
-    @Override
-    public void addEnumComment(InnerEnum innerEnum, IntrospectedTable introspectedTable) {
-    }
+	@Override
+	public void addSetterComment(Method method, IntrospectedTable introspectedTable,
+			IntrospectedColumn introspectedColumn) {
+	}
 
-    public void addModelClassComment(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        if (suppressAllComments || !addRemarkComments) {
-            return;
-        }
+	@Override
+	public void addEnumComment(InnerEnum innerEnum, IntrospectedTable introspectedTable) {
+	}
 
-        topLevelClass.addJavaDocLine("/**"); //$NON-NLS-1$
-        String remarks = introspectedTable.getRemarks();
-        if (addRemarkComments && StringUtility.stringHasValue(remarks)) {
-            String[] remarkLines = remarks.split(System.getProperty("line.separator")); //$NON-NLS-1$
-            for (String remarkLine : remarkLines) {
-                topLevelClass.addJavaDocLine(" * " + remarkLine); //$NON-NLS-1$
-            }
-        }
-        topLevelClass.addJavaDocLine(" */"); //$NON-NLS-1$
-    }
+	public void addModelClassComment(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+		if (suppressAllComments || !addRemarkComments) {
+			return;
+		}
+
+		topLevelClass.addJavaDocLine("/**"); //$NON-NLS-1$
+		String remarks = introspectedTable.getRemarks();
+		if (addRemarkComments && StringUtility.stringHasValue(remarks)) {
+			String[] remarkLines = remarks.split(System.getProperty("line.separator")); //$NON-NLS-1$
+			for (String remarkLine : remarkLines) {
+				topLevelClass.addJavaDocLine(" * " + remarkLine); //$NON-NLS-1$
+			}
+		}
+		topLevelClass.addJavaDocLine(" */"); //$NON-NLS-1$
+	}
+
 }

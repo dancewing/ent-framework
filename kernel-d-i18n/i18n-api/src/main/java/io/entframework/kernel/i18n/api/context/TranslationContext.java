@@ -13,14 +13,16 @@ import io.entframework.kernel.i18n.api.TranslationApi;
  */
 public class TranslationContext {
 
-    private TranslationContext() {}
-    /**
-     * 获取翻译接口
-     *
-     * @date 2021/1/24 19:06
-     */
-    public static TranslationApi me() {
-        return SpringUtil.getBean(TranslationApi.class);
-    }
+	private TranslationContext() {
+	}
+
+	/**
+	 * 获取翻译接口
+	 *
+	 * @date 2021/1/24 19:06
+	 */
+	public static TranslationApi me() {
+		return SpringUtil.getBean(TranslationApi.class);
+	}
 
 }

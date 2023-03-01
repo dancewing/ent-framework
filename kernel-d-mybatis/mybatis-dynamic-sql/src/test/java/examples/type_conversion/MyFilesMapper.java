@@ -25,9 +25,10 @@ import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 
 public interface MyFilesMapper {
 
-    @InsertProvider(type = SqlProviderAdapter.class, method = "generalInsert")
-    int insert(GeneralInsertStatementProvider insertStatement);
+	@InsertProvider(type = SqlProviderAdapter.class, method = "generalInsert")
+	int insert(GeneralInsertStatementProvider insertStatement);
 
-    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    Map<String, Object> generalSelect(SelectStatementProvider selectStatement);
+	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
+	Map<String, Object> generalSelect(SelectStatementProvider selectStatement);
+
 }

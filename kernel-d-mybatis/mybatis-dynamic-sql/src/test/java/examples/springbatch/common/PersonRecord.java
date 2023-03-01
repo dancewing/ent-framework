@@ -16,40 +16,44 @@
 package examples.springbatch.common;
 
 public class PersonRecord {
-    private Integer id;
-    private String firstName;
-    private String lastName;
 
-    public PersonRecord() {
-        super();
-    }
+	private Integer id;
 
-    public PersonRecord(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
+	private String firstName;
 
-    public Integer getId() {
-        return id;
-    }
+	private String lastName;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public PersonRecord() {
+		super();
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public PersonRecord(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 }

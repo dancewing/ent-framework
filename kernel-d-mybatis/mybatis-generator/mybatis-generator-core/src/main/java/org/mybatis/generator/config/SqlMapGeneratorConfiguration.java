@@ -21,38 +21,40 @@ import static org.mybatis.generator.internal.util.messages.Messages.getString;
 import java.util.List;
 
 public class SqlMapGeneratorConfiguration extends PropertyHolder {
-    private String targetPackage;
 
-    private String targetProject;
+	private String targetPackage;
 
-    public SqlMapGeneratorConfiguration() {
-        super();
-    }
+	private String targetProject;
 
-    public String getTargetProject() {
-        return targetProject;
-    }
+	public SqlMapGeneratorConfiguration() {
+		super();
+	}
 
-    public void setTargetProject(String targetProject) {
-        this.targetProject = targetProject;
-    }
+	public String getTargetProject() {
+		return targetProject;
+	}
 
-    public String getTargetPackage() {
-        return targetPackage;
-    }
+	public void setTargetProject(String targetProject) {
+		this.targetProject = targetProject;
+	}
 
-    public void setTargetPackage(String targetPackage) {
-        this.targetPackage = targetPackage;
-    }
+	public String getTargetPackage() {
+		return targetPackage;
+	}
 
-    public void validate(List<String> errors, String contextId) {
-        if (!stringHasValue(targetProject)) {
-            errors.add(getString("ValidationError.1", contextId)); //$NON-NLS-1$
-        }
+	public void setTargetPackage(String targetPackage) {
+		this.targetPackage = targetPackage;
+	}
 
-        if (!stringHasValue(targetPackage)) {
-            errors.add(getString("ValidationError.12", //$NON-NLS-1$
-                    "SQLMapGenerator", contextId)); //$NON-NLS-1$
-        }
-    }
+	public void validate(List<String> errors, String contextId) {
+		if (!stringHasValue(targetProject)) {
+			errors.add(getString("ValidationError.1", contextId)); //$NON-NLS-1$
+		}
+
+		if (!stringHasValue(targetPackage)) {
+			errors.add(getString("ValidationError.12", //$NON-NLS-1$
+					"SQLMapGenerator", contextId)); //$NON-NLS-1$
+		}
+	}
+
 }

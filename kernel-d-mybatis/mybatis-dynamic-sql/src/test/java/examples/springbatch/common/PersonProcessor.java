@@ -26,36 +26,35 @@ import org.springframework.stereotype.Component;
 @Component
 public class PersonProcessor implements ItemProcessor<PersonRecord, PersonRecord> {
 
-    private ExecutionContext executionContext;
+	private ExecutionContext executionContext;
 
-    @Override
-    public PersonRecord process(PersonRecord person) throws Exception {
-        incrementRowCount();
+	@Override
+	public PersonRecord process(PersonRecord person) throws Exception {
+		incrementRowCount();
 
-        PersonRecord transformed = new PersonRecord();
-        transformed.setId(person.getId());
-        transformed.setFirstName(person.getFirstName().toUpperCase());
-        transformed.setLastName(person.getLastName().toUpperCase());
-        return transformed;
-    }
+		PersonRecord transformed = new PersonRecord();
+		transformed.setId(person.getId());
+		transformed.setFirstName(person.getFirstName().toUpperCase());
+		transformed.setLastName(person.getLastName().toUpperCase());
+		return transformed;
+	}
 
-    @BeforeStep
-    public void beforeStep(StepExecution stepExecution) {
-        executionContext = stepExecution.getExecutionContext();
-    }
+	@BeforeStep
+	public void beforeStep(StepExecution stepExecution) {
+		executionContext = stepExecution.getExecutionContext();
+	}
 
-    @BeforeChunk
-    public void beforeChunk(ChunkContext chunkContext) {
-        incrementChunkCount();
-    }
+	@BeforeChunk
+	public void beforeChunk(ChunkContext chunkContext) {
+		incrementChunkCount();
+	}
 
-    private void incrementRowCount() {
-        executionContext.putInt("row_count",
-                executionContext.getInt("row_count", 0) + 1);
-    }
+	private void incrementRowCount() {
+		executionContext.putInt("row_count", executionContext.getInt("row_count", 0) + 1);
+	}
 
-    private void incrementChunkCount() {
-        executionContext.putInt("chunk_count",
-                executionContext.getInt("chunk_count", 0) + 1);
-    }
+	private void incrementChunkCount() {
+		executionContext.putInt("chunk_count", executionContext.getInt("chunk_count", 0) + 1);
+	}
+
 }

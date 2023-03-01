@@ -8,12 +8,16 @@ import io.entframework.kernel.db.mds.example.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class StudentServiceImpl extends BaseServiceImpl<StudentRequest, StudentResponse, Student> implements StudentService {
-    public StudentServiceImpl() {
-        super(StudentRequest.class, StudentResponse.class, Student.class);
-    }
+public class StudentServiceImpl extends BaseServiceImpl<StudentRequest, StudentResponse, Student>
+		implements StudentService {
 
-    public StudentServiceImpl(Class<? extends StudentRequest> requestClass, Class<? extends StudentResponse> responseClass, Class<? extends Student> entityClass) {
-        super(requestClass, responseClass, entityClass);
-    }
+	public StudentServiceImpl() {
+		super(StudentRequest.class, StudentResponse.class, Student.class);
+	}
+
+	public StudentServiceImpl(Class<? extends StudentRequest> requestClass,
+			Class<? extends StudentResponse> responseClass, Class<? extends Student> entityClass) {
+		super(requestClass, responseClass, entityClass);
+	}
+
 }

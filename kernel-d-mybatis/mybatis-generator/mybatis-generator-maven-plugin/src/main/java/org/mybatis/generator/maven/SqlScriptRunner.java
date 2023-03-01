@@ -29,185 +29,204 @@ import org.mybatis.generator.internal.util.StringUtility;
 import org.mybatis.generator.internal.util.messages.Messages;
 
 /**
- * This class is used to execute an SQL script before a code generation
- * run if necessary.  Note that this class mainly exists to support the
- * MyBatis Generator build.  It is intentionally not documented and not
- * supported.
+ * This class is used to execute an SQL script before a code generation run if necessary.
+ * Note that this class mainly exists to support the MyBatis Generator build. It is
+ * intentionally not documented and not supported.
  *
  * @author Jeff Butler
  */
 public class SqlScriptRunner {
-    private String driver;
-    private String url;
-    private String userid;
-    private String password;
-    private String sourceFile;
-    private Log log;
 
-    public SqlScriptRunner(String sourceFile, String driver, String url,
-            String userId, String password) throws MojoExecutionException {
+	private String driver;
 
-        if (!StringUtility.stringHasValue(sourceFile)) {
-            throw new MojoExecutionException("SQL script file is required");
-        }
+	private String url;
 
-        if (!StringUtility.stringHasValue(driver)) {
-            throw new MojoExecutionException("JDBC Driver is required");
-        }
+	private String userid;
 
-        if (!StringUtility.stringHasValue(url)) {
-            throw new MojoExecutionException("JDBC URL is required");
-        }
+	private String password;
 
-        this.sourceFile = sourceFile;
-        this.driver = driver;
-        this.url = url;
-        this.userid = userId;
-        this.password = password;
-    }
+	private String sourceFile;
 
-    public void executeScript() throws MojoExecutionException {
+	private Log log;
 
-        Connection connection = null;
+	public SqlScriptRunner(String sourceFile, String driver, String url, String userId, String password)
+			throws MojoExecutionException {
 
-        try {
-            Class<?> driverClass = ObjectFactory.externalClassForName(driver);
-            Constructor<?> constructor = driverClass.getDeclaredConstructor();
-            Driver theDriver = (Driver) constructor.newInstance();
+		if (!StringUtility.stringHasValue(sourceFile)) {
+			throw new MojoExecutionException("SQL script file is required");
+		}
 
-            Properties properties = new Properties();
-            if (userid != null) {
-                properties.setProperty("user", userid);
-            }
+		if (!StringUtility.stringHasValue(driver)) {
+			throw new MojoExecutionException("JDBC Driver is required");
+		}
 
-            if (password != null) {
-                properties.setProperty("password", password);
-            }
+		if (!StringUtility.stringHasValue(url)) {
+			throw new MojoExecutionException("JDBC URL is required");
+		}
 
-            connection = theDriver.connect(url, properties);
-            connection.setAutoCommit(false);
+		this.sourceFile = sourceFile;
+		this.driver = driver;
+		this.url = url;
+		this.userid = userId;
+		this.password = password;
+	}
 
-            try (Statement statement = connection.createStatement(); BufferedReader br = getScriptReader()) {
-                String sql;
+	public void executeScript() throws MojoExecutionException {
 
-                while ((sql = readStatement(br)) != null) {
-                    statement.execute(sql);
-                }
-            }
-            connection.commit();
-        } catch (ClassNotFoundException e) {
-            throw new MojoExecutionException("Class not found: " + e.getMessage());
-        } catch (FileNotFoundException e) {
-            throw new MojoExecutionException("File note found: " + sourceFile);
-        } catch (SQLException e) {
-            throw new MojoExecutionException("SqlException: " + e.getMessage(), e);
-        } catch (IOException e) {
-            throw new MojoExecutionException("IOException: " + e.getMessage(), e);
-        } catch (InstantiationException e) {
-            throw new MojoExecutionException("InstantiationException: " + e.getMessage());
-        } catch (IllegalAccessException e) {
-            throw new MojoExecutionException("IllegalAccessException: " + e.getMessage());
-        } catch (NoSuchMethodException e) {
-            throw new MojoExecutionException("Can't find constructor: " + e.getMessage());
-        } catch (InvocationTargetException e) {
-            throw new MojoExecutionException("InvocationTargetException: " + e.getMessage());
-        } finally {
-            closeConnection(connection);
-        }
-    }
+		Connection connection = null;
 
-    public String getDriver() {
-        return driver;
-    }
+		try {
+			Class<?> driverClass = ObjectFactory.externalClassForName(driver);
+			Constructor<?> constructor = driverClass.getDeclaredConstructor();
+			Driver theDriver = (Driver) constructor.newInstance();
 
-    public void setDriver(String driver) {
-        this.driver = driver;
-    }
+			Properties properties = new Properties();
+			if (userid != null) {
+				properties.setProperty("user", userid);
+			}
 
-    public String getPassword() {
-        return password;
-    }
+			if (password != null) {
+				properties.setProperty("password", password);
+			}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+			connection = theDriver.connect(url, properties);
+			connection.setAutoCommit(false);
 
-    private void closeConnection(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                log.debug("SQLException on close connection", e);
-            }
-        }
-    }
+			try (Statement statement = connection.createStatement(); BufferedReader br = getScriptReader()) {
+				String sql;
 
-    private void closeStatement(Statement statement) {
-        if (statement != null) {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                log.debug("SQLException on close statement", e);
-            }
-        }
-    }
+				while ((sql = readStatement(br)) != null) {
+					statement.execute(sql);
+				}
+			}
+			connection.commit();
+		}
+		catch (ClassNotFoundException e) {
+			throw new MojoExecutionException("Class not found: " + e.getMessage());
+		}
+		catch (FileNotFoundException e) {
+			throw new MojoExecutionException("File note found: " + sourceFile);
+		}
+		catch (SQLException e) {
+			throw new MojoExecutionException("SqlException: " + e.getMessage(), e);
+		}
+		catch (IOException e) {
+			throw new MojoExecutionException("IOException: " + e.getMessage(), e);
+		}
+		catch (InstantiationException e) {
+			throw new MojoExecutionException("InstantiationException: " + e.getMessage());
+		}
+		catch (IllegalAccessException e) {
+			throw new MojoExecutionException("IllegalAccessException: " + e.getMessage());
+		}
+		catch (NoSuchMethodException e) {
+			throw new MojoExecutionException("Can't find constructor: " + e.getMessage());
+		}
+		catch (InvocationTargetException e) {
+			throw new MojoExecutionException("InvocationTargetException: " + e.getMessage());
+		}
+		finally {
+			closeConnection(connection);
+		}
+	}
 
-    private String readStatement(BufferedReader br) throws IOException {
-        StringBuilder sb = new StringBuilder();
+	public String getDriver() {
+		return driver;
+	}
 
-        String line;
+	public void setDriver(String driver) {
+		this.driver = driver;
+	}
 
-        while ((line = br.readLine()) != null) {
-            if (line.startsWith("--")) { //$NON-NLS-1$
-                continue;
-            }
+	public String getPassword() {
+		return password;
+	}
 
-            if (!StringUtility.stringHasValue(line)) {
-                continue;
-            }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-            if (line.endsWith(";")) { //$NON-NLS-1$
-                sb.append(' ');
-                sb.append(line.substring(0, line.length() - 1));
-                break;
-            } else {
-                sb.append(' ');
-                sb.append(line);
-            }
-        }
+	private void closeConnection(Connection connection) {
+		if (connection != null) {
+			try {
+				connection.close();
+			}
+			catch (SQLException e) {
+				log.debug("SQLException on close connection", e);
+			}
+		}
+	}
 
-        String s = sb.toString().trim();
+	private void closeStatement(Statement statement) {
+		if (statement != null) {
+			try {
+				statement.close();
+			}
+			catch (SQLException e) {
+				log.debug("SQLException on close statement", e);
+			}
+		}
+	}
 
-        if (s.length() > 0) {
-            log.debug(Messages.getString("Progress.13", s)); //$NON-NLS-1$
-        }
+	private String readStatement(BufferedReader br) throws IOException {
+		StringBuilder sb = new StringBuilder();
 
-        return s.length() > 0 ? s : null;
-    }
+		String line;
 
-    public void setLog(Log log) {
-        this.log = log;
-    }
+		while ((line = br.readLine()) != null) {
+			if (line.startsWith("--")) { //$NON-NLS-1$
+				continue;
+			}
 
-    private BufferedReader getScriptReader() throws MojoExecutionException, IOException {
-        BufferedReader answer;
+			if (!StringUtility.stringHasValue(line)) {
+				continue;
+			}
 
-        if (sourceFile.startsWith("classpath:")) {
-            String resource = sourceFile.substring("classpath:".length());
-            URL url = ObjectFactory.getResource(resource);
-            InputStream is = url.openStream();
-            if (is == null) {
-                throw new MojoExecutionException("SQL script file does not exist: " + resource);
-            }
-            answer = new BufferedReader(new InputStreamReader(is));
-        } else {
-            File file = new File(sourceFile);
-            if (!file.exists()) {
-                throw new MojoExecutionException("SQL script file does not exist");
-            }
-            answer = new BufferedReader(new FileReader(file));
-        }
+			if (line.endsWith(";")) { //$NON-NLS-1$
+				sb.append(' ');
+				sb.append(line.substring(0, line.length() - 1));
+				break;
+			}
+			else {
+				sb.append(' ');
+				sb.append(line);
+			}
+		}
 
-        return answer;
-    }
+		String s = sb.toString().trim();
+
+		if (s.length() > 0) {
+			log.debug(Messages.getString("Progress.13", s)); //$NON-NLS-1$
+		}
+
+		return s.length() > 0 ? s : null;
+	}
+
+	public void setLog(Log log) {
+		this.log = log;
+	}
+
+	private BufferedReader getScriptReader() throws MojoExecutionException, IOException {
+		BufferedReader answer;
+
+		if (sourceFile.startsWith("classpath:")) {
+			String resource = sourceFile.substring("classpath:".length());
+			URL url = ObjectFactory.getResource(resource);
+			InputStream is = url.openStream();
+			if (is == null) {
+				throw new MojoExecutionException("SQL script file does not exist: " + resource);
+			}
+			answer = new BufferedReader(new InputStreamReader(is));
+		}
+		else {
+			File file = new File(sourceFile);
+			if (!file.exists()) {
+				throw new MojoExecutionException("SQL script file does not exist");
+			}
+			answer = new BufferedReader(new FileReader(file));
+		}
+
+		return answer;
+	}
+
 }

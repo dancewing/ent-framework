@@ -6,4 +6,5 @@ import io.entframework.kernel.db.mds.example.pojo.request.TeacherRequest;
 import io.entframework.kernel.db.mds.example.pojo.response.TeacherResponse;
 
 public interface TeacherService extends BaseService<TeacherRequest, TeacherResponse, Teacher> {
+
 }

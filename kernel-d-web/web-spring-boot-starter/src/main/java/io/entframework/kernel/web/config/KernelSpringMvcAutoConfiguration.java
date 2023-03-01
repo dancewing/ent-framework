@@ -38,71 +38,82 @@ import java.util.List;
 
 @Configuration
 @EnableConfigurationProperties(KernelWebProperties.class)
-@Import({cn.hutool.extra.spring.SpringUtil.class})
+@Import({ cn.hutool.extra.spring.SpringUtil.class })
 public class KernelSpringMvcAutoConfiguration implements WebMvcConfigurer, ApplicationContextAware {
 
-    private final KernelWebProperties properties;
-    private ApplicationContext context;
+	private final KernelWebProperties properties;
 
-    public KernelSpringMvcAutoConfiguration(KernelWebProperties properties) {
-        this.properties = properties;
-    }
+	private ApplicationContext context;
 
-    /**
-     * 重写系统的默认错误提示
-     *
-     * @author fengshuonan
-     * @date 2020/12/16 15:36
-     */
-    @Bean
-    public CustomErrorAttributes gunsErrorAttributes() {
-        return new CustomErrorAttributes();
-    }
+	public KernelSpringMvcAutoConfiguration(KernelWebProperties properties) {
+		this.properties = properties;
+	}
 
-    /**
-     * json自定义序列化工具,long转string
-     *
-     * @author fengshuonan
-     * @date 2020/12/13 17:16
-     */
-    @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
-        return jacksonObjectMapperBuilder -> {
-            jacksonObjectMapperBuilder
-                    .serializerByType(Long.class, ToStringSerializer.instance)
-                    .serializerByType(Long.TYPE, ToStringSerializer.instance)
-                    .serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(this.properties.getDateTimeFormat())))
-                    .deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(this.properties.getDateTimeFormat())))
-                    .serializerByType(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(this.properties.getDateFormat())))
-                    .deserializerByType(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(this.properties.getDateFormat())))
-                    .serializerByType(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(this.properties.getTimeFormat())))
-                    .deserializerByType(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(this.properties.getTimeFormat())));
-        };
-    }
+	/**
+	 * 重写系统的默认错误提示
+	 *
+	 * @author fengshuonan
+	 * @date 2020/12/16 15:36
+	 */
+	@Bean
+	public CustomErrorAttributes gunsErrorAttributes() {
+		return new CustomErrorAttributes();
+	}
 
-    @Override
-    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        for (HttpMessageConverter<?> converter : converters) {
-            if (converter instanceof MappingJackson2HttpMessageConverter jacksonMessageConverter) {
+	/**
+	 * json自定义序列化工具,long转string
+	 *
+	 * @author fengshuonan
+	 * @date 2020/12/13 17:16
+	 */
+	@Bean
+	public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
+		return jacksonObjectMapperBuilder -> {
+			jacksonObjectMapperBuilder.serializerByType(Long.class, ToStringSerializer.instance)
+					.serializerByType(Long.TYPE, ToStringSerializer.instance)
+					.serializerByType(LocalDateTime.class,
+							new LocalDateTimeSerializer(
+									DateTimeFormatter.ofPattern(this.properties.getDateTimeFormat())))
+					.deserializerByType(LocalDateTime.class,
+							new LocalDateTimeDeserializer(
+									DateTimeFormatter.ofPattern(this.properties.getDateTimeFormat())))
+					.serializerByType(LocalDate.class,
+							new LocalDateSerializer(DateTimeFormatter.ofPattern(this.properties.getDateFormat())))
+					.deserializerByType(LocalDate.class,
+							new LocalDateDeserializer(DateTimeFormatter.ofPattern(this.properties.getDateFormat())))
+					.serializerByType(LocalTime.class,
+							new LocalTimeSerializer(DateTimeFormatter.ofPattern(this.properties.getTimeFormat())))
+					.deserializerByType(LocalTime.class,
+							new LocalTimeDeserializer(DateTimeFormatter.ofPattern(this.properties.getTimeFormat())));
+		};
+	}
 
-                ObjectMapper objectMapper = jacksonMessageConverter.getObjectMapper();
-                SimpleModule simpleModule = new SimpleModule();
-                BaseRequestValueInstantiators ivi = new BaseRequestValueInstantiators(this.context);
-                simpleModule.setValueInstantiators(ivi);
-                objectMapper.registerModule(simpleModule);
-                break;
-            }
-        }
-    }
+	@Override
+	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+		for (HttpMessageConverter<?> converter : converters) {
+			if (converter instanceof MappingJackson2HttpMessageConverter jacksonMessageConverter) {
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.context = applicationContext;
-    }
+				ObjectMapper objectMapper = jacksonMessageConverter.getObjectMapper();
+				SimpleModule simpleModule = new SimpleModule();
+				BaseRequestValueInstantiators ivi = new BaseRequestValueInstantiators(this.context);
+				simpleModule.setValueInstantiators(ivi);
+				objectMapper.registerModule(simpleModule);
+				break;
+			}
+		}
+	}
 
-//    @Bean
-//    public Jackson2ObjectMapperBuilderCustomizer baseRequestJackson2ObjectMapperBuilderCustomizer() {
-//        return jacksonObjectMapperBuilder ->
-//                jacksonObjectMapperBuilder.deserializerByType(BaseRequest.class, new BaseRequestDeserializer());
-//    }
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.context = applicationContext;
+	}
+
+	// @Bean
+	// public Jackson2ObjectMapperBuilderCustomizer
+	// baseRequestJackson2ObjectMapperBuilderCustomizer() {
+	// return jacksonObjectMapperBuilder ->
+	// jacksonObjectMapperBuilder.deserializerByType(BaseRequest.class, new
+	// BaseRequestDeserializer());
+	// }
+
 }

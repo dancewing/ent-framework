@@ -8,7 +8,6 @@ import lombok.Data;
 
 import java.util.Date;
 
-
 /**
  * 当前的在线用户的信息封装
  *
@@ -17,52 +16,52 @@ import java.util.Date;
 @Data
 public class OnlineUserDTO {
 
-    /**
-     * 用户的token
-     */
-    @ChineseDescription("用户的token")
-    private String token;
+	/**
+	 * 用户的token
+	 */
+	@ChineseDescription("用户的token")
+	private String token;
 
-    /**
-     * 主键
-     */
-    @ChineseDescription("主键")
-    private Long userId;
+	/**
+	 * 主键
+	 */
+	@ChineseDescription("主键")
+	private Long userId;
 
-    /**
-     * 账号
-     */
-    @ChineseDescription("账号")
-    private String account;
+	/**
+	 * 账号
+	 */
+	@ChineseDescription("账号")
+	private String account;
 
-    /**
-     * 昵称
-     */
-    @ChineseDescription("昵称")
-    private String nickName;
+	/**
+	 * 昵称
+	 */
+	@ChineseDescription("昵称")
+	private String nickName;
 
-    /**
-     * 姓名
-     */
-    @ChineseDescription("姓名")
-    private String realName;
+	/**
+	 * 姓名
+	 */
+	@ChineseDescription("姓名")
+	private String realName;
 
-    /**
-     * 性别
-     */
-    @ChineseDescription("性别")
-    private String sex;
+	/**
+	 * 性别
+	 */
+	@ChineseDescription("性别")
+	private String sex;
 
-    /**
-     * 角色名称
-     */
-    @ChineseDescription("角色名称")
-    private String roleName;
+	/**
+	 * 角色名称
+	 */
+	@ChineseDescription("角色名称")
+	private String roleName;
 
-    /**
-     * 登录的时间
-     */
-    @ChineseDescription("登录的时间")
-    private Date loginTime;
+	/**
+	 * 登录的时间
+	 */
+	@ChineseDescription("登录的时间")
+	private Date loginTime;
 
 }

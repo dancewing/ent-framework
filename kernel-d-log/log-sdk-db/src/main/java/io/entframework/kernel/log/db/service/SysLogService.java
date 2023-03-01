@@ -21,51 +21,46 @@ import java.util.List;
  */
 public interface SysLogService extends BaseService<SysLogRequest, SysLogResponse, SysLog> {
 
-    /**
-     * 新增
-     *
-     * @param sysLogRequest 参数对象
-     * @date 2021/1/26 12:52
-     */
-    void add(SysLogRequest sysLogRequest);
+	/**
+	 * 新增
+	 * @param sysLogRequest 参数对象
+	 * @date 2021/1/26 12:52
+	 */
+	void add(SysLogRequest sysLogRequest);
 
-    /**
-     * 删除
-     *
-     * @param sysLogRequest 参数对象
-     * @date 2021/1/26 12:52
-     */
-    void del(SysLogRequest sysLogRequest);
+	/**
+	 * 删除
+	 * @param sysLogRequest 参数对象
+	 * @date 2021/1/26 12:52
+	 */
+	void del(SysLogRequest sysLogRequest);
 
-    /**
-     * 删除所有数据
-     *
-     * @param sysLogRequest 参数对象
-     * @date 2021/1/26 12:52
-     */
-    void delAll(SysLogRequest sysLogRequest);
+	/**
+	 * 删除所有数据
+	 * @param sysLogRequest 参数对象
+	 * @date 2021/1/26 12:52
+	 */
+	void delAll(SysLogRequest sysLogRequest);
 
-    /**
-     * 查看日志详情
-     *
-     * @date 2021/1/11 17:51
-     */
-    SysLogResponse detail(SysLogRequest logManagerParam);
+	/**
+	 * 查看日志详情
+	 *
+	 * @date 2021/1/11 17:51
+	 */
+	SysLogResponse detail(SysLogRequest logManagerParam);
 
-    /**
-     * 查询-列表-按实体对象
-     *
-     * @param logManagerParam 参数对象
-     * @date 2021/1/26 12:52
-     */
-    List<SysLogResponse> findList(SysLogRequest logManagerParam);
+	/**
+	 * 查询-列表-按实体对象
+	 * @param logManagerParam 参数对象
+	 * @date 2021/1/26 12:52
+	 */
+	List<SysLogResponse> findList(SysLogRequest logManagerParam);
 
-    /**
-     * 查询-列表-分页-按实体对象
-     *
-     * @param logManagerParam 参数对象
-     * @date 2021/1/26 12:52
-     */
-    PageResult<SysLogResponse> findPage(SysLogRequest logManagerParam);
+	/**
+	 * 查询-列表-分页-按实体对象
+	 * @param logManagerParam 参数对象
+	 * @date 2021/1/26 12:52
+	 */
+	PageResult<SysLogResponse> findPage(SysLogRequest logManagerParam);
 
 }

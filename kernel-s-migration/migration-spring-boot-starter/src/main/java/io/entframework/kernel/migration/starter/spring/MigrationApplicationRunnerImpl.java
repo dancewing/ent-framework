@@ -23,14 +23,15 @@ import java.util.Map;
 @Component
 public class MigrationApplicationRunnerImpl implements ApplicationRunner {
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
+	@Override
+	public void run(ApplicationArguments args) throws Exception {
 
-        // 获取所有的实现类
-        Map<String, AccessMigrationApi> accessMigrationApiMap = SpringUtil.getBeansOfType(AccessMigrationApi.class);
-        for (AccessMigrationApi accessMigrationApi : accessMigrationApiMap.values()) {
-            // 加入调度中心
-            SchedulingCenter.addMigration(accessMigrationApi);
-        }
-    }
+		// 获取所有的实现类
+		Map<String, AccessMigrationApi> accessMigrationApiMap = SpringUtil.getBeansOfType(AccessMigrationApi.class);
+		for (AccessMigrationApi accessMigrationApi : accessMigrationApiMap.values()) {
+			// 加入调度中心
+			SchedulingCenter.addMigration(accessMigrationApi);
+		}
+	}
+
 }

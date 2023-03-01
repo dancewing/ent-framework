@@ -139,7 +139,8 @@ public class AuthServiceImpl implements AuthServiceApi {
 		Claims payload = null;
 		try {
 			payload = jwtTokenOperator.getJwtPayloadClaims(loginWithTokenRequest.getToken());
-		} catch (Exception exception) {
+		}
+		catch (Exception exception) {
 			throw new AuthException(AuthExceptionEnum.SSO_TOKEN_PARSE_ERROR, exception.getMessage());
 		}
 
@@ -158,7 +159,8 @@ public class AuthServiceImpl implements AuthServiceApi {
 			JSONObject userInfoJsonObject = JSON.parseObject(loginUserJson);
 			account = userInfoJsonObject.getString("account");
 			caToken = userInfoJsonObject.getString("caToken");
-		} catch (Exception exception) {
+		}
+		catch (Exception exception) {
 			throw new AuthException(AuthExceptionEnum.SSO_TOKEN_DECRYPT_USER_ERROR, exception.getMessage());
 		}
 
@@ -176,8 +178,8 @@ public class AuthServiceImpl implements AuthServiceApi {
 
 		if (CharSequenceUtil.isNotEmpty(token)) {
 			loginLogServiceApi.add(createLogRequest(LoginContext.me().getLoginUser().getUserId(),
-					HttpServletUtil.getRequestClientIp(HttpServletUtil.getRequest()), LoginEventType.LOGIN_OUT_SUCCESS, null,
-					LoginContext.me().getLoginUser().getAccount()));
+					HttpServletUtil.getRequestClientIp(HttpServletUtil.getRequest()), LoginEventType.LOGIN_OUT_SUCCESS,
+					null, LoginContext.me().getLoginUser().getAccount()));
 		}
 
 		logoutWithToken(token);
@@ -185,14 +187,10 @@ public class AuthServiceImpl implements AuthServiceApi {
 
 	}
 
-	private SysLoginLogRequest createLogRequest(Long userId, String requestClientIp, LoginEventType eventType, String message, String account) {
-		return SysLoginLogRequest.builder()
-				.userId(userId)
-				.llgIpAddress(requestClientIp)
-				.type(eventType)
-				.llgMessage(message)
-				.loginAccount(account)
-				.build();
+	private SysLoginLogRequest createLogRequest(Long userId, String requestClientIp, LoginEventType eventType,
+			String message, String account) {
+		return SysLoginLogRequest.builder().userId(userId).llgIpAddress(requestClientIp).type(eventType)
+				.llgMessage(message).loginAccount(account).build();
 	}
 
 	@Override
@@ -203,10 +201,9 @@ public class AuthServiceImpl implements AuthServiceApi {
 
 	/**
 	 * 登录的真正业务逻辑
-	 *
-	 * @param loginRequest     登录参数
+	 * @param loginRequest 登录参数
 	 * @param validatePassword 是否校验密码，true-校验密码，false-不会校验密码
-	 * @param caToken          单点登录后服务端的token，一般为32位uuid
+	 * @param caToken 单点登录后服务端的token，一般为32位uuid
 	 * @date 2020/10/21 16:59
 	 */
 	private LoginResponse loginAction(LoginRequest loginRequest, Boolean validatePassword, String caToken) {
@@ -219,7 +216,8 @@ public class AuthServiceImpl implements AuthServiceApi {
 					loginCacheOperatorApi.put(userByAccount.getUserId().toString(), "true", 1800L);
 					throw new AuthException(AuthExceptionEnum.EXCEED_MAX_LOGIN_COUNT);
 				}
-			} else {
+			}
+			else {
 				throw new AuthException(AuthExceptionEnum.EXCEED_MAX_LOGIN_COUNT);
 			}
 		}
@@ -235,7 +233,8 @@ public class AuthServiceImpl implements AuthServiceApi {
 			if (CharSequenceUtil.hasBlank(loginRequest.getUsername(), loginRequest.getPassword())) {
 				throw new AuthException(AuthExceptionEnum.PARAM_EMPTY);
 			}
-		} else {
+		}
+		else {
 			if (CharSequenceUtil.hasBlank(loginRequest.getUsername())) {
 				throw new AuthException(AuthExceptionEnum.ACCOUNT_IS_BLANK);
 			}
@@ -251,7 +250,8 @@ public class AuthServiceImpl implements AuthServiceApi {
 			}
 			if (!captchaApi.validateCaptcha(verKey, verCode)) {
 				// 登录失败日志
-				loginLogServiceApi.add(createLogRequest(loginUser.getUserId(), ip, LoginEventType.LOGIN_IN_FAIL, "验证码错误", loginUser.getAccount()));
+				loginLogServiceApi.add(createLogRequest(loginUser.getUserId(), ip, LoginEventType.LOGIN_IN_FAIL,
+						"验证码错误", loginUser.getAccount()));
 				throw new AuthException(ValidatorExceptionEnum.CAPTCHA_ERROR);
 			}
 		}
@@ -266,7 +266,8 @@ public class AuthServiceImpl implements AuthServiceApi {
 			}
 			if (!dragCaptchaApi.validateCaptcha(verKey, Convert.toInt(verXLocationValue))) {
 				// 登录失败日志
-				loginLogServiceApi.add(createLogRequest(loginUser.getUserId(), ip, LoginEventType.LOGIN_IN_FAIL, "拖拽验证码错误", loginRequest.getUsername()));
+				loginLogServiceApi.add(createLogRequest(loginUser.getUserId(), ip, LoginEventType.LOGIN_IN_FAIL,
+						"拖拽验证码错误", loginRequest.getUsername()));
 				throw new AuthException(ValidatorExceptionEnum.DRAG_CAPTCHA_ERROR);
 			}
 		}
@@ -297,7 +298,8 @@ public class AuthServiceImpl implements AuthServiceApi {
 				userByAccount.setLoginCount(userByAccount.getLoginCount() + 1);
 				sysUserService.update(userByAccount);
 				// 登录失败日志
-				loginLogServiceApi.add(createLogRequest(loginUser.getUserId(), ip, LoginEventType.LOGIN_IN_FAIL, "帐号或密码错误", loginRequest.getUsername()));
+				loginLogServiceApi.add(createLogRequest(loginUser.getUserId(), ip, LoginEventType.LOGIN_IN_FAIL,
+						"帐号或密码错误", loginRequest.getUsername()));
 				throw new AuthException(AuthExceptionEnum.USERNAME_PASSWORD_ERROR);
 			}
 		}
@@ -338,7 +340,8 @@ public class AuthServiceImpl implements AuthServiceApi {
 		sysUserService.update(userByAccount);
 
 		// 13.登录成功日志
-		loginLogServiceApi.add(createLogRequest(loginUser.getUserId(), ip, LoginEventType.LOGIN_IN_SUCCESS, null, loginRequest.getUsername()));
+		loginLogServiceApi.add(createLogRequest(loginUser.getUserId(), ip, LoginEventType.LOGIN_IN_SUCCESS, null,
+				loginRequest.getUsername()));
 
 		// 14. 组装返回结果
 		LoginResponse loginResponse = new LoginResponse();

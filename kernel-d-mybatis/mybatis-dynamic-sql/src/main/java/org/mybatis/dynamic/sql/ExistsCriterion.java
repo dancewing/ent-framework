@@ -18,37 +18,41 @@ package org.mybatis.dynamic.sql;
 import java.util.Objects;
 
 public class ExistsCriterion extends SqlCriterion {
-    private final ExistsPredicate existsPredicate;
 
-    private ExistsCriterion(Builder builder) {
-        super(builder);
-        this.existsPredicate = Objects.requireNonNull(builder.existsPredicate);
-    }
+	private final ExistsPredicate existsPredicate;
 
-    public ExistsPredicate existsPredicate() {
-        return existsPredicate;
-    }
+	private ExistsCriterion(Builder builder) {
+		super(builder);
+		this.existsPredicate = Objects.requireNonNull(builder.existsPredicate);
+	}
 
-    @Override
-    public <R> R accept(SqlCriterionVisitor<R> visitor) {
-        return visitor.visit(this);
-    }
+	public ExistsPredicate existsPredicate() {
+		return existsPredicate;
+	}
 
-    public static class Builder extends AbstractBuilder<Builder> {
-        private ExistsPredicate existsPredicate;
+	@Override
+	public <R> R accept(SqlCriterionVisitor<R> visitor) {
+		return visitor.visit(this);
+	}
 
-        public Builder withExistsPredicate(ExistsPredicate existsPredicate) {
-            this.existsPredicate = existsPredicate;
-            return this;
-        }
+	public static class Builder extends AbstractBuilder<Builder> {
 
-        public ExistsCriterion build() {
-            return new ExistsCriterion(this);
-        }
+		private ExistsPredicate existsPredicate;
 
-        @Override
-        protected Builder getThis() {
-            return this;
-        }
-    }
+		public Builder withExistsPredicate(ExistsPredicate existsPredicate) {
+			this.existsPredicate = existsPredicate;
+			return this;
+		}
+
+		public ExistsCriterion build() {
+			return new ExistsCriterion(this);
+		}
+
+		@Override
+		protected Builder getThis() {
+			return this;
+		}
+
+	}
+
 }

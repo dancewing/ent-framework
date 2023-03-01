@@ -12,61 +12,67 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class InsertIgnoreModel<T> {
-    private final SqlTable table;
-    private final T record;
-    private final List<AbstractColumnMapping> columnMappings;
 
-    private InsertIgnoreModel(Builder<T> builder) {
-        table = Objects.requireNonNull(builder.table);
-        record = Objects.requireNonNull(builder.record);
-        columnMappings = Objects.requireNonNull(builder.columnMappings);
-    }
+	private final SqlTable table;
 
-    public <R> Stream<R> mapColumnMappings(Function<AbstractColumnMapping, R> mapper) {
-        return columnMappings.stream().map(mapper);
-    }
+	private final T record;
 
-    public T record() {
-        return record;
-    }
+	private final List<AbstractColumnMapping> columnMappings;
 
-    public SqlTable table() {
-        return table;
-    }
+	private InsertIgnoreModel(Builder<T> builder) {
+		table = Objects.requireNonNull(builder.table);
+		record = Objects.requireNonNull(builder.record);
+		columnMappings = Objects.requireNonNull(builder.columnMappings);
+	}
 
-    public InsertStatementProvider<T> render(RenderingStrategy renderingStrategy) {
-        return InsertIgnoreRenderer.withInsertIgnoreModel(this)
-                .withRenderingStrategy(renderingStrategy)
-                .build()
-                .render();
-    }
+	public <R> Stream<R> mapColumnMappings(Function<AbstractColumnMapping, R> mapper) {
+		return columnMappings.stream().map(mapper);
+	}
 
-    public static <T> Builder<T> withRecord(T record) {
-        return new Builder<T>().withRecord(record);
-    }
+	public T record() {
+		return record;
+	}
 
-    public static class Builder<T> {
-        private SqlTable table;
-        private T record;
-        private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
+	public SqlTable table() {
+		return table;
+	}
 
-        public Builder<T> withTable(SqlTable table) {
-            this.table = table;
-            return this;
-        }
+	public InsertStatementProvider<T> render(RenderingStrategy renderingStrategy) {
+		return InsertIgnoreRenderer.withInsertIgnoreModel(this).withRenderingStrategy(renderingStrategy).build()
+				.render();
+	}
 
-        public Builder<T> withRecord(T record) {
-            this.record = record;
-            return this;
-        }
+	public static <T> Builder<T> withRecord(T record) {
+		return new Builder<T>().withRecord(record);
+	}
 
-        public Builder<T> withColumnMappings(List<AbstractColumnMapping> columnMappings) {
-            this.columnMappings.addAll(columnMappings);
-            return this;
-        }
+	public static class Builder<T> {
 
-        public InsertIgnoreModel<T> build() {
-            return new InsertIgnoreModel<>(this);
-        }
-    }
+		private SqlTable table;
+
+		private T record;
+
+		private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
+
+		public Builder<T> withTable(SqlTable table) {
+			this.table = table;
+			return this;
+		}
+
+		public Builder<T> withRecord(T record) {
+			this.record = record;
+			return this;
+		}
+
+		public Builder<T> withColumnMappings(List<AbstractColumnMapping> columnMappings) {
+			this.columnMappings.addAll(columnMappings);
+			return this;
+		}
+
+		public InsertIgnoreModel<T> build() {
+			return new InsertIgnoreModel<>(this);
+		}
+
+	}
+
 }

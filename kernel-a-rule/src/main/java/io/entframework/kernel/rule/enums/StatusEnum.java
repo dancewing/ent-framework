@@ -18,34 +18,35 @@ import lombok.Getter;
 @EnumHandler
 public enum StatusEnum implements SupperEnum<Integer> {
 
-    /**
-     * 启用
-     */
-    ENABLE(1, "启用"),
+	/**
+	 * 启用
+	 */
+	ENABLE(1, "启用"),
 
-    /**
-     * 禁用
-     */
-    DISABLE(2, "禁用");
-    @JsonValue
-    @EnumValue
-    private final Integer value;
+	/**
+	 * 禁用
+	 */
+	DISABLE(2, "禁用");
 
-    private final String label;
+	@JsonValue
+	@EnumValue
+	private final Integer value;
 
-    StatusEnum(Integer value, String label) {
-        this.value = value;
-        this.label = label;
-    }
+	private final String label;
 
-    /**
-     * 根据code获取枚举
-     *
-     * @date 2020/10/29 18:59
-     */
-    @JsonCreator
-    public static StatusEnum valueToEnum(Integer value) {
-        return SupperEnum.fromValue(StatusEnum.class, value);
-    }
+	StatusEnum(Integer value, String label) {
+		this.value = value;
+		this.label = label;
+	}
+
+	/**
+	 * 根据code获取枚举
+	 *
+	 * @date 2020/10/29 18:59
+	 */
+	@JsonCreator
+	public static StatusEnum valueToEnum(Integer value) {
+		return SupperEnum.fromValue(StatusEnum.class, value);
+	}
 
 }

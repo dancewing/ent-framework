@@ -17,51 +17,53 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SysConfigResponse extends BaseResponse {
-    /**
-     * 主键
-     */
-    @ChineseDescription("主键")
-    private Long configId;
 
-    /**
-     * 名称
-     */
-    @ChineseDescription("名称")
-    private String configName;
+	/**
+	 * 主键
+	 */
+	@ChineseDescription("主键")
+	private Long configId;
 
-    /**
-     * 属性编码
-     */
-    @ChineseDescription("属性编码")
-    private String configCode;
+	/**
+	 * 名称
+	 */
+	@ChineseDescription("名称")
+	private String configName;
 
-    /**
-     * 属性值
-     */
-    @ChineseDescription("属性值")
-    private String configValue;
+	/**
+	 * 属性编码
+	 */
+	@ChineseDescription("属性编码")
+	private String configCode;
 
-    /**
-     * 是否是系统参数：Y-是，N-否
-     */
-    @ChineseDescription("是否是系统参数：Y-是，N-否")
-    private YesOrNotEnum sysFlag;
+	/**
+	 * 属性值
+	 */
+	@ChineseDescription("属性值")
+	private String configValue;
 
-    /**
-     * 备注
-     */
-    @ChineseDescription("备注")
-    private String remark;
+	/**
+	 * 是否是系统参数：Y-是，N-否
+	 */
+	@ChineseDescription("是否是系统参数：Y-是，N-否")
+	private YesOrNotEnum sysFlag;
 
-    /**
-     * 状态：1-正常，2-停用
-     */
-    @ChineseDescription("状态：1-正常，2-停用")
-    private StatusEnum statusFlag;
+	/**
+	 * 备注
+	 */
+	@ChineseDescription("备注")
+	private String remark;
 
-    /**
-     * 常量所属分类的编码，来自于“常量的分类”字典
-     */
-    @ChineseDescription("常量所属分类的编码，来自于“常量的分类”字典")
-    private String groupCode;
+	/**
+	 * 状态：1-正常，2-停用
+	 */
+	@ChineseDescription("状态：1-正常，2-停用")
+	private StatusEnum statusFlag;
+
+	/**
+	 * 常量所属分类的编码，来自于“常量的分类”字典
+	 */
+	@ChineseDescription("常量所属分类的编码，来自于“常量的分类”字典")
+	private String groupCode;
+
 }

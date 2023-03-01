@@ -21,17 +21,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({
-        WebMvcAutoConfiguration.class,
-        DataSourceAutoConfiguration.class,
-        SqlInitializationAutoConfiguration.class,
-        MybatisAutoConfiguration.class,
-        KernelMyBatisAutoConfiguration.class,
-        KernelMyBatisConfigurationCustomizer.class,
-        KernelDaoServiceAutoConfiguration.class,
-        SpringUtil.class,
-        SampleSpringAutoConfiguration.class,
-        KernelConverterAutoConfiguration.class
-})
+@Import({ WebMvcAutoConfiguration.class, DataSourceAutoConfiguration.class, SqlInitializationAutoConfiguration.class,
+		MybatisAutoConfiguration.class, KernelMyBatisAutoConfiguration.class,
+		KernelMyBatisConfigurationCustomizer.class, KernelDaoServiceAutoConfiguration.class, SpringUtil.class,
+		SampleSpringAutoConfiguration.class, KernelConverterAutoConfiguration.class })
 public class TestBootApp {
+
 }

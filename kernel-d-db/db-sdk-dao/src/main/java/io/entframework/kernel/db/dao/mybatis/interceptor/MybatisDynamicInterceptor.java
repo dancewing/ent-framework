@@ -18,22 +18,24 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
-@Intercepts({
-        @Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class}),
-        @Signature(type = StatementHandler.class, method = "getBoundSql", args = {}),
-        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
-        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
-        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class}),
-})
+@Intercepts({ @Signature(type = StatementHandler.class, method = "prepare", args = { Connection.class, Integer.class }),
+		@Signature(type = StatementHandler.class, method = "getBoundSql", args = {}),
+		@Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }),
+		@Signature(type = Executor.class, method = "query",
+				args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }),
+		@Signature(type = Executor.class, method = "query",
+				args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class,
+						BoundSql.class }), })
 @Slf4j
 public class MybatisDynamicInterceptor implements Interceptor {
-    @Override
-    public Object intercept(Invocation invocation) throws Throwable {
-        Object target = invocation.getTarget();
-        Object[] args = invocation.getArgs();
-        log.info("invocation target: {}, args: {}", target.getClass().getName(),
-                args!=null? Stream.of(args).filter(Objects::nonNull).map(o -> o.getClass().getName()).collect(Collectors.joining(",")) : "");
-        return invocation.proceed();
-    }
+
+	@Override
+	public Object intercept(Invocation invocation) throws Throwable {
+		Object target = invocation.getTarget();
+		Object[] args = invocation.getArgs();
+		log.info("invocation target: {}, args: {}", target.getClass().getName(), args != null ? Stream.of(args)
+				.filter(Objects::nonNull).map(o -> o.getClass().getName()).collect(Collectors.joining(",")) : "");
+		return invocation.proceed();
+	}
+
 }

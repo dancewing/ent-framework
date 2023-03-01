@@ -22,27 +22,27 @@ import org.mybatis.dynamic.sql.util.Messages;
 
 /**
  * This exception is thrown when a query is built that attempts to specify more than one
- * alias for the same instance of an SqlTable object. That error that would produce a select
- * statement that doesn't work.
+ * alias for the same instance of an SqlTable object. That error that would produce a
+ * select statement that doesn't work.
  *
- * <p>This error usually occurs when building a self-join query. The workaround is to create
+ * <p>
+ * This error usually occurs when building a self-join query. The workaround is to create
  * a second instance of the SqlTable object to use in the self-join.
  *
  * @since 1.3.1
- *
  * @author Jeff Butler
  */
 public class DuplicateTableAliasException extends DynamicSqlException {
 
-    private static final long serialVersionUID = -2631664872557787391L;
+	private static final long serialVersionUID = -2631664872557787391L;
 
-    public DuplicateTableAliasException(SqlTable table, String newAlias, String existingAlias) {
-        super(generateMessage(Objects.requireNonNull(table),
-                Objects.requireNonNull(newAlias),
-                Objects.requireNonNull(existingAlias)));
-    }
+	public DuplicateTableAliasException(SqlTable table, String newAlias, String existingAlias) {
+		super(generateMessage(Objects.requireNonNull(table), Objects.requireNonNull(newAlias),
+				Objects.requireNonNull(existingAlias)));
+	}
 
-    private static String generateMessage(SqlTable table, String newAlias, String existingAlias) {
-        return Messages.getString("ERROR.1", table.tableNameAtRuntime(), newAlias, existingAlias); //$NON-NLS-1$
-    }
+	private static String generateMessage(SqlTable table, String newAlias, String existingAlias) {
+		return Messages.getString("ERROR.1", table.tableNameAtRuntime(), newAlias, existingAlias); //$NON-NLS-1$
+	}
+
 }

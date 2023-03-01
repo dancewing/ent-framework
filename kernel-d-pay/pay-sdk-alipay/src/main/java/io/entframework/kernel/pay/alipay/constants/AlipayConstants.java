@@ -10,6 +10,6 @@ package io.entframework.kernel.pay.alipay.constants;
  */
 public interface AlipayConstants {
 
-    String ALIPAY_REFUND_SUCCESS_CODE = "10000";
+	String ALIPAY_REFUND_SUCCESS_CODE = "10000";
 
 }

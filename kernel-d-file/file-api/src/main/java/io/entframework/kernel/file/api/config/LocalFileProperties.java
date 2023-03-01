@@ -15,14 +15,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "kernel.file.local")
 public class LocalFileProperties {
 
-    /**
-     * 本地文件存储位置（linux）
-     */
-    private String localFileSavePathLinux = "/tmp/tempFilePath";
+	/**
+	 * 本地文件存储位置（linux）
+	 */
+	private String localFileSavePathLinux = "/tmp/tempFilePath";
 
-    /**
-     * 本地文件存储位置（windows）
-     */
-    private String localFileSavePathWin = "D:\\tempFilePath";
+	/**
+	 * 本地文件存储位置（windows）
+	 */
+	private String localFileSavePathWin = "D:\\tempFilePath";
 
 }

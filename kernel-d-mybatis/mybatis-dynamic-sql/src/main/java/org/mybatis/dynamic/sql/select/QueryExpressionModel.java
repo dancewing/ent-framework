@@ -29,144 +29,157 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class QueryExpressionModel extends EntityModel {
-    private final String connector;
-    private final boolean isDistinct;
-    private final List<BasicColumn> selectList;
-    private final TableExpression table;
-    private final JoinModel joinModel;
-    private final Map<SqlTable, String> tableAliases;
-    private final WhereModel whereModel;
-    private final GroupByModel groupByModel;
 
-    private QueryExpressionModel(Builder builder) {
-        super(builder.entityClass);
-        connector = builder.connector;
-        isDistinct = builder.isDistinct;
-        selectList = Objects.requireNonNull(builder.selectList);
-        table = Objects.requireNonNull(builder.table);
-        joinModel = builder.joinModel;
-        tableAliases = builder.tableAliases;
-        whereModel = builder.whereModel;
-        groupByModel = builder.groupByModel;
-        entityClass = builder.entityClass;
+	private final String connector;
 
-        if (selectList.isEmpty()) {
-            throw new InvalidSqlException(Messages.getString("ERROR.13")); //$NON-NLS-1$
-        }
-    }
+	private final boolean isDistinct;
 
-    public Optional<String> connector() {
-        return Optional.ofNullable(connector);
-    }
+	private final List<BasicColumn> selectList;
 
-    public boolean isDistinct() {
-        return isDistinct;
-    }
+	private final TableExpression table;
 
-    public <R> Stream<R> mapColumns(Function<BasicColumn, R> mapper) {
-        return selectList.stream().map(mapper);
-    }
+	private final JoinModel joinModel;
 
-    public TableExpression table() {
-        return table;
-    }
+	private final Map<SqlTable, String> tableAliases;
 
-    public Map<SqlTable, String> tableAliases() {
-        return tableAliases;
-    }
+	private final WhereModel whereModel;
 
-    public Optional<WhereModel> whereModel() {
-        return Optional.ofNullable(whereModel);
-    }
+	private final GroupByModel groupByModel;
 
-    public Optional<JoinModel> joinModel() {
-        return Optional.ofNullable(joinModel);
-    }
+	private QueryExpressionModel(Builder builder) {
+		super(builder.entityClass);
+		connector = builder.connector;
+		isDistinct = builder.isDistinct;
+		selectList = Objects.requireNonNull(builder.selectList);
+		table = Objects.requireNonNull(builder.table);
+		joinModel = builder.joinModel;
+		tableAliases = builder.tableAliases;
+		whereModel = builder.whereModel;
+		groupByModel = builder.groupByModel;
+		entityClass = builder.entityClass;
 
-    public Optional<GroupByModel> groupByModel() {
-        return Optional.ofNullable(groupByModel);
-    }
+		if (selectList.isEmpty()) {
+			throw new InvalidSqlException(Messages.getString("ERROR.13")); //$NON-NLS-1$
+		}
+	}
 
-    public static Builder withSelectList(List<BasicColumn> columnList) {
-        return new Builder().withSelectList(columnList);
-    }
+	public Optional<String> connector() {
+		return Optional.ofNullable(connector);
+	}
 
-    public static Builder newBuilder(QueryExpressionModel source) {
-        return new Builder().withConnector(source.connector)
-                .withTable(source.table)
-                .isDistinct(source.isDistinct)
-                .withSelectList(source.selectList)
-                .withTableAliases(source.tableAliases)
-                .withWhereModel(source.whereModel)
-                .withJoinModel(source.joinModel)
-                .withGroupByModel(source.groupByModel)
-                .withEntityClass(source.entityClass);
-    }
+	public boolean isDistinct() {
+		return isDistinct;
+	}
 
-    public static class Builder {
-        private String connector;
-        private boolean isDistinct;
-        private final List<BasicColumn> selectList = new ArrayList<>();
-        private TableExpression table;
-        private final Map<SqlTable, String> tableAliases = new HashMap<>();
-        private WhereModel whereModel;
-        private JoinModel joinModel;
-        private GroupByModel groupByModel;
+	public <R> Stream<R> mapColumns(Function<BasicColumn, R> mapper) {
+		return selectList.stream().map(mapper);
+	}
 
-        private Class<?> entityClass;
+	public TableExpression table() {
+		return table;
+	}
 
-        public Builder withConnector(String connector) {
-            this.connector = connector;
-            return this;
-        }
+	public Map<SqlTable, String> tableAliases() {
+		return tableAliases;
+	}
 
-        public Builder withTable(TableExpression table) {
-            this.table = table;
-            return this;
-        }
+	public Optional<WhereModel> whereModel() {
+		return Optional.ofNullable(whereModel);
+	}
 
-        public Builder isDistinct(boolean isDistinct) {
-            this.isDistinct = isDistinct;
-            return this;
-        }
+	public Optional<JoinModel> joinModel() {
+		return Optional.ofNullable(joinModel);
+	}
 
-        public Builder withSelectColumn(BasicColumn selectColumn) {
-            this.selectList.add(selectColumn);
-            return this;
-        }
+	public Optional<GroupByModel> groupByModel() {
+		return Optional.ofNullable(groupByModel);
+	}
 
-        public Builder withSelectList(List<BasicColumn> selectList) {
-            this.selectList.addAll(selectList);
-            return this;
-        }
+	public static Builder withSelectList(List<BasicColumn> columnList) {
+		return new Builder().withSelectList(columnList);
+	}
 
-        public Builder withTableAliases(Map<SqlTable, String> tableAliases) {
-            this.tableAliases.putAll(tableAliases);
-            return this;
-        }
+	public static Builder newBuilder(QueryExpressionModel source) {
+		return new Builder().withConnector(source.connector).withTable(source.table).isDistinct(source.isDistinct)
+				.withSelectList(source.selectList).withTableAliases(source.tableAliases)
+				.withWhereModel(source.whereModel).withJoinModel(source.joinModel).withGroupByModel(source.groupByModel)
+				.withEntityClass(source.entityClass);
+	}
 
-        public Builder withWhereModel(WhereModel whereModel) {
-            this.whereModel = whereModel;
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withJoinModel(JoinModel joinModel) {
-            this.joinModel = joinModel;
-            return this;
-        }
+		private String connector;
 
-        public Builder withGroupByModel(GroupByModel groupByModel) {
-            this.groupByModel = groupByModel;
-            return this;
-        }
+		private boolean isDistinct;
 
-        public Builder withEntityClass(Class<?> entityClass) {
-            this.entityClass = entityClass;
-            return this;
-        }
+		private final List<BasicColumn> selectList = new ArrayList<>();
 
-        public QueryExpressionModel build() {
-            return new QueryExpressionModel(this);
-        }
-    }
+		private TableExpression table;
+
+		private final Map<SqlTable, String> tableAliases = new HashMap<>();
+
+		private WhereModel whereModel;
+
+		private JoinModel joinModel;
+
+		private GroupByModel groupByModel;
+
+		private Class<?> entityClass;
+
+		public Builder withConnector(String connector) {
+			this.connector = connector;
+			return this;
+		}
+
+		public Builder withTable(TableExpression table) {
+			this.table = table;
+			return this;
+		}
+
+		public Builder isDistinct(boolean isDistinct) {
+			this.isDistinct = isDistinct;
+			return this;
+		}
+
+		public Builder withSelectColumn(BasicColumn selectColumn) {
+			this.selectList.add(selectColumn);
+			return this;
+		}
+
+		public Builder withSelectList(List<BasicColumn> selectList) {
+			this.selectList.addAll(selectList);
+			return this;
+		}
+
+		public Builder withTableAliases(Map<SqlTable, String> tableAliases) {
+			this.tableAliases.putAll(tableAliases);
+			return this;
+		}
+
+		public Builder withWhereModel(WhereModel whereModel) {
+			this.whereModel = whereModel;
+			return this;
+		}
+
+		public Builder withJoinModel(JoinModel joinModel) {
+			this.joinModel = joinModel;
+			return this;
+		}
+
+		public Builder withGroupByModel(GroupByModel groupByModel) {
+			this.groupByModel = groupByModel;
+			return this;
+		}
+
+		public Builder withEntityClass(Class<?> entityClass) {
+			this.entityClass = entityClass;
+			return this;
+		}
+
+		public QueryExpressionModel build() {
+			return new QueryExpressionModel(this);
+		}
+
+	}
+
 }

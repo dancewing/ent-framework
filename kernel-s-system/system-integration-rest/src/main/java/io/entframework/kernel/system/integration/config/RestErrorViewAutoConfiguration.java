@@ -19,14 +19,14 @@ import org.springframework.context.annotation.Configuration;
 @AutoConfigureBefore(ErrorMvcAutoConfiguration.class)
 public class RestErrorViewAutoConfiguration {
 
-    /**
-     * 默认错误页面，返回json
-     *
-     * @date 2020/12/16 15:47
-     */
-    @Bean("error")
-    public ErrorStaticJsonView error() {
-        return new ErrorStaticJsonView();
-    }
+	/**
+	 * 默认错误页面，返回json
+	 *
+	 * @date 2020/12/16 15:47
+	 */
+	@Bean("error")
+	public ErrorStaticJsonView error() {
+		return new ErrorStaticJsonView();
+	}
 
 }

@@ -24,29 +24,30 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class KernelMyBatisAutoConfiguration {
 
-    //@Bean
-    public ShowSqlInterceptor showSqlInterceptor() {
-        return new ShowSqlInterceptor();
-    }
+	// @Bean
+	public ShowSqlInterceptor showSqlInterceptor() {
+		return new ShowSqlInterceptor();
+	}
 
-    //@Bean
-    public RecordableAutoFillInterceptor recordableAutoFillInterceptor() {
-        return new RecordableAutoFillInterceptor();
-    }
+	// @Bean
+	public RecordableAutoFillInterceptor recordableAutoFillInterceptor() {
+		return new RecordableAutoFillInterceptor();
+	}
 
-    //@Bean
-    public MybatisDynamicInterceptor mybatisDynamicInterceptor() {
-        return new MybatisDynamicInterceptor();
-    }
+	// @Bean
+	public MybatisDynamicInterceptor mybatisDynamicInterceptor() {
+		return new MybatisDynamicInterceptor();
+	}
 
-    @Bean(name = "KernelMyBatisConfigurationCustomizer")
-    public KernelMyBatisConfigurationCustomizer configurationCustomizer() {
-        return new KernelMyBatisConfigurationCustomizer();
-    }
+	@Bean(name = "KernelMyBatisConfigurationCustomizer")
+	public KernelMyBatisConfigurationCustomizer configurationCustomizer() {
+		return new KernelMyBatisConfigurationCustomizer();
+	}
 
-    @Bean
-    @ConditionalOnMissingBean(DatabaseIdProvider.class)
-    public DatabaseIdProvider databaseIdProvider() {
-        return new VendorDatabaseIdProvider();
-    }
+	@Bean
+	@ConditionalOnMissingBean(DatabaseIdProvider.class)
+	public DatabaseIdProvider databaseIdProvider() {
+		return new VendorDatabaseIdProvider();
+	}
+
 }

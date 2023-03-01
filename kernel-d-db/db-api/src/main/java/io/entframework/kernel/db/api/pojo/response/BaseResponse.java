@@ -9,6 +9,7 @@ import lombok.Data;
 
 @Data
 public class BaseResponse implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -46,4 +47,5 @@ public class BaseResponse implements Serializable {
 	 */
 	@ChineseDescription("更新人名称")
 	private String updateUserName;
+
 }

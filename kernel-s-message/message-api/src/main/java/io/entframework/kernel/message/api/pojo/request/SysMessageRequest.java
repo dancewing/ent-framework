@@ -109,6 +109,7 @@ public class SysMessageRequest extends BaseRequest {
 	 * 参数校验分组：修改阅读状态
 	 */
 	public @interface updateReadFlag {
+
 	}
 
 }

@@ -7,4 +7,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @ApiResource(name = "教师")
 public class TeacherController extends BaseTeacherController {
+
 }

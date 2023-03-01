@@ -21,7 +21,8 @@ import java.util.List;
 
 public interface MultiRowInsertStatementProvider<T> extends StatementProvider {
 
-    String getInsertStatement();
+	String getInsertStatement();
 
-    List<T> getRecords();
+	List<T> getRecords();
+
 }

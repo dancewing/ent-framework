@@ -16,20 +16,21 @@ import org.springframework.context.annotation.Import;
 @Import(FeignClientsConfiguration.class)
 public class KernelLogFeignServiceConfiguration {
 
-    @Value("${kernel.base-server.log:http://ent-misc}")
-    private String baseServerUrl;
+	@Value("${kernel.base-server.log:http://ent-misc}")
+	private String baseServerUrl;
 
-    @Bean
-    @ConditionalOnMissingBean(LoginLogServiceApi.class)
-    public LoginLogServiceApi loginLogServiceApi(CloudFeignFactory cloudFeignFactory) {
-        LoginLogServiceApi feignClient = cloudFeignFactory.asyncBuild(LoginLogServiceApi.class, baseServerUrl);
-        return new LoginLogServiceFeignWrapper(feignClient);
-    }
+	@Bean
+	@ConditionalOnMissingBean(LoginLogServiceApi.class)
+	public LoginLogServiceApi loginLogServiceApi(CloudFeignFactory cloudFeignFactory) {
+		LoginLogServiceApi feignClient = cloudFeignFactory.asyncBuild(LoginLogServiceApi.class, baseServerUrl);
+		return new LoginLogServiceFeignWrapper(feignClient);
+	}
 
-    @Bean
-    @ConditionalOnMissingBean(LogRecordApi.class)
-    public LogRecordApi logRecordApi(CloudFeignFactory cloudFeignFactory) {
-        LogRecordApi feignClient = cloudFeignFactory.asyncBuild(LogRecordApi.class, baseServerUrl);
-        return new LogRecordServiceFeignWrapper(feignClient);
-    }
+	@Bean
+	@ConditionalOnMissingBean(LogRecordApi.class)
+	public LogRecordApi logRecordApi(CloudFeignFactory cloudFeignFactory) {
+		LogRecordApi feignClient = cloudFeignFactory.asyncBuild(LogRecordApi.class, baseServerUrl);
+		return new LogRecordServiceFeignWrapper(feignClient);
+	}
+
 }

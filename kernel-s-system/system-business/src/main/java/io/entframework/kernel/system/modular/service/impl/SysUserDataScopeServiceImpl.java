@@ -32,7 +32,9 @@ import java.util.Optional;
  *
  * @date 2020/11/6 10:28
  */
-public class SysUserDataScopeServiceImpl extends BaseServiceImpl<SysUserDataScopeRequest, SysUserDataScopeResponse, SysUserDataScope> implements SysUserDataScopeService {
+public class SysUserDataScopeServiceImpl
+		extends BaseServiceImpl<SysUserDataScopeRequest, SysUserDataScopeResponse, SysUserDataScope>
+		implements SysUserDataScopeService {
 
 	public SysUserDataScopeServiceImpl() {
 		super(SysUserDataScopeRequest.class, SysUserDataScopeResponse.class, SysUserDataScope.class);
@@ -81,7 +83,8 @@ public class SysUserDataScopeServiceImpl extends BaseServiceImpl<SysUserDataScop
 	@Transactional(rollbackFor = Exception.class)
 	public void delByUserId(Long userId) {
 		if (ObjectUtil.isNotEmpty(userId)) {
-			DeleteDSLCompleter dslCompleter = c -> c.where(SysUserDataScopeDynamicSqlSupport.userId, SqlBuilder.isEqualTo(userId));
+			DeleteDSLCompleter dslCompleter = c -> c.where(SysUserDataScopeDynamicSqlSupport.userId,
+					SqlBuilder.isEqualTo(userId));
 			this.getRepository().delete(dslCompleter);
 		}
 	}
@@ -117,19 +120,19 @@ public class SysUserDataScopeServiceImpl extends BaseServiceImpl<SysUserDataScop
 	public int delete(Collection<Long> organizationIds) {
 		DeleteStatementProvider deleteStatementProvider = SqlBuilder
 				.deleteFrom(SysUserDataScopeDynamicSqlSupport.sysUserDataScope)
-				.where(SysUserDataScopeDynamicSqlSupport.orgId, SqlBuilder.isIn(organizationIds))
-				.build().render(RenderingStrategies.MYBATIS3);
+				.where(SysUserDataScopeDynamicSqlSupport.orgId, SqlBuilder.isIn(organizationIds)).build()
+				.render(RenderingStrategies.MYBATIS3);
 		return this.getRepository().delete(deleteStatementProvider);
 	}
 
 	/**
 	 * 根据主键查询
-	 *
 	 * @param sysUserDataScopeRequest dto实体
 	 * @date 2021/2/3 15:02
 	 */
 	private SysUserDataScope querySysUserRoleById(SysUserDataScopeRequest sysUserDataScopeRequest) {
-		Optional<SysUserDataScope> sysUserDataScope = this.getRepository().selectByPrimaryKey(getEntityClass(), sysUserDataScopeRequest.getUserDataScopeId());
+		Optional<SysUserDataScope> sysUserDataScope = this.getRepository().selectByPrimaryKey(getEntityClass(),
+				sysUserDataScopeRequest.getUserDataScopeId());
 		if (sysUserDataScope.isEmpty()) {
 			throw new SystemModularException(SysUserDataScopeExceptionEnum.USER_DATA_SCOPE_NOT_EXIST,
 					sysUserDataScopeRequest.getUserDataScopeId());

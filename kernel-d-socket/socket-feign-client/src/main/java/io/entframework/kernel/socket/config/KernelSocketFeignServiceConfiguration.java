@@ -17,13 +17,14 @@ import org.springframework.context.annotation.Import;
 @Import(FeignClientsConfiguration.class)
 public class KernelSocketFeignServiceConfiguration {
 
-    @Value("${kernel.base-server.socket:http://ent-admin}")
-    private String baseServerUrl;
+	@Value("${kernel.base-server.socket:http://ent-admin}")
+	private String baseServerUrl;
 
-    @Bean
-    @ConditionalOnMissingBean(SocketClientOperatorApi.class)
-    public SocketClientOperatorApi socketClientOperatorApi(CloudFeignFactory cloudFeignFactory){
-        SocketClientOperatorApi feignClient = cloudFeignFactory.build(SocketClientOperatorApi.class, baseServerUrl);
-        return new SocketOperatorServiceWrapper(feignClient);
-    }
+	@Bean
+	@ConditionalOnMissingBean(SocketClientOperatorApi.class)
+	public SocketClientOperatorApi socketClientOperatorApi(CloudFeignFactory cloudFeignFactory) {
+		SocketClientOperatorApi feignClient = cloudFeignFactory.build(SocketClientOperatorApi.class, baseServerUrl);
+		return new SocketOperatorServiceWrapper(feignClient);
+	}
+
 }

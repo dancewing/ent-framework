@@ -124,7 +124,8 @@ public class HomePageServiceImpl implements HomePageService, HomePageServiceApi 
 		// 获取当前公司的所有子公司数量(含当前公司)
 		List<HrOrganization> organizations = generalRepository.select(HrOrganization.class, c -> c
 				.where(HrOrganizationDynamicSqlSupport.orgPids,
-						SqlBuilder.isLike(StringUtils.wrap(LEFT_SQUARE_BRACKETS + organizationId + RIGHT_SQUARE_BRACKETS, SymbolConstant.PERCENT)))
+						SqlBuilder.isLike(StringUtils.wrap(
+								LEFT_SQUARE_BRACKETS + organizationId + RIGHT_SQUARE_BRACKETS, SymbolConstant.PERCENT)))
 				.or(HrOrganizationDynamicSqlSupport.orgId, SqlBuilder.isEqualTo(organizationId)));
 		homeCompanyInfo.setCurrentDeptNum(organizations.size());
 
@@ -141,21 +142,18 @@ public class HomePageServiceImpl implements HomePageService, HomePageServiceApi 
 
 		// 获取当前用户常用功能，按使用次数排序
 		LoginUser loginUser = LoginContext.me().getLoginUser();
-		List<SysStatisticsCount> statList = generalRepository.select(
-				SysStatisticsCount.class,
+		List<SysStatisticsCount> statList = generalRepository.select(SysStatisticsCount.class,
 				c -> c.where(SysStatisticsCountDynamicSqlSupport.userId, SqlBuilder.isEqualTo(loginUser.getUserId()))
 						.orderBy(SysStatisticsCountDynamicSqlSupport.statCount.descending()));
 		List<Long> statUrlIdList = statList.stream().map(SysStatisticsCount::getStatUrlId).collect(Collectors.toList());
 
 		// 获取系统常驻常用功能
-		List<SysStatisticsUrl> alwaysShowList = generalRepository.select(
-				SysStatisticsUrl.class,
+		List<SysStatisticsUrl> alwaysShowList = generalRepository.select(SysStatisticsUrl.class,
 				c -> c.where(SysStatisticsUrlDynamicSqlSupport.alwaysShow, SqlBuilder.isEqualTo(YesOrNotEnum.Y)));
 
 		// 将常驻功能放在统计的常用功能最前边
 		if (ObjectUtil.isNotEmpty(alwaysShowList)) {
-			statUrlIdList.addAll(0,
-					alwaysShowList.stream().map(SysStatisticsUrl::getStatUrlId).toList());
+			statUrlIdList.addAll(0, alwaysShowList.stream().map(SysStatisticsUrl::getStatUrlId).toList());
 		}
 
 		// 如果statUrlId大于8，则只截取8个
@@ -209,8 +207,8 @@ public class HomePageServiceImpl implements HomePageService, HomePageServiceApi 
 		}
 
 		// 查询缓存用户在库中的统计记录
-		List<SysStatisticsCount> sysStatisticsCounts = generalRepository
-				.select(SysStatisticsCount.class, c -> c.where(SysStatisticsCountDynamicSqlSupport.userId, SqlBuilder.isIn(userIds)));
+		List<SysStatisticsCount> sysStatisticsCounts = generalRepository.select(SysStatisticsCount.class,
+				c -> c.where(SysStatisticsCountDynamicSqlSupport.userId, SqlBuilder.isIn(userIds)));
 		for (SysStatisticsCount cacheItem : cacheCountList) {
 			boolean haveRecord = false;
 			for (SysStatisticsCount dbItem : sysStatisticsCounts) {
@@ -224,9 +222,11 @@ public class HomePageServiceImpl implements HomePageService, HomePageServiceApi 
 			// 如果库里没有这次的缓存记录，从新生成一个id
 			if (!haveRecord) {
 				generalRepository.insert(cacheItem);
-			} else {
+			}
+			else {
 				generalRepository.updateByPrimaryKey(cacheItem);
 			}
 		}
 	}
+
 }

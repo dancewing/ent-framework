@@ -16,12 +16,12 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020/12/31 18:50
  */
 @Configuration
-@ComponentScan(basePackages = {"io.entframework.kernel.message"})
+@ComponentScan(basePackages = { "io.entframework.kernel.message" })
 public class KernelMessageAutoConfiguration {
 
-    @Bean
-    public KernelMessageModuleRegister kernelMessageModuleRegister() {
-        return new KernelMessageModuleRegister();
-    }
+	@Bean
+	public KernelMessageModuleRegister kernelMessageModuleRegister() {
+		return new KernelMessageModuleRegister();
+	}
 
 }

@@ -19,12 +19,11 @@ import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 
 /**
- * This class can be used by plugins to easily implement a custom rules
- * implementation. Plugins should respect the rules implementation calculated by
- * the generator, as well as implementations from other plugins. In general if
- * something is disabled by the default rules, or is disabled by some other
- * plugin, it should not be re-enabled. Therefore, the following pattern of use
- * is recommended:
+ * This class can be used by plugins to easily implement a custom rules implementation.
+ * Plugins should respect the rules implementation calculated by the generator, as well as
+ * implementations from other plugins. In general if something is disabled by the default
+ * rules, or is disabled by some other plugin, it should not be re-enabled. Therefore, the
+ * following pattern of use is recommended:
  *
  * <pre>
  * public class MyPlugin extends PluginAdapter {
@@ -53,149 +52,150 @@ import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
  *   }
  * </pre>
  *
- *
  * @author Jeff Butler
  *
  */
 public class RulesDelegate implements Rules {
-    protected final Rules rules;
 
-    public RulesDelegate(Rules rules) {
-        this.rules = rules;
-    }
+	protected final Rules rules;
 
-    @Override
-    public FullyQualifiedJavaType calculateAllFieldsClass() {
-        return rules.calculateAllFieldsClass();
-    }
+	public RulesDelegate(Rules rules) {
+		this.rules = rules;
+	}
 
-    @Override
-    public boolean generateBaseRecordClass() {
-        return rules.generateBaseRecordClass();
-    }
+	@Override
+	public FullyQualifiedJavaType calculateAllFieldsClass() {
+		return rules.calculateAllFieldsClass();
+	}
 
-    @Override
-    public boolean generateBaseResultMap() {
-        return rules.generateBaseResultMap();
-    }
+	@Override
+	public boolean generateBaseRecordClass() {
+		return rules.generateBaseRecordClass();
+	}
 
-    @Override
-    public boolean generateCountByExample() {
-        return rules.generateCountByExample();
-    }
+	@Override
+	public boolean generateBaseResultMap() {
+		return rules.generateBaseResultMap();
+	}
 
-    @Override
-    public boolean generateDeleteByExample() {
-        return rules.generateDeleteByExample();
-    }
+	@Override
+	public boolean generateCountByExample() {
+		return rules.generateCountByExample();
+	}
 
-    @Override
-    public boolean generateDeleteByPrimaryKey() {
-        return rules.generateDeleteByPrimaryKey();
-    }
+	@Override
+	public boolean generateDeleteByExample() {
+		return rules.generateDeleteByExample();
+	}
 
-    @Override
-    public boolean generateExampleClass() {
-        return rules.generateExampleClass();
-    }
+	@Override
+	public boolean generateDeleteByPrimaryKey() {
+		return rules.generateDeleteByPrimaryKey();
+	}
 
-    @Override
-    public boolean generateInsert() {
-        return rules.generateInsert();
-    }
+	@Override
+	public boolean generateExampleClass() {
+		return rules.generateExampleClass();
+	}
 
-    @Override
-    public boolean generateInsertSelective() {
-        return rules.generateInsertSelective();
-    }
+	@Override
+	public boolean generateInsert() {
+		return rules.generateInsert();
+	}
 
-    @Override
-    public boolean generatePrimaryKeyClass() {
-        return rules.generatePrimaryKeyClass();
-    }
+	@Override
+	public boolean generateInsertSelective() {
+		return rules.generateInsertSelective();
+	}
 
-    @Override
-    public boolean generateRecordWithBLOBsClass() {
-        return rules.generateRecordWithBLOBsClass();
-    }
+	@Override
+	public boolean generatePrimaryKeyClass() {
+		return rules.generatePrimaryKeyClass();
+	}
 
-    @Override
-    public boolean generateResultMapWithBLOBs() {
-        return rules.generateResultMapWithBLOBs();
-    }
+	@Override
+	public boolean generateRecordWithBLOBsClass() {
+		return rules.generateRecordWithBLOBsClass();
+	}
 
-    @Override
-    public boolean generateSelectByExampleWithBLOBs() {
-        return rules.generateSelectByExampleWithBLOBs();
-    }
+	@Override
+	public boolean generateResultMapWithBLOBs() {
+		return rules.generateResultMapWithBLOBs();
+	}
 
-    @Override
-    public boolean generateSelectByExampleWithoutBLOBs() {
-        return rules.generateSelectByExampleWithoutBLOBs();
-    }
+	@Override
+	public boolean generateSelectByExampleWithBLOBs() {
+		return rules.generateSelectByExampleWithBLOBs();
+	}
 
-    @Override
-    public boolean generateSelectByPrimaryKey() {
-        return rules.generateSelectByPrimaryKey();
-    }
+	@Override
+	public boolean generateSelectByExampleWithoutBLOBs() {
+		return rules.generateSelectByExampleWithoutBLOBs();
+	}
 
-    @Override
-    public boolean generateSQLExampleWhereClause() {
-        return rules.generateSQLExampleWhereClause();
-    }
+	@Override
+	public boolean generateSelectByPrimaryKey() {
+		return rules.generateSelectByPrimaryKey();
+	}
 
-    @Override
-    public boolean generateMyBatis3UpdateByExampleWhereClause() {
-        return rules.generateMyBatis3UpdateByExampleWhereClause();
-    }
+	@Override
+	public boolean generateSQLExampleWhereClause() {
+		return rules.generateSQLExampleWhereClause();
+	}
 
-    @Override
-    public boolean generateUpdateByExampleSelective() {
-        return rules.generateUpdateByExampleSelective();
-    }
+	@Override
+	public boolean generateMyBatis3UpdateByExampleWhereClause() {
+		return rules.generateMyBatis3UpdateByExampleWhereClause();
+	}
 
-    @Override
-    public boolean generateUpdateByExampleWithBLOBs() {
-        return rules.generateUpdateByExampleWithBLOBs();
-    }
+	@Override
+	public boolean generateUpdateByExampleSelective() {
+		return rules.generateUpdateByExampleSelective();
+	}
 
-    @Override
-    public boolean generateUpdateByExampleWithoutBLOBs() {
-        return rules.generateUpdateByExampleWithoutBLOBs();
-    }
+	@Override
+	public boolean generateUpdateByExampleWithBLOBs() {
+		return rules.generateUpdateByExampleWithBLOBs();
+	}
 
-    @Override
-    public boolean generateUpdateByPrimaryKeySelective() {
-        return rules.generateUpdateByPrimaryKeySelective();
-    }
+	@Override
+	public boolean generateUpdateByExampleWithoutBLOBs() {
+		return rules.generateUpdateByExampleWithoutBLOBs();
+	}
 
-    @Override
-    public boolean generateUpdateByPrimaryKeyWithBLOBs() {
-        return rules.generateUpdateByPrimaryKeyWithBLOBs();
-    }
+	@Override
+	public boolean generateUpdateByPrimaryKeySelective() {
+		return rules.generateUpdateByPrimaryKeySelective();
+	}
 
-    @Override
-    public boolean generateUpdateByPrimaryKeyWithoutBLOBs() {
-        return rules.generateUpdateByPrimaryKeyWithoutBLOBs();
-    }
+	@Override
+	public boolean generateUpdateByPrimaryKeyWithBLOBs() {
+		return rules.generateUpdateByPrimaryKeyWithBLOBs();
+	}
 
-    @Override
-    public IntrospectedTable getIntrospectedTable() {
-        return rules.getIntrospectedTable();
-    }
+	@Override
+	public boolean generateUpdateByPrimaryKeyWithoutBLOBs() {
+		return rules.generateUpdateByPrimaryKeyWithoutBLOBs();
+	}
 
-    @Override
-    public boolean generateBaseColumnList() {
-        return rules.generateBaseColumnList();
-    }
+	@Override
+	public IntrospectedTable getIntrospectedTable() {
+		return rules.getIntrospectedTable();
+	}
 
-    @Override
-    public boolean generateBlobColumnList() {
-        return rules.generateBlobColumnList();
-    }
+	@Override
+	public boolean generateBaseColumnList() {
+		return rules.generateBaseColumnList();
+	}
 
-    @Override
-    public boolean generateJavaClient() {
-        return rules.generateJavaClient();
-    }
+	@Override
+	public boolean generateBlobColumnList() {
+		return rules.generateBlobColumnList();
+	}
+
+	@Override
+	public boolean generateJavaClient() {
+		return rules.generateJavaClient();
+	}
+
 }

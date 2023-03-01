@@ -28,40 +28,41 @@ import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
 public class StringArrayTypeHandler extends BaseTypeHandler<String[]> {
-    @Override
-    public void setNonNullParameter(PreparedStatement ps, int i, String[] parameter, JdbcType jdbcType) throws SQLException {
-        Array array = ps.getConnection().createArrayOf("VARCHAR", parameter);
-        ps.setArray(i, array);
-        array.free();
-    }
 
-    @Override
-    public String[] getNullableResult(ResultSet rs, String columnName) throws SQLException {
-        Array array = rs.getArray(columnName);
-        return extractArray(array);
-    }
+	@Override
+	public void setNonNullParameter(PreparedStatement ps, int i, String[] parameter, JdbcType jdbcType)
+			throws SQLException {
+		Array array = ps.getConnection().createArrayOf("VARCHAR", parameter);
+		ps.setArray(i, array);
+		array.free();
+	}
 
-    @Override
-    public String[] getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
-        Array array = rs.getArray(columnIndex);
-        return extractArray(array);
-    }
+	@Override
+	public String[] getNullableResult(ResultSet rs, String columnName) throws SQLException {
+		Array array = rs.getArray(columnName);
+		return extractArray(array);
+	}
 
-    @Override
-    public String[] getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
-        Array array = cs.getArray(columnIndex);
-        return extractArray(array);
-    }
+	@Override
+	public String[] getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+		Array array = rs.getArray(columnIndex);
+		return extractArray(array);
+	}
 
-    private String[] extractArray(Array array) throws SQLException {
-        Object[] objArray = (Object[]) array.getArray();
-        array.free();
+	@Override
+	public String[] getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+		Array array = cs.getArray(columnIndex);
+		return extractArray(array);
+	}
 
-        List<String> stringList = Arrays.stream(objArray)
-                .map(Object::toString)
-                .collect(Collectors.toList());
+	private String[] extractArray(Array array) throws SQLException {
+		Object[] objArray = (Object[]) array.getArray();
+		array.free();
 
-        String[] stringArray = new String[stringList.size()];
-        return stringList.toArray(stringArray);
-    }
+		List<String> stringList = Arrays.stream(objArray).map(Object::toString).collect(Collectors.toList());
+
+		String[] stringArray = new String[stringList.size()];
+		return stringList.toArray(stringArray);
+	}
+
 }

@@ -55,149 +55,159 @@ import java.util.Date;
 @SuppressWarnings("all")
 public class EncryptionRequestBodyAdvice implements RequestBodyAdvice {
 
-    static {
-        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
-            // 添加PKCS7Padding支持
-            // Security.addProvider(new com.sun.crypto.provider.SunJCE());
-            Security.addProvider(new BouncyCastleProvider());
-        }
-    }
+	static {
+		if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
+			// 添加PKCS7Padding支持
+			// Security.addProvider(new com.sun.crypto.provider.SunJCE());
+			Security.addProvider(new BouncyCastleProvider());
+		}
+	}
 
-    /**
-     * 设置条件,这个条件为true才会执行下面的beforeBodyRead方法
-     *
-     * @date 2021/10/29 9:32
-     */
-    @Override
-    public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
-        // 判断当前请求的接口中是否有 PostResource 注解
-        Annotation[] annotations = methodParameter.getAnnotatedElement().getAnnotations();
-        for (Annotation annotation : annotations) {
-            Class<? extends Annotation> annotationType = annotation.annotationType();
-            return PostResource.class.equals(annotationType);
-        }
-        return false;
-    }
+	/**
+	 * 设置条件,这个条件为true才会执行下面的beforeBodyRead方法
+	 *
+	 * @date 2021/10/29 9:32
+	 */
+	@Override
+	public boolean supports(MethodParameter methodParameter, Type targetType,
+			Class<? extends HttpMessageConverter<?>> converterType) {
+		// 判断当前请求的接口中是否有 PostResource 注解
+		Annotation[] annotations = methodParameter.getAnnotatedElement().getAnnotations();
+		for (Annotation annotation : annotations) {
+			Class<? extends Annotation> annotationType = annotation.annotationType();
+			return PostResource.class.equals(annotationType);
+		}
+		return false;
+	}
 
-    @Override
-    public HttpInputMessage beforeBodyRead(HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
-        Method method = parameter.getMethod();
-        if (method != null) {
-            PostResource annotation = method.getAnnotation(PostResource.class);
+	@Override
+	public HttpInputMessage beforeBodyRead(HttpInputMessage inputMessage, MethodParameter parameter, Type targetType,
+			Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
+		Method method = parameter.getMethod();
+		if (method != null) {
+			PostResource annotation = method.getAnnotation(PostResource.class);
 
-            if (annotation != null) {
-                // 是否需要加密
-                if (annotation.requiredEncryption()) {
-                    return new HttpInputMessage() {
-                        @Override
-                        public HttpHeaders getHeaders() {
-                            return inputMessage.getHeaders();
-                        }
+			if (annotation != null) {
+				// 是否需要加密
+				if (annotation.requiredEncryption()) {
+					return new HttpInputMessage() {
+						@Override
+						public HttpHeaders getHeaders() {
+							return inputMessage.getHeaders();
+						}
 
-                        @Override
-                        public InputStream getBody() throws IOException {
+						@Override
+						public InputStream getBody() throws IOException {
 
-                            // 获取请求的内容
-                            InputStream body = inputMessage.getBody();
-                            String bodyStr = IoUtil.readUtf8(body);
+							// 获取请求的内容
+							InputStream body = inputMessage.getBody();
+							String bodyStr = IoUtil.readUtf8(body);
 
-                            //JSON 解析请求中的内容
-                            JSONObject jsonObject = null;
-                            try {
-                                jsonObject = JSON.parseObject(bodyStr);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                log.error(e.getMessage());
-                                log.error(CharSequenceUtil.format("请求的内容：{}", bodyStr));
-                                // 请求json解析异常
-                                throw new EncryptionException(EncryptionExceptionEnum.REQUEST_JSON_PARSE_ERROR);
-                            }
+							// JSON 解析请求中的内容
+							JSONObject jsonObject = null;
+							try {
+								jsonObject = JSON.parseObject(bodyStr);
+							}
+							catch (Exception e) {
+								e.printStackTrace();
+								log.error(e.getMessage());
+								log.error(CharSequenceUtil.format("请求的内容：{}", bodyStr));
+								// 请求json解析异常
+								throw new EncryptionException(EncryptionExceptionEnum.REQUEST_JSON_PARSE_ERROR);
+							}
 
-                            // 使用私钥解密出返回加密数据的key和请求的内容
-                            RSA rsa = EncryptionRsaHolder.STATIC_RSA;
+							// 使用私钥解密出返回加密数据的key和请求的内容
+							RSA rsa = EncryptionRsaHolder.STATIC_RSA;
 
-                            // 先使用SM4解密出请求的json
-                            String objectString = jsonObject.getString("data");
-                            if (CharSequenceUtil.isBlank(objectString)) {
-                                // 请求json解析异常
-                                throw new EncryptionException(EncryptionExceptionEnum.REQUEST_JSON_PARSE_ERROR);
-                            }
+							// 先使用SM4解密出请求的json
+							String objectString = jsonObject.getString("data");
+							if (CharSequenceUtil.isBlank(objectString)) {
+								// 请求json解析异常
+								throw new EncryptionException(EncryptionExceptionEnum.REQUEST_JSON_PARSE_ERROR);
+							}
 
-                            String sm4Key = SecureUtil.md5(DateUtil.format(new Date(), "yyyyMMdd"));
-                            SM4 sm4 = new SM4(Mode.ECB, Padding.PKCS5Padding, HexUtil.decodeHex(sm4Key));
-                            try {
-                                String decryptStr = sm4.decryptStr(objectString);
-                                jsonObject = JSON.parseObject(decryptStr);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                log.error(e.getMessage());
-                                // 解密失败
-                                throw new EncryptionException(EncryptionExceptionEnum.RSA_DECRYPT_ERROR);
+							String sm4Key = SecureUtil.md5(DateUtil.format(new Date(), "yyyyMMdd"));
+							SM4 sm4 = new SM4(Mode.ECB, Padding.PKCS5Padding, HexUtil.decodeHex(sm4Key));
+							try {
+								String decryptStr = sm4.decryptStr(objectString);
+								jsonObject = JSON.parseObject(decryptStr);
+							}
+							catch (Exception e) {
+								e.printStackTrace();
+								log.error(e.getMessage());
+								// 解密失败
+								throw new EncryptionException(EncryptionExceptionEnum.RSA_DECRYPT_ERROR);
 
-                            }
+							}
 
-                            // 请求中RSA公钥加密后的key  用于将返回的内容AES加密
-                            String key = jsonObject.getString("key");
+							// 请求中RSA公钥加密后的key 用于将返回的内容AES加密
+							String key = jsonObject.getString("key");
 
-                            // 获取请求中 AES 加密后的数据
-                            String data = jsonObject.getString("data");
+							// 获取请求中 AES 加密后的数据
+							String data = jsonObject.getString("data");
 
-                            if (CharSequenceUtil.isBlank(key) || CharSequenceUtil.isBlank(data)) {
-                                // 请求的json格式错误，未包含加密的data字段数据以及加密的key字段
-                                throw new EncryptionException(EncryptionExceptionEnum.REQUEST_JSON_ERROR);
-                            }
+							if (CharSequenceUtil.isBlank(key) || CharSequenceUtil.isBlank(data)) {
+								// 请求的json格式错误，未包含加密的data字段数据以及加密的key字段
+								throw new EncryptionException(EncryptionExceptionEnum.REQUEST_JSON_ERROR);
+							}
 
-                            String aesKey = null;
-                            try {
-                                // 使用 RSA 私钥解密请求中公钥加密后的key
-                                aesKey = rsa.decryptStr(key, KeyType.PrivateKey, CharsetUtil.CHARSET_UTF_8);
-                                log.info("本次请求数据AES加密的KEY为：" + aesKey);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                log.error(e.getMessage());
-                                // 解密失败
-                                throw new EncryptionException(EncryptionExceptionEnum.RSA_DECRYPT_ERROR);
-                            }
+							String aesKey = null;
+							try {
+								// 使用 RSA 私钥解密请求中公钥加密后的key
+								aesKey = rsa.decryptStr(key, KeyType.PrivateKey, CharsetUtil.CHARSET_UTF_8);
+								log.info("本次请求数据AES加密的KEY为：" + aesKey);
+							}
+							catch (Exception e) {
+								e.printStackTrace();
+								log.error(e.getMessage());
+								// 解密失败
+								throw new EncryptionException(EncryptionExceptionEnum.RSA_DECRYPT_ERROR);
+							}
 
-                            byte[] iv = HexUtil.decodeHex(SecureUtil.md5(CharSequenceUtil.format("{}{}", aesKey, DateUtil.format(new Date(), "yyyyMMdd"))));
-                            byte[] aesKeyByte = Base64.decode(aesKey);
+							byte[] iv = HexUtil.decodeHex(SecureUtil.md5(
+									CharSequenceUtil.format("{}{}", aesKey, DateUtil.format(new Date(), "yyyyMMdd"))));
+							byte[] aesKeyByte = Base64.decode(aesKey);
 
-                            AES aes = new AES("CFB", "PKCS7Padding", aesKeyByte, iv);
-                            String reqData = null;
-                            try {
-                                // 使用aes解密请求的内容
-                                reqData = aes.decryptStr(data);
-                                log.info(CharSequenceUtil.format("本次请求的内容：{}", reqData));
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                log.error(e.getMessage());
-                                // 解密失败
-                                throw new EncryptionException(EncryptionExceptionEnum.RSA_DECRYPT_ERROR);
-                            }
+							AES aes = new AES("CFB", "PKCS7Padding", aesKeyByte, iv);
+							String reqData = null;
+							try {
+								// 使用aes解密请求的内容
+								reqData = aes.decryptStr(data);
+								log.info(CharSequenceUtil.format("本次请求的内容：{}", reqData));
+							}
+							catch (Exception e) {
+								e.printStackTrace();
+								log.error(e.getMessage());
+								// 解密失败
+								throw new EncryptionException(EncryptionExceptionEnum.RSA_DECRYPT_ERROR);
+							}
 
-                            log.info(CharSequenceUtil.format("返回数据加密的key：{}", aesKey));
+							log.info(CharSequenceUtil.format("返回数据加密的key：{}", aesKey));
 
-                            // 将 AES KEY 放到 ThreadLocal 中
-                            EncryptionHolder.setAesKey(aesKey);
+							// 将 AES KEY 放到 ThreadLocal 中
+							EncryptionHolder.setAesKey(aesKey);
 
-                            return new ByteArrayInputStream(reqData.getBytes(CharsetUtil.CHARSET_UTF_8));
-                        }
-                    };
-                }
-            }
-        }
+							return new ByteArrayInputStream(reqData.getBytes(CharsetUtil.CHARSET_UTF_8));
+						}
+					};
+				}
+			}
+		}
 
-        return inputMessage;
+		return inputMessage;
 
-    }
+	}
 
-    @Override
-    public Object afterBodyRead(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
-        return body;
-    }
+	@Override
+	public Object afterBodyRead(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType,
+			Class<? extends HttpMessageConverter<?>> converterType) {
+		return body;
+	}
 
-    @Override
-    public Object handleEmptyBody(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
-        return body;
-    }
+	@Override
+	public Object handleEmptyBody(Object body, HttpInputMessage inputMessage, MethodParameter parameter,
+			Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
+		return body;
+	}
+
 }

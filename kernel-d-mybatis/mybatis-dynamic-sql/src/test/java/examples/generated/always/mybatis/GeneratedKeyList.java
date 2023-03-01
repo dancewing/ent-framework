@@ -19,9 +19,10 @@ import java.util.ArrayList;
 
 public class GeneratedKeyList extends ArrayList<GeneratedKey> {
 
-    public GeneratedKeyList(int estimatedCapacity) {
-        for (int i = 0; i < estimatedCapacity; i++) {
-            add(new GeneratedKey());
-        }
-    }
+	public GeneratedKeyList(int estimatedCapacity) {
+		for (int i = 0; i < estimatedCapacity; i++) {
+			add(new GeneratedKey());
+		}
+	}
+
 }

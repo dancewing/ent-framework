@@ -14,4 +14,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 @Configuration
 public interface MongoFileMapper extends MongoRepository<MongoFileEntity, String> {
+
 }

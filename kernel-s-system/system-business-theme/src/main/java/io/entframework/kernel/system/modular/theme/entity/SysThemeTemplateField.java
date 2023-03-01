@@ -22,85 +22,88 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(value = "sys_theme_template_field", sqlSupport = SysThemeTemplateFieldDynamicSqlSupport.class, tableProperty = "sysThemeTemplateField")
+@Table(value = "sys_theme_template_field", sqlSupport = SysThemeTemplateFieldDynamicSqlSupport.class,
+		tableProperty = "sysThemeTemplateField")
 public class SysThemeTemplateField extends BaseEntity implements Serializable {
-    /**
-     * 主键
-     */
-    @Id
-    @Column(name = "field_id", jdbcType = JDBCType.BIGINT)
-    private Long fieldId;
 
-    /**
-     * 属性名称
-     */
-    @Column(name = "field_name", jdbcType = JDBCType.VARCHAR)
-    private String fieldName;
+	/**
+	 * 主键
+	 */
+	@Id
+	@Column(name = "field_id", jdbcType = JDBCType.BIGINT)
+	private Long fieldId;
 
-    /**
-     * 属性编码
-     */
-    @Column(name = "field_code", jdbcType = JDBCType.VARCHAR)
-    private String fieldCode;
+	/**
+	 * 属性名称
+	 */
+	@Column(name = "field_name", jdbcType = JDBCType.VARCHAR)
+	private String fieldName;
 
-    /**
-     * 属性展示类型（字典维护），例如：图片，文本等类型
-     */
-    @Column(name = "field_type", jdbcType = JDBCType.VARCHAR)
-    private ThemeFieldTypeEnum fieldType;
+	/**
+	 * 属性编码
+	 */
+	@Column(name = "field_code", jdbcType = JDBCType.VARCHAR)
+	private String fieldCode;
 
-    /**
-     * 是否必填：Y-必填，N-非必填
-     */
-    @Column(name = "field_required", jdbcType = JDBCType.CHAR)
-    private YesOrNotEnum fieldRequired;
+	/**
+	 * 属性展示类型（字典维护），例如：图片，文本等类型
+	 */
+	@Column(name = "field_type", jdbcType = JDBCType.VARCHAR)
+	private ThemeFieldTypeEnum fieldType;
 
-    /**
-     * 属性值长度
-     */
-    @Column(name = "field_length", jdbcType = JDBCType.INTEGER)
-    private Integer fieldLength;
+	/**
+	 * 是否必填：Y-必填，N-非必填
+	 */
+	@Column(name = "field_required", jdbcType = JDBCType.CHAR)
+	private YesOrNotEnum fieldRequired;
 
-    /**
-     * 属性描述
-     */
-    @Column(name = "field_description", jdbcType = JDBCType.VARCHAR)
-    private String fieldDescription;
+	/**
+	 * 属性值长度
+	 */
+	@Column(name = "field_length", jdbcType = JDBCType.INTEGER)
+	private Integer fieldLength;
 
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 属性描述
+	 */
+	@Column(name = "field_description", jdbcType = JDBCType.VARCHAR)
+	private String fieldDescription;
 
-    public SysThemeTemplateField fieldId(Long fieldId) {
-        this.fieldId = fieldId;
-        return this;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public SysThemeTemplateField fieldName(String fieldName) {
-        this.fieldName = fieldName;
-        return this;
-    }
+	public SysThemeTemplateField fieldId(Long fieldId) {
+		this.fieldId = fieldId;
+		return this;
+	}
 
-    public SysThemeTemplateField fieldCode(String fieldCode) {
-        this.fieldCode = fieldCode;
-        return this;
-    }
+	public SysThemeTemplateField fieldName(String fieldName) {
+		this.fieldName = fieldName;
+		return this;
+	}
 
-    public SysThemeTemplateField fieldType(ThemeFieldTypeEnum fieldType) {
-        this.fieldType = fieldType;
-        return this;
-    }
+	public SysThemeTemplateField fieldCode(String fieldCode) {
+		this.fieldCode = fieldCode;
+		return this;
+	}
 
-    public SysThemeTemplateField fieldRequired(YesOrNotEnum fieldRequired) {
-        this.fieldRequired = fieldRequired;
-        return this;
-    }
+	public SysThemeTemplateField fieldType(ThemeFieldTypeEnum fieldType) {
+		this.fieldType = fieldType;
+		return this;
+	}
 
-    public SysThemeTemplateField fieldLength(Integer fieldLength) {
-        this.fieldLength = fieldLength;
-        return this;
-    }
+	public SysThemeTemplateField fieldRequired(YesOrNotEnum fieldRequired) {
+		this.fieldRequired = fieldRequired;
+		return this;
+	}
 
-    public SysThemeTemplateField fieldDescription(String fieldDescription) {
-        this.fieldDescription = fieldDescription;
-        return this;
-    }
+	public SysThemeTemplateField fieldLength(Integer fieldLength) {
+		this.fieldLength = fieldLength;
+		return this;
+	}
+
+	public SysThemeTemplateField fieldDescription(String fieldDescription) {
+		this.fieldDescription = fieldDescription;
+		return this;
+	}
+
 }

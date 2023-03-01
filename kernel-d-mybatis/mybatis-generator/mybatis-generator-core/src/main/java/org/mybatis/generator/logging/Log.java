@@ -17,13 +17,14 @@ package org.mybatis.generator.logging;
 
 public interface Log {
 
-    boolean isDebugEnabled();
+	boolean isDebugEnabled();
 
-    void error(String s, Throwable e);
+	void error(String s, Throwable e);
 
-    void error(String s);
+	void error(String s);
 
-    void debug(String s);
+	void debug(String s);
 
-    void warn(String s);
+	void warn(String s);
+
 }

@@ -7,4 +7,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @ApiResource(name = "考试记录")
 public class HistoryScoreController extends BaseHistoryScoreController {
+
 }

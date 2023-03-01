@@ -35,53 +35,48 @@ import org.mybatis.dynamic.sql.where.condition.IsEqualTo;
 
 class CriterionRendererTest {
 
-    @Test
-    void testAliasWithIgnore() {
-        SqlTable table = SqlTable.of("foo");
-        SqlColumn<Integer> column = table.column("id", JDBCType.INTEGER);
+	@Test
+	void testAliasWithIgnore() {
+		SqlTable table = SqlTable.of("foo");
+		SqlColumn<Integer> column = table.column("id", JDBCType.INTEGER);
 
-        IsEqualTo<Integer> condition = IsEqualTo.of(3);
-        ColumnAndConditionCriterion<Integer> criterion = ColumnAndConditionCriterion.withColumn(column)
-                .withCondition(condition)
-                .build();
-        AtomicInteger sequence = new AtomicInteger(1);
+		IsEqualTo<Integer> condition = IsEqualTo.of(3);
+		ColumnAndConditionCriterion<Integer> criterion = ColumnAndConditionCriterion.withColumn(column)
+				.withCondition(condition).build();
+		AtomicInteger sequence = new AtomicInteger(1);
 
-        CriterionRenderer renderer = new CriterionRenderer.Builder()
-                .withSequence(sequence)
-                .withRenderingStrategy(RenderingStrategies.MYBATIS3)
-                .withTableAliasCalculator(TableAliasCalculator.empty())
-                .build();
+		CriterionRenderer renderer = new CriterionRenderer.Builder().withSequence(sequence)
+				.withRenderingStrategy(RenderingStrategies.MYBATIS3)
+				.withTableAliasCalculator(TableAliasCalculator.empty()).build();
 
-        assertThat(criterion.accept(renderer)).hasValueSatisfying(rc -> {
-            FragmentAndParameters fp = rc.fragmentAndParameters();
-            assertThat(fp.fragment()).isEqualTo("id = #{parameters.p1,jdbcType=INTEGER}");
-            assertThat(fp.parameters()).containsExactly(entry("p1", 3));
-        });
-    }
+		assertThat(criterion.accept(renderer)).hasValueSatisfying(rc -> {
+			FragmentAndParameters fp = rc.fragmentAndParameters();
+			assertThat(fp.fragment()).isEqualTo("id = #{parameters.p1,jdbcType=INTEGER}");
+			assertThat(fp.parameters()).containsExactly(entry("p1", 3));
+		});
+	}
 
-    @Test
-    void testAliasWithoutIgnore() {
-        SqlTable table = SqlTable.of("foo");
-        SqlColumn<Integer> column = table.column("id", JDBCType.INTEGER);
-        IsEqualTo<Integer> condition = IsEqualTo.of(3);
-        ColumnAndConditionCriterion<Integer> criterion = ColumnAndConditionCriterion.withColumn(column)
-                .withCondition(condition)
-                .build();
-        AtomicInteger sequence = new AtomicInteger(1);
+	@Test
+	void testAliasWithoutIgnore() {
+		SqlTable table = SqlTable.of("foo");
+		SqlColumn<Integer> column = table.column("id", JDBCType.INTEGER);
+		IsEqualTo<Integer> condition = IsEqualTo.of(3);
+		ColumnAndConditionCriterion<Integer> criterion = ColumnAndConditionCriterion.withColumn(column)
+				.withCondition(condition).build();
+		AtomicInteger sequence = new AtomicInteger(1);
 
-        Map<SqlTable, String> tableAliases = new HashMap<>();
-        tableAliases.put(table, "a");
+		Map<SqlTable, String> tableAliases = new HashMap<>();
+		tableAliases.put(table, "a");
 
-        CriterionRenderer renderer = new CriterionRenderer.Builder()
-                .withSequence(sequence)
-                .withRenderingStrategy(RenderingStrategies.MYBATIS3)
-                .withTableAliasCalculator(ExplicitTableAliasCalculator.of(tableAliases))
-                .build();
+		CriterionRenderer renderer = new CriterionRenderer.Builder().withSequence(sequence)
+				.withRenderingStrategy(RenderingStrategies.MYBATIS3)
+				.withTableAliasCalculator(ExplicitTableAliasCalculator.of(tableAliases)).build();
 
-        assertThat(criterion.accept(renderer)).hasValueSatisfying(rc -> {
-            FragmentAndParameters fp = rc.fragmentAndParameters();
-            assertThat(fp.fragment()).isEqualTo("a.id = #{parameters.p1,jdbcType=INTEGER}");
-            assertThat(fp.parameters()).containsExactly(entry("p1", 3));
-        });
-    }
+		assertThat(criterion.accept(renderer)).hasValueSatisfying(rc -> {
+			FragmentAndParameters fp = rc.fragmentAndParameters();
+			assertThat(fp.fragment()).isEqualTo("a.id = #{parameters.p1,jdbcType=INTEGER}");
+			assertThat(fp.parameters()).containsExactly(entry("p1", 3));
+		});
+	}
+
 }

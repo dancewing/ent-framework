@@ -11,5 +11,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("kernel.email")
 public class EmailProperties {
 
-    private MailAccount account = new MailAccount();
+	private MailAccount account = new MailAccount();
+
 }

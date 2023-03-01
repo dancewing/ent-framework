@@ -27,67 +27,69 @@ import java.util.Properties;
  */
 @Slf4j
 @Component
-@Intercepts({@Signature(type = ParameterHandler.class, method = "setParameters", args = PreparedStatement.class),})
+@Intercepts({ @Signature(type = ParameterHandler.class, method = "setParameters", args = PreparedStatement.class), })
 public class ParameterInterceptor implements Interceptor {
 
-    @Autowired
-    private EncryptAlgorithmApi encryptAlgorithmApi;
+	@Autowired
+	private EncryptAlgorithmApi encryptAlgorithmApi;
 
-    @Override
-    public Object intercept(Invocation invocation) throws Throwable {
+	@Override
+	public Object intercept(Invocation invocation) throws Throwable {
 
-        // 若指定ResultSetHandler ，这里则能强转为ResultSetHandler
-        ParameterHandler parameterHandler = (ParameterHandler) invocation.getTarget();
+		// 若指定ResultSetHandler ，这里则能强转为ResultSetHandler
+		ParameterHandler parameterHandler = (ParameterHandler) invocation.getTarget();
 
-        // 获取参数对像，即 mapper 中 paramsType 的实例
-        Field parameterField = parameterHandler.getClass().getDeclaredField("parameterObject");
-        parameterField.setAccessible(true);
+		// 获取参数对像，即 mapper 中 paramsType 的实例
+		Field parameterField = parameterHandler.getClass().getDeclaredField("parameterObject");
+		parameterField.setAccessible(true);
 
-        // 取出实例
-        Object parameterObject = parameterField.get(parameterHandler);
-        if (parameterObject != null) {
-            Class<?> parameterObjectClass = parameterObject.getClass();
+		// 取出实例
+		Object parameterObject = parameterField.get(parameterHandler);
+		if (parameterObject != null) {
+			Class<?> parameterObjectClass = parameterObject.getClass();
 
-            // 校验该实例的类是否被@ProtectedData所注解
-            ProtectedData protectedData = AnnotationUtils.findAnnotation(parameterObjectClass, ProtectedData.class);
-            if (ObjectUtil.isNotNull(protectedData)) {
+			// 校验该实例的类是否被@ProtectedData所注解
+			ProtectedData protectedData = AnnotationUtils.findAnnotation(parameterObjectClass, ProtectedData.class);
+			if (ObjectUtil.isNotNull(protectedData)) {
 
-                //取出当前当前类所有字段
-                Field[] declaredFields = parameterObjectClass.getDeclaredFields();
+				// 取出当前当前类所有字段
+				Field[] declaredFields = parameterObjectClass.getDeclaredFields();
 
-                // 处理需要加密的字段
-                for (Field declaredField : declaredFields) {
+				// 处理需要加密的字段
+				for (Field declaredField : declaredFields) {
 
-                    // 包含其中任意一个即可
-                    ProtectedField protectedField = declaredField.getAnnotation(ProtectedField.class);
-                    EncryptField encryptField = declaredField.getAnnotation(EncryptField.class);
-                    if (ObjectUtil.isNotNull(protectedField) || ObjectUtil.isNotNull(encryptField)) {
-                        declaredField.setAccessible(true);
-                        Object fieldData = declaredField.get(parameterObject);
-                        // 如果是String就处理
-                        if (fieldData instanceof String) {
-                            String value = (String) fieldData;
-                            try {
-                                String encrypt = encryptAlgorithmApi.encrypt(value);
-                                declaredField.set(parameterObject, encrypt);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return invocation.proceed();
-    }
+					// 包含其中任意一个即可
+					ProtectedField protectedField = declaredField.getAnnotation(ProtectedField.class);
+					EncryptField encryptField = declaredField.getAnnotation(EncryptField.class);
+					if (ObjectUtil.isNotNull(protectedField) || ObjectUtil.isNotNull(encryptField)) {
+						declaredField.setAccessible(true);
+						Object fieldData = declaredField.get(parameterObject);
+						// 如果是String就处理
+						if (fieldData instanceof String) {
+							String value = (String) fieldData;
+							try {
+								String encrypt = encryptAlgorithmApi.encrypt(value);
+								declaredField.set(parameterObject, encrypt);
+							}
+							catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+			}
+		}
+		return invocation.proceed();
+	}
 
-    @Override
-    public Object plugin(Object target) {
-        return Plugin.wrap(target, this);
-    }
+	@Override
+	public Object plugin(Object target) {
+		return Plugin.wrap(target, this);
+	}
 
-    @Override
-    public void setProperties(Properties properties) {
+	@Override
+	public void setProperties(Properties properties) {
 
-    }
+	}
+
 }

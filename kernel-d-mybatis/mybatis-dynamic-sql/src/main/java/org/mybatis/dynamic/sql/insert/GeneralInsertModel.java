@@ -32,49 +32,51 @@ import org.mybatis.dynamic.sql.util.Messages;
 
 public class GeneralInsertModel {
 
-    private final SqlTable table;
-    private final List<AbstractColumnMapping> insertMappings;
+	private final SqlTable table;
 
-    private GeneralInsertModel(Builder builder) {
-        table = Objects.requireNonNull(builder.table);
-        if (builder.insertMappings.isEmpty()) {
-            throw new InvalidSqlException(Messages.getString("ERROR.6")); //$NON-NLS-1$
-        }
-        insertMappings = builder.insertMappings;
-    }
+	private final List<AbstractColumnMapping> insertMappings;
 
-    public <R> Stream<R> mapColumnMappings(Function<AbstractColumnMapping, R> mapper) {
-        return insertMappings.stream().map(mapper);
-    }
+	private GeneralInsertModel(Builder builder) {
+		table = Objects.requireNonNull(builder.table);
+		if (builder.insertMappings.isEmpty()) {
+			throw new InvalidSqlException(Messages.getString("ERROR.6")); //$NON-NLS-1$
+		}
+		insertMappings = builder.insertMappings;
+	}
 
-    public SqlTable table() {
-        return table;
-    }
+	public <R> Stream<R> mapColumnMappings(Function<AbstractColumnMapping, R> mapper) {
+		return insertMappings.stream().map(mapper);
+	}
 
-    @NotNull
-    public GeneralInsertStatementProvider render(RenderingStrategy renderingStrategy) {
-        return GeneralInsertRenderer.withInsertModel(this)
-                .withRenderingStrategy(renderingStrategy)
-                .build()
-                .render();
-    }
+	public SqlTable table() {
+		return table;
+	}
 
-    public static class Builder {
-        private SqlTable table;
-        private final List<AbstractColumnMapping> insertMappings = new ArrayList<>();
+	@NotNull
+	public GeneralInsertStatementProvider render(RenderingStrategy renderingStrategy) {
+		return GeneralInsertRenderer.withInsertModel(this).withRenderingStrategy(renderingStrategy).build().render();
+	}
 
-        public Builder withTable(SqlTable table) {
-            this.table = table;
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withInsertMappings(List<AbstractColumnMapping> insertMappings) {
-            this.insertMappings.addAll(insertMappings);
-            return this;
-        }
+		private SqlTable table;
 
-        public GeneralInsertModel build() {
-            return new GeneralInsertModel(this);
-        }
-    }
+		private final List<AbstractColumnMapping> insertMappings = new ArrayList<>();
+
+		public Builder withTable(SqlTable table) {
+			this.table = table;
+			return this;
+		}
+
+		public Builder withInsertMappings(List<AbstractColumnMapping> insertMappings) {
+			this.insertMappings.addAll(insertMappings);
+			return this;
+		}
+
+		public GeneralInsertModel build() {
+			return new GeneralInsertModel(this);
+		}
+
+	}
+
 }

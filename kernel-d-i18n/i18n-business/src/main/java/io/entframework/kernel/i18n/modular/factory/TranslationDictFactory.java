@@ -13,20 +13,21 @@ import io.entframework.kernel.i18n.api.pojo.response.TranslationResponse;
  */
 public class TranslationDictFactory {
 
-    private TranslationDictFactory(){}
+	private TranslationDictFactory() {
+	}
 
-    /**
-     * 创建翻译字典
-     *
-     * @date 2021/1/24 21:50
-     */
-    public static TranslationDict createTranslationDict(String translationLanguages, TranslationResponse translation) {
-        TranslationDict translationDict = new TranslationDict();
-        translationDict.setTranName(translation.getTranName());
-        translationDict.setTranCode(translation.getTranCode());
-        translationDict.setTranValue(translation.getTranValue());
-        translationDict.setTranLanguageCode(translationLanguages);
-        return translationDict;
-    }
+	/**
+	 * 创建翻译字典
+	 *
+	 * @date 2021/1/24 21:50
+	 */
+	public static TranslationDict createTranslationDict(String translationLanguages, TranslationResponse translation) {
+		TranslationDict translationDict = new TranslationDict();
+		translationDict.setTranName(translation.getTranName());
+		translationDict.setTranCode(translation.getTranCode());
+		translationDict.setTranValue(translation.getTranValue());
+		translationDict.setTranLanguageCode(translationLanguages);
+		return translationDict;
+	}
 
 }

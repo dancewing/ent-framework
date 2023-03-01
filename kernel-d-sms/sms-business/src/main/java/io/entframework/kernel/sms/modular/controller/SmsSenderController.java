@@ -34,47 +34,47 @@ import java.util.HashMap;
 @ApiResource(name = "短信发送控制器")
 public class SmsSenderController {
 
-    @Resource
-    private SysSmsService sysSmsService;
+	@Resource
+	private SysSmsService sysSmsService;
 
-    /**
-     * 发送记录查询
-     *
-     * @date 2020/10/26 18:34
-     */
-    @GetResource(name = "发送记录查询", path = "/sms/page")
-    public ResponseData<PageResult<SysSmsResponse>> page(SysSmsRequest sysSmsRequest) {
-        return ResponseData.ok(sysSmsService.page(sysSmsRequest));
-    }
+	/**
+	 * 发送记录查询
+	 *
+	 * @date 2020/10/26 18:34
+	 */
+	@GetResource(name = "发送记录查询", path = "/sms/page")
+	public ResponseData<PageResult<SysSmsResponse>> page(SysSmsRequest sysSmsRequest) {
+		return ResponseData.ok(sysSmsService.page(sysSmsRequest));
+	}
 
-    /**
-     * 发送验证码短信
-     *
-     * @date 2020/10/26 18:34
-     */
-    @PostResource(name = "发送验证码短信", path = "/sms/send-login-message", requiredLogin = false, requiredPermission = false)
-    public ResponseData<Boolean> sendMessage(@RequestBody @Validated SysSmsSendParam sysSmsSendParam) {
+	/**
+	 * 发送验证码短信
+	 *
+	 * @date 2020/10/26 18:34
+	 */
+	@PostResource(name = "发送验证码短信", path = "/sms/send-login-message", requiredLogin = false, requiredPermission = false)
+	public ResponseData<Boolean> sendMessage(@RequestBody @Validated SysSmsSendParam sysSmsSendParam) {
 
-        // 清空params参数
-        sysSmsSendParam.setParams(null);
+		// 清空params参数
+		sysSmsSendParam.setParams(null);
 
-        // 设置模板中的参数
-        HashMap<String, Object> paramMap = MapUtil.newHashMap();
-        paramMap.put("code", RandomUtil.randomNumbers(6));
-        sysSmsSendParam.setParams(paramMap);
+		// 设置模板中的参数
+		HashMap<String, Object> paramMap = MapUtil.newHashMap();
+		paramMap.put("code", RandomUtil.randomNumbers(6));
+		sysSmsSendParam.setParams(paramMap);
 
-        return ResponseData.ok(sysSmsService.sendShortMessage(sysSmsSendParam));
-    }
+		return ResponseData.ok(sysSmsService.sendShortMessage(sysSmsSendParam));
+	}
 
-    /**
-     * 验证短信验证码
-     *
-     * @date 2020/10/26 18:35
-     */
-    @PostResource(name = "验证短信验证码", path = "/sms/validateMessage", requiredLogin = false, requiredPermission = false)
-    public ResponseData<String> validateMessage(@RequestBody @Validated SysSmsVerifyParam sysSmsVerifyParam) {
-        sysSmsService.validateSmsInfo(sysSmsVerifyParam);
-        return ResponseData.ok("短信验证成功");
-    }
+	/**
+	 * 验证短信验证码
+	 *
+	 * @date 2020/10/26 18:35
+	 */
+	@PostResource(name = "验证短信验证码", path = "/sms/validateMessage", requiredLogin = false, requiredPermission = false)
+	public ResponseData<String> validateMessage(@RequestBody @Validated SysSmsVerifyParam sysSmsVerifyParam) {
+		sysSmsService.validateSmsInfo(sysSmsVerifyParam);
+		return ResponseData.ok("短信验证成功");
+	}
 
 }

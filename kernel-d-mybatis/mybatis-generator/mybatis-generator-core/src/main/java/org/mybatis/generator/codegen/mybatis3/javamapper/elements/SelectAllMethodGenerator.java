@@ -31,44 +31,44 @@ import org.mybatis.generator.api.dom.java.Method;
  */
 public class SelectAllMethodGenerator extends AbstractJavaMapperMethodGenerator {
 
-    public SelectAllMethodGenerator() {
-        super();
-    }
+	public SelectAllMethodGenerator() {
+		super();
+	}
 
-    @Override
-    public void addInterfaceElements(Interface interfaze) {
-        Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
-        importedTypes.add(FullyQualifiedJavaType.getNewListInstance());
+	@Override
+	public void addInterfaceElements(Interface interfaze) {
+		Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
+		importedTypes.add(FullyQualifiedJavaType.getNewListInstance());
 
-        Method method = new Method(introspectedTable.getSelectAllStatementId());
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.setAbstract(true);
+		Method method = new Method(introspectedTable.getSelectAllStatementId());
+		method.setVisibility(JavaVisibility.PUBLIC);
+		method.setAbstract(true);
 
-        FullyQualifiedJavaType returnType = FullyQualifiedJavaType
-                .getNewListInstance();
-        FullyQualifiedJavaType listType;
-        listType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
+		FullyQualifiedJavaType returnType = FullyQualifiedJavaType.getNewListInstance();
+		FullyQualifiedJavaType listType;
+		listType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
 
-        importedTypes.add(listType);
-        returnType.addTypeArgument(listType);
-        method.setReturnType(returnType);
+		importedTypes.add(listType);
+		returnType.addTypeArgument(listType);
+		method.setReturnType(returnType);
 
-        context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
 
-        addMapperAnnotations(interfaze, method);
+		addMapperAnnotations(interfaze, method);
 
-        if (context.getPlugins().clientSelectAllMethodGenerated(method, interfaze, introspectedTable)) {
-            addExtraImports(interfaze);
-            interfaze.addImportedTypes(importedTypes);
-            interfaze.addMethod(method);
-        }
-    }
+		if (context.getPlugins().clientSelectAllMethodGenerated(method, interfaze, introspectedTable)) {
+			addExtraImports(interfaze);
+			interfaze.addImportedTypes(importedTypes);
+			interfaze.addMethod(method);
+		}
+	}
 
-    public void addMapperAnnotations(Interface interfaze, Method method) {
-        // extension point for subclasses
-    }
+	public void addMapperAnnotations(Interface interfaze, Method method) {
+		// extension point for subclasses
+	}
 
-    public void addExtraImports(Interface interfaze) {
-        // extension point for subclasses
-    }
+	public void addExtraImports(Interface interfaze) {
+		// extension point for subclasses
+	}
+
 }

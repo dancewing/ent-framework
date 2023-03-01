@@ -16,19 +16,19 @@ import lombok.Data;
 @Data
 public class SysRoleMenuResponse {
 
-    /**
-     * 主键
-     */
-    private Long roleMenuId;
+	/**
+	 * 主键
+	 */
+	private Long roleMenuId;
 
-    /**
-     * 角色id
-     */
-    private Long roleId;
+	/**
+	 * 角色id
+	 */
+	private Long roleId;
 
-    /**
-     * 菜单id
-     */
-    private Long menuId;
+	/**
+	 * 菜单id
+	 */
+	private Long menuId;
 
 }

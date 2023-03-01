@@ -22,30 +22,32 @@ import java.util.stream.Collectors;
  */
 public class DbOperatorImpl implements DbOperatorApi {
 
-    @Resource
-    private JdbcTemplate jdbcTemplate;
+	@Resource
+	private JdbcTemplate jdbcTemplate;
 
-    @Override
-    public long selectCount(String sql, Object... args) {
-        Long count = this.jdbcTemplate.query(sql, rs -> {
-            if (rs.next()) {
-                return rs.getLong(1);
-            }
-            return 0L;
-        }, args);
-        return count == null ? 0L : count;
-    }
+	@Override
+	public long selectCount(String sql, Object... args) {
+		Long count = this.jdbcTemplate.query(sql, rs -> {
+			if (rs.next()) {
+				return rs.getLong(1);
+			}
+			return 0L;
+		}, args);
+		return count == null ? 0L : count;
+	}
 
-    @Override
-    public Set<Long> findSubListByParentId(String tableName, String parentIdsFieldName, String keyFieldName, Long keyFieldValue) {
+	@Override
+	public Set<Long> findSubListByParentId(String tableName, String parentIdsFieldName, String keyFieldName,
+			Long keyFieldValue) {
 
-        // 组装sql
-        String sqlTemplate = "select {} from {} where {} like '%[{}]%'";
-        String sql = CharSequenceUtil.format(sqlTemplate, keyFieldName, tableName, parentIdsFieldName, keyFieldValue.toString());
-        List<Long>  subIds = this.jdbcTemplate.queryForList(sql, Long.class);
-        // 查询所有子级的id集合，结果不包含被查询的keyFieldValue
-        // 转为Set<Long>
-        return subIds.stream().map(i -> Long.valueOf(i.toString())).collect(Collectors.toSet());
-    }
+		// 组装sql
+		String sqlTemplate = "select {} from {} where {} like '%[{}]%'";
+		String sql = CharSequenceUtil.format(sqlTemplate, keyFieldName, tableName, parentIdsFieldName,
+				keyFieldValue.toString());
+		List<Long> subIds = this.jdbcTemplate.queryForList(sql, Long.class);
+		// 查询所有子级的id集合，结果不包含被查询的keyFieldValue
+		// 转为Set<Long>
+		return subIds.stream().map(i -> Long.valueOf(i.toString())).collect(Collectors.toSet());
+	}
 
 }

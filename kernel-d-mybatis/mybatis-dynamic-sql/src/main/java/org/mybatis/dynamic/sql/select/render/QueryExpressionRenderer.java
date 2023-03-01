@@ -40,185 +40,173 @@ import org.mybatis.dynamic.sql.where.render.WhereClauseProvider;
 import org.mybatis.dynamic.sql.where.render.WhereRenderer;
 
 public class QueryExpressionRenderer {
-    private final QueryExpressionModel queryExpression;
-    private final RenderingStrategy renderingStrategy;
-    private final AtomicInteger sequence;
-    private final TableExpressionRenderer tableExpressionRenderer;
-    private final TableAliasCalculator tableAliasCalculator;
 
-    private QueryExpressionRenderer(Builder builder) {
-        queryExpression = Objects.requireNonNull(builder.queryExpression);
-        renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
-        sequence = Objects.requireNonNull(builder.sequence);
-        tableAliasCalculator = calculateTableAliasCalculator(queryExpression, builder.parentTableAliasCalculator);
-        tableExpressionRenderer = new TableExpressionRenderer.Builder()
-                .withTableAliasCalculator(tableAliasCalculator)
-                .withRenderingStrategy(renderingStrategy)
-                .withSequence(sequence)
-                .build();
-    }
+	private final QueryExpressionModel queryExpression;
 
-    /**
-     * This function calculates a table alias calculator to use in the current context. There are several
-     * possibilities: this could be a renderer for a top level select statement, or it could be a renderer for a table
-     * expression in a join, or a column to sub query where condition, or it could be a renderer for a select
-     * statement in an "exists" condition in a where clause.
-     *
-     * <p>In the case of conditions in a where clause, we will have a parent table alias calculator. This will give
-     * visibility to the aliases in the outer select statement to this renderer so columns in aliased tables can be
-     * used in where clause sub query conditions without having to re-specify the alias.
-     *
-     * <p>Another complication is that we calculate aliases differently if there are joins and sub queries. The
-     * cases are as follows:
-     *
-     * <ol>
-     *     <li>If there are no joins, then we will only use aliases that are explicitly set by the user</li>
-     *     <lI>If there are joins and sub queries, we will also only use explicit aliases</lI>
-     *     <li>If there are joins, but no sub queries, then we will automatically use the table name
-     *     as an alias if no explicit alias has been specified</li>
-     * </ol>
-     *
-     * @param queryExpression the model to render
-     * @param parentTableAliasCalculator table alias calculator from the parent query
-     * @return a table alias calculator appropriate for this context
-     */
-    private TableAliasCalculator calculateTableAliasCalculator(QueryExpressionModel queryExpression,
-                                                               TableAliasCalculator parentTableAliasCalculator) {
-        TableAliasCalculator baseTableAliasCalculator = queryExpression.joinModel()
-                .map(JoinModel::containsSubQueries)
-                .map(this::calculateTableAliasCalculatorWithJoins)
-                .orElseGet(this::explicitTableAliasCalculator);
+	private final RenderingStrategy renderingStrategy;
 
-        if (parentTableAliasCalculator == null) {
-            return baseTableAliasCalculator;
-        } else {
-            return new TableAliasCalculatorWithParent.Builder()
-                    .withParent(parentTableAliasCalculator)
-                    .withChild(baseTableAliasCalculator)
-                    .build();
-        }
-    }
+	private final AtomicInteger sequence;
 
-    private TableAliasCalculator calculateTableAliasCalculatorWithJoins(boolean hasSubQueries) {
-        if (hasSubQueries) {
-            // if there are subqueries, we cannot use the table name automatically
-            // so all aliases must be specified
-            return explicitTableAliasCalculator();
-        } else {
-            // without subqueries, we can automatically use table names as aliases
-            return guaranteedTableAliasCalculator();
-        }
-    }
+	private final TableExpressionRenderer tableExpressionRenderer;
 
-    private TableAliasCalculator explicitTableAliasCalculator() {
-        return ExplicitTableAliasCalculator.of(queryExpression.tableAliases());
-    }
+	private final TableAliasCalculator tableAliasCalculator;
 
-    private TableAliasCalculator guaranteedTableAliasCalculator() {
-        return GuaranteedTableAliasCalculator.of(queryExpression.tableAliases());
-    }
+	private QueryExpressionRenderer(Builder builder) {
+		queryExpression = Objects.requireNonNull(builder.queryExpression);
+		renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
+		sequence = Objects.requireNonNull(builder.sequence);
+		tableAliasCalculator = calculateTableAliasCalculator(queryExpression, builder.parentTableAliasCalculator);
+		tableExpressionRenderer = new TableExpressionRenderer.Builder().withTableAliasCalculator(tableAliasCalculator)
+				.withRenderingStrategy(renderingStrategy).withSequence(sequence).build();
+	}
 
-    public FragmentAndParameters render() {
-        FragmentAndParameters answer = calculateQueryExpressionStart();
-        answer = addJoinClause(answer);
-        answer = addWhereClause(answer);
-        answer = addGroupByClause(answer);
-        return answer;
-    }
+	/**
+	 * This function calculates a table alias calculator to use in the current context.
+	 * There are several possibilities: this could be a renderer for a top level select
+	 * statement, or it could be a renderer for a table expression in a join, or a column
+	 * to sub query where condition, or it could be a renderer for a select statement in
+	 * an "exists" condition in a where clause.
+	 *
+	 * <p>
+	 * In the case of conditions in a where clause, we will have a parent table alias
+	 * calculator. This will give visibility to the aliases in the outer select statement
+	 * to this renderer so columns in aliased tables can be used in where clause sub query
+	 * conditions without having to re-specify the alias.
+	 *
+	 * <p>
+	 * Another complication is that we calculate aliases differently if there are joins
+	 * and sub queries. The cases are as follows:
+	 *
+	 * <ol>
+	 * <li>If there are no joins, then we will only use aliases that are explicitly set by
+	 * the user</li>
+	 * <lI>If there are joins and sub queries, we will also only use explicit aliases</lI>
+	 * <li>If there are joins, but no sub queries, then we will automatically use the
+	 * table name as an alias if no explicit alias has been specified</li>
+	 * </ol>
+	 * @param queryExpression the model to render
+	 * @param parentTableAliasCalculator table alias calculator from the parent query
+	 * @return a table alias calculator appropriate for this context
+	 */
+	private TableAliasCalculator calculateTableAliasCalculator(QueryExpressionModel queryExpression,
+			TableAliasCalculator parentTableAliasCalculator) {
+		TableAliasCalculator baseTableAliasCalculator = queryExpression.joinModel().map(JoinModel::containsSubQueries)
+				.map(this::calculateTableAliasCalculatorWithJoins).orElseGet(this::explicitTableAliasCalculator);
 
-    private FragmentAndParameters calculateQueryExpressionStart() {
-        String start = spaceAfter(queryExpression.connector())
-                + "select " //$NON-NLS-1$
-                + (queryExpression.isDistinct() ? "distinct " : "") //$NON-NLS-1$ //$NON-NLS-2$
-                + calculateColumnList()
-                + " from "; //$NON-NLS-1$
+		if (parentTableAliasCalculator == null) {
+			return baseTableAliasCalculator;
+		}
+		else {
+			return new TableAliasCalculatorWithParent.Builder().withParent(parentTableAliasCalculator)
+					.withChild(baseTableAliasCalculator).build();
+		}
+	}
 
-        FragmentAndParameters renderedTable = renderTableExpression(queryExpression.table());
-        start += renderedTable.fragment();
+	private TableAliasCalculator calculateTableAliasCalculatorWithJoins(boolean hasSubQueries) {
+		if (hasSubQueries) {
+			// if there are subqueries, we cannot use the table name automatically
+			// so all aliases must be specified
+			return explicitTableAliasCalculator();
+		}
+		else {
+			// without subqueries, we can automatically use table names as aliases
+			return guaranteedTableAliasCalculator();
+		}
+	}
 
-        return FragmentAndParameters.withFragment(start)
-                .withParameters(renderedTable.parameters())
-                .build();
-    }
+	private TableAliasCalculator explicitTableAliasCalculator() {
+		return ExplicitTableAliasCalculator.of(queryExpression.tableAliases());
+	}
 
-    private String calculateColumnList() {
-        return queryExpression.mapColumns(this::applyTableAndColumnAlias)
-                .collect(Collectors.joining(", ")); //$NON-NLS-1$
-    }
+	private TableAliasCalculator guaranteedTableAliasCalculator() {
+		return GuaranteedTableAliasCalculator.of(queryExpression.tableAliases());
+	}
 
-    private String applyTableAndColumnAlias(BasicColumn selectListItem) {
-        return selectListItem.renderWithTableAndColumnAlias(tableAliasCalculator);
-    }
+	public FragmentAndParameters render() {
+		FragmentAndParameters answer = calculateQueryExpressionStart();
+		answer = addJoinClause(answer);
+		answer = addWhereClause(answer);
+		answer = addGroupByClause(answer);
+		return answer;
+	}
 
-    private FragmentAndParameters renderTableExpression(TableExpression table) {
-        return table.accept(tableExpressionRenderer);
-    }
+	private FragmentAndParameters calculateQueryExpressionStart() {
+		String start = spaceAfter(queryExpression.connector()) + "select " //$NON-NLS-1$
+				+ (queryExpression.isDistinct() ? "distinct " : "") //$NON-NLS-1$ //$NON-NLS-2$
+				+ calculateColumnList() + " from "; //$NON-NLS-1$
 
-    private FragmentAndParameters addJoinClause(FragmentAndParameters partial) {
-        return queryExpression.joinModel()
-                .map(this::renderJoin)
-                .map(fp -> partial.add(spaceBefore(fp.fragment()), fp.parameters()))
-                .orElse(partial);
-    }
+		FragmentAndParameters renderedTable = renderTableExpression(queryExpression.table());
+		start += renderedTable.fragment();
 
-    private FragmentAndParameters renderJoin(JoinModel joinModel) {
-        return JoinRenderer.withJoinModel(joinModel)
-                .withTableExpressionRenderer(tableExpressionRenderer)
-                .withTableAliasCalculator(tableAliasCalculator)
-                .build()
-                .render();
-    }
+		return FragmentAndParameters.withFragment(start).withParameters(renderedTable.parameters()).build();
+	}
 
-    private FragmentAndParameters addWhereClause(FragmentAndParameters partial) {
-        return queryExpression.whereModel()
-                .flatMap(this::renderWhereClause)
-                .map(wc -> partial.add(spaceBefore(wc.getWhereClause()), wc.getParameters()))
-                .orElse(partial);
-    }
+	private String calculateColumnList() {
+		return queryExpression.mapColumns(this::applyTableAndColumnAlias).collect(Collectors.joining(", ")); //$NON-NLS-1$
+	}
 
-    private Optional<WhereClauseProvider> renderWhereClause(WhereModel whereModel) {
-        return WhereRenderer.withWhereModel(whereModel)
-                .withRenderingStrategy(renderingStrategy)
-                .withTableAliasCalculator(tableAliasCalculator)
-                .withSequence(sequence)
-                .build()
-                .render();
-    }
+	private String applyTableAndColumnAlias(BasicColumn selectListItem) {
+		return selectListItem.renderWithTableAndColumnAlias(tableAliasCalculator);
+	}
 
-    private FragmentAndParameters addGroupByClause(FragmentAndParameters partial) {
-        return queryExpression.groupByModel()
-                .map(this::renderGroupBy)
-                .map(s -> partial.add(spaceBefore(s)))
-                .orElse(partial);
-    }
+	private FragmentAndParameters renderTableExpression(TableExpression table) {
+		return table.accept(tableExpressionRenderer);
+	}
 
-    private String renderGroupBy(GroupByModel groupByModel) {
-        return groupByModel.mapColumns(this::applyTableAlias)
-                .collect(CustomCollectors.joining(", ", "group by ", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    }
+	private FragmentAndParameters addJoinClause(FragmentAndParameters partial) {
+		return queryExpression.joinModel().map(this::renderJoin)
+				.map(fp -> partial.add(spaceBefore(fp.fragment()), fp.parameters())).orElse(partial);
+	}
 
-    private String applyTableAlias(BasicColumn column) {
-        return column.renderWithTableAlias(tableAliasCalculator);
-    }
+	private FragmentAndParameters renderJoin(JoinModel joinModel) {
+		return JoinRenderer.withJoinModel(joinModel).withTableExpressionRenderer(tableExpressionRenderer)
+				.withTableAliasCalculator(tableAliasCalculator).build().render();
+	}
 
-    public static Builder withQueryExpression(QueryExpressionModel model) {
-        return new Builder().withQueryExpression(model);
-    }
+	private FragmentAndParameters addWhereClause(FragmentAndParameters partial) {
+		return queryExpression.whereModel().flatMap(this::renderWhereClause)
+				.map(wc -> partial.add(spaceBefore(wc.getWhereClause()), wc.getParameters())).orElse(partial);
+	}
 
-    public static class Builder extends AbstractQueryRendererBuilder<Builder> {
-        private QueryExpressionModel queryExpression;
+	private Optional<WhereClauseProvider> renderWhereClause(WhereModel whereModel) {
+		return WhereRenderer.withWhereModel(whereModel).withRenderingStrategy(renderingStrategy)
+				.withTableAliasCalculator(tableAliasCalculator).withSequence(sequence).build().render();
+	}
 
-        public Builder withQueryExpression(QueryExpressionModel queryExpression) {
-            this.queryExpression = queryExpression;
-            return this;
-        }
+	private FragmentAndParameters addGroupByClause(FragmentAndParameters partial) {
+		return queryExpression.groupByModel().map(this::renderGroupBy).map(s -> partial.add(spaceBefore(s)))
+				.orElse(partial);
+	}
 
-        Builder getThis() {
-            return this;
-        }
+	private String renderGroupBy(GroupByModel groupByModel) {
+		return groupByModel.mapColumns(this::applyTableAlias).collect(CustomCollectors.joining(", ", "group by ", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 
-        public QueryExpressionRenderer build() {
-            return new QueryExpressionRenderer(this);
-        }
-    }
+	private String applyTableAlias(BasicColumn column) {
+		return column.renderWithTableAlias(tableAliasCalculator);
+	}
+
+	public static Builder withQueryExpression(QueryExpressionModel model) {
+		return new Builder().withQueryExpression(model);
+	}
+
+	public static class Builder extends AbstractQueryRendererBuilder<Builder> {
+
+		private QueryExpressionModel queryExpression;
+
+		public Builder withQueryExpression(QueryExpressionModel queryExpression) {
+			this.queryExpression = queryExpression;
+			return this;
+		}
+
+		Builder getThis() {
+			return this;
+		}
+
+		public QueryExpressionRenderer build() {
+			return new QueryExpressionRenderer(this);
+		}
+
+	}
+
 }

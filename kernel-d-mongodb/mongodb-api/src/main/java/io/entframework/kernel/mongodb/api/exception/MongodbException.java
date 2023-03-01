@@ -14,8 +14,8 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class MongodbException extends ServiceException {
 
-    public MongodbException(AbstractExceptionEnum exception) {
-        super(MongodbConstants.MONGODB_MODULE_NAME, exception);
-    }
+	public MongodbException(AbstractExceptionEnum exception) {
+		super(MongodbConstants.MONGODB_MODULE_NAME, exception);
+	}
 
 }

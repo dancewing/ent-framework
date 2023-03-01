@@ -26,7 +26,9 @@ import java.util.List;
  *
  * @date 2020/11/5 上午11:32
  */
-public class SysRoleResourceServiceImpl extends BaseServiceImpl<SysRoleResourceRequest, SysRoleResourceResponse, SysRoleResource> implements SysRoleResourceService {
+public class SysRoleResourceServiceImpl
+		extends BaseServiceImpl<SysRoleResourceRequest, SysRoleResourceResponse, SysRoleResource>
+		implements SysRoleResourceService {
 
 	@Resource(name = "roleResourceCacheApi")
 	private CacheOperatorApi<List<String>> roleResourceCacheApi;
@@ -42,7 +44,8 @@ public class SysRoleResourceServiceImpl extends BaseServiceImpl<SysRoleResourceR
 		Long roleId = sysRoleRequest.getRoleId();
 
 		// 删除所拥有角色关联的资源
-		this.getRepository().delete(getEntityClass(), c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isEqualTo(roleId)));
+		this.getRepository().delete(getEntityClass(),
+				c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isEqualTo(roleId)));
 
 		// 清除角色缓存资源
 		roleResourceCacheApi.remove(String.valueOf(roleId));
@@ -64,7 +67,8 @@ public class SysRoleResourceServiceImpl extends BaseServiceImpl<SysRoleResourceR
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void deleteRoleResourceListByRoleId(Long roleId) {
-		this.getRepository().delete(getEntityClass(), c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isEqualTo(roleId)));
+		this.getRepository().delete(getEntityClass(),
+				c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isEqualTo(roleId)));
 
 		// 清除角色绑定的资源缓存
 		roleResourceCacheApi.remove(String.valueOf(roleId));
@@ -73,12 +77,17 @@ public class SysRoleResourceServiceImpl extends BaseServiceImpl<SysRoleResourceR
 
 	@Override
 	public List<String> getRoleResourceCodes(List<Long> roleIdList) {
-		return this.getRepository().select(getEntityClass(), c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIdList))).stream()
-				.map(SysRoleResource::getResourceCode).toList();
+		return this.getRepository()
+				.select(getEntityClass(),
+						c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIdList)))
+				.stream().map(SysRoleResource::getResourceCode).toList();
 	}
 
 	public List<SysRoleResourceResponse> getRoleResources(List<Long> roleIdList) {
-		return this.getRepository().select(getEntityClass(), c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIdList))).stream()
-				.map(record -> this.converterService.convert(record, getResponseClass())).toList();
+		return this.getRepository()
+				.select(getEntityClass(),
+						c -> c.where(SysRoleResourceDynamicSqlSupport.roleId, SqlBuilder.isIn(roleIdList)))
+				.stream().map(record -> this.converterService.convert(record, getResponseClass())).toList();
 	}
+
 }

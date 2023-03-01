@@ -18,9 +18,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginUserRequest {
 
-    /**
-     * 当前登录用户的token
-     */
-    private String token;
+	/**
+	 * 当前登录用户的token
+	 */
+	private String token;
 
 }

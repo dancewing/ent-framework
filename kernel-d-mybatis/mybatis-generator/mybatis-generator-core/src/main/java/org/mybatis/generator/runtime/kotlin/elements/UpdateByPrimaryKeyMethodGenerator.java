@@ -25,78 +25,83 @@ import org.mybatis.generator.api.dom.kotlin.KotlinFunction;
 import org.mybatis.generator.runtime.dynamic.sql.elements.Utils;
 
 public class UpdateByPrimaryKeyMethodGenerator extends AbstractKotlinFunctionGenerator {
-    private final FullyQualifiedKotlinType recordType;
-    private final KotlinFragmentGenerator fragmentGenerator;
-    private final String mapperName;
 
-    private UpdateByPrimaryKeyMethodGenerator(Builder builder) {
-        super(builder);
-        recordType = builder.recordType;
-        fragmentGenerator = builder.fragmentGenerator;
-        mapperName = builder.mapperName;
-    }
+	private final FullyQualifiedKotlinType recordType;
 
-    @Override
-    public KotlinFunctionAndImports generateMethodAndImports() {
-        if (!Utils.generateUpdateByPrimaryKey(introspectedTable)) {
-            return null;
-        }
+	private final KotlinFragmentGenerator fragmentGenerator;
 
-        KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports.withFunction(
-                KotlinFunction.newOneLineFunction(mapperName + ".updateByPrimaryKey") //$NON-NLS-1$
-                .withArgument(KotlinArg.newArg("row") //$NON-NLS-1$
-                        .withDataType(recordType.getShortNameWithTypeArguments())
-                        .build())
-                .withCodeLine("update {") //$NON-NLS-1$
-                .build())
-                .withImports(recordType.getImportList())
-                .build();
+	private final String mapperName;
 
-        addFunctionComment(functionAndImports);
+	private UpdateByPrimaryKeyMethodGenerator(Builder builder) {
+		super(builder);
+		recordType = builder.recordType;
+		fragmentGenerator = builder.fragmentGenerator;
+		mapperName = builder.mapperName;
+	}
 
-        List<IntrospectedColumn> columns = introspectedTable.getNonPrimaryKeyColumns();
-        KotlinFunctionParts functionParts = fragmentGenerator.getSetEqualLines(columns);
-        acceptParts(functionAndImports, functionParts);
+	@Override
+	public KotlinFunctionAndImports generateMethodAndImports() {
+		if (!Utils.generateUpdateByPrimaryKey(introspectedTable)) {
+			return null;
+		}
 
-        functionParts = fragmentGenerator.getPrimaryKeyWhereClauseForUpdate();
-        acceptParts(functionAndImports, functionParts);
+		KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports.withFunction(KotlinFunction
+				.newOneLineFunction(mapperName + ".updateByPrimaryKey") //$NON-NLS-1$
+				.withArgument(KotlinArg.newArg("row") //$NON-NLS-1$
+						.withDataType(recordType.getShortNameWithTypeArguments()).build())
+				.withCodeLine("update {") //$NON-NLS-1$
+				.build()).withImports(recordType.getImportList()).build();
 
-        return functionAndImports;
-    }
+		addFunctionComment(functionAndImports);
 
-    @Override
-    public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
-        return context.getPlugins().clientUpdateByPrimaryKeyMethodGenerated(kotlinFunction,
-                kotlinFile, introspectedTable);
-    }
+		List<IntrospectedColumn> columns = introspectedTable.getNonPrimaryKeyColumns();
+		KotlinFunctionParts functionParts = fragmentGenerator.getSetEqualLines(columns);
+		acceptParts(functionAndImports, functionParts);
 
-    public static class Builder extends BaseBuilder<Builder> {
-        private FullyQualifiedKotlinType recordType;
-        private KotlinFragmentGenerator fragmentGenerator;
-        private String mapperName;
+		functionParts = fragmentGenerator.getPrimaryKeyWhereClauseForUpdate();
+		acceptParts(functionAndImports, functionParts);
 
-        public Builder withRecordType(FullyQualifiedKotlinType recordType) {
-            this.recordType = recordType;
-            return this;
-        }
+		return functionAndImports;
+	}
 
-        public Builder withFragmentGenerator(KotlinFragmentGenerator fragmentGenerator) {
-            this.fragmentGenerator = fragmentGenerator;
-            return this;
-        }
+	@Override
+	public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
+		return context.getPlugins().clientUpdateByPrimaryKeyMethodGenerated(kotlinFunction, kotlinFile,
+				introspectedTable);
+	}
 
-        public Builder withMapperName(String mapperName) {
-            this.mapperName = mapperName;
-            return this;
-        }
+	public static class Builder extends BaseBuilder<Builder> {
 
-        @Override
-        public Builder getThis() {
-            return this;
-        }
+		private FullyQualifiedKotlinType recordType;
 
-        public UpdateByPrimaryKeyMethodGenerator build() {
-            return new UpdateByPrimaryKeyMethodGenerator(this);
-        }
-    }
+		private KotlinFragmentGenerator fragmentGenerator;
+
+		private String mapperName;
+
+		public Builder withRecordType(FullyQualifiedKotlinType recordType) {
+			this.recordType = recordType;
+			return this;
+		}
+
+		public Builder withFragmentGenerator(KotlinFragmentGenerator fragmentGenerator) {
+			this.fragmentGenerator = fragmentGenerator;
+			return this;
+		}
+
+		public Builder withMapperName(String mapperName) {
+			this.mapperName = mapperName;
+			return this;
+		}
+
+		@Override
+		public Builder getThis() {
+			return this;
+		}
+
+		public UpdateByPrimaryKeyMethodGenerator build() {
+			return new UpdateByPrimaryKeyMethodGenerator(this);
+		}
+
+	}
+
 }

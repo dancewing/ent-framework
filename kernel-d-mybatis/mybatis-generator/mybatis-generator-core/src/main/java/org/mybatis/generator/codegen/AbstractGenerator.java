@@ -22,28 +22,33 @@ import org.mybatis.generator.api.ProgressCallback;
 import org.mybatis.generator.config.Context;
 
 public abstract class AbstractGenerator {
-    protected Context context;
-    protected IntrospectedTable introspectedTable;
-    protected List<String> warnings;
-    protected ProgressCallback progressCallback;
 
-    protected AbstractGenerator() {
-        super();
-    }
+	protected Context context;
 
-    public void setContext(Context context) {
-        this.context = context;
-    }
+	protected IntrospectedTable introspectedTable;
 
-    public void setIntrospectedTable(IntrospectedTable introspectedTable) {
-        this.introspectedTable = introspectedTable;
-    }
+	protected List<String> warnings;
 
-    public void setWarnings(List<String> warnings) {
-        this.warnings = warnings;
-    }
+	protected ProgressCallback progressCallback;
 
-    public void setProgressCallback(ProgressCallback progressCallback) {
-        this.progressCallback = progressCallback;
-    }
+	protected AbstractGenerator() {
+		super();
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
+	}
+
+	public void setIntrospectedTable(IntrospectedTable introspectedTable) {
+		this.introspectedTable = introspectedTable;
+	}
+
+	public void setWarnings(List<String> warnings) {
+		this.warnings = warnings;
+	}
+
+	public void setProgressCallback(ProgressCallback progressCallback) {
+		this.progressCallback = progressCallback;
+	}
+
 }

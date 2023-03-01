@@ -35,20 +35,19 @@ import examples.springbatch.common.PersonRecord;
 @Mapper
 public interface PersonMapper {
 
-    @SelectProvider(type=SpringBatchProviderAdapter.class, method="select")
-    @Results({
-        @Result(column="id", property="id", id=true),
-        @Result(column="first_name", property="firstName"),
-        @Result(column="last_name", property="lastName")
-    })
-    List<PersonRecord> selectMany(Map<String, Object> parameterValues);
+	@SelectProvider(type = SpringBatchProviderAdapter.class, method = "select")
+	@Results({ @Result(column = "id", property = "id", id = true),
+			@Result(column = "first_name", property = "firstName"),
+			@Result(column = "last_name", property = "lastName") })
+	List<PersonRecord> selectMany(Map<String, Object> parameterValues);
 
-    @UpdateProvider(type=SqlProviderAdapter.class, method="update")
-    int update(UpdateStatementProvider updateStatement);
+	@UpdateProvider(type = SqlProviderAdapter.class, method = "update")
+	int update(UpdateStatementProvider updateStatement);
 
-    @SelectProvider(type=SqlProviderAdapter.class, method="select")
-    long count(SelectStatementProvider selectStatement);
+	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
+	long count(SelectStatementProvider selectStatement);
 
-    @InsertProvider(type=SqlProviderAdapter.class, method="insert")
-    int insert(InsertStatementProvider<PersonRecord> insertStatement);
+	@InsertProvider(type = SqlProviderAdapter.class, method = "insert")
+	int insert(InsertStatementProvider<PersonRecord> insertStatement);
+
 }

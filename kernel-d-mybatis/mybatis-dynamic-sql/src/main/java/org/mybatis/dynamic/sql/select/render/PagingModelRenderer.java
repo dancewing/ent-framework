@@ -24,52 +24,58 @@ import org.mybatis.dynamic.sql.select.PagingModel;
 import org.mybatis.dynamic.sql.util.FragmentAndParameters;
 
 public class PagingModelRenderer {
-    private final RenderingStrategy renderingStrategy;
-    private final PagingModel pagingModel;
-    private final AtomicInteger sequence;
 
-    private PagingModelRenderer(Builder builder) {
-        renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
-        pagingModel = Objects.requireNonNull(builder.pagingModel);
-        sequence = Objects.requireNonNull(builder.sequence);
-    }
+	private final RenderingStrategy renderingStrategy;
 
-    public Optional<FragmentAndParameters> render() {
-        return pagingModel.limit().map(this::limitAndOffsetRender)
-                .orElseGet(this::fetchFirstRender);
-    }
+	private final PagingModel pagingModel;
 
-    private Optional<FragmentAndParameters> limitAndOffsetRender(Long limit) {
-        return new LimitAndOffsetPagingModelRenderer(renderingStrategy, limit,
-                pagingModel, sequence).render();
-    }
+	private final AtomicInteger sequence;
 
-    private Optional<FragmentAndParameters> fetchFirstRender() {
-        return new FetchFirstPagingModelRenderer(renderingStrategy, pagingModel, sequence).render();
-    }
+	private PagingModelRenderer(Builder builder) {
+		renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
+		pagingModel = Objects.requireNonNull(builder.pagingModel);
+		sequence = Objects.requireNonNull(builder.sequence);
+	}
 
-    public static class Builder {
-        private RenderingStrategy renderingStrategy;
-        private PagingModel pagingModel;
-        private AtomicInteger sequence;
+	public Optional<FragmentAndParameters> render() {
+		return pagingModel.limit().map(this::limitAndOffsetRender).orElseGet(this::fetchFirstRender);
+	}
 
-        public Builder withRenderingStrategy(RenderingStrategy renderingStrategy) {
-            this.renderingStrategy = renderingStrategy;
-            return this;
-        }
+	private Optional<FragmentAndParameters> limitAndOffsetRender(Long limit) {
+		return new LimitAndOffsetPagingModelRenderer(renderingStrategy, limit, pagingModel, sequence).render();
+	}
 
-        public Builder withPagingModel(PagingModel pagingModel) {
-            this.pagingModel = pagingModel;
-            return this;
-        }
+	private Optional<FragmentAndParameters> fetchFirstRender() {
+		return new FetchFirstPagingModelRenderer(renderingStrategy, pagingModel, sequence).render();
+	}
 
-        public Builder withSequence(AtomicInteger sequence) {
-            this.sequence = sequence;
-            return this;
-        }
+	public static class Builder {
 
-        public PagingModelRenderer build() {
-            return new PagingModelRenderer(this);
-        }
-    }
+		private RenderingStrategy renderingStrategy;
+
+		private PagingModel pagingModel;
+
+		private AtomicInteger sequence;
+
+		public Builder withRenderingStrategy(RenderingStrategy renderingStrategy) {
+			this.renderingStrategy = renderingStrategy;
+			return this;
+		}
+
+		public Builder withPagingModel(PagingModel pagingModel) {
+			this.pagingModel = pagingModel;
+			return this;
+		}
+
+		public Builder withSequence(AtomicInteger sequence) {
+			this.sequence = sequence;
+			return this;
+		}
+
+		public PagingModelRenderer build() {
+			return new PagingModelRenderer(this);
+		}
+
+	}
+
 }

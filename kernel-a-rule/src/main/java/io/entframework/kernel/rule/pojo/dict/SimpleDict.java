@@ -20,22 +20,22 @@ import lombok.Data;
 @Data
 public class SimpleDict {
 
-    /**
-     * id
-     */
-    @ChineseDescription("id")
-    private Long id;
+	/**
+	 * id
+	 */
+	@ChineseDescription("id")
+	private Long id;
 
-    /**
-     * 名称
-     */
-    @ChineseDescription("名称")
-    private String name;
+	/**
+	 * 名称
+	 */
+	@ChineseDescription("名称")
+	private String name;
 
-    /**
-     * 编码
-     */
-    @ChineseDescription("编码")
-    private String code;
+	/**
+	 * 编码
+	 */
+	@ChineseDescription("编码")
+	private String code;
 
 }

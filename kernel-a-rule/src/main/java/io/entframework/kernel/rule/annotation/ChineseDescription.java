@@ -12,14 +12,14 @@ import java.lang.annotation.*;
  * 用来解决资源扫描时候，扫描的类的字段上的中文注释获取的问题
  * </p>
  */
-@Target({ElementType.FIELD})
+@Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ChineseDescription {
 
-    /**
-     * 中文注释的值
-     */
-    String value() default "";
+	/**
+	 * 中文注释的值
+	 */
+	String value() default "";
 
 }

@@ -21,31 +21,34 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(value = "exam_auto_increment", sqlSupport = AutoIncrementDynamicSqlSupport.class, tableProperty = "autoIncrement")
+@Table(value = "exam_auto_increment", sqlSupport = AutoIncrementDynamicSqlSupport.class,
+		tableProperty = "autoIncrement")
 public class AutoIncrement extends BaseEntity implements Serializable {
-    /**
-     * Id
-     */
-    @Id
-    @GeneratedValue
-    @Column(name = "id", jdbcType = JDBCType.BIGINT)
-    private Long id;
 
-    /**
-     * 姓名
-     */
-    @Column(name = "username", jdbcType = JDBCType.VARCHAR)
-    private String username;
+	/**
+	 * Id
+	 */
+	@Id
+	@GeneratedValue
+	@Column(name = "id", jdbcType = JDBCType.BIGINT)
+	private Long id;
 
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 姓名
+	 */
+	@Column(name = "username", jdbcType = JDBCType.VARCHAR)
+	private String username;
 
-    public AutoIncrement id(Long id) {
-        this.id = id;
-        return this;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public AutoIncrement username(String username) {
-        this.username = username;
-        return this;
-    }
+	public AutoIncrement id(Long id) {
+		this.id = id;
+		return this;
+	}
+
+	public AutoIncrement username(String username) {
+		this.username = username;
+		return this;
+	}
+
 }

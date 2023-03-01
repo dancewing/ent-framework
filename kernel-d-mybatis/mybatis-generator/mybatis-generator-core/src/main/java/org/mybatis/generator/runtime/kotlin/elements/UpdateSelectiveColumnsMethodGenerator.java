@@ -24,71 +24,75 @@ import org.mybatis.generator.api.dom.kotlin.KotlinFile;
 import org.mybatis.generator.api.dom.kotlin.KotlinFunction;
 
 public class UpdateSelectiveColumnsMethodGenerator extends AbstractKotlinFunctionGenerator {
-    private final FullyQualifiedKotlinType recordType;
-    private final KotlinFragmentGenerator fragmentGenerator;
 
-    private UpdateSelectiveColumnsMethodGenerator(Builder builder) {
-        super(builder);
-        recordType = builder.recordType;
-        fragmentGenerator = builder.fragmentGenerator;
-    }
+	private final FullyQualifiedKotlinType recordType;
 
-    @Override
-    public KotlinFunctionAndImports generateMethodAndImports() {
+	private final KotlinFragmentGenerator fragmentGenerator;
 
-        KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports.withFunction(
-                KotlinFunction.newOneLineFunction("KotlinUpdateBuilder.updateSelectiveColumns") //$NON-NLS-1$
-                .withArgument(KotlinArg.newArg("row") //$NON-NLS-1$
-                        .withDataType(recordType.getShortNameWithTypeArguments())
-                        .build())
-                .build())
-                .withImport("org.mybatis.dynamic.sql.util.kotlin.KotlinUpdateBuilder") //$NON-NLS-1$
-                .withImports(recordType.getImportList())
-                .build();
+	private UpdateSelectiveColumnsMethodGenerator(Builder builder) {
+		super(builder);
+		recordType = builder.recordType;
+		fragmentGenerator = builder.fragmentGenerator;
+	}
 
-        addFunctionComment(functionAndImports);
+	@Override
+	public KotlinFunctionAndImports generateMethodAndImports() {
 
-        KotlinFunction function = functionAndImports.getFunction();
+		KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports
+				.withFunction(KotlinFunction.newOneLineFunction("KotlinUpdateBuilder.updateSelectiveColumns") //$NON-NLS-1$
+						.withArgument(KotlinArg.newArg("row") //$NON-NLS-1$
+								.withDataType(recordType.getShortNameWithTypeArguments()).build())
+						.build())
+				.withImport("org.mybatis.dynamic.sql.util.kotlin.KotlinUpdateBuilder") //$NON-NLS-1$
+				.withImports(recordType.getImportList()).build();
 
-        function.addCodeLine("apply {"); //$NON-NLS-1$
+		addFunctionComment(functionAndImports);
 
-        List<IntrospectedColumn> columns = introspectedTable.getAllColumns();
-        KotlinFunctionParts functionParts = fragmentGenerator.getSetEqualWhenPresentLines(columns);
+		KotlinFunction function = functionAndImports.getFunction();
 
-        acceptParts(functionAndImports, functionParts);
+		function.addCodeLine("apply {"); //$NON-NLS-1$
 
-        function.addCodeLine("}"); //$NON-NLS-1$
+		List<IntrospectedColumn> columns = introspectedTable.getAllColumns();
+		KotlinFunctionParts functionParts = fragmentGenerator.getSetEqualWhenPresentLines(columns);
 
-        return functionAndImports;
-    }
+		acceptParts(functionAndImports, functionParts);
 
-    @Override
-    public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
-        return context.getPlugins().clientUpdateSelectiveColumnsMethodGenerated(kotlinFunction, kotlinFile,
-                introspectedTable);
-    }
+		function.addCodeLine("}"); //$NON-NLS-1$
 
-    public static class Builder extends BaseBuilder<Builder> {
-        private FullyQualifiedKotlinType recordType;
-        private KotlinFragmentGenerator fragmentGenerator;
+		return functionAndImports;
+	}
 
-        public Builder withRecordType(FullyQualifiedKotlinType recordType) {
-            this.recordType = recordType;
-            return this;
-        }
+	@Override
+	public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
+		return context.getPlugins().clientUpdateSelectiveColumnsMethodGenerated(kotlinFunction, kotlinFile,
+				introspectedTable);
+	}
 
-        public Builder withFragmentGenerator(KotlinFragmentGenerator fragmentGenerator) {
-            this.fragmentGenerator = fragmentGenerator;
-            return this;
-        }
+	public static class Builder extends BaseBuilder<Builder> {
 
-        @Override
-        public Builder getThis() {
-            return this;
-        }
+		private FullyQualifiedKotlinType recordType;
 
-        public UpdateSelectiveColumnsMethodGenerator build() {
-            return new UpdateSelectiveColumnsMethodGenerator(this);
-        }
-    }
+		private KotlinFragmentGenerator fragmentGenerator;
+
+		public Builder withRecordType(FullyQualifiedKotlinType recordType) {
+			this.recordType = recordType;
+			return this;
+		}
+
+		public Builder withFragmentGenerator(KotlinFragmentGenerator fragmentGenerator) {
+			this.fragmentGenerator = fragmentGenerator;
+			return this;
+		}
+
+		@Override
+		public Builder getThis() {
+			return this;
+		}
+
+		public UpdateSelectiveColumnsMethodGenerator build() {
+			return new UpdateSelectiveColumnsMethodGenerator(this);
+		}
+
+	}
+
 }

@@ -22,63 +22,66 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(value = "sys_theme_template", sqlSupport = SysThemeTemplateDynamicSqlSupport.class, tableProperty = "sysThemeTemplate")
+@Table(value = "sys_theme_template", sqlSupport = SysThemeTemplateDynamicSqlSupport.class,
+		tableProperty = "sysThemeTemplate")
 public class SysThemeTemplate extends BaseEntity implements Serializable {
-    /**
-     * 主键
-     */
-    @Id
-    @Column(name = "template_id", jdbcType = JDBCType.BIGINT)
-    private Long templateId;
 
-    /**
-     * 主题名称
-     */
-    @Column(name = "template_name", jdbcType = JDBCType.VARCHAR)
-    private String templateName;
+	/**
+	 * 主键
+	 */
+	@Id
+	@Column(name = "template_id", jdbcType = JDBCType.BIGINT)
+	private Long templateId;
 
-    /**
-     * 主题编码
-     */
-    @Column(name = "template_code", jdbcType = JDBCType.VARCHAR)
-    private String templateCode;
+	/**
+	 * 主题名称
+	 */
+	@Column(name = "template_name", jdbcType = JDBCType.VARCHAR)
+	private String templateName;
 
-    /**
-     * 主题类型：1-系统类型，2-业务类型
-     */
-    @Column(name = "template_type", jdbcType = JDBCType.TINYINT)
-    private TemplateTypeEnum templateType;
+	/**
+	 * 主题编码
+	 */
+	@Column(name = "template_code", jdbcType = JDBCType.VARCHAR)
+	private String templateCode;
 
-    /**
-     * 启用状态：Y-启用，N-禁用
-     */
-    @Column(name = "status_flag", jdbcType = JDBCType.CHAR)
-    private YesOrNotEnum statusFlag;
+	/**
+	 * 主题类型：1-系统类型，2-业务类型
+	 */
+	@Column(name = "template_type", jdbcType = JDBCType.TINYINT)
+	private TemplateTypeEnum templateType;
 
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 启用状态：Y-启用，N-禁用
+	 */
+	@Column(name = "status_flag", jdbcType = JDBCType.CHAR)
+	private YesOrNotEnum statusFlag;
 
-    public SysThemeTemplate templateId(Long templateId) {
-        this.templateId = templateId;
-        return this;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public SysThemeTemplate templateName(String templateName) {
-        this.templateName = templateName;
-        return this;
-    }
+	public SysThemeTemplate templateId(Long templateId) {
+		this.templateId = templateId;
+		return this;
+	}
 
-    public SysThemeTemplate templateCode(String templateCode) {
-        this.templateCode = templateCode;
-        return this;
-    }
+	public SysThemeTemplate templateName(String templateName) {
+		this.templateName = templateName;
+		return this;
+	}
 
-    public SysThemeTemplate templateType(TemplateTypeEnum templateType) {
-        this.templateType = templateType;
-        return this;
-    }
+	public SysThemeTemplate templateCode(String templateCode) {
+		this.templateCode = templateCode;
+		return this;
+	}
 
-    public SysThemeTemplate statusFlag(YesOrNotEnum statusFlag) {
-        this.statusFlag = statusFlag;
-        return this;
-    }
+	public SysThemeTemplate templateType(TemplateTypeEnum templateType) {
+		this.templateType = templateType;
+		return this;
+	}
+
+	public SysThemeTemplate statusFlag(YesOrNotEnum statusFlag) {
+		this.statusFlag = statusFlag;
+		return this;
+	}
+
 }

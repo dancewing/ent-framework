@@ -27,107 +27,116 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * This class is used to execute an SQL script before a code generation
- * run.
+ * This class is used to execute an SQL script before a code generation run.
  *
  * @author Jeff Butler
  */
 public class SqlScriptRunner {
-    private final String driver;
-    private final String url;
-    private final String userid;
-    private final String password;
-    private final InputStream sourceFile;
 
-    public SqlScriptRunner(InputStream sourceFile, String driver, String url,
-            String userId, String password) throws Exception {
+	private final String driver;
 
-        if (!stringHasValue(driver)) {
-            throw new Exception("JDBC Driver is required");
-        }
+	private final String url;
 
-        if (!stringHasValue(url)) {
-            throw new Exception("JDBC URL is required");
-        }
+	private final String userid;
 
-        this.sourceFile = sourceFile;
-        this.driver = driver;
-        this.url = url;
-        this.userid = userId;
-        this.password = password;
-    }
+	private final String password;
 
-    public void executeScript() throws Exception {
+	private final InputStream sourceFile;
 
-        Connection connection = null;
+	public SqlScriptRunner(InputStream sourceFile, String driver, String url, String userId, String password)
+			throws Exception {
 
-        try {
-            Class.forName(driver);
-            connection = DriverManager.getConnection(url, userid, password);
+		if (!stringHasValue(driver)) {
+			throw new Exception("JDBC Driver is required");
+		}
 
-            Statement statement = connection.createStatement();
+		if (!stringHasValue(url)) {
+			throw new Exception("JDBC URL is required");
+		}
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(sourceFile));
+		this.sourceFile = sourceFile;
+		this.driver = driver;
+		this.url = url;
+		this.userid = userId;
+		this.password = password;
+	}
 
-            String sql;
+	public void executeScript() throws Exception {
 
-            while ((sql = readStatement(br)) != null) {
-                statement.execute(sql);
-            }
+		Connection connection = null;
 
-            closeStatement(statement);
-            connection.commit();
-            br.close();
-        } finally {
-            closeConnection(connection);
-        }
-    }
+		try {
+			Class.forName(driver);
+			connection = DriverManager.getConnection(url, userid, password);
 
-    private void closeConnection(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                // ignore
-            }
-        }
-    }
+			Statement statement = connection.createStatement();
 
-    private void closeStatement(Statement statement) {
-        if (statement != null) {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                // ignore
-            }
-        }
-    }
+			BufferedReader br = new BufferedReader(new InputStreamReader(sourceFile));
 
-    private String readStatement(BufferedReader br) throws IOException {
-        StringBuilder sb = new StringBuilder();
+			String sql;
 
-        String line;
+			while ((sql = readStatement(br)) != null) {
+				statement.execute(sql);
+			}
 
-        while ((line = br.readLine()) != null) {
-            if (line.startsWith("--")) { //$NON-NLS-1$
-                continue;
-            }
+			closeStatement(statement);
+			connection.commit();
+			br.close();
+		}
+		finally {
+			closeConnection(connection);
+		}
+	}
 
-            if (!stringHasValue(line)) {
-                continue;
-            }
+	private void closeConnection(Connection connection) {
+		if (connection != null) {
+			try {
+				connection.close();
+			}
+			catch (SQLException e) {
+				// ignore
+			}
+		}
+	}
 
-            if (line.endsWith(";")) { //$NON-NLS-1$
-                sb.append(line, 0, line.length() - 1);
-                break;
-            } else {
-                sb.append(' ');
-                sb.append(line);
-            }
-        }
+	private void closeStatement(Statement statement) {
+		if (statement != null) {
+			try {
+				statement.close();
+			}
+			catch (SQLException e) {
+				// ignore
+			}
+		}
+	}
 
-        String s = sb.toString().trim();
+	private String readStatement(BufferedReader br) throws IOException {
+		StringBuilder sb = new StringBuilder();
 
-        return s.length() > 0 ? s : null;
-    }
+		String line;
+
+		while ((line = br.readLine()) != null) {
+			if (line.startsWith("--")) { //$NON-NLS-1$
+				continue;
+			}
+
+			if (!stringHasValue(line)) {
+				continue;
+			}
+
+			if (line.endsWith(";")) { //$NON-NLS-1$
+				sb.append(line, 0, line.length() - 1);
+				break;
+			}
+			else {
+				sb.append(' ');
+				sb.append(line);
+			}
+		}
+
+		String s = sb.toString().trim();
+
+		return s.length() > 0 ? s : null;
+	}
+
 }

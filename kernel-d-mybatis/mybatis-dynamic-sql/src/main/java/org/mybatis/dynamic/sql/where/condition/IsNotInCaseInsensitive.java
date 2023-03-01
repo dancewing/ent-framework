@@ -28,88 +28,79 @@ import org.mybatis.dynamic.sql.Callback;
 import org.mybatis.dynamic.sql.util.StringUtilities;
 
 public class IsNotInCaseInsensitive extends AbstractListValueCondition<String> {
-    private static final IsNotInCaseInsensitive EMPTY = new IsNotInCaseInsensitive(Collections.emptyList());
 
-    public static IsNotInCaseInsensitive empty() {
-        return EMPTY;
-    }
+	private static final IsNotInCaseInsensitive EMPTY = new IsNotInCaseInsensitive(Collections.emptyList());
 
-    /**
-     * Build an empty condition.
-     *
-     * @return a new empty condition
-     *
-     * @deprecated in favor of the statement configuration functions
-     */
-    @Deprecated
-    private IsNotInCaseInsensitive emptyWithCallback() {
-        return new IsNotInCaseInsensitive(Collections.emptyList(), emptyCallback);
-    }
+	public static IsNotInCaseInsensitive empty() {
+		return EMPTY;
+	}
 
-    protected IsNotInCaseInsensitive(Collection<String> values) {
-        super(values);
-    }
+	/**
+	 * Build an empty condition.
+	 * @return a new empty condition
+	 * @deprecated in favor of the statement configuration functions
+	 */
+	@Deprecated
+	private IsNotInCaseInsensitive emptyWithCallback() {
+		return new IsNotInCaseInsensitive(Collections.emptyList(), emptyCallback);
+	}
 
-    /**
-     * Build a new instance with a callback.
-     *
-     * @param values
-     *            values
-     * @param emptyCallback
-     *            empty callback
-     *
-     * @deprecated in favor of the statement configuration functions
-     */
-    @Deprecated
-    protected IsNotInCaseInsensitive(Collection<String> values, Callback emptyCallback) {
-        super(values, emptyCallback);
-    }
+	protected IsNotInCaseInsensitive(Collection<String> values) {
+		super(values);
+	}
 
-    @Override
-    public String renderCondition(String columnName, Stream<String> placeholders) {
-        return "upper(" + columnName + ") " //$NON-NLS-1$ //$NON-NLS-2$
-                + placeholders.collect(
-                        Collectors.joining(",", "not in (", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    }
+	/**
+	 * Build a new instance with a callback.
+	 * @param values values
+	 * @param emptyCallback empty callback
+	 * @deprecated in favor of the statement configuration functions
+	 */
+	@Deprecated
+	protected IsNotInCaseInsensitive(Collection<String> values, Callback emptyCallback) {
+		super(values, emptyCallback);
+	}
 
-    /**
-     * Build a new instance with a callback.
-     *
-     * @param callback
-     *            a callback function - typically throws an exception to block the statement from executing
-     *
-     * @return this condition
-     *
-     * @deprecated in favor of the statement configuration functions
-     */
-    @Deprecated
-    @Override
-    public IsNotInCaseInsensitive withListEmptyCallback(Callback callback) {
-        return new IsNotInCaseInsensitive(values, callback);
-    }
+	@Override
+	public String renderCondition(String columnName, Stream<String> placeholders) {
+		return "upper(" + columnName + ") " //$NON-NLS-1$ //$NON-NLS-2$
+				+ placeholders.collect(Collectors.joining(",", "not in (", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 
-    @Override
-    public IsNotInCaseInsensitive filter(Predicate<? super String> predicate) {
-        return filterSupport(predicate, IsNotInCaseInsensitive::new, this, this::emptyWithCallback);
-    }
+	/**
+	 * Build a new instance with a callback.
+	 * @param callback a callback function - typically throws an exception to block the
+	 * statement from executing
+	 * @return this condition
+	 * @deprecated in favor of the statement configuration functions
+	 */
+	@Deprecated
+	@Override
+	public IsNotInCaseInsensitive withListEmptyCallback(Callback callback) {
+		return new IsNotInCaseInsensitive(values, callback);
+	}
 
-    /**
-     * If renderable, apply the mapping to each value in the list return a new condition with the mapped values.
-     *     Else return a condition that will not render (this).
-     *
-     * @param mapper a mapping function to apply to the values, if renderable
-     * @return a new condition with mapped values if renderable, otherwise a condition
-     *     that will not render.
-     */
-    public IsNotInCaseInsensitive map(UnaryOperator<String> mapper) {
-        return mapSupport(mapper, IsNotInCaseInsensitive::new, this::emptyWithCallback);
-    }
+	@Override
+	public IsNotInCaseInsensitive filter(Predicate<? super String> predicate) {
+		return filterSupport(predicate, IsNotInCaseInsensitive::new, this, this::emptyWithCallback);
+	}
 
-    public static IsNotInCaseInsensitive of(String... values) {
-        return of(Arrays.asList(values));
-    }
+	/**
+	 * If renderable, apply the mapping to each value in the list return a new condition
+	 * with the mapped values. Else return a condition that will not render (this).
+	 * @param mapper a mapping function to apply to the values, if renderable
+	 * @return a new condition with mapped values if renderable, otherwise a condition
+	 * that will not render.
+	 */
+	public IsNotInCaseInsensitive map(UnaryOperator<String> mapper) {
+		return mapSupport(mapper, IsNotInCaseInsensitive::new, this::emptyWithCallback);
+	}
 
-    public static IsNotInCaseInsensitive of(Collection<String> values) {
-        return new IsNotInCaseInsensitive(values).map(StringUtilities::safelyUpperCase);
-    }
+	public static IsNotInCaseInsensitive of(String... values) {
+		return of(Arrays.asList(values));
+	}
+
+	public static IsNotInCaseInsensitive of(Collection<String> values) {
+		return new IsNotInCaseInsensitive(values).map(StringUtilities::safelyUpperCase);
+	}
+
 }

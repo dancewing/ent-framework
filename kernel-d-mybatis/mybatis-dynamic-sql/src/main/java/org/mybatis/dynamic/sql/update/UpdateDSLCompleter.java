@@ -23,14 +23,16 @@ import org.mybatis.dynamic.sql.util.Buildable;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 /**
- * Represents a function that can be used to create a general update method. When using this function,
- * you can create a method that does not require a user to call the build() and render() methods - making
- *  client code look a bit cleaner.
+ * Represents a function that can be used to create a general update method. When using
+ * this function, you can create a method that does not require a user to call the build()
+ * and render() methods - making client code look a bit cleaner.
  *
- * <p>This function is intended to be used in conjunction in the utility method like
- *  {@link MyBatis3Utils#update(ToIntFunction, SqlTable, UpdateDSLCompleter)}
+ * <p>
+ * This function is intended to be used in conjunction in the utility method like
+ * {@link MyBatis3Utils#update(ToIntFunction, SqlTable, UpdateDSLCompleter)}
  *
- * <p>For example, you can create mapper interface methods like this:
+ * <p>
+ * For example, you can create mapper interface methods like this:
  *
  * <pre>
  * &#64;UpdateProvider(type=SqlProviderAdapter.class, method="update")
@@ -41,7 +43,8 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
  * }
  * </pre>
  *
- * <p>And then call the simplified default method like this:
+ * <p>
+ * And then call the simplified default method like this:
  *
  * <pre>
  * int rows = mapper.update(c -&gt;
@@ -50,7 +53,8 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
  *            );
  * </pre>
  *
- * <p>You can implement an "update all" simply by omitting a where clause:
+ * <p>
+ * You can implement an "update all" simply by omitting a where clause:
  *
  * <pre>
  * int rows = mapper.update(c -&gt;
@@ -58,8 +62,10 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
  *            );
  * </pre>
  *
- * <p>You could also implement a helper method that would set fields based on values of a record. For example,
- * the following method would set all fields of a record based on whether or not the values are null:
+ * <p>
+ * You could also implement a helper method that would set fields based on values of a
+ * record. For example, the following method would set all fields of a record based on
+ * whether or not the values are null:
  *
  * <pre>
  * static UpdateDSL&lt;UpdateModel&gt; updateSelectiveColumns(PersonRecord record,
@@ -73,7 +79,8 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
  * }
  * </pre>
  *
- * <p>The helper method could be used like this:
+ * <p>
+ * The helper method could be used like this:
  *
  * <pre>
  * rows = mapper.update(c -&gt;
@@ -81,12 +88,13 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
  *        .where(id, isLessThan(100)));
  * </pre>
  *
- * <p>In this way, you could mimic the function of the old style "updateByExampleSelective" methods from
- * MyBatis Generator.
+ * <p>
+ * In this way, you could mimic the function of the old style "updateByExampleSelective"
+ * methods from MyBatis Generator.
  *
  * @author Jeff Butler
  */
 @FunctionalInterface
-public interface UpdateDSLCompleter extends
-        Function<UpdateDSL<UpdateModel>, Buildable<UpdateModel>> {
+public interface UpdateDSLCompleter extends Function<UpdateDSL<UpdateModel>, Buildable<UpdateModel>> {
+
 }

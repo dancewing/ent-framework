@@ -52,68 +52,56 @@ import static examples.springbatch.mapper.PersonDynamicSqlSupport.*;
 @ComponentScan("examples.springbatch.common")
 @MapperScan("examples.springbatch.mapper")
 public class BulkInsertConfiguration {
-    @Autowired
-    private JobRepository jobRepository;
 
-    @Bean
-    public DataSource dataSource() {
-        return new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.HSQL)
-                .addScript("classpath:/org/springframework/batch/core/schema-drop-hsqldb.sql")
-                .addScript("classpath:/org/springframework/batch/core/schema-hsqldb.sql")
-                .addScript("classpath:/examples/springbatch/schema.sql")
-                .build();
-    }
+	@Autowired
+	private JobRepository jobRepository;
 
-    @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
-        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource);
-        return sessionFactory.getObject();
-    }
+	@Bean
+	public DataSource dataSource() {
+		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL)
+				.addScript("classpath:/org/springframework/batch/core/schema-drop-hsqldb.sql")
+				.addScript("classpath:/org/springframework/batch/core/schema-hsqldb.sql")
+				.addScript("classpath:/examples/springbatch/schema.sql").build();
+	}
 
-    @Bean
-    public PlatformTransactionManager transactionManager(DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
-    }
+	@Bean
+	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+		sessionFactory.setDataSource(dataSource);
+		return sessionFactory.getObject();
+	}
 
-    @Bean
-    public MyBatisBatchItemWriter<PersonRecord> writer(SqlSessionFactory sqlSessionFactory) {
-        MyBatisBatchItemWriter<PersonRecord> writer = new MyBatisBatchItemWriter<>();
-        writer.setSqlSessionFactory(sqlSessionFactory);
+	@Bean
+	public PlatformTransactionManager transactionManager(DataSource dataSource) {
+		return new DataSourceTransactionManager(dataSource);
+	}
 
-        writer.setItemToParameterConverter(record -> InsertDSL.insert(record)
-                    .into(PersonDynamicSqlSupport.person)
-                    .map(firstName).toProperty("firstName")
-                    .map(lastName).toProperty("lastName")
-                    .map(forPagingTest).toStringConstant("false")
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3));
+	@Bean
+	public MyBatisBatchItemWriter<PersonRecord> writer(SqlSessionFactory sqlSessionFactory) {
+		MyBatisBatchItemWriter<PersonRecord> writer = new MyBatisBatchItemWriter<>();
+		writer.setSqlSessionFactory(sqlSessionFactory);
 
-        writer.setStatementId(PersonMapper.class.getName() + ".insert");
-        return writer;
-    }
+		writer.setItemToParameterConverter(record -> InsertDSL.insert(record).into(PersonDynamicSqlSupport.person)
+				.map(firstName).toProperty("firstName").map(lastName).toProperty("lastName").map(forPagingTest)
+				.toStringConstant("false").build().render(RenderingStrategies.MYBATIS3));
 
-    @Bean
-    public Step step1(ItemProcessor<PersonRecord, PersonRecord> processor, ItemWriter<PersonRecord> writer, PlatformTransactionManager transactionManager) {
+		writer.setStatementId(PersonMapper.class.getName() + ".insert");
+		return writer;
+	}
 
-        StepBuilder stepBuilder = new StepBuilder("step1", jobRepository);
-        return stepBuilder
-                .<PersonRecord, PersonRecord>chunk(10)
-                .reader(new TestRecordGenerator())
-                .processor(processor)
-                .writer(writer)
-                .transactionManager(transactionManager)
-                .build();
-    }
+	@Bean
+	public Step step1(ItemProcessor<PersonRecord, PersonRecord> processor, ItemWriter<PersonRecord> writer,
+			PlatformTransactionManager transactionManager) {
 
-    @Bean
-    public Job insertRecords(Step step1) {
-        JobBuilder jobBuilder = new JobBuilder("insertRecords", jobRepository);
-        return jobBuilder
-                .incrementer(new RunIdIncrementer())
-                .flow(step1)
-                .end()
-                .build();
-    }
+		StepBuilder stepBuilder = new StepBuilder("step1", jobRepository);
+		return stepBuilder.<PersonRecord, PersonRecord>chunk(10).reader(new TestRecordGenerator()).processor(processor)
+				.writer(writer).transactionManager(transactionManager).build();
+	}
+
+	@Bean
+	public Job insertRecords(Step step1) {
+		JobBuilder jobBuilder = new JobBuilder("insertRecords", jobRepository);
+		return jobBuilder.incrementer(new RunIdIncrementer()).flow(step1).end().build();
+	}
+
 }

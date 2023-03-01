@@ -18,67 +18,75 @@ package examples.simple;
 import java.util.Date;
 
 public class PersonRecord {
-    private Integer id;
-    private String firstName;
-    private LastName lastName;
-    private Date birthDate;
-    private Boolean employed;
-    private String occupation;
-    private Integer addressId;
 
-    public Integer getId() {
-        return id;
-    }
+	private Integer id;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private String firstName;
 
-    public String getFirstName() {
-        return firstName;
-    }
+	private LastName lastName;
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	private Date birthDate;
 
-    public LastName getLastName() {
-        return lastName;
-    }
+	private Boolean employed;
 
-    public void setLastName(LastName lastName) {
-        this.lastName = lastName;
-    }
+	private String occupation;
 
-    public Date getBirthDate() {
-        return birthDate;
-    }
+	private Integer addressId;
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getOccupation() {
-        return occupation;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setOccupation(String occupation) {
-        this.occupation = occupation;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public Boolean getEmployed() {
-        return employed;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public void setEmployed(Boolean employed) {
-        this.employed = employed;
-    }
+	public LastName getLastName() {
+		return lastName;
+	}
 
-    public Integer getAddressId() {
-        return addressId;
-    }
+	public void setLastName(LastName lastName) {
+		this.lastName = lastName;
+	}
 
-    public void setAddressId(Integer addressId) {
-        this.addressId = addressId;
-    }
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getOccupation() {
+		return occupation;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
+	}
+
+	public Boolean getEmployed() {
+		return employed;
+	}
+
+	public void setEmployed(Boolean employed) {
+		this.employed = employed;
+	}
+
+	public Integer getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(Integer addressId) {
+		this.addressId = addressId;
+	}
+
 }

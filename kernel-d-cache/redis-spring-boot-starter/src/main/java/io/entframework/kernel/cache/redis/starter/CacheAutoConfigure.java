@@ -16,44 +16,46 @@ import java.util.Map;
 @Slf4j
 @Configuration
 public class CacheAutoConfigure implements BeanPostProcessor, DisposableBean {
-    @Autowired(required = false)
-    private KernelRedisCacheProperties kernelRedisCacheProperties;
 
-    private RedisCacheManagerFactory redisCacheManagerFactory;
+	@Autowired(required = false)
+	private KernelRedisCacheProperties kernelRedisCacheProperties;
 
-    private volatile boolean init;
+	private RedisCacheManagerFactory redisCacheManagerFactory;
 
-    @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        if (!init && CacheBeanRegistrar.getBeanDefinitionRegistry() != null) {
-            init = true;
+	private volatile boolean init;
 
-            BeanDefinitionRegistry beanDefinitionRegistry = CacheBeanRegistrar.getBeanDefinitionRegistry();
-            redisCacheManagerFactory = new RedisCacheManagerFactory(kernelRedisCacheProperties);
-            Map<String, BeanDefinition> definitionMap = redisCacheManagerFactory.createBeanDefinition();
-            for (Map.Entry<String, BeanDefinition> entry : definitionMap.entrySet()) {
-                String cacheBeanName = entry.getKey();
-                BeanDefinition beanDefinition = entry.getValue();
-                if (beanDefinitionRegistry.containsBeanDefinition(cacheBeanName)) {
-                    beanDefinitionRegistry.removeBeanDefinition(cacheBeanName);
-                    log.info("remove bean definition: {}", cacheBeanName);
-                }
-                log.info("register spring redis bean: {}", cacheBeanName);
-                beanDefinitionRegistry.registerBeanDefinition(cacheBeanName, beanDefinition);
-            }
-        }
-        return bean;
-    }
+	@Override
+	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+		if (!init && CacheBeanRegistrar.getBeanDefinitionRegistry() != null) {
+			init = true;
 
-    @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
-    }
+			BeanDefinitionRegistry beanDefinitionRegistry = CacheBeanRegistrar.getBeanDefinitionRegistry();
+			redisCacheManagerFactory = new RedisCacheManagerFactory(kernelRedisCacheProperties);
+			Map<String, BeanDefinition> definitionMap = redisCacheManagerFactory.createBeanDefinition();
+			for (Map.Entry<String, BeanDefinition> entry : definitionMap.entrySet()) {
+				String cacheBeanName = entry.getKey();
+				BeanDefinition beanDefinition = entry.getValue();
+				if (beanDefinitionRegistry.containsBeanDefinition(cacheBeanName)) {
+					beanDefinitionRegistry.removeBeanDefinition(cacheBeanName);
+					log.info("remove bean definition: {}", cacheBeanName);
+				}
+				log.info("register spring redis bean: {}", cacheBeanName);
+				beanDefinitionRegistry.registerBeanDefinition(cacheBeanName, beanDefinition);
+			}
+		}
+		return bean;
+	}
 
-    @Override
-    public void destroy() throws Exception {
-        if (redisCacheManagerFactory != null) {
-            redisCacheManagerFactory.destroy();
-        }
-    }
+	@Override
+	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+		return bean;
+	}
+
+	@Override
+	public void destroy() throws Exception {
+		if (redisCacheManagerFactory != null) {
+			redisCacheManagerFactory.destroy();
+		}
+	}
+
 }

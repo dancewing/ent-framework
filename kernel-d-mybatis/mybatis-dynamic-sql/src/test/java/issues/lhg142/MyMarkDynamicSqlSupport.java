@@ -21,18 +21,27 @@ import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
 public final class MyMarkDynamicSqlSupport {
-    public static final MyMark myMark = new MyMark();
-    public static final SqlColumn<Long> id = myMark.id;
-    public static final SqlColumn<LocalDateTime> createTime = myMark.createTime;
-    public static final SqlColumn<LocalDateTime> updateTime = myMark.updateTime;
 
-    public static final class MyMark extends SqlTable {
-        public final SqlColumn<Long> id = column("id");
-        public final SqlColumn<LocalDateTime> createTime = column("create_time");
-        public final SqlColumn<LocalDateTime> updateTime = column("update_time");
+	public static final MyMark myMark = new MyMark();
 
-        public MyMark() {
-            super("my_mark");
-        }
-    }
+	public static final SqlColumn<Long> id = myMark.id;
+
+	public static final SqlColumn<LocalDateTime> createTime = myMark.createTime;
+
+	public static final SqlColumn<LocalDateTime> updateTime = myMark.updateTime;
+
+	public static final class MyMark extends SqlTable {
+
+		public final SqlColumn<Long> id = column("id");
+
+		public final SqlColumn<LocalDateTime> createTime = column("create_time");
+
+		public final SqlColumn<LocalDateTime> updateTime = column("update_time");
+
+		public MyMark() {
+			super("my_mark");
+		}
+
+	}
+
 }

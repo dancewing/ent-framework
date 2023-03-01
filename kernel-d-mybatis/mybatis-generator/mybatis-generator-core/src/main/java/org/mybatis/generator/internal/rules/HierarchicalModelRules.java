@@ -26,48 +26,42 @@ import org.mybatis.generator.api.IntrospectedTable;
  */
 public class HierarchicalModelRules extends BaseRules {
 
-    /**
-     * Instantiates a new hierarchical model rules.
-     *
-     * @param introspectedTable
-     *            the introspected table
-     */
-    public HierarchicalModelRules(IntrospectedTable introspectedTable) {
-        super(introspectedTable);
-    }
+	/**
+	 * Instantiates a new hierarchical model rules.
+	 * @param introspectedTable the introspected table
+	 */
+	public HierarchicalModelRules(IntrospectedTable introspectedTable) {
+		super(introspectedTable);
+	}
 
-    /**
-     * Implements the rule for determining whether to generate a primary key
-     * class. If the physical table has a primary key, then we generate the
-     * class.
-     *
-     * @return true if the primary key should be generated
-     */
-    @Override
-    public boolean generatePrimaryKeyClass() {
-        return introspectedTable.hasPrimaryKeyColumns();
-    }
+	/**
+	 * Implements the rule for determining whether to generate a primary key class. If the
+	 * physical table has a primary key, then we generate the class.
+	 * @return true if the primary key should be generated
+	 */
+	@Override
+	public boolean generatePrimaryKeyClass() {
+		return introspectedTable.hasPrimaryKeyColumns();
+	}
 
-    /**
-     * Implements the rule for generating a base record. If the table has fields
-     * that are not in the primary key, and non-BLOB fields, then generate the
-     * class.
-     *
-     * @return true if the class should be generated
-     */
-    @Override
-    public boolean generateBaseRecordClass() {
-        return introspectedTable.hasBaseColumns();
-    }
+	/**
+	 * Implements the rule for generating a base record. If the table has fields that are
+	 * not in the primary key, and non-BLOB fields, then generate the class.
+	 * @return true if the class should be generated
+	 */
+	@Override
+	public boolean generateBaseRecordClass() {
+		return introspectedTable.hasBaseColumns();
+	}
 
-    /**
-     * Implements the rule for generating a record with BLOBs. A record with
-     * BLOBs is generated if the table contains any BLOB fields.
-     *
-     * @return true if the record with BLOBs class should be generated
-     */
-    @Override
-    public boolean generateRecordWithBLOBsClass() {
-        return introspectedTable.hasBLOBColumns();
-    }
+	/**
+	 * Implements the rule for generating a record with BLOBs. A record with BLOBs is
+	 * generated if the table contains any BLOB fields.
+	 * @return true if the record with BLOBs class should be generated
+	 */
+	@Override
+	public boolean generateRecordWithBLOBsClass() {
+		return introspectedTable.hasBLOBColumns();
+	}
+
 }

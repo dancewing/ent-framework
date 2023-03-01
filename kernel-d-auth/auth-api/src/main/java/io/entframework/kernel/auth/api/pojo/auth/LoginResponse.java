@@ -15,44 +15,44 @@ import lombok.Data;
 @Data
 public class LoginResponse {
 
-    @ChineseDescription("用户主键id")
-    private Long userId;
+	@ChineseDescription("用户主键id")
+	private Long userId;
 
-    /**
-     * 登录人的token
-     */
-    @ChineseDescription("登录人的token")
-    private String token;
+	/**
+	 * 登录人的token
+	 */
+	@ChineseDescription("登录人的token")
+	private String token;
 
-    /**
-     * 到期时间
-     */
-    @ChineseDescription("到期时间")
-    private Long expireAt;
+	/**
+	 * 到期时间
+	 */
+	@ChineseDescription("到期时间")
+	private Long expireAt;
 
-    /**
-     * 使用单点登录
-     */
-    @ChineseDescription("使用单点登录")
-    private Boolean ssoLogin;
+	/**
+	 * 使用单点登录
+	 */
+	@ChineseDescription("使用单点登录")
+	private Boolean ssoLogin;
 
-    /**
-     * 单点登录的loginCode
-     */
-    @ChineseDescription("单点登录的loginCode")
-    private String ssoLoginCode;
+	/**
+	 * 单点登录的loginCode
+	 */
+	@ChineseDescription("单点登录的loginCode")
+	private String ssoLoginCode;
 
-    public LoginResponse() {
-    }
+	public LoginResponse() {
+	}
 
-    /**
-     * 用于单点登录，返回用户loginCode
-     *
-     * @date 2021/5/25 22:31
-     */
-    public LoginResponse(String loginCode) {
-        this.ssoLogin = true;
-        this.ssoLoginCode = loginCode;
-    }
+	/**
+	 * 用于单点登录，返回用户loginCode
+	 *
+	 * @date 2021/5/25 22:31
+	 */
+	public LoginResponse(String loginCode) {
+		this.ssoLogin = true;
+		this.ssoLoginCode = loginCode;
+	}
 
 }

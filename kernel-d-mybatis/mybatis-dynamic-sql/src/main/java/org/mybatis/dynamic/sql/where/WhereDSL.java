@@ -18,20 +18,22 @@ package org.mybatis.dynamic.sql.where;
 import org.mybatis.dynamic.sql.configuration.StatementConfiguration;
 
 public class WhereDSL extends AbstractWhereDSL<WhereDSL> {
-    private WhereDSL() {
-        super(new StatementConfiguration());
-    }
 
-    @Override
-    protected WhereDSL getThis() {
-        return this;
-    }
+	private WhereDSL() {
+		super(new StatementConfiguration());
+	}
 
-    public static WhereDSL where() {
-        return new WhereDSL();
-    }
+	@Override
+	protected WhereDSL getThis() {
+		return this;
+	}
 
-    public WhereModel build() {
-        return internalBuild();
-    }
+	public static WhereDSL where() {
+		return new WhereDSL();
+	}
+
+	public WhereModel build() {
+		return internalBuild();
+	}
+
 }

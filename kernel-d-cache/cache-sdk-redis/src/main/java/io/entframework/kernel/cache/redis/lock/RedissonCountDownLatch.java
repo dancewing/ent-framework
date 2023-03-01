@@ -6,7 +6,6 @@
  */
 package io.entframework.kernel.cache.redis.lock;
 
-
 import io.entframework.kernel.cache.api.lock.DistributedCountDownLatch;
 import org.redisson.api.RCountDownLatch;
 
@@ -17,34 +16,36 @@ import java.util.concurrent.TimeUnit;
  *
  */
 public class RedissonCountDownLatch implements DistributedCountDownLatch {
-    private RCountDownLatch countDownLatch;
 
-    public RedissonCountDownLatch(RCountDownLatch countDownLatch) {
-        this.countDownLatch = countDownLatch;
-    }
+	private RCountDownLatch countDownLatch;
 
-    @Override
-    public void await() throws InterruptedException {
-        countDownLatch.await();
-    }
+	public RedissonCountDownLatch(RCountDownLatch countDownLatch) {
+		this.countDownLatch = countDownLatch;
+	}
 
-    @Override
-    public boolean await(long timeout, TimeUnit unit) throws InterruptedException {
-        return countDownLatch.await(timeout, unit);
-    }
+	@Override
+	public void await() throws InterruptedException {
+		countDownLatch.await();
+	}
 
-    @Override
-    public void countDown() {
-        countDownLatch.countDown();
-    }
+	@Override
+	public boolean await(long timeout, TimeUnit unit) throws InterruptedException {
+		return countDownLatch.await(timeout, unit);
+	}
 
-    @Override
-    public long getCount() {
-        return countDownLatch.getCount();
-    }
+	@Override
+	public void countDown() {
+		countDownLatch.countDown();
+	}
 
-    @Override
-    public boolean trySetCount(long count) {
-        return countDownLatch.trySetCount(count);
-    }
+	@Override
+	public long getCount() {
+		return countDownLatch.getCount();
+	}
+
+	@Override
+	public boolean trySetCount(long count) {
+		return countDownLatch.trySetCount(count);
+	}
+
 }

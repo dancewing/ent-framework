@@ -21,57 +21,59 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClassGradeRequest extends BaseRequest {
-    /**
-     * ID
-     */
-    @NotNull(message = "ID不能为空", groups = {update.class, delete.class, detail.class, updateStatus.class})
-    @ChineseDescription("ID")
-    private Long id;
 
-    /**
-     * 名称
-     */
-    @NotBlank(message = "名称不能为空", groups = {add.class, update.class})
-    @ChineseDescription("名称")
-    private String name;
+	/**
+	 * ID
+	 */
+	@NotNull(message = "ID不能为空", groups = { update.class, delete.class, detail.class, updateStatus.class })
+	@ChineseDescription("ID")
+	private Long id;
 
-    /**
-     * 描述
-     */
-    @ChineseDescription("描述")
-    private String description;
+	/**
+	 * 名称
+	 */
+	@NotBlank(message = "名称不能为空", groups = { add.class, update.class })
+	@ChineseDescription("名称")
+	private String name;
 
-    /**
-     * 类型[ADVANCE(0):高级,COMMON(1):普通]
-     */
-    @ChineseDescription("类型")
-    private GradeType gradeType;
+	/**
+	 * 描述
+	 */
+	@ChineseDescription("描述")
+	private String description;
 
-    /**
-     * 开学时间
-     */
-    @ChineseDescription("开学时间")
-    private LocalDateTime startTime;
+	/**
+	 * 类型[ADVANCE(0):高级,COMMON(1):普通]
+	 */
+	@ChineseDescription("类型")
+	private GradeType gradeType;
 
-    /**
-     * 班主任
-     */
-    @ChineseDescription("班主任")
-    private Long regulatorId;
+	/**
+	 * 开学时间
+	 */
+	@ChineseDescription("开学时间")
+	private LocalDateTime startTime;
 
-    /**
-     * 学生
-     */
-    @ChineseDescription("学生")
-    private List<StudentRequest> students;
+	/**
+	 * 班主任
+	 */
+	@ChineseDescription("班主任")
+	private Long regulatorId;
 
-    /**
-     * 班主任
-     */
-    @ChineseDescription("班主任")
-    private TeacherRequest regulator;
+	/**
+	 * 学生
+	 */
+	@ChineseDescription("学生")
+	private List<StudentRequest> students;
 
-    @NotNull(message = "ID集合不能为空", groups = {batchDelete.class})
-    @ChineseDescription("ID集合")
-    private List<Long> ids;
+	/**
+	 * 班主任
+	 */
+	@ChineseDescription("班主任")
+	private TeacherRequest regulator;
+
+	@NotNull(message = "ID集合不能为空", groups = { batchDelete.class })
+	@ChineseDescription("ID集合")
+	private List<Long> ids;
+
 }

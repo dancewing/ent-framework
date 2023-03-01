@@ -25,14 +25,16 @@ import org.mybatis.dynamic.sql.util.mybatis3.GenericInsertMapper;
 import java.util.List;
 import java.util.Optional;
 
-public interface NonResultSetAnimalDataMapper extends CommonDeleteMapper, GenericInsertMapper<AnimalData>, CommonUpdateMapper {
+public interface NonResultSetAnimalDataMapper
+		extends CommonDeleteMapper, GenericInsertMapper<AnimalData>, CommonUpdateMapper {
 
-    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    List<AnimalData> selectMany(SelectStatementProvider selectStatement);
+	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
+	List<AnimalData> selectMany(SelectStatementProvider selectStatement);
 
-    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    AnimalData selectOne(SelectStatementProvider selectStatement);
+	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
+	AnimalData selectOne(SelectStatementProvider selectStatement);
 
-    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    Optional<AnimalData> selectOptionalOne(SelectStatementProvider selectStatement);
+	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
+	Optional<AnimalData> selectOptionalOne(SelectStatementProvider selectStatement);
+
 }

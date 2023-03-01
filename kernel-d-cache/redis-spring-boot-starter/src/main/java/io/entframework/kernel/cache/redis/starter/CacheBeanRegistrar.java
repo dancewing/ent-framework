@@ -8,11 +8,14 @@ import org.springframework.core.type.AnnotationMetadata;
 
 @Configuration
 public class CacheBeanRegistrar implements ImportBeanDefinitionRegistrar {
-    @Getter
-    private static BeanDefinitionRegistry beanDefinitionRegistry;
 
-    @Override
-    public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry beanDefinitionRegistry) {
-        CacheBeanRegistrar.beanDefinitionRegistry = beanDefinitionRegistry;
-    }
+	@Getter
+	private static BeanDefinitionRegistry beanDefinitionRegistry;
+
+	@Override
+	public void registerBeanDefinitions(AnnotationMetadata annotationMetadata,
+			BeanDefinitionRegistry beanDefinitionRegistry) {
+		CacheBeanRegistrar.beanDefinitionRegistry = beanDefinitionRegistry;
+	}
+
 }

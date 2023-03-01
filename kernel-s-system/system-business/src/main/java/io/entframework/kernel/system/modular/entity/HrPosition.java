@@ -26,84 +26,86 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @Entity
 @Table(value = "hr_position", sqlSupport = HrPositionDynamicSqlSupport.class, tableProperty = "hrPosition")
 public class HrPosition extends BaseEntity implements Serializable {
-    /**
-     * 主键
-     */
-    @Id
-    @Column(name = "position_id", jdbcType = JDBCType.BIGINT)
-    private Long positionId;
 
-    /**
-     * 职位名称
-     */
-    @Column(name = "position_name", jdbcType = JDBCType.VARCHAR)
-    private String positionName;
+	/**
+	 * 主键
+	 */
+	@Id
+	@Column(name = "position_id", jdbcType = JDBCType.BIGINT)
+	private Long positionId;
 
-    /**
-     * 职位编码
-     */
-    @Column(name = "position_code", jdbcType = JDBCType.VARCHAR)
-    private String positionCode;
+	/**
+	 * 职位名称
+	 */
+	@Column(name = "position_name", jdbcType = JDBCType.VARCHAR)
+	private String positionName;
 
-    /**
-     * 排序
-     */
-    @Column(name = "position_sort", jdbcType = JDBCType.DECIMAL)
-    private BigDecimal positionSort;
+	/**
+	 * 职位编码
+	 */
+	@Column(name = "position_code", jdbcType = JDBCType.VARCHAR)
+	private String positionCode;
 
-    /**
-     * 状态：1-启用，2-禁用
-     */
-    @Column(name = "status_flag", jdbcType = JDBCType.TINYINT)
-    private StatusEnum statusFlag;
+	/**
+	 * 排序
+	 */
+	@Column(name = "position_sort", jdbcType = JDBCType.DECIMAL)
+	private BigDecimal positionSort;
 
-    /**
-     * 备注
-     */
-    @Column(name = "position_remark", jdbcType = JDBCType.VARCHAR)
-    private String positionRemark;
+	/**
+	 * 状态：1-启用，2-禁用
+	 */
+	@Column(name = "status_flag", jdbcType = JDBCType.TINYINT)
+	private StatusEnum statusFlag;
 
-    /**
-     * 删除标记：Y-已删除，N-未删除
-     */
-    @Column(name = "del_flag", jdbcType = JDBCType.CHAR)
-    @LogicDelete
-    private YesOrNotEnum delFlag;
+	/**
+	 * 备注
+	 */
+	@Column(name = "position_remark", jdbcType = JDBCType.VARCHAR)
+	private String positionRemark;
 
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 删除标记：Y-已删除，N-未删除
+	 */
+	@Column(name = "del_flag", jdbcType = JDBCType.CHAR)
+	@LogicDelete
+	private YesOrNotEnum delFlag;
 
-    public HrPosition positionId(Long positionId) {
-        this.positionId = positionId;
-        return this;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public HrPosition positionName(String positionName) {
-        this.positionName = positionName;
-        return this;
-    }
+	public HrPosition positionId(Long positionId) {
+		this.positionId = positionId;
+		return this;
+	}
 
-    public HrPosition positionCode(String positionCode) {
-        this.positionCode = positionCode;
-        return this;
-    }
+	public HrPosition positionName(String positionName) {
+		this.positionName = positionName;
+		return this;
+	}
 
-    public HrPosition positionSort(BigDecimal positionSort) {
-        this.positionSort = positionSort;
-        return this;
-    }
+	public HrPosition positionCode(String positionCode) {
+		this.positionCode = positionCode;
+		return this;
+	}
 
-    public HrPosition statusFlag(StatusEnum statusFlag) {
-        this.statusFlag = statusFlag;
-        return this;
-    }
+	public HrPosition positionSort(BigDecimal positionSort) {
+		this.positionSort = positionSort;
+		return this;
+	}
 
-    public HrPosition positionRemark(String positionRemark) {
-        this.positionRemark = positionRemark;
-        return this;
-    }
+	public HrPosition statusFlag(StatusEnum statusFlag) {
+		this.statusFlag = statusFlag;
+		return this;
+	}
 
-    public HrPosition delFlag(YesOrNotEnum delFlag) {
-        this.delFlag = delFlag;
-        return this;
-    }
+	public HrPosition positionRemark(String positionRemark) {
+		this.positionRemark = positionRemark;
+		return this;
+	}
+
+	public HrPosition delFlag(YesOrNotEnum delFlag) {
+		this.delFlag = delFlag;
+		return this;
+	}
+
 }

@@ -10,4 +10,5 @@ package io.entframework.kernel.db.mds.example.ext.entity;
 import io.entframework.kernel.db.mds.example.entity.ClassGrade;
 
 public class ClassGradeExt extends ClassGrade {
+
 }

@@ -45,12 +45,15 @@ import java.util.*;
  * @date 2021/12/17 16:17
  */
 @Slf4j
-public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThemeResponse, SysTheme> implements SysThemeService {
+public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThemeResponse, SysTheme>
+		implements SysThemeService {
 
 	@Resource
 	private SysThemeTemplateService sysThemeTemplateService;
+
 	@Resource
 	private SysThemeTemplateFieldService sysThemeTemplateFieldService;
+
 	@Resource
 	private FileInfoClientApi fileInfoClientApi;
 
@@ -103,13 +106,12 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 		// 获取图片文件的名称
 		List<String> fileNames = new ArrayList<>();
 		if (themeKeys.size() > 0) {
-			List<SysThemeTemplateField> sysThemeTemplateFields = getRepository()
-					.select(SysThemeTemplateField.class, c -> c.where(SysThemeTemplateFieldDynamicSqlSupport.fieldCode, SqlBuilder.isIn(themeKeys))
-							.and(SysThemeTemplateFieldDynamicSqlSupport.fieldType,
-									SqlBuilder.isEqualTo(ThemeFieldTypeEnum.FILE)));
+			List<SysThemeTemplateField> sysThemeTemplateFields = getRepository().select(SysThemeTemplateField.class,
+					c -> c.where(SysThemeTemplateFieldDynamicSqlSupport.fieldCode, SqlBuilder.isIn(themeKeys)).and(
+							SysThemeTemplateFieldDynamicSqlSupport.fieldType,
+							SqlBuilder.isEqualTo(ThemeFieldTypeEnum.FILE)));
 
-			fileNames = sysThemeTemplateFields.stream().map(SysThemeTemplateField::getFieldCode)
-					.toList();
+			fileNames = sysThemeTemplateFields.stream().map(SysThemeTemplateField::getFieldCode).toList();
 		}
 
 		// 删除图片
@@ -142,7 +144,7 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 		// 清除主题缓存
 		this.clearThemeCache();
 
-        return this.converterService.convert(sysTheme, getResponseClass());
+		return this.converterService.convert(sysTheme, getResponseClass());
 	}
 
 	@Override
@@ -152,7 +154,8 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 
 	@Override
 	public SysThemeResponse detail(SysThemeRequest sysThemeRequest) {
-        SysThemeResponse sysTheme = this.converterService.convert(this.querySysThemeById(sysThemeRequest), getResponseClass());
+		SysThemeResponse sysTheme = this.converterService.convert(this.querySysThemeById(sysThemeRequest),
+				getResponseClass());
 
 		// 设置动态属性表单
 		String themeValueJson = sysTheme.getThemeValue();
@@ -175,7 +178,8 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 				try {
 					fileInfoWithoutContent = fileInfoClientApi.getFileInfoWithoutContent(Long.valueOf(value));
 					antdvFileInfo.setName(fileInfoWithoutContent.getFileOriginName());
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					// 未查询到文件继续查询下一个文件
 				}
 				// 设置文件访问url
@@ -197,7 +201,8 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 		// 已经启用系统主题不允许禁用
 		if (YesOrNotEnum.Y == sysTheme.getStatusFlag()) {
 			throw new SystemModularException(SysThemeExceptionEnum.UNIQUE_ENABLE_NOT_DISABLE);
-		} else {
+		}
+		else {
 			// 如果当前系统禁用，启用该系统主题，同时禁用已启用的系统主题
 			sysTheme.setStatusFlag(YesOrNotEnum.Y);
 
@@ -244,7 +249,8 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 	 * @date 2021/12/17 16:30
 	 */
 	private SysTheme querySysThemeById(SysThemeRequest sysThemeRequest) {
-		Optional<SysTheme> sysTheme = this.getRepository().selectByPrimaryKey(getEntityClass(), sysThemeRequest.getThemeId());
+		Optional<SysTheme> sysTheme = this.getRepository().selectByPrimaryKey(getEntityClass(),
+				sysThemeRequest.getThemeId());
 		if (sysTheme.isEmpty()) {
 			throw new SystemModularException(SysThemeExceptionEnum.THEME_NOT_EXIST);
 		}
@@ -278,7 +284,8 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 		if (CharSequenceUtil.isNotBlank(themeValue)) {
 			JSONObject jsonObject = JSON.parseObject(themeValue);
 			return DefaultThemeFactory.parseDefaultTheme(jsonObject);
-		} else {
+		}
+		else {
 			return DefaultThemeFactory.getSystemDefaultTheme();
 		}
 	}
@@ -296,7 +303,8 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 		}
 
 		// 获取主题模板中所有是文件的字段
-		List<SysThemeTemplateRel> relList = this.getRepository().select(SysThemeTemplateRel.class, c -> c.where(SysThemeTemplateRelDynamicSqlSupport.templateId, SqlBuilder.isEqualTo(defaultTemplateId)));
+		List<SysThemeTemplateRel> relList = this.getRepository().select(SysThemeTemplateRel.class,
+				c -> c.where(SysThemeTemplateRelDynamicSqlSupport.templateId, SqlBuilder.isEqualTo(defaultTemplateId)));
 
 		if (ObjectUtil.isEmpty(relList)) {
 			return theme;
@@ -306,9 +314,10 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 		List<String> fieldCodes = relList.stream().map(SysThemeTemplateRel::getFieldCode).toList();
 
 		// 查询字段中是文件的字段列表
-		List<SysThemeTemplateField> fieldInfoList = this.getRepository()
-				.select(SysThemeTemplateField.class, c -> c.where(SysThemeTemplateFieldDynamicSqlSupport.fieldCode, SqlBuilder.isIn(fieldCodes))
-						.and(SysThemeTemplateFieldDynamicSqlSupport.fieldType, SqlBuilder.isEqualTo(ThemeFieldTypeEnum.FILE)));
+		List<SysThemeTemplateField> fieldInfoList = this.getRepository().select(SysThemeTemplateField.class,
+				c -> c.where(SysThemeTemplateFieldDynamicSqlSupport.fieldCode, SqlBuilder.isIn(fieldCodes)).and(
+						SysThemeTemplateFieldDynamicSqlSupport.fieldType,
+						SqlBuilder.isEqualTo(ThemeFieldTypeEnum.FILE)));
 
 		if (ObjectUtil.isEmpty(fieldInfoList)) {
 			return theme;
@@ -333,7 +342,8 @@ public class SysThemeServiceImpl extends BaseServiceImpl<SysThemeRequest, SysThe
 					Method writeMethod = propertyDescriptor.getWriteMethod();
 					writeMethod.invoke(theme, fileUnAuthUrl);
 				}
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				log.error("解析主题的文件id为url时出错", e);
 			}
 

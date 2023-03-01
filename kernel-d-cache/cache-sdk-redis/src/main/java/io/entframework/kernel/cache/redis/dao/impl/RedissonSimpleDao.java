@@ -26,223 +26,224 @@ import java.util.concurrent.TimeUnit;
  * 基于redisson的redis简单操作
  */
 public class RedissonSimpleDao extends BaseRedissonDao implements RedisSimpleDao {
-    public RedissonSimpleDao(RedissonClient redissonClient) {
-        super(redissonClient);
-    }
 
-    @Override
-    public <V> V get(String key) {
-        RBucket<V> bucket = redissonClient.getBucket(key);
-        return bucket.get();
-    }
+	public RedissonSimpleDao(RedissonClient redissonClient) {
+		super(redissonClient);
+	}
 
-    @Override
-    public List<?> batchGetAsList(List<String> keys, String prefix, int count) {
-        if (keys == null) {
-            return Collections.emptyList();
-        }
+	@Override
+	public <V> V get(String key) {
+		RBucket<V> bucket = redissonClient.getBucket(key);
+		return bucket.get();
+	}
 
-        // 不满足拆分条件
-        if (keys.size() <= count) {
-            RBatch rBatch = redissonClient.createBatch();
-            keys.forEach(key -> {
-                String rkey = this.getRedisKey(prefix, key);
-                rBatch.getBucket(rkey).getAsync();
-            });
+	@Override
+	public List<?> batchGetAsList(List<String> keys, String prefix, int count) {
+		if (keys == null) {
+			return Collections.emptyList();
+		}
 
-            return rBatch.execute().getResponses();
-        }
+		// 不满足拆分条件
+		if (keys.size() <= count) {
+			RBatch rBatch = redissonClient.createBatch();
+			keys.forEach(key -> {
+				String rkey = this.getRedisKey(prefix, key);
+				rBatch.getBucket(rkey).getAsync();
+			});
 
-        // 请求参数量太大，拆分执行多次请求
-        return SplitterUtils.split(keys, count).stream().flatMap(subKeys -> {
-            RBatch rBatch = redissonClient.createBatch();
-            subKeys.forEach(key -> {
-                String rkey = this.getRedisKey(prefix, key);
-                rBatch.getBucket(rkey).getAsync();
-            });
+			return rBatch.execute().getResponses();
+		}
 
-            return rBatch.execute().getResponses().stream();
-        }).toList();
-    }
+		// 请求参数量太大，拆分执行多次请求
+		return SplitterUtils.split(keys, count).stream().flatMap(subKeys -> {
+			RBatch rBatch = redissonClient.createBatch();
+			subKeys.forEach(key -> {
+				String rkey = this.getRedisKey(prefix, key);
+				rBatch.getBucket(rkey).getAsync();
+			});
 
-    @Override
-    public Map<String, Object> batchGetAsMap(List<String> keys, String prefix, int count) {
-        if (keys == null) {
-            return Collections.emptyMap();
-        }
+			return rBatch.execute().getResponses().stream();
+		}).toList();
+	}
 
-        Map<String, Object> resultMap = Maps.newHashMap();
+	@Override
+	public Map<String, Object> batchGetAsMap(List<String> keys, String prefix, int count) {
+		if (keys == null) {
+			return Collections.emptyMap();
+		}
 
-        // 不满足拆分条件
-        if (keys.size() <= count) {
-            RBatch rBatch = redissonClient.createBatch();
-            keys.forEach(key -> {
-                String rkey = this.getRedisKey(prefix, key);
-                rBatch.getBucket(rkey).getAsync();
-            });
+		Map<String, Object> resultMap = Maps.newHashMap();
 
-            List<?> resultList = rBatch.execute().getResponses();
-            for (int i = 0; i < keys.size(); i++) {
-                Object value = resultList.get(i);
-                if (value != null) {
-                    resultMap.put(keys.get(i), resultList.get(i));
-                }
-            }
-        } else {
-            SplitterUtils.split(keys, count).forEach(subKeys -> {
-                List<String> ss = (List<String>) subKeys;
-                RBatch rBatch = redissonClient.createBatch();
-                subKeys.forEach(key -> {
-                    String rkey = this.getRedisKey(prefix, key);
-                    rBatch.getBucket(rkey).getAsync();
-                });
+		// 不满足拆分条件
+		if (keys.size() <= count) {
+			RBatch rBatch = redissonClient.createBatch();
+			keys.forEach(key -> {
+				String rkey = this.getRedisKey(prefix, key);
+				rBatch.getBucket(rkey).getAsync();
+			});
 
-                List<?> resultList = rBatch.execute().getResponses();
-                for (int i = 0; i < ss.size(); i++) {
-                    Object value = resultList.get(i);
-                    if (value != null) {
-                        resultMap.put(ss.get(i), resultList.get(i));
-                    }
-                }
-            });
-        }
+			List<?> resultList = rBatch.execute().getResponses();
+			for (int i = 0; i < keys.size(); i++) {
+				Object value = resultList.get(i);
+				if (value != null) {
+					resultMap.put(keys.get(i), resultList.get(i));
+				}
+			}
+		}
+		else {
+			SplitterUtils.split(keys, count).forEach(subKeys -> {
+				List<String> ss = (List<String>) subKeys;
+				RBatch rBatch = redissonClient.createBatch();
+				subKeys.forEach(key -> {
+					String rkey = this.getRedisKey(prefix, key);
+					rBatch.getBucket(rkey).getAsync();
+				});
 
-        return resultMap;
-    }
+				List<?> resultList = rBatch.execute().getResponses();
+				for (int i = 0; i < ss.size(); i++) {
+					Object value = resultList.get(i);
+					if (value != null) {
+						resultMap.put(ss.get(i), resultList.get(i));
+					}
+				}
+			});
+		}
 
-    @Override
-    public <V> void set(String key, V value) {
-        redissonClient.getBucket(key).set(value);
-    }
+		return resultMap;
+	}
 
-    @Override
-    public <V> void set(String prefix, Map<String, V> values) {
-        if (CollectionUtils.isEmpty(values)) {
-            return;
-        }
+	@Override
+	public <V> void set(String key, V value) {
+		redissonClient.getBucket(key).set(value);
+	}
 
-        if (values.size() == 1) {
-            String key = values.keySet().iterator().next();
-            this.set(this.getRedisKey(prefix, key), values.get(key));
-            return;
-        }
+	@Override
+	public <V> void set(String prefix, Map<String, V> values) {
+		if (CollectionUtils.isEmpty(values)) {
+			return;
+		}
 
-        RBatch rBatch = redissonClient.createBatch();
-        for (Map.Entry<String, V> entry : values.entrySet()) {
-            rBatch.getBucket(this.getRedisKey(prefix, entry.getKey())).setAsync(entry.getValue());
-        }
-        rBatch.execute();
-    }
+		if (values.size() == 1) {
+			String key = values.keySet().iterator().next();
+			this.set(this.getRedisKey(prefix, key), values.get(key));
+			return;
+		}
 
-    @Override
-    public <V> void set(String key, V value, long timeToLive, TimeUnit timeUnit) {
-        redissonClient.getBucket(key).set(value, timeToLive, timeUnit);
-    }
+		RBatch rBatch = redissonClient.createBatch();
+		for (Map.Entry<String, V> entry : values.entrySet()) {
+			rBatch.getBucket(this.getRedisKey(prefix, entry.getKey())).setAsync(entry.getValue());
+		}
+		rBatch.execute();
+	}
 
-    @Override
-    public <V> void set(String prefix, Map<String, V> values, long timeToLive, TimeUnit timeUnit) {
-        if (CollectionUtils.isEmpty(values)) {
-            return;
-        }
+	@Override
+	public <V> void set(String key, V value, long timeToLive, TimeUnit timeUnit) {
+		redissonClient.getBucket(key).set(value, timeToLive, timeUnit);
+	}
 
-        if (values.size() == 1) {
-            String key = values.keySet().iterator().next();
-            this.set(this.getRedisKey(prefix, key), values.get(key), timeToLive, timeUnit);
-            return;
-        }
+	@Override
+	public <V> void set(String prefix, Map<String, V> values, long timeToLive, TimeUnit timeUnit) {
+		if (CollectionUtils.isEmpty(values)) {
+			return;
+		}
 
-        RBatch rBatch = redissonClient.createBatch();
-        for (String key : values.keySet()) {
-            rBatch.getBucket(key).setAsync(values.get(this.getRedisKey(prefix, key)), timeToLive, timeUnit);
-        }
-        rBatch.execute();
-    }
+		if (values.size() == 1) {
+			String key = values.keySet().iterator().next();
+			this.set(this.getRedisKey(prefix, key), values.get(key), timeToLive, timeUnit);
+			return;
+		}
 
-    @Override
-    public <V> boolean trySet(String key, V value) {
-        return redissonClient.getBucket(key).setIfAbsent(value);
-    }
+		RBatch rBatch = redissonClient.createBatch();
+		for (String key : values.keySet()) {
+			rBatch.getBucket(key).setAsync(values.get(this.getRedisKey(prefix, key)), timeToLive, timeUnit);
+		}
+		rBatch.execute();
+	}
 
-    @Override
-    public <V> Map<String, Boolean> trySet(String prefix, Map<String, V> values) {
-        if (CollectionUtils.isEmpty(values)) {
-            return Collections.emptyMap();
-        }
+	@Override
+	public <V> boolean trySet(String key, V value) {
+		return redissonClient.getBucket(key).setIfAbsent(value);
+	}
 
-        if (values.size() == 1) {
-            String key = values.keySet().iterator().next();
-            boolean rt = this.trySet(this.getRedisKey(prefix, key), values.get(key));
-            return Map.of(key, rt);
-        }
+	@Override
+	public <V> Map<String, Boolean> trySet(String prefix, Map<String, V> values) {
+		if (CollectionUtils.isEmpty(values)) {
+			return Collections.emptyMap();
+		}
 
-        RBatch rBatch = redissonClient.createBatch();
-        List<String> keys = Lists.newArrayList(values.keySet());
-        for (String key : keys) {
-            rBatch.getBucket(this.getRedisKey(prefix, key)).setIfAbsentAsync(values.get(key));
-        }
+		if (values.size() == 1) {
+			String key = values.keySet().iterator().next();
+			boolean rt = this.trySet(this.getRedisKey(prefix, key), values.get(key));
+			return Map.of(key, rt);
+		}
 
-        List<?> rts = rBatch.execute().getResponses();
-        Map<String, Boolean> result = Maps.newHashMap();
-        for (int i = 0; i < keys.size(); i++) {
-            result.put(keys.get(i), (Boolean) rts.get(i));
-        }
-        return result;
-    }
+		RBatch rBatch = redissonClient.createBatch();
+		List<String> keys = Lists.newArrayList(values.keySet());
+		for (String key : keys) {
+			rBatch.getBucket(this.getRedisKey(prefix, key)).setIfAbsentAsync(values.get(key));
+		}
 
+		List<?> rts = rBatch.execute().getResponses();
+		Map<String, Boolean> result = Maps.newHashMap();
+		for (int i = 0; i < keys.size(); i++) {
+			result.put(keys.get(i), (Boolean) rts.get(i));
+		}
+		return result;
+	}
 
-    @Override
-    public <V> boolean trySet(String key, V value, long timeToLive, TimeUnit timeUnit) {
-        return redissonClient.getBucket(key).trySet(value, timeToLive, timeUnit);
-    }
+	@Override
+	public <V> boolean trySet(String key, V value, long timeToLive, TimeUnit timeUnit) {
+		return redissonClient.getBucket(key).trySet(value, timeToLive, timeUnit);
+	}
 
-    @Override
-    public <V> Map<String, Boolean> trySet(String prefix, Map<String, V> values, long timeToLive, TimeUnit timeUnit) {
-        if (CollectionUtils.isEmpty(values)) {
-            return Collections.emptyMap();
-        }
+	@Override
+	public <V> Map<String, Boolean> trySet(String prefix, Map<String, V> values, long timeToLive, TimeUnit timeUnit) {
+		if (CollectionUtils.isEmpty(values)) {
+			return Collections.emptyMap();
+		}
 
-        if (values.size() == 1) {
-            String key = values.keySet().iterator().next();
-            boolean rt = this.trySet(this.getRedisKey(prefix, key), values.get(key), timeToLive, timeUnit);
-            return Map.of(key, rt);
-        }
+		if (values.size() == 1) {
+			String key = values.keySet().iterator().next();
+			boolean rt = this.trySet(this.getRedisKey(prefix, key), values.get(key), timeToLive, timeUnit);
+			return Map.of(key, rt);
+		}
 
-        RBatch rBatch = redissonClient.createBatch();
-        List<String> keys = Lists.newArrayList(values.keySet());
-        for (String key : keys) {
-            rBatch.getBucket(this.getRedisKey(prefix, key)).trySetAsync(values.get(key), timeToLive, timeUnit);
-        }
+		RBatch rBatch = redissonClient.createBatch();
+		List<String> keys = Lists.newArrayList(values.keySet());
+		for (String key : keys) {
+			rBatch.getBucket(this.getRedisKey(prefix, key)).trySetAsync(values.get(key), timeToLive, timeUnit);
+		}
 
-        List<?> rts = rBatch.execute().getResponses();
-        Map<String, Boolean> result = Maps.newHashMap();
-        for (int i = 0; i < keys.size(); i++) {
-            result.put(keys.get(i), (Boolean) rts.get(i));
-        }
-        return result;
-    }
+		List<?> rts = rBatch.execute().getResponses();
+		Map<String, Boolean> result = Maps.newHashMap();
+		for (int i = 0; i < keys.size(); i++) {
+			result.put(keys.get(i), (Boolean) rts.get(i));
+		}
+		return result;
+	}
 
-    @Override
-    public <V> V getAndDelete(String key) {
-        RBucket<V> bucket = redissonClient.getBucket(key);
-        return bucket.getAndDelete();
-    }
+	@Override
+	public <V> V getAndDelete(String key) {
+		RBucket<V> bucket = redissonClient.getBucket(key);
+		return bucket.getAndDelete();
+	}
 
-    /**
-     * 根据key值获取完整的redisKey
-     *
-     * @param prefix redisKey前缀
-     * @param key    key值
-     * @return 完整的redisKey
-     */
-    private String getRedisKey(String prefix, String key) {
-        if (prefix == null || StringUtils.isBlank(key)) {
-            return key;
-        }
+	/**
+	 * 根据key值获取完整的redisKey
+	 * @param prefix redisKey前缀
+	 * @param key key值
+	 * @return 完整的redisKey
+	 */
+	private String getRedisKey(String prefix, String key) {
+		if (prefix == null || StringUtils.isBlank(key)) {
+			return key;
+		}
 
-        if (key.startsWith(prefix)) {
-            return key;
-        }
+		if (key.startsWith(prefix)) {
+			return key;
+		}
 
-        return prefix + key;
-    }
+		return prefix + key;
+	}
+
 }

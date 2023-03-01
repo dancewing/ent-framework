@@ -29,30 +29,32 @@ import jakarta.annotation.Resource;
 @ApiResource(name = "系统主题模板属性关系管理")
 public class SysThemeTemplateRelController {
 
-    @Resource
-    private SysThemeTemplateRelService sysThemeTemplateRelService;
+	@Resource
+	private SysThemeTemplateRelService sysThemeTemplateRelService;
 
-    /**
-     * 增加系统主题模板属性关系
-     *
-     * @date 2021/12/24 11:17
-     */
-    @PostResource(name = "增加系统主题模板属性关系", path = "/sys-theme-template-rel/add")
-    @BusinessLog
-    public ResponseData<Void> add(@RequestBody @Validated(BaseRequest.add.class) SysThemeTemplateRelRequest sysThemeTemplateParam) {
-        sysThemeTemplateRelService.add(sysThemeTemplateParam);
-        return ResponseData.OK_VOID;
-    }
+	/**
+	 * 增加系统主题模板属性关系
+	 *
+	 * @date 2021/12/24 11:17
+	 */
+	@PostResource(name = "增加系统主题模板属性关系", path = "/sys-theme-template-rel/add")
+	@BusinessLog
+	public ResponseData<Void> add(
+			@RequestBody @Validated(BaseRequest.add.class) SysThemeTemplateRelRequest sysThemeTemplateParam) {
+		sysThemeTemplateRelService.add(sysThemeTemplateParam);
+		return ResponseData.OK_VOID;
+	}
 
-    /**
-     * 删除系统主题模板属性关系
-     *
-     * @date 2021/12/24 11:23
-     */
-    @PostResource(name = "删除系统主题模板属性关系", path = "/sys-theme-template-rel/del")
-    @BusinessLog
-    public ResponseData<Void> del(@RequestBody SysThemeTemplateRelRequest sysThemeTemplateRelParam) {
-        sysThemeTemplateRelService.del(sysThemeTemplateRelParam);
-        return ResponseData.OK_VOID;
-    }
+	/**
+	 * 删除系统主题模板属性关系
+	 *
+	 * @date 2021/12/24 11:23
+	 */
+	@PostResource(name = "删除系统主题模板属性关系", path = "/sys-theme-template-rel/del")
+	@BusinessLog
+	public ResponseData<Void> del(@RequestBody SysThemeTemplateRelRequest sysThemeTemplateRelParam) {
+		sysThemeTemplateRelService.del(sysThemeTemplateRelParam);
+		return ResponseData.OK_VOID;
+	}
+
 }

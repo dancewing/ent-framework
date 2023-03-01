@@ -24,16 +24,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SysRoleMenuButtonRequest extends BaseRequest {
 
-    /**
-     * 按钮id
-     */
-    @ChineseDescription("按钮id")
-    private Long buttonId;
+	/**
+	 * 按钮id
+	 */
+	@ChineseDescription("按钮id")
+	private Long buttonId;
 
-    /**
-     * 按钮编码
-     */
-    @ChineseDescription("按钮编码")
-    private String buttonCode;
+	/**
+	 * 按钮编码
+	 */
+	@ChineseDescription("按钮编码")
+	private String buttonCode;
 
 }

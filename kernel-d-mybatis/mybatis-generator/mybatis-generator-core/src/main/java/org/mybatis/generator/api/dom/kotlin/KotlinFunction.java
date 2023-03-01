@@ -20,92 +20,102 @@ import java.util.List;
 import java.util.Optional;
 
 public class KotlinFunction extends KotlinNamedItem {
-    private final List<KotlinArg> arguments = new ArrayList<>();
-    private final List<String> codeLines = new ArrayList<>();
-    private final String explicitReturnType;
-    private final boolean isOneLineFunction;
 
-    private KotlinFunction(Builder builder) {
-        super(builder);
-        arguments.addAll(builder.arguments);
-        codeLines.addAll(builder.codeLines);
-        explicitReturnType = builder.explicitReturnType;
-        isOneLineFunction = builder.isOneLineFunction;
-    }
+	private final List<KotlinArg> arguments = new ArrayList<>();
 
-    public void addArgument(KotlinArg argument) {
-        arguments.add(argument);
-    }
+	private final List<String> codeLines = new ArrayList<>();
 
-    public List<KotlinArg> getArguments() {
-        return arguments;
-    }
+	private final String explicitReturnType;
 
-    public void addCodeLine(String codeLine) {
-        this.codeLines.add(codeLine);
-    }
+	private final boolean isOneLineFunction;
 
-    public void addCodeLines(List<String> codeLines) {
-        this.codeLines.addAll(codeLines);
-    }
+	private KotlinFunction(Builder builder) {
+		super(builder);
+		arguments.addAll(builder.arguments);
+		codeLines.addAll(builder.codeLines);
+		explicitReturnType = builder.explicitReturnType;
+		isOneLineFunction = builder.isOneLineFunction;
+	}
 
-    public List<String> getCodeLines() {
-        return codeLines;
-    }
+	public void addArgument(KotlinArg argument) {
+		arguments.add(argument);
+	}
 
-    public Optional<String> getExplicitReturnType() {
-        return Optional.ofNullable(explicitReturnType);
-    }
+	public List<KotlinArg> getArguments() {
+		return arguments;
+	}
 
-    public boolean isOneLineFunction() {
-        return isOneLineFunction;
-    }
+	public void addCodeLine(String codeLine) {
+		this.codeLines.add(codeLine);
+	}
 
-    @Override
-    public <R> R accept(KotlinNamedItemVisitor<R> visitor) {
-        return visitor.visit(this);
-    }
+	public void addCodeLines(List<String> codeLines) {
+		this.codeLines.addAll(codeLines);
+	}
 
-    public static Builder newOneLineFunction(String name) {
-        return new Builder(name, true);
-    }
+	public List<String> getCodeLines() {
+		return codeLines;
+	}
 
-    public static Builder newMultiLineFunction(String name) {
-        return new Builder(name, false);
-    }
+	public Optional<String> getExplicitReturnType() {
+		return Optional.ofNullable(explicitReturnType);
+	}
 
-    public static class Builder extends AbstractBuilder<Builder> {
-        private final boolean isOneLineFunction;
-        private final List<KotlinArg> arguments = new ArrayList<>();
-        private final List<String> codeLines = new ArrayList<>();
-        private String explicitReturnType;
+	public boolean isOneLineFunction() {
+		return isOneLineFunction;
+	}
 
-        private Builder(String name, boolean isOneLineFunction) {
-            super(name);
-            this.isOneLineFunction = isOneLineFunction;
-        }
+	@Override
+	public <R> R accept(KotlinNamedItemVisitor<R> visitor) {
+		return visitor.visit(this);
+	}
 
-        public Builder withArgument(KotlinArg argument) {
-            arguments.add(argument);
-            return this;
-        }
+	public static Builder newOneLineFunction(String name) {
+		return new Builder(name, true);
+	}
 
-        public Builder withCodeLine(String codeLine) {
-            codeLines.add(codeLine);
-            return this;
-        }
+	public static Builder newMultiLineFunction(String name) {
+		return new Builder(name, false);
+	}
 
-        public Builder withExplicitReturnType(String explicitReturnType) {
-            this.explicitReturnType = explicitReturnType;
-            return this;
-        }
+	public static class Builder extends AbstractBuilder<Builder> {
 
-        public Builder getThis() {
-            return this;
-        }
+		private final boolean isOneLineFunction;
 
-        public KotlinFunction build() {
-            return new KotlinFunction(this);
-        }
-    }
+		private final List<KotlinArg> arguments = new ArrayList<>();
+
+		private final List<String> codeLines = new ArrayList<>();
+
+		private String explicitReturnType;
+
+		private Builder(String name, boolean isOneLineFunction) {
+			super(name);
+			this.isOneLineFunction = isOneLineFunction;
+		}
+
+		public Builder withArgument(KotlinArg argument) {
+			arguments.add(argument);
+			return this;
+		}
+
+		public Builder withCodeLine(String codeLine) {
+			codeLines.add(codeLine);
+			return this;
+		}
+
+		public Builder withExplicitReturnType(String explicitReturnType) {
+			this.explicitReturnType = explicitReturnType;
+			return this;
+		}
+
+		public Builder getThis() {
+			return this;
+		}
+
+		public KotlinFunction build() {
+			return new KotlinFunction(this);
+		}
+
+	}
+
 }

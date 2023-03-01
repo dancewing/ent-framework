@@ -20,55 +20,59 @@ import java.util.Objects;
 import org.mybatis.dynamic.sql.util.FragmentAndParameters;
 
 public class RenderedCriterion {
-    private final String connector;
-    private final FragmentAndParameters fragmentAndParameters;
 
-    private RenderedCriterion(Builder builder) {
-        connector = builder.connector;
-        fragmentAndParameters = Objects.requireNonNull(builder.fragmentAndParameters);
-    }
+	private final String connector;
 
-    public FragmentAndParameters fragmentAndParameters() {
-        return fragmentAndParameters;
-    }
+	private final FragmentAndParameters fragmentAndParameters;
 
-    public FragmentAndParameters fragmentAndParametersWithConnector() {
-        if (connector == null) {
-            return fragmentAndParameters;
-        } else {
-            return prependFragment(fragmentAndParameters, connector);
-        }
-    }
+	private RenderedCriterion(Builder builder) {
+		connector = builder.connector;
+		fragmentAndParameters = Objects.requireNonNull(builder.fragmentAndParameters);
+	}
 
-    public RenderedCriterion withConnector(String connector) {
-        return new RenderedCriterion.Builder()
-                .withFragmentAndParameters(fragmentAndParameters)
-                .withConnector(connector)
-                .build();
-    }
+	public FragmentAndParameters fragmentAndParameters() {
+		return fragmentAndParameters;
+	}
 
-    private FragmentAndParameters prependFragment(FragmentAndParameters fragmentAndParameters, String connector) {
-        return FragmentAndParameters.withFragment(connector + " " + fragmentAndParameters.fragment()) //$NON-NLS-1$
-                .withParameters(fragmentAndParameters.parameters())
-                .build();
-    }
+	public FragmentAndParameters fragmentAndParametersWithConnector() {
+		if (connector == null) {
+			return fragmentAndParameters;
+		}
+		else {
+			return prependFragment(fragmentAndParameters, connector);
+		}
+	}
 
-    public static class Builder {
-        private String connector;
-        private FragmentAndParameters fragmentAndParameters;
+	public RenderedCriterion withConnector(String connector) {
+		return new RenderedCriterion.Builder().withFragmentAndParameters(fragmentAndParameters).withConnector(connector)
+				.build();
+	}
 
-        public Builder withConnector(String connector) {
-            this.connector = connector;
-            return this;
-        }
+	private FragmentAndParameters prependFragment(FragmentAndParameters fragmentAndParameters, String connector) {
+		return FragmentAndParameters.withFragment(connector + " " + fragmentAndParameters.fragment()) //$NON-NLS-1$
+				.withParameters(fragmentAndParameters.parameters()).build();
+	}
 
-        public Builder withFragmentAndParameters(FragmentAndParameters fragmentAndParameters) {
-            this.fragmentAndParameters = fragmentAndParameters;
-            return this;
-        }
+	public static class Builder {
 
-        public RenderedCriterion build() {
-            return new RenderedCriterion(this);
-        }
-    }
+		private String connector;
+
+		private FragmentAndParameters fragmentAndParameters;
+
+		public Builder withConnector(String connector) {
+			this.connector = connector;
+			return this;
+		}
+
+		public Builder withFragmentAndParameters(FragmentAndParameters fragmentAndParameters) {
+			this.fragmentAndParameters = fragmentAndParameters;
+			return this;
+		}
+
+		public RenderedCriterion build() {
+			return new RenderedCriterion(this);
+		}
+
+	}
+
 }

@@ -19,26 +19,29 @@ import jakarta.validation.ConstraintValidatorContext;
  */
 public class PhoneValueValidator implements ConstraintValidator<PhoneValue, Object> {
 
-    private Boolean required;
+	private Boolean required;
 
-    @Override
-    public void initialize(PhoneValue constraintAnnotation) {
-        this.required = constraintAnnotation.required();
-    }
+	@Override
+	public void initialize(PhoneValue constraintAnnotation) {
+		this.required = constraintAnnotation.required();
+	}
 
-    @Override
-    public boolean isValid(Object value, ConstraintValidatorContext context) {
+	@Override
+	public boolean isValid(Object value, ConstraintValidatorContext context) {
 
-        String phoneValue = String.valueOf(value);
+		String phoneValue = String.valueOf(value);
 
-        if (CharSequenceUtil.isEmpty(phoneValue)) {
-            if (required) {
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return phoneValue.length() == 11;
-        }
-    }
+		if (CharSequenceUtil.isEmpty(phoneValue)) {
+			if (required) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		else {
+			return phoneValue.length() == 11;
+		}
+	}
+
 }

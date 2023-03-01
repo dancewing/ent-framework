@@ -42,7 +42,8 @@ import java.util.Optional;
  *
  * @date 2020/4/14 11:16
  */
-public class SysConfigServiceImpl extends BaseServiceImpl<SysConfigRequest, SysConfigResponse, SysConfig> implements SysConfigService {
+public class SysConfigServiceImpl extends BaseServiceImpl<SysConfigRequest, SysConfigResponse, SysConfig>
+		implements SysConfigService {
 
 	public SysConfigServiceImpl() {
 		super(SysConfigRequest.class, SysConfigResponse.class, SysConfig.class);
@@ -159,8 +160,8 @@ public class SysConfigServiceImpl extends BaseServiceImpl<SysConfigRequest, SysC
 			// 获取库数据库这条记录
 			query = new SysConfigRequest();
 			query.setConfigCode(configCode);
-			List<SysConfig> queryConfigs = this.getRepository()
-					.select(getEntityClass(), c -> c.where(SysConfigDynamicSqlSupport.configCode, SqlBuilder.isEqualTo(configCode)));
+			List<SysConfig> queryConfigs = this.getRepository().select(getEntityClass(),
+					c -> c.where(SysConfigDynamicSqlSupport.configCode, SqlBuilder.isEqualTo(configCode)));
 			if (queryConfigs == null || queryConfigs.isEmpty()) {
 				continue;
 			}
@@ -189,11 +190,13 @@ public class SysConfigServiceImpl extends BaseServiceImpl<SysConfigRequest, SysC
 		// 配置为空，还没初始化
 		if (sysConfig == null) {
 			return true;
-		} else {
+		}
+		else {
 			String configValue = sysConfig.getConfigValue();
 			if (CharSequenceUtil.isEmpty(configValue)) {
 				return true;
-			} else {
+			}
+			else {
 				return Convert.toBool(sysConfig.getConfigValue());
 			}
 		}
@@ -219,7 +222,8 @@ public class SysConfigServiceImpl extends BaseServiceImpl<SysConfigRequest, SysC
 
 		if (sysConfig != null) {
 			return sysConfig.getConfigValue();
-		} else {
+		}
+		else {
 			return FileConstants.DEFAULT_SERVER_DEPLOY_HOST;
 		}
 	}
@@ -230,7 +234,8 @@ public class SysConfigServiceImpl extends BaseServiceImpl<SysConfigRequest, SysC
 	 * @date 2020/4/14 11:19
 	 */
 	private SysConfig querySysConfig(SysConfigRequest sysConfigRequest) {
-		Optional<SysConfig> sysConfig = this.getRepository().selectByPrimaryKey(getEntityClass(), sysConfigRequest.getConfigId());
+		Optional<SysConfig> sysConfig = this.getRepository().selectByPrimaryKey(getEntityClass(),
+				sysConfigRequest.getConfigId());
 		String userTip = CharSequenceUtil.format(ConfigExceptionEnum.CONFIG_NOT_EXIST.getUserTip(),
 				"id: " + sysConfigRequest.getConfigId());
 		if (sysConfig.isEmpty()) {

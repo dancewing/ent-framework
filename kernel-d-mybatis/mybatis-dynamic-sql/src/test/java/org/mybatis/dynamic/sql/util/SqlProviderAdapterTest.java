@@ -23,13 +23,15 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 class SqlProviderAdapterTest {
-    @Test
-    void testThatInsertMultipleWithGeneratedKeysThrowsException() {
-        Map<String, Object> parameters = new HashMap<>();
-        SqlProviderAdapter adapter = new SqlProviderAdapter();
 
-        assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> adapter.insertMultipleWithGeneratedKeys(parameters)).withMessage(
-                        "The parameters for insertMultipleWithGeneratedKeys must contain exactly one parameter of type String");
-    }
+	@Test
+	void testThatInsertMultipleWithGeneratedKeysThrowsException() {
+		Map<String, Object> parameters = new HashMap<>();
+		SqlProviderAdapter adapter = new SqlProviderAdapter();
+
+		assertThatExceptionOfType(IllegalArgumentException.class)
+				.isThrownBy(() -> adapter.insertMultipleWithGeneratedKeys(parameters)).withMessage(
+						"The parameters for insertMultipleWithGeneratedKeys must contain exactly one parameter of type String");
+	}
+
 }

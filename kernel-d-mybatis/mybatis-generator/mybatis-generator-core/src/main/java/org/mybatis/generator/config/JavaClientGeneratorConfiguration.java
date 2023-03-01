@@ -21,37 +21,40 @@ import static org.mybatis.generator.internal.util.messages.Messages.getString;
 import java.util.List;
 
 public class JavaClientGeneratorConfiguration extends TypedPropertyHolder {
-    private String targetPackage;
-    private String targetProject;
 
-    public JavaClientGeneratorConfiguration() {
-        super();
-    }
+	private String targetPackage;
 
-    public String getTargetProject() {
-        return targetProject;
-    }
+	private String targetProject;
 
-    public void setTargetProject(String targetProject) {
-        this.targetProject = targetProject;
-    }
+	public JavaClientGeneratorConfiguration() {
+		super();
+	}
 
-    public String getTargetPackage() {
-        return targetPackage;
-    }
+	public String getTargetProject() {
+		return targetProject;
+	}
 
-    public void setTargetPackage(String targetPackage) {
-        this.targetPackage = targetPackage;
-    }
+	public void setTargetProject(String targetProject) {
+		this.targetProject = targetProject;
+	}
 
-    public void validate(List<String> errors, String contextId) {
-        if (!stringHasValue(targetProject)) {
-            errors.add(getString("ValidationError.2", contextId)); //$NON-NLS-1$
-        }
+	public String getTargetPackage() {
+		return targetPackage;
+	}
 
-        if (!stringHasValue(targetPackage)) {
-            errors.add(getString("ValidationError.12", //$NON-NLS-1$
-                    "javaClientGenerator", contextId)); //$NON-NLS-1$
-        }
-    }
+	public void setTargetPackage(String targetPackage) {
+		this.targetPackage = targetPackage;
+	}
+
+	public void validate(List<String> errors, String contextId) {
+		if (!stringHasValue(targetProject)) {
+			errors.add(getString("ValidationError.2", contextId)); //$NON-NLS-1$
+		}
+
+		if (!stringHasValue(targetPackage)) {
+			errors.add(getString("ValidationError.12", //$NON-NLS-1$
+					"javaClientGenerator", contextId)); //$NON-NLS-1$
+		}
+	}
+
 }

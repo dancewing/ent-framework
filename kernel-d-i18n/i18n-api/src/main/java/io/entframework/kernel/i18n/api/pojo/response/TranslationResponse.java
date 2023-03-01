@@ -22,33 +22,35 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TranslationResponse extends BaseResponse {
-    /**
-     * 主键id
-     */
-    @ChineseDescription("主键id")
-    private Long tranId;
 
-    /**
-     * 编码
-     */
-    @ChineseDescription("编码")
-    private String tranCode;
+	/**
+	 * 主键id
+	 */
+	@ChineseDescription("主键id")
+	private Long tranId;
 
-    /**
-     * 多语言条例名称
-     */
-    @ChineseDescription("多语言条例名称")
-    private String tranName;
+	/**
+	 * 编码
+	 */
+	@ChineseDescription("编码")
+	private String tranCode;
 
-    /**
-     * 语种字典
-     */
-    @ChineseDescription("语种字典")
-    private String tranLanguageCode;
+	/**
+	 * 多语言条例名称
+	 */
+	@ChineseDescription("多语言条例名称")
+	private String tranName;
 
-    /**
-     * 翻译的值
-     */
-    @ChineseDescription("翻译的值")
-    private String tranValue;
+	/**
+	 * 语种字典
+	 */
+	@ChineseDescription("语种字典")
+	private String tranLanguageCode;
+
+	/**
+	 * 翻译的值
+	 */
+	@ChineseDescription("翻译的值")
+	private String tranValue;
+
 }

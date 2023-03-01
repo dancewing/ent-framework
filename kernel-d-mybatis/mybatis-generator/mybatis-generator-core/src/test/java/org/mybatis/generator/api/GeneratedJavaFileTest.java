@@ -24,26 +24,27 @@ import org.mybatis.generator.api.dom.java.Interface;
 
 class GeneratedJavaFileTest {
 
-    @Test
-    void testReqularInterface() {
-        FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType("org.mybatis.test.TestInterface");
-        Interface ifc = new Interface(fqjt);
-        JavaFormatter jf = new DefaultJavaFormatter();
-        GeneratedJavaFile gjf = new GeneratedJavaFile(ifc, "src", jf);
+	@Test
+	void testReqularInterface() {
+		FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType("org.mybatis.test.TestInterface");
+		Interface ifc = new Interface(fqjt);
+		JavaFormatter jf = new DefaultJavaFormatter();
+		GeneratedJavaFile gjf = new GeneratedJavaFile(ifc, "src", jf);
 
-        assertThat(gjf.getFileName()).isEqualTo("TestInterface.java");
-        assertThat(gjf.getTargetPackage()).isEqualTo("org.mybatis.test");
-    }
+		assertThat(gjf.getFileName()).isEqualTo("TestInterface.java");
+		assertThat(gjf.getTargetPackage()).isEqualTo("org.mybatis.test");
+	}
 
-    @Test
-    void testGenericInterface() {
-        FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType("org.mybatis.test.TestInterface");
-        fqjt.addTypeArgument(new FullyQualifiedJavaType("T"));
-        Interface ifc = new Interface(fqjt);
-        JavaFormatter jf = new DefaultJavaFormatter();
-        GeneratedJavaFile gjf = new GeneratedJavaFile(ifc, "src", jf);
+	@Test
+	void testGenericInterface() {
+		FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType("org.mybatis.test.TestInterface");
+		fqjt.addTypeArgument(new FullyQualifiedJavaType("T"));
+		Interface ifc = new Interface(fqjt);
+		JavaFormatter jf = new DefaultJavaFormatter();
+		GeneratedJavaFile gjf = new GeneratedJavaFile(ifc, "src", jf);
 
-        assertThat(gjf.getFileName()).isEqualTo("TestInterface.java");
-        assertThat(gjf.getTargetPackage()).isEqualTo("org.mybatis.test");
-    }
+		assertThat(gjf.getFileName()).isEqualTo("TestInterface.java");
+		assertThat(gjf.getTargetPackage()).isEqualTo("org.mybatis.test");
+	}
+
 }

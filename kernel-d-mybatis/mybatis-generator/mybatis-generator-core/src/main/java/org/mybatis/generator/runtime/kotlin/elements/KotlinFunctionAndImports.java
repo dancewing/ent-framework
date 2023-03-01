@@ -22,47 +22,52 @@ import org.mybatis.generator.api.dom.kotlin.KotlinFunction;
 
 public class KotlinFunctionAndImports {
 
-    private final KotlinFunction function;
-    private final Set<String> imports;
+	private final KotlinFunction function;
 
-    private KotlinFunctionAndImports(Builder builder) {
-        function = builder.function;
-        imports = builder.imports;
-    }
+	private final Set<String> imports;
 
-    public KotlinFunction getFunction() {
-        return function;
-    }
+	private KotlinFunctionAndImports(Builder builder) {
+		function = builder.function;
+		imports = builder.imports;
+	}
 
-    public Set<String> getImports() {
-        return imports;
-    }
+	public KotlinFunction getFunction() {
+		return function;
+	}
 
-    public static Builder withFunction(KotlinFunction function) {
-        return new Builder().withFunction(function);
-    }
+	public Set<String> getImports() {
+		return imports;
+	}
 
-    public static class Builder {
-        private KotlinFunction function;
-        private final Set<String> imports = new HashSet<>();
+	public static Builder withFunction(KotlinFunction function) {
+		return new Builder().withFunction(function);
+	}
 
-        public Builder withFunction(KotlinFunction function) {
-            this.function = function;
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withImport(String im) {
-            this.imports.add(im);
-            return this;
-        }
+		private KotlinFunction function;
 
-        public Builder withImports(Set<String> imports) {
-            this.imports.addAll(imports);
-            return this;
-        }
+		private final Set<String> imports = new HashSet<>();
 
-        public KotlinFunctionAndImports build() {
-            return new KotlinFunctionAndImports(this);
-        }
-    }
+		public Builder withFunction(KotlinFunction function) {
+			this.function = function;
+			return this;
+		}
+
+		public Builder withImport(String im) {
+			this.imports.add(im);
+			return this;
+		}
+
+		public Builder withImports(Set<String> imports) {
+			this.imports.addAll(imports);
+			return this;
+		}
+
+		public KotlinFunctionAndImports build() {
+			return new KotlinFunctionAndImports(this);
+		}
+
+	}
+
 }

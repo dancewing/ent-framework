@@ -23,12 +23,13 @@ import org.testcontainers.utility.DockerImageName;
 
 public class PgContainer extends PostgreSQLContainer<PgContainer> {
 
-    public PgContainer(String initScriptPath) {
-        super(DockerImageName.parse(IMAGE).withTag(DEFAULT_TAG));
-        withInitScript(initScriptPath);
-    }
+	public PgContainer(String initScriptPath) {
+		super(DockerImageName.parse(IMAGE).withTag(DEFAULT_TAG));
+		withInitScript(initScriptPath);
+	}
 
-    public DataSource getUnpooledDataSource() {
-        return new UnpooledDataSource(getDriverClassName(), getJdbcUrl(), getUsername(), getPassword());
-    }
+	public DataSource getUnpooledDataSource() {
+		return new UnpooledDataSource(getDriverClassName(), getJdbcUrl(), getUsername(), getPassword());
+	}
+
 }

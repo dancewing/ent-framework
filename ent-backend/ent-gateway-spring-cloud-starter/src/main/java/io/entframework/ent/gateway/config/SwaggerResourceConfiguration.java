@@ -22,38 +22,39 @@ import org.springframework.web.server.ServerWebExchange;
 @EnableConfigurationProperties({})
 public class SwaggerResourceConfiguration {
 
-    private static final String SWAGGER_API = "/v2/api-docs";
+	private static final String SWAGGER_API = "/v2/api-docs";
 
-    /**
-     * 修复local 模式下，带gw转发时，header设置不正确的问题
-     * @return
-     */
-    @Profile({"local"})
-    @Bean
-    @Primary
-    public HttpHeadersFilter xForwardedHeadersFilter() {
-        log.info("fix header prefix is enable in local!");
-        return new FixXForwardedHeadersFilter();
-    }
+	/**
+	 * 修复local 模式下，带gw转发时，header设置不正确的问题
+	 * @return
+	 */
+	@Profile({ "local" })
+	@Bean
+	@Primary
+	public HttpHeadersFilter xForwardedHeadersFilter() {
+		log.info("fix header prefix is enable in local!");
+		return new FixXForwardedHeadersFilter();
+	}
 
-    @Profile({"local_dev", "test"})
-    @Bean
-    @Primary
-    public XForwardedHeadersFilter fixNginxforwardedHeadersFilter() {
-        log.info("fix header prefix is enable in test!");
-        return new XForwardedHeadersFilter() {
+	@Profile({ "local_dev", "test" })
+	@Bean
+	@Primary
+	public XForwardedHeadersFilter fixNginxforwardedHeadersFilter() {
+		log.info("fix header prefix is enable in test!");
+		return new XForwardedHeadersFilter() {
 
-            @Override
-            public HttpHeaders filter(HttpHeaders input, ServerWebExchange exchange) {
-                HttpHeaders headers =  super.filter(input, exchange);
+			@Override
+			public HttpHeaders filter(HttpHeaders input, ServerWebExchange exchange) {
+				HttpHeaders headers = super.filter(input, exchange);
 
-                ServerHttpRequest request = exchange.getRequest();
-                String rawPath = request.getPath().value();
-                if (StringUtils.startsWith(rawPath, SWAGGER_API)) {
-                    headers.remove(XForwardedHeadersFilter.X_FORWARDED_PREFIX_HEADER);
-                }
-                return headers;
-            }
-        };
-    }
+				ServerHttpRequest request = exchange.getRequest();
+				String rawPath = request.getPath().value();
+				if (StringUtils.startsWith(rawPath, SWAGGER_API)) {
+					headers.remove(XForwardedHeadersFilter.X_FORWARDED_PREFIX_HEADER);
+				}
+				return headers;
+			}
+		};
+	}
+
 }

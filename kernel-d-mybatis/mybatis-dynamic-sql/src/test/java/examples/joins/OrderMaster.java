@@ -19,31 +19,35 @@ import java.util.Date;
 import java.util.List;
 
 public class OrderMaster {
-    private Integer id;
-    private Date orderDate;
-    private List<OrderDetail> details;
 
-    public Integer getId() {
-        return id;
-    }
+	private Integer id;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	private Date orderDate;
 
-    public Date getOrderDate() {
-        return orderDate;
-    }
+	private List<OrderDetail> details;
 
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public List<OrderDetail> getDetails() {
-        return details;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setDetails(List<OrderDetail> details) {
-        this.details = details;
-    }
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public List<OrderDetail> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<OrderDetail> details) {
+		this.details = details;
+	}
+
 }

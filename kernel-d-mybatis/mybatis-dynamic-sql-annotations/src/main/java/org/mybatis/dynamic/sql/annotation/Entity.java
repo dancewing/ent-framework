@@ -11,9 +11,10 @@ import java.lang.annotation.*;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Target({ElementType.TYPE})
+@Target({ ElementType.TYPE })
 @Retention(RUNTIME)
 @Documented
 @Inherited
 public @interface Entity {
+
 }

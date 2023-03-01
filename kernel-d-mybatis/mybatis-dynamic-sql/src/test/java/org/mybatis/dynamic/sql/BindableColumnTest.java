@@ -21,11 +21,12 @@ import org.junit.jupiter.api.Test;
 
 class BindableColumnTest {
 
-    @Test
-    void testDefaultFunctions() {
-        StringConstant constant = StringConstant.of("Fred");
+	@Test
+	void testDefaultFunctions() {
+		StringConstant constant = StringConstant.of("Fred");
 
-        assertThat(constant.jdbcType()).isEmpty();
-        assertThat(constant.typeHandler()).isEmpty();
-    }
+		assertThat(constant.jdbcType()).isEmpty();
+		assertThat(constant.typeHandler()).isEmpty();
+	}
+
 }

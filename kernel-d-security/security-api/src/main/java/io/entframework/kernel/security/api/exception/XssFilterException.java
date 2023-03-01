@@ -15,12 +15,13 @@ import io.entframework.kernel.security.api.constants.SecurityConstants;
  */
 public class XssFilterException extends ServiceException {
 
-    public XssFilterException(AbstractExceptionEnum exception, Object... params) {
-        super(SecurityConstants.SECURITY_MODULE_NAME, exception.getErrorCode(), CharSequenceUtil.format(exception.getUserTip(), params));
-    }
+	public XssFilterException(AbstractExceptionEnum exception, Object... params) {
+		super(SecurityConstants.SECURITY_MODULE_NAME, exception.getErrorCode(),
+				CharSequenceUtil.format(exception.getUserTip(), params));
+	}
 
-    public XssFilterException(AbstractExceptionEnum exception) {
-        super(SecurityConstants.SECURITY_MODULE_NAME, exception);
-    }
+	public XssFilterException(AbstractExceptionEnum exception) {
+		super(SecurityConstants.SECURITY_MODULE_NAME, exception);
+	}
 
 }

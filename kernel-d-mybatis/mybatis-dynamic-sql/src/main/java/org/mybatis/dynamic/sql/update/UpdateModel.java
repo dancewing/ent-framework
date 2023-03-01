@@ -34,85 +34,93 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class UpdateModel extends EntityModel {
-    private final SqlTable table;
-    private final String tableAlias;
-    private final WhereModel whereModel;
-    private final List<AbstractColumnMapping> columnMappings;
 
-    private UpdateModel(Builder builder) {
-        super(builder.entityClass);
-        table = Objects.requireNonNull(builder.table);
-        whereModel = builder.whereModel;
-        columnMappings = Objects.requireNonNull(builder.columnMappings);
-        tableAlias = builder.tableAlias;
+	private final SqlTable table;
 
-        if (columnMappings.isEmpty()) {
-            throw new InvalidSqlException(Messages.getString("ERROR.17")); //$NON-NLS-1$
-        }
-    }
+	private final String tableAlias;
 
-    public SqlTable table() {
-        return table;
-    }
+	private final WhereModel whereModel;
 
-    public Optional<String> tableAlias() {
-        return Optional.ofNullable(tableAlias);
-    }
+	private final List<AbstractColumnMapping> columnMappings;
 
-    public Optional<WhereModel> whereModel() {
-        return Optional.ofNullable(whereModel);
-    }
+	private UpdateModel(Builder builder) {
+		super(builder.entityClass);
+		table = Objects.requireNonNull(builder.table);
+		whereModel = builder.whereModel;
+		columnMappings = Objects.requireNonNull(builder.columnMappings);
+		tableAlias = builder.tableAlias;
 
-    public <R> Stream<R> mapColumnMappings(Function<AbstractColumnMapping, R> mapper) {
-        return columnMappings.stream().map(mapper);
-    }
+		if (columnMappings.isEmpty()) {
+			throw new InvalidSqlException(Messages.getString("ERROR.17")); //$NON-NLS-1$
+		}
+	}
 
-    @NotNull
-    public UpdateStatementProvider render(RenderingStrategy renderingStrategy) {
-        return UpdateRenderer.withUpdateModel(this)
-                .withRenderingStrategy(renderingStrategy)
-                .build()
-                .render();
-    }
+	public SqlTable table() {
+		return table;
+	}
 
-    public static Builder withTable(SqlTable table) {
-        return new Builder().withTable(table);
-    }
+	public Optional<String> tableAlias() {
+		return Optional.ofNullable(tableAlias);
+	}
 
-    public static class Builder {
-        private SqlTable table;
-        private String tableAlias;
-        private WhereModel whereModel;
-        private Class<?> entityClass;
-        private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
+	public Optional<WhereModel> whereModel() {
+		return Optional.ofNullable(whereModel);
+	}
 
-        public Builder withTable(SqlTable table) {
-            this.table = table;
-            return this;
-        }
+	public <R> Stream<R> mapColumnMappings(Function<AbstractColumnMapping, R> mapper) {
+		return columnMappings.stream().map(mapper);
+	}
 
-        public Builder withTableAlias(String tableAlias) {
-            this.tableAlias = tableAlias;
-            return this;
-        }
+	@NotNull
+	public UpdateStatementProvider render(RenderingStrategy renderingStrategy) {
+		return UpdateRenderer.withUpdateModel(this).withRenderingStrategy(renderingStrategy).build().render();
+	}
 
-        public Builder withColumnMappings(List<AbstractColumnMapping> columnMappings) {
-            this.columnMappings.addAll(columnMappings);
-            return this;
-        }
+	public static Builder withTable(SqlTable table) {
+		return new Builder().withTable(table);
+	}
 
-        public Builder withWhereModel(WhereModel whereModel) {
-            this.whereModel = whereModel;
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withEntityClass(Class<?> entityClass) {
-            this.entityClass = entityClass;
-            return this;
-        }
+		private SqlTable table;
 
-        public UpdateModel build() {
-            return new UpdateModel(this);
-        }
-    }
+		private String tableAlias;
+
+		private WhereModel whereModel;
+
+		private Class<?> entityClass;
+
+		private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
+
+		public Builder withTable(SqlTable table) {
+			this.table = table;
+			return this;
+		}
+
+		public Builder withTableAlias(String tableAlias) {
+			this.tableAlias = tableAlias;
+			return this;
+		}
+
+		public Builder withColumnMappings(List<AbstractColumnMapping> columnMappings) {
+			this.columnMappings.addAll(columnMappings);
+			return this;
+		}
+
+		public Builder withWhereModel(WhereModel whereModel) {
+			this.whereModel = whereModel;
+			return this;
+		}
+
+		public Builder withEntityClass(Class<?> entityClass) {
+			this.entityClass = entityClass;
+			return this;
+		}
+
+		public UpdateModel build() {
+			return new UpdateModel(this);
+		}
+
+	}
+
 }

@@ -26,62 +26,68 @@ import org.mybatis.dynamic.sql.render.RenderingStrategy;
 import org.mybatis.dynamic.sql.select.SelectModel;
 
 public class InsertSelectModel {
-    private final SqlTable table;
-    private final InsertColumnListModel columnList;
-    private final SelectModel selectModel;
 
-    private InsertSelectModel(Builder builder) {
-        table = Objects.requireNonNull(builder.table);
-        columnList = builder.columnList;
-        selectModel = Objects.requireNonNull(builder.selectModel);
-    }
+	private final SqlTable table;
 
-    public SqlTable table() {
-        return table;
-    }
+	private final InsertColumnListModel columnList;
 
-    public SelectModel selectModel() {
-        return selectModel;
-    }
+	private final SelectModel selectModel;
 
-    public Optional<InsertColumnListModel> columnList() {
-        return Optional.ofNullable(columnList);
-    }
+	private InsertSelectModel(Builder builder) {
+		table = Objects.requireNonNull(builder.table);
+		columnList = builder.columnList;
+		selectModel = Objects.requireNonNull(builder.selectModel);
+	}
 
-    @NotNull
-    public InsertSelectStatementProvider render(RenderingStrategy renderingStrategy) {
-        return InsertSelectRenderer.withInsertSelectModel(this)
-                .withRenderingStrategy(renderingStrategy)
-                .build()
-                .render();
-    }
+	public SqlTable table() {
+		return table;
+	}
 
-    public static Builder withTable(SqlTable table) {
-        return new Builder().withTable(table);
-    }
+	public SelectModel selectModel() {
+		return selectModel;
+	}
 
-    public static class Builder {
-        private SqlTable table;
-        private InsertColumnListModel columnList;
-        private SelectModel selectModel;
+	public Optional<InsertColumnListModel> columnList() {
+		return Optional.ofNullable(columnList);
+	}
 
-        public Builder withTable(SqlTable table) {
-            this.table = table;
-            return this;
-        }
+	@NotNull
+	public InsertSelectStatementProvider render(RenderingStrategy renderingStrategy) {
+		return InsertSelectRenderer.withInsertSelectModel(this).withRenderingStrategy(renderingStrategy).build()
+				.render();
+	}
 
-        public Builder withColumnList(InsertColumnListModel columnList) {
-            this.columnList = columnList;
-            return this;
-        }
+	public static Builder withTable(SqlTable table) {
+		return new Builder().withTable(table);
+	}
 
-        public Builder withSelectModel(SelectModel selectModel) {
-            this.selectModel = selectModel;
-            return this;
-        }
+	public static class Builder {
 
-        public InsertSelectModel build() {
-            return new InsertSelectModel(this);
-        }
-    }
+		private SqlTable table;
+
+		private InsertColumnListModel columnList;
+
+		private SelectModel selectModel;
+
+		public Builder withTable(SqlTable table) {
+			this.table = table;
+			return this;
+		}
+
+		public Builder withColumnList(InsertColumnListModel columnList) {
+			this.columnList = columnList;
+			return this;
+		}
+
+		public Builder withSelectModel(SelectModel selectModel) {
+			this.selectModel = selectModel;
+			return this;
+		}
+
+		public InsertSelectModel build() {
+			return new InsertSelectModel(this);
+		}
+
+	}
+
 }

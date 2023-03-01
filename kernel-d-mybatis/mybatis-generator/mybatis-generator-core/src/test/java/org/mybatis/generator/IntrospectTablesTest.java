@@ -32,34 +32,38 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class IntrospectTablesTest {
 
-    @Test
-    void testIntrospectTables() throws Exception {
+	@Test
+	void testIntrospectTables() throws Exception {
 
-        createDatabase();
-        Context context = new Context(ModelType.FLAT);
-        JDBCConnectionConfiguration connectionConfiguration = new JDBCConnectionConfiguration();
-        connectionConfiguration.setConnectionURL("jdbc:hsqldb:mem:aname");
-        connectionConfiguration.setPassword("");
-        connectionConfiguration.setUserId("sa");
-        connectionConfiguration.setDriverClass("org.hsqldb.jdbcDriver");
-        context.setJdbcConnectionConfiguration(connectionConfiguration);
-        TableConfiguration tableConfiguration = new TableConfiguration(context);
-        tableConfiguration.setTableName("%");
-        context.addTableConfiguration(tableConfiguration);
-        VerboseProgressCallback callback = new VerboseProgressCallback();
-        Set<String> fullyQualifiedTableNames = new HashSet<>();
-        List<String> warning = new ArrayList<>();
-        try {
-            context.introspectTables(callback, warning, fullyQualifiedTableNames);
-            List<IntrospectedTable> introspectedTables = context.getIntrospectedTables();
-            assertTrue(introspectedTables.size() > 0);
-        } catch (Exception ex) {
+		createDatabase();
+		Context context = new Context(ModelType.FLAT);
+		JDBCConnectionConfiguration connectionConfiguration = new JDBCConnectionConfiguration();
+		connectionConfiguration.setConnectionURL("jdbc:hsqldb:mem:aname");
+		connectionConfiguration.setPassword("");
+		connectionConfiguration.setUserId("sa");
+		connectionConfiguration.setDriverClass("org.hsqldb.jdbcDriver");
+		context.setJdbcConnectionConfiguration(connectionConfiguration);
+		TableConfiguration tableConfiguration = new TableConfiguration(context);
+		tableConfiguration.setTableName("%");
+		context.addTableConfiguration(tableConfiguration);
+		VerboseProgressCallback callback = new VerboseProgressCallback();
+		Set<String> fullyQualifiedTableNames = new HashSet<>();
+		List<String> warning = new ArrayList<>();
+		try {
+			context.introspectTables(callback, warning, fullyQualifiedTableNames);
+			List<IntrospectedTable> introspectedTables = context.getIntrospectedTables();
+			assertTrue(introspectedTables.size() > 0);
+		}
+		catch (Exception ex) {
 
-        }
-    }
+		}
+	}
 
-    static void createDatabase() throws Exception {
-        SqlScriptRunner scriptRunner = new SqlScriptRunner(IntrospectTablesTest.class.getResourceAsStream("/scripts/CreateDB.sql"), "org.hsqldb.jdbcDriver", "jdbc:hsqldb:mem:aname", "sa", "");
-        scriptRunner.executeScript();
-    }
+	static void createDatabase() throws Exception {
+		SqlScriptRunner scriptRunner = new SqlScriptRunner(
+				IntrospectTablesTest.class.getResourceAsStream("/scripts/CreateDB.sql"), "org.hsqldb.jdbcDriver",
+				"jdbc:hsqldb:mem:aname", "sa", "");
+		scriptRunner.executeScript();
+	}
+
 }

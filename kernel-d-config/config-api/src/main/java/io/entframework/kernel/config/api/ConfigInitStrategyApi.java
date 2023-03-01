@@ -14,12 +14,11 @@ import java.util.List;
  */
 public interface ConfigInitStrategyApi {
 
-    /**
-     * 获取需要被初始化的配置集合
-     *
-     * @return 需要被初始化的配置集合
-     * @date 2021/7/8 17:40
-     */
-    List<ConfigInitItem> getInitConfigs();
+	/**
+	 * 获取需要被初始化的配置集合
+	 * @return 需要被初始化的配置集合
+	 * @date 2021/7/8 17:40
+	 */
+	List<ConfigInitItem> getInitConfigs();
 
 }

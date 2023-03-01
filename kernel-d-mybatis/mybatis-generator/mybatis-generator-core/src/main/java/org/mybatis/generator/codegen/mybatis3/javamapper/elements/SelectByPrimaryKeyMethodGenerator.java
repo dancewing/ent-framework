@@ -25,43 +25,44 @@ import org.mybatis.generator.api.dom.java.Method;
 
 public class SelectByPrimaryKeyMethodGenerator extends AbstractJavaMapperMethodGenerator {
 
-    private final boolean isSimple;
+	private final boolean isSimple;
 
-    public SelectByPrimaryKeyMethodGenerator(boolean isSimple) {
-        super();
-        this.isSimple = isSimple;
-    }
+	public SelectByPrimaryKeyMethodGenerator(boolean isSimple) {
+		super();
+		this.isSimple = isSimple;
+	}
 
-    @Override
-    public void addInterfaceElements(Interface interfaze) {
-        Method method = new Method(introspectedTable.getSelectByPrimaryKeyStatementId());
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.setAbstract(true);
+	@Override
+	public void addInterfaceElements(Interface interfaze) {
+		Method method = new Method(introspectedTable.getSelectByPrimaryKeyStatementId());
+		method.setVisibility(JavaVisibility.PUBLIC);
+		method.setAbstract(true);
 
-        FullyQualifiedJavaType returnType = introspectedTable.getRules().calculateAllFieldsClass();
-        method.setReturnType(returnType);
+		FullyQualifiedJavaType returnType = introspectedTable.getRules().calculateAllFieldsClass();
+		method.setReturnType(returnType);
 
-        Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
-        importedTypes.add(returnType);
+		Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
+		importedTypes.add(returnType);
 
-        addPrimaryKeyMethodParameters(isSimple, method, importedTypes);
+		addPrimaryKeyMethodParameters(isSimple, method, importedTypes);
 
-        addMapperAnnotations(interfaze, method);
+		addMapperAnnotations(interfaze, method);
 
-        context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
+		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
 
-        if (context.getPlugins().clientSelectByPrimaryKeyMethodGenerated(method, interfaze, introspectedTable)) {
-            addExtraImports(interfaze);
-            interfaze.addImportedTypes(importedTypes);
-            interfaze.addMethod(method);
-        }
-    }
+		if (context.getPlugins().clientSelectByPrimaryKeyMethodGenerated(method, interfaze, introspectedTable)) {
+			addExtraImports(interfaze);
+			interfaze.addImportedTypes(importedTypes);
+			interfaze.addMethod(method);
+		}
+	}
 
-    public void addMapperAnnotations(Interface interfaze, Method method) {
-        // extension point for subclasses
-    }
+	public void addMapperAnnotations(Interface interfaze, Method method) {
+		// extension point for subclasses
+	}
 
-    public void addExtraImports(Interface interfaze) {
-        // extension point for subclasses
-    }
+	public void addExtraImports(Interface interfaze) {
+		// extension point for subclasses
+	}
+
 }

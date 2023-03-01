@@ -20,186 +20,191 @@ import java.math.BigInteger;
 
 public class BaseRequestInstantiator extends ValueInstantiator {
 
-    private final ValueInstantiator proxy;
-    private final ApplicationContext context;
+	private final ValueInstantiator proxy;
 
-    public BaseRequestInstantiator(ApplicationContext context, ValueInstantiator proxy) {
-        this.context = context;
-        this.proxy = proxy;
-    }
+	private final ApplicationContext context;
 
-    @Override
-    public ValueInstantiator createContextual(DeserializationContext ctxt, BeanDescription beanDesc) throws JsonMappingException {
-        return this;
-    }
+	public BaseRequestInstantiator(ApplicationContext context, ValueInstantiator proxy) {
+		this.context = context;
+		this.proxy = proxy;
+	}
 
-    @Override
-    public Class<?> getValueClass() {
-        return proxy.getValueClass();
-    }
+	@Override
+	public ValueInstantiator createContextual(DeserializationContext ctxt, BeanDescription beanDesc)
+			throws JsonMappingException {
+		return this;
+	}
 
-    @Override
-    public String getValueTypeDesc() {
-        return proxy.getValueTypeDesc();
-    }
+	@Override
+	public Class<?> getValueClass() {
+		return proxy.getValueClass();
+	}
 
-    @Override
-    public boolean canInstantiate() {
-        return proxy.canInstantiate();
-    }
+	@Override
+	public String getValueTypeDesc() {
+		return proxy.getValueTypeDesc();
+	}
 
-    @Override
-    public boolean canCreateFromString() {
-        return proxy.canCreateFromString();
-    }
+	@Override
+	public boolean canInstantiate() {
+		return proxy.canInstantiate();
+	}
 
-    @Override
-    public boolean canCreateFromInt() {
-        return proxy.canCreateFromInt();
-    }
+	@Override
+	public boolean canCreateFromString() {
+		return proxy.canCreateFromString();
+	}
 
-    @Override
-    public boolean canCreateFromLong() {
-        return proxy.canCreateFromLong();
-    }
+	@Override
+	public boolean canCreateFromInt() {
+		return proxy.canCreateFromInt();
+	}
 
-    @Override
-    public boolean canCreateFromBigInteger() {
-        return proxy.canCreateFromBigInteger();
-    }
+	@Override
+	public boolean canCreateFromLong() {
+		return proxy.canCreateFromLong();
+	}
 
-    @Override
-    public boolean canCreateFromDouble() {
-        return proxy.canCreateFromDouble();
-    }
+	@Override
+	public boolean canCreateFromBigInteger() {
+		return proxy.canCreateFromBigInteger();
+	}
 
-    @Override
-    public boolean canCreateFromBigDecimal() {
-        return proxy.canCreateFromBigDecimal();
-    }
+	@Override
+	public boolean canCreateFromDouble() {
+		return proxy.canCreateFromDouble();
+	}
 
-    @Override
-    public boolean canCreateFromBoolean() {
-        return proxy.canCreateFromBoolean();
-    }
+	@Override
+	public boolean canCreateFromBigDecimal() {
+		return proxy.canCreateFromBigDecimal();
+	}
 
-    @Override
-    public boolean canCreateUsingDefault() {
-        return proxy.canCreateUsingDefault();
-    }
+	@Override
+	public boolean canCreateFromBoolean() {
+		return proxy.canCreateFromBoolean();
+	}
 
-    @Override
-    public boolean canCreateUsingDelegate() {
-        return proxy.canCreateUsingDelegate();
-    }
+	@Override
+	public boolean canCreateUsingDefault() {
+		return proxy.canCreateUsingDefault();
+	}
 
-    @Override
-    public boolean canCreateUsingArrayDelegate() {
-        return proxy.canCreateUsingArrayDelegate();
-    }
+	@Override
+	public boolean canCreateUsingDelegate() {
+		return proxy.canCreateUsingDelegate();
+	}
 
-    @Override
-    public boolean canCreateFromObjectWith() {
-        return proxy.canCreateFromObjectWith();
-    }
+	@Override
+	public boolean canCreateUsingArrayDelegate() {
+		return proxy.canCreateUsingArrayDelegate();
+	}
 
-    @Override
-    public SettableBeanProperty[] getFromObjectArguments(DeserializationConfig config) {
-        return proxy.getFromObjectArguments(config);
-    }
+	@Override
+	public boolean canCreateFromObjectWith() {
+		return proxy.canCreateFromObjectWith();
+	}
 
-    @Override
-    public JavaType getDelegateType(DeserializationConfig config) {
-        return proxy.getDelegateType(config);
-    }
+	@Override
+	public SettableBeanProperty[] getFromObjectArguments(DeserializationConfig config) {
+		return proxy.getFromObjectArguments(config);
+	}
 
-    @Override
-    public JavaType getArrayDelegateType(DeserializationConfig config) {
-        return proxy.getArrayDelegateType(config);
-    }
+	@Override
+	public JavaType getDelegateType(DeserializationConfig config) {
+		return proxy.getDelegateType(config);
+	}
 
-    @Override
-    public Object createUsingDefault(DeserializationContext ctxt) throws IOException {
-        Class<?> typeClass = this.proxy.getValueClass();
-        try {
-            return this.context.getBean(typeClass);
-        } catch(Exception ex){
-            return this.proxy.createUsingDefault(ctxt);
-        }
-    }
+	@Override
+	public JavaType getArrayDelegateType(DeserializationConfig config) {
+		return proxy.getArrayDelegateType(config);
+	}
 
-    @Override
-    public Object createFromObjectWith(DeserializationContext ctxt, Object[] args) throws IOException {
-        throw new UnsupportedOperationException("标记一下,不知道什么时候会调用");
-    }
+	@Override
+	public Object createUsingDefault(DeserializationContext ctxt) throws IOException {
+		Class<?> typeClass = this.proxy.getValueClass();
+		try {
+			return this.context.getBean(typeClass);
+		}
+		catch (Exception ex) {
+			return this.proxy.createUsingDefault(ctxt);
+		}
+	}
 
-    @Override
-    public Object createFromObjectWith(DeserializationContext ctxt, SettableBeanProperty[] props, PropertyValueBuffer buffer) throws IOException {
-        throw new UnsupportedOperationException("标记一下,不知道什么时候会调用");
-    }
+	@Override
+	public Object createFromObjectWith(DeserializationContext ctxt, Object[] args) throws IOException {
+		throw new UnsupportedOperationException("标记一下,不知道什么时候会调用");
+	}
 
-    @Override
-    public Object createUsingDelegate(DeserializationContext ctxt, Object delegate) throws IOException {
-        return proxy.createUsingDelegate(ctxt, delegate);
-    }
+	@Override
+	public Object createFromObjectWith(DeserializationContext ctxt, SettableBeanProperty[] props,
+			PropertyValueBuffer buffer) throws IOException {
+		throw new UnsupportedOperationException("标记一下,不知道什么时候会调用");
+	}
 
-    @Override
-    public Object createUsingArrayDelegate(DeserializationContext ctxt, Object delegate) throws IOException {
-        return proxy.createUsingArrayDelegate(ctxt, delegate);
-    }
+	@Override
+	public Object createUsingDelegate(DeserializationContext ctxt, Object delegate) throws IOException {
+		return proxy.createUsingDelegate(ctxt, delegate);
+	}
 
-    @Override
-    public Object createFromString(DeserializationContext ctxt, String value) throws IOException {
-        return proxy.createFromString(ctxt, value);
-    }
+	@Override
+	public Object createUsingArrayDelegate(DeserializationContext ctxt, Object delegate) throws IOException {
+		return proxy.createUsingArrayDelegate(ctxt, delegate);
+	}
 
-    @Override
-    public Object createFromInt(DeserializationContext ctxt, int value) throws IOException {
-        return proxy.createFromInt(ctxt, value);
-    }
+	@Override
+	public Object createFromString(DeserializationContext ctxt, String value) throws IOException {
+		return proxy.createFromString(ctxt, value);
+	}
 
-    @Override
-    public Object createFromLong(DeserializationContext ctxt, long value) throws IOException {
-        return proxy.createFromLong(ctxt, value);
-    }
+	@Override
+	public Object createFromInt(DeserializationContext ctxt, int value) throws IOException {
+		return proxy.createFromInt(ctxt, value);
+	}
 
-    @Override
-    public Object createFromBigInteger(DeserializationContext ctxt, BigInteger value) throws IOException {
-        return proxy.createFromBigInteger(ctxt, value);
-    }
+	@Override
+	public Object createFromLong(DeserializationContext ctxt, long value) throws IOException {
+		return proxy.createFromLong(ctxt, value);
+	}
 
-    @Override
-    public Object createFromDouble(DeserializationContext ctxt, double value) throws IOException {
-        return proxy.createFromDouble(ctxt, value);
-    }
+	@Override
+	public Object createFromBigInteger(DeserializationContext ctxt, BigInteger value) throws IOException {
+		return proxy.createFromBigInteger(ctxt, value);
+	}
 
-    @Override
-    public Object createFromBigDecimal(DeserializationContext ctxt, BigDecimal value) throws IOException {
-        return proxy.createFromBigDecimal(ctxt, value);
-    }
+	@Override
+	public Object createFromDouble(DeserializationContext ctxt, double value) throws IOException {
+		return proxy.createFromDouble(ctxt, value);
+	}
 
-    @Override
-    public Object createFromBoolean(DeserializationContext ctxt, boolean value) throws IOException {
-        return proxy.createFromBoolean(ctxt, value);
-    }
+	@Override
+	public Object createFromBigDecimal(DeserializationContext ctxt, BigDecimal value) throws IOException {
+		return proxy.createFromBigDecimal(ctxt, value);
+	}
 
-    @Override
-    public AnnotatedWithParams getDefaultCreator() {
-        return proxy.getDefaultCreator();
-    }
+	@Override
+	public Object createFromBoolean(DeserializationContext ctxt, boolean value) throws IOException {
+		return proxy.createFromBoolean(ctxt, value);
+	}
 
-    @Override
-    public AnnotatedWithParams getDelegateCreator() {
-        return proxy.getDelegateCreator();
-    }
+	@Override
+	public AnnotatedWithParams getDefaultCreator() {
+		return proxy.getDefaultCreator();
+	}
 
-    @Override
-    public AnnotatedWithParams getArrayDelegateCreator() {
-        return proxy.getArrayDelegateCreator();
-    }
+	@Override
+	public AnnotatedWithParams getDelegateCreator() {
+		return proxy.getDelegateCreator();
+	}
 
-    @Override
-    public AnnotatedWithParams getWithArgsCreator() {
-        return proxy.getWithArgsCreator();
-    }
+	@Override
+	public AnnotatedWithParams getArrayDelegateCreator() {
+		return proxy.getArrayDelegateCreator();
+	}
+
+	@Override
+	public AnnotatedWithParams getWithArgsCreator() {
+		return proxy.getWithArgsCreator();
+	}
+
 }

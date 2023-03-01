@@ -26,19 +26,21 @@ import org.mybatis.generator.api.ProgressCallback;
  */
 public class MavenProgressCallback implements ProgressCallback {
 
-    private final Log log;
-    private final boolean verbose;
+	private final Log log;
 
-    public MavenProgressCallback(Log log, boolean verbose) {
-        super();
-        this.log = log;
-        this.verbose = verbose;
-    }
+	private final boolean verbose;
 
-    @Override
-    public void startTask(String subTaskName) {
-        if (verbose) {
-            log.info(subTaskName);
-        }
-    }
+	public MavenProgressCallback(Log log, boolean verbose) {
+		super();
+		this.log = log;
+		this.verbose = verbose;
+	}
+
+	@Override
+	public void startTask(String subTaskName) {
+		if (verbose) {
+			log.info(subTaskName);
+		}
+	}
+
 }

@@ -19,10 +19,10 @@ import jakarta.validation.constraints.NotBlank;
 @Data
 public class ValidateTokenRequest {
 
-    /**
-     * 用户的登录token
-     */
-    @NotBlank(message = "token不能为空")
-    private String token;
+	/**
+	 * 用户的登录token
+	 */
+	@NotBlank(message = "token不能为空")
+	private String token;
 
 }

@@ -10,5 +10,4 @@ package io.entframework.kernel.system.api;
  */
 public interface NoticeServiceApi {
 
-
 }

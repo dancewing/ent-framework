@@ -27,70 +27,75 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class DeleteModel extends EntityModel {
-    private final SqlTable table;
-    private final String tableAlias;
-    private final WhereModel whereModel;
 
-    private DeleteModel(Builder builder) {
-        super(builder.entityClass);
-        table = Objects.requireNonNull(builder.table);
-        whereModel = builder.whereModel;
-        tableAlias = builder.tableAlias;
-    }
+	private final SqlTable table;
 
-    public SqlTable table() {
-        return table;
-    }
+	private final String tableAlias;
 
-    public Optional<String> tableAlias() {
-        return Optional.ofNullable(tableAlias);
-    }
+	private final WhereModel whereModel;
 
-    public Optional<WhereModel> whereModel() {
-        return Optional.ofNullable(whereModel);
-    }
+	private DeleteModel(Builder builder) {
+		super(builder.entityClass);
+		table = Objects.requireNonNull(builder.table);
+		whereModel = builder.whereModel;
+		tableAlias = builder.tableAlias;
+	}
 
-    @NotNull
-    public DeleteStatementProvider render(RenderingStrategy renderingStrategy) {
-        return DeleteRenderer.withDeleteModel(this)
-                .withRenderingStrategy(renderingStrategy)
-                .build()
-                .render();
-    }
+	public SqlTable table() {
+		return table;
+	}
 
-    public static Builder withTable(SqlTable table) {
-        return new Builder().withTable(table);
-    }
+	public Optional<String> tableAlias() {
+		return Optional.ofNullable(tableAlias);
+	}
 
-    public static class Builder {
-        private SqlTable table;
-        private String tableAlias;
-        private WhereModel whereModel;
+	public Optional<WhereModel> whereModel() {
+		return Optional.ofNullable(whereModel);
+	}
 
-        private Class<?> entityClass;
+	@NotNull
+	public DeleteStatementProvider render(RenderingStrategy renderingStrategy) {
+		return DeleteRenderer.withDeleteModel(this).withRenderingStrategy(renderingStrategy).build().render();
+	}
 
-        public Builder withTable(SqlTable table) {
-            this.table = table;
-            return this;
-        }
+	public static Builder withTable(SqlTable table) {
+		return new Builder().withTable(table);
+	}
 
-        public Builder withTableAlias(String tableAlias) {
-            this.tableAlias = tableAlias;
-            return this;
-        }
+	public static class Builder {
 
-        public Builder withWhereModel(WhereModel whereModel) {
-            this.whereModel = whereModel;
-            return this;
-        }
+		private SqlTable table;
 
-        public Builder withEntityClass(Class<?> entityClass) {
-            this.entityClass = entityClass;
-            return this;
-        }
+		private String tableAlias;
 
-        public DeleteModel build() {
-            return new DeleteModel(this);
-        }
-    }
+		private WhereModel whereModel;
+
+		private Class<?> entityClass;
+
+		public Builder withTable(SqlTable table) {
+			this.table = table;
+			return this;
+		}
+
+		public Builder withTableAlias(String tableAlias) {
+			this.tableAlias = tableAlias;
+			return this;
+		}
+
+		public Builder withWhereModel(WhereModel whereModel) {
+			this.whereModel = whereModel;
+			return this;
+		}
+
+		public Builder withEntityClass(Class<?> entityClass) {
+			this.entityClass = entityClass;
+			return this;
+		}
+
+		public DeleteModel build() {
+			return new DeleteModel(this);
+		}
+
+	}
+
 }

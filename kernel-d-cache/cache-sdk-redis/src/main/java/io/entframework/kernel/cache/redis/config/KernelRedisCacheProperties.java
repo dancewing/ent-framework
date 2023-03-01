@@ -18,5 +18,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class KernelRedisCacheProperties extends RedisCacheProperties {
-    private List<RedisCacheNode> nodes = new ArrayList<>();
+
+	private List<RedisCacheNode> nodes = new ArrayList<>();
+
 }

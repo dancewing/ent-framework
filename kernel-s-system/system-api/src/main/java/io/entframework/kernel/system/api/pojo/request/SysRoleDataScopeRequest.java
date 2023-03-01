@@ -24,21 +24,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SysRoleDataScopeRequest extends BaseRequest {
 
-    /**
-     * 主键
-     */
-    @ChineseDescription("主键")
-    private Long roleDataScopeId;
+	/**
+	 * 主键
+	 */
+	@ChineseDescription("主键")
+	private Long roleDataScopeId;
 
-    /**
-     * 角色id
-     */
-    @ChineseDescription("角色id")
-    private Long roleId;
+	/**
+	 * 角色id
+	 */
+	@ChineseDescription("角色id")
+	private Long roleId;
 
-    /**
-     * 机构id
-     */
-    @ChineseDescription("机构id")
-    private Long organizationId;
+	/**
+	 * 机构id
+	 */
+	@ChineseDescription("机构id")
+	private Long organizationId;
+
 }

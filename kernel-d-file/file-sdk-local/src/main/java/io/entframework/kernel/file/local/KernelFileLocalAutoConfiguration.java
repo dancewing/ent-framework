@@ -21,14 +21,16 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(LocalFileProperties.class)
 public class KernelFileLocalAutoConfiguration {
 
-    /**
-     * 本地文件操作
-     *
-     * @date 2020/12/1 14:40
-     */
-    @Bean
-    @ConditionalOnMissingBean(name = "localFileOperator")
-    public FileOperatorApi localFileOperator(LocalFileProperties localFileProperties, FileServerProperties fileServerProperties) {
-        return new LocalFileOperator(localFileProperties, fileServerProperties);
-    }
+	/**
+	 * 本地文件操作
+	 *
+	 * @date 2020/12/1 14:40
+	 */
+	@Bean
+	@ConditionalOnMissingBean(name = "localFileOperator")
+	public FileOperatorApi localFileOperator(LocalFileProperties localFileProperties,
+			FileServerProperties fileServerProperties) {
+		return new LocalFileOperator(localFileProperties, fileServerProperties);
+	}
+
 }

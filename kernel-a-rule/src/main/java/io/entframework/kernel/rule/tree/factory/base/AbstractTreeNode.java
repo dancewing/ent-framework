@@ -12,28 +12,25 @@ import java.util.List;
  */
 public interface AbstractTreeNode<T> {
 
-    /**
-     * 获取节点id
-     *
-     * @return 节点的id标识
-     * @date 2020/10/15 15:28
-     */
-    String getNodeId();
+	/**
+	 * 获取节点id
+	 * @return 节点的id标识
+	 * @date 2020/10/15 15:28
+	 */
+	String getNodeId();
 
-    /**
-     * 获取节点父id
-     *
-     * @return 父节点的id
-     * @date 2020/10/15 15:28
-     */
-    String getNodeParentId();
+	/**
+	 * 获取节点父id
+	 * @return 父节点的id
+	 * @date 2020/10/15 15:28
+	 */
+	String getNodeParentId();
 
-    /**
-     * 设置children
-     *
-     * @param childrenNodes 设置节点的子节点
-     * @date 2020/10/15 15:28
-     */
-    void setChildrenNodes(List<T> childrenNodes);
+	/**
+	 * 设置children
+	 * @param childrenNodes 设置节点的子节点
+	 * @date 2020/10/15 15:28
+	 */
+	void setChildrenNodes(List<T> childrenNodes);
 
 }

@@ -19,10 +19,10 @@ import jakarta.servlet.http.Cookie;
  */
 public class DefaultSessionCookieCreator extends SessionCookieCreator {
 
-    @Override
-    public void expandCookieProp(Cookie cookie) {
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-    }
+	@Override
+	public void expandCookieProp(Cookie cookie) {
+		cookie.setHttpOnly(true);
+		cookie.setPath("/");
+	}
 
 }

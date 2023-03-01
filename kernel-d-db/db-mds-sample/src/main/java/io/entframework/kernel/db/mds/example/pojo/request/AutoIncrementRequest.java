@@ -16,20 +16,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AutoIncrementRequest extends BaseRequest {
-    /**
-     * Id
-     */
-    @NotNull(message = "Id不能为空", groups = {update.class, delete.class, detail.class, updateStatus.class})
-    @ChineseDescription("Id")
-    private Long id;
 
-    /**
-     * 姓名
-     */
-    @ChineseDescription("姓名")
-    private String username;
+	/**
+	 * Id
+	 */
+	@NotNull(message = "Id不能为空", groups = { update.class, delete.class, detail.class, updateStatus.class })
+	@ChineseDescription("Id")
+	private Long id;
 
-    @NotNull(message = "ID集合不能为空", groups = {batchDelete.class})
-    @ChineseDescription("ID集合")
-    private java.util.List<Long> ids;
+	/**
+	 * 姓名
+	 */
+	@ChineseDescription("姓名")
+	private String username;
+
+	@NotNull(message = "ID集合不能为空", groups = { batchDelete.class })
+	@ChineseDescription("ID集合")
+	private java.util.List<Long> ids;
+
 }

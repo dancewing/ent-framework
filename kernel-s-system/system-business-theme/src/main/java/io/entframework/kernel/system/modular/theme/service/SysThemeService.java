@@ -22,55 +22,53 @@ import io.entframework.kernel.system.modular.theme.entity.SysTheme;
  */
 public interface SysThemeService extends BaseService<SysThemeRequest, SysThemeResponse, SysTheme>, ThemeServiceApi {
 
-    /**
-     * 增加系统主题
-     *
-     * @date 2021/12/17 16:26
-     */
-    void add(SysThemeRequest sysThemeRequest);
+	/**
+	 * 增加系统主题
+	 *
+	 * @date 2021/12/17 16:26
+	 */
+	void add(SysThemeRequest sysThemeRequest);
 
-    /**
-     * 删除系统主题
-     *
-     * @date 2021/12/17 16:29
-     */
-    void del(SysThemeRequest sysThemeRequest);
+	/**
+	 * 删除系统主题
+	 *
+	 * @date 2021/12/17 16:29
+	 */
+	void del(SysThemeRequest sysThemeRequest);
 
-    /**
-     * 修改系统主题
-     *
-     * @date 2021/12/17 16:47
-     */
-    SysThemeResponse update(SysThemeRequest sysThemeRequest);
+	/**
+	 * 修改系统主题
+	 *
+	 * @date 2021/12/17 16:47
+	 */
+	SysThemeResponse update(SysThemeRequest sysThemeRequest);
 
-    /**
-     * 查询系统主题
-     *
-     * @return 分页结果
-     * @date 2021/12/17 16:52
-     */
-    PageResult<SysThemeResponse> findPage(SysThemeRequest sysThemeRequest);
+	/**
+	 * 查询系统主题
+	 * @return 分页结果
+	 * @date 2021/12/17 16:52
+	 */
+	PageResult<SysThemeResponse> findPage(SysThemeRequest sysThemeRequest);
 
-    /**
-     * 查询系统主题详情
-     *
-     * @return 系统主题
-     * @date 2021/12/17 17:01
-     */
-    SysThemeResponse detail(SysThemeRequest sysThemeRequest);
+	/**
+	 * 查询系统主题详情
+	 * @return 系统主题
+	 * @date 2021/12/17 17:01
+	 */
+	SysThemeResponse detail(SysThemeRequest sysThemeRequest);
 
-    /**
-     * 修改系统主题启用状态
-     *
-     * @date 2021/12/17 17:06
-     */
-    void updateThemeStatus(SysThemeRequest sysThemeRequest);
+	/**
+	 * 修改系统主题启用状态
+	 *
+	 * @date 2021/12/17 17:06
+	 */
+	void updateThemeStatus(SysThemeRequest sysThemeRequest);
 
-    /**
-     * 当前系统主题数据
-     *
-     * @date 2022/1/10 18:30
-     */
-    DefaultTheme currentThemeInfo(SysThemeRequest sysThemeParam);
+	/**
+	 * 当前系统主题数据
+	 *
+	 * @date 2022/1/10 18:30
+	 */
+	DefaultTheme currentThemeInfo(SysThemeRequest sysThemeParam);
 
 }

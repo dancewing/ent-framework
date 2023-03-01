@@ -11,26 +11,28 @@ import org.mybatis.generator.config.JoinTarget;
 @Builder(builderClassName = "Builder")
 public class Relation {
 
-    private Field bindField;
-    /**
-     * 关系类型
-     */
-    private JoinTarget.JoinType joinType;
-    /**
-     * 源字段，只有在One时存在，如果关联字段为teacher, 则源字段teacher_id为source field
-     */
-    private Field sourceField;
+	private Field bindField;
 
-    /**
-     * 关联的目标表
-     */
-    private IntrospectedTable targetTable;
+	/**
+	 * 关系类型
+	 */
+	private JoinTarget.JoinType joinType;
 
-    /**
-     * 关联的目标column
-     */
-    private IntrospectedColumn targetColumn;
+	/**
+	 * 源字段，只有在One时存在，如果关联字段为teacher, 则源字段teacher_id为source field
+	 */
+	private Field sourceField;
 
-    private String displayField;
+	/**
+	 * 关联的目标表
+	 */
+	private IntrospectedTable targetTable;
+
+	/**
+	 * 关联的目标column
+	 */
+	private IntrospectedColumn targetColumn;
+
+	private String displayField;
 
 }

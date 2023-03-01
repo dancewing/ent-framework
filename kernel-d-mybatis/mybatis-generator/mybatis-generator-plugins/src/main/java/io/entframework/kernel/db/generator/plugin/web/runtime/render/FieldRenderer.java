@@ -23,28 +23,28 @@ import java.util.List;
 
 public class FieldRenderer {
 
-    public List<String> render(Field field, CompilationUnit compilationUnit) {
-        List<String> lines = new ArrayList<>();
+	public List<String> render(Field field, CompilationUnit compilationUnit) {
+		List<String> lines = new ArrayList<>();
 
-        lines.addAll(field.getJavaDocLines());
-        lines.add(renderField(field, compilationUnit));
+		lines.addAll(field.getJavaDocLines());
+		lines.add(renderField(field, compilationUnit));
 
-        return lines;
-    }
+		return lines;
+	}
 
-    private String renderField(Field field, CompilationUnit compilationUnit) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(field.getName());
-        sb.append("?: ");
-        sb.append(RenderingUtilities.calculateTypescriptTypeName(compilationUnit, field.getType()));
-        sb.append(';');
+	private String renderField(Field field, CompilationUnit compilationUnit) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(field.getName());
+		sb.append("?: ");
+		sb.append(RenderingUtilities.calculateTypescriptTypeName(compilationUnit, field.getType()));
+		sb.append(';');
 
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
-    private String renderInitializationString(Field field) {
-        return field.getInitializationString()
-                .map(is -> " = " + is) //$NON-NLS-1$
-                .orElse(""); //$NON-NLS-1$
-    }
+	private String renderInitializationString(Field field) {
+		return field.getInitializationString().map(is -> " = " + is) //$NON-NLS-1$
+				.orElse(""); //$NON-NLS-1$
+	}
+
 }

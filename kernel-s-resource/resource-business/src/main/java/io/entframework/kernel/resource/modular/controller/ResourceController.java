@@ -28,28 +28,29 @@ import java.util.List;
 @ApiResource(name = "资源管理")
 public class ResourceController {
 
-    @Resource
-    private SysResourceService sysResourceService;
+	@Resource
+	private SysResourceService sysResourceService;
 
-    /**
-     * 获取资源列表
-     *
-     * @date 2020/11/24 19:47
-     */
-    @GetResource(name = "获取资源列表", path = "/resource/page")
-    public ResponseData<PageResult<SysResourceResponse>> pageList(SysResourceRequest sysResourceRequest) {
-        PageResult<SysResourceResponse> result = this.sysResourceService.findPage(sysResourceRequest);
-        return ResponseData.ok(result);
-    }
+	/**
+	 * 获取资源列表
+	 *
+	 * @date 2020/11/24 19:47
+	 */
+	@GetResource(name = "获取资源列表", path = "/resource/page")
+	public ResponseData<PageResult<SysResourceResponse>> pageList(SysResourceRequest sysResourceRequest) {
+		PageResult<SysResourceResponse> result = this.sysResourceService.findPage(sysResourceRequest);
+		return ResponseData.ok(result);
+	}
 
-    /**
-     * 获取资源下拉列表（获取菜单资源）
-     *
-     * @date 2020/11/24 19:51
-     */
-    @GetResource(name = "获取资源下拉列表", path = "/resource/get-menu-resource-list")
-    public ResponseData<List<SysResourceResponse>> getMenuResourceList(SysResourceRequest sysResourceRequest) {
-        List<SysResourceResponse> menuResourceList = this.sysResourceService.findList(sysResourceRequest);
-        return ResponseData.ok(menuResourceList);
-    }
+	/**
+	 * 获取资源下拉列表（获取菜单资源）
+	 *
+	 * @date 2020/11/24 19:51
+	 */
+	@GetResource(name = "获取资源下拉列表", path = "/resource/get-menu-resource-list")
+	public ResponseData<List<SysResourceResponse>> getMenuResourceList(SysResourceRequest sysResourceRequest) {
+		List<SysResourceResponse> menuResourceList = this.sysResourceService.findList(sysResourceRequest);
+		return ResponseData.ok(menuResourceList);
+	}
+
 }

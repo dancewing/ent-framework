@@ -17,7 +17,8 @@ import io.entframework.kernel.system.modular.theme.entity.SysThemeTemplateRel;
  *
  * @date 2021/12/17 16:13
  */
-public interface SysThemeTemplateRelService extends BaseService<SysThemeTemplateRelRequest, SysThemeTemplateRelResponse, SysThemeTemplateRel> {
+public interface SysThemeTemplateRelService
+		extends BaseService<SysThemeTemplateRelRequest, SysThemeTemplateRelResponse, SysThemeTemplateRel> {
 
 	/**
 	 * 增加系统主题模板属性关系
@@ -32,4 +33,5 @@ public interface SysThemeTemplateRelService extends BaseService<SysThemeTemplate
 	 * @date 2021/12/24 11:18
 	 */
 	void del(SysThemeTemplateRelRequest sysThemeTemplateRelRequest);
+
 }

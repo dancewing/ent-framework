@@ -42,8 +42,7 @@ public class HrPositionController {
 	 * @date 2020/11/04 11:07
 	 */
 	@PostResource(name = "添加系统职位", path = "/hr-position/add")
-	public ResponseData<Void> add(
-			@RequestBody @Validated(BaseRequest.add.class) HrPositionRequest hrPositionRequest) {
+	public ResponseData<Void> add(@RequestBody @Validated(BaseRequest.add.class) HrPositionRequest hrPositionRequest) {
 		hrPositionService.add(hrPositionRequest);
 		return ResponseData.OK_VOID;
 	}

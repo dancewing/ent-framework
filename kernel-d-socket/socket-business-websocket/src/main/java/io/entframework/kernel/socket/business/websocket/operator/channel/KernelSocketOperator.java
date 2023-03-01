@@ -22,46 +22,49 @@ import java.io.IOException;
  */
 public class KernelSocketOperator implements SocketChannelExpandInterFace {
 
-    /**
-     * 实际操作的通道
-     */
-    private Session socketChannel;
+	/**
+	 * 实际操作的通道
+	 */
+	private Session socketChannel;
 
-    public KernelSocketOperator(Session socketChannel) {
-        this.socketChannel = socketChannel;
-    }
+	public KernelSocketOperator(Session socketChannel) {
+		this.socketChannel = socketChannel;
+	}
 
-    @Override
-    public void writeAndFlush(Object obj) {
-        try {
-            if (socketChannel.isOpen()) {
-                socketChannel.getBasicRemote().sendText(JSON.toJSONString(obj));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	@Override
+	public void writeAndFlush(Object obj) {
+		try {
+			if (socketChannel.isOpen()) {
+				socketChannel.getBasicRemote().sendText(JSON.toJSONString(obj));
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    public void writeToChannel(Object obj) {
-        if (socketChannel.isOpen()) {
-            socketChannel.getAsyncRemote().sendText(JSON.toJSONString(obj));
-        }
-    }
+	@Override
+	public void writeToChannel(Object obj) {
+		if (socketChannel.isOpen()) {
+			socketChannel.getAsyncRemote().sendText(JSON.toJSONString(obj));
+		}
+	}
 
-    @Override
-    public void close() {
-        try {
-            if (socketChannel.isOpen()) {
-                socketChannel.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	@Override
+	public void close() {
+		try {
+			if (socketChannel.isOpen()) {
+				socketChannel.close();
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    public boolean isInvalid() {
-        return socketChannel.isOpen();
-    }
+	@Override
+	public boolean isInvalid() {
+		return socketChannel.isOpen();
+	}
+
 }

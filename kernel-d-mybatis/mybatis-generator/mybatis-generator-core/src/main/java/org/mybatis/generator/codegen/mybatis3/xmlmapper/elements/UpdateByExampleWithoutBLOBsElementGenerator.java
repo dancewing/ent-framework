@@ -19,17 +19,18 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 
 public class UpdateByExampleWithoutBLOBsElementGenerator extends AbstractXmlElementGenerator {
 
-    public UpdateByExampleWithoutBLOBsElementGenerator() {
-        super();
-    }
+	public UpdateByExampleWithoutBLOBsElementGenerator() {
+		super();
+	}
 
-    @Override
-    public void addElements(XmlElement parentElement) {
-        XmlElement answer = buildUpdateByExampleElement(introspectedTable.getUpdateByExampleStatementId(),
-                introspectedTable.getNonBLOBColumns());
+	@Override
+	public void addElements(XmlElement parentElement) {
+		XmlElement answer = buildUpdateByExampleElement(introspectedTable.getUpdateByExampleStatementId(),
+				introspectedTable.getNonBLOBColumns());
 
-        if (context.getPlugins().sqlMapUpdateByExampleWithoutBLOBsElementGenerated(answer, introspectedTable)) {
-            parentElement.addElement(answer);
-        }
-    }
+		if (context.getPlugins().sqlMapUpdateByExampleWithoutBLOBsElementGenerated(answer, introspectedTable)) {
+			parentElement.addElement(answer);
+		}
+	}
+
 }

@@ -18,39 +18,36 @@ import java.util.List;
  */
 public interface LogManagerApi {
 
-    /**
-     * 查询日志列表
-     *
-     * @param sysLogRequest 查询条件
-     * @return 返回查询日志列表
-     * @date 2020/10/28 11:27
-     */
-    List<LogRecordDTO> findList(SysLogRequest sysLogRequest);
+	/**
+	 * 查询日志列表
+	 * @param sysLogRequest 查询条件
+	 * @return 返回查询日志列表
+	 * @date 2020/10/28 11:27
+	 */
+	List<LogRecordDTO> findList(SysLogRequest sysLogRequest);
 
-    /**
-     * 查询日志列表
-     *
-     * @param sysLogRequest 查询条件
-     * @return 返回查询日志列表分页结果
-     * @date 2020/11/3 10:40
-     */
-    PageResult<LogRecordDTO> findPage(SysLogRequest sysLogRequest);
+	/**
+	 * 查询日志列表
+	 * @param sysLogRequest 查询条件
+	 * @return 返回查询日志列表分页结果
+	 * @date 2020/11/3 10:40
+	 */
+	PageResult<LogRecordDTO> findPage(SysLogRequest sysLogRequest);
 
-    /**
-     * 批量删除日志
-     * <p>
-     * 删除日志条件必须传入开始时间、结束时间、服务名称三个参数
-     *
-     * @param sysLogRequest 参数的封装
-     * @date 2020/10/28 11:47
-     */
-    void del(SysLogRequest sysLogRequest);
+	/**
+	 * 批量删除日志
+	 * <p>
+	 * 删除日志条件必须传入开始时间、结束时间、服务名称三个参数
+	 * @param sysLogRequest 参数的封装
+	 * @date 2020/10/28 11:47
+	 */
+	void del(SysLogRequest sysLogRequest);
 
-    /**
-     * 查询日志详情
-     *
-     * @date 2021/2/1 19:47
-     */
-    LogRecordDTO detail(SysLogRequest sysLogRequest);
+	/**
+	 * 查询日志详情
+	 *
+	 * @date 2021/2/1 19:47
+	 */
+	LogRecordDTO detail(SysLogRequest sysLogRequest);
 
 }

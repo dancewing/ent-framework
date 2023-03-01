@@ -8,9 +8,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class EntMiscAutoConfiguration {
 
-//    @Bean
-//    @LoadBalanced
-//    public RestTemplate restTemplate() {
-//        return new RestTemplate();
-//    }
+	// @Bean
+	// @LoadBalanced
+	// public RestTemplate restTemplate() {
+	// return new RestTemplate();
+	// }
+
 }

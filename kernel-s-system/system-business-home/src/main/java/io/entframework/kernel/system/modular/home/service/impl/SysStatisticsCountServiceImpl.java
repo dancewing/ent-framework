@@ -28,7 +28,8 @@ import java.util.Optional;
  *
  * @date 2022/02/10 21:17
  */
-public class SysStatisticsCountServiceImpl extends BaseServiceImpl<SysStatisticsCountRequest, SysStatisticsCountResponse, SysStatisticsCount>
+public class SysStatisticsCountServiceImpl
+		extends BaseServiceImpl<SysStatisticsCountRequest, SysStatisticsCountResponse, SysStatisticsCount>
 		implements SysStatisticsCountService {
 
 	public SysStatisticsCountServiceImpl() {
@@ -61,7 +62,8 @@ public class SysStatisticsCountServiceImpl extends BaseServiceImpl<SysStatistics
 
 	@Override
 	public SysStatisticsCountResponse detail(SysStatisticsCountRequest sysStatisticsCountRequest) {
-		return this.converterService.convert(this.querySysStatisticsCount(sysStatisticsCountRequest), getResponseClass());
+		return this.converterService.convert(this.querySysStatisticsCount(sysStatisticsCountRequest),
+				getResponseClass());
 	}
 
 	@Override
@@ -80,7 +82,8 @@ public class SysStatisticsCountServiceImpl extends BaseServiceImpl<SysStatistics
 		SysStatisticsCountResponse one = this.selectOne(request);
 		if (one != null) {
 			return one.getStatCount();
-		} else {
+		}
+		else {
 			return 0;
 		}
 	}
@@ -96,7 +99,8 @@ public class SysStatisticsCountServiceImpl extends BaseServiceImpl<SysStatistics
 	 * @date 2022/02/10 21:17
 	 */
 	private SysStatisticsCount querySysStatisticsCount(SysStatisticsCountRequest sysStatisticsCountRequest) {
-		Optional<SysStatisticsCount> sysStatisticsCount = this.getRepository().selectByPrimaryKey(getEntityClass(), sysStatisticsCountRequest.getStatCountId());
+		Optional<SysStatisticsCount> sysStatisticsCount = this.getRepository().selectByPrimaryKey(getEntityClass(),
+				sysStatisticsCountRequest.getStatCountId());
 		if (sysStatisticsCount.isEmpty()) {
 			throw new ServiceException(SysStatisticsCountExceptionEnum.SYS_STATISTICS_COUNT_NOT_EXISTED);
 		}

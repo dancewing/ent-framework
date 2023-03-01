@@ -21,19 +21,21 @@ import java.util.function.Function;
 import org.mybatis.dynamic.sql.SqlColumn;
 
 public abstract class AbstractColumnMapping {
-    protected final SqlColumn<?> column;
 
-    protected AbstractColumnMapping(SqlColumn<?> column) {
-        this.column = Objects.requireNonNull(column);
-    }
+	protected final SqlColumn<?> column;
 
-    public String columnName() {
-        return column.name();
-    }
+	protected AbstractColumnMapping(SqlColumn<?> column) {
+		this.column = Objects.requireNonNull(column);
+	}
 
-    public <R> R mapColumn(Function<SqlColumn<?>, R> mapper) {
-        return mapper.apply(column);
-    }
+	public String columnName() {
+		return column.name();
+	}
 
-    public abstract <R> R accept(ColumnMappingVisitor<R> visitor);
+	public <R> R mapColumn(Function<SqlColumn<?>, R> mapper) {
+		return mapper.apply(column);
+	}
+
+	public abstract <R> R accept(ColumnMappingVisitor<R> visitor);
+
 }

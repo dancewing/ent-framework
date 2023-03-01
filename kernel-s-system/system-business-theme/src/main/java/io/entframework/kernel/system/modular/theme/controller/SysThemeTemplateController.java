@@ -118,4 +118,5 @@ public class SysThemeTemplateController {
 	public ResponseData<List<SysThemeTemplateFieldResponse>> detail(SysThemeTemplateRequest sysThemeTemplateParam) {
 		return ResponseData.ok(sysThemeTemplateService.detail(sysThemeTemplateParam));
 	}
+
 }

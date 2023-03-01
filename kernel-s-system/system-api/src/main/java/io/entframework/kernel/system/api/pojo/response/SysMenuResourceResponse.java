@@ -22,21 +22,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class SysMenuResourceResponse extends BaseResponse {
-    /**
-     * 主键
-     */
-    @ChineseDescription("主键")
-    private Long menuResourceId;
 
-    /**
-     * 菜单或按钮id
-     */
-    @ChineseDescription("菜单或按钮id")
-    private Long menuId;
+	/**
+	 * 主键
+	 */
+	@ChineseDescription("主键")
+	private Long menuResourceId;
 
-    /**
-     * 资源的编码
-     */
-    @ChineseDescription("资源的编码")
-    private String resourceCode;
+	/**
+	 * 菜单或按钮id
+	 */
+	@ChineseDescription("菜单或按钮id")
+	private Long menuId;
+
+	/**
+	 * 资源的编码
+	 */
+	@ChineseDescription("资源的编码")
+	private String resourceCode;
+
 }

@@ -12,18 +12,18 @@ package io.entframework.kernel.scanner.api.holder;
  */
 public class IpAddrHolder {
 
-    private static final ThreadLocal<String> IP_ADDR_HOLDER = new ThreadLocal<>();
+	private static final ThreadLocal<String> IP_ADDR_HOLDER = new ThreadLocal<>();
 
-    public static void set(String ip) {
-        IP_ADDR_HOLDER.set(ip);
-    }
+	public static void set(String ip) {
+		IP_ADDR_HOLDER.set(ip);
+	}
 
-    public static String get() {
-        return IP_ADDR_HOLDER.get();
-    }
+	public static String get() {
+		return IP_ADDR_HOLDER.get();
+	}
 
-    public static void clear() {
-        IP_ADDR_HOLDER.remove();
-    }
+	public static void clear() {
+		IP_ADDR_HOLDER.remove();
+	}
 
 }

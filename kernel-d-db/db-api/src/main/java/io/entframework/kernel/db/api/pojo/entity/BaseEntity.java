@@ -22,47 +22,48 @@ import java.time.LocalDateTime;
 @Data
 public class BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 创建时间
-     */
-    @ChineseDescription("创建时间")
-    @Column(name = "create_time", jdbcType = JDBCType.TIMESTAMP)
-    private LocalDateTime createTime;
+	/**
+	 * 创建时间
+	 */
+	@ChineseDescription("创建时间")
+	@Column(name = "create_time", jdbcType = JDBCType.TIMESTAMP)
+	private LocalDateTime createTime;
 
-    /**
-     * 创建人
-     */
-    @ChineseDescription("创建人")
-    @Column(name = "create_user", jdbcType = JDBCType.BIGINT)
-    private Long createUser;
+	/**
+	 * 创建人
+	 */
+	@ChineseDescription("创建人")
+	@Column(name = "create_user", jdbcType = JDBCType.BIGINT)
+	private Long createUser;
 
-    /**
-     * 创建人名称
-     */
-    @ChineseDescription("创建人名称")
-    @Column(name = "create_user_name", jdbcType = JDBCType.VARCHAR)
-    private String createUserName;
+	/**
+	 * 创建人名称
+	 */
+	@ChineseDescription("创建人名称")
+	@Column(name = "create_user_name", jdbcType = JDBCType.VARCHAR)
+	private String createUserName;
 
-    /**
-     * 更新时间
-     */
-    @ChineseDescription("更新时间")
-    @Column(name = "update_time", jdbcType = JDBCType.TIMESTAMP)
-    private LocalDateTime updateTime;
+	/**
+	 * 更新时间
+	 */
+	@ChineseDescription("更新时间")
+	@Column(name = "update_time", jdbcType = JDBCType.TIMESTAMP)
+	private LocalDateTime updateTime;
 
-    /**
-     * 更新人
-     */
-    @ChineseDescription("更新人")
-    @Column(name = "update_user", jdbcType = JDBCType.BIGINT)
-    private Long updateUser;
+	/**
+	 * 更新人
+	 */
+	@ChineseDescription("更新人")
+	@Column(name = "update_user", jdbcType = JDBCType.BIGINT)
+	private Long updateUser;
 
-    /**
-     * 更新人名称
-     */
-    @ChineseDescription("更新人名称")
-    @Column(name = "update_user_name", jdbcType = JDBCType.VARCHAR)
-    private String updateUserName;
+	/**
+	 * 更新人名称
+	 */
+	@ChineseDescription("更新人名称")
+	@Column(name = "update_user_name", jdbcType = JDBCType.VARCHAR)
+	private String updateUserName;
+
 }

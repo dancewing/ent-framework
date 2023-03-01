@@ -19,20 +19,22 @@ import org.mybatis.dynamic.sql.select.SelectModel;
 import org.mybatis.dynamic.sql.util.Buildable;
 
 public abstract class AbstractSubselectCondition<T> implements VisitableCondition<T> {
-    private final SelectModel selectModel;
 
-    protected AbstractSubselectCondition(Buildable<SelectModel> selectModelBuilder) {
-        this.selectModel = selectModelBuilder.build();
-    }
+	private final SelectModel selectModel;
 
-    public SelectModel selectModel() {
-        return selectModel;
-    }
+	protected AbstractSubselectCondition(Buildable<SelectModel> selectModelBuilder) {
+		this.selectModel = selectModelBuilder.build();
+	}
 
-    @Override
-    public <R> R accept(ConditionVisitor<T, R> visitor) {
-        return visitor.visit(this);
-    }
+	public SelectModel selectModel() {
+		return selectModel;
+	}
 
-    public abstract String renderCondition(String columnName, String renderedSelectStatement);
+	@Override
+	public <R> R accept(ConditionVisitor<T, R> visitor) {
+		return visitor.visit(this);
+	}
+
+	public abstract String renderCondition(String columnName, String renderedSelectStatement);
+
 }

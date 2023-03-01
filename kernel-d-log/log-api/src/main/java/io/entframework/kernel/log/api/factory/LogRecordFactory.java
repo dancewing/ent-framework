@@ -20,41 +20,43 @@ import java.util.Date;
  */
 public class LogRecordFactory {
 
-    /**
-     * 创建日志记录
-     *
-     * @date 2020/10/28 17:31
-     */
-    public static LogRecordDTO createLogRecord(String name, Object content) {
-        LogRecordDTO logRecordDTO = new LogRecordDTO();
+	/**
+	 * 创建日志记录
+	 *
+	 * @date 2020/10/28 17:31
+	 */
+	public static LogRecordDTO createLogRecord(String name, Object content) {
+		LogRecordDTO logRecordDTO = new LogRecordDTO();
 
-        //设置全局id
-        logRecordDTO.setLogId(IdUtil.getSnowflake(1, 1).nextId());
+		// 设置全局id
+		logRecordDTO.setLogId(IdUtil.getSnowflake(1, 1).nextId());
 
-        // 设置日志名称
-        logRecordDTO.setLogName(name);
+		// 设置日志名称
+		logRecordDTO.setLogName(name);
 
-        // 设置日志内容
-        logRecordDTO.setLogContent(content);
+		// 设置日志内容
+		logRecordDTO.setLogContent(content);
 
-        // 设置appName
-        String applicationName = null;
-        try {
-            // 修改直接从上下文环境中获取spring.application.name
-            // 解决获取applicationName为空问题
-            applicationName = SpringUtil.getApplicationContext().getEnvironment().getProperty("spring.application.name");
-        } catch (Exception e) {
-            applicationName = LogConstants.LOG_DEFAULT_APP_NAME;
-        }
-        logRecordDTO.setAppName(applicationName);
+		// 设置appName
+		String applicationName = null;
+		try {
+			// 修改直接从上下文环境中获取spring.application.name
+			// 解决获取applicationName为空问题
+			applicationName = SpringUtil.getApplicationContext().getEnvironment()
+					.getProperty("spring.application.name");
+		}
+		catch (Exception e) {
+			applicationName = LogConstants.LOG_DEFAULT_APP_NAME;
+		}
+		logRecordDTO.setAppName(applicationName);
 
-        // 设置当前时间
-        logRecordDTO.setDateTime(new Date());
+		// 设置当前时间
+		logRecordDTO.setDateTime(new Date());
 
-        // 设置server ip
-        logRecordDTO.setServerIp(ServerInfoContext.getServerIp());
+		// 设置server ip
+		logRecordDTO.setServerIp(ServerInfoContext.getServerIp());
 
-        return logRecordDTO;
-    }
+		return logRecordDTO;
+	}
 
 }

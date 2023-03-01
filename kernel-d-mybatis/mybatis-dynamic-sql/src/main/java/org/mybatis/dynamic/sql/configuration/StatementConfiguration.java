@@ -18,20 +18,20 @@ package org.mybatis.dynamic.sql.configuration;
 import org.mybatis.dynamic.sql.exception.NonRenderingWhereClauseException;
 
 /**
- * This class can be used to change some behaviors of the framework. Every configurable statement
- * contains a unique instance of this class, so changes here will only impact a single statement.
- * If you intend to change the behavior for all statements, use the {@link GlobalConfiguration}.
- * Initial values for this class in each statement are set from the {@link GlobalConfiguration}.
- * Configurable behaviors are detailed below:
+ * This class can be used to change some behaviors of the framework. Every configurable
+ * statement contains a unique instance of this class, so changes here will only impact a
+ * single statement. If you intend to change the behavior for all statements, use the
+ * {@link GlobalConfiguration}. Initial values for this class in each statement are set
+ * from the {@link GlobalConfiguration}. Configurable behaviors are detailed below:
  *
  * <dl>
- *     <dt>nonRenderingWhereClauseAllowed</dt>
- *     <dd>If false (default), the framework will throw a {@link NonRenderingWhereClauseException}
- *         if a where clause is specified in the statement, but it fails to render because all
- *         optional conditions do not render. For example, if an "in" condition specifies an
- *         empty list of values. If no criteria are specified in a where clause, the framework
- *         assumes that no where clause was intended and will not throw an exception.
- *     </dd>
+ * <dt>nonRenderingWhereClauseAllowed</dt>
+ * <dd>If false (default), the framework will throw a
+ * {@link NonRenderingWhereClauseException} if a where clause is specified in the
+ * statement, but it fails to render because all optional conditions do not render. For
+ * example, if an "in" condition specifies an empty list of values. If no criteria are
+ * specified in a where clause, the framework assumes that no where clause was intended
+ * and will not throw an exception.</dd>
  * </dl>
  *
  * @see GlobalConfiguration
@@ -39,14 +39,16 @@ import org.mybatis.dynamic.sql.exception.NonRenderingWhereClauseException;
  * @author Jeff Butler
  */
 public class StatementConfiguration {
-    private boolean isNonRenderingWhereClauseAllowed =
-            GlobalContext.getConfiguration().isIsNonRenderingWhereClauseAllowed();
 
-    public boolean isNonRenderingWhereClauseAllowed() {
-        return isNonRenderingWhereClauseAllowed;
-    }
+	private boolean isNonRenderingWhereClauseAllowed = GlobalContext.getConfiguration()
+			.isIsNonRenderingWhereClauseAllowed();
 
-    public void setNonRenderingWhereClauseAllowed(boolean nonRenderingWhereClauseAllowed) {
-        this.isNonRenderingWhereClauseAllowed = nonRenderingWhereClauseAllowed;
-    }
+	public boolean isNonRenderingWhereClauseAllowed() {
+		return isNonRenderingWhereClauseAllowed;
+	}
+
+	public void setNonRenderingWhereClauseAllowed(boolean nonRenderingWhereClauseAllowed) {
+		this.isNonRenderingWhereClauseAllowed = nonRenderingWhereClauseAllowed;
+	}
+
 }

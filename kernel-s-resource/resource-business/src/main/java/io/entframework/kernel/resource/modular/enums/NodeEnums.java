@@ -14,24 +14,24 @@ import lombok.Getter;
 @Getter
 public enum NodeEnums {
 
-    /**
-     * 根节点
-     */
-    ROOT_NODE(1000000000000000000L, "根节点");
+	/**
+	 * 根节点
+	 */
+	ROOT_NODE(1000000000000000000L, "根节点");
 
-    /**
-     * 主键
-     */
-    private final Long id;
+	/**
+	 * 主键
+	 */
+	private final Long id;
 
-    /**
-     * 名称
-     */
-    private final String name;
+	/**
+	 * 名称
+	 */
+	private final String name;
 
-    NodeEnums(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+	NodeEnums(Long id, String name) {
+		this.id = id;
+		this.name = name;
+	}
 
 }

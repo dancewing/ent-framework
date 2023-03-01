@@ -6,73 +6,80 @@ import org.mybatis.dynamic.sql.SqlColumn;
 import java.util.Optional;
 
 public class JoinDetail {
-    private final BasicColumn leftTableJoinColumn;
-    private final Class<?> rightJoinTable;
-    private final BasicColumn rightTableJoinColumn;
 
-    private JoinDetail(BasicColumn leftTableJoinColumn, Class<?> rightJoinTable, BasicColumn rightTableJoinColumn) {
-        this.leftTableJoinColumn = leftTableJoinColumn;
-        this.rightJoinTable = rightJoinTable;
-        this.rightTableJoinColumn = rightTableJoinColumn;
-    }
+	private final BasicColumn leftTableJoinColumn;
 
-    public static Optional<JoinDetail> of(SqlColumn<Object> leftTableJoinColumn, Class<?> rightJoinTable, SqlColumn<Object> rightTableJoinColumn) {
+	private final Class<?> rightJoinTable;
 
-        if (leftTableJoinColumn != null && rightTableJoinColumn != null && rightJoinTable != null) {
-            return Optional.of(JoinDetail.builder()
-                    .leftTableJoinColumn(leftTableJoinColumn)
-                    .rightJoinTable(rightJoinTable)
-                    .rightTableJoinColumn(rightTableJoinColumn)
-                    .build());
-        }
-        return Optional.empty();
-    }
+	private final BasicColumn rightTableJoinColumn;
 
-    public BasicColumn getLeftTableJoinColumn() {
-        return leftTableJoinColumn;
-    }
+	private JoinDetail(BasicColumn leftTableJoinColumn, Class<?> rightJoinTable, BasicColumn rightTableJoinColumn) {
+		this.leftTableJoinColumn = leftTableJoinColumn;
+		this.rightJoinTable = rightJoinTable;
+		this.rightTableJoinColumn = rightTableJoinColumn;
+	}
 
-    public Class<?> getRightJoinTable() {
-        return rightJoinTable;
-    }
+	public static Optional<JoinDetail> of(SqlColumn<Object> leftTableJoinColumn, Class<?> rightJoinTable,
+			SqlColumn<Object> rightTableJoinColumn) {
 
-    public BasicColumn getRightTableJoinColumn() {
-        return rightTableJoinColumn;
-    }
+		if (leftTableJoinColumn != null && rightTableJoinColumn != null && rightJoinTable != null) {
+			return Optional.of(JoinDetail.builder().leftTableJoinColumn(leftTableJoinColumn)
+					.rightJoinTable(rightJoinTable).rightTableJoinColumn(rightTableJoinColumn).build());
+		}
+		return Optional.empty();
+	}
 
-    public static JoinDetailBuilder builder() {
-        return new JoinDetailBuilder();
-    }
+	public BasicColumn getLeftTableJoinColumn() {
+		return leftTableJoinColumn;
+	}
 
-    private static class JoinDetailBuilder {
-        private BasicColumn leftTableJoinColumn;
-        private Class<?> rightJoinTable;
-        private BasicColumn rightTableJoinColumn;
+	public Class<?> getRightJoinTable() {
+		return rightJoinTable;
+	}
 
-        JoinDetailBuilder() {
-        }
+	public BasicColumn getRightTableJoinColumn() {
+		return rightTableJoinColumn;
+	}
 
-        public JoinDetailBuilder leftTableJoinColumn(BasicColumn leftTableJoinColumn) {
-            this.leftTableJoinColumn = leftTableJoinColumn;
-            return this;
-        }
+	public static JoinDetailBuilder builder() {
+		return new JoinDetailBuilder();
+	}
 
-        public JoinDetailBuilder rightJoinTable(Class<?> rightJoinTable) {
-            this.rightJoinTable = rightJoinTable;
-            return this;
-        }
+	private static class JoinDetailBuilder {
 
-        public JoinDetailBuilder rightTableJoinColumn(BasicColumn rightTableJoinColumn) {
-            this.rightTableJoinColumn = rightTableJoinColumn;
-            return this;
-        }
+		private BasicColumn leftTableJoinColumn;
 
-        public JoinDetail build() {
-            return new JoinDetail(this.leftTableJoinColumn, this.rightJoinTable, this.rightTableJoinColumn);
-        }
+		private Class<?> rightJoinTable;
 
-        public String toString() {
-            return "JoinDetail.JoinDetailBuilder(leftTableJoinColumn=" + this.leftTableJoinColumn + ", rightJoinTable=" + this.rightJoinTable + ", rightTableJoinColumn=" + this.rightTableJoinColumn + ")";
-        }
-    }
+		private BasicColumn rightTableJoinColumn;
+
+		JoinDetailBuilder() {
+		}
+
+		public JoinDetailBuilder leftTableJoinColumn(BasicColumn leftTableJoinColumn) {
+			this.leftTableJoinColumn = leftTableJoinColumn;
+			return this;
+		}
+
+		public JoinDetailBuilder rightJoinTable(Class<?> rightJoinTable) {
+			this.rightJoinTable = rightJoinTable;
+			return this;
+		}
+
+		public JoinDetailBuilder rightTableJoinColumn(BasicColumn rightTableJoinColumn) {
+			this.rightTableJoinColumn = rightTableJoinColumn;
+			return this;
+		}
+
+		public JoinDetail build() {
+			return new JoinDetail(this.leftTableJoinColumn, this.rightJoinTable, this.rightTableJoinColumn);
+		}
+
+		public String toString() {
+			return "JoinDetail.JoinDetailBuilder(leftTableJoinColumn=" + this.leftTableJoinColumn + ", rightJoinTable="
+					+ this.rightJoinTable + ", rightTableJoinColumn=" + this.rightTableJoinColumn + ")";
+		}
+
+	}
+
 }

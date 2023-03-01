@@ -14,4 +14,5 @@ import org.springframework.cloud.openfeign.FeignClient;
  */
 @FeignClient(name = "seata-demo-wallet")
 public interface WalletConsumer extends WalletApi {
+
 }

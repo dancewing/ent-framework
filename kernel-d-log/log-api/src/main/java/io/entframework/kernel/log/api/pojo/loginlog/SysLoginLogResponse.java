@@ -8,7 +8,6 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-
 /**
  * 登录日志的dto
  *
@@ -17,44 +16,44 @@ import java.time.LocalDateTime;
 @Data
 public class SysLoginLogResponse {
 
-    /**
-     * 主键id
-     */
-    private Long llgId;
+	/**
+	 * 主键id
+	 */
+	private Long llgId;
 
-    /**
-     * 日志名称
-     */
-    private String llgName;
+	/**
+	 * 日志名称
+	 */
+	private String llgName;
 
-    /**
-     * 是否执行成功
-     */
-    private String llgSucceed;
+	/**
+	 * 是否执行成功
+	 */
+	private String llgSucceed;
 
-    /**
-     * 具体消息
-     */
-    private String llgMessage;
+	/**
+	 * 具体消息
+	 */
+	private String llgMessage;
 
-    /**
-     * 登录ip
-     */
-    private String llgIpAddress;
+	/**
+	 * 登录ip
+	 */
+	private String llgIpAddress;
 
-    /**
-     * 用户id
-     */
-    private Long userId;
+	/**
+	 * 用户id
+	 */
+	private Long userId;
 
-    /**
-     * 登录姓名
-     */
-    private String loginAccount;
+	/**
+	 * 登录姓名
+	 */
+	private String loginAccount;
 
-    /**
-     * 开始时间
-     */
-    private LocalDateTime createTime;
+	/**
+	 * 开始时间
+	 */
+	private LocalDateTime createTime;
 
 }

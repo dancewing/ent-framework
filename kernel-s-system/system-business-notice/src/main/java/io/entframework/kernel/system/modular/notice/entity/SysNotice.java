@@ -25,106 +25,108 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @Entity
 @Table(value = "sys_notice", sqlSupport = SysNoticeDynamicSqlSupport.class, tableProperty = "sysNotice")
 public class SysNotice extends BaseEntity implements Serializable {
-    /**
-     * 主键
-     */
-    @Id
-    @Column(name = "notice_id", jdbcType = JDBCType.BIGINT)
-    private Long noticeId;
 
-    /**
-     * 通知标题
-     */
-    @Column(name = "notice_title", jdbcType = JDBCType.VARCHAR)
-    private String noticeTitle;
+	/**
+	 * 主键
+	 */
+	@Id
+	@Column(name = "notice_id", jdbcType = JDBCType.BIGINT)
+	private Long noticeId;
 
-    /**
-     * 通知摘要
-     */
-    @Column(name = "notice_summary", jdbcType = JDBCType.VARCHAR)
-    private String noticeSummary;
+	/**
+	 * 通知标题
+	 */
+	@Column(name = "notice_title", jdbcType = JDBCType.VARCHAR)
+	private String noticeTitle;
 
-    /**
-     * 通知内容
-     */
-    @Column(name = "notice_content", jdbcType = JDBCType.VARCHAR)
-    private String noticeContent;
+	/**
+	 * 通知摘要
+	 */
+	@Column(name = "notice_summary", jdbcType = JDBCType.VARCHAR)
+	private String noticeSummary;
 
-    /**
-     * 优先级
-     */
-    @Column(name = "priority_level", jdbcType = JDBCType.VARCHAR)
-    private String priorityLevel;
+	/**
+	 * 通知内容
+	 */
+	@Column(name = "notice_content", jdbcType = JDBCType.VARCHAR)
+	private String noticeContent;
 
-    /**
-     * 开始时间
-     */
-    @Column(name = "notice_begin_time", jdbcType = JDBCType.TIMESTAMP)
-    private LocalDateTime noticeBeginTime;
+	/**
+	 * 优先级
+	 */
+	@Column(name = "priority_level", jdbcType = JDBCType.VARCHAR)
+	private String priorityLevel;
 
-    /**
-     * 结束时间
-     */
-    @Column(name = "notice_end_time", jdbcType = JDBCType.TIMESTAMP)
-    private LocalDateTime noticeEndTime;
+	/**
+	 * 开始时间
+	 */
+	@Column(name = "notice_begin_time", jdbcType = JDBCType.TIMESTAMP)
+	private LocalDateTime noticeBeginTime;
 
-    /**
-     * 通知范围（用户id字符串）
-     */
-    @Column(name = "notice_scope", jdbcType = JDBCType.VARCHAR)
-    private String noticeScope;
+	/**
+	 * 结束时间
+	 */
+	@Column(name = "notice_end_time", jdbcType = JDBCType.TIMESTAMP)
+	private LocalDateTime noticeEndTime;
 
-    /**
-     * 是否删除：Y-被删除，N-未删除
-     */
-    @Column(name = "del_flag", jdbcType = JDBCType.CHAR)
-    @LogicDelete
-    private YesOrNotEnum delFlag;
+	/**
+	 * 通知范围（用户id字符串）
+	 */
+	@Column(name = "notice_scope", jdbcType = JDBCType.VARCHAR)
+	private String noticeScope;
 
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 是否删除：Y-被删除，N-未删除
+	 */
+	@Column(name = "del_flag", jdbcType = JDBCType.CHAR)
+	@LogicDelete
+	private YesOrNotEnum delFlag;
 
-    public SysNotice noticeId(Long noticeId) {
-        this.noticeId = noticeId;
-        return this;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public SysNotice noticeTitle(String noticeTitle) {
-        this.noticeTitle = noticeTitle;
-        return this;
-    }
+	public SysNotice noticeId(Long noticeId) {
+		this.noticeId = noticeId;
+		return this;
+	}
 
-    public SysNotice noticeSummary(String noticeSummary) {
-        this.noticeSummary = noticeSummary;
-        return this;
-    }
+	public SysNotice noticeTitle(String noticeTitle) {
+		this.noticeTitle = noticeTitle;
+		return this;
+	}
 
-    public SysNotice noticeContent(String noticeContent) {
-        this.noticeContent = noticeContent;
-        return this;
-    }
+	public SysNotice noticeSummary(String noticeSummary) {
+		this.noticeSummary = noticeSummary;
+		return this;
+	}
 
-    public SysNotice priorityLevel(String priorityLevel) {
-        this.priorityLevel = priorityLevel;
-        return this;
-    }
+	public SysNotice noticeContent(String noticeContent) {
+		this.noticeContent = noticeContent;
+		return this;
+	}
 
-    public SysNotice noticeBeginTime(LocalDateTime noticeBeginTime) {
-        this.noticeBeginTime = noticeBeginTime;
-        return this;
-    }
+	public SysNotice priorityLevel(String priorityLevel) {
+		this.priorityLevel = priorityLevel;
+		return this;
+	}
 
-    public SysNotice noticeEndTime(LocalDateTime noticeEndTime) {
-        this.noticeEndTime = noticeEndTime;
-        return this;
-    }
+	public SysNotice noticeBeginTime(LocalDateTime noticeBeginTime) {
+		this.noticeBeginTime = noticeBeginTime;
+		return this;
+	}
 
-    public SysNotice noticeScope(String noticeScope) {
-        this.noticeScope = noticeScope;
-        return this;
-    }
+	public SysNotice noticeEndTime(LocalDateTime noticeEndTime) {
+		this.noticeEndTime = noticeEndTime;
+		return this;
+	}
 
-    public SysNotice delFlag(YesOrNotEnum delFlag) {
-        this.delFlag = delFlag;
-        return this;
-    }
+	public SysNotice noticeScope(String noticeScope) {
+		this.noticeScope = noticeScope;
+		return this;
+	}
+
+	public SysNotice delFlag(YesOrNotEnum delFlag) {
+		this.delFlag = delFlag;
+		return this;
+	}
+
 }

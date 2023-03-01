@@ -13,33 +13,33 @@ import io.entframework.kernel.auth.api.pojo.login.LoginUser;
  */
 public class LoginUserHolder {
 
-    private static final ThreadLocal<LoginUser> LONGIN_USER_HOLDER = new ThreadLocal<>();
+	private static final ThreadLocal<LoginUser> LONGIN_USER_HOLDER = new ThreadLocal<>();
 
-    /**
-     * set holder中内容
-     *
-     * @date 2021/3/23 17:41
-     */
-    public static void set(LoginUser abstractLoginUser) {
-        LONGIN_USER_HOLDER.set(abstractLoginUser);
-    }
+	/**
+	 * set holder中内容
+	 *
+	 * @date 2021/3/23 17:41
+	 */
+	public static void set(LoginUser abstractLoginUser) {
+		LONGIN_USER_HOLDER.set(abstractLoginUser);
+	}
 
-    /**
-     * 获取holder中的值
-     *
-     * @date 2021/3/23 17:41
-     */
-    public static LoginUser get() {
-        return LONGIN_USER_HOLDER.get();
-    }
+	/**
+	 * 获取holder中的值
+	 *
+	 * @date 2021/3/23 17:41
+	 */
+	public static LoginUser get() {
+		return LONGIN_USER_HOLDER.get();
+	}
 
-    /**
-     * 删除保存的用户
-     *
-     * @date 2021/3/23 17:42
-     */
-    public static void remove() {
-        LONGIN_USER_HOLDER.remove();
-    }
+	/**
+	 * 删除保存的用户
+	 *
+	 * @date 2021/3/23 17:42
+	 */
+	public static void remove() {
+		LONGIN_USER_HOLDER.remove();
+	}
 
 }

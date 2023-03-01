@@ -36,38 +36,39 @@ import org.mybatis.generator.logging.LogFactory;
  */
 public class ClassloaderUtility {
 
-    private static final Log LOG = LogFactory.getLog(ClassloaderUtility.class);
+	private static final Log LOG = LogFactory.getLog(ClassloaderUtility.class);
 
-    /**
-     * Utility Class - No Instances.
-     */
-    private ClassloaderUtility() {
-    }
+	/**
+	 * Utility Class - No Instances.
+	 */
+	private ClassloaderUtility() {
+	}
 
-    public static ClassLoader getCustomClassloader(Collection<String> entries) {
-        List<URL> urls = new ArrayList<>();
-        File file;
+	public static ClassLoader getCustomClassloader(Collection<String> entries) {
+		List<URL> urls = new ArrayList<>();
+		File file;
 
-        if (entries != null) {
-            for (String classPathEntry : entries) {
-                file = new File(classPathEntry);
-                if (!file.exists()) {
-                    LOG.warn(getString("Warning.31", classPathEntry)); //$NON-NLS-1$
-                    continue;
-                }
+		if (entries != null) {
+			for (String classPathEntry : entries) {
+				file = new File(classPathEntry);
+				if (!file.exists()) {
+					LOG.warn(getString("Warning.31", classPathEntry)); //$NON-NLS-1$
+					continue;
+				}
 
-                try {
-                    urls.add(file.toURI().toURL());
-                } catch (MalformedURLException e) {
-                    // this shouldn't happen, but just in case...
-                    throw new RuntimeException(getString(
-                            "RuntimeError.9", classPathEntry)); //$NON-NLS-1$
-                }
-            }
-        }
+				try {
+					urls.add(file.toURI().toURL());
+				}
+				catch (MalformedURLException e) {
+					// this shouldn't happen, but just in case...
+					throw new RuntimeException(getString("RuntimeError.9", classPathEntry)); //$NON-NLS-1$
+				}
+			}
+		}
 
-        ClassLoader parent = Thread.currentThread().getContextClassLoader();
+		ClassLoader parent = Thread.currentThread().getContextClassLoader();
 
-        return new URLClassLoader(urls.toArray(new URL[urls.size()]), parent);
-    }
+		return new URLClassLoader(urls.toArray(new URL[urls.size()]), parent);
+	}
+
 }

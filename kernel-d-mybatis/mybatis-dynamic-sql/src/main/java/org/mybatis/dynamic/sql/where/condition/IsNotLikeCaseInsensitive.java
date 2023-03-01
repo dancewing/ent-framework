@@ -22,51 +22,50 @@ import org.mybatis.dynamic.sql.AbstractSingleValueCondition;
 import org.mybatis.dynamic.sql.util.StringUtilities;
 
 public class IsNotLikeCaseInsensitive extends AbstractSingleValueCondition<String> {
-    private static final IsNotLikeCaseInsensitive EMPTY = new IsNotLikeCaseInsensitive(null) {
-        @Override
-        public boolean shouldRender() {
-            return false;
-        }
-    };
 
-    public static IsNotLikeCaseInsensitive empty() {
-        return EMPTY;
-    }
+	private static final IsNotLikeCaseInsensitive EMPTY = new IsNotLikeCaseInsensitive(null) {
+		@Override
+		public boolean shouldRender() {
+			return false;
+		}
+	};
 
-    protected IsNotLikeCaseInsensitive(String value) {
-        super(value);
-    }
+	public static IsNotLikeCaseInsensitive empty() {
+		return EMPTY;
+	}
 
-    @Override
-    public String renderCondition(String columnName, String placeholder) {
-        return "upper(" + columnName + ") not like " + placeholder; //$NON-NLS-1$ //$NON-NLS-2$
-    }
+	protected IsNotLikeCaseInsensitive(String value) {
+		super(value);
+	}
 
-    @Override
-    public String value() {
-        return StringUtilities.safelyUpperCase(super.value());
-    }
+	@Override
+	public String renderCondition(String columnName, String placeholder) {
+		return "upper(" + columnName + ") not like " + placeholder; //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
-    public static IsNotLikeCaseInsensitive of(String value) {
-        return new IsNotLikeCaseInsensitive(value);
-    }
+	@Override
+	public String value() {
+		return StringUtilities.safelyUpperCase(super.value());
+	}
 
-    @Override
-    public IsNotLikeCaseInsensitive filter(Predicate<? super String> predicate) {
-        return filterSupport(predicate, IsNotLikeCaseInsensitive::empty, this);
-    }
+	public static IsNotLikeCaseInsensitive of(String value) {
+		return new IsNotLikeCaseInsensitive(value);
+	}
 
-    /**
-     * If renderable, apply the mapping to the value and return a new condition with the new value. Else return a
-     * condition that will not render (this).
-     *
-     * @param mapper
-     *            a mapping function to apply to the value, if renderable
-     *
-     * @return a new condition with the result of applying the mapper to the value of this condition, if renderable,
-     *         otherwise a condition that will not render.
-     */
-    public IsNotLikeCaseInsensitive map(UnaryOperator<String> mapper) {
-        return mapSupport(mapper, IsNotLikeCaseInsensitive::new, IsNotLikeCaseInsensitive::empty);
-    }
+	@Override
+	public IsNotLikeCaseInsensitive filter(Predicate<? super String> predicate) {
+		return filterSupport(predicate, IsNotLikeCaseInsensitive::empty, this);
+	}
+
+	/**
+	 * If renderable, apply the mapping to the value and return a new condition with the
+	 * new value. Else return a condition that will not render (this).
+	 * @param mapper a mapping function to apply to the value, if renderable
+	 * @return a new condition with the result of applying the mapper to the value of this
+	 * condition, if renderable, otherwise a condition that will not render.
+	 */
+	public IsNotLikeCaseInsensitive map(UnaryOperator<String> mapper) {
+		return mapSupport(mapper, IsNotLikeCaseInsensitive::new, IsNotLikeCaseInsensitive::empty);
+	}
+
 }

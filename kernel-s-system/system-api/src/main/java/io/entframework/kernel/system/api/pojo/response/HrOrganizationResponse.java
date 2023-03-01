@@ -105,4 +105,5 @@ public class HrOrganizationResponse extends BaseResponse implements AbstractTree
 	public void setChildrenNodes(List<HrOrganizationResponse> childrenNodes) {
 		this.children = childrenNodes;
 	}
+
 }

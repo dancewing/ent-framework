@@ -26,22 +26,24 @@ import org.mybatis.dynamic.sql.exception.InvalidSqlException;
 import org.mybatis.dynamic.sql.util.Messages;
 
 public class InsertColumnListModel {
-    private final List<SqlColumn<?>> columns = new ArrayList<>();
 
-    private InsertColumnListModel(List<SqlColumn<?>> columns) {
-        Objects.requireNonNull(columns);
-        if (columns.isEmpty()) {
-            throw new InvalidSqlException(Messages.getString("ERROR.4")); //$NON-NLS-1$
-        }
+	private final List<SqlColumn<?>> columns = new ArrayList<>();
 
-        this.columns.addAll(columns);
-    }
+	private InsertColumnListModel(List<SqlColumn<?>> columns) {
+		Objects.requireNonNull(columns);
+		if (columns.isEmpty()) {
+			throw new InvalidSqlException(Messages.getString("ERROR.4")); //$NON-NLS-1$
+		}
 
-    public <R> Stream<R> mapColumns(Function<SqlColumn<?>, R> mapper) {
-        return columns.stream().map(mapper);
-    }
+		this.columns.addAll(columns);
+	}
 
-    public static InsertColumnListModel of(List<SqlColumn<?>> columns) {
-        return new InsertColumnListModel(columns);
-    }
+	public <R> Stream<R> mapColumns(Function<SqlColumn<?>, R> mapper) {
+		return columns.stream().map(mapper);
+	}
+
+	public static InsertColumnListModel of(List<SqlColumn<?>> columns) {
+		return new InsertColumnListModel(columns);
+	}
+
 }

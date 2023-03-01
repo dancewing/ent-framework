@@ -15,12 +15,13 @@ import io.entframework.kernel.security.api.constants.SecurityConstants;
  */
 public class CountValidateException extends ServiceException {
 
-    public CountValidateException(AbstractExceptionEnum exception, Object... params) {
-        super(SecurityConstants.SECURITY_MODULE_NAME, exception.getErrorCode(), CharSequenceUtil.format(exception.getUserTip(), params));
-    }
+	public CountValidateException(AbstractExceptionEnum exception, Object... params) {
+		super(SecurityConstants.SECURITY_MODULE_NAME, exception.getErrorCode(),
+				CharSequenceUtil.format(exception.getUserTip(), params));
+	}
 
-    public CountValidateException(AbstractExceptionEnum exception) {
-        super(SecurityConstants.SECURITY_MODULE_NAME, exception);
-    }
+	public CountValidateException(AbstractExceptionEnum exception) {
+		super(SecurityConstants.SECURITY_MODULE_NAME, exception);
+	}
 
 }

@@ -21,149 +21,154 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class CommentHelper {
 
-    public final static CommentHelper INSTANCE = new CommentHelper();
-    private static Map<String, CommentInner> comments;
+	public final static CommentHelper INSTANCE = new CommentHelper();
 
-    private CommentHelper(){
-        comments = new HashMap<>();
-        try {
-            parse();
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
+	private static Map<String, CommentInner> comments;
 
-    private void parse() throws Exception {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-        factory.setValidating(false);
-        //$NON-NLS-1$
-        try(InputStream is = getClass()
-                .getClassLoader()
-                .getResourceAsStream(
-                        "mybatis-generator-docs.xml")) {
+	private CommentHelper() {
+		comments = new HashMap<>();
+		try {
+			parse();
+		}
+		catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
 
-            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            DocumentBuilder builder = factory.newDocumentBuilder();
+	private void parse() throws Exception {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+		factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+		factory.setValidating(false);
+		// $NON-NLS-1$
+		try (InputStream is = getClass().getClassLoader().getResourceAsStream("mybatis-generator-docs.xml")) {
 
-            Document document = null;
-            try {
-                document = builder.parse(is);
-            } catch (Exception e) {
-                throw new RuntimeException("can't parse docs.xml");
-            }
-            if (document == null) {
-                throw new RuntimeException("can't parse docs.xml");
-            }
+			factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+			DocumentBuilder builder = factory.newDocumentBuilder();
 
-            Element rootNode = document.getDocumentElement();
-            parseRootNode(rootNode);
-        }
-    }
+			Document document = null;
+			try {
+				document = builder.parse(is);
+			}
+			catch (Exception e) {
+				throw new RuntimeException("can't parse docs.xml");
+			}
+			if (document == null) {
+				throw new RuntimeException("can't parse docs.xml");
+			}
 
-    private void parseRootNode(Element rootNode) {
-        NodeList nodeList = rootNode.getChildNodes();
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node childNode = nodeList.item(i);
+			Element rootNode = document.getDocumentElement();
+			parseRootNode(rootNode);
+		}
+	}
 
-            if (childNode.getNodeType() != Node.ELEMENT_NODE) {
-                continue;
-            }
+	private void parseRootNode(Element rootNode) {
+		NodeList nodeList = rootNode.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node childNode = nodeList.item(i);
 
-            if ("doc".equals(childNode.getNodeName())) { //$NON-NLS-1$
-                parseNode(childNode);
-            }
-        }
-    }
+			if (childNode.getNodeType() != Node.ELEMENT_NODE) {
+				continue;
+			}
 
-    private void parseNode(Node childNode) {
-        Properties properties = parseAttributes(childNode);
-        String key = properties.getProperty("key");
-        String category = properties.getProperty("category","");
-        String tag = properties.getProperty("tag", "");
-        String value = childNode.getTextContent();
-        String[] lines = StringUtils.split(value, '\n');
-        List<String> commentLines = new ArrayList<>();
-        Arrays.asList(lines).forEach(str -> {
-            String trim = StringUtils.trim(str);
-            if (StringUtils.isNotEmpty(trim)) {
-                commentLines.add(trim);
-            }
-        });
-        String computedKey = key.concat(category).concat(tag);
-        comments.putIfAbsent(computedKey, CommentInner.builder().
-                category(category).tag(tag).lines(commentLines)
-                .build());
-    }
+			if ("doc".equals(childNode.getNodeName())) { //$NON-NLS-1$
+				parseNode(childNode);
+			}
+		}
+	}
 
-    protected Properties parseAttributes(Node node) {
-        Properties attributes = new Properties();
-        NamedNodeMap nnm = node.getAttributes();
-        for (int i = 0; i < nnm.getLength(); i++) {
-            Node attribute = nnm.item(i);
-            String value = attribute.getNodeValue();
-            attributes.put(attribute.getNodeName(), value);
-        }
+	private void parseNode(Node childNode) {
+		Properties properties = parseAttributes(childNode);
+		String key = properties.getProperty("key");
+		String category = properties.getProperty("category", "");
+		String tag = properties.getProperty("tag", "");
+		String value = childNode.getTextContent();
+		String[] lines = StringUtils.split(value, '\n');
+		List<String> commentLines = new ArrayList<>();
+		Arrays.asList(lines).forEach(str -> {
+			String trim = StringUtils.trim(str);
+			if (StringUtils.isNotEmpty(trim)) {
+				commentLines.add(trim);
+			}
+		});
+		String computedKey = key.concat(category).concat(tag);
+		comments.putIfAbsent(computedKey,
+				CommentInner.builder().category(category).tag(tag).lines(commentLines).build());
+	}
 
-        return attributes;
-    }
+	protected Properties parseAttributes(Node node) {
+		Properties attributes = new Properties();
+		NamedNodeMap nnm = node.getAttributes();
+		for (int i = 0; i < nnm.getLength(); i++) {
+			Node attribute = nnm.item(i);
+			String value = attribute.getNodeValue();
+			attributes.put(attribute.getNodeName(), value);
+		}
 
-    public List<String> getComments(String key) {
-        return getComments(key, "", "", Collections.emptyMap());
-    }
+		return attributes;
+	}
 
-    public List<String> getComments(String key, String category) {
-        return getComments(key, category, "", Collections.emptyMap());
-    }
+	public List<String> getComments(String key) {
+		return getComments(key, "", "", Collections.emptyMap());
+	}
 
-    public List<String> getComments(String key, String category, String tag) {
-        return getComments(key, category, tag, Collections.emptyMap());
-    }
+	public List<String> getComments(String key, String category) {
+		return getComments(key, category, "", Collections.emptyMap());
+	}
 
-    public List<String> getComments(String key, String category, Map<String ,Object> variables) {
-        return getComments(key, category, "", variables);
-    }
+	public List<String> getComments(String key, String category, String tag) {
+		return getComments(key, category, tag, Collections.emptyMap());
+	}
 
-    public List<String> getComments(String key, String category, String tag, Map<String ,Object> variables) {
-        String computedKey = StringUtils.defaultString(key,"")
-                .concat(StringUtils.defaultString(category,""))
-                .concat(StringUtils.defaultString(tag,""));
+	public List<String> getComments(String key, String category, Map<String, Object> variables) {
+		return getComments(key, category, "", variables);
+	}
 
-        if (comments.containsKey(computedKey)) {
-            CommentInner inner = comments.get(computedKey);
-            List<String> result = new ArrayList<>();
-            inner.lines.forEach(line-> result.add(replace(line, variables)));
-            return result;
-        }
-        return Collections.emptyList();
-    }
+	public List<String> getComments(String key, String category, String tag, Map<String, Object> variables) {
+		String computedKey = StringUtils.defaultString(key, "").concat(StringUtils.defaultString(category, ""))
+				.concat(StringUtils.defaultString(tag, ""));
 
-    private String replace(String target, Map<String ,Object> variables) {
-        if (variables == null || variables.size() == 0) {
-            return target;
-        }
-        String[] searchStrings = new String[variables.size()];
-        String[] replaceStrings = new String[variables.size()];
-        AtomicInteger index = new AtomicInteger(0);
-        variables.forEach((key, value) -> {
-            searchStrings[index.get()] = "{" + key + "}";
-            replaceStrings[index.get()] = String.valueOf(value);
-            index.getAndIncrement();
-        });
-        return StringUtils.replaceEachRepeatedly(target, searchStrings, replaceStrings);
-    }
+		if (comments.containsKey(computedKey)) {
+			CommentInner inner = comments.get(computedKey);
+			List<String> result = new ArrayList<>();
+			inner.lines.forEach(line -> result.add(replace(line, variables)));
+			return result;
+		}
+		return Collections.emptyList();
+	}
 
-    public static void main(String[] args) {
-        System.out.println(StringUtils.join(CommentHelper.INSTANCE.getComments("test"), "\n"));;
-    }
+	private String replace(String target, Map<String, Object> variables) {
+		if (variables == null || variables.size() == 0) {
+			return target;
+		}
+		String[] searchStrings = new String[variables.size()];
+		String[] replaceStrings = new String[variables.size()];
+		AtomicInteger index = new AtomicInteger(0);
+		variables.forEach((key, value) -> {
+			searchStrings[index.get()] = "{" + key + "}";
+			replaceStrings[index.get()] = String.valueOf(value);
+			index.getAndIncrement();
+		});
+		return StringUtils.replaceEachRepeatedly(target, searchStrings, replaceStrings);
+	}
 
-    @Data
-    @Builder(builderClassName = "Builder")
-    public static class CommentInner {
-        private String key;
-        private String category;
-        private String tag;
-        private List<String> lines;
-    }
+	public static void main(String[] args) {
+		System.out.println(StringUtils.join(CommentHelper.INSTANCE.getComments("test"), "\n"));
+		;
+	}
+
+	@Data
+	@Builder(builderClassName = "Builder")
+	public static class CommentInner {
+
+		private String key;
+
+		private String category;
+
+		private String tag;
+
+		private List<String> lines;
+
+	}
+
 }

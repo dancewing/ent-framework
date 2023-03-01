@@ -21,7 +21,8 @@ import java.util.List;
  *
  * @date 2021/12/17 13:55
  */
-public interface SysThemeTemplateService extends BaseService<SysThemeTemplateRequest, SysThemeTemplateResponse, SysThemeTemplate> {
+public interface SysThemeTemplateService
+		extends BaseService<SysThemeTemplateRequest, SysThemeTemplateResponse, SysThemeTemplate> {
 
 	/**
 	 * 增加系统主题模板
@@ -46,7 +47,6 @@ public interface SysThemeTemplateService extends BaseService<SysThemeTemplateReq
 
 	/**
 	 * 查询系统主题模板列表
-	 *
 	 * @return 分页结果
 	 * @date 2021/12/17 14:52
 	 */
@@ -72,4 +72,5 @@ public interface SysThemeTemplateService extends BaseService<SysThemeTemplateReq
 	 * @date 2021/12/17 16:00
 	 */
 	List<SysThemeTemplateFieldResponse> detail(SysThemeTemplateRequest sysThemeTemplateRequest);
+
 }

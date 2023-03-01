@@ -27,59 +27,64 @@ import org.mybatis.generator.codegen.mybatis3.xmlmapper.SimpleXMLMapperGenerator
 import org.mybatis.generator.internal.ObjectFactory;
 
 /**
- * Introspected table implementation for generating simple MyBatis3 artifacts (no "by example" methods,
- * flat model, etc.)
+ * Introspected table implementation for generating simple MyBatis3 artifacts (no "by
+ * example" methods, flat model, etc.)
  *
  * @author Jeff Butler
  *
  */
 public class IntrospectedTableMyBatis3SimpleImpl extends IntrospectedTableMyBatis3Impl {
-    public IntrospectedTableMyBatis3SimpleImpl() {
-        super();
-    }
 
-    @Override
-    protected void calculateXmlMapperGenerator(AbstractJavaClientGenerator javaClientGenerator,
-            List<String> warnings,
-            ProgressCallback progressCallback) {
-        if (javaClientGenerator == null) {
-            if (context.getSqlMapGeneratorConfiguration() != null) {
-                xmlMapperGenerator = new SimpleXMLMapperGenerator();
-            }
-        } else {
-            xmlMapperGenerator = javaClientGenerator.getMatchedXMLGenerator();
-        }
+	public IntrospectedTableMyBatis3SimpleImpl() {
+		super();
+	}
 
-        initializeAbstractGenerator(xmlMapperGenerator, warnings, progressCallback);
-    }
+	@Override
+	protected void calculateXmlMapperGenerator(AbstractJavaClientGenerator javaClientGenerator, List<String> warnings,
+			ProgressCallback progressCallback) {
+		if (javaClientGenerator == null) {
+			if (context.getSqlMapGeneratorConfiguration() != null) {
+				xmlMapperGenerator = new SimpleXMLMapperGenerator();
+			}
+		}
+		else {
+			xmlMapperGenerator = javaClientGenerator.getMatchedXMLGenerator();
+		}
 
-    @Override
-    protected AbstractJavaClientGenerator createJavaClientGenerator() {
-        if (context.getJavaClientGeneratorConfiguration() == null) {
-            return null;
-        }
+		initializeAbstractGenerator(xmlMapperGenerator, warnings, progressCallback);
+	}
 
-        String type = context.getJavaClientGeneratorConfiguration().getConfigurationType();
+	@Override
+	protected AbstractJavaClientGenerator createJavaClientGenerator() {
+		if (context.getJavaClientGeneratorConfiguration() == null) {
+			return null;
+		}
 
-        AbstractJavaClientGenerator javaGenerator;
-        if ("XMLMAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
-            javaGenerator = new SimpleJavaClientGenerator(getClientProject());
-        } else if ("ANNOTATEDMAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
-            javaGenerator = new SimpleAnnotatedClientGenerator(getClientProject());
-        } else if ("MAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
-            javaGenerator = new SimpleJavaClientGenerator(getClientProject());
-        } else {
-            javaGenerator = (AbstractJavaClientGenerator) ObjectFactory.createInternalObject(type);
-        }
+		String type = context.getJavaClientGeneratorConfiguration().getConfigurationType();
 
-        return javaGenerator;
-    }
+		AbstractJavaClientGenerator javaGenerator;
+		if ("XMLMAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
+			javaGenerator = new SimpleJavaClientGenerator(getClientProject());
+		}
+		else if ("ANNOTATEDMAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
+			javaGenerator = new SimpleAnnotatedClientGenerator(getClientProject());
+		}
+		else if ("MAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
+			javaGenerator = new SimpleJavaClientGenerator(getClientProject());
+		}
+		else {
+			javaGenerator = (AbstractJavaClientGenerator) ObjectFactory.createInternalObject(type);
+		}
 
-    @Override
-    protected void calculateJavaModelGenerators(List<String> warnings, ProgressCallback progressCallback) {
+		return javaGenerator;
+	}
 
-        AbstractJavaGenerator javaGenerator = new SimpleModelGenerator(getModelProject());
-        initializeAbstractGenerator(javaGenerator, warnings, progressCallback);
-        javaGenerators.add(javaGenerator);
-    }
+	@Override
+	protected void calculateJavaModelGenerators(List<String> warnings, ProgressCallback progressCallback) {
+
+		AbstractJavaGenerator javaGenerator = new SimpleModelGenerator(getModelProject());
+		initializeAbstractGenerator(javaGenerator, warnings, progressCallback);
+		javaGenerators.add(javaGenerator);
+	}
+
 }

@@ -16,28 +16,30 @@
 package org.mybatis.dynamic.sql.util;
 
 public abstract class UpdateRowMappingVisitor<R> implements ColumnMappingVisitor<R> {
-//    @Override
-//    public final <T> R visit(ValueMapping<T> mapping) {
-//        throw new UnsupportedOperationException(Messages.getInternalErrorString(5));
-//    }
 
-    @Override
-    public final <T> R visit(ValueOrNullMapping<T> mapping) {
-        throw new UnsupportedOperationException(Messages.getInternalErrorString(6));
-    }
+	// @Override
+	// public final <T> R visit(ValueMapping<T> mapping) {
+	// throw new UnsupportedOperationException(Messages.getInternalErrorString(5));
+	// }
 
-    @Override
-    public final <T> R visit(ValueWhenPresentMapping<T> mapping) {
-        throw new UnsupportedOperationException(Messages.getInternalErrorString(7));
-    }
+	@Override
+	public final <T> R visit(ValueOrNullMapping<T> mapping) {
+		throw new UnsupportedOperationException(Messages.getInternalErrorString(6));
+	}
 
-    @Override
-    public final R visit(SelectMapping mapping) {
-        throw new UnsupportedOperationException(Messages.getInternalErrorString(8));
-    }
+	@Override
+	public final <T> R visit(ValueWhenPresentMapping<T> mapping) {
+		throw new UnsupportedOperationException(Messages.getInternalErrorString(7));
+	}
 
-    @Override
-    public final R visit(ColumnToColumnMapping columnMapping) {
-        throw new UnsupportedOperationException(Messages.getInternalErrorString(9));
-    }
+	@Override
+	public final R visit(SelectMapping mapping) {
+		throw new UnsupportedOperationException(Messages.getInternalErrorString(8));
+	}
+
+	@Override
+	public final R visit(ColumnToColumnMapping columnMapping) {
+		throw new UnsupportedOperationException(Messages.getInternalErrorString(9));
+	}
+
 }

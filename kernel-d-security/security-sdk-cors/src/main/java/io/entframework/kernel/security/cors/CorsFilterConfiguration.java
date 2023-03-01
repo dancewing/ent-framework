@@ -18,24 +18,25 @@ import org.springframework.web.filter.CorsFilter;
  * @date 2021/6/8 15:11
  */
 @Configuration
-@ConditionalOnProperty(prefix = SecurityConstants.SECURITY_PREFIX, name = "cos-enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = SecurityConstants.SECURITY_PREFIX, name = "cos-enabled", havingValue = "true",
+		matchIfMissing = true)
 public class CorsFilterConfiguration {
 
-    /**
-     * 开启跨域访问拦截器
-     *
-     * @date 2021/6/8 15:12
-     */
-    @Bean
-    public CorsFilter corsFilter() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*");
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
+	/**
+	 * 开启跨域访问拦截器
+	 *
+	 * @date 2021/6/8 15:12
+	 */
+	@Bean
+	public CorsFilter corsFilter() {
+		CorsConfiguration corsConfiguration = new CorsConfiguration();
+		corsConfiguration.addAllowedOrigin("*");
+		corsConfiguration.addAllowedHeader("*");
+		corsConfiguration.addAllowedMethod("*");
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return new CorsFilter(source);
-    }
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", corsConfiguration);
+		return new CorsFilter(source);
+	}
 
 }

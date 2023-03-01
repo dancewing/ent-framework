@@ -29,29 +29,30 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class AuthJwtTokenSecurityInterceptor extends BaseSecurityInterceptor {
 
-    /**
-     * 登陆服务Api
-     */
-    @Resource
-    private SessionManagerApi sessionManagerApi;
+	/**
+	 * 登陆服务Api
+	 */
+	@Resource
+	private SessionManagerApi sessionManagerApi;
 
-    @Override
-    public void filterAction(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, ResourceDefinition resourceDefinition, String token) {
+	@Override
+	public void filterAction(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+			ResourceDefinition resourceDefinition, String token) {
 
-        // 1. 获取当前请求的路径
-        String requestURI = httpServletRequest.getRequestURI();
-        Boolean requiredLoginFlag = resourceDefinition.getRequiredLoginFlag();
-        // 2. 如果需要登录
-        if (requiredLoginFlag != null && requiredLoginFlag) {
+		// 1. 获取当前请求的路径
+		String requestURI = httpServletRequest.getRequestURI();
+		Boolean requiredLoginFlag = resourceDefinition.getRequiredLoginFlag();
+		// 2. 如果需要登录
+		if (requiredLoginFlag != null && requiredLoginFlag) {
 
-            // token为空，返回用户校验失败
-            if (CharSequenceUtil.isEmpty(token)) {
-                throw new AuthException(AuthExceptionEnum.TOKEN_GET_ERROR);
-            }
+			// token为空，返回用户校验失败
+			if (CharSequenceUtil.isEmpty(token)) {
+				throw new AuthException(AuthExceptionEnum.TOKEN_GET_ERROR);
+			}
 
-            // 3.校验token和用户会话信息是否正确
-            sessionManagerApi.checkAuth(token, requestURI);
-        }
-    }
+			// 3.校验token和用户会话信息是否正确
+			sessionManagerApi.checkAuth(token, requestURI);
+		}
+	}
 
 }

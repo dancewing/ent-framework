@@ -19,29 +19,29 @@ import java.util.function.Function;
  */
 public class PageResultFactory {
 
-    public static <T, R> PageResult<R> convertPage(PageResult<T> page, Function<T, R> func) {
-        PageResult<R> pageResult = new PageResult<>();
-        pageResult.setItems(page.getItems().stream().map(func).toList());
-        pageResult.setTotalRows(page.getTotalRows());
-        pageResult.setPageNo(page.getPageNo());
-        pageResult.setPageSize(page.getPageSize());
-        pageResult.setTotalPage(page.getTotalPage());
-        return pageResult;
-    }
+	public static <T, R> PageResult<R> convertPage(PageResult<T> page, Function<T, R> func) {
+		PageResult<R> pageResult = new PageResult<>();
+		pageResult.setItems(page.getItems().stream().map(func).toList());
+		pageResult.setTotalRows(page.getTotalRows());
+		pageResult.setPageNo(page.getPageNo());
+		pageResult.setPageSize(page.getPageSize());
+		pageResult.setTotalPage(page.getTotalPage());
+		return pageResult;
+	}
 
-    /**
-     * 将mybatis-plus的page转成自定义的PageResult，扩展了totalPage总页数
-     *
-     * @date 2020/10/15 15:53
-     */
-    public static <T> PageResult<T> createPageResult(List<T> rows, Long count, Integer pageSize, Integer pageNo) {
-        PageResult<T> pageResult = new PageResult<>();
-        pageResult.setItems(rows);
-        pageResult.setTotalRows(Convert.toInt(count));
-        pageResult.setPageNo(pageNo);
-        pageResult.setPageSize(pageSize);
-        pageResult.setTotalPage(PageUtil.totalPage(pageResult.getTotalRows(), pageSize));
-        return pageResult;
-    }
+	/**
+	 * 将mybatis-plus的page转成自定义的PageResult，扩展了totalPage总页数
+	 *
+	 * @date 2020/10/15 15:53
+	 */
+	public static <T> PageResult<T> createPageResult(List<T> rows, Long count, Integer pageSize, Integer pageNo) {
+		PageResult<T> pageResult = new PageResult<>();
+		pageResult.setItems(rows);
+		pageResult.setTotalRows(Convert.toInt(count));
+		pageResult.setPageNo(pageNo);
+		pageResult.setPageSize(pageSize);
+		pageResult.setTotalPage(PageUtil.totalPage(pageResult.getTotalRows(), pageSize));
+		return pageResult;
+	}
 
 }

@@ -24,42 +24,45 @@ import java.util.Map;
 
 public class SpringBatchPagingReaderSelectModel {
 
-    private final SelectModel selectModel;
+	private final SelectModel selectModel;
 
-    public SpringBatchPagingReaderSelectModel(SelectModel selectModel) {
-        this.selectModel = selectModel;
-    }
+	public SpringBatchPagingReaderSelectModel(SelectModel selectModel) {
+		this.selectModel = selectModel;
+	}
 
-    public SelectStatementProvider render() {
-        SelectStatementProvider selectStatement =
-                selectModel.render(SpringBatchUtility.SPRING_BATCH_READER_RENDERING_STRATEGY);
-        return new LimitAndOffsetDecorator(selectStatement);
-    }
+	public SelectStatementProvider render() {
+		SelectStatementProvider selectStatement = selectModel
+				.render(SpringBatchUtility.SPRING_BATCH_READER_RENDERING_STRATEGY);
+		return new LimitAndOffsetDecorator(selectStatement);
+	}
 
-    public static class LimitAndOffsetDecorator implements SelectStatementProvider {
-        private final Map<String, Object> parameters = new HashMap<>();
-        private final String selectStatement;
+	public static class LimitAndOffsetDecorator implements SelectStatementProvider {
 
-        @Override
-        public SelectRenderer getSource() {
-            return null;
-        }
+		private final Map<String, Object> parameters = new HashMap<>();
 
-        public LimitAndOffsetDecorator(SelectStatementProvider delegate) {
-            parameters.putAll(delegate.getParameters());
+		private final String selectStatement;
 
-            selectStatement = delegate.getSelectStatement()
-                    + " LIMIT #{_pagesize} OFFSET #{_skiprows}"; //$NON-NLS-1$
-        }
+		@Override
+		public SelectRenderer getSource() {
+			return null;
+		}
 
-        @Override
-        public Map<String, Object> getParameters() {
-            return parameters;
-        }
+		public LimitAndOffsetDecorator(SelectStatementProvider delegate) {
+			parameters.putAll(delegate.getParameters());
 
-        @Override
-        public String getSelectStatement() {
-            return selectStatement;
-        }
-    }
+			selectStatement = delegate.getSelectStatement() + " LIMIT #{_pagesize} OFFSET #{_skiprows}"; //$NON-NLS-1$
+		}
+
+		@Override
+		public Map<String, Object> getParameters() {
+			return parameters;
+		}
+
+		@Override
+		public String getSelectStatement() {
+			return selectStatement;
+		}
+
+	}
+
 }

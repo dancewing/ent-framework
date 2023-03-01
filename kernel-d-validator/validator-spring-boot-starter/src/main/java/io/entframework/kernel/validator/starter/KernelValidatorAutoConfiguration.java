@@ -17,14 +17,14 @@ import org.springframework.context.annotation.Configuration;
 @AutoConfigureBefore(ValidationAutoConfiguration.class)
 public class KernelValidatorAutoConfiguration {
 
-    /**
-     * 自定义的spring参数校验器，重写主要为了保存一些在自定义validator中读不到的属性
-     *
-     * @date 2020/8/12 20:18
-     */
-    @Bean
-    public KernelValidator gunsValidator() {
-        return new KernelValidator();
-    }
+	/**
+	 * 自定义的spring参数校验器，重写主要为了保存一些在自定义validator中读不到的属性
+	 *
+	 * @date 2020/8/12 20:18
+	 */
+	@Bean
+	public KernelValidator gunsValidator() {
+		return new KernelValidator();
+	}
 
 }

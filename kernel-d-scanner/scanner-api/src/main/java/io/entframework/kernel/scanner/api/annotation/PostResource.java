@@ -22,68 +22,66 @@ import java.lang.annotation.*;
 @RequestMapping(method = RequestMethod.POST)
 public @interface PostResource {
 
-    /**
-     * <pre>
-     * 资源编码唯一标识.
-     *
-     * 说明:
-     *     1.可不填写此注解属性.
-     *     2.若不填写,则默认生成的编码标识为: 控制器类名称 + 分隔符 + 方法名称.
-     *     3.若编码存在重复则系统启动异常
-     *
-     * </pre>
-     */
-    String code() default "";
+	/**
+	 * <pre>
+	 * 资源编码唯一标识.
+	 *
+	 * 说明:
+	 *     1.可不填写此注解属性.
+	 *     2.若不填写,则默认生成的编码标识为: 控制器类名称 + 分隔符 + 方法名称.
+	 *     3.若编码存在重复则系统启动异常
+	 *
+	 * </pre>
+	 */
+	String code() default "";
 
-    /**
-     * 资源名称(必填项)
-     */
-    String name() default "";
+	/**
+	 * 资源名称(必填项)
+	 */
+	String name() default "";
 
-    /**
-     * 是否是菜单(true-是菜单标识,false-不是菜单标识)
-     */
-    boolean menuFlag() default false;
+	/**
+	 * 是否是菜单(true-是菜单标识,false-不是菜单标识)
+	 */
+	boolean menuFlag() default false;
 
-    /**
-     * 需要登录(true-需要登录,false-不需要登录)
-     */
-    boolean requiredLogin() default true;
+	/**
+	 * 需要登录(true-需要登录,false-不需要登录)
+	 */
+	boolean requiredLogin() default true;
 
-    /**
-     * 需要鉴权(true-需要鉴权,false-不需要鉴权)
-     */
-    boolean requiredPermission() default true;
+	/**
+	 * 需要鉴权(true-需要鉴权,false-不需要鉴权)
+	 */
+	boolean requiredPermission() default true;
 
-    /**
-     * 是否需要请求解密，响应加密 (true-需要,false-不需要)
-     */
-    boolean requiredEncryption() default false;
+	/**
+	 * 是否需要请求解密，响应加密 (true-需要,false-不需要)
+	 */
+	boolean requiredEncryption() default false;
 
-    /**
-     * 是否是视图类型：true-是，false-否
-     * 如果是视图类型，url需要以 '/view' 开头，
-     * 视图类型的接口会渲染出html界面，而不是json数据，
-     * 视图层一般会在前后端不分离项目出现
-     */
-    boolean viewFlag() default false;
+	/**
+	 * 是否是视图类型：true-是，false-否 如果是视图类型，url需要以 '/view' 开头， 视图类型的接口会渲染出html界面，而不是json数据，
+	 * 视图层一般会在前后端不分离项目出现
+	 */
+	boolean viewFlag() default false;
 
-    /**
-     * 请求路径(同RequestMapping)
-     */
-    @AliasFor(annotation = RequestMapping.class)
-    String[] path() default {};
+	/**
+	 * 请求路径(同RequestMapping)
+	 */
+	@AliasFor(annotation = RequestMapping.class)
+	String[] path() default {};
 
-    /**
-     * 请求的http方法(同RequestMapping)
-     */
-    @AliasFor(annotation = RequestMapping.class)
-    RequestMethod[] method() default RequestMethod.POST;
+	/**
+	 * 请求的http方法(同RequestMapping)
+	 */
+	@AliasFor(annotation = RequestMapping.class)
+	RequestMethod[] method() default RequestMethod.POST;
 
-    /**
-     * 同RequestMapping
-     */
-    @AliasFor(annotation = RequestMapping.class)
-    String[] produces() default {};
+	/**
+	 * 同RequestMapping
+	 */
+	@AliasFor(annotation = RequestMapping.class)
+	String[] produces() default {};
 
 }

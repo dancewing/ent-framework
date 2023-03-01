@@ -14,8 +14,8 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class PayException extends ServiceException {
 
-    public PayException(AbstractExceptionEnum exception) {
-        super(PayConstants.PAY_MODULE_NAME, exception);
-    }
+	public PayException(AbstractExceptionEnum exception) {
+		super(PayConstants.PAY_MODULE_NAME, exception);
+	}
 
 }

@@ -16,16 +16,16 @@ import lombok.Getter;
 @Getter
 public class MailException extends ServiceException {
 
-    public MailException(String errorCode, String userTip) {
-        super(MailConstants.MAIL_MODULE_NAME, errorCode, userTip);
-    }
+	public MailException(String errorCode, String userTip) {
+		super(MailConstants.MAIL_MODULE_NAME, errorCode, userTip);
+	}
 
-    public MailException(AbstractExceptionEnum exceptionEnum, String userTip) {
-        super(MailConstants.MAIL_MODULE_NAME, exceptionEnum.getErrorCode(), userTip);
-    }
+	public MailException(AbstractExceptionEnum exceptionEnum, String userTip) {
+		super(MailConstants.MAIL_MODULE_NAME, exceptionEnum.getErrorCode(), userTip);
+	}
 
-    public MailException(AbstractExceptionEnum exceptionEnum) {
-        super(MailConstants.MAIL_MODULE_NAME, exceptionEnum);
-    }
+	public MailException(AbstractExceptionEnum exceptionEnum) {
+		super(MailConstants.MAIL_MODULE_NAME, exceptionEnum);
+	}
 
 }

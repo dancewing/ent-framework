@@ -16,33 +16,35 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SysStatisticsUrlResponse extends BaseResponse {
-    /**
-     * 主键ID
-     */
-    @ChineseDescription("主键ID")
-    private Long statUrlId;
 
-    /**
-     * 被统计名称
-     */
-    @ChineseDescription("被统计名称")
-    private String statName;
+	/**
+	 * 主键ID
+	 */
+	@ChineseDescription("主键ID")
+	private Long statUrlId;
 
-    /**
-     * 被统计菜单ID
-     */
-    @ChineseDescription("被统计菜单ID")
-    private Long statMenuId;
+	/**
+	 * 被统计名称
+	 */
+	@ChineseDescription("被统计名称")
+	private String statName;
 
-    /**
-     * 被统计的URL
-     */
-    @ChineseDescription("被统计的URL")
-    private String statUrl;
+	/**
+	 * 被统计菜单ID
+	 */
+	@ChineseDescription("被统计菜单ID")
+	private Long statMenuId;
 
-    /**
-     * 是否常驻显示，Y-是，N-否
-     */
-    @ChineseDescription("是否常驻显示，Y-是，N-否")
-    private YesOrNotEnum alwaysShow;
+	/**
+	 * 被统计的URL
+	 */
+	@ChineseDescription("被统计的URL")
+	private String statUrl;
+
+	/**
+	 * 是否常驻显示，Y-是，N-否
+	 */
+	@ChineseDescription("是否常驻显示，Y-是，N-否")
+	private YesOrNotEnum alwaysShow;
+
 }

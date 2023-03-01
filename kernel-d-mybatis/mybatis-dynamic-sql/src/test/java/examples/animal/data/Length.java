@@ -23,35 +23,36 @@ import org.mybatis.dynamic.sql.render.TableAliasCalculator;
 import org.mybatis.dynamic.sql.select.function.AbstractTypeConvertingFunction;
 
 public class Length extends AbstractTypeConvertingFunction<Object, Integer, Length> {
-    private Length(BindableColumn<Object> column) {
-        super(column);
-    }
 
-    @Override
-    public Optional<JDBCType> jdbcType() {
-        return Optional.of(JDBCType.INTEGER);
-    }
+	private Length(BindableColumn<Object> column) {
+		super(column);
+	}
 
-    @Override
-    public Optional<String> typeHandler() {
-        return Optional.empty();
-    }
+	@Override
+	public Optional<JDBCType> jdbcType() {
+		return Optional.of(JDBCType.INTEGER);
+	}
 
-    @Override
-    public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
-        return "length(" //$NON-NLS-1$
-                + column.renderWithTableAlias(tableAliasCalculator)
-                + ")"; //$NON-NLS-1$
-    }
+	@Override
+	public Optional<String> typeHandler() {
+		return Optional.empty();
+	}
 
-    @Override
-    protected Length copy() {
-        return new Length(column);
-    }
+	@Override
+	public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
+		return "length(" //$NON-NLS-1$
+				+ column.renderWithTableAlias(tableAliasCalculator) + ")"; //$NON-NLS-1$
+	}
 
-    public static Length length(BindableColumn<?> column) {
-        @SuppressWarnings("unchecked")
-        BindableColumn<Object> c = (BindableColumn<Object>) column;
-        return new Length(c);
-    }
+	@Override
+	protected Length copy() {
+		return new Length(column);
+	}
+
+	public static Length length(BindableColumn<?> column) {
+		@SuppressWarnings("unchecked")
+		BindableColumn<Object> c = (BindableColumn<Object>) column;
+		return new Length(c);
+	}
+
 }

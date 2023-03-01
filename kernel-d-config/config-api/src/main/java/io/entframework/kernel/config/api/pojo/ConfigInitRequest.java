@@ -17,12 +17,12 @@ import java.util.Map;
 @Data
 public class ConfigInitRequest {
 
-    /**
-     * 系统配置集合
-     * <p>
-     * key是配置编码，value是配置值
-     */
-    @ChineseDescription("系统配置集合")
-    private Map<String, String> sysConfigs;
+	/**
+	 * 系统配置集合
+	 * <p>
+	 * key是配置编码，value是配置值
+	 */
+	@ChineseDescription("系统配置集合")
+	private Map<String, String> sysConfigs;
 
 }

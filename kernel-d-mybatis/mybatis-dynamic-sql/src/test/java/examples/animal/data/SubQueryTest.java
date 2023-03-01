@@ -43,179 +43,147 @@ import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.mybatis.dynamic.sql.util.mybatis3.CommonSelectMapper;
 
 class SubQueryTest {
-    private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
-    private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
 
-    private SqlSessionFactory sqlSessionFactory;
+	private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
 
-    @BeforeEach
-    void setup() throws Exception {
-        Class.forName(JDBC_DRIVER);
-        InputStream is = getClass().getResourceAsStream("/examples/animal/data/CreateAnimalData.sql");
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
-            ScriptRunner sr = new ScriptRunner(connection);
-            sr.setLogWriter(null);
-            sr.runScript(new InputStreamReader(is));
-        }
+	private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
 
-        UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
-        Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
-        Configuration config = new Configuration(environment);
-        config.addMapper(CommonSelectMapper.class);
-        sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
-    }
+	private SqlSessionFactory sqlSessionFactory;
 
-    @Test
-    void testBasicSubQuery() {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            CommonSelectMapper mapper = sqlSession.getMapper(CommonSelectMapper.class);
-            DerivedColumn<Integer> rowNum = DerivedColumn.of("rownum()");
+	@BeforeEach
+	void setup() throws Exception {
+		Class.forName(JDBC_DRIVER);
+		InputStream is = getClass().getResourceAsStream("/examples/animal/data/CreateAnimalData.sql");
+		try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
+			ScriptRunner sr = new ScriptRunner(connection);
+			sr.setLogWriter(null);
+			sr.runScript(new InputStreamReader(is));
+		}
 
-            SelectStatementProvider selectStatement = select(animalName, rowNum)
-                    .from(
-                            select(id, animalName)
-                                    .from(animalData)
-                                    .where(id, isLessThan(22))
-                                    .orderBy(animalName.descending())
-                    )
-                    .where(rowNum, isLessThan(5))
-                    .and(animalName, isLike("%a%"))
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3);
+		UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
+		Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
+		Configuration config = new Configuration(environment);
+		config.addMapper(CommonSelectMapper.class);
+		sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
+	}
 
-            assertThat(selectStatement.getSelectStatement()).isEqualTo(
-                    "select animal_name, rownum() " +
-                            "from (select id, animal_name " +
-                            "from AnimalData where id < #{parameters.p1,jdbcType=INTEGER} " +
-                            "order by animal_name DESC) " +
-                            "where rownum() < #{parameters.p2} and animal_name like #{parameters.p3,jdbcType=VARCHAR}"
-            );
-            assertThat(selectStatement.getParameters()).containsEntry("p1", 22);
-            assertThat(selectStatement.getParameters()).containsEntry("p2", 5);
-            assertThat(selectStatement.getParameters()).containsEntry("p3", "%a%");
+	@Test
+	void testBasicSubQuery() {
+		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+			CommonSelectMapper mapper = sqlSession.getMapper(CommonSelectMapper.class);
+			DerivedColumn<Integer> rowNum = DerivedColumn.of("rownum()");
 
-            List<Map<String, Object>> rows = mapper.selectManyMappedRows(selectStatement);
-            assertThat(rows).hasSize(4);
+			SelectStatementProvider selectStatement = select(animalName, rowNum)
+					.from(select(id, animalName).from(animalData).where(id, isLessThan(22))
+							.orderBy(animalName.descending()))
+					.where(rowNum, isLessThan(5)).and(animalName, isLike("%a%")).build()
+					.render(RenderingStrategies.MYBATIS3);
 
-            assertThat(rows.get(2)).containsEntry("ANIMAL_NAME", "Chinchilla");
-            assertThat(rows.get(2)).containsEntry("ROWNUM", 3);
-        }
-    }
+			assertThat(selectStatement.getSelectStatement()).isEqualTo("select animal_name, rownum() "
+					+ "from (select id, animal_name " + "from AnimalData where id < #{parameters.p1,jdbcType=INTEGER} "
+					+ "order by animal_name DESC) "
+					+ "where rownum() < #{parameters.p2} and animal_name like #{parameters.p3,jdbcType=VARCHAR}");
+			assertThat(selectStatement.getParameters()).containsEntry("p1", 22);
+			assertThat(selectStatement.getParameters()).containsEntry("p2", 5);
+			assertThat(selectStatement.getParameters()).containsEntry("p3", "%a%");
 
-    @Test
-    void testSimpleAliases() {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            CommonSelectMapper mapper = sqlSession.getMapper(CommonSelectMapper.class);
-            DerivedColumn<Integer> rowNum = DerivedColumn.of("rownum()");
+			List<Map<String, Object>> rows = mapper.selectManyMappedRows(selectStatement);
+			assertThat(rows).hasSize(4);
 
-            SelectStatementProvider selectStatement = select(animalName, rowNum)
-                    .from(
-                            select(id, animalName)
-                                    .from(animalData, "a")
-                                    .where(id, isLessThan(22))
-                                    .orderBy(animalName.descending()),
-                            "b"
-                    )
-                    .where(rowNum, isLessThan(5))
-                    .and(animalName, isLike("%a%"))
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3);
+			assertThat(rows.get(2)).containsEntry("ANIMAL_NAME", "Chinchilla");
+			assertThat(rows.get(2)).containsEntry("ROWNUM", 3);
+		}
+	}
 
-            assertThat(selectStatement.getSelectStatement()).isEqualTo(
-                    "select animal_name, rownum() " +
-                            "from (select a.id, a.animal_name " +
-                            "from AnimalData a where a.id < #{parameters.p1,jdbcType=INTEGER} " +
-                            "order by animal_name DESC) b " +
-                            "where rownum() < #{parameters.p2} and animal_name like #{parameters.p3,jdbcType=VARCHAR}"
-            );
-            assertThat(selectStatement.getParameters()).containsEntry("p1", 22);
-            assertThat(selectStatement.getParameters()).containsEntry("p2", 5);
-            assertThat(selectStatement.getParameters()).containsEntry("p3", "%a%");
+	@Test
+	void testSimpleAliases() {
+		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+			CommonSelectMapper mapper = sqlSession.getMapper(CommonSelectMapper.class);
+			DerivedColumn<Integer> rowNum = DerivedColumn.of("rownum()");
 
-            List<Map<String, Object>> rows = mapper.selectManyMappedRows(selectStatement);
-            assertThat(rows).hasSize(4);
+			SelectStatementProvider selectStatement = select(animalName, rowNum)
+					.from(select(id, animalName).from(animalData, "a").where(id, isLessThan(22))
+							.orderBy(animalName.descending()), "b")
+					.where(rowNum, isLessThan(5)).and(animalName, isLike("%a%")).build()
+					.render(RenderingStrategies.MYBATIS3);
 
-            assertThat(rows.get(2)).containsEntry("ANIMAL_NAME", "Chinchilla");
-            assertThat(rows.get(2)).containsEntry("ROWNUM", 3);
-        }
-    }
+			assertThat(selectStatement.getSelectStatement()).isEqualTo("select animal_name, rownum() "
+					+ "from (select a.id, a.animal_name "
+					+ "from AnimalData a where a.id < #{parameters.p1,jdbcType=INTEGER} "
+					+ "order by animal_name DESC) b "
+					+ "where rownum() < #{parameters.p2} and animal_name like #{parameters.p3,jdbcType=VARCHAR}");
+			assertThat(selectStatement.getParameters()).containsEntry("p1", 22);
+			assertThat(selectStatement.getParameters()).containsEntry("p2", 5);
+			assertThat(selectStatement.getParameters()).containsEntry("p3", "%a%");
 
-    @Test
-    void testSimpleAliasesWithManualQualifiers() {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            CommonSelectMapper mapper = sqlSession.getMapper(CommonSelectMapper.class);
-            DerivedColumn<Integer> rowNum = DerivedColumn.of("rownum()");
+			List<Map<String, Object>> rows = mapper.selectManyMappedRows(selectStatement);
+			assertThat(rows).hasSize(4);
 
-            SelectStatementProvider selectStatement = select(animalName.qualifiedWith("b"), rowNum)
-                    .from(
-                            select(id, animalName)
-                                    .from(animalData, "a")
-                                    .where(id, isLessThan(22))
-                                    .orderBy(animalName.descending()),
-                            "b"
-                    )
-                    .where(rowNum, isLessThan(5))
-                    .and(animalName.qualifiedWith("b"), isLike("%a%"))
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3);
+			assertThat(rows.get(2)).containsEntry("ANIMAL_NAME", "Chinchilla");
+			assertThat(rows.get(2)).containsEntry("ROWNUM", 3);
+		}
+	}
 
-            assertThat(selectStatement.getSelectStatement()).isEqualTo(
-                    "select b.animal_name, rownum() " +
-                            "from (select a.id, a.animal_name " +
-                            "from AnimalData a where a.id < #{parameters.p1,jdbcType=INTEGER} " +
-                            "order by animal_name DESC) b " +
-                            "where rownum() < #{parameters.p2} and b.animal_name like #{parameters.p3,jdbcType=VARCHAR}"
-            );
-            assertThat(selectStatement.getParameters()).containsEntry("p1", 22);
-            assertThat(selectStatement.getParameters()).containsEntry("p2", 5);
-            assertThat(selectStatement.getParameters()).containsEntry("p3", "%a%");
+	@Test
+	void testSimpleAliasesWithManualQualifiers() {
+		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+			CommonSelectMapper mapper = sqlSession.getMapper(CommonSelectMapper.class);
+			DerivedColumn<Integer> rowNum = DerivedColumn.of("rownum()");
 
-            List<Map<String, Object>> rows = mapper.selectManyMappedRows(selectStatement);
-            assertThat(rows).hasSize(4);
+			SelectStatementProvider selectStatement = select(animalName.qualifiedWith("b"), rowNum)
+					.from(select(id, animalName).from(animalData, "a").where(id, isLessThan(22))
+							.orderBy(animalName.descending()), "b")
+					.where(rowNum, isLessThan(5)).and(animalName.qualifiedWith("b"), isLike("%a%")).build()
+					.render(RenderingStrategies.MYBATIS3);
 
-            assertThat(rows.get(2)).containsEntry("ANIMAL_NAME", "Chinchilla");
-            assertThat(rows.get(2)).containsEntry("ROWNUM", 3);
-        }
-    }
+			assertThat(selectStatement.getSelectStatement()).isEqualTo("select b.animal_name, rownum() "
+					+ "from (select a.id, a.animal_name "
+					+ "from AnimalData a where a.id < #{parameters.p1,jdbcType=INTEGER} "
+					+ "order by animal_name DESC) b "
+					+ "where rownum() < #{parameters.p2} and b.animal_name like #{parameters.p3,jdbcType=VARCHAR}");
+			assertThat(selectStatement.getParameters()).containsEntry("p1", 22);
+			assertThat(selectStatement.getParameters()).containsEntry("p2", 5);
+			assertThat(selectStatement.getParameters()).containsEntry("p3", "%a%");
 
-    @Test
-    void testBasicSubQueryWithAliases() {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            CommonSelectMapper mapper = sqlSession.getMapper(CommonSelectMapper.class);
-            DerivedColumn<Integer> rowNum = DerivedColumn.of("rownum()");
-            SqlColumn<String> outerAnimalName = animalName.qualifiedWith("b");
-            DerivedColumn<Integer> animalId = DerivedColumn.of("animalId", "b");
+			List<Map<String, Object>> rows = mapper.selectManyMappedRows(selectStatement);
+			assertThat(rows).hasSize(4);
 
-            SelectStatementProvider selectStatement = select(outerAnimalName.asCamelCase(), animalId, rowNum)
-                    .from(
-                            select(id.as("animalId"), animalName)
-                                    .from(animalData, "a")
-                                    .where(id, isLessThan(22))
-                                    .orderBy(animalName.descending()),
-                            "b"
-                    )
-                    .where(rowNum, isLessThan(5))
-                    .and(outerAnimalName, isLike("%a%"))
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3);
+			assertThat(rows.get(2)).containsEntry("ANIMAL_NAME", "Chinchilla");
+			assertThat(rows.get(2)).containsEntry("ROWNUM", 3);
+		}
+	}
 
-            assertThat(selectStatement.getSelectStatement()).isEqualTo(
-                    "select b.animal_name as \"animalName\", b.animalId, rownum() " +
-                            "from (select a.id as animalId, a.animal_name " +
-                            "from AnimalData a where a.id < #{parameters.p1,jdbcType=INTEGER} " +
-                            "order by animal_name DESC) b " +
-                            "where rownum() < #{parameters.p2} and b.animal_name like #{parameters.p3,jdbcType=VARCHAR}"
-            );
-            assertThat(selectStatement.getParameters()).containsEntry("p1", 22);
-            assertThat(selectStatement.getParameters()).containsEntry("p2", 5);
-            assertThat(selectStatement.getParameters()).containsEntry("p3", "%a%");
+	@Test
+	void testBasicSubQueryWithAliases() {
+		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+			CommonSelectMapper mapper = sqlSession.getMapper(CommonSelectMapper.class);
+			DerivedColumn<Integer> rowNum = DerivedColumn.of("rownum()");
+			SqlColumn<String> outerAnimalName = animalName.qualifiedWith("b");
+			DerivedColumn<Integer> animalId = DerivedColumn.of("animalId", "b");
 
-            List<Map<String, Object>> rows = mapper.selectManyMappedRows(selectStatement);
-            assertThat(rows).hasSize(4);
+			SelectStatementProvider selectStatement = select(outerAnimalName.asCamelCase(), animalId, rowNum)
+					.from(select(id.as("animalId"), animalName).from(animalData, "a").where(id, isLessThan(22))
+							.orderBy(animalName.descending()), "b")
+					.where(rowNum, isLessThan(5)).and(outerAnimalName, isLike("%a%")).build()
+					.render(RenderingStrategies.MYBATIS3);
 
-            assertThat(rows.get(2)).containsEntry("animalName", "Chinchilla");
-            assertThat(rows.get(2)).containsEntry("ANIMALID", 14);
-            assertThat(rows.get(2)).containsEntry("ROWNUM", 3);
-        }
-    }
+			assertThat(selectStatement.getSelectStatement())
+					.isEqualTo("select b.animal_name as \"animalName\", b.animalId, rownum() "
+							+ "from (select a.id as animalId, a.animal_name "
+							+ "from AnimalData a where a.id < #{parameters.p1,jdbcType=INTEGER} "
+							+ "order by animal_name DESC) b "
+							+ "where rownum() < #{parameters.p2} and b.animal_name like #{parameters.p3,jdbcType=VARCHAR}");
+			assertThat(selectStatement.getParameters()).containsEntry("p1", 22);
+			assertThat(selectStatement.getParameters()).containsEntry("p2", 5);
+			assertThat(selectStatement.getParameters()).containsEntry("p3", "%a%");
+
+			List<Map<String, Object>> rows = mapper.selectManyMappedRows(selectStatement);
+			assertThat(rows).hasSize(4);
+
+			assertThat(rows.get(2)).containsEntry("animalName", "Chinchilla");
+			assertThat(rows.get(2)).containsEntry("ANIMALID", 14);
+			assertThat(rows.get(2)).containsEntry("ROWNUM", 3);
+		}
+	}
+
 }

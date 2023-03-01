@@ -58,6 +58,8 @@ subprojects {
     configurations {
         compile.exclude()
     }
+    apply plugin: 'io.spring.javaformat'
+
     if (project.name != 'kernel-dependencies') {
         apply plugin: "io.spring.dependency-management"
 

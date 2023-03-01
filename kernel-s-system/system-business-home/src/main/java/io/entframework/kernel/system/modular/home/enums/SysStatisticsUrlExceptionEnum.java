@@ -16,24 +16,24 @@ import lombok.Getter;
 @Getter
 public enum SysStatisticsUrlExceptionEnum implements AbstractExceptionEnum {
 
-    /**
-     * 查询结果不存在
-     */
-    SYS_STATISTICS_URL_NOT_EXISTED(RuleConstants.USER_OPERATION_ERROR_TYPE_CODE + "10001", "查询结果不存在");
+	/**
+	 * 查询结果不存在
+	 */
+	SYS_STATISTICS_URL_NOT_EXISTED(RuleConstants.USER_OPERATION_ERROR_TYPE_CODE + "10001", "查询结果不存在");
 
-    /**
-     * 错误编码
-     */
-    private final String errorCode;
+	/**
+	 * 错误编码
+	 */
+	private final String errorCode;
 
-    /**
-     * 提示用户信息
-     */
-    private final String userTip;
+	/**
+	 * 提示用户信息
+	 */
+	private final String userTip;
 
-    SysStatisticsUrlExceptionEnum(String errorCode, String userTip) {
-        this.errorCode = errorCode;
-        this.userTip = userTip;
-    }
+	SysStatisticsUrlExceptionEnum(String errorCode, String userTip) {
+		this.errorCode = errorCode;
+		this.userTip = userTip;
+	}
 
 }

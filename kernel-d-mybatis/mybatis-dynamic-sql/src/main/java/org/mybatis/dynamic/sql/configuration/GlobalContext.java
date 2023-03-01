@@ -17,13 +17,15 @@ package org.mybatis.dynamic.sql.configuration;
 
 public class GlobalContext {
 
-    private static final GlobalContext instance = new GlobalContext();
+	private static final GlobalContext instance = new GlobalContext();
 
-    private final GlobalConfiguration globalConfiguration = new GlobalConfiguration();
+	private final GlobalConfiguration globalConfiguration = new GlobalConfiguration();
 
-    private GlobalContext() {}
+	private GlobalContext() {
+	}
 
-    public static GlobalConfiguration getConfiguration() {
-        return instance.globalConfiguration;
-    }
+	public static GlobalConfiguration getConfiguration() {
+		return instance.globalConfiguration;
+	}
+
 }

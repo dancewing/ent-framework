@@ -21,38 +21,38 @@ import lombok.EqualsAndHashCode;
 @Data
 public class UserSelectTreeNode extends DefaultTreeNode {
 
-    /**
-     * 节点类型：org: 机构  user: 用户
-     */
-    @ChineseDescription("节点类型：org: 机构  user: 用户")
-    private String nodeType;
+	/**
+	 * 节点类型：org: 机构 user: 用户
+	 */
+	@ChineseDescription("节点类型：org: 机构  user: 用户")
+	private String nodeType;
 
-    /**
-     * 节点值
-     */
-    @ChineseDescription("节点值")
-    private String value;
+	/**
+	 * 节点值
+	 */
+	@ChineseDescription("节点值")
+	private String value;
 
-    /**
-     * 是否被选中
-     */
-    @ChineseDescription("是否被选中")
-    private Boolean selected = false;
+	/**
+	 * 是否被选中
+	 */
+	@ChineseDescription("是否被选中")
+	private Boolean selected = false;
 
-    /**
-     * 是否禁用
-     */
-    @ChineseDescription("是否禁用")
-    private Boolean disabled = false;
+	/**
+	 * 是否禁用
+	 */
+	@ChineseDescription("是否禁用")
+	private Boolean disabled = false;
 
-    public Boolean getDisabled() {
-        if (this.disabled) {
-            return true;
-        }
-        if (TreeNodeEnum.ORG.getCode().equals(nodeType) && IterUtil.isEmpty(this.getChildren())) {
-            return true;
-        }
-        return this.disabled;
-    }
+	public Boolean getDisabled() {
+		if (this.disabled) {
+			return true;
+		}
+		if (TreeNodeEnum.ORG.getCode().equals(nodeType) && IterUtil.isEmpty(this.getChildren())) {
+			return true;
+		}
+		return this.disabled;
+	}
 
 }

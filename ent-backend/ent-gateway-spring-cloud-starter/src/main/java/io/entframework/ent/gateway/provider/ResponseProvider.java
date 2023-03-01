@@ -12,7 +12,6 @@ public class ResponseProvider {
 
 	/**
 	 * 成功
-	 *
 	 * @param message 信息
 	 * @return
 	 */
@@ -22,7 +21,6 @@ public class ResponseProvider {
 
 	/**
 	 * 失败
-	 *
 	 * @param message 信息
 	 * @return
 	 */
@@ -32,7 +30,6 @@ public class ResponseProvider {
 
 	/**
 	 * 未授权
-	 *
 	 * @param message 信息
 	 * @return
 	 */
@@ -42,7 +39,6 @@ public class ResponseProvider {
 
 	/**
 	 * 服务器异常
-	 *
 	 * @param message 信息
 	 * @return
 	 */
@@ -52,8 +48,7 @@ public class ResponseProvider {
 
 	/**
 	 * 构建返回的JSON数据格式
-	 *
-	 * @param status  状态码
+	 * @param status 状态码
 	 * @param message 信息
 	 * @return
 	 */

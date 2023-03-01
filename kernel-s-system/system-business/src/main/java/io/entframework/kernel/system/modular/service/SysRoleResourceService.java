@@ -19,11 +19,11 @@ import java.util.List;
  *
  * @date 2020/11/5 上午11:17
  */
-public interface SysRoleResourceService extends BaseService<SysRoleResourceRequest, SysRoleResourceResponse, SysRoleResource> {
+public interface SysRoleResourceService
+		extends BaseService<SysRoleResourceRequest, SysRoleResourceResponse, SysRoleResource> {
 
 	/**
 	 * 授权资源
-	 *
 	 * @param sysRoleRequest 授权参数
 	 * @date 2020/11/5 上午11:17
 	 */
@@ -31,7 +31,6 @@ public interface SysRoleResourceService extends BaseService<SysRoleResourceReque
 
 	/**
 	 * 根据角色id删除对应的角色资源信息
-	 *
 	 * @param roleId 角色id
 	 * @date 2020/11/5 上午11:18
 	 */
@@ -39,11 +38,11 @@ public interface SysRoleResourceService extends BaseService<SysRoleResourceReque
 
 	/**
 	 * 获取角色已分配资源Code
-	 *
 	 * @param roleIdList
 	 * @return
 	 */
 	List<String> getRoleResourceCodes(List<Long> roleIdList);
 
 	List<SysRoleResourceResponse> getRoleResources(List<Long> roleIdList);
+
 }

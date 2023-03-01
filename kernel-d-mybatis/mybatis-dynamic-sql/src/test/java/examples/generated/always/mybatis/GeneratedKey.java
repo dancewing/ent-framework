@@ -17,13 +17,14 @@ package examples.generated.always.mybatis;
 
 public class GeneratedKey {
 
-    private Integer key;
+	private Integer key;
 
-    public Integer getKey() {
-        return key;
-    }
+	public Integer getKey() {
+		return key;
+	}
 
-    public void setKey(Integer key) {
-        this.key = key;
-    }
+	public void setKey(Integer key) {
+		this.key = key;
+	}
+
 }

@@ -44,53 +44,56 @@ import java.util.TimeZone;
 
 @Configuration
 public class KernelFeignAutoConfiguration {
-    public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
+	public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-    @Bean
-    public Decoder feignDecoder() {
-        return new ResponseEntityDecoder(new SpringDecoder(messageConverters()));
-    }
+	@Bean
+	public Decoder feignDecoder() {
+		return new ResponseEntityDecoder(new SpringDecoder(messageConverters()));
+	}
 
-    @Bean
-    public Encoder feignEncoder() {
-        return new SpringEncoder(messageConverters());
-    }
+	@Bean
+	public Encoder feignEncoder() {
+		return new SpringEncoder(messageConverters());
+	}
 
-    public ObjectFactory<HttpMessageConverters> messageConverters() {
-        return () -> new HttpMessageConverters(mappingJackson2HttpMessageConverter());
-    }
+	public ObjectFactory<HttpMessageConverters> messageConverters() {
+		return () -> new HttpMessageConverters(mappingJackson2HttpMessageConverter());
+	}
 
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-        return new MappingJackson2HttpMessageConverter(objectMapper());
-    }
+	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+		return new MappingJackson2HttpMessageConverter(objectMapper());
+	}
 
-    public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new Jdk8Module());
-        objectMapper.setDateFormat(new SimpleDateFormat(DEFAULT_DATE_TIME_FORMAT));
-        objectMapper.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        objectMapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
-        JavaTimeModule javaTimeModule = new JavaTimeModule();
-        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT)));
-        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT)));
-        objectMapper.registerModule(javaTimeModule).registerModule(new ParameterNamesModule());
-        return objectMapper;
-    }
+	public ObjectMapper objectMapper() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new Jdk8Module());
+		objectMapper.setDateFormat(new SimpleDateFormat(DEFAULT_DATE_TIME_FORMAT));
+		objectMapper.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+		objectMapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
+		JavaTimeModule javaTimeModule = new JavaTimeModule();
+		javaTimeModule.addSerializer(LocalDateTime.class,
+				new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT)));
+		javaTimeModule.addDeserializer(LocalDateTime.class,
+				new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT)));
+		objectMapper.registerModule(javaTimeModule).registerModule(new ParameterNamesModule());
+		return objectMapper;
+	}
 
-    @Bean
-    public KernelFeignAuthInterceptor feignAuthInterceptor() {
-        return new KernelFeignAuthInterceptor();
-    }
+	@Bean
+	public KernelFeignAuthInterceptor feignAuthInterceptor() {
+		return new KernelFeignAuthInterceptor();
+	}
 
-    @Bean
-    @Primary
-    public CloudFeignFactory cloudFeignFactory(Decoder decoder, Encoder encoder, Client client, Contract contract,
-                                               ObjectProvider<Collection<RequestInterceptor>> requestInterceptors) {
-        Collection<RequestInterceptor> interceptors = requestInterceptors.getIfAvailable();
-        return new CloudFeignFactory(decoder, encoder, client, contract,
-                interceptors != null ? Collections.unmodifiableList(new ArrayList<>(interceptors)) : Collections.emptyList());
-    }
+	@Bean
+	@Primary
+	public CloudFeignFactory cloudFeignFactory(Decoder decoder, Encoder encoder, Client client, Contract contract,
+			ObjectProvider<Collection<RequestInterceptor>> requestInterceptors) {
+		Collection<RequestInterceptor> interceptors = requestInterceptors.getIfAvailable();
+		return new CloudFeignFactory(decoder, encoder, client, contract, interceptors != null
+				? Collections.unmodifiableList(new ArrayList<>(interceptors)) : Collections.emptyList());
+	}
+
 }

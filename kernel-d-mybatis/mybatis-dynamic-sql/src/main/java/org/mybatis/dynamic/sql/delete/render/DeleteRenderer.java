@@ -31,89 +31,85 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.mybatis.dynamic.sql.util.StringUtilities.spaceBefore;
 
 public class DeleteRenderer {
-    private final DeleteModel deleteModel;
-    private final RenderingStrategy renderingStrategy;
-    private final TableAliasCalculator tableAliasCalculator;
 
-    private DeleteRenderer(Builder builder) {
-        deleteModel = Objects.requireNonNull(builder.deleteModel);
-        renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
-        tableAliasCalculator = builder.deleteModel.tableAlias()
-                .map(a -> ExplicitTableAliasCalculator.of(deleteModel.table(), a))
-                .orElseGet(TableAliasCalculator::empty);
-    }
+	private final DeleteModel deleteModel;
 
-    public DeleteStatementProvider render() {
-        return deleteModel.whereModel()
-                .flatMap(this::renderWhereClause)
-                .map(this::renderWithWhereClause)
-                .orElseGet(this::renderWithoutWhereClause);
-    }
+	private final RenderingStrategy renderingStrategy;
 
-    private DeleteStatementProvider renderWithWhereClause(WhereClauseProvider whereClauseProvider) {
-        return DefaultDeleteStatementProvider.withDeleteStatement(calculateDeleteStatement(whereClauseProvider))
-                .withParameters(whereClauseProvider.getParameters())
-                .withSource(this)
-                .build();
-    }
+	private final TableAliasCalculator tableAliasCalculator;
 
-    private String calculateDeleteStatement(WhereClauseProvider whereClause) {
-        return calculateDeleteStatement()
-                + spaceBefore(whereClause.getWhereClause());
-    }
+	private DeleteRenderer(Builder builder) {
+		deleteModel = Objects.requireNonNull(builder.deleteModel);
+		renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
+		tableAliasCalculator = builder.deleteModel.tableAlias()
+				.map(a -> ExplicitTableAliasCalculator.of(deleteModel.table(), a))
+				.orElseGet(TableAliasCalculator::empty);
+	}
 
-    private String calculateDeleteStatement() {
-        SqlTable table = deleteModel.table();
-        String tableName = table.tableNameAtRuntime();
-        String aliasedTableName = tableAliasCalculator.aliasForTable(table)
-                .map(a -> tableName + " " + a).orElse(tableName); //$NON-NLS-1$
+	public DeleteStatementProvider render() {
+		return deleteModel.whereModel().flatMap(this::renderWhereClause).map(this::renderWithWhereClause)
+				.orElseGet(this::renderWithoutWhereClause);
+	}
 
-        return "delete from" + spaceBefore(aliasedTableName); //$NON-NLS-1$
-    }
+	private DeleteStatementProvider renderWithWhereClause(WhereClauseProvider whereClauseProvider) {
+		return DefaultDeleteStatementProvider.withDeleteStatement(calculateDeleteStatement(whereClauseProvider))
+				.withParameters(whereClauseProvider.getParameters()).withSource(this).build();
+	}
 
-    private DeleteStatementProvider renderWithoutWhereClause() {
-        return DefaultDeleteStatementProvider.withDeleteStatement(calculateDeleteStatement())
-                .withSource(this)
-                .build();
-    }
+	private String calculateDeleteStatement(WhereClauseProvider whereClause) {
+		return calculateDeleteStatement() + spaceBefore(whereClause.getWhereClause());
+	}
 
-    private Optional<WhereClauseProvider> renderWhereClause(WhereModel whereModel) {
-        return WhereRenderer.withWhereModel(whereModel)
-                .withRenderingStrategy(renderingStrategy)
-                .withSequence(new AtomicInteger(1))
-                .withTableAliasCalculator(tableAliasCalculator)
-                .build()
-                .render();
-    }
+	private String calculateDeleteStatement() {
+		SqlTable table = deleteModel.table();
+		String tableName = table.tableNameAtRuntime();
+		String aliasedTableName = tableAliasCalculator.aliasForTable(table).map(a -> tableName + " " + a) //$NON-NLS-1$
+				.orElse(tableName);
 
-    public DeleteModel deleteModel() {
-        return deleteModel;
-    }
+		return "delete from" + spaceBefore(aliasedTableName); //$NON-NLS-1$
+	}
 
-    public RenderingStrategy getRenderingStrategy() {
-        return renderingStrategy;
-    }
+	private DeleteStatementProvider renderWithoutWhereClause() {
+		return DefaultDeleteStatementProvider.withDeleteStatement(calculateDeleteStatement()).withSource(this).build();
+	}
 
-    public static Builder withDeleteModel(DeleteModel deleteModel) {
-        return new Builder().withDeleteModel(deleteModel);
-    }
+	private Optional<WhereClauseProvider> renderWhereClause(WhereModel whereModel) {
+		return WhereRenderer.withWhereModel(whereModel).withRenderingStrategy(renderingStrategy)
+				.withSequence(new AtomicInteger(1)).withTableAliasCalculator(tableAliasCalculator).build().render();
+	}
 
-    public static class Builder {
-        private DeleteModel deleteModel;
-        private RenderingStrategy renderingStrategy;
+	public DeleteModel deleteModel() {
+		return deleteModel;
+	}
 
-        public Builder withDeleteModel(DeleteModel deleteModel) {
-            this.deleteModel = deleteModel;
-            return this;
-        }
+	public RenderingStrategy getRenderingStrategy() {
+		return renderingStrategy;
+	}
 
-        public Builder withRenderingStrategy(RenderingStrategy renderingStrategy) {
-            this.renderingStrategy = renderingStrategy;
-            return this;
-        }
+	public static Builder withDeleteModel(DeleteModel deleteModel) {
+		return new Builder().withDeleteModel(deleteModel);
+	}
 
-        public DeleteRenderer build() {
-            return new DeleteRenderer(this);
-        }
-    }
+	public static class Builder {
+
+		private DeleteModel deleteModel;
+
+		private RenderingStrategy renderingStrategy;
+
+		public Builder withDeleteModel(DeleteModel deleteModel) {
+			this.deleteModel = deleteModel;
+			return this;
+		}
+
+		public Builder withRenderingStrategy(RenderingStrategy renderingStrategy) {
+			this.renderingStrategy = renderingStrategy;
+			return this;
+		}
+
+		public DeleteRenderer build() {
+			return new DeleteRenderer(this);
+		}
+
+	}
+
 }

@@ -24,98 +24,99 @@ import java.util.List;
 
 public class ColumnOverride extends PropertyHolder {
 
-    private final String columnName;
+	private final String columnName;
 
-    private String javaProperty;
+	private String javaProperty;
 
-    private String jdbcType;
+	private String jdbcType;
 
-    private String javaType;
+	private String javaType;
 
-    private String typeHandler;
+	private String typeHandler;
 
-    private boolean isColumnNameDelimited;
+	private boolean isColumnNameDelimited;
 
-    /**
-     * If true, the column is a GENERATED ALWAYS column which means
-     * that it should not be used in insert or update statements.
-     */
-    private boolean isGeneratedAlways;
+	/**
+	 * If true, the column is a GENERATED ALWAYS column which means that it should not be
+	 * used in insert or update statements.
+	 */
+	private boolean isGeneratedAlways;
 
-    private final List<String> genericTypes;
+	private final List<String> genericTypes;
 
-    public ColumnOverride(String columnName) {
-        super();
+	public ColumnOverride(String columnName) {
+		super();
 
-        this.columnName = columnName;
-        isColumnNameDelimited = stringContainsSpace(columnName);
-        genericTypes = new ArrayList<>();
-    }
+		this.columnName = columnName;
+		isColumnNameDelimited = stringContainsSpace(columnName);
+		genericTypes = new ArrayList<>();
+	}
 
-    public void addGenericType(String genericType) {
-        this.genericTypes.add(genericType);
-    }
+	public void addGenericType(String genericType) {
+		this.genericTypes.add(genericType);
+	}
 
-    public List<String> getGenericTypes() {
-        return genericTypes;
-    }
+	public List<String> getGenericTypes() {
+		return genericTypes;
+	}
 
-    public String getColumnName() {
-        return columnName;
-    }
+	public String getColumnName() {
+		return columnName;
+	}
 
-    public String getJavaProperty() {
-        return javaProperty;
-    }
+	public String getJavaProperty() {
+		return javaProperty;
+	}
 
-    public void setJavaProperty(String javaProperty) {
-        this.javaProperty = javaProperty;
-    }
+	public void setJavaProperty(String javaProperty) {
+		this.javaProperty = javaProperty;
+	}
 
-    public String getJavaType() {
-        return javaType;
-    }
+	public String getJavaType() {
+		return javaType;
+	}
 
-    public void setJavaType(String javaType) {
-        this.javaType = javaType;
-    }
+	public void setJavaType(String javaType) {
+		this.javaType = javaType;
+	}
 
-    public String getJdbcType() {
-        return jdbcType;
-    }
+	public String getJdbcType() {
+		return jdbcType;
+	}
 
-    public void setJdbcType(String jdbcType) {
-        this.jdbcType = jdbcType;
-    }
+	public void setJdbcType(String jdbcType) {
+		this.jdbcType = jdbcType;
+	}
 
-    public String getTypeHandler() {
-        return typeHandler;
-    }
+	public String getTypeHandler() {
+		return typeHandler;
+	}
 
-    public void setTypeHandler(String typeHandler) {
-        this.typeHandler = typeHandler;
-    }
+	public void setTypeHandler(String typeHandler) {
+		this.typeHandler = typeHandler;
+	}
 
-    public boolean isColumnNameDelimited() {
-        return isColumnNameDelimited;
-    }
+	public boolean isColumnNameDelimited() {
+		return isColumnNameDelimited;
+	}
 
-    public void setColumnNameDelimited(boolean isColumnNameDelimited) {
-        this.isColumnNameDelimited = isColumnNameDelimited;
-    }
+	public void setColumnNameDelimited(boolean isColumnNameDelimited) {
+		this.isColumnNameDelimited = isColumnNameDelimited;
+	}
 
-    public void validate(List<String> errors, String tableName) {
-        if (!stringHasValue(columnName)) {
-            errors.add(getString("ValidationError.22", //$NON-NLS-1$
-                    tableName));
-        }
-    }
+	public void validate(List<String> errors, String tableName) {
+		if (!stringHasValue(columnName)) {
+			errors.add(getString("ValidationError.22", //$NON-NLS-1$
+					tableName));
+		}
+	}
 
-    public boolean isGeneratedAlways() {
-        return isGeneratedAlways;
-    }
+	public boolean isGeneratedAlways() {
+		return isGeneratedAlways;
+	}
 
-    public void setGeneratedAlways(boolean isGeneratedAlways) {
-        this.isGeneratedAlways = isGeneratedAlways;
-    }
+	public void setGeneratedAlways(boolean isGeneratedAlways) {
+		this.isGeneratedAlways = isGeneratedAlways;
+	}
+
 }

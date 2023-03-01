@@ -26,17 +26,17 @@ import java.util.List;
 @Slf4j
 public class ModularPluginInitService {
 
-    @Resource
-    private PluginRegistry<ModularPlugin, ModuleContext> modularPluginRegistry;
+	@Resource
+	private PluginRegistry<ModularPlugin, ModuleContext> modularPluginRegistry;
 
+	@PostConstruct
+	public void init() {
+		ModuleContext moduleContext = new ModuleContext();
+		moduleContext.setAction(PluginAction.MIGRATE);
+		List<ModularPlugin> plugins = modularPluginRegistry.getPluginsFor(moduleContext);
+		for (ModularPlugin plugin : plugins) {
+			log.info("Loaded plugin : {}", plugin.getModuleMeta().getName());
+		}
+	}
 
-    @PostConstruct
-    public void init() {
-        ModuleContext moduleContext = new ModuleContext();
-        moduleContext.setAction(PluginAction.MIGRATE);
-        List<ModularPlugin> plugins = modularPluginRegistry.getPluginsFor(moduleContext);
-        for(ModularPlugin plugin: plugins) {
-            log.info("Loaded plugin : {}", plugin.getModuleMeta().getName());
-        }
-    }
 }

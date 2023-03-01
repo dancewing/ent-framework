@@ -18,30 +18,29 @@ import java.util.Map;
  */
 public class SocketMessageCenter {
 
-    /**
-     * 所有消息监听器维护
-     */
-    private static final Map<String, SocketMsgCallbackInterface> MESSAGE_LISTENER_MAP = new HashMap<>();
+	/**
+	 * 所有消息监听器维护
+	 */
+	private static final Map<String, SocketMsgCallbackInterface> MESSAGE_LISTENER_MAP = new HashMap<>();
 
-    /**
-     * 设置消息类型的监听器
-     *
-     * @param msgType  消息类型
-     * @param listener 监听器
-     * @date 2021/6/1 下午2:25
-     **/
-    public static void setMessageListener(String msgType, SocketMsgCallbackInterface listener) {
-        MESSAGE_LISTENER_MAP.put(msgType, listener);
-    }
+	/**
+	 * 设置消息类型的监听器
+	 * @param msgType 消息类型
+	 * @param listener 监听器
+	 * @date 2021/6/1 下午2:25
+	 **/
+	public static void setMessageListener(String msgType, SocketMsgCallbackInterface listener) {
+		MESSAGE_LISTENER_MAP.put(msgType, listener);
+	}
 
-    /**
-     * 获取消息监听器
-     *
-     * @param msgType 消息类型
-     * @return {@link SocketMsgCallbackInterface}
-     * @date 2021/6/1 下午2:26
-     **/
-    public static SocketMsgCallbackInterface getSocketMsgCallbackInterface(String msgType) {
-        return MESSAGE_LISTENER_MAP.get(msgType);
-    }
+	/**
+	 * 获取消息监听器
+	 * @param msgType 消息类型
+	 * @return {@link SocketMsgCallbackInterface}
+	 * @date 2021/6/1 下午2:26
+	 **/
+	public static SocketMsgCallbackInterface getSocketMsgCallbackInterface(String msgType) {
+		return MESSAGE_LISTENER_MAP.get(msgType);
+	}
+
 }

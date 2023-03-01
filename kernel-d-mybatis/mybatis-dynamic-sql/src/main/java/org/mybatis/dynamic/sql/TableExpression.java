@@ -17,9 +17,10 @@ package org.mybatis.dynamic.sql;
 
 public interface TableExpression {
 
-    <R> R accept(TableExpressionVisitor<R> visitor);
+	<R> R accept(TableExpressionVisitor<R> visitor);
 
-    default boolean isSubQuery() {
-        return false;
-    }
+	default boolean isSubQuery() {
+		return false;
+	}
+
 }

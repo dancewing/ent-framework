@@ -39,107 +39,109 @@ import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 
 class SchemaSupplierTest {
 
-    private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
-    private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
+	private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
 
-    private SqlSessionFactory sqlSessionFactory;
+	private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
 
-    @BeforeEach
-    void setup() throws Exception {
-        Class.forName(JDBC_DRIVER);
-        InputStream is = getClass().getResourceAsStream("/examples/schema_supplier/CreateDB.sql");
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
-            ScriptRunner sr = new ScriptRunner(connection);
-            sr.setLogWriter(null);
-            sr.runScript(new InputStreamReader(is));
-        }
+	private SqlSessionFactory sqlSessionFactory;
 
-        UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
-        Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
-        Configuration config = new Configuration(environment);
-        config.addMapper(UserMapper.class);
-        sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
-    }
+	@BeforeEach
+	void setup() throws Exception {
+		Class.forName(JDBC_DRIVER);
+		InputStream is = getClass().getResourceAsStream("/examples/schema_supplier/CreateDB.sql");
+		try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
+			ScriptRunner sr = new ScriptRunner(connection);
+			sr.setLogWriter(null);
+			sr.runScript(new InputStreamReader(is));
+		}
 
-    @Test
-    void testUnsetSchemaProperty() {
-        System.clearProperty(SchemaSupplier.schema_property);
+		UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
+		Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
+		Configuration config = new Configuration(environment);
+		config.addMapper(UserMapper.class);
+		sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
+	}
 
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-            UserMapper mapper = session.getMapper(UserMapper.class);
+	@Test
+	void testUnsetSchemaProperty() {
+		System.clearProperty(SchemaSupplier.schema_property);
 
-            User user = new User();
-            user.setId(1);
-            user.setName("Fred");
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+			UserMapper mapper = session.getMapper(UserMapper.class);
 
-            assertThrows(PersistenceException.class, () -> mapper.insert(user));
-        }
-    }
+			User user = new User();
+			user.setId(1);
+			user.setName("Fred");
 
-    @Test
-    void testSchemaProperty() {
-        System.setProperty(SchemaSupplier.schema_property, "schema1");
+			assertThrows(PersistenceException.class, () -> mapper.insert(user));
+		}
+	}
 
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-            UserMapper mapper = session.getMapper(UserMapper.class);
+	@Test
+	void testSchemaProperty() {
+		System.setProperty(SchemaSupplier.schema_property, "schema1");
 
-            insertFlintstones(mapper);
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+			UserMapper mapper = session.getMapper(UserMapper.class);
 
-            List<User> records = mapper.select(SelectDSLCompleter.allRows());
-            assertThat(records).hasSize(2);
-        }
-    }
+			insertFlintstones(mapper);
 
-    @Test
-    void testSchemaSwitchingProperty() {
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-            UserMapper mapper = session.getMapper(UserMapper.class);
+			List<User> records = mapper.select(SelectDSLCompleter.allRows());
+			assertThat(records).hasSize(2);
+		}
+	}
 
-            System.setProperty(SchemaSupplier.schema_property, "schema1");
-            insertFlintstones(mapper);
+	@Test
+	void testSchemaSwitchingProperty() {
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+			UserMapper mapper = session.getMapper(UserMapper.class);
 
-            List<User> records = mapper.select(SelectDSLCompleter.allRows());
-            assertThat(records).hasSize(2);
+			System.setProperty(SchemaSupplier.schema_property, "schema1");
+			insertFlintstones(mapper);
 
-            System.setProperty(SchemaSupplier.schema_property, "schema2");
-            insertRubbles(mapper);
+			List<User> records = mapper.select(SelectDSLCompleter.allRows());
+			assertThat(records).hasSize(2);
 
-            records = mapper.select(SelectDSLCompleter.allRows());
-            assertThat(records).hasSize(3);
-        }
-    }
+			System.setProperty(SchemaSupplier.schema_property, "schema2");
+			insertRubbles(mapper);
 
-    private void insertFlintstones(UserMapper mapper) {
-        User user = new User();
-        user.setId(1);
-        user.setName("Fred");
-        int rows = mapper.insert(user);
-        assertThat(rows).isEqualTo(1);
+			records = mapper.select(SelectDSLCompleter.allRows());
+			assertThat(records).hasSize(3);
+		}
+	}
 
-        user = new User();
-        user.setId(2);
-        user.setName("Wilma");
-        rows = mapper.insert(user);
-        assertThat(rows).isEqualTo(1);
-    }
+	private void insertFlintstones(UserMapper mapper) {
+		User user = new User();
+		user.setId(1);
+		user.setName("Fred");
+		int rows = mapper.insert(user);
+		assertThat(rows).isEqualTo(1);
 
-    private void insertRubbles(UserMapper mapper) {
-        User user = new User();
-        user.setId(1);
-        user.setName("Barney");
-        int rows = mapper.insert(user);
-        assertThat(rows).isEqualTo(1);
+		user = new User();
+		user.setId(2);
+		user.setName("Wilma");
+		rows = mapper.insert(user);
+		assertThat(rows).isEqualTo(1);
+	}
 
-        user = new User();
-        user.setId(2);
-        user.setName("Betty");
-        rows = mapper.insert(user);
-        assertThat(rows).isEqualTo(1);
+	private void insertRubbles(UserMapper mapper) {
+		User user = new User();
+		user.setId(1);
+		user.setName("Barney");
+		int rows = mapper.insert(user);
+		assertThat(rows).isEqualTo(1);
 
-        user = new User();
-        user.setId(3);
-        user.setName("Bamm Bamm");
-        rows = mapper.insert(user);
-        assertThat(rows).isEqualTo(1);
-    }
+		user = new User();
+		user.setId(2);
+		user.setName("Betty");
+		rows = mapper.insert(user);
+		assertThat(rows).isEqualTo(1);
+
+		user = new User();
+		user.setId(3);
+		user.setName("Bamm Bamm");
+		rows = mapper.insert(user);
+		assertThat(rows).isEqualTo(1);
+	}
+
 }

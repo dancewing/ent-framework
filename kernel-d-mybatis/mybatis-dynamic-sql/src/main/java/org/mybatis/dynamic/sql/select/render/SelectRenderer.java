@@ -32,100 +32,97 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class SelectRenderer {
-    private final SelectModel selectModel;
-    private final RenderingStrategy renderingStrategy;
-    private final AtomicInteger sequence;
-    private final TableAliasCalculator parentTableAliasCalculator; // may be null
 
-    private SelectRenderer(Builder builder) {
-        selectModel = Objects.requireNonNull(builder.selectModel);
-        renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
-        if (builder.sequence == null) {
-            sequence = new AtomicInteger(1);
-        } else {
-            sequence = builder.sequence;
-        }
-        parentTableAliasCalculator = builder.parentTableAliasCalculator;
-    }
+	private final SelectModel selectModel;
 
-    public SelectStatementProvider render() {
-        FragmentCollector fragmentCollector = selectModel
-                .mapQueryExpressions(this::renderQueryExpression)
-                .collect(FragmentCollector.collect());
-        renderOrderBy(fragmentCollector);
-        renderPagingModel(fragmentCollector);
+	private final RenderingStrategy renderingStrategy;
 
-        String selectStatement = fragmentCollector.fragments().collect(Collectors.joining(" ")); //$NON-NLS-1$
+	private final AtomicInteger sequence;
 
-        return DefaultSelectStatementProvider.withSelectStatement(selectStatement)
-                .withParameters(fragmentCollector.parameters())
-                .withSource(this)
-                .build();
-    }
+	private final TableAliasCalculator parentTableAliasCalculator; // may be null
 
-    private FragmentAndParameters renderQueryExpression(QueryExpressionModel queryExpressionModel) {
-        return QueryExpressionRenderer.withQueryExpression(queryExpressionModel)
-                .withRenderingStrategy(renderingStrategy)
-                .withSequence(sequence)
-                .withParentTableAliasCalculator(parentTableAliasCalculator)
-                .build()
-                .render();
-    }
+	private SelectRenderer(Builder builder) {
+		selectModel = Objects.requireNonNull(builder.selectModel);
+		renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
+		if (builder.sequence == null) {
+			sequence = new AtomicInteger(1);
+		}
+		else {
+			sequence = builder.sequence;
+		}
+		parentTableAliasCalculator = builder.parentTableAliasCalculator;
+	}
 
-    private void renderOrderBy(FragmentCollector fragmentCollector) {
-        selectModel.orderByModel().ifPresent(om -> renderOrderBy(fragmentCollector, om));
-    }
+	public SelectStatementProvider render() {
+		FragmentCollector fragmentCollector = selectModel.mapQueryExpressions(this::renderQueryExpression)
+				.collect(FragmentCollector.collect());
+		renderOrderBy(fragmentCollector);
+		renderPagingModel(fragmentCollector);
 
-    private void renderOrderBy(FragmentCollector fragmentCollector, OrderByModel orderByModel) {
-        String phrase = orderByModel.mapColumns(this::calculateOrderByPhrase)
-                .collect(CustomCollectors.joining(", ", "order by ", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        fragmentCollector.add(FragmentAndParameters.withFragment(phrase).build());
-    }
+		String selectStatement = fragmentCollector.fragments().collect(Collectors.joining(" ")); //$NON-NLS-1$
 
-    private String calculateOrderByPhrase(SortSpecification column) {
-        String phrase = column.orderByName();
-        if (column.isDescending()) {
-            phrase = phrase + " DESC"; //$NON-NLS-1$
-        }
-        return phrase;
-    }
+		return DefaultSelectStatementProvider.withSelectStatement(selectStatement)
+				.withParameters(fragmentCollector.parameters()).withSource(this).build();
+	}
 
-    private void renderPagingModel(FragmentCollector fragmentCollector) {
-        selectModel.pagingModel().flatMap(this::renderPagingModel)
-            .ifPresent(fragmentCollector::add);
-    }
+	private FragmentAndParameters renderQueryExpression(QueryExpressionModel queryExpressionModel) {
+		return QueryExpressionRenderer.withQueryExpression(queryExpressionModel)
+				.withRenderingStrategy(renderingStrategy).withSequence(sequence)
+				.withParentTableAliasCalculator(parentTableAliasCalculator).build().render();
+	}
 
-    private Optional<FragmentAndParameters> renderPagingModel(PagingModel pagingModel) {
-        return new PagingModelRenderer.Builder()
-                .withPagingModel(pagingModel)
-                .withRenderingStrategy(renderingStrategy)
-                .withSequence(sequence)
-                .build()
-                .render();
-    }
+	private void renderOrderBy(FragmentCollector fragmentCollector) {
+		selectModel.orderByModel().ifPresent(om -> renderOrderBy(fragmentCollector, om));
+	}
 
-    public static Builder withSelectModel(SelectModel selectModel) {
-        return new Builder().withSelectModel(selectModel);
-    }
+	private void renderOrderBy(FragmentCollector fragmentCollector, OrderByModel orderByModel) {
+		String phrase = orderByModel.mapColumns(this::calculateOrderByPhrase)
+				.collect(CustomCollectors.joining(", ", "order by ", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		fragmentCollector.add(FragmentAndParameters.withFragment(phrase).build());
+	}
 
-    public SelectModel getSelectModel() {
-        return selectModel;
-    }
+	private String calculateOrderByPhrase(SortSpecification column) {
+		String phrase = column.orderByName();
+		if (column.isDescending()) {
+			phrase = phrase + " DESC"; //$NON-NLS-1$
+		}
+		return phrase;
+	}
 
-    public static class Builder extends AbstractQueryRendererBuilder<Builder> {
-        private SelectModel selectModel;
+	private void renderPagingModel(FragmentCollector fragmentCollector) {
+		selectModel.pagingModel().flatMap(this::renderPagingModel).ifPresent(fragmentCollector::add);
+	}
 
-        public Builder withSelectModel(SelectModel selectModel) {
-            this.selectModel = selectModel;
-            return this;
-        }
+	private Optional<FragmentAndParameters> renderPagingModel(PagingModel pagingModel) {
+		return new PagingModelRenderer.Builder().withPagingModel(pagingModel).withRenderingStrategy(renderingStrategy)
+				.withSequence(sequence).build().render();
+	}
 
-        public SelectRenderer build() {
-            return new SelectRenderer(this);
-        }
+	public static Builder withSelectModel(SelectModel selectModel) {
+		return new Builder().withSelectModel(selectModel);
+	}
 
-        Builder getThis() {
-            return this;
-        }
-    }
+	public SelectModel getSelectModel() {
+		return selectModel;
+	}
+
+	public static class Builder extends AbstractQueryRendererBuilder<Builder> {
+
+		private SelectModel selectModel;
+
+		public Builder withSelectModel(SelectModel selectModel) {
+			this.selectModel = selectModel;
+			return this;
+		}
+
+		public SelectRenderer build() {
+			return new SelectRenderer(this);
+		}
+
+		Builder getThis() {
+			return this;
+		}
+
+	}
+
 }

@@ -16,12 +16,12 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020/12/1 21:54
  */
 @Configuration
-@ComponentScan(basePackages = {"io.entframework.kernel.dict"})
+@ComponentScan(basePackages = { "io.entframework.kernel.dict" })
 public class KernelDictAutoConfiguration {
 
-    @Bean
-    public KernelDictModuleRegister kernelDictModuleRegister() {
-        return new KernelDictModuleRegister();
-    }
+	@Bean
+	public KernelDictModuleRegister kernelDictModuleRegister() {
+		return new KernelDictModuleRegister();
+	}
 
 }

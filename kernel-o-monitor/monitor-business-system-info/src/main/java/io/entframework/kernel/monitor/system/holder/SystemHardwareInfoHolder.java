@@ -13,23 +13,23 @@ import io.entframework.kernel.timer.api.TimerAction;
  */
 public class SystemHardwareInfoHolder implements TimerAction {
 
-    private SystemHardwareCalculator systemHardwareCalculator = null;
+	private SystemHardwareCalculator systemHardwareCalculator = null;
 
-    @Override
-    public void action(String params) {
-        SystemHardwareCalculator newInfo = new SystemHardwareCalculator();
-        newInfo.calc();
-        systemHardwareCalculator = newInfo;
-    }
+	@Override
+	public void action(String params) {
+		SystemHardwareCalculator newInfo = new SystemHardwareCalculator();
+		newInfo.calc();
+		systemHardwareCalculator = newInfo;
+	}
 
-    public SystemHardwareCalculator getSystemHardwareInfo() {
-        if (systemHardwareCalculator != null) {
-            return systemHardwareCalculator;
-        }
+	public SystemHardwareCalculator getSystemHardwareInfo() {
+		if (systemHardwareCalculator != null) {
+			return systemHardwareCalculator;
+		}
 
-        systemHardwareCalculator = new SystemHardwareCalculator();
-        systemHardwareCalculator.calc();
-        return systemHardwareCalculator;
-    }
+		systemHardwareCalculator = new SystemHardwareCalculator();
+		systemHardwareCalculator.calc();
+		return systemHardwareCalculator;
+	}
 
 }

@@ -7,7 +7,6 @@
 
 package org.mybatis.dynamic.sql.util.meta;
 
-
 import org.apache.ibatis.type.TypeHandler;
 import org.mybatis.dynamic.sql.BasicColumn;
 import org.mybatis.dynamic.sql.SqlColumn;
@@ -27,195 +26,198 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class EntityMeta {
-    private final Class<?> cls;
-    private final SqlTable table;
-    private final List<FieldAndColumn> columns;
-    private List<Field> fields;
-    private List<Field> relations;
-    private FieldAndColumn primaryKey;
 
-    private EntityMeta(Class<?> cls) {
-        this.cls = Objects.requireNonNull(cls, "Entity must not be null");
-        Table tableAnno = cls.getAnnotation(Table.class);
-        if (tableAnno == null) {
-            throw new DynamicSqlException("The entity {" + this.cls.getName() + "} must contains @Table annotation");
-        }
-        if (tableAnno.sqlSupport() != void.class && tableAnno.tableProperty() != null) {
-            this.table = (SqlTable) ReflectUtils.getFieldValue(ReflectUtils.newInstance(tableAnno.sqlSupport()), tableAnno.tableProperty());
-        } else {
-            Assert.hasText(tableAnno.value(), "@Table has empty table name");
-            this.table = SqlTable.of(tableAnno.value());
-        }
-        this.columns = new ArrayList<>();
-        addColumn();
-    }
+	private final Class<?> cls;
 
-    static EntityMeta of(Class<?> cls) {
-        return new EntityMeta(cls);
-    }
+	private final SqlTable table;
 
-    private void addColumn() {
-        fields = ReflectUtils.getFieldList(cls).stream()
-                /* 过滤静态属性 */
-                .filter(f -> !Modifier.isStatic(f.getModifiers()))
-                /* 过滤 transient关键字修饰的属性 */
-                .filter(f -> !Modifier.isTransient(f.getModifiers()))
-                .toList();
+	private final List<FieldAndColumn> columns;
 
-        relations = new ArrayList<>();
-        for (Field field : fields) {
-            if (field.isAnnotationPresent(Column.class)) {
-                Column columnAnno = field.getAnnotation(Column.class);
-                SqlColumn<Object> column = SqlColumn.of(columnAnno.name(), this.table, columnAnno.jdbcType());
-                if (columnAnno.typeHandler() != TypeHandler.class) {
-                    column = column.withTypeHandler(columnAnno.typeHandler().getName());
-                }
-                FieldAndColumn wrapper = new FieldAndColumn(column, field);
-                columns.add(wrapper);
-                if (field.isAnnotationPresent(Id.class)) {
-                    this.primaryKey = wrapper;
-                }
-            }
-            if (field.isAnnotationPresent(JoinColumn.class)) {
-                relations.add(field);
-            }
-        }
-    }
+	private List<Field> fields;
 
-    public SqlTable getTable() {
-        return this.table;
-    }
+	private List<Field> relations;
 
-    public List<FieldAndColumn> getColumns() {
-        return columns;
-    }
+	private FieldAndColumn primaryKey;
 
-    public List<Field> getRelations() {
-        return relations;
-    }
+	private EntityMeta(Class<?> cls) {
+		this.cls = Objects.requireNonNull(cls, "Entity must not be null");
+		Table tableAnno = cls.getAnnotation(Table.class);
+		if (tableAnno == null) {
+			throw new DynamicSqlException("The entity {" + this.cls.getName() + "} must contains @Table annotation");
+		}
+		if (tableAnno.sqlSupport() != void.class && tableAnno.tableProperty() != null) {
+			this.table = (SqlTable) ReflectUtils.getFieldValue(ReflectUtils.newInstance(tableAnno.sqlSupport()),
+					tableAnno.tableProperty());
+		}
+		else {
+			Assert.hasText(tableAnno.value(), "@Table has empty table name");
+			this.table = SqlTable.of(tableAnno.value());
+		}
+		this.columns = new ArrayList<>();
+		addColumn();
+	}
 
-    public List<FieldAndColumn> getColumnsForUpdate() {
-        return this.columns.stream()
-                .filter(c -> !c.field().isAnnotationPresent(Id.class))
-                .toList();
-    }
+	static EntityMeta of(Class<?> cls) {
+		return new EntityMeta(cls);
+	}
 
-    public List<FieldAndColumn> getColumnsForInsert() {
-        return this.columns.stream()
-                .filter(c -> !c.field().isAnnotationPresent(GeneratedValue.class))
-                .toList();
-    }
+	private void addColumn() {
+		fields = ReflectUtils.getFieldList(cls).stream()
+				/* 过滤静态属性 */
+				.filter(f -> !Modifier.isStatic(f.getModifiers()))
+				/* 过滤 transient关键字修饰的属性 */
+				.filter(f -> !Modifier.isTransient(f.getModifiers())).toList();
 
-    public FieldAndColumn getPrimaryKey() {
-        return primaryKey;
-    }
+		relations = new ArrayList<>();
+		for (Field field : fields) {
+			if (field.isAnnotationPresent(Column.class)) {
+				Column columnAnno = field.getAnnotation(Column.class);
+				SqlColumn<Object> column = SqlColumn.of(columnAnno.name(), this.table, columnAnno.jdbcType());
+				if (columnAnno.typeHandler() != TypeHandler.class) {
+					column = column.withTypeHandler(columnAnno.typeHandler().getName());
+				}
+				FieldAndColumn wrapper = new FieldAndColumn(column, field);
+				columns.add(wrapper);
+				if (field.isAnnotationPresent(Id.class)) {
+					this.primaryKey = wrapper;
+				}
+			}
+			if (field.isAnnotationPresent(JoinColumn.class)) {
+				relations.add(field);
+			}
+		}
+	}
 
-    public BasicColumn[] getSelectColumns() {
-        int size = this.columns.size();
-        return this.columns.stream().map(FieldAndColumn::column).toList().toArray(new BasicColumn[size]);
-    }
+	public SqlTable getTable() {
+		return this.table;
+	}
 
-    public boolean hasManyToOne() {
-        return this.fields.stream().anyMatch(field -> field.isAnnotationPresent(ManyToOne.class));
-    }
+	public List<FieldAndColumn> getColumns() {
+		return columns;
+	}
 
-    public boolean hasRelation() {
-        return this.relations.stream().anyMatch(this::isRelation);
-    }
+	public List<Field> getRelations() {
+		return relations;
+	}
 
-    public boolean hasVersion() {
-        return this.fields.stream().anyMatch(this::isVersion);
-    }
+	public List<FieldAndColumn> getColumnsForUpdate() {
+		return this.columns.stream().filter(c -> !c.field().isAnnotationPresent(Id.class)).toList();
+	}
 
-    private boolean isRelation(Field field) {
-        return field.isAnnotationPresent(ManyToOne.class) || field.isAnnotationPresent(OneToMany.class);
-    }
+	public List<FieldAndColumn> getColumnsForInsert() {
+		return this.columns.stream().filter(c -> !c.field().isAnnotationPresent(GeneratedValue.class)).toList();
+	}
 
-    private boolean isManyToOne(Field field) {
-        return field.isAnnotationPresent(ManyToOne.class);
-    }
+	public FieldAndColumn getPrimaryKey() {
+		return primaryKey;
+	}
 
-    private boolean isVersion(Field field) {
-        return field.isAnnotationPresent(Version.class);
-    }
+	public BasicColumn[] getSelectColumns() {
+		int size = this.columns.size();
+		return this.columns.stream().map(FieldAndColumn::column).toList().toArray(new BasicColumn[size]);
+	}
 
-    public List<JoinDetail> getAllJoinDetails() {
-        List<JoinDetail> joinDetails = new ArrayList<>();
-        for (Field field : relations) {
-            JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
-            EntityMeta target = Entities.getInstance(joinColumn.target());
-            JoinDetail.of(findField(joinColumn.left()).orElse(null), joinColumn.target(), target.findField(joinColumn.right()).orElse(null))
-                    .ifPresent(joinDetails::add);
-        }
-        return joinDetails;
-    }
+	public boolean hasManyToOne() {
+		return this.fields.stream().anyMatch(field -> field.isAnnotationPresent(ManyToOne.class));
+	}
 
-    public List<JoinDetail> getManyToOneJoinDetails() {
-        List<JoinDetail> joinDetails = new ArrayList<>();
-        relations.stream().filter(this::isManyToOne).forEach(field -> {
-            JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
-            EntityMeta target = Entities.getInstance(joinColumn.target());
-            JoinDetail.of(findField(joinColumn.left()).orElse(null), joinColumn.target(), target.findField(joinColumn.right()).orElse(null))
-                    .ifPresent(joinDetails::add);
-        });
-        return joinDetails;
-    }
+	public boolean hasRelation() {
+		return this.relations.stream().anyMatch(this::isRelation);
+	}
 
-    public BasicColumn[] getAllJoinSelectColumns() {
-        return this.getAllJoinSelectColumns(false);
-    }
+	public boolean hasVersion() {
+		return this.fields.stream().anyMatch(this::isVersion);
+	}
 
-    public BasicColumn[] getManyToOneSelectColumns() {
-        return this.getAllJoinSelectColumns(true);
-    }
+	private boolean isRelation(Field field) {
+		return field.isAnnotationPresent(ManyToOne.class) || field.isAnnotationPresent(OneToMany.class);
+	}
 
-    public BasicColumn[] getAllJoinSelectColumns(boolean onlyManyToOne) {
-        List<BasicColumn> selectColumns = new ArrayList<>();
-        for (FieldAndColumn wrapper : this.columns) {
-            selectColumns.add(wrapper.column());
-        }
-        List<Field> allRelations = new ArrayList<>();
-        if (onlyManyToOne) {
-            allRelations.addAll(relations.stream().filter(this::isManyToOne).toList());
-        } else {
-            allRelations.addAll(relations);
-        }
-        for (Field field : allRelations) {
-            JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
-            EntityMeta target = Entities.getInstance(joinColumn.target());
-            List<FieldAndColumn> targetColumns = target.getColumns();
-            String tableName = target.getTable().tableNameAtRuntime();
-            for (FieldAndColumn wrapper : targetColumns) {
-                selectColumns.add(wrapper.column().as(tableName + "_" + wrapper.column().name()));
-            }
-        }
-        return selectColumns.toArray(new BasicColumn[0]);
-    }
+	private boolean isManyToOne(Field field) {
+		return field.isAnnotationPresent(ManyToOne.class);
+	}
 
+	private boolean isVersion(Field field) {
+		return field.isAnnotationPresent(Version.class);
+	}
 
-    public Optional<SqlColumn<Object>> findField(String fieldName) {
-        if (fieldName == null || fieldName.trim().isEmpty()) {
-            return Optional.empty();
-        }
-        return this.columns.stream().filter(fieldAndColumn -> fieldAndColumn.fieldName().equals(fieldName))
-                .map(FieldAndColumn::column)
-                .findFirst();
-    }
+	public List<JoinDetail> getAllJoinDetails() {
+		List<JoinDetail> joinDetails = new ArrayList<>();
+		for (Field field : relations) {
+			JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
+			EntityMeta target = Entities.getInstance(joinColumn.target());
+			JoinDetail.of(findField(joinColumn.left()).orElse(null), joinColumn.target(),
+					target.findField(joinColumn.right()).orElse(null)).ifPresent(joinDetails::add);
+		}
+		return joinDetails;
+	}
 
-    public Optional<FieldAndColumn> findColumn(Class<? extends Annotation> annotationClass) {
-        return this.columns.stream().filter(wrapper -> wrapper.field().isAnnotationPresent(annotationClass)).findFirst();
-    }
+	public List<JoinDetail> getManyToOneJoinDetails() {
+		List<JoinDetail> joinDetails = new ArrayList<>();
+		relations.stream().filter(this::isManyToOne).forEach(field -> {
+			JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
+			EntityMeta target = Entities.getInstance(joinColumn.target());
+			JoinDetail.of(findField(joinColumn.left()).orElse(null), joinColumn.target(),
+					target.findField(joinColumn.right()).orElse(null)).ifPresent(joinDetails::add);
+		});
+		return joinDetails;
+	}
 
-    public List<Field> findColumns(Class<? extends Annotation> annotationClass) {
-        return this.relations.stream().filter(wrapper -> wrapper.isAnnotationPresent(annotationClass)).toList();
-    }
+	public BasicColumn[] getAllJoinSelectColumns() {
+		return this.getAllJoinSelectColumns(false);
+	}
 
+	public BasicColumn[] getManyToOneSelectColumns() {
+		return this.getAllJoinSelectColumns(true);
+	}
 
-    public Optional<FieldAndColumn> findVersionColumn() {
-        return this.columns.stream().filter(wrapper -> wrapper.field().isAnnotationPresent(Version.class)).findFirst();
-    }
+	public BasicColumn[] getAllJoinSelectColumns(boolean onlyManyToOne) {
+		List<BasicColumn> selectColumns = new ArrayList<>();
+		for (FieldAndColumn wrapper : this.columns) {
+			selectColumns.add(wrapper.column());
+		}
+		List<Field> allRelations = new ArrayList<>();
+		if (onlyManyToOne) {
+			allRelations.addAll(relations.stream().filter(this::isManyToOne).toList());
+		}
+		else {
+			allRelations.addAll(relations);
+		}
+		for (Field field : allRelations) {
+			JoinColumn joinColumn = field.getAnnotation(JoinColumn.class);
+			EntityMeta target = Entities.getInstance(joinColumn.target());
+			List<FieldAndColumn> targetColumns = target.getColumns();
+			String tableName = target.getTable().tableNameAtRuntime();
+			for (FieldAndColumn wrapper : targetColumns) {
+				selectColumns.add(wrapper.column().as(tableName + "_" + wrapper.column().name()));
+			}
+		}
+		return selectColumns.toArray(new BasicColumn[0]);
+	}
 
-    public Class<?> getEntityClass() {
-        return this.cls;
-    }
+	public Optional<SqlColumn<Object>> findField(String fieldName) {
+		if (fieldName == null || fieldName.trim().isEmpty()) {
+			return Optional.empty();
+		}
+		return this.columns.stream().filter(fieldAndColumn -> fieldAndColumn.fieldName().equals(fieldName))
+				.map(FieldAndColumn::column).findFirst();
+	}
+
+	public Optional<FieldAndColumn> findColumn(Class<? extends Annotation> annotationClass) {
+		return this.columns.stream().filter(wrapper -> wrapper.field().isAnnotationPresent(annotationClass))
+				.findFirst();
+	}
+
+	public List<Field> findColumns(Class<? extends Annotation> annotationClass) {
+		return this.relations.stream().filter(wrapper -> wrapper.isAnnotationPresent(annotationClass)).toList();
+	}
+
+	public Optional<FieldAndColumn> findVersionColumn() {
+		return this.columns.stream().filter(wrapper -> wrapper.field().isAnnotationPresent(Version.class)).findFirst();
+	}
+
+	public Class<?> getEntityClass() {
+		return this.cls;
+	}
+
 }

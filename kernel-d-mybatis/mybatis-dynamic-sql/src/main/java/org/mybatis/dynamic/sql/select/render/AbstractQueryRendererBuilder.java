@@ -21,24 +21,28 @@ import org.mybatis.dynamic.sql.render.RenderingStrategy;
 import org.mybatis.dynamic.sql.render.TableAliasCalculator;
 
 public abstract class AbstractQueryRendererBuilder<T extends AbstractQueryRendererBuilder<T>> {
-    RenderingStrategy renderingStrategy;
-    AtomicInteger sequence;
-    TableAliasCalculator parentTableAliasCalculator;
 
-    public T withRenderingStrategy(RenderingStrategy renderingStrategy) {
-        this.renderingStrategy = renderingStrategy;
-        return getThis();
-    }
+	RenderingStrategy renderingStrategy;
 
-    public T withSequence(AtomicInteger sequence) {
-        this.sequence = sequence;
-        return getThis();
-    }
+	AtomicInteger sequence;
 
-    public T withParentTableAliasCalculator(TableAliasCalculator parentTableAliasCalculator) {
-        this.parentTableAliasCalculator = parentTableAliasCalculator;
-        return getThis();
-    }
+	TableAliasCalculator parentTableAliasCalculator;
 
-    abstract T getThis();
+	public T withRenderingStrategy(RenderingStrategy renderingStrategy) {
+		this.renderingStrategy = renderingStrategy;
+		return getThis();
+	}
+
+	public T withSequence(AtomicInteger sequence) {
+		this.sequence = sequence;
+		return getThis();
+	}
+
+	public T withParentTableAliasCalculator(TableAliasCalculator parentTableAliasCalculator) {
+		this.parentTableAliasCalculator = parentTableAliasCalculator;
+		return getThis();
+	}
+
+	abstract T getThis();
+
 }

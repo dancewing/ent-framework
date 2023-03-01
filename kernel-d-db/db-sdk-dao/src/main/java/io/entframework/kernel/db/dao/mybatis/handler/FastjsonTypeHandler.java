@@ -15,40 +15,44 @@ import java.sql.SQLException;
 
 @Slf4j
 public class FastjsonTypeHandler extends BaseTypeHandler<Object> {
-    private final Class<Object> type;
 
-    public FastjsonTypeHandler(Class<Object> type) {
-        if (log.isTraceEnabled()) {
-            log.trace("FastjsonTypeHandler(" + type + ")");
-        }
-        Assert.notNull(type, "Type argument cannot be null");
-        this.type = type;
-    }
+	private final Class<Object> type;
 
-    public void setNonNullParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, this.toJson(parameter));
-    }
+	public FastjsonTypeHandler(Class<Object> type) {
+		if (log.isTraceEnabled()) {
+			log.trace("FastjsonTypeHandler(" + type + ")");
+		}
+		Assert.notNull(type, "Type argument cannot be null");
+		this.type = type;
+	}
 
-    public Object getNullableResult(ResultSet rs, String columnName) throws SQLException {
-        String json = rs.getString(columnName);
-        return StringUtils.isBlank(json) ? null : this.parse(json);
-    }
+	public void setNonNullParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType)
+			throws SQLException {
+		ps.setString(i, this.toJson(parameter));
+	}
 
-    public Object getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
-        String json = rs.getString(columnIndex);
-        return StringUtils.isBlank(json) ? null : this.parse(json);
-    }
+	public Object getNullableResult(ResultSet rs, String columnName) throws SQLException {
+		String json = rs.getString(columnName);
+		return StringUtils.isBlank(json) ? null : this.parse(json);
+	}
 
-    public Object getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
-        String json = cs.getString(columnIndex);
-        return StringUtils.isBlank(json) ? null : this.parse(json);
-    }
+	public Object getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+		String json = rs.getString(columnIndex);
+		return StringUtils.isBlank(json) ? null : this.parse(json);
+	}
 
-    public Object parse(String json) {
-        return JSON.parseObject(json, this.type);
-    }
+	public Object getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+		String json = cs.getString(columnIndex);
+		return StringUtils.isBlank(json) ? null : this.parse(json);
+	}
 
-    protected String toJson(Object obj) {
-        return JSON.toJSONString(obj, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullListAsEmpty, SerializerFeature.WriteNullStringAsEmpty);
-    }
+	public Object parse(String json) {
+		return JSON.parseObject(json, this.type);
+	}
+
+	protected String toJson(Object obj) {
+		return JSON.toJSONString(obj, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullListAsEmpty,
+				SerializerFeature.WriteNullStringAsEmpty);
+	}
+
 }

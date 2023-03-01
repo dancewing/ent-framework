@@ -29,72 +29,69 @@ import org.mybatis.dynamic.sql.util.Messages;
 
 public class InsertRenderer<T> {
 
-    private final InsertModel<T> model;
-    private final RenderingStrategy renderingStrategy;
+	private final InsertModel<T> model;
 
-    private InsertRenderer(Builder<T> builder) {
-        model = Objects.requireNonNull(builder.model);
-        renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
-    }
+	private final RenderingStrategy renderingStrategy;
 
-    public InsertStatementProvider<T> render() {
-        ValuePhraseVisitor visitor = new ValuePhraseVisitor(renderingStrategy);
+	private InsertRenderer(Builder<T> builder) {
+		model = Objects.requireNonNull(builder.model);
+		renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
+	}
 
-        List<Optional<FieldAndValue>> fieldsAndValues = model.mapColumnMappings(m -> m.accept(visitor))
-                .collect(Collectors.toList());
+	public InsertStatementProvider<T> render() {
+		ValuePhraseVisitor visitor = new ValuePhraseVisitor(renderingStrategy);
 
-        if (fieldsAndValues.stream().noneMatch(Optional::isPresent)) {
-            throw new InvalidSqlException(Messages.getString("ERROR.10")); //$NON-NLS-1$
-        }
+		List<Optional<FieldAndValue>> fieldsAndValues = model.mapColumnMappings(m -> m.accept(visitor))
+				.collect(Collectors.toList());
 
-        return DefaultInsertStatementProvider.withRow(model.row())
-                .withInsertStatement(calculateInsertStatement(fieldsAndValues))
-                .build();
-    }
+		if (fieldsAndValues.stream().noneMatch(Optional::isPresent)) {
+			throw new InvalidSqlException(Messages.getString("ERROR.10")); //$NON-NLS-1$
+		}
 
-    private String calculateInsertStatement(List<Optional<FieldAndValue>> fieldsAndValues) {
-        return "insert into" //$NON-NLS-1$
-                + spaceBefore(model.table().tableNameAtRuntime())
-                + spaceBefore(calculateColumnsPhrase(fieldsAndValues))
-                + spaceBefore(calculateValuesPhrase(fieldsAndValues));
-    }
+		return DefaultInsertStatementProvider.withRow(model.row())
+				.withInsertStatement(calculateInsertStatement(fieldsAndValues)).build();
+	}
 
-    private String calculateColumnsPhrase(List<Optional<FieldAndValue>> fieldsAndValues) {
-        return fieldsAndValues.stream()
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(FieldAndValue::fieldName)
-                .collect(Collectors.joining(", ", "(", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    }
+	private String calculateInsertStatement(List<Optional<FieldAndValue>> fieldsAndValues) {
+		return "insert into" //$NON-NLS-1$
+				+ spaceBefore(model.table().tableNameAtRuntime()) + spaceBefore(calculateColumnsPhrase(fieldsAndValues))
+				+ spaceBefore(calculateValuesPhrase(fieldsAndValues));
+	}
 
-    private String calculateValuesPhrase(List<Optional<FieldAndValue>> fieldsAndValues) {
-        return fieldsAndValues.stream()
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(FieldAndValue::valuePhrase)
-                .collect(Collectors.joining(", ", "values (", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-    }
+	private String calculateColumnsPhrase(List<Optional<FieldAndValue>> fieldsAndValues) {
+		return fieldsAndValues.stream().filter(Optional::isPresent).map(Optional::get).map(FieldAndValue::fieldName)
+				.collect(Collectors.joining(", ", "(", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 
-    public static <T> Builder<T> withInsertModel(InsertModel<T> model) {
-        return new Builder<T>().withInsertModel(model);
-    }
+	private String calculateValuesPhrase(List<Optional<FieldAndValue>> fieldsAndValues) {
+		return fieldsAndValues.stream().filter(Optional::isPresent).map(Optional::get).map(FieldAndValue::valuePhrase)
+				.collect(Collectors.joining(", ", "values (", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
 
-    public static class Builder<T> {
-        private InsertModel<T> model;
-        private RenderingStrategy renderingStrategy;
+	public static <T> Builder<T> withInsertModel(InsertModel<T> model) {
+		return new Builder<T>().withInsertModel(model);
+	}
 
-        public Builder<T> withInsertModel(InsertModel<T> model) {
-            this.model = model;
-            return this;
-        }
+	public static class Builder<T> {
 
-        public Builder<T> withRenderingStrategy(RenderingStrategy renderingStrategy) {
-            this.renderingStrategy = renderingStrategy;
-            return this;
-        }
+		private InsertModel<T> model;
 
-        public InsertRenderer<T> build() {
-            return new InsertRenderer<>(this);
-        }
-    }
+		private RenderingStrategy renderingStrategy;
+
+		public Builder<T> withInsertModel(InsertModel<T> model) {
+			this.model = model;
+			return this;
+		}
+
+		public Builder<T> withRenderingStrategy(RenderingStrategy renderingStrategy) {
+			this.renderingStrategy = renderingStrategy;
+			return this;
+		}
+
+		public InsertRenderer<T> build() {
+			return new InsertRenderer<>(this);
+		}
+
+	}
+
 }

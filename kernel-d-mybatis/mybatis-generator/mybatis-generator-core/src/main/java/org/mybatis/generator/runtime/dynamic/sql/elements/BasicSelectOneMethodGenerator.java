@@ -25,110 +25,116 @@ import org.mybatis.generator.api.dom.java.Parameter;
 
 public class BasicSelectOneMethodGenerator extends AbstractMethodGenerator {
 
-    private final FullyQualifiedJavaType recordType;
-    private final String resultMapId;
-    private final FragmentGenerator fragmentGenerator;
-    private final boolean reuseResultMap;
+	private final FullyQualifiedJavaType recordType;
 
-    private BasicSelectOneMethodGenerator(Builder builder) {
-        super(builder);
-        recordType = builder.recordType;
-        resultMapId = builder.resultMapId;
-        fragmentGenerator = builder.fragmentGenerator;
-        reuseResultMap = builder.reuseResultMap;
-    }
+	private final String resultMapId;
 
-    @Override
-    public MethodAndImports generateMethodAndImports() {
-        Set<FullyQualifiedJavaType> imports = new HashSet<>();
+	private final FragmentGenerator fragmentGenerator;
 
-        FullyQualifiedJavaType parameterType =
-                new FullyQualifiedJavaType(
-                        "org.mybatis.dynamic.sql.select.render.SelectStatementProvider"); //$NON-NLS-1$
-        imports.add(parameterType);
+	private final boolean reuseResultMap;
 
-        FullyQualifiedJavaType adapter =
-                new FullyQualifiedJavaType("org.mybatis.dynamic.sql.util.SqlProviderAdapter"); //$NON-NLS-1$
-        imports.add(adapter);
+	private BasicSelectOneMethodGenerator(Builder builder) {
+		super(builder);
+		recordType = builder.recordType;
+		resultMapId = builder.resultMapId;
+		fragmentGenerator = builder.fragmentGenerator;
+		reuseResultMap = builder.reuseResultMap;
+	}
 
-        FullyQualifiedJavaType annotation =
-                new FullyQualifiedJavaType("org.apache.ibatis.annotations.SelectProvider"); //$NON-NLS-1$
-        imports.add(annotation);
+	@Override
+	public MethodAndImports generateMethodAndImports() {
+		Set<FullyQualifiedJavaType> imports = new HashSet<>();
 
-        FullyQualifiedJavaType returnType = new FullyQualifiedJavaType("java.util.Optional"); //$NON-NLS-1$
-        returnType.addTypeArgument(recordType);
+		FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType(
+				"org.mybatis.dynamic.sql.select.render.SelectStatementProvider"); //$NON-NLS-1$
+		imports.add(parameterType);
 
-        imports.add(returnType);
+		FullyQualifiedJavaType adapter = new FullyQualifiedJavaType("org.mybatis.dynamic.sql.util.SqlProviderAdapter"); //$NON-NLS-1$
+		imports.add(adapter);
 
-        Method method = new Method("selectOne"); //$NON-NLS-1$
-        method.setAbstract(true);
+		FullyQualifiedJavaType annotation = new FullyQualifiedJavaType("org.apache.ibatis.annotations.SelectProvider"); //$NON-NLS-1$
+		imports.add(annotation);
 
-        imports.add(recordType);
-        method.setReturnType(returnType);
-        method.addParameter(new Parameter(parameterType, "selectStatement")); //$NON-NLS-1$
-        context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
-        method.addAnnotation("@SelectProvider(type=SqlProviderAdapter.class, method=\"select\")"); //$NON-NLS-1$
+		FullyQualifiedJavaType returnType = new FullyQualifiedJavaType("java.util.Optional"); //$NON-NLS-1$
+		returnType.addTypeArgument(recordType);
 
-        MethodAndImports.Builder builder = MethodAndImports.withMethod(method)
-                .withImports(imports);
+		imports.add(returnType);
 
-        if (introspectedTable.isConstructorBased()) {
-            MethodParts methodParts = fragmentGenerator.getAnnotatedConstructorArgs();
-            acceptParts(builder, method, methodParts);
-        } else {
-            if (reuseResultMap) {
-                FullyQualifiedJavaType rmAnnotation =
-                        new FullyQualifiedJavaType("org.apache.ibatis.annotations.ResultMap"); //$NON-NLS-1$
-                builder.withImport(rmAnnotation);
-                method.addAnnotation("@ResultMap(\"" + resultMapId + "\")"); //$NON-NLS-1$ //$NON-NLS-2$
-            } else {
-                MethodParts methodParts = fragmentGenerator.getAnnotatedResults();
-                acceptParts(builder, method, methodParts);
-            }
-        }
+		Method method = new Method("selectOne"); //$NON-NLS-1$
+		method.setAbstract(true);
 
-        return builder.build();
-    }
+		imports.add(recordType);
+		method.setReturnType(returnType);
+		method.addParameter(new Parameter(parameterType, "selectStatement")); //$NON-NLS-1$
+		context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
+		method.addAnnotation("@SelectProvider(type=SqlProviderAdapter.class, method=\"select\")"); //$NON-NLS-1$
 
-    @Override
-    public boolean callPlugins(Method method, Interface interfaze) {
-        return context.getPlugins().clientBasicSelectOneMethodGenerated(method, interfaze, introspectedTable);
-    }
+		MethodAndImports.Builder builder = MethodAndImports.withMethod(method).withImports(imports);
 
-    public static class Builder extends BaseBuilder<Builder> {
+		if (introspectedTable.isConstructorBased()) {
+			MethodParts methodParts = fragmentGenerator.getAnnotatedConstructorArgs();
+			acceptParts(builder, method, methodParts);
+		}
+		else {
+			if (reuseResultMap) {
+				FullyQualifiedJavaType rmAnnotation = new FullyQualifiedJavaType(
+						"org.apache.ibatis.annotations.ResultMap"); //$NON-NLS-1$
+				builder.withImport(rmAnnotation);
+				method.addAnnotation("@ResultMap(\"" + resultMapId + "\")"); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			else {
+				MethodParts methodParts = fragmentGenerator.getAnnotatedResults();
+				acceptParts(builder, method, methodParts);
+			}
+		}
 
-        private FullyQualifiedJavaType recordType;
-        private String resultMapId;
-        private FragmentGenerator fragmentGenerator;
-        private boolean reuseResultMap;
+		return builder.build();
+	}
 
-        public Builder withRecordType(FullyQualifiedJavaType recordType) {
-            this.recordType = recordType;
-            return this;
-        }
+	@Override
+	public boolean callPlugins(Method method, Interface interfaze) {
+		return context.getPlugins().clientBasicSelectOneMethodGenerated(method, interfaze, introspectedTable);
+	}
 
-        public Builder withResultMapId(String resultMapId) {
-            this.resultMapId = resultMapId;
-            return this;
-        }
+	public static class Builder extends BaseBuilder<Builder> {
 
-        public Builder withFragmentGenerator(FragmentGenerator fragmentGenerator) {
-            this.fragmentGenerator = fragmentGenerator;
-            return this;
-        }
+		private FullyQualifiedJavaType recordType;
 
-        public Builder withReuseResultMap(boolean reuseResultMap) {
-            this.reuseResultMap = reuseResultMap;
-            return this;
-        }
+		private String resultMapId;
 
-        @Override
-        public Builder getThis() {
-            return this;
-        }
+		private FragmentGenerator fragmentGenerator;
 
-        public BasicSelectOneMethodGenerator build() {
-            return new BasicSelectOneMethodGenerator(this);
-        }
-    }
+		private boolean reuseResultMap;
+
+		public Builder withRecordType(FullyQualifiedJavaType recordType) {
+			this.recordType = recordType;
+			return this;
+		}
+
+		public Builder withResultMapId(String resultMapId) {
+			this.resultMapId = resultMapId;
+			return this;
+		}
+
+		public Builder withFragmentGenerator(FragmentGenerator fragmentGenerator) {
+			this.fragmentGenerator = fragmentGenerator;
+			return this;
+		}
+
+		public Builder withReuseResultMap(boolean reuseResultMap) {
+			this.reuseResultMap = reuseResultMap;
+			return this;
+		}
+
+		@Override
+		public Builder getThis() {
+			return this;
+		}
+
+		public BasicSelectOneMethodGenerator build() {
+			return new BasicSelectOneMethodGenerator(this);
+		}
+
+	}
+
 }

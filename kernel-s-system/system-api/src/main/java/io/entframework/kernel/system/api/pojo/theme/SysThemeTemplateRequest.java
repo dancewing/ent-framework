@@ -60,4 +60,5 @@ public class SysThemeTemplateRequest extends BaseRequest {
 	 */
 	@ChineseDescription("主题模板启用状态")
 	private YesOrNotEnum statusFlag;
+
 }

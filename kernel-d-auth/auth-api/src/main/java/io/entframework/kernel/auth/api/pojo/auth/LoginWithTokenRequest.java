@@ -22,10 +22,10 @@ import jakarta.validation.constraints.NotBlank;
 @Data
 public class LoginWithTokenRequest extends BaseRequest {
 
-    /**
-     * 从单点服务获取到的token
-     */
-    @NotBlank(message = "token不能为空")
-    private String token;
+	/**
+	 * 从单点服务获取到的token
+	 */
+	@NotBlank(message = "token不能为空")
+	private String token;
 
 }

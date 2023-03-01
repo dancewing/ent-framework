@@ -29,16 +29,17 @@ import org.mybatis.dynamic.sql.where.render.WhereClauseProvider;
 
 class WhereModelTest {
 
-    @Test
-    void testThatParameterNameCarriesToSubCriteria() {
-        SqlTable table = SqlTable.of("foo");
-        SqlColumn<Integer> id = table.column("id", JDBCType.INTEGER);
+	@Test
+	void testThatParameterNameCarriesToSubCriteria() {
+		SqlTable table = SqlTable.of("foo");
+		SqlColumn<Integer> id = table.column("id", JDBCType.INTEGER);
 
-        Optional<WhereClauseProvider> whereClause = where(id, isEqualTo(3), or(id, isEqualTo(4))).build()
-                .render(RenderingStrategies.MYBATIS3, "myName");
+		Optional<WhereClauseProvider> whereClause = where(id, isEqualTo(3), or(id, isEqualTo(4))).build()
+				.render(RenderingStrategies.MYBATIS3, "myName");
 
-        assertThat(whereClause.map(WhereClauseProvider::getWhereClause)).hasValueSatisfying(wc ->
-            assertThat(wc).isEqualTo("where (id = #{myName.parameters.p1,jdbcType=INTEGER} or id = #{myName.parameters.p2,jdbcType=INTEGER})")
-        );
-    }
+		assertThat(whereClause.map(WhereClauseProvider::getWhereClause))
+				.hasValueSatisfying(wc -> assertThat(wc).isEqualTo(
+						"where (id = #{myName.parameters.p1,jdbcType=INTEGER} or id = #{myName.parameters.p2,jdbcType=INTEGER})"));
+	}
+
 }

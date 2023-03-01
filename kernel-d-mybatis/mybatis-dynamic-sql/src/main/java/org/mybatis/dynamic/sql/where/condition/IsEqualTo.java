@@ -22,47 +22,47 @@ import org.mybatis.dynamic.sql.AbstractSingleValueCondition;
 
 public class IsEqualTo<T> extends AbstractSingleValueCondition<T> {
 
-    private static final IsEqualTo<?> EMPTY = new IsEqualTo<Object>(null) {
-        @Override
-        public boolean shouldRender() {
-            return false;
-        }
-    };
+	private static final IsEqualTo<?> EMPTY = new IsEqualTo<Object>(null) {
+		@Override
+		public boolean shouldRender() {
+			return false;
+		}
+	};
 
-    public static <T> IsEqualTo<T> empty() {
-        @SuppressWarnings("unchecked")
-        IsEqualTo<T> t = (IsEqualTo<T>) EMPTY;
-        return t;
-    }
+	public static <T> IsEqualTo<T> empty() {
+		@SuppressWarnings("unchecked")
+		IsEqualTo<T> t = (IsEqualTo<T>) EMPTY;
+		return t;
+	}
 
-    protected IsEqualTo(T value) {
-        super(value);
-    }
+	protected IsEqualTo(T value) {
+		super(value);
+	}
 
-    @Override
-    public String renderCondition(String columnName, String placeholder) {
-        return columnName + " = " + placeholder; //$NON-NLS-1$
-    }
+	@Override
+	public String renderCondition(String columnName, String placeholder) {
+		return columnName + " = " + placeholder; //$NON-NLS-1$
+	}
 
-    public static <T> IsEqualTo<T> of(T value) {
-        return new IsEqualTo<>(value);
-    }
+	public static <T> IsEqualTo<T> of(T value) {
+		return new IsEqualTo<>(value);
+	}
 
-    @Override
-    public IsEqualTo<T> filter(Predicate<? super T> predicate) {
-        return filterSupport(predicate, IsEqualTo::empty, this);
-    }
+	@Override
+	public IsEqualTo<T> filter(Predicate<? super T> predicate) {
+		return filterSupport(predicate, IsEqualTo::empty, this);
+	}
 
-    /**
-     * If renderable, apply the mapping to the value and return a new condition with the new value. Else return a
-     * condition that will not render (this).
-     *
-     * @param mapper a mapping function to apply to the value, if renderable
-     * @param <R> type of the new condition
-     * @return a new condition with the result of applying the mapper to the value of this condition,
-     *     if renderable, otherwise a condition that will not render.
-     */
-    public <R> IsEqualTo<R> map(Function<? super T, ? extends R> mapper) {
-        return mapSupport(mapper, IsEqualTo::new, IsEqualTo::empty);
-    }
+	/**
+	 * If renderable, apply the mapping to the value and return a new condition with the
+	 * new value. Else return a condition that will not render (this).
+	 * @param mapper a mapping function to apply to the value, if renderable
+	 * @param <R> type of the new condition
+	 * @return a new condition with the result of applying the mapper to the value of this
+	 * condition, if renderable, otherwise a condition that will not render.
+	 */
+	public <R> IsEqualTo<R> map(Function<? super T, ? extends R> mapper) {
+		return mapSupport(mapper, IsEqualTo::new, IsEqualTo::empty);
+	}
+
 }

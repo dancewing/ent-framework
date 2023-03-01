@@ -1,6 +1,5 @@
 package org.mybatis.dynamic.sql.update;
 
-
 import org.jetbrains.annotations.NotNull;
 import org.mybatis.dynamic.sql.SqlTable;
 import org.mybatis.dynamic.sql.exception.InvalidSqlException;
@@ -17,93 +16,102 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class UpdateRowModel<T> {
-    private final SqlTable table;
-    private final T row;
-    private final List<AbstractColumnMapping> columnMappings;
-    private final List<AbstractColumnMapping> whereMappings;
-    private final List<AbstractColumnMapping> parameterMappings;
 
-    private UpdateRowModel(Builder<T> builder) {
-        table = Objects.requireNonNull(builder.table);
-        row = Objects.requireNonNull(builder.row);
-        columnMappings = Objects.requireNonNull(builder.columnMappings);
-        whereMappings = Objects.requireNonNull(builder.whereMappings);
-        parameterMappings = Objects.requireNonNull(builder.parameterMappings);
+	private final SqlTable table;
 
-        if (columnMappings.isEmpty()) {
-            throw new InvalidSqlException(Messages.getString("ERROR.7")); //$NON-NLS-1$
-        }
-        if (whereMappings.isEmpty()) {
-            throw new InvalidSqlException(Messages.getString("ERROR.31")); //$NON-NLS-1$
-        }
-    }
+	private final T row;
 
-    public <R> Stream<R> mapColumnMappings(Function<AbstractColumnMapping, R> mapper) {
-        return columnMappings.stream().map(mapper);
-    }
+	private final List<AbstractColumnMapping> columnMappings;
 
-    public <R> Stream<R> whereMappings(Function<AbstractColumnMapping, R> mapper) {
-        return whereMappings.stream().map(mapper);
-    }
+	private final List<AbstractColumnMapping> whereMappings;
 
-    public <R> Stream<R> parameterMappings(Function<AbstractColumnMapping, R> mapper) {
-        return parameterMappings.stream().map(mapper);
-    }
+	private final List<AbstractColumnMapping> parameterMappings;
 
-    public T row() {
-        return row;
-    }
+	private UpdateRowModel(Builder<T> builder) {
+		table = Objects.requireNonNull(builder.table);
+		row = Objects.requireNonNull(builder.row);
+		columnMappings = Objects.requireNonNull(builder.columnMappings);
+		whereMappings = Objects.requireNonNull(builder.whereMappings);
+		parameterMappings = Objects.requireNonNull(builder.parameterMappings);
 
-    public SqlTable table() {
-        return table;
-    }
+		if (columnMappings.isEmpty()) {
+			throw new InvalidSqlException(Messages.getString("ERROR.7")); //$NON-NLS-1$
+		}
+		if (whereMappings.isEmpty()) {
+			throw new InvalidSqlException(Messages.getString("ERROR.31")); //$NON-NLS-1$
+		}
+	}
 
-    @NotNull
-    public UpdateRowStatementProvider<T> render(RenderingStrategy renderingStrategy) {
-        return UpdateRowRenderer.withUpdateModel(this)
-                .withRenderingStrategy(renderingStrategy)
-                .build()
-                .render();
-    }
+	public <R> Stream<R> mapColumnMappings(Function<AbstractColumnMapping, R> mapper) {
+		return columnMappings.stream().map(mapper);
+	}
 
-    public static <T> Builder<T> withRow(T row) {
-        return new Builder<T>().withRow(row);
-    }
+	public <R> Stream<R> whereMappings(Function<AbstractColumnMapping, R> mapper) {
+		return whereMappings.stream().map(mapper);
+	}
 
-    public static class Builder<T> {
-        private SqlTable table;
-        private T row;
-        private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
-        private final List<AbstractColumnMapping> whereMappings = new ArrayList<>();
-        private final List<AbstractColumnMapping> parameterMappings = new ArrayList<>();
+	public <R> Stream<R> parameterMappings(Function<AbstractColumnMapping, R> mapper) {
+		return parameterMappings.stream().map(mapper);
+	}
 
-        public Builder<T> withTable(SqlTable table) {
-            this.table = table;
-            return this;
-        }
+	public T row() {
+		return row;
+	}
 
-        public Builder<T> withRow(T row) {
-            this.row = row;
-            return this;
-        }
+	public SqlTable table() {
+		return table;
+	}
 
-        public Builder<T> withColumnMappings(List<AbstractColumnMapping> columnMappings) {
-            this.columnMappings.addAll(columnMappings);
-            return this;
-        }
+	@NotNull
+	public UpdateRowStatementProvider<T> render(RenderingStrategy renderingStrategy) {
+		return UpdateRowRenderer.withUpdateModel(this).withRenderingStrategy(renderingStrategy).build().render();
+	}
 
-        public Builder<T> withWhereMappings(List<AbstractColumnMapping> whereMappings) {
-            this.whereMappings.addAll(whereMappings);
-            return this;
-        }
+	public static <T> Builder<T> withRow(T row) {
+		return new Builder<T>().withRow(row);
+	}
 
-        public Builder<T> withParameterMappings(List<AbstractColumnMapping> parameterMappings) {
-            this.parameterMappings.addAll(parameterMappings);
-            return this;
-        }
+	public static class Builder<T> {
 
-        public UpdateRowModel<T> build() {
-            return new UpdateRowModel<>(this);
-        }
-    }
+		private SqlTable table;
+
+		private T row;
+
+		private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
+
+		private final List<AbstractColumnMapping> whereMappings = new ArrayList<>();
+
+		private final List<AbstractColumnMapping> parameterMappings = new ArrayList<>();
+
+		public Builder<T> withTable(SqlTable table) {
+			this.table = table;
+			return this;
+		}
+
+		public Builder<T> withRow(T row) {
+			this.row = row;
+			return this;
+		}
+
+		public Builder<T> withColumnMappings(List<AbstractColumnMapping> columnMappings) {
+			this.columnMappings.addAll(columnMappings);
+			return this;
+		}
+
+		public Builder<T> withWhereMappings(List<AbstractColumnMapping> whereMappings) {
+			this.whereMappings.addAll(whereMappings);
+			return this;
+		}
+
+		public Builder<T> withParameterMappings(List<AbstractColumnMapping> parameterMappings) {
+			this.parameterMappings.addAll(parameterMappings);
+			return this;
+		}
+
+		public UpdateRowModel<T> build() {
+			return new UpdateRowModel<>(this);
+		}
+
+	}
+
 }

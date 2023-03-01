@@ -41,76 +41,74 @@ import org.mybatis.dynamic.sql.where.WhereApplier;
 
 class ReusableWhereTest {
 
-    private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
-    private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
+	private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
 
-    private SqlSessionFactory sqlSessionFactory;
+	private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
 
-    @BeforeEach
-    void setup() throws Exception {
-        Class.forName(JDBC_DRIVER);
-        InputStream is = getClass().getResourceAsStream("/examples/simple/CreateSimpleDB.sql");
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
-            ScriptRunner sr = new ScriptRunner(connection);
-            sr.setLogWriter(null);
-            sr.runScript(new InputStreamReader(is));
-        }
+	private SqlSessionFactory sqlSessionFactory;
 
-        UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
-        Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
-        Configuration config = new Configuration(environment);
-        config.addMapper(PersonMapper.class);
-        config.addMapper(PersonWithAddressMapper.class);
-        sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
-    }
+	@BeforeEach
+	void setup() throws Exception {
+		Class.forName(JDBC_DRIVER);
+		InputStream is = getClass().getResourceAsStream("/examples/simple/CreateSimpleDB.sql");
+		try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
+			ScriptRunner sr = new ScriptRunner(connection);
+			sr.setLogWriter(null);
+			sr.runScript(new InputStreamReader(is));
+		}
 
-    @Test
-    void testCount() {
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-            PersonMapper mapper = session.getMapper(PersonMapper.class);
+		UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
+		Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
+		Configuration config = new Configuration(environment);
+		config.addMapper(PersonMapper.class);
+		config.addMapper(PersonWithAddressMapper.class);
+		sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
+	}
 
-            long rows = mapper.count(c -> c.applyWhere(commonWhere));
+	@Test
+	void testCount() {
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+			PersonMapper mapper = session.getMapper(PersonMapper.class);
 
-            assertThat(rows).isEqualTo(3);
-        }
-    }
+			long rows = mapper.count(c -> c.applyWhere(commonWhere));
 
-    @Test
-    void testDelete() {
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-            PersonMapper mapper = session.getMapper(PersonMapper.class);
+			assertThat(rows).isEqualTo(3);
+		}
+	}
 
-            int rows = mapper.delete(c -> c.applyWhere(commonWhere));
+	@Test
+	void testDelete() {
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+			PersonMapper mapper = session.getMapper(PersonMapper.class);
 
-            assertThat(rows).isEqualTo(3);
-        }
-    }
+			int rows = mapper.delete(c -> c.applyWhere(commonWhere));
 
-    @Test
-    void testSelect() {
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-            PersonMapper mapper = session.getMapper(PersonMapper.class);
+			assertThat(rows).isEqualTo(3);
+		}
+	}
 
-            List<PersonRecord> rows = mapper.select(c ->
-                c.applyWhere(commonWhere)
-                .orderBy(id));
+	@Test
+	void testSelect() {
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+			PersonMapper mapper = session.getMapper(PersonMapper.class);
 
-            assertThat(rows).hasSize(3);
-        }
-    }
+			List<PersonRecord> rows = mapper.select(c -> c.applyWhere(commonWhere).orderBy(id));
 
-    @Test
-    void testUpdate() {
-        try (SqlSession session = sqlSessionFactory.openSession()) {
-            PersonMapper mapper = session.getMapper(PersonMapper.class);
+			assertThat(rows).hasSize(3);
+		}
+	}
 
-            int rows = mapper.update(c ->
-                c.set(occupation).equalToStringConstant("worker")
-                .applyWhere(commonWhere));
+	@Test
+	void testUpdate() {
+		try (SqlSession session = sqlSessionFactory.openSession()) {
+			PersonMapper mapper = session.getMapper(PersonMapper.class);
 
-            assertThat(rows).isEqualTo(3);
-        }
-    }
+			int rows = mapper.update(c -> c.set(occupation).equalToStringConstant("worker").applyWhere(commonWhere));
 
-    private WhereApplier commonWhere = d -> d.where(id, isEqualTo(1)).or(occupation, isNull());
+			assertThat(rows).isEqualTo(3);
+		}
+	}
+
+	private WhereApplier commonWhere = d -> d.where(id, isEqualTo(1)).or(occupation, isNull());
+
 }

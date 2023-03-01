@@ -23,96 +23,105 @@ import java.util.Set;
 
 public class KotlinType extends KotlinNamedItemContainer {
 
-    private final List<KotlinProperty> constructorProperties = new ArrayList<>();
-    private final Type type;
-    private final Set<String> superTypes = new HashSet<>();
+	private final List<KotlinProperty> constructorProperties = new ArrayList<>();
 
-    public enum Type {
-        CLASS("class"), //$NON-NLS-1$
-        INTERFACE("interface"), //$NON-NLS-1$
-        OBJECT("object"); //$NON-NLS-1$
+	private final Type type;
 
-        private final String value;
+	private final Set<String> superTypes = new HashSet<>();
 
-        Type(String value) {
-            this.value = value;
-        }
+	public enum Type {
 
-        public String getValue() {
-            return value;
-        }
-    }
+		CLASS("class"), //$NON-NLS-1$
+		INTERFACE("interface"), //$NON-NLS-1$
+		OBJECT("object"); //$NON-NLS-1$
 
-    private KotlinType(Builder builder) {
-        super(builder);
-        this.type = Objects.requireNonNull(builder.type);
-        constructorProperties.addAll(builder.constructorProperties);
-        superTypes.addAll(builder.superTypes);
-    }
+		private final String value;
 
-    public List<KotlinProperty> getConstructorProperties() {
-        return constructorProperties;
-    }
+		Type(String value) {
+			this.value = value;
+		}
 
-    public Type getType() {
-        return type;
-    }
+		public String getValue() {
+			return value;
+		}
 
-    public Set<String> getSuperTypes() {
-        return superTypes;
-    }
+	}
 
-    public void addConstructorProperty(KotlinProperty property) {
-        constructorProperties.add(property);
-    }
+	private KotlinType(Builder builder) {
+		super(builder);
+		this.type = Objects.requireNonNull(builder.type);
+		constructorProperties.addAll(builder.constructorProperties);
+		superTypes.addAll(builder.superTypes);
+	}
 
-    public void addSuperType(String superType) {
-        superTypes.add(superType);
-    }
+	public List<KotlinProperty> getConstructorProperties() {
+		return constructorProperties;
+	}
 
-    @Override
-    public <R> R accept(KotlinNamedItemVisitor<R> visitor) {
-        return visitor.visit(this);
-    }
+	public Type getType() {
+		return type;
+	}
 
-    public static Builder newClass(String name) {
-        return new Builder(Type.CLASS, name);
-    }
+	public Set<String> getSuperTypes() {
+		return superTypes;
+	}
 
-    public static Builder newInterface(String name) {
-        return new Builder(Type.INTERFACE, name);
-    }
+	public void addConstructorProperty(KotlinProperty property) {
+		constructorProperties.add(property);
+	}
 
-    public static Builder newObject(String name) {
-        return new Builder(Type.OBJECT, name);
-    }
+	public void addSuperType(String superType) {
+		superTypes.add(superType);
+	}
 
-    public static class Builder extends NamedItemContainerBuilder<Builder> {
-        private final Type type;
-        private final List<KotlinProperty> constructorProperties = new ArrayList<>();
-        private final List<String> superTypes = new ArrayList<>();
+	@Override
+	public <R> R accept(KotlinNamedItemVisitor<R> visitor) {
+		return visitor.visit(this);
+	}
 
-        private Builder(Type type, String name) {
-            super(name);
-            this.type = type;
-        }
+	public static Builder newClass(String name) {
+		return new Builder(Type.CLASS, name);
+	}
 
-        public Builder withConstructorProperty(KotlinProperty kotlinProperty) {
-            constructorProperties.add(kotlinProperty);
-            return this;
-        }
+	public static Builder newInterface(String name) {
+		return new Builder(Type.INTERFACE, name);
+	}
 
-        public Builder withSuperType(String superType) {
-            superTypes.add(superType);
-            return this;
-        }
+	public static Builder newObject(String name) {
+		return new Builder(Type.OBJECT, name);
+	}
 
-        public Builder getThis() {
-            return this;
-        }
+	public static class Builder extends NamedItemContainerBuilder<Builder> {
 
-        public KotlinType build() {
-            return new KotlinType(this);
-        }
-    }
+		private final Type type;
+
+		private final List<KotlinProperty> constructorProperties = new ArrayList<>();
+
+		private final List<String> superTypes = new ArrayList<>();
+
+		private Builder(Type type, String name) {
+			super(name);
+			this.type = type;
+		}
+
+		public Builder withConstructorProperty(KotlinProperty kotlinProperty) {
+			constructorProperties.add(kotlinProperty);
+			return this;
+		}
+
+		public Builder withSuperType(String superType) {
+			superTypes.add(superType);
+			return this;
+		}
+
+		public Builder getThis() {
+			return this;
+		}
+
+		public KotlinType build() {
+			return new KotlinType(this);
+		}
+
+	}
+
 }

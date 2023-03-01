@@ -19,6 +19,8 @@ import org.jetbrains.annotations.NotNull;
 
 @FunctionalInterface
 public interface Buildable<T> {
-    @NotNull
-    T build();
+
+	@NotNull
+	T build();
+
 }

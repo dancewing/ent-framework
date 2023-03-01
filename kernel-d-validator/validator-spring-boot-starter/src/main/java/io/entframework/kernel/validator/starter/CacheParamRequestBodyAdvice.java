@@ -24,28 +24,32 @@ import java.lang.reflect.Type;
 @SuppressWarnings("all")
 public class CacheParamRequestBodyAdvice implements RequestBodyAdvice {
 
-    @Override
-    public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
-        return true;
-    }
+	@Override
+	public boolean supports(MethodParameter methodParameter, Type targetType,
+			Class<? extends HttpMessageConverter<?>> converterType) {
+		return true;
+	}
 
-    @Override
-    public HttpInputMessage beforeBodyRead(HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
-        return inputMessage;
-    }
+	@Override
+	public HttpInputMessage beforeBodyRead(HttpInputMessage inputMessage, MethodParameter parameter, Type targetType,
+			Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
+		return inputMessage;
+	}
 
-    @Override
-    public Object afterBodyRead(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
+	@Override
+	public Object afterBodyRead(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType,
+			Class<? extends HttpMessageConverter<?>> converterType) {
 
-        // 临时缓存一下@RequestBody注解上的参数
-        RequestParamContext.setObject(body);
+		// 临时缓存一下@RequestBody注解上的参数
+		RequestParamContext.setObject(body);
 
-        return body;
-    }
+		return body;
+	}
 
-    @Override
-    public Object handleEmptyBody(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
-        return body;
-    }
+	@Override
+	public Object handleEmptyBody(Object body, HttpInputMessage inputMessage, MethodParameter parameter,
+			Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
+		return body;
+	}
 
 }

@@ -28,16 +28,16 @@ import org.mybatis.generator.api.dom.java.Interface;
 
 public class TopLevelInterfaceRenderer {
 
-    public String render(Interface topLevelInterface) {
-        List<String> lines = new ArrayList<>();
+	public String render(Interface topLevelInterface) {
+		List<String> lines = new ArrayList<>();
 
-        lines.addAll(topLevelInterface.getFileCommentLines());
-        lines.addAll(renderPackage(topLevelInterface));
-        lines.addAll(renderStaticImports(topLevelInterface));
-        lines.addAll(renderImports(topLevelInterface));
-        lines.addAll(renderInnerInterfaceNoIndent(topLevelInterface, topLevelInterface));
+		lines.addAll(topLevelInterface.getFileCommentLines());
+		lines.addAll(renderPackage(topLevelInterface));
+		lines.addAll(renderStaticImports(topLevelInterface));
+		lines.addAll(renderImports(topLevelInterface));
+		lines.addAll(renderInnerInterfaceNoIndent(topLevelInterface, topLevelInterface));
 
-        return lines.stream()
-                .collect(Collectors.joining(System.getProperty("line.separator"))); //$NON-NLS-1$
-    }
+		return lines.stream().collect(Collectors.joining(System.getProperty("line.separator"))); //$NON-NLS-1$
+	}
+
 }

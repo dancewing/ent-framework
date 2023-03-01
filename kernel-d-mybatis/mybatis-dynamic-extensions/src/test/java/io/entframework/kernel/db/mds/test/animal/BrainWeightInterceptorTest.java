@@ -26,43 +26,41 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mybatis.dynamic.sql.SqlBuilder.select;
 
 class BrainWeightInterceptorTest {
-    private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
-    private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
 
-    private SqlSessionFactory sqlSessionFactory;
+	private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
 
-    @BeforeEach
-    void setup() throws Exception {
-        Class.forName(JDBC_DRIVER);
-        InputStream is = getClass().getResourceAsStream("/examples/animal/data/CreateAnimalData.sql");
-        assert is != null;
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
-            ScriptRunner sr = new ScriptRunner(connection);
-            sr.setLogWriter(null);
-            sr.runScript(new InputStreamReader(is));
-        }
+	private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
 
-        UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
-        Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
-        KernelMybatisConfiguration config = new KernelMybatisConfiguration(environment);
-        config.addMapper(GeneralMapperSupport.class);
-        config.addInterceptor(new BrainWeightInterceptor());
-        sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
-    }
+	private SqlSessionFactory sqlSessionFactory;
 
-    @Test
-    void testSelectAllRows() {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-            GeneralMapperSupport mapper = sqlSession.getMapper(GeneralMapperSupport.class);
-            SelectStatementProvider selectStatement = select(id, animalName, bodyWeight, brainWeight)
-                    .from(AnimalData.class)
-                    .build()
-                    .render(RenderingStrategies.MYBATIS3);
-            List<AnimalData> animals = mapper.selectMany(selectStatement);
-            assertAll(
-                    () -> assertThat(animals).hasSize(37),
-                    () -> assertThat(animals.get(0).getId()).isEqualTo(29)
-            );
-        }
-    }
+	@BeforeEach
+	void setup() throws Exception {
+		Class.forName(JDBC_DRIVER);
+		InputStream is = getClass().getResourceAsStream("/examples/animal/data/CreateAnimalData.sql");
+		assert is != null;
+		try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
+			ScriptRunner sr = new ScriptRunner(connection);
+			sr.setLogWriter(null);
+			sr.runScript(new InputStreamReader(is));
+		}
+
+		UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
+		Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
+		KernelMybatisConfiguration config = new KernelMybatisConfiguration(environment);
+		config.addMapper(GeneralMapperSupport.class);
+		config.addInterceptor(new BrainWeightInterceptor());
+		sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
+	}
+
+	@Test
+	void testSelectAllRows() {
+		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+			GeneralMapperSupport mapper = sqlSession.getMapper(GeneralMapperSupport.class);
+			SelectStatementProvider selectStatement = select(id, animalName, bodyWeight, brainWeight)
+					.from(AnimalData.class).build().render(RenderingStrategies.MYBATIS3);
+			List<AnimalData> animals = mapper.selectMany(selectStatement);
+			assertAll(() -> assertThat(animals).hasSize(37), () -> assertThat(animals.get(0).getId()).isEqualTo(29));
+		}
+	}
+
 }

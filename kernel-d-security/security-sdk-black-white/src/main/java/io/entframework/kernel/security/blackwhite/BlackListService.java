@@ -17,30 +17,30 @@ import java.util.Collection;
  */
 public class BlackListService implements BlackListApi {
 
-    private final CacheOperatorApi<String> cacheOperatorApi;
+	private final CacheOperatorApi<String> cacheOperatorApi;
 
-    public BlackListService(CacheOperatorApi<String> cacheOperatorApi) {
-        this.cacheOperatorApi = cacheOperatorApi;
-    }
+	public BlackListService(CacheOperatorApi<String> cacheOperatorApi) {
+		this.cacheOperatorApi = cacheOperatorApi;
+	}
 
-    @Override
-    public void addBlackItem(String content) {
-        cacheOperatorApi.put(content, content);
-    }
+	@Override
+	public void addBlackItem(String content) {
+		cacheOperatorApi.put(content, content);
+	}
 
-    @Override
-    public void removeBlackItem(String content) {
-        cacheOperatorApi.remove(content);
-    }
+	@Override
+	public void removeBlackItem(String content) {
+		cacheOperatorApi.remove(content);
+	}
 
-    @Override
-    public Collection<String> getBlackList() {
-        return cacheOperatorApi.getAllKeys();
-    }
+	@Override
+	public Collection<String> getBlackList() {
+		return cacheOperatorApi.getAllKeys();
+	}
 
-    @Override
-    public boolean contains(String content) {
-        return cacheOperatorApi.contains(content);
-    }
+	@Override
+	public boolean contains(String content) {
+		return cacheOperatorApi.contains(content);
+	}
 
 }

@@ -20,11 +20,11 @@ import java.util.List;
  *
  * @date 2022/02/10 21:17
  */
-public interface SysStatisticsCountService extends BaseService<SysStatisticsCountRequest, SysStatisticsCountResponse, SysStatisticsCount> {
+public interface SysStatisticsCountService
+		extends BaseService<SysStatisticsCountRequest, SysStatisticsCountResponse, SysStatisticsCount> {
 
 	/**
 	 * 新增
-	 *
 	 * @param sysStatisticsCountRequest 请求参数
 	 * @date 2022/02/10 21:17
 	 */
@@ -32,7 +32,6 @@ public interface SysStatisticsCountService extends BaseService<SysStatisticsCoun
 
 	/**
 	 * 删除
-	 *
 	 * @param sysStatisticsCountRequest 请求参数
 	 * @date 2022/02/10 21:17
 	 */
@@ -40,7 +39,6 @@ public interface SysStatisticsCountService extends BaseService<SysStatisticsCoun
 
 	/**
 	 * 编辑
-	 *
 	 * @param sysStatisticsCountRequest 请求参数
 	 * @date 2022/02/10 21:17
 	 */
@@ -48,7 +46,6 @@ public interface SysStatisticsCountService extends BaseService<SysStatisticsCoun
 
 	/**
 	 * 查询详情
-	 *
 	 * @param sysStatisticsCountRequest 请求参数
 	 * @date 2022/02/10 21:17
 	 */
@@ -56,7 +53,6 @@ public interface SysStatisticsCountService extends BaseService<SysStatisticsCoun
 
 	/**
 	 * 获取列表
-	 *
 	 * @param sysStatisticsCountRequest 请求参数
 	 * @return List<SysStatisticsCount> 返回结果
 	 * @date 2022/02/10 21:17
@@ -65,7 +61,6 @@ public interface SysStatisticsCountService extends BaseService<SysStatisticsCoun
 
 	/**
 	 * 获取列表（带分页）
-	 *
 	 * @param sysStatisticsCountRequest 请求参数
 	 * @return PageResult<SysStatisticsCount> 返回结果
 	 * @date 2022/02/10 21:17

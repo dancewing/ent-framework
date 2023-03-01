@@ -11,7 +11,7 @@ ext {
     fastjsonVersion = '1.2.83'
     mpVersion = '3.5.11'
     mysqlConnectorJavaVersion = '8.0.22'
-    druidVersion = '1.2.15'
+    druidVersion = '1.2.16'
     swaggerVersion = '3.0.0'
     jwtVersion = '0.11.5'
     javaMailVersion = '1.4.7'

@@ -13,13 +13,14 @@ import io.entframework.kernel.message.api.constants.MessageConstants;
  */
 public class WebSocketConfigExpander {
 
-    /**
-     * 获取websocket的ws-url
-     *
-     * @date 2021/1/25 20:34
-     */
-    public static String getWebSocketWsUrl() {
-        return ConfigContext.me().getSysConfigValueWithDefault("WEB_SOCKET_WS_URL", String.class, MessageConstants.DEFAULT_WS_URL);
-    }
+	/**
+	 * 获取websocket的ws-url
+	 *
+	 * @date 2021/1/25 20:34
+	 */
+	public static String getWebSocketWsUrl() {
+		return ConfigContext.me().getSysConfigValueWithDefault("WEB_SOCKET_WS_URL", String.class,
+				MessageConstants.DEFAULT_WS_URL);
+	}
 
 }

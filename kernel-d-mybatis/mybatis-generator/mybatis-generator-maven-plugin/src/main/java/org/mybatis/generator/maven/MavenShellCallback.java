@@ -19,54 +19,55 @@ import org.mybatis.generator.internal.util.messages.Messages;
  * @author Jeff Butler
  */
 public class MavenShellCallback extends DefaultShellCallback {
-    private MyBatisGeneratorMojo mybatisGeneratorMojo;
 
-    public MavenShellCallback(MyBatisGeneratorMojo mybatisGeneratorMojo, boolean overwrite) {
-        super(overwrite);
-        this.mybatisGeneratorMojo = mybatisGeneratorMojo;
-    }
+	private MyBatisGeneratorMojo mybatisGeneratorMojo;
 
-    @Override
-    public File getDirectory(String targetProject, String targetPackage)
-            throws ShellException {
-        if (!"MAVEN".equals(targetProject)) {
-            return super.getDirectory(targetProject, targetPackage);
-        }
+	public MavenShellCallback(MyBatisGeneratorMojo mybatisGeneratorMojo, boolean overwrite) {
+		super(overwrite);
+		this.mybatisGeneratorMojo = mybatisGeneratorMojo;
+	}
 
-        // targetProject is the output directory from the MyBatis generator
-        // Mojo. It will be created if necessary
-        //
-        // targetPackage is interpreted as a sub directory, but in package
-        // format (with dots instead of slashes).  The sub directory will be created
-        // if it does not already exist
+	@Override
+	public File getDirectory(String targetProject, String targetPackage) throws ShellException {
+		if (!"MAVEN".equals(targetProject)) {
+			return super.getDirectory(targetProject, targetPackage);
+		}
 
-        File project = mybatisGeneratorMojo.getOutputDirectory();
-        if (!project.exists()) {
-            project.mkdirs();
-        }
+		// targetProject is the output directory from the MyBatis generator
+		// Mojo. It will be created if necessary
+		//
+		// targetPackage is interpreted as a sub directory, but in package
+		// format (with dots instead of slashes). The sub directory will be created
+		// if it does not already exist
 
-        if (!project.isDirectory()) {
-            throw new ShellException(Messages.getString("Warning.9", //$NON-NLS-1$
-                    project.getAbsolutePath()));
-        }
+		File project = mybatisGeneratorMojo.getOutputDirectory();
+		if (!project.exists()) {
+			project.mkdirs();
+		}
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("src/main/java/");
-        StringTokenizer st = new StringTokenizer(targetPackage, "."); //$NON-NLS-1$
-        while (st.hasMoreTokens()) {
-            sb.append(st.nextToken());
-            sb.append(File.separatorChar);
-        }
+		if (!project.isDirectory()) {
+			throw new ShellException(Messages.getString("Warning.9", //$NON-NLS-1$
+					project.getAbsolutePath()));
+		}
 
-        File directory = new File(project, sb.toString());
-        if (!directory.isDirectory()) {
-            boolean rc = directory.mkdirs();
-            if (!rc) {
-                throw new ShellException(Messages.getString("Warning.10", //$NON-NLS-1$
-                        directory.getAbsolutePath()));
-            }
-        }
+		StringBuilder sb = new StringBuilder();
+		sb.append("src/main/java/");
+		StringTokenizer st = new StringTokenizer(targetPackage, "."); //$NON-NLS-1$
+		while (st.hasMoreTokens()) {
+			sb.append(st.nextToken());
+			sb.append(File.separatorChar);
+		}
 
-        return directory;
-    }
+		File directory = new File(project, sb.toString());
+		if (!directory.isDirectory()) {
+			boolean rc = directory.mkdirs();
+			if (!rc) {
+				throw new ShellException(Messages.getString("Warning.10", //$NON-NLS-1$
+						directory.getAbsolutePath()));
+			}
+		}
+
+		return directory;
+	}
+
 }

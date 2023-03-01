@@ -16,29 +16,29 @@ import io.entframework.kernel.system.api.pojo.user.OnlineUserDTO;
  */
 public class OnlineUserCreateFactory {
 
-    /**
-     * 登录用户转化为在线用户
-     *
-     * @date 2021/1/11 22:31
-     */
-    public static OnlineUserDTO createOnlineUser(LoginUser loginUser) {
+	/**
+	 * 登录用户转化为在线用户
+	 *
+	 * @date 2021/1/11 22:31
+	 */
+	public static OnlineUserDTO createOnlineUser(LoginUser loginUser) {
 
-        OnlineUserDTO onlineUserResponse = new OnlineUserDTO();
+		OnlineUserDTO onlineUserResponse = new OnlineUserDTO();
 
-        onlineUserResponse.setUserId(loginUser.getUserId());
-        onlineUserResponse.setAccount(loginUser.getAccount());
-        onlineUserResponse.setSex(loginUser.getSimpleUserInfo().getSex().getLabel());
-        onlineUserResponse.setRealName(loginUser.getSimpleUserInfo().getRealName());
-        onlineUserResponse.setNickName(loginUser.getSimpleUserInfo().getNickName());
+		onlineUserResponse.setUserId(loginUser.getUserId());
+		onlineUserResponse.setAccount(loginUser.getAccount());
+		onlineUserResponse.setSex(loginUser.getSimpleUserInfo().getSex().getLabel());
+		onlineUserResponse.setRealName(loginUser.getSimpleUserInfo().getRealName());
+		onlineUserResponse.setNickName(loginUser.getSimpleUserInfo().getNickName());
 
-        if (loginUser.getSimpleRoleInfoList() != null && loginUser.getSimpleRoleInfoList().size() > 0) {
-            onlineUserResponse.setRoleName(loginUser.getSimpleRoleInfoList().get(0).getRoleName());
-        }
+		if (loginUser.getSimpleRoleInfoList() != null && loginUser.getSimpleRoleInfoList().size() > 0) {
+			onlineUserResponse.setRoleName(loginUser.getSimpleRoleInfoList().get(0).getRoleName());
+		}
 
-        onlineUserResponse.setLoginTime(loginUser.getLoginTime());
-        onlineUserResponse.setToken(loginUser.getToken());
+		onlineUserResponse.setLoginTime(loginUser.getLoginTime());
+		onlineUserResponse.setToken(loginUser.getToken());
 
-        return onlineUserResponse;
-    }
+		return onlineUserResponse;
+	}
 
 }

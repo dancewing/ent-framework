@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * Swagger聚合文档属性
+ *
  * @author jeff_qian
  */
 @Data

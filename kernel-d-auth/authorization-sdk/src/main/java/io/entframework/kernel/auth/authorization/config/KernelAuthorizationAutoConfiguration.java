@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
 /**
  * 鉴权模块的自动配置
  *
@@ -19,9 +18,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KernelAuthorizationAutoConfiguration {
 
-    @Bean
-    @ConditionalOnMissingBean(PermissionServiceApi.class)
-    public PermissionServiceApi permissionServiceApi() {
-        return new PermissionServiceImpl();
-    }
+	@Bean
+	@ConditionalOnMissingBean(PermissionServiceApi.class)
+	public PermissionServiceApi permissionServiceApi() {
+		return new PermissionServiceImpl();
+	}
+
 }

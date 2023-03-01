@@ -17,23 +17,25 @@ import org.springframework.core.env.ConfigurableEnvironment;
 @Getter
 public class ApplicationPropertiesContext {
 
-    private static final ApplicationPropertiesContext APPLICATION_PROPERTIES_CONTEXT = new ApplicationPropertiesContext();
+	private static final ApplicationPropertiesContext APPLICATION_PROPERTIES_CONTEXT = new ApplicationPropertiesContext();
 
-    private String applicationName = null;
-    private String contextPath = null;
-    private String profile = null;
+	private String applicationName = null;
 
-    private ApplicationPropertiesContext() {
-    }
+	private String contextPath = null;
 
-    public void initConfigs(ConfigurableEnvironment configurableEnvironment) {
-        applicationName = configurableEnvironment.getProperty("spring.application.name");
-        contextPath = configurableEnvironment.getProperty("server.servlet.context-path");
-        profile = configurableEnvironment.getProperty("spring.profiles.active");
-    }
+	private String profile = null;
 
-    public static ApplicationPropertiesContext getInstance() {
-        return APPLICATION_PROPERTIES_CONTEXT;
-    }
+	private ApplicationPropertiesContext() {
+	}
+
+	public void initConfigs(ConfigurableEnvironment configurableEnvironment) {
+		applicationName = configurableEnvironment.getProperty("spring.application.name");
+		contextPath = configurableEnvironment.getProperty("server.servlet.context-path");
+		profile = configurableEnvironment.getProperty("spring.profiles.active");
+	}
+
+	public static ApplicationPropertiesContext getInstance() {
+		return APPLICATION_PROPERTIES_CONTEXT;
+	}
 
 }

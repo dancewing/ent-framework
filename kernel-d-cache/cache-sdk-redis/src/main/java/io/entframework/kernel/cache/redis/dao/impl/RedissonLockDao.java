@@ -7,7 +7,6 @@
 
 package io.entframework.kernel.cache.redis.dao.impl;
 
-
 import io.entframework.kernel.cache.api.lock.DistributedCountDownLatch;
 import io.entframework.kernel.cache.api.lock.DistributedLock;
 import io.entframework.kernel.cache.api.lock.DistributedReadWriteLock;
@@ -22,22 +21,24 @@ import org.redisson.api.RedissonClient;
  *
  */
 public class RedissonLockDao extends BaseRedissonDao implements RedisLockDao {
-    public RedissonLockDao(RedissonClient redissonClient) {
-        super(redissonClient);
-    }
 
-    @Override
-    public DistributedLock getLock(String key) {
-        return new RedissonLock(redissonClient.getLock(key));
-    }
+	public RedissonLockDao(RedissonClient redissonClient) {
+		super(redissonClient);
+	}
 
-    @Override
-    public DistributedReadWriteLock getReadWriteLock(String key) {
-        return new RedissonReadWriteLock(redissonClient.getReadWriteLock(key));
-    }
+	@Override
+	public DistributedLock getLock(String key) {
+		return new RedissonLock(redissonClient.getLock(key));
+	}
 
-    @Override
-    public DistributedCountDownLatch getCountDownLatch(String key) {
-        return new RedissonCountDownLatch(redissonClient.getCountDownLatch(key));
-    }
+	@Override
+	public DistributedReadWriteLock getReadWriteLock(String key) {
+		return new RedissonReadWriteLock(redissonClient.getReadWriteLock(key));
+	}
+
+	@Override
+	public DistributedCountDownLatch getCountDownLatch(String key) {
+		return new RedissonCountDownLatch(redissonClient.getCountDownLatch(key));
+	}
+
 }

@@ -11,73 +11,78 @@ import java.util.List;
 
 public class MultiRowIgnoreInsertDSL<T> implements Buildable<MultiRowIgnoreInsertModel<T>> {
 
-    private final Collection<T> records;
-    private final SqlTable table;
-    private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
+	private final Collection<T> records;
 
-    private MultiRowIgnoreInsertDSL(Collection<T> records, SqlTable table) {
-        this.records = records;
-        this.table = table;
-    }
+	private final SqlTable table;
 
-    public <F> ColumnMappingFinisher<F> map(SqlColumn<F> column) {
-        return new ColumnMappingFinisher<>(column);
-    }
+	private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
 
-    @Override
-    public MultiRowIgnoreInsertModel<T> build() {
-        return MultiRowIgnoreInsertModel.withRecords(records)
-                .withTable(table)
-                .withColumnMappings(columnMappings)
-                .build();
-    }
+	private MultiRowIgnoreInsertDSL(Collection<T> records, SqlTable table) {
+		this.records = records;
+		this.table = table;
+	}
 
-    @SafeVarargs
-    public static <T> IntoGatherer<T> insert(T... records) {
-        return MultiRowIgnoreInsertDSL.insert(Arrays.asList(records));
-    }
+	public <F> ColumnMappingFinisher<F> map(SqlColumn<F> column) {
+		return new ColumnMappingFinisher<>(column);
+	}
 
-    public static <T> IntoGatherer<T> insert(Collection<T> records) {
-        return new IntoGatherer<>(records);
-    }
+	@Override
+	public MultiRowIgnoreInsertModel<T> build() {
+		return MultiRowIgnoreInsertModel.withRecords(records).withTable(table).withColumnMappings(columnMappings)
+				.build();
+	}
 
-    public static class IntoGatherer<T> {
-        private final Collection<T> records;
+	@SafeVarargs
+	public static <T> IntoGatherer<T> insert(T... records) {
+		return MultiRowIgnoreInsertDSL.insert(Arrays.asList(records));
+	}
 
-        private IntoGatherer(Collection<T> records) {
-            this.records = records;
-        }
+	public static <T> IntoGatherer<T> insert(Collection<T> records) {
+		return new IntoGatherer<>(records);
+	}
 
-        public MultiRowIgnoreInsertDSL<T> into(SqlTable table) {
-            return new MultiRowIgnoreInsertDSL<>(records, table);
-        }
-    }
+	public static class IntoGatherer<T> {
 
-    public class ColumnMappingFinisher<F> {
-        private final SqlColumn<F> column;
+		private final Collection<T> records;
 
-        public ColumnMappingFinisher(SqlColumn<F> column) {
-            this.column = column;
-        }
+		private IntoGatherer(Collection<T> records) {
+			this.records = records;
+		}
 
-        public MultiRowIgnoreInsertDSL<T> toProperty(String property) {
-            columnMappings.add(PropertyMapping.of(column, property));
-            return MultiRowIgnoreInsertDSL.this;
-        }
+		public MultiRowIgnoreInsertDSL<T> into(SqlTable table) {
+			return new MultiRowIgnoreInsertDSL<>(records, table);
+		}
 
-        public MultiRowIgnoreInsertDSL<T> toNull() {
-            columnMappings.add(NullMapping.of(column));
-            return MultiRowIgnoreInsertDSL.this;
-        }
+	}
 
-        public MultiRowIgnoreInsertDSL<T> toConstant(String constant) {
-            columnMappings.add(ConstantMapping.of(column, constant));
-            return MultiRowIgnoreInsertDSL.this;
-        }
+	public class ColumnMappingFinisher<F> {
 
-        public MultiRowIgnoreInsertDSL<T> toStringConstant(String constant) {
-            columnMappings.add(StringConstantMapping.of(column, constant));
-            return MultiRowIgnoreInsertDSL.this;
-        }
-    }
+		private final SqlColumn<F> column;
+
+		public ColumnMappingFinisher(SqlColumn<F> column) {
+			this.column = column;
+		}
+
+		public MultiRowIgnoreInsertDSL<T> toProperty(String property) {
+			columnMappings.add(PropertyMapping.of(column, property));
+			return MultiRowIgnoreInsertDSL.this;
+		}
+
+		public MultiRowIgnoreInsertDSL<T> toNull() {
+			columnMappings.add(NullMapping.of(column));
+			return MultiRowIgnoreInsertDSL.this;
+		}
+
+		public MultiRowIgnoreInsertDSL<T> toConstant(String constant) {
+			columnMappings.add(ConstantMapping.of(column, constant));
+			return MultiRowIgnoreInsertDSL.this;
+		}
+
+		public MultiRowIgnoreInsertDSL<T> toStringConstant(String constant) {
+			columnMappings.add(StringConstantMapping.of(column, constant));
+			return MultiRowIgnoreInsertDSL.this;
+		}
+
+	}
+
 }

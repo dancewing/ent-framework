@@ -14,12 +14,12 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class OfficeException extends ServiceException {
 
-    public OfficeException(AbstractExceptionEnum exception) {
-        super(OfficeConstants.OFFICE_MODULE_NAME, exception);
-    }
+	public OfficeException(AbstractExceptionEnum exception) {
+		super(OfficeConstants.OFFICE_MODULE_NAME, exception);
+	}
 
-    public OfficeException(String errorCode, String userTip) {
-        super(OfficeConstants.OFFICE_MODULE_NAME, errorCode, userTip);
-    }
+	public OfficeException(String errorCode, String userTip) {
+		super(OfficeConstants.OFFICE_MODULE_NAME, errorCode, userTip);
+	}
 
 }

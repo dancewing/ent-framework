@@ -72,7 +72,8 @@ public class FileInfoFactory {
 				fileBucket = fileOperatorApi.getBucket(fileId);
 			}
 			fileOperatorApi.storageFile(fileBucket, finalFileName, bytes);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			throw new FileException(FileExceptionEnum.ERROR_FILE, e.getMessage());
 		}
 

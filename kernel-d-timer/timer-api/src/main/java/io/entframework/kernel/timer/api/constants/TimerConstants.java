@@ -10,24 +10,24 @@ package io.entframework.kernel.timer.api.constants;
  */
 public interface TimerConstants {
 
-    /**
-     * timer模块的名称
-     */
-    String TIMER_MODULE_NAME = "kernel-d-timer";
+	/**
+	 * timer模块的名称
+	 */
+	String TIMER_MODULE_NAME = "kernel-d-timer";
 
-    /**
-     * flyway 表后缀名
-     */
-    String FLYWAY_TABLE_SUFFIX = "_timer";
+	/**
+	 * flyway 表后缀名
+	 */
+	String FLYWAY_TABLE_SUFFIX = "_timer";
 
-    /**
-     * flyway 脚本存放位置
-     */
-    String FLYWAY_LOCATIONS = "classpath:kernel_schema/timer";
+	/**
+	 * flyway 脚本存放位置
+	 */
+	String FLYWAY_LOCATIONS = "classpath:kernel_schema/timer";
 
-    /**
-     * 枚举的步进值
-     */
-    String TIMER_EXCEPTION_STEP_CODE = "11";
+	/**
+	 * 枚举的步进值
+	 */
+	String TIMER_EXCEPTION_STEP_CODE = "11";
 
 }
