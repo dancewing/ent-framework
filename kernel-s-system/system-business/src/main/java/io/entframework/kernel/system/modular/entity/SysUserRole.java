@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -18,6 +19,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_user_role", sqlSupport = SysUserRoleDynamicSqlSupport.class, tableProperty = "sysUserRole")
 public class SysUserRole extends BaseEntity implements Serializable {
     /**
@@ -40,4 +42,19 @@ public class SysUserRole extends BaseEntity implements Serializable {
     private Long roleId;
 
     private static final long serialVersionUID = 1L;
+
+    public SysUserRole userRoleId(Long userRoleId) {
+        this.userRoleId = userRoleId;
+        return this;
+    }
+
+    public SysUserRole userId(Long userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public SysUserRole roleId(Long roleId) {
+        this.roleId = roleId;
+        return this;
+    }
 }

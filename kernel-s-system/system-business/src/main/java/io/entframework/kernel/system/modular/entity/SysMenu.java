@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.JoinColumn;
 import org.mybatis.dynamic.sql.annotation.ManyToOne;
@@ -26,6 +27,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_menu", sqlSupport = SysMenuDynamicSqlSupport.class, tableProperty = "sysMenu")
 public class SysMenu extends BaseEntity implements Serializable {
     /**
@@ -140,4 +142,89 @@ public class SysMenu extends BaseEntity implements Serializable {
     private SysApp app;
 
     private static final long serialVersionUID = 1L;
+
+    public SysMenu menuId(Long menuId) {
+        this.menuId = menuId;
+        return this;
+    }
+
+    public SysMenu menuParentId(Long menuParentId) {
+        this.menuParentId = menuParentId;
+        return this;
+    }
+
+    public SysMenu menuPids(String menuPids) {
+        this.menuPids = menuPids;
+        return this;
+    }
+
+    public SysMenu menuName(String menuName) {
+        this.menuName = menuName;
+        return this;
+    }
+
+    public SysMenu menuType(MenuTypeEnum menuType) {
+        this.menuType = menuType;
+        return this;
+    }
+
+    public SysMenu menuCode(String menuCode) {
+        this.menuCode = menuCode;
+        return this;
+    }
+
+    public SysMenu appId(Long appId) {
+        this.appId = appId;
+        return this;
+    }
+
+    public SysMenu menuSort(BigDecimal menuSort) {
+        this.menuSort = menuSort;
+        return this;
+    }
+
+    public SysMenu statusFlag(StatusEnum statusFlag) {
+        this.statusFlag = statusFlag;
+        return this;
+    }
+
+    public SysMenu remark(String remark) {
+        this.remark = remark;
+        return this;
+    }
+
+    public SysMenu router(String router) {
+        this.router = router;
+        return this;
+    }
+
+    public SysMenu icon(String icon) {
+        this.icon = icon;
+        return this;
+    }
+
+    public SysMenu linkOpenType(LinkOpenTypeEnum linkOpenType) {
+        this.linkOpenType = linkOpenType;
+        return this;
+    }
+
+    public SysMenu linkUrl(String linkUrl) {
+        this.linkUrl = linkUrl;
+        return this;
+    }
+
+    public SysMenu activeUrl(String activeUrl) {
+        this.activeUrl = activeUrl;
+        return this;
+    }
+
+    public SysMenu visible(YesOrNotEnum visible) {
+        this.visible = visible;
+        return this;
+    }
+
+    public SysMenu delFlag(YesOrNotEnum delFlag) {
+        this.delFlag = delFlag;
+        return this;
+    }
 }

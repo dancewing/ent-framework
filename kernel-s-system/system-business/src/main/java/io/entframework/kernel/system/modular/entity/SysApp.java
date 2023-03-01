@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -21,6 +22,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_app", sqlSupport = SysAppDynamicSqlSupport.class, tableProperty = "sysApp")
 public class SysApp extends BaseEntity implements Serializable {
     /**
@@ -80,4 +82,49 @@ public class SysApp extends BaseEntity implements Serializable {
     private YesOrNotEnum delFlag;
 
     private static final long serialVersionUID = 1L;
+
+    public SysApp appId(Long appId) {
+        this.appId = appId;
+        return this;
+    }
+
+    public SysApp appName(String appName) {
+        this.appName = appName;
+        return this;
+    }
+
+    public SysApp appCode(String appCode) {
+        this.appCode = appCode;
+        return this;
+    }
+
+    public SysApp entryPath(String entryPath) {
+        this.entryPath = entryPath;
+        return this;
+    }
+
+    public SysApp appIcon(String appIcon) {
+        this.appIcon = appIcon;
+        return this;
+    }
+
+    public SysApp activeFlag(YesOrNotEnum activeFlag) {
+        this.activeFlag = activeFlag;
+        return this;
+    }
+
+    public SysApp statusFlag(StatusEnum statusFlag) {
+        this.statusFlag = statusFlag;
+        return this;
+    }
+
+    public SysApp appSort(Integer appSort) {
+        this.appSort = appSort;
+        return this;
+    }
+
+    public SysApp delFlag(YesOrNotEnum delFlag) {
+        this.delFlag = delFlag;
+        return this;
+    }
 }

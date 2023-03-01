@@ -3,7 +3,7 @@ package io.entframework.kernel.db.dao.persistence;
 import io.entframework.kernel.db.api.exception.DaoException;
 import io.entframework.kernel.db.api.exception.enums.DbInitEnum;
 import io.entframework.kernel.db.mybatis.persistence.PersistenceManagedTypes;
-import org.mybatis.dynamic.sql.annotation.Table;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.springframework.context.index.CandidateComponentsIndex;
 import org.springframework.context.index.CandidateComponentsIndexLoader;
 import org.springframework.core.io.Resource;
@@ -32,7 +32,7 @@ public class PersistenceManagedTypesScanner {
     private static final Set<AnnotationTypeFilter> entityTypeFilters = new LinkedHashSet<>(4);
 
     static {
-        entityTypeFilters.add(new AnnotationTypeFilter(Table.class, false));
+        entityTypeFilters.add(new AnnotationTypeFilter(Entity.class, false));
 //        entityTypeFilters.add(new AnnotationTypeFilter(Embeddable.class, false));
 //        entityTypeFilters.add(new AnnotationTypeFilter(MappedSuperclass.class, false));
 //        entityTypeFilters.add(new AnnotationTypeFilter(Converter.class, false));

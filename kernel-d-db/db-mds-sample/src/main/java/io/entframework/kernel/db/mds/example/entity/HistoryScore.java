@@ -15,6 +15,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -25,6 +26,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "exam_history_score", sqlSupport = HistoryScoreDynamicSqlSupport.class, tableProperty = "historyScore")
 public class HistoryScore extends BaseEntity implements Serializable {
     /**
@@ -65,6 +67,36 @@ public class HistoryScore extends BaseEntity implements Serializable {
     private Map<String, Integer> score;
 
     private static final long serialVersionUID = 1L;
+
+    public HistoryScore id(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public HistoryScore studentId(Long studentId) {
+        this.studentId = studentId;
+        return this;
+    }
+
+    public HistoryScore examTime(LocalDateTime examTime) {
+        this.examTime = examTime;
+        return this;
+    }
+
+    public HistoryScore examType(ExamType examType) {
+        this.examType = examType;
+        return this;
+    }
+
+    public HistoryScore totalScore(Integer totalScore) {
+        this.totalScore = totalScore;
+        return this;
+    }
+
+    public HistoryScore score(Map<String, Integer> score) {
+        this.score = score;
+        return this;
+    }
 
     @EnumHandler
     public enum ExamType {

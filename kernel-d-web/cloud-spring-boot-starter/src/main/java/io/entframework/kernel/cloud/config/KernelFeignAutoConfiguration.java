@@ -54,7 +54,6 @@ public class KernelFeignAutoConfiguration {
 
     @Bean
     public Encoder feignEncoder() {
-        //return new SpringEncoder(new SpringFormEncoder(), messageConverters());
         return new SpringEncoder(messageConverters());
     }
 

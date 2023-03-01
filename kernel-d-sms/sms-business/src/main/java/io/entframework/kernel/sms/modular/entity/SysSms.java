@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -20,6 +21,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_sms", sqlSupport = SysSmsDynamicSqlSupport.class, tableProperty = "sysSms")
 public class SysSms extends BaseEntity {
     /**
@@ -70,4 +72,44 @@ public class SysSms extends BaseEntity {
      */
     @Column(name = "invalid_time", jdbcType = JDBCType.TIMESTAMP)
     private LocalDateTime invalidTime;
+
+    public SysSms smsId(Long smsId) {
+        this.smsId = smsId;
+        return this;
+    }
+
+    public SysSms phoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        return this;
+    }
+
+    public SysSms validateCode(String validateCode) {
+        this.validateCode = validateCode;
+        return this;
+    }
+
+    public SysSms templateCode(String templateCode) {
+        this.templateCode = templateCode;
+        return this;
+    }
+
+    public SysSms bizId(String bizId) {
+        this.bizId = bizId;
+        return this;
+    }
+
+    public SysSms statusFlag(SmsSendStatusEnum statusFlag) {
+        this.statusFlag = statusFlag;
+        return this;
+    }
+
+    public SysSms source(SmsSendSourceEnum source) {
+        this.source = source;
+        return this;
+    }
+
+    public SysSms invalidTime(LocalDateTime invalidTime) {
+        this.invalidTime = invalidTime;
+        return this;
+    }
 }

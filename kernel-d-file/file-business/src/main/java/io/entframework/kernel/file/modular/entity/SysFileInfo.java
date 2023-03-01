@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -21,6 +22,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_file_info", sqlSupport = SysFileInfoDynamicSqlSupport.class, tableProperty = "sysFileInfo")
 public class SysFileInfo extends BaseEntity {
     /**
@@ -108,4 +110,74 @@ public class SysFileInfo extends BaseEntity {
     @Column(name = "del_flag", jdbcType = JDBCType.CHAR)
     @LogicDelete
     private YesOrNotEnum delFlag;
+
+    public SysFileInfo fileId(Long fileId) {
+        this.fileId = fileId;
+        return this;
+    }
+
+    public SysFileInfo fileCode(Long fileCode) {
+        this.fileCode = fileCode;
+        return this;
+    }
+
+    public SysFileInfo fileVersion(Integer fileVersion) {
+        this.fileVersion = fileVersion;
+        return this;
+    }
+
+    public SysFileInfo fileStatus(FileStatusEnum fileStatus) {
+        this.fileStatus = fileStatus;
+        return this;
+    }
+
+    public SysFileInfo fileLocation(FileStorageEnum fileLocation) {
+        this.fileLocation = fileLocation;
+        return this;
+    }
+
+    public SysFileInfo fileBucket(String fileBucket) {
+        this.fileBucket = fileBucket;
+        return this;
+    }
+
+    public SysFileInfo fileOriginName(String fileOriginName) {
+        this.fileOriginName = fileOriginName;
+        return this;
+    }
+
+    public SysFileInfo fileSuffix(String fileSuffix) {
+        this.fileSuffix = fileSuffix;
+        return this;
+    }
+
+    public SysFileInfo fileSizeKb(Long fileSizeKb) {
+        this.fileSizeKb = fileSizeKb;
+        return this;
+    }
+
+    public SysFileInfo fileSizeInfo(String fileSizeInfo) {
+        this.fileSizeInfo = fileSizeInfo;
+        return this;
+    }
+
+    public SysFileInfo fileObjectName(String fileObjectName) {
+        this.fileObjectName = fileObjectName;
+        return this;
+    }
+
+    public SysFileInfo filePath(String filePath) {
+        this.filePath = filePath;
+        return this;
+    }
+
+    public SysFileInfo secretFlag(YesOrNotEnum secretFlag) {
+        this.secretFlag = secretFlag;
+        return this;
+    }
+
+    public SysFileInfo delFlag(YesOrNotEnum delFlag) {
+        this.delFlag = delFlag;
+        return this;
+    }
 }

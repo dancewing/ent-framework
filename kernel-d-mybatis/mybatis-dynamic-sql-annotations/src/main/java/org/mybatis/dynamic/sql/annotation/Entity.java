@@ -7,14 +7,13 @@
 
 package org.mybatis.dynamic.sql.annotation;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.TYPE})
 @Retention(RUNTIME)
+@Documented
+@Inherited
 public @interface Entity {
-    Class<?> value();
 }

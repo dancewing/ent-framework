@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -20,6 +21,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_timers", sqlSupport = SysTimersDynamicSqlSupport.class, tableProperty = "sysTimers")
 public class SysTimers extends BaseEntity {
     /**
@@ -71,4 +73,44 @@ public class SysTimers extends BaseEntity {
     @Column(name = "del_flag", jdbcType = JDBCType.CHAR)
     @LogicDelete
     private YesOrNotEnum delFlag;
+
+    public SysTimers timerId(Long timerId) {
+        this.timerId = timerId;
+        return this;
+    }
+
+    public SysTimers timerName(String timerName) {
+        this.timerName = timerName;
+        return this;
+    }
+
+    public SysTimers actionClass(String actionClass) {
+        this.actionClass = actionClass;
+        return this;
+    }
+
+    public SysTimers cron(String cron) {
+        this.cron = cron;
+        return this;
+    }
+
+    public SysTimers params(String params) {
+        this.params = params;
+        return this;
+    }
+
+    public SysTimers jobStatus(TimerJobStatusEnum jobStatus) {
+        this.jobStatus = jobStatus;
+        return this;
+    }
+
+    public SysTimers remark(String remark) {
+        this.remark = remark;
+        return this;
+    }
+
+    public SysTimers delFlag(YesOrNotEnum delFlag) {
+        this.delFlag = delFlag;
+        return this;
+    }
 }

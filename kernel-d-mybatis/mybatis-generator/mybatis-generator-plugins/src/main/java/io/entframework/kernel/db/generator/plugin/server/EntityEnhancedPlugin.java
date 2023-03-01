@@ -43,7 +43,7 @@ public class EntityEnhancedPlugin extends PluginAdapter {
                                                  IntrospectedTable introspectedTable) {
         addDataAnnotation(topLevelClass, true);
 
-        //addFieldEnhancedMethod(topLevelClass);
+        addFieldEnhancedMethod(topLevelClass);
         return true;
     }
 

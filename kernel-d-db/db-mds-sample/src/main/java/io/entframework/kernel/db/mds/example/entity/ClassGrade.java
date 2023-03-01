@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.JoinColumn;
 import org.mybatis.dynamic.sql.annotation.ManyToOne;
@@ -27,6 +28,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "exam_class_grade", sqlSupport = ClassGradeDynamicSqlSupport.class, tableProperty = "classGrade")
 public class ClassGrade extends BaseEntity implements Serializable {
     /**
@@ -81,6 +83,36 @@ public class ClassGrade extends BaseEntity implements Serializable {
     private Teacher regulator;
 
     private static final long serialVersionUID = 1L;
+
+    public ClassGrade id(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public ClassGrade name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public ClassGrade description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public ClassGrade gradeType(GradeType gradeType) {
+        this.gradeType = gradeType;
+        return this;
+    }
+
+    public ClassGrade startTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+        return this;
+    }
+
+    public ClassGrade regulatorId(Long regulatorId) {
+        this.regulatorId = regulatorId;
+        return this;
+    }
 
     @EnumHandler
     public enum GradeType {

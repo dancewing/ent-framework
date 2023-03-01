@@ -17,6 +17,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 import org.mybatis.dynamic.sql.annotation.Version;
@@ -28,6 +29,7 @@ import org.mybatis.dynamic.sql.annotation.Version;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "exam_student", sqlSupport = StudentDynamicSqlSupport.class, tableProperty = "student")
 public class Student extends BaseEntity implements Serializable {
     /**
@@ -106,6 +108,66 @@ public class Student extends BaseEntity implements Serializable {
     private String hobbies;
 
     private static final long serialVersionUID = 1L;
+
+    public Student id(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public Student gradeId(Long gradeId) {
+        this.gradeId = gradeId;
+        return this;
+    }
+
+    public Student name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Student cardNum(String cardNum) {
+        this.cardNum = cardNum;
+        return this;
+    }
+
+    public Student gender(Gender gender) {
+        this.gender = gender;
+        return this;
+    }
+
+    public Student birthday(LocalDate birthday) {
+        this.birthday = birthday;
+        return this;
+    }
+
+    public Student takeCourses(List<String> takeCourses) {
+        this.takeCourses = takeCourses;
+        return this;
+    }
+
+    public Student fromForeign(Boolean fromForeign) {
+        this.fromForeign = fromForeign;
+        return this;
+    }
+
+    public Student hometown(String hometown) {
+        this.hometown = hometown;
+        return this;
+    }
+
+    public Student delFlag(YesOrNotEnum delFlag) {
+        this.delFlag = delFlag;
+        return this;
+    }
+
+    public Student version(Long version) {
+        this.version = version;
+        return this;
+    }
+
+    public Student hobbies(String hobbies) {
+        this.hobbies = hobbies;
+        return this;
+    }
 
     @EnumHandler
     public enum Gender {

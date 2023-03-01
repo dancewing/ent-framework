@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -15,6 +16,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_log", sqlSupport = SysLogDynamicSqlSupport.class, tableProperty = "sysLog")
 public class SysLog {
     /**
@@ -107,4 +109,79 @@ public class SysLog {
      */
     @Column(name = "request_result", jdbcType = JDBCType.LONGVARCHAR)
     private String requestResult;
+
+    public SysLog logId(Long logId) {
+        this.logId = logId;
+        return this;
+    }
+
+    public SysLog logName(String logName) {
+        this.logName = logName;
+        return this;
+    }
+
+    public SysLog logContent(String logContent) {
+        this.logContent = logContent;
+        return this;
+    }
+
+    public SysLog appName(String appName) {
+        this.appName = appName;
+        return this;
+    }
+
+    public SysLog requestUrl(String requestUrl) {
+        this.requestUrl = requestUrl;
+        return this;
+    }
+
+    public SysLog serverIp(String serverIp) {
+        this.serverIp = serverIp;
+        return this;
+    }
+
+    public SysLog clientIp(String clientIp) {
+        this.clientIp = clientIp;
+        return this;
+    }
+
+    public SysLog userId(Long userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public SysLog httpMethod(String httpMethod) {
+        this.httpMethod = httpMethod;
+        return this;
+    }
+
+    public SysLog clientBrowser(String clientBrowser) {
+        this.clientBrowser = clientBrowser;
+        return this;
+    }
+
+    public SysLog clientOs(String clientOs) {
+        this.clientOs = clientOs;
+        return this;
+    }
+
+    public SysLog createTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+        return this;
+    }
+
+    public SysLog createUserName(String createUserName) {
+        this.createUserName = createUserName;
+        return this;
+    }
+
+    public SysLog requestParams(String requestParams) {
+        this.requestParams = requestParams;
+        return this;
+    }
+
+    public SysLog requestResult(String requestResult) {
+        this.requestResult = requestResult;
+        return this;
+    }
 }

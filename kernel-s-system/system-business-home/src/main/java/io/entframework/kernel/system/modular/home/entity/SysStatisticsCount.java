@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -18,6 +19,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_statistics_count", sqlSupport = SysStatisticsCountDynamicSqlSupport.class, tableProperty = "sysStatisticsCount")
 public class SysStatisticsCount extends BaseEntity implements Serializable {
     /**
@@ -46,4 +48,24 @@ public class SysStatisticsCount extends BaseEntity implements Serializable {
     private Integer statCount;
 
     private static final long serialVersionUID = 1L;
+
+    public SysStatisticsCount statCountId(Long statCountId) {
+        this.statCountId = statCountId;
+        return this;
+    }
+
+    public SysStatisticsCount userId(Long userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public SysStatisticsCount statUrlId(Long statUrlId) {
+        this.statUrlId = statUrlId;
+        return this;
+    }
+
+    public SysStatisticsCount statCount(Integer statCount) {
+        this.statCount = statCount;
+        return this;
+    }
 }

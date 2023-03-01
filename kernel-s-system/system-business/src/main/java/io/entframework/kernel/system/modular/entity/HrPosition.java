@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -22,6 +23,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "hr_position", sqlSupport = HrPositionDynamicSqlSupport.class, tableProperty = "hrPosition")
 public class HrPosition extends BaseEntity implements Serializable {
     /**
@@ -69,4 +71,39 @@ public class HrPosition extends BaseEntity implements Serializable {
     private YesOrNotEnum delFlag;
 
     private static final long serialVersionUID = 1L;
+
+    public HrPosition positionId(Long positionId) {
+        this.positionId = positionId;
+        return this;
+    }
+
+    public HrPosition positionName(String positionName) {
+        this.positionName = positionName;
+        return this;
+    }
+
+    public HrPosition positionCode(String positionCode) {
+        this.positionCode = positionCode;
+        return this;
+    }
+
+    public HrPosition positionSort(BigDecimal positionSort) {
+        this.positionSort = positionSort;
+        return this;
+    }
+
+    public HrPosition statusFlag(StatusEnum statusFlag) {
+        this.statusFlag = statusFlag;
+        return this;
+    }
+
+    public HrPosition positionRemark(String positionRemark) {
+        this.positionRemark = positionRemark;
+        return this;
+    }
+
+    public HrPosition delFlag(YesOrNotEnum delFlag) {
+        this.delFlag = delFlag;
+        return this;
+    }
 }

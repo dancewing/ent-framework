@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
 public class EntityMeta {
     private final Class<?> cls;
     private final SqlTable table;
@@ -37,9 +38,8 @@ public class EntityMeta {
         this.cls = Objects.requireNonNull(cls, "Entity must not be null");
         Table tableAnno = cls.getAnnotation(Table.class);
         if (tableAnno == null) {
-            throw new DynamicSqlException("");
+            throw new DynamicSqlException("The entity {" + this.cls.getName() + "} must contains @Table annotation");
         }
-        Assert.notNull(tableAnno, this.cls.getName() + " must have @Table annotation");
         if (tableAnno.sqlSupport() != void.class && tableAnno.tableProperty() != null) {
             this.table = (SqlTable) ReflectUtils.getFieldValue(ReflectUtils.newInstance(tableAnno.sqlSupport()), tableAnno.tableProperty());
         } else {
@@ -50,7 +50,7 @@ public class EntityMeta {
         addColumn();
     }
 
-    public static EntityMeta of(Class<?> cls) {
+    static EntityMeta of(Class<?> cls) {
         return new EntityMeta(cls);
     }
 

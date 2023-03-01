@@ -13,6 +13,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -23,6 +24,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_message", sqlSupport = SysMessageDynamicSqlSupport.class, tableProperty = "sysMessage")
 public class SysMessage extends BaseEntity implements Serializable {
     /**
@@ -99,4 +101,64 @@ public class SysMessage extends BaseEntity implements Serializable {
     private YesOrNotEnum delFlag;
 
     private static final long serialVersionUID = 1L;
+
+    public SysMessage messageId(Long messageId) {
+        this.messageId = messageId;
+        return this;
+    }
+
+    public SysMessage receiveUserId(Long receiveUserId) {
+        this.receiveUserId = receiveUserId;
+        return this;
+    }
+
+    public SysMessage sendUserId(Long sendUserId) {
+        this.sendUserId = sendUserId;
+        return this;
+    }
+
+    public SysMessage messageTitle(String messageTitle) {
+        this.messageTitle = messageTitle;
+        return this;
+    }
+
+    public SysMessage messageContent(String messageContent) {
+        this.messageContent = messageContent;
+        return this;
+    }
+
+    public SysMessage messageType(String messageType) {
+        this.messageType = messageType;
+        return this;
+    }
+
+    public SysMessage priorityLevel(MessagePriorityLevelEnum priorityLevel) {
+        this.priorityLevel = priorityLevel;
+        return this;
+    }
+
+    public SysMessage messageSendTime(LocalDateTime messageSendTime) {
+        this.messageSendTime = messageSendTime;
+        return this;
+    }
+
+    public SysMessage businessId(Long businessId) {
+        this.businessId = businessId;
+        return this;
+    }
+
+    public SysMessage businessType(MessageBusinessTypeEnum businessType) {
+        this.businessType = businessType;
+        return this;
+    }
+
+    public SysMessage readFlag(MessageReadFlagEnum readFlag) {
+        this.readFlag = readFlag;
+        return this;
+    }
+
+    public SysMessage delFlag(YesOrNotEnum delFlag) {
+        this.delFlag = delFlag;
+        return this;
+    }
 }

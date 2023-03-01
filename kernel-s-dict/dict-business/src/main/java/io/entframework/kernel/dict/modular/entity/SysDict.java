@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -21,6 +22,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_dict", sqlSupport = SysDictDynamicSqlSupport.class, tableProperty = "sysDict")
 public class SysDict extends BaseEntity {
     /**
@@ -102,4 +104,69 @@ public class SysDict extends BaseEntity {
     @Column(name = "del_flag", jdbcType = JDBCType.CHAR)
     @LogicDelete
     private YesOrNotEnum delFlag;
+
+    public SysDict dictId(Long dictId) {
+        this.dictId = dictId;
+        return this;
+    }
+
+    public SysDict dictCode(String dictCode) {
+        this.dictCode = dictCode;
+        return this;
+    }
+
+    public SysDict dictName(String dictName) {
+        this.dictName = dictName;
+        return this;
+    }
+
+    public SysDict dictNamePinyin(String dictNamePinyin) {
+        this.dictNamePinyin = dictNamePinyin;
+        return this;
+    }
+
+    public SysDict dictEncode(String dictEncode) {
+        this.dictEncode = dictEncode;
+        return this;
+    }
+
+    public SysDict dictTypeCode(String dictTypeCode) {
+        this.dictTypeCode = dictTypeCode;
+        return this;
+    }
+
+    public SysDict dictShortName(String dictShortName) {
+        this.dictShortName = dictShortName;
+        return this;
+    }
+
+    public SysDict dictShortCode(String dictShortCode) {
+        this.dictShortCode = dictShortCode;
+        return this;
+    }
+
+    public SysDict dictParentId(Long dictParentId) {
+        this.dictParentId = dictParentId;
+        return this;
+    }
+
+    public SysDict statusFlag(StatusEnum statusFlag) {
+        this.statusFlag = statusFlag;
+        return this;
+    }
+
+    public SysDict dictSort(BigDecimal dictSort) {
+        this.dictSort = dictSort;
+        return this;
+    }
+
+    public SysDict dictPids(String dictPids) {
+        this.dictPids = dictPids;
+        return this;
+    }
+
+    public SysDict delFlag(YesOrNotEnum delFlag) {
+        this.delFlag = delFlag;
+        return this;
+    }
 }

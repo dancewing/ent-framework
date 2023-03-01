@@ -9,12 +9,14 @@ import io.entframework.kernel.system.modular.theme.service.impl.SysThemeTemplate
 import io.entframework.kernel.system.modular.theme.service.impl.SysThemeTemplateRelServiceImpl;
 import io.entframework.kernel.system.modular.theme.service.impl.SysThemeTemplateServiceImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = {"io.entframework.kernel.system.modular.theme.controller", "io.entframework.kernel.system.modular.theme.converter", "io.entframework.kernel.system.modular.theme.service"})
+@EntityScan("io.entframework.kernel.system.modular.theme.entity")
 public class EntSysThemeAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(SysThemeService.class)

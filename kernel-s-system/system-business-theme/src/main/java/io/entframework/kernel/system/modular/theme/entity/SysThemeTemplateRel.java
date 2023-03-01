@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -18,6 +19,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_theme_template_rel", sqlSupport = SysThemeTemplateRelDynamicSqlSupport.class, tableProperty = "sysThemeTemplateRel")
 public class SysThemeTemplateRel extends BaseEntity implements Serializable {
     /**
@@ -40,4 +42,19 @@ public class SysThemeTemplateRel extends BaseEntity implements Serializable {
     private String fieldCode;
 
     private static final long serialVersionUID = 1L;
+
+    public SysThemeTemplateRel relationId(Long relationId) {
+        this.relationId = relationId;
+        return this;
+    }
+
+    public SysThemeTemplateRel templateId(Long templateId) {
+        this.templateId = templateId;
+        return this;
+    }
+
+    public SysThemeTemplateRel fieldCode(String fieldCode) {
+        this.fieldCode = fieldCode;
+        return this;
+    }
 }

@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -19,6 +20,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_statistics_url", sqlSupport = SysStatisticsUrlDynamicSqlSupport.class, tableProperty = "sysStatisticsUrl")
 public class SysStatisticsUrl extends BaseEntity implements Serializable {
     /**
@@ -53,4 +55,29 @@ public class SysStatisticsUrl extends BaseEntity implements Serializable {
     private YesOrNotEnum alwaysShow;
 
     private static final long serialVersionUID = 1L;
+
+    public SysStatisticsUrl statUrlId(Long statUrlId) {
+        this.statUrlId = statUrlId;
+        return this;
+    }
+
+    public SysStatisticsUrl statName(String statName) {
+        this.statName = statName;
+        return this;
+    }
+
+    public SysStatisticsUrl statMenuId(Long statMenuId) {
+        this.statMenuId = statMenuId;
+        return this;
+    }
+
+    public SysStatisticsUrl statUrl(String statUrl) {
+        this.statUrl = statUrl;
+        return this;
+    }
+
+    public SysStatisticsUrl alwaysShow(YesOrNotEnum alwaysShow) {
+        this.alwaysShow = alwaysShow;
+        return this;
+    }
 }

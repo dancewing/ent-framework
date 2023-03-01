@@ -5,12 +5,14 @@ import io.entframework.kernel.system.modular.home.service.SysStatisticsUrlServic
 import io.entframework.kernel.system.modular.home.service.impl.SysStatisticsCountServiceImpl;
 import io.entframework.kernel.system.modular.home.service.impl.SysStatisticsUrlServiceImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = {"io.entframework.kernel.system.modular.home.controller", "io.entframework.kernel.system.modular.home.converter", "io.entframework.kernel.system.modular.home.service"})
+@EntityScan("io.entframework.kernel.system.modular.home.entity")
 public class EntSysHomeAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(SysStatisticsCountService.class)

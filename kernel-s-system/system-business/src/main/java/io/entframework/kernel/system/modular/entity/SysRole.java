@@ -13,6 +13,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -23,6 +24,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_role", sqlSupport = SysRoleDynamicSqlSupport.class, tableProperty = "sysRole")
 public class SysRole extends BaseEntity implements Serializable {
     /**
@@ -88,4 +90,54 @@ public class SysRole extends BaseEntity implements Serializable {
     private String roleTypeCode;
 
     private static final long serialVersionUID = 1L;
+
+    public SysRole roleId(Long roleId) {
+        this.roleId = roleId;
+        return this;
+    }
+
+    public SysRole roleName(String roleName) {
+        this.roleName = roleName;
+        return this;
+    }
+
+    public SysRole roleCode(String roleCode) {
+        this.roleCode = roleCode;
+        return this;
+    }
+
+    public SysRole roleSort(BigDecimal roleSort) {
+        this.roleSort = roleSort;
+        return this;
+    }
+
+    public SysRole dataScopeType(DataScopeTypeEnum dataScopeType) {
+        this.dataScopeType = dataScopeType;
+        return this;
+    }
+
+    public SysRole statusFlag(StatusEnum statusFlag) {
+        this.statusFlag = statusFlag;
+        return this;
+    }
+
+    public SysRole remark(String remark) {
+        this.remark = remark;
+        return this;
+    }
+
+    public SysRole delFlag(YesOrNotEnum delFlag) {
+        this.delFlag = delFlag;
+        return this;
+    }
+
+    public SysRole roleSystemFlag(YesOrNotEnum roleSystemFlag) {
+        this.roleSystemFlag = roleSystemFlag;
+        return this;
+    }
+
+    public SysRole roleTypeCode(String roleTypeCode) {
+        this.roleTypeCode = roleTypeCode;
+        return this;
+    }
 }

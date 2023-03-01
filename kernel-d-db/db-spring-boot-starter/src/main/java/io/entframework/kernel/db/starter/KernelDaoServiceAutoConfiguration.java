@@ -16,6 +16,7 @@ import io.entframework.kernel.db.dao.persistence.PersistenceManagedTypesScanner;
 import io.entframework.kernel.db.dao.repository.DefaultGeneralRepository;
 import io.entframework.kernel.db.dao.repository.GeneralRepository;
 import io.entframework.kernel.db.mybatis.persistence.PersistenceManagedTypes;
+import org.mybatis.dynamic.sql.util.meta.Entities;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ObjectProvider;
@@ -75,7 +76,9 @@ public class KernelDaoServiceAutoConfiguration {
         @ConditionalOnMissingBean
         static PersistenceManagedTypes persistenceManagedTypes(BeanFactory beanFactory, ResourceLoader resourceLoader) {
             String[] packagesToScan = getPackagesToScan(beanFactory);
-            return new PersistenceManagedTypesScanner(resourceLoader).scan(packagesToScan);
+            PersistenceManagedTypes persistenceManagedTypes = new PersistenceManagedTypesScanner(resourceLoader).scan(packagesToScan);
+            persistenceManagedTypes.getManagedClassNames().forEach(Entities::register);
+            return persistenceManagedTypes;
         }
 
         private static String[] getPackagesToScan(BeanFactory beanFactory) {

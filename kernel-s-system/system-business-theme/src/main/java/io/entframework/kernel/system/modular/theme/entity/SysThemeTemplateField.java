@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -20,6 +21,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_theme_template_field", sqlSupport = SysThemeTemplateFieldDynamicSqlSupport.class, tableProperty = "sysThemeTemplateField")
 public class SysThemeTemplateField extends BaseEntity implements Serializable {
     /**
@@ -66,4 +68,39 @@ public class SysThemeTemplateField extends BaseEntity implements Serializable {
     private String fieldDescription;
 
     private static final long serialVersionUID = 1L;
+
+    public SysThemeTemplateField fieldId(Long fieldId) {
+        this.fieldId = fieldId;
+        return this;
+    }
+
+    public SysThemeTemplateField fieldName(String fieldName) {
+        this.fieldName = fieldName;
+        return this;
+    }
+
+    public SysThemeTemplateField fieldCode(String fieldCode) {
+        this.fieldCode = fieldCode;
+        return this;
+    }
+
+    public SysThemeTemplateField fieldType(ThemeFieldTypeEnum fieldType) {
+        this.fieldType = fieldType;
+        return this;
+    }
+
+    public SysThemeTemplateField fieldRequired(YesOrNotEnum fieldRequired) {
+        this.fieldRequired = fieldRequired;
+        return this;
+    }
+
+    public SysThemeTemplateField fieldLength(Integer fieldLength) {
+        this.fieldLength = fieldLength;
+        return this;
+    }
+
+    public SysThemeTemplateField fieldDescription(String fieldDescription) {
+        this.fieldDescription = fieldDescription;
+        return this;
+    }
 }

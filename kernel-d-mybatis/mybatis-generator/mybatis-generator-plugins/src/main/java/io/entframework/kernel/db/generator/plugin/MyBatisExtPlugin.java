@@ -101,7 +101,8 @@ public class MyBatisExtPlugin extends AbstractDynamicSQLPlugin {
 
         //IntrospectedTable 和 TopLevelClass 建立关联, TODO 是否有API，待验证
         introspectedTable.setAttribute(Constants.INTROSPECTED_TABLE_MODEL_CLASS, topLevelClass);
-
+        topLevelClass.addAnnotation("@Entity");
+        topLevelClass.addImportedType("org.mybatis.dynamic.sql.annotation.Entity");
         FullyQualifiedJavaType dynamicSqlSupportType = new FullyQualifiedJavaType(introspectedTable.getMyBatisDynamicSqlSupportType());
         topLevelClass.addAnnotation(String.format("@Table(value = \"%s\", sqlSupport = %s.class, tableProperty = \"%s\")",
                 introspectedTable.getFullyQualifiedTableNameAtRuntime(),

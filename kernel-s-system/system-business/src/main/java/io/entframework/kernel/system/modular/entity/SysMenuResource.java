@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -18,6 +19,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_menu_resource", sqlSupport = SysMenuResourceDynamicSqlSupport.class, tableProperty = "sysMenuResource")
 public class SysMenuResource extends BaseEntity implements Serializable {
     /**
@@ -40,4 +42,19 @@ public class SysMenuResource extends BaseEntity implements Serializable {
     private String resourceCode;
 
     private static final long serialVersionUID = 1L;
+
+    public SysMenuResource menuResourceId(Long menuResourceId) {
+        this.menuResourceId = menuResourceId;
+        return this;
+    }
+
+    public SysMenuResource menuId(Long menuId) {
+        this.menuId = menuId;
+        return this;
+    }
+
+    public SysMenuResource resourceCode(String resourceCode) {
+        this.resourceCode = resourceCode;
+        return this;
+    }
 }

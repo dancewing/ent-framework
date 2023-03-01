@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -17,6 +18,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_file_storage", sqlSupport = SysFileStorageDynamicSqlSupport.class, tableProperty = "sysFileStorage")
 public class SysFileStorage extends BaseEntity {
     /**
@@ -31,4 +33,14 @@ public class SysFileStorage extends BaseEntity {
      */
     @Column(name = "file_bytes", jdbcType = JDBCType.LONGVARBINARY)
     private byte[] fileBytes;
+
+    public SysFileStorage fileId(Long fileId) {
+        this.fileId = fileId;
+        return this;
+    }
+
+    public SysFileStorage fileBytes(byte[] fileBytes) {
+        this.fileBytes = fileBytes;
+        return this;
+    }
 }

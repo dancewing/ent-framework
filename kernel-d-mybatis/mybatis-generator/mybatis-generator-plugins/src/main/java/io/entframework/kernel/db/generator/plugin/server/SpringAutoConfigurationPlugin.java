@@ -73,6 +73,8 @@ public class SpringAutoConfigurationPlugin extends AbstractServerPlugin {
         scanPackages.add("\"" + this.serviceTargetPackage + "\"");
         configBaseClass.addAnnotation(String.format("@ComponentScan(basePackages = {%s})", StringUtils.join(scanPackages, ", ")));
 
+        configBaseClass.addAnnotation(String.format("@EntityScan(\"%s\")", context.getJavaModelGeneratorConfiguration().getTargetPackage()));
+        configBaseClass.addImportedType("org.springframework.boot.autoconfigure.domain.EntityScan");
         configBaseClass.addImportedType("org.springframework.context.annotation.ComponentScan");
 
         return new GeneratedJavaFile(configBaseClass,

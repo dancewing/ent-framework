@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -21,6 +22,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_notice", sqlSupport = SysNoticeDynamicSqlSupport.class, tableProperty = "sysNotice")
 public class SysNotice extends BaseEntity implements Serializable {
     /**
@@ -80,4 +82,49 @@ public class SysNotice extends BaseEntity implements Serializable {
     private YesOrNotEnum delFlag;
 
     private static final long serialVersionUID = 1L;
+
+    public SysNotice noticeId(Long noticeId) {
+        this.noticeId = noticeId;
+        return this;
+    }
+
+    public SysNotice noticeTitle(String noticeTitle) {
+        this.noticeTitle = noticeTitle;
+        return this;
+    }
+
+    public SysNotice noticeSummary(String noticeSummary) {
+        this.noticeSummary = noticeSummary;
+        return this;
+    }
+
+    public SysNotice noticeContent(String noticeContent) {
+        this.noticeContent = noticeContent;
+        return this;
+    }
+
+    public SysNotice priorityLevel(String priorityLevel) {
+        this.priorityLevel = priorityLevel;
+        return this;
+    }
+
+    public SysNotice noticeBeginTime(LocalDateTime noticeBeginTime) {
+        this.noticeBeginTime = noticeBeginTime;
+        return this;
+    }
+
+    public SysNotice noticeEndTime(LocalDateTime noticeEndTime) {
+        this.noticeEndTime = noticeEndTime;
+        return this;
+    }
+
+    public SysNotice noticeScope(String noticeScope) {
+        this.noticeScope = noticeScope;
+        return this;
+    }
+
+    public SysNotice delFlag(YesOrNotEnum delFlag) {
+        this.delFlag = delFlag;
+        return this;
+    }
 }

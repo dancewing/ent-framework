@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -22,6 +23,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_dict_type", sqlSupport = SysDictTypeDynamicSqlSupport.class, tableProperty = "sysDictType")
 public class SysDictType extends BaseEntity {
     /**
@@ -85,4 +87,54 @@ public class SysDictType extends BaseEntity {
     @Column(name = "del_flag", jdbcType = JDBCType.CHAR)
     @LogicDelete
     private YesOrNotEnum delFlag;
+
+    public SysDictType dictTypeId(Long dictTypeId) {
+        this.dictTypeId = dictTypeId;
+        return this;
+    }
+
+    public SysDictType dictTypeClass(DictTypeClassEnum dictTypeClass) {
+        this.dictTypeClass = dictTypeClass;
+        return this;
+    }
+
+    public SysDictType dictTypeBusCode(String dictTypeBusCode) {
+        this.dictTypeBusCode = dictTypeBusCode;
+        return this;
+    }
+
+    public SysDictType dictTypeCode(String dictTypeCode) {
+        this.dictTypeCode = dictTypeCode;
+        return this;
+    }
+
+    public SysDictType dictTypeName(String dictTypeName) {
+        this.dictTypeName = dictTypeName;
+        return this;
+    }
+
+    public SysDictType dictTypeNamePinyin(String dictTypeNamePinyin) {
+        this.dictTypeNamePinyin = dictTypeNamePinyin;
+        return this;
+    }
+
+    public SysDictType dictTypeDesc(String dictTypeDesc) {
+        this.dictTypeDesc = dictTypeDesc;
+        return this;
+    }
+
+    public SysDictType statusFlag(StatusEnum statusFlag) {
+        this.statusFlag = statusFlag;
+        return this;
+    }
+
+    public SysDictType dictTypeSort(BigDecimal dictTypeSort) {
+        this.dictTypeSort = dictTypeSort;
+        return this;
+    }
+
+    public SysDictType delFlag(YesOrNotEnum delFlag) {
+        this.delFlag = delFlag;
+        return this;
+    }
 }

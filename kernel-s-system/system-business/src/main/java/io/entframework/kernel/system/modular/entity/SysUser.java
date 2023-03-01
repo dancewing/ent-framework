@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.JoinColumn;
 import org.mybatis.dynamic.sql.annotation.ManyToOne;
@@ -26,6 +27,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_user", sqlSupport = SysUserDynamicSqlSupport.class, tableProperty = "sysUser")
 public class SysUser extends BaseEntity implements Serializable {
     /**
@@ -159,4 +161,99 @@ public class SysUser extends BaseEntity implements Serializable {
     private HrOrganization organization;
 
     private static final long serialVersionUID = 1L;
+
+    public SysUser userId(Long userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public SysUser realName(String realName) {
+        this.realName = realName;
+        return this;
+    }
+
+    public SysUser nickName(String nickName) {
+        this.nickName = nickName;
+        return this;
+    }
+
+    public SysUser account(String account) {
+        this.account = account;
+        return this;
+    }
+
+    public SysUser password(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public SysUser avatar(Long avatar) {
+        this.avatar = avatar;
+        return this;
+    }
+
+    public SysUser birthday(LocalDate birthday) {
+        this.birthday = birthday;
+        return this;
+    }
+
+    public SysUser sex(GenderEnum sex) {
+        this.sex = sex;
+        return this;
+    }
+
+    public SysUser email(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public SysUser phone(String phone) {
+        this.phone = phone;
+        return this;
+    }
+
+    public SysUser tel(String tel) {
+        this.tel = tel;
+        return this;
+    }
+
+    public SysUser superAdminFlag(YesOrNotEnum superAdminFlag) {
+        this.superAdminFlag = superAdminFlag;
+        return this;
+    }
+
+    public SysUser orgId(Long orgId) {
+        this.orgId = orgId;
+        return this;
+    }
+
+    public SysUser positionId(Long positionId) {
+        this.positionId = positionId;
+        return this;
+    }
+
+    public SysUser statusFlag(UserStatusEnum statusFlag) {
+        this.statusFlag = statusFlag;
+        return this;
+    }
+
+    public SysUser loginCount(Integer loginCount) {
+        this.loginCount = loginCount;
+        return this;
+    }
+
+    public SysUser lastLoginIp(String lastLoginIp) {
+        this.lastLoginIp = lastLoginIp;
+        return this;
+    }
+
+    public SysUser lastLoginTime(LocalDateTime lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+        return this;
+    }
+
+    public SysUser delFlag(YesOrNotEnum delFlag) {
+        this.delFlag = delFlag;
+        return this;
+    }
 }

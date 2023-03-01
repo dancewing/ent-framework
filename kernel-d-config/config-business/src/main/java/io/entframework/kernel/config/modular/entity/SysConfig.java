@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -20,6 +21,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_config", sqlSupport = SysConfigDynamicSqlSupport.class, tableProperty = "sysConfig")
 public class SysConfig extends BaseEntity {
     /**
@@ -77,4 +79,49 @@ public class SysConfig extends BaseEntity {
     @Column(name = "del_flag", jdbcType = JDBCType.CHAR)
     @LogicDelete
     private YesOrNotEnum delFlag;
+
+    public SysConfig configId(Long configId) {
+        this.configId = configId;
+        return this;
+    }
+
+    public SysConfig configName(String configName) {
+        this.configName = configName;
+        return this;
+    }
+
+    public SysConfig configCode(String configCode) {
+        this.configCode = configCode;
+        return this;
+    }
+
+    public SysConfig configValue(String configValue) {
+        this.configValue = configValue;
+        return this;
+    }
+
+    public SysConfig sysFlag(YesOrNotEnum sysFlag) {
+        this.sysFlag = sysFlag;
+        return this;
+    }
+
+    public SysConfig remark(String remark) {
+        this.remark = remark;
+        return this;
+    }
+
+    public SysConfig statusFlag(StatusEnum statusFlag) {
+        this.statusFlag = statusFlag;
+        return this;
+    }
+
+    public SysConfig groupCode(String groupCode) {
+        this.groupCode = groupCode;
+        return this;
+    }
+
+    public SysConfig delFlag(YesOrNotEnum delFlag) {
+        this.delFlag = delFlag;
+        return this;
+    }
 }

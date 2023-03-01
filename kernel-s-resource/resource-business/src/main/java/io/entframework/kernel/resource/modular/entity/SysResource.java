@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -16,6 +17,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_resource", sqlSupport = SysResourceDynamicSqlSupport.class, tableProperty = "sysResource")
 public class SysResource {
     /**
@@ -171,4 +173,129 @@ public class SysResource {
      */
     @Column(name = "response_field_descriptions", jdbcType = JDBCType.LONGVARCHAR)
     private String responseFieldDescriptions;
+
+    public SysResource resourceId(Long resourceId) {
+        this.resourceId = resourceId;
+        return this;
+    }
+
+    public SysResource appCode(String appCode) {
+        this.appCode = appCode;
+        return this;
+    }
+
+    public SysResource resourceCode(String resourceCode) {
+        this.resourceCode = resourceCode;
+        return this;
+    }
+
+    public SysResource resourceName(String resourceName) {
+        this.resourceName = resourceName;
+        return this;
+    }
+
+    public SysResource projectCode(String projectCode) {
+        this.projectCode = projectCode;
+        return this;
+    }
+
+    public SysResource className(String className) {
+        this.className = className;
+        return this;
+    }
+
+    public SysResource methodName(String methodName) {
+        this.methodName = methodName;
+        return this;
+    }
+
+    public SysResource modularCode(String modularCode) {
+        this.modularCode = modularCode;
+        return this;
+    }
+
+    public SysResource modularName(String modularName) {
+        this.modularName = modularName;
+        return this;
+    }
+
+    public SysResource ipAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+        return this;
+    }
+
+    public SysResource viewFlag(YesOrNotEnum viewFlag) {
+        this.viewFlag = viewFlag;
+        return this;
+    }
+
+    public SysResource url(String url) {
+        this.url = url;
+        return this;
+    }
+
+    public SysResource httpMethod(String httpMethod) {
+        this.httpMethod = httpMethod;
+        return this;
+    }
+
+    public SysResource requiredLoginFlag(YesOrNotEnum requiredLoginFlag) {
+        this.requiredLoginFlag = requiredLoginFlag;
+        return this;
+    }
+
+    public SysResource autoReport(YesOrNotEnum autoReport) {
+        this.autoReport = autoReport;
+        return this;
+    }
+
+    public SysResource requiredPermissionFlag(YesOrNotEnum requiredPermissionFlag) {
+        this.requiredPermissionFlag = requiredPermissionFlag;
+        return this;
+    }
+
+    public SysResource createUser(Long createUser) {
+        this.createUser = createUser;
+        return this;
+    }
+
+    public SysResource createTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+        return this;
+    }
+
+    public SysResource updateUser(Long updateUser) {
+        this.updateUser = updateUser;
+        return this;
+    }
+
+    public SysResource updateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+        return this;
+    }
+
+    public SysResource createUserName(String createUserName) {
+        this.createUserName = createUserName;
+        return this;
+    }
+
+    public SysResource updateUserName(String updateUserName) {
+        this.updateUserName = updateUserName;
+        return this;
+    }
+
+    public SysResource validateGroups(String validateGroups) {
+        this.validateGroups = validateGroups;
+        return this;
+    }
+
+    public SysResource paramFieldDescriptions(String paramFieldDescriptions) {
+        this.paramFieldDescriptions = paramFieldDescriptions;
+        return this;
+    }
+
+    public SysResource responseFieldDescriptions(String responseFieldDescriptions) {
+        this.responseFieldDescriptions = responseFieldDescriptions;
+        return this;
+    }
 }

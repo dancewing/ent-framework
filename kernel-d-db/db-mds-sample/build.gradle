@@ -26,7 +26,7 @@ if (gradlePluginVersion != '') {
         ]
         dependencies {
             generator 'mysql:mysql-connector-java:8.0.22'
-            generator "io.entframework:mybatis-generator-plugins:${gradlePluginVersion}"
+            generator project(":kernel-d-mybatis:mybatis-generator:mybatis-generator-plugins")
             generator project(":kernel-d-db:db-api")
         }
     }

@@ -9,6 +9,7 @@ package org.mybatis.dynamic.sql.util.meta;
 
 import org.mybatis.dynamic.sql.annotation.Table;
 import org.mybatis.dynamic.sql.exception.DynamicSqlException;
+import org.mybatis.dynamic.sql.util.Assert;
 
 import java.util.Map;
 import java.util.Objects;
@@ -28,5 +29,32 @@ public class Entities {
             return classInfo;
         }
         throw new DynamicSqlException("Wrong entity class");
+    }
+
+    public static void register(Class<?> cls) {
+        EntityMeta classInfo = EntityMeta.of(cls);
+        if (rootClassInfoMap.containsKey(cls.getName())) {
+            throw new DynamicSqlException("Entity {" + cls.getName() + "} has been registered");
+        } else {
+            rootClassInfoMap.put(cls.getName(), classInfo);
+        }
+    }
+
+    public static void register(String clsName) {
+        Assert.notNull(clsName, "Classname can't not be null");
+        if (rootClassInfoMap.containsKey(clsName)) {
+            throw new DynamicSqlException("Entity {" + clsName + "} has been registered");
+        }
+        Class<?> cls = null;
+        try {
+            cls = Class.forName(clsName);
+        } catch (Exception ex) {
+            // ignore
+        }
+        if (cls == null) {
+            throw new DynamicSqlException("Entity {" + clsName + "} can't be determined");
+        }
+        EntityMeta classInfo = EntityMeta.of(cls);
+        rootClassInfoMap.put(cls.getName(), classInfo);
     }
 }

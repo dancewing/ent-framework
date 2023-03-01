@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -17,6 +18,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "sys_translation", sqlSupport = TranslationDynamicSqlSupport.class, tableProperty = "translation")
 public class Translation extends BaseEntity {
     /**
@@ -49,4 +51,29 @@ public class Translation extends BaseEntity {
      */
     @Column(name = "tran_value", jdbcType = JDBCType.VARCHAR)
     private String tranValue;
+
+    public Translation tranId(Long tranId) {
+        this.tranId = tranId;
+        return this;
+    }
+
+    public Translation tranCode(String tranCode) {
+        this.tranCode = tranCode;
+        return this;
+    }
+
+    public Translation tranName(String tranName) {
+        this.tranName = tranName;
+        return this;
+    }
+
+    public Translation tranLanguageCode(String tranLanguageCode) {
+        this.tranLanguageCode = tranLanguageCode;
+        return this;
+    }
+
+    public Translation tranValue(String tranValue) {
+        this.tranValue = tranValue;
+        return this;
+    }
 }

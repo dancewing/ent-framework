@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mybatis.dynamic.sql.annotation.Column;
+import org.mybatis.dynamic.sql.annotation.Entity;
 import org.mybatis.dynamic.sql.annotation.Id;
 import org.mybatis.dynamic.sql.annotation.Table;
 
@@ -22,6 +23,7 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(value = "hr_organization", sqlSupport = HrOrganizationDynamicSqlSupport.class, tableProperty = "hrOrganization")
 public class HrOrganization extends BaseEntity implements Serializable {
     /**
@@ -81,4 +83,49 @@ public class HrOrganization extends BaseEntity implements Serializable {
     private YesOrNotEnum delFlag;
 
     private static final long serialVersionUID = 1L;
+
+    public HrOrganization orgId(Long orgId) {
+        this.orgId = orgId;
+        return this;
+    }
+
+    public HrOrganization orgParentId(Long orgParentId) {
+        this.orgParentId = orgParentId;
+        return this;
+    }
+
+    public HrOrganization orgPids(String orgPids) {
+        this.orgPids = orgPids;
+        return this;
+    }
+
+    public HrOrganization orgName(String orgName) {
+        this.orgName = orgName;
+        return this;
+    }
+
+    public HrOrganization orgCode(String orgCode) {
+        this.orgCode = orgCode;
+        return this;
+    }
+
+    public HrOrganization orgSort(BigDecimal orgSort) {
+        this.orgSort = orgSort;
+        return this;
+    }
+
+    public HrOrganization statusFlag(StatusEnum statusFlag) {
+        this.statusFlag = statusFlag;
+        return this;
+    }
+
+    public HrOrganization orgRemark(String orgRemark) {
+        this.orgRemark = orgRemark;
+        return this;
+    }
+
+    public HrOrganization delFlag(YesOrNotEnum delFlag) {
+        this.delFlag = delFlag;
+        return this;
+    }
 }
