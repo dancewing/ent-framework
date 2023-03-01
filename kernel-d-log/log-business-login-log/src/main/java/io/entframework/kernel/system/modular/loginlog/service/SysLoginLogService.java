@@ -19,41 +19,41 @@ import io.entframework.kernel.system.modular.loginlog.entity.SysLoginLog;
  * @date 2021/1/13 10:56
  */
 public interface SysLoginLogService
-		extends BaseService<SysLoginLogRequest, SysLoginLogResponse, SysLoginLog>, LoginLogServiceApi {
+        extends BaseService<SysLoginLogRequest, SysLoginLogResponse, SysLoginLog>, LoginLogServiceApi {
 
-	/**
-	 * 添加登录日志
-	 * @param sysLoginLogRequest 参数
-	 * @date 2021/1/13 10:56
-	 */
-	boolean add(SysLoginLogRequest sysLoginLogRequest);
+    /**
+     * 添加登录日志
+     * @param sysLoginLogRequest 参数
+     * @date 2021/1/13 10:56
+     */
+    boolean add(SysLoginLogRequest sysLoginLogRequest);
 
-	/**
-	 * 删除
-	 * @param sysLoginLogRequest 参数
-	 * @date 2021/1/13 10:55
-	 */
-	void del(SysLoginLogRequest sysLoginLogRequest);
+    /**
+     * 删除
+     * @param sysLoginLogRequest 参数
+     * @date 2021/1/13 10:55
+     */
+    void del(SysLoginLogRequest sysLoginLogRequest);
 
-	/**
-	 * 清空登录日志
-	 *
-	 * @date 2021/1/13 10:55
-	 */
-	void delAll();
+    /**
+     * 清空登录日志
+     *
+     * @date 2021/1/13 10:55
+     */
+    void delAll();
 
-	/**
-	 * 查看相信
-	 * @param sysLoginLogRequest 参数
-	 * @date 2021/1/13 10:56
-	 */
-	SysLoginLogResponse detail(SysLoginLogRequest sysLoginLogRequest);
+    /**
+     * 查看相信
+     * @param sysLoginLogRequest 参数
+     * @date 2021/1/13 10:56
+     */
+    SysLoginLogResponse detail(SysLoginLogRequest sysLoginLogRequest);
 
-	/**
-	 * 分页查询
-	 * @param sysLoginLogRequest 参数
-	 * @date 2021/1/13 10:57
-	 */
-	PageResult<SysLoginLogResponse> findPage(SysLoginLogRequest sysLoginLogRequest);
+    /**
+     * 分页查询
+     * @param sysLoginLogRequest 参数
+     * @date 2021/1/13 10:57
+     */
+    PageResult<SysLoginLogResponse> findPage(SysLoginLogRequest sysLoginLogRequest);
 
 }

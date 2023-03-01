@@ -32,84 +32,84 @@ import static org.mybatis.dynamic.sql.util.StringUtilities.spaceBefore;
 
 public class DeleteRenderer {
 
-	private final DeleteModel deleteModel;
+    private final DeleteModel deleteModel;
 
-	private final RenderingStrategy renderingStrategy;
+    private final RenderingStrategy renderingStrategy;
 
-	private final TableAliasCalculator tableAliasCalculator;
+    private final TableAliasCalculator tableAliasCalculator;
 
-	private DeleteRenderer(Builder builder) {
-		deleteModel = Objects.requireNonNull(builder.deleteModel);
-		renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
-		tableAliasCalculator = builder.deleteModel.tableAlias()
-				.map(a -> ExplicitTableAliasCalculator.of(deleteModel.table(), a))
-				.orElseGet(TableAliasCalculator::empty);
-	}
+    private DeleteRenderer(Builder builder) {
+        deleteModel = Objects.requireNonNull(builder.deleteModel);
+        renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
+        tableAliasCalculator = builder.deleteModel.tableAlias()
+                .map(a -> ExplicitTableAliasCalculator.of(deleteModel.table(), a))
+                .orElseGet(TableAliasCalculator::empty);
+    }
 
-	public DeleteStatementProvider render() {
-		return deleteModel.whereModel().flatMap(this::renderWhereClause).map(this::renderWithWhereClause)
-				.orElseGet(this::renderWithoutWhereClause);
-	}
+    public DeleteStatementProvider render() {
+        return deleteModel.whereModel().flatMap(this::renderWhereClause).map(this::renderWithWhereClause)
+                .orElseGet(this::renderWithoutWhereClause);
+    }
 
-	private DeleteStatementProvider renderWithWhereClause(WhereClauseProvider whereClauseProvider) {
-		return DefaultDeleteStatementProvider.withDeleteStatement(calculateDeleteStatement(whereClauseProvider))
-				.withParameters(whereClauseProvider.getParameters()).withSource(this).build();
-	}
+    private DeleteStatementProvider renderWithWhereClause(WhereClauseProvider whereClauseProvider) {
+        return DefaultDeleteStatementProvider.withDeleteStatement(calculateDeleteStatement(whereClauseProvider))
+                .withParameters(whereClauseProvider.getParameters()).withSource(this).build();
+    }
 
-	private String calculateDeleteStatement(WhereClauseProvider whereClause) {
-		return calculateDeleteStatement() + spaceBefore(whereClause.getWhereClause());
-	}
+    private String calculateDeleteStatement(WhereClauseProvider whereClause) {
+        return calculateDeleteStatement() + spaceBefore(whereClause.getWhereClause());
+    }
 
-	private String calculateDeleteStatement() {
-		SqlTable table = deleteModel.table();
-		String tableName = table.tableNameAtRuntime();
-		String aliasedTableName = tableAliasCalculator.aliasForTable(table).map(a -> tableName + " " + a) //$NON-NLS-1$
-				.orElse(tableName);
+    private String calculateDeleteStatement() {
+        SqlTable table = deleteModel.table();
+        String tableName = table.tableNameAtRuntime();
+        String aliasedTableName = tableAliasCalculator.aliasForTable(table).map(a -> tableName + " " + a) //$NON-NLS-1$
+                .orElse(tableName);
 
-		return "delete from" + spaceBefore(aliasedTableName); //$NON-NLS-1$
-	}
+        return "delete from" + spaceBefore(aliasedTableName); //$NON-NLS-1$
+    }
 
-	private DeleteStatementProvider renderWithoutWhereClause() {
-		return DefaultDeleteStatementProvider.withDeleteStatement(calculateDeleteStatement()).withSource(this).build();
-	}
+    private DeleteStatementProvider renderWithoutWhereClause() {
+        return DefaultDeleteStatementProvider.withDeleteStatement(calculateDeleteStatement()).withSource(this).build();
+    }
 
-	private Optional<WhereClauseProvider> renderWhereClause(WhereModel whereModel) {
-		return WhereRenderer.withWhereModel(whereModel).withRenderingStrategy(renderingStrategy)
-				.withSequence(new AtomicInteger(1)).withTableAliasCalculator(tableAliasCalculator).build().render();
-	}
+    private Optional<WhereClauseProvider> renderWhereClause(WhereModel whereModel) {
+        return WhereRenderer.withWhereModel(whereModel).withRenderingStrategy(renderingStrategy)
+                .withSequence(new AtomicInteger(1)).withTableAliasCalculator(tableAliasCalculator).build().render();
+    }
 
-	public DeleteModel deleteModel() {
-		return deleteModel;
-	}
+    public DeleteModel deleteModel() {
+        return deleteModel;
+    }
 
-	public RenderingStrategy getRenderingStrategy() {
-		return renderingStrategy;
-	}
+    public RenderingStrategy getRenderingStrategy() {
+        return renderingStrategy;
+    }
 
-	public static Builder withDeleteModel(DeleteModel deleteModel) {
-		return new Builder().withDeleteModel(deleteModel);
-	}
+    public static Builder withDeleteModel(DeleteModel deleteModel) {
+        return new Builder().withDeleteModel(deleteModel);
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private DeleteModel deleteModel;
+        private DeleteModel deleteModel;
 
-		private RenderingStrategy renderingStrategy;
+        private RenderingStrategy renderingStrategy;
 
-		public Builder withDeleteModel(DeleteModel deleteModel) {
-			this.deleteModel = deleteModel;
-			return this;
-		}
+        public Builder withDeleteModel(DeleteModel deleteModel) {
+            this.deleteModel = deleteModel;
+            return this;
+        }
 
-		public Builder withRenderingStrategy(RenderingStrategy renderingStrategy) {
-			this.renderingStrategy = renderingStrategy;
-			return this;
-		}
+        public Builder withRenderingStrategy(RenderingStrategy renderingStrategy) {
+            this.renderingStrategy = renderingStrategy;
+            return this;
+        }
 
-		public DeleteRenderer build() {
-			return new DeleteRenderer(this);
-		}
+        public DeleteRenderer build() {
+            return new DeleteRenderer(this);
+        }
 
-	}
+    }
 
 }

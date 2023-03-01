@@ -17,21 +17,21 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = ScannerConstants.SCANNER_PREFIX)
 public class ScannerProperties {
 
-	/**
-	 * 资源扫描开关
-	 */
-	private Boolean open;
+    /**
+     * 资源扫描开关
+     */
+    private Boolean open;
 
-	/**
-	 * 扫描到的资源的url是否要带appCode属性，此值默认为true
-	 * <p>
-	 * 也就是资源的url上不会带appCode属性，一般在微服务的系统中需要把此值设为true
-	 */
-	private Boolean urlWithAppCode = true;
+    /**
+     * 扫描到的资源的url是否要带appCode属性，此值默认为true
+     * <p>
+     * 也就是资源的url上不会带appCode属性，一般在微服务的系统中需要把此值设为true
+     */
+    private Boolean urlWithAppCode = true;
 
-	/**
-	 * 项目编码（如果您不设置的话，默认使用spring.application.name填充，一般不用手动设置此值）
-	 */
-	private String appCode;
+    /**
+     * 项目编码（如果您不设置的话，默认使用spring.application.name填充，一般不用手动设置此值）
+     */
+    private String appCode;
 
 }

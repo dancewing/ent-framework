@@ -24,20 +24,20 @@ import org.junit.jupiter.api.Test;
 
 class FragmentCollectorTest {
 
-	@Test
-	void testWhereFragmentCollectorMerge() {
-		FragmentCollector fc1 = new FragmentCollector();
-		FragmentAndParameters fp1 = FragmentAndParameters.withFragment(":p1").withParameter("p1", 1).build();
-		fc1.add(fp1);
+    @Test
+    void testWhereFragmentCollectorMerge() {
+        FragmentCollector fc1 = new FragmentCollector();
+        FragmentAndParameters fp1 = FragmentAndParameters.withFragment(":p1").withParameter("p1", 1).build();
+        fc1.add(fp1);
 
-		FragmentCollector fc2 = new FragmentCollector();
-		FragmentAndParameters fp2 = FragmentAndParameters.withFragment(":p2").withParameter("p2", 2).build();
-		fc2.add(fp2);
+        FragmentCollector fc2 = new FragmentCollector();
+        FragmentAndParameters fp2 = FragmentAndParameters.withFragment(":p2").withParameter("p2", 2).build();
+        fc2.add(fp2);
 
-		fc1.merge(fc2);
+        fc1.merge(fc2);
 
-		assertThat(fc1.fragments().collect(Collectors.toList())).containsExactly(":p1", ":p2");
-		assertThat(fc1.parameters()).containsExactly(entry("p1", 1), entry("p2", 2));
-	}
+        assertThat(fc1.fragments().collect(Collectors.toList())).containsExactly(":p1", ":p2");
+        assertThat(fc1.parameters()).containsExactly(entry("p1", 1), entry("p2", 2));
+    }
 
 }

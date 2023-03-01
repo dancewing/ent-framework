@@ -12,12 +12,12 @@ import java.util.List;
  */
 public interface AbstractTreeBuildFactory<T> {
 
-	/**
-	 * 树节点构建整体过程
-	 * @param nodes 被处理的节点集合
-	 * @return 被处理后的节点集合（带树形结构了）
-	 * @date 2018/7/26 上午9:45
-	 */
-	List<T> doTreeBuild(List<T> nodes);
+    /**
+     * 树节点构建整体过程
+     * @param nodes 被处理的节点集合
+     * @return 被处理后的节点集合（带树形结构了）
+     * @date 2018/7/26 上午9:45
+     */
+    List<T> doTreeBuild(List<T> nodes);
 
 }

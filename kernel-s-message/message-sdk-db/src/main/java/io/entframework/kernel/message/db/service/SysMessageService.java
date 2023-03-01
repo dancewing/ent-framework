@@ -21,57 +21,57 @@ import java.util.List;
  */
 public interface SysMessageService extends BaseService<SysMessageRequest, SysMessageResponse, SysMessage> {
 
-	/**
-	 * 新增
-	 * @param sysMessageRequest 参数对象
-	 * @date 2021/2/2 20:48
-	 */
-	void add(SysMessageRequest sysMessageRequest);
+    /**
+     * 新增
+     * @param sysMessageRequest 参数对象
+     * @date 2021/2/2 20:48
+     */
+    void add(SysMessageRequest sysMessageRequest);
 
-	/**
-	 * 删除
-	 * @param sysMessageRequest 参数对象
-	 * @date 2021/1/26 12:52
-	 */
-	void del(SysMessageRequest sysMessageRequest);
+    /**
+     * 删除
+     * @param sysMessageRequest 参数对象
+     * @date 2021/1/26 12:52
+     */
+    void del(SysMessageRequest sysMessageRequest);
 
-	/**
-	 * 修改
-	 * @param sysMessageRequest 参数对象
-	 * @date 2021/2/2 20:48
-	 */
-	SysMessageResponse update(SysMessageRequest sysMessageRequest);
+    /**
+     * 修改
+     * @param sysMessageRequest 参数对象
+     * @date 2021/2/2 20:48
+     */
+    SysMessageResponse update(SysMessageRequest sysMessageRequest);
 
-	/**
-	 * 查询-详情-根据主键id
-	 * @param sysMessageRequest 参数对象
-	 * @date 2021/2/2 20:48
-	 */
-	SysMessageResponse detail(SysMessageRequest sysMessageRequest);
+    /**
+     * 查询-详情-根据主键id
+     * @param sysMessageRequest 参数对象
+     * @date 2021/2/2 20:48
+     */
+    SysMessageResponse detail(SysMessageRequest sysMessageRequest);
 
-	/**
-	 * 分页查询
-	 * @param sysMessageRequest 参数
-	 * @date 2021/2/2 20:48
-	 */
-	PageResult<SysMessageResponse> findPage(SysMessageRequest sysMessageRequest);
+    /**
+     * 分页查询
+     * @param sysMessageRequest 参数
+     * @date 2021/2/2 20:48
+     */
+    PageResult<SysMessageResponse> findPage(SysMessageRequest sysMessageRequest);
 
-	/**
-	 * 列表查询
-	 * @param sysMessageRequest 参数
-	 * @date 2021/1/8 15:21
-	 */
-	List<SysMessageResponse> findList(SysMessageRequest sysMessageRequest);
+    /**
+     * 列表查询
+     * @param sysMessageRequest 参数
+     * @date 2021/1/8 15:21
+     */
+    List<SysMessageResponse> findList(SysMessageRequest sysMessageRequest);
 
-	/**
-	 * 数量查询
-	 * @param sysMessageRequest 参数
-	 * @date 2021/1/11 19:21
-	 */
-	long findCount(SysMessageRequest sysMessageRequest);
+    /**
+     * 数量查询
+     * @param sysMessageRequest 参数
+     * @date 2021/1/11 19:21
+     */
+    long findCount(SysMessageRequest sysMessageRequest);
 
-	void update(SysMessage sysMessage);
+    void update(SysMessage sysMessage);
 
-	List<SysMessage> batchCreateEntity(List<SysMessage> records);
+    List<SysMessage> batchCreateEntity(List<SysMessage> records);
 
 }

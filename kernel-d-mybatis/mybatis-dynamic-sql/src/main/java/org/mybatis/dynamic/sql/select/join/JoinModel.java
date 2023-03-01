@@ -27,27 +27,27 @@ import org.mybatis.dynamic.sql.util.Messages;
 
 public class JoinModel {
 
-	private final List<JoinSpecification> joinSpecifications = new ArrayList<>();
+    private final List<JoinSpecification> joinSpecifications = new ArrayList<>();
 
-	private JoinModel(List<JoinSpecification> joinSpecifications) {
-		Objects.requireNonNull(joinSpecifications);
-		if (joinSpecifications.isEmpty()) {
-			throw new InvalidSqlException(Messages.getString("ERROR.15")); //$NON-NLS-1$
-		}
+    private JoinModel(List<JoinSpecification> joinSpecifications) {
+        Objects.requireNonNull(joinSpecifications);
+        if (joinSpecifications.isEmpty()) {
+            throw new InvalidSqlException(Messages.getString("ERROR.15")); //$NON-NLS-1$
+        }
 
-		this.joinSpecifications.addAll(joinSpecifications);
-	}
+        this.joinSpecifications.addAll(joinSpecifications);
+    }
 
-	public <R> Stream<R> mapJoinSpecifications(Function<JoinSpecification, R> mapper) {
-		return joinSpecifications.stream().map(mapper);
-	}
+    public <R> Stream<R> mapJoinSpecifications(Function<JoinSpecification, R> mapper) {
+        return joinSpecifications.stream().map(mapper);
+    }
 
-	public static JoinModel of(List<JoinSpecification> joinSpecifications) {
-		return new JoinModel(joinSpecifications);
-	}
+    public static JoinModel of(List<JoinSpecification> joinSpecifications) {
+        return new JoinModel(joinSpecifications);
+    }
 
-	public boolean containsSubQueries() {
-		return joinSpecifications.stream().map(JoinSpecification::table).anyMatch(TableExpression::isSubQuery);
-	}
+    public boolean containsSubQueries() {
+        return joinSpecifications.stream().map(JoinSpecification::table).anyMatch(TableExpression::isSubQuery);
+    }
 
 }

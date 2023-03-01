@@ -14,11 +14,11 @@ import java.util.List;
  */
 public interface TranslationPersistenceApi {
 
-	/**
-	 * 获取所有的翻译项
-	 *
-	 * @date 2021/1/24 19:33
-	 */
-	List<TranslationDict> getAllTranslationDict();
+    /**
+     * 获取所有的翻译项
+     *
+     * @date 2021/1/24 19:33
+     */
+    List<TranslationDict> getAllTranslationDict();
 
 }

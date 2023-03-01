@@ -19,54 +19,54 @@ import org.apache.ibatis.cache.impl.PerpetualCache;
 
 public class ObservableCache extends PerpetualCache {
 
-	private static ObservableCache instance;
+    private static ObservableCache instance;
 
-	public static ObservableCache getInstance() {
-		return instance;
-	}
+    public static ObservableCache getInstance() {
+        return instance;
+    }
 
-	private int requests = 0;
+    private int requests = 0;
 
-	public int getRequests() {
-		return requests;
-	}
+    public int getRequests() {
+        return requests;
+    }
 
-	public int getHits() {
-		return hits;
-	}
+    public int getHits() {
+        return hits;
+    }
 
-	private int hits = 0;
+    private int hits = 0;
 
-	public ObservableCache(String id) {
-		super(id);
-		instance = this;
-	}
+    public ObservableCache(String id) {
+        super(id);
+        instance = this;
+    }
 
-	@Override
-	public void putObject(Object key, Object value) {
-		super.putObject(key, value);
-	}
+    @Override
+    public void putObject(Object key, Object value) {
+        super.putObject(key, value);
+    }
 
-	@Override
-	public Object getObject(Object key) {
-		Object answer = super.getObject(key);
+    @Override
+    public Object getObject(Object key) {
+        Object answer = super.getObject(key);
 
-		if (key.toString().contains("select id, name from NameTable where id = ?")) {
-			requests++;
+        if (key.toString().contains("select id, name from NameTable where id = ?")) {
+            requests++;
 
-			if (answer != null) {
-				hits++;
-			}
-		}
+            if (answer != null) {
+                hits++;
+            }
+        }
 
-		return answer;
-	}
+        return answer;
+    }
 
-	@Override
-	public void clear() {
-		requests = 0;
-		hits = 0;
-		super.clear();
-	}
+    @Override
+    public void clear() {
+        requests = 0;
+        hits = 0;
+        super.clear();
+    }
 
 }

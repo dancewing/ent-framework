@@ -28,39 +28,39 @@ import jakarta.annotation.Resource;
 @ApiResource(name = "登录日志")
 public class SysLoginLogController {
 
-	@Resource
-	private SysLoginLogService sysLoginLogService;
+    @Resource
+    private SysLoginLogService sysLoginLogService;
 
-	/**
-	 * 清空登录日志
-	 *
-	 * @date 2021/1/13 17:51
-	 */
-	@GetResource(name = "清空登录日志", path = "/login-log/delete-all")
-	public ResponseData<Void> deleteAll() {
-		sysLoginLogService.delAll();
-		return ResponseData.OK_VOID;
-	}
+    /**
+     * 清空登录日志
+     *
+     * @date 2021/1/13 17:51
+     */
+    @GetResource(name = "清空登录日志", path = "/login-log/delete-all")
+    public ResponseData<Void> deleteAll() {
+        sysLoginLogService.delAll();
+        return ResponseData.OK_VOID;
+    }
 
-	/**
-	 * 查询登录日志详情
-	 *
-	 * @date 2021/1/13 17:51
-	 */
-	@GetResource(name = "查看详情登录日志", path = "/login-log/detail")
-	public ResponseData<SysLoginLogResponse> detail(
-			@Validated(BaseRequest.detail.class) SysLoginLogRequest sysLoginLogRequest) {
-		return ResponseData.ok(sysLoginLogService.detail(sysLoginLogRequest));
-	}
+    /**
+     * 查询登录日志详情
+     *
+     * @date 2021/1/13 17:51
+     */
+    @GetResource(name = "查看详情登录日志", path = "/login-log/detail")
+    public ResponseData<SysLoginLogResponse> detail(
+            @Validated(BaseRequest.detail.class) SysLoginLogRequest sysLoginLogRequest) {
+        return ResponseData.ok(sysLoginLogService.detail(sysLoginLogRequest));
+    }
 
-	/**
-	 * 分页查询登录日志
-	 *
-	 * @date 2021/1/13 17:51
-	 */
-	@GetResource(name = "分页查询登录日志", path = "/login-log/page")
-	public ResponseData<PageResult<SysLoginLogResponse>> page(SysLoginLogRequest sysLoginLogRequest) {
-		return ResponseData.ok(sysLoginLogService.findPage(sysLoginLogRequest));
-	}
+    /**
+     * 分页查询登录日志
+     *
+     * @date 2021/1/13 17:51
+     */
+    @GetResource(name = "分页查询登录日志", path = "/login-log/page")
+    public ResponseData<PageResult<SysLoginLogResponse>> page(SysLoginLogRequest sysLoginLogRequest) {
+        return ResponseData.ok(sysLoginLogService.findPage(sysLoginLogRequest));
+    }
 
 }

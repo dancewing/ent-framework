@@ -26,32 +26,32 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 public class MigrationAggregationPOJO extends BaseRequest {
 
-	/**
-	 * 应用和模块名称列表
-	 */
-	@NotNull(message = "模块名称不能为空", groups = { export.class, restore.class })
-	@ChineseDescription("应用和模块名称列表")
-	private List<String> appAndModuleNameList;
+    /**
+     * 应用和模块名称列表
+     */
+    @NotNull(message = "模块名称不能为空", groups = { export.class, restore.class })
+    @ChineseDescription("应用和模块名称列表")
+    private List<String> appAndModuleNameList;
 
-	/**
-	 * 数据集
-	 */
-	@NotNull(message = "数据集不能为空", groups = { restore.class })
-	@ChineseDescription("数据集")
-	private Map<String, MigrationInfo> data;
+    /**
+     * 数据集
+     */
+    @NotNull(message = "数据集不能为空", groups = { restore.class })
+    @ChineseDescription("数据集")
+    private Map<String, MigrationInfo> data;
 
-	/**
-	 * 导出
-	 */
-	public @interface export {
+    /**
+     * 导出
+     */
+    public @interface export {
 
-	}
+    }
 
-	/**
-	 * 恢复
-	 */
-	public @interface restore {
+    /**
+     * 恢复
+     */
+    public @interface restore {
 
-	}
+    }
 
 }

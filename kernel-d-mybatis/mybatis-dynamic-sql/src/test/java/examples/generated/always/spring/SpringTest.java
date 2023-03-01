@@ -53,246 +53,246 @@ import examples.generated.always.GeneratedAlwaysRecord;
 
 class SpringTest {
 
-	private NamedParameterJdbcTemplate template;
+    private NamedParameterJdbcTemplate template;
 
-	@BeforeEach
-	void setup() {
-		EmbeddedDatabase db = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).generateUniqueName(true)
-				.addScript("classpath:/examples/generated/always/CreateGeneratedAlwaysDB.sql").build();
-		template = new NamedParameterJdbcTemplate(db);
-	}
+    @BeforeEach
+    void setup() {
+        EmbeddedDatabase db = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).generateUniqueName(true)
+                .addScript("classpath:/examples/generated/always/CreateGeneratedAlwaysDB.sql").build();
+        template = new NamedParameterJdbcTemplate(db);
+    }
 
-	@Test
-	void testRender() {
-		SelectStatementProvider selectStatement = select(id.as("A_ID"), firstName, lastName, fullName)
-				.from(generatedAlways, "a").where(id, isGreaterThan(3)).orderBy(id.descending()).build()
-				.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+    @Test
+    void testRender() {
+        SelectStatementProvider selectStatement = select(id.as("A_ID"), firstName, lastName, fullName)
+                .from(generatedAlways, "a").where(id, isGreaterThan(3)).orderBy(id.descending()).build()
+                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-		String expected = "select a.id as A_ID, a.first_name, a.last_name, a.full_name " + "from GeneratedAlways a "
-				+ "where a.id > :p1 " + "order by id DESC";
+        String expected = "select a.id as A_ID, a.first_name, a.last_name, a.full_name " + "from GeneratedAlways a "
+                + "where a.id > :p1 " + "order by id DESC";
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testSelect() {
-		SelectStatementProvider selectStatement = select(id, firstName, lastName, fullName).from(generatedAlways)
-				.where(id, isGreaterThan(3)).orderBy(id.descending()).build()
-				.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+    @Test
+    void testSelect() {
+        SelectStatementProvider selectStatement = select(id, firstName, lastName, fullName).from(generatedAlways)
+                .where(id, isGreaterThan(3)).orderBy(id.descending()).build()
+                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-		SqlParameterSource namedParameters = new MapSqlParameterSource(selectStatement.getParameters());
+        SqlParameterSource namedParameters = new MapSqlParameterSource(selectStatement.getParameters());
 
-		List<GeneratedAlwaysRecord> records = template.query(selectStatement.getSelectStatement(), namedParameters,
-				(rs, rowNum) -> {
-					GeneratedAlwaysRecord record = new GeneratedAlwaysRecord();
-					record.setId(rs.getInt(1));
-					record.setFirstName(rs.getString(2));
-					record.setLastName(rs.getString(3));
-					record.setFullName(rs.getString(4));
-					return record;
-				});
+        List<GeneratedAlwaysRecord> records = template.query(selectStatement.getSelectStatement(), namedParameters,
+                (rs, rowNum) -> {
+                    GeneratedAlwaysRecord record = new GeneratedAlwaysRecord();
+                    record.setId(rs.getInt(1));
+                    record.setFirstName(rs.getString(2));
+                    record.setLastName(rs.getString(3));
+                    record.setFullName(rs.getString(4));
+                    return record;
+                });
 
-		assertThat(records).hasSize(3);
-		assertThat(records.get(0).getId()).isEqualTo(6);
-		assertThat(records.get(0).getFirstName()).isEqualTo("Bamm Bamm");
-		assertThat(records.get(0).getLastName()).isEqualTo("Rubble");
-		assertThat(records.get(0).getFullName()).isEqualTo("Bamm Bamm Rubble");
+        assertThat(records).hasSize(3);
+        assertThat(records.get(0).getId()).isEqualTo(6);
+        assertThat(records.get(0).getFirstName()).isEqualTo("Bamm Bamm");
+        assertThat(records.get(0).getLastName()).isEqualTo("Rubble");
+        assertThat(records.get(0).getFullName()).isEqualTo("Bamm Bamm Rubble");
 
-		assertThat(records.get(1).getId()).isEqualTo(5);
-		assertThat(records.get(2).getId()).isEqualTo(4);
+        assertThat(records.get(1).getId()).isEqualTo(5);
+        assertThat(records.get(2).getId()).isEqualTo(4);
 
-	}
+    }
 
-	@Test
-	void testDelete() {
-		DeleteStatementProvider deleteStatement = deleteFrom(generatedAlways).where(id, isLessThan(3)).build()
-				.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+    @Test
+    void testDelete() {
+        DeleteStatementProvider deleteStatement = deleteFrom(generatedAlways).where(id, isLessThan(3)).build()
+                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-		SqlParameterSource parameterSource = new MapSqlParameterSource(deleteStatement.getParameters());
+        SqlParameterSource parameterSource = new MapSqlParameterSource(deleteStatement.getParameters());
 
-		int rows = template.update(deleteStatement.getDeleteStatement(), parameterSource);
+        int rows = template.update(deleteStatement.getDeleteStatement(), parameterSource);
 
-		assertThat(rows).isEqualTo(2);
-	}
+        assertThat(rows).isEqualTo(2);
+    }
 
-	@Test
-	void testInsert() {
-		GeneratedAlwaysRecord record = new GeneratedAlwaysRecord();
-		record.setId(100);
-		record.setFirstName("Bob");
-		record.setLastName("Jones");
+    @Test
+    void testInsert() {
+        GeneratedAlwaysRecord record = new GeneratedAlwaysRecord();
+        record.setId(100);
+        record.setFirstName("Bob");
+        record.setLastName("Jones");
 
-		InsertStatementProvider<GeneratedAlwaysRecord> insertStatement = insert(record).into(generatedAlways).map(id)
-				.toProperty("id").map(firstName).toProperty("firstName").map(lastName).toProperty("lastName").build()
-				.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+        InsertStatementProvider<GeneratedAlwaysRecord> insertStatement = insert(record).into(generatedAlways).map(id)
+                .toProperty("id").map(firstName).toProperty("firstName").map(lastName).toProperty("lastName").build()
+                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-		SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(insertStatement.getRow());
-		KeyHolder keyHolder = new GeneratedKeyHolder();
+        SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(insertStatement.getRow());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-		int rows = template.update(insertStatement.getInsertStatement(), parameterSource, keyHolder);
-		String generatedKey = (String) keyHolder.getKeys().get("FULL_NAME");
+        int rows = template.update(insertStatement.getInsertStatement(), parameterSource, keyHolder);
+        String generatedKey = (String) keyHolder.getKeys().get("FULL_NAME");
 
-		assertThat(rows).isEqualTo(1);
-		assertThat(generatedKey).isEqualTo("Bob Jones");
-	}
+        assertThat(rows).isEqualTo(1);
+        assertThat(generatedKey).isEqualTo("Bob Jones");
+    }
 
-	@Test
-	void testInsertWithExtensions() {
-		GeneratedAlwaysRecord record = new GeneratedAlwaysRecord();
-		record.setId(100);
-		record.setFirstName("Bob");
-		record.setLastName("Jones");
+    @Test
+    void testInsertWithExtensions() {
+        GeneratedAlwaysRecord record = new GeneratedAlwaysRecord();
+        record.setId(100);
+        record.setFirstName("Bob");
+        record.setLastName("Jones");
 
-		Buildable<InsertModel<GeneratedAlwaysRecord>> insertStatement = insert(record).into(generatedAlways).map(id)
-				.toProperty("id").map(firstName).toProperty("firstName").map(lastName).toProperty("lastName");
+        Buildable<InsertModel<GeneratedAlwaysRecord>> insertStatement = insert(record).into(generatedAlways).map(id)
+                .toProperty("id").map(firstName).toProperty("firstName").map(lastName).toProperty("lastName");
 
-		NamedParameterJdbcTemplateExtensions extensions = new NamedParameterJdbcTemplateExtensions(template);
+        NamedParameterJdbcTemplateExtensions extensions = new NamedParameterJdbcTemplateExtensions(template);
 
-		KeyHolder keyHolder = new GeneratedKeyHolder();
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-		int rows = extensions.insert(insertStatement, keyHolder);
-		String generatedKey = (String) keyHolder.getKeys().get("FULL_NAME");
+        int rows = extensions.insert(insertStatement, keyHolder);
+        String generatedKey = (String) keyHolder.getKeys().get("FULL_NAME");
 
-		assertThat(rows).isEqualTo(1);
-		assertThat(generatedKey).isEqualTo("Bob Jones");
-	}
+        assertThat(rows).isEqualTo(1);
+        assertThat(generatedKey).isEqualTo("Bob Jones");
+    }
 
-	@Test
-	void testGeneralInsert() {
-		GeneralInsertStatementProvider insertStatement = insertInto(generatedAlways).set(id).toValue(100).set(firstName)
-				.toValue("Bob").set(lastName).toValue("Jones").build()
-				.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+    @Test
+    void testGeneralInsert() {
+        GeneralInsertStatementProvider insertStatement = insertInto(generatedAlways).set(id).toValue(100).set(firstName)
+                .toValue("Bob").set(lastName).toValue("Jones").build()
+                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-		int rows = template.update(insertStatement.getInsertStatement(), insertStatement.getParameters());
+        int rows = template.update(insertStatement.getInsertStatement(), insertStatement.getParameters());
 
-		assertThat(rows).isEqualTo(1);
-	}
+        assertThat(rows).isEqualTo(1);
+    }
 
-	@Test
-	void testGeneralInsertWithGeneratedKey() {
-		GeneralInsertStatementProvider insertStatement = insertInto(generatedAlways).set(id).toValue(100).set(firstName)
-				.toValue("Bob").set(lastName).toValue("Jones").build()
-				.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+    @Test
+    void testGeneralInsertWithGeneratedKey() {
+        GeneralInsertStatementProvider insertStatement = insertInto(generatedAlways).set(id).toValue(100).set(firstName)
+                .toValue("Bob").set(lastName).toValue("Jones").build()
+                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-		MapSqlParameterSource parameterSource = new MapSqlParameterSource(insertStatement.getParameters());
-		KeyHolder keyHolder = new GeneratedKeyHolder();
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource(insertStatement.getParameters());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-		int rows = template.update(insertStatement.getInsertStatement(), parameterSource, keyHolder);
-		String generatedKey = (String) keyHolder.getKeys().get("FULL_NAME");
+        int rows = template.update(insertStatement.getInsertStatement(), parameterSource, keyHolder);
+        String generatedKey = (String) keyHolder.getKeys().get("FULL_NAME");
 
-		assertThat(rows).isEqualTo(1);
-		assertThat(generatedKey).isEqualTo("Bob Jones");
-	}
+        assertThat(rows).isEqualTo(1);
+        assertThat(generatedKey).isEqualTo("Bob Jones");
+    }
 
-	@Test
-	void testGeneralInsertWithGeneratedKeyAndExtensions() {
-		Buildable<GeneralInsertModel> insertStatement = insertInto(generatedAlways).set(id).toValue(100).set(firstName)
-				.toValue("Bob").set(lastName).toValue("Jones");
+    @Test
+    void testGeneralInsertWithGeneratedKeyAndExtensions() {
+        Buildable<GeneralInsertModel> insertStatement = insertInto(generatedAlways).set(id).toValue(100).set(firstName)
+                .toValue("Bob").set(lastName).toValue("Jones");
 
-		NamedParameterJdbcTemplateExtensions extensions = new NamedParameterJdbcTemplateExtensions(template);
-		KeyHolder keyHolder = new GeneratedKeyHolder();
+        NamedParameterJdbcTemplateExtensions extensions = new NamedParameterJdbcTemplateExtensions(template);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-		int rows = extensions.generalInsert(insertStatement, keyHolder);
-		String generatedKey = (String) keyHolder.getKeys().get("FULL_NAME");
+        int rows = extensions.generalInsert(insertStatement, keyHolder);
+        String generatedKey = (String) keyHolder.getKeys().get("FULL_NAME");
 
-		assertThat(rows).isEqualTo(1);
-		assertThat(generatedKey).isEqualTo("Bob Jones");
-	}
+        assertThat(rows).isEqualTo(1);
+        assertThat(generatedKey).isEqualTo("Bob Jones");
+    }
 
-	@Test
-	void testInsertBatch() {
-		List<GeneratedAlwaysRecord> records = new ArrayList<>();
-		GeneratedAlwaysRecord record = new GeneratedAlwaysRecord();
-		record.setId(100);
-		record.setFirstName("Bob");
-		record.setLastName("Jones");
-		records.add(record);
+    @Test
+    void testInsertBatch() {
+        List<GeneratedAlwaysRecord> records = new ArrayList<>();
+        GeneratedAlwaysRecord record = new GeneratedAlwaysRecord();
+        record.setId(100);
+        record.setFirstName("Bob");
+        record.setLastName("Jones");
+        records.add(record);
 
-		record = new GeneratedAlwaysRecord();
-		record.setId(101);
-		record.setFirstName("Jim");
-		record.setLastName("Smith");
-		records.add(record);
+        record = new GeneratedAlwaysRecord();
+        record.setId(101);
+        record.setFirstName("Jim");
+        record.setLastName("Smith");
+        records.add(record);
 
-		SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(records);
+        SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(records);
 
-		BatchInsert<GeneratedAlwaysRecord> batchInsert = insertBatch(records).into(generatedAlways).map(id)
-				.toProperty("id").map(firstName).toProperty("firstName").map(lastName).toProperty("lastName").build()
-				.render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+        BatchInsert<GeneratedAlwaysRecord> batchInsert = insertBatch(records).into(generatedAlways).map(id)
+                .toProperty("id").map(firstName).toProperty("firstName").map(lastName).toProperty("lastName").build()
+                .render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-		int[] updateCounts = template.batchUpdate(batchInsert.getInsertStatementSQL(), batch);
+        int[] updateCounts = template.batchUpdate(batchInsert.getInsertStatementSQL(), batch);
 
-		assertThat(updateCounts).hasSize(2);
-		assertThat(updateCounts[0]).isEqualTo(1);
-		assertThat(updateCounts[1]).isEqualTo(1);
-	}
+        assertThat(updateCounts).hasSize(2);
+        assertThat(updateCounts[0]).isEqualTo(1);
+        assertThat(updateCounts[1]).isEqualTo(1);
+    }
 
-	@Test
-	void testInsertBatchWithExtensions() {
-		NamedParameterJdbcTemplateExtensions extensions = new NamedParameterJdbcTemplateExtensions(template);
+    @Test
+    void testInsertBatchWithExtensions() {
+        NamedParameterJdbcTemplateExtensions extensions = new NamedParameterJdbcTemplateExtensions(template);
 
-		List<GeneratedAlwaysRecord> records = new ArrayList<>();
-		GeneratedAlwaysRecord record = new GeneratedAlwaysRecord();
-		record.setId(100);
-		record.setFirstName("Bob");
-		record.setLastName("Jones");
-		records.add(record);
+        List<GeneratedAlwaysRecord> records = new ArrayList<>();
+        GeneratedAlwaysRecord record = new GeneratedAlwaysRecord();
+        record.setId(100);
+        record.setFirstName("Bob");
+        record.setLastName("Jones");
+        records.add(record);
 
-		record = new GeneratedAlwaysRecord();
-		record.setId(101);
-		record.setFirstName("Jim");
-		record.setLastName("Smith");
-		records.add(record);
+        record = new GeneratedAlwaysRecord();
+        record.setId(101);
+        record.setFirstName("Jim");
+        record.setLastName("Smith");
+        records.add(record);
 
-		Buildable<BatchInsertModel<GeneratedAlwaysRecord>> insertStatement = insertBatch(records).into(generatedAlways)
-				.map(id).toProperty("id").map(firstName).toProperty("firstName").map(lastName).toProperty("lastName");
+        Buildable<BatchInsertModel<GeneratedAlwaysRecord>> insertStatement = insertBatch(records).into(generatedAlways)
+                .map(id).toProperty("id").map(firstName).toProperty("firstName").map(lastName).toProperty("lastName");
 
-		int[] updateCounts = extensions.insertBatch(insertStatement);
+        int[] updateCounts = extensions.insertBatch(insertStatement);
 
-		assertThat(updateCounts).hasSize(2);
-		assertThat(updateCounts[0]).isEqualTo(1);
-		assertThat(updateCounts[1]).isEqualTo(1);
-	}
+        assertThat(updateCounts).hasSize(2);
+        assertThat(updateCounts[0]).isEqualTo(1);
+        assertThat(updateCounts[1]).isEqualTo(1);
+    }
 
-	@Test
-	void testMultiRowInsert() {
-		NamedParameterJdbcTemplateExtensions extensions = new NamedParameterJdbcTemplateExtensions(template);
-		KeyHolder keyHolder = new GeneratedKeyHolder();
+    @Test
+    void testMultiRowInsert() {
+        NamedParameterJdbcTemplateExtensions extensions = new NamedParameterJdbcTemplateExtensions(template);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-		List<GeneratedAlwaysRecord> records = new ArrayList<>();
-		GeneratedAlwaysRecord record = new GeneratedAlwaysRecord();
-		record.setId(100);
-		record.setFirstName("Bob");
-		record.setLastName("Jones");
-		records.add(record);
+        List<GeneratedAlwaysRecord> records = new ArrayList<>();
+        GeneratedAlwaysRecord record = new GeneratedAlwaysRecord();
+        record.setId(100);
+        record.setFirstName("Bob");
+        record.setLastName("Jones");
+        records.add(record);
 
-		record = new GeneratedAlwaysRecord();
-		record.setId(101);
-		record.setFirstName("Jim");
-		record.setLastName("Smith");
-		records.add(record);
+        record = new GeneratedAlwaysRecord();
+        record.setId(101);
+        record.setFirstName("Jim");
+        record.setLastName("Smith");
+        records.add(record);
 
-		Buildable<MultiRowInsertModel<GeneratedAlwaysRecord>> insertStatement = insertMultiple(records)
-				.into(generatedAlways).map(id).toProperty("id").map(firstName).toProperty("firstName").map(lastName)
-				.toProperty("lastName");
+        Buildable<MultiRowInsertModel<GeneratedAlwaysRecord>> insertStatement = insertMultiple(records)
+                .into(generatedAlways).map(id).toProperty("id").map(firstName).toProperty("firstName").map(lastName)
+                .toProperty("lastName");
 
-		int rows = extensions.insertMultiple(insertStatement, keyHolder);
+        int rows = extensions.insertMultiple(insertStatement, keyHolder);
 
-		assertThat(rows).isEqualTo(2);
-		assertThat(keyHolder.getKeyList().get(0)).contains(entry("FULL_NAME", "Bob Jones"));
-		assertThat(keyHolder.getKeyList().get(1)).contains(entry("FULL_NAME", "Jim Smith"));
-	}
+        assertThat(rows).isEqualTo(2);
+        assertThat(keyHolder.getKeyList().get(0)).contains(entry("FULL_NAME", "Bob Jones"));
+        assertThat(keyHolder.getKeyList().get(1)).contains(entry("FULL_NAME", "Jim Smith"));
+    }
 
-	@Test
-	void testUpdate() {
-		UpdateStatementProvider updateStatement = update(generatedAlways).set(firstName).equalToStringConstant("Rob")
-				.where(id, isIn(1, 5, 22)).build().render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+    @Test
+    void testUpdate() {
+        UpdateStatementProvider updateStatement = update(generatedAlways).set(firstName).equalToStringConstant("Rob")
+                .where(id, isIn(1, 5, 22)).build().render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-		SqlParameterSource parameterSource = new MapSqlParameterSource(updateStatement.getParameters());
+        SqlParameterSource parameterSource = new MapSqlParameterSource(updateStatement.getParameters());
 
-		int rows = template.update(updateStatement.getUpdateStatement(), parameterSource);
+        int rows = template.update(updateStatement.getUpdateStatement(), parameterSource);
 
-		assertThat(rows).isEqualTo(2);
-	}
+        assertThat(rows).isEqualTo(2);
+    }
 
 }

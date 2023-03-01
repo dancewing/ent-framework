@@ -20,14 +20,14 @@ import org.mybatis.dynamic.sql.render.RenderingStrategy;
 
 public class MultiRowValuePhraseVisitor extends AbstractMultiRowValuePhraseVisitor {
 
-	public MultiRowValuePhraseVisitor(RenderingStrategy renderingStrategy, String prefix) {
-		super(renderingStrategy, prefix);
-	}
+    public MultiRowValuePhraseVisitor(RenderingStrategy renderingStrategy, String prefix) {
+        super(renderingStrategy, prefix);
+    }
 
-	@Override
-	String calculateJdbcPlaceholder(SqlColumn<?> column, String parameterName) {
-		return column.renderingStrategy().orElse(renderingStrategy).getMultiRowFormattedJdbcPlaceholder(column, prefix,
-				parameterName);
-	}
+    @Override
+    String calculateJdbcPlaceholder(SqlColumn<?> column, String parameterName) {
+        return column.renderingStrategy().orElse(renderingStrategy).getMultiRowFormattedJdbcPlaceholder(column, prefix,
+                parameterName);
+    }
 
 }

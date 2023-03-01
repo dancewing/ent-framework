@@ -23,47 +23,47 @@ import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 
 public class FieldAndImports {
 
-	private final Field field;
+    private final Field field;
 
-	private final Set<FullyQualifiedJavaType> imports;
+    private final Set<FullyQualifiedJavaType> imports;
 
-	private FieldAndImports(Builder builder) {
-		field = builder.field;
-		imports = builder.imports;
-	}
+    private FieldAndImports(Builder builder) {
+        field = builder.field;
+        imports = builder.imports;
+    }
 
-	public Field getField() {
-		return field;
-	}
+    public Field getField() {
+        return field;
+    }
 
-	public Set<FullyQualifiedJavaType> getImports() {
-		return imports;
-	}
+    public Set<FullyQualifiedJavaType> getImports() {
+        return imports;
+    }
 
-	public static Builder withField(Field field) {
-		return new Builder().withField(field);
-	}
+    public static Builder withField(Field field) {
+        return new Builder().withField(field);
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private Field field;
+        private Field field;
 
-		private final Set<FullyQualifiedJavaType> imports = new HashSet<>();
+        private final Set<FullyQualifiedJavaType> imports = new HashSet<>();
 
-		public Builder withField(Field field) {
-			this.field = field;
-			return this;
-		}
+        public Builder withField(Field field) {
+            this.field = field;
+            return this;
+        }
 
-		public Builder withImports(Set<FullyQualifiedJavaType> imports) {
-			this.imports.addAll(imports);
-			return this;
-		}
+        public Builder withImports(Set<FullyQualifiedJavaType> imports) {
+            this.imports.addAll(imports);
+            return this;
+        }
 
-		public FieldAndImports build() {
-			return new FieldAndImports(this);
-		}
+        public FieldAndImports build() {
+            return new FieldAndImports(this);
+        }
 
-	}
+    }
 
 }

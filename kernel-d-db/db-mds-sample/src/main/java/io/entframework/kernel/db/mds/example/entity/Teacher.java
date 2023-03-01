@@ -33,160 +33,160 @@ import org.mybatis.dynamic.sql.annotation.Version;
 @Table(value = "exam_teacher", sqlSupport = TeacherDynamicSqlSupport.class, tableProperty = "teacher")
 public class Teacher extends BaseEntity implements Serializable {
 
-	/**
-	 * Id
-	 */
-	@Id
-	@Column(name = "id", jdbcType = JDBCType.BIGINT)
-	private Long id;
+    /**
+     * Id
+     */
+    @Id
+    @Column(name = "id", jdbcType = JDBCType.BIGINT)
+    private Long id;
 
-	/**
-	 * 姓名
-	 */
-	@Column(name = "name", jdbcType = JDBCType.VARCHAR)
-	private String name;
+    /**
+     * 姓名
+     */
+    @Column(name = "name", jdbcType = JDBCType.VARCHAR)
+    private String name;
 
-	/**
-	 * 卡号
-	 */
-	@Column(name = "card_num", jdbcType = JDBCType.VARCHAR)
-	private String cardNum;
+    /**
+     * 卡号
+     */
+    @Column(name = "card_num", jdbcType = JDBCType.VARCHAR)
+    private String cardNum;
 
-	/**
-	 * 性别[MALE(0):男,FEMALE(1):女]
-	 */
-	@Column(name = "gender", jdbcType = JDBCType.VARCHAR)
-	private Gender gender;
+    /**
+     * 性别[MALE(0):男,FEMALE(1):女]
+     */
+    @Column(name = "gender", jdbcType = JDBCType.VARCHAR)
+    private Gender gender;
 
-	/**
-	 * 生日
-	 */
-	@Column(name = "birthday", jdbcType = JDBCType.DATE)
-	private LocalDate birthday;
+    /**
+     * 生日
+     */
+    @Column(name = "birthday", jdbcType = JDBCType.DATE)
+    private LocalDate birthday;
 
-	/**
-	 * 级别
-	 */
-	@Column(name = "work_seniority", jdbcType = JDBCType.INTEGER)
-	private Integer workSeniority;
+    /**
+     * 级别
+     */
+    @Column(name = "work_seniority", jdbcType = JDBCType.INTEGER)
+    private Integer workSeniority;
 
-	/**
-	 * 状态
-	 */
-	@Column(name = "status_flag", jdbcType = JDBCType.TINYINT)
-	private StatusEnum statusFlag;
+    /**
+     * 状态
+     */
+    @Column(name = "status_flag", jdbcType = JDBCType.TINYINT)
+    private StatusEnum statusFlag;
 
-	/**
-	 * 教授课程
-	 */
-	@Column(name = "tech_courses", jdbcType = JDBCType.VARCHAR, typeHandler = StringListHandler.class)
-	private List<String> techCourses;
+    /**
+     * 教授课程
+     */
+    @Column(name = "tech_courses", jdbcType = JDBCType.VARCHAR, typeHandler = StringListHandler.class)
+    private List<String> techCourses;
 
-	/**
-	 * 版本
-	 */
-	@Column(name = "version_", jdbcType = JDBCType.BIGINT)
-	@Version
-	private Long version;
+    /**
+     * 版本
+     */
+    @Column(name = "version_", jdbcType = JDBCType.BIGINT)
+    @Version
+    private Long version;
 
-	/**
-	 * 属性
-	 */
-	@Column(name = "properties", jdbcType = JDBCType.LONGVARBINARY)
-	private TeachProperty properties;
+    /**
+     * 属性
+     */
+    @Column(name = "properties", jdbcType = JDBCType.LONGVARBINARY)
+    private TeachProperty properties;
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public Teacher id(Long id) {
-		this.id = id;
-		return this;
-	}
+    public Teacher id(Long id) {
+        this.id = id;
+        return this;
+    }
 
-	public Teacher name(String name) {
-		this.name = name;
-		return this;
-	}
+    public Teacher name(String name) {
+        this.name = name;
+        return this;
+    }
 
-	public Teacher cardNum(String cardNum) {
-		this.cardNum = cardNum;
-		return this;
-	}
+    public Teacher cardNum(String cardNum) {
+        this.cardNum = cardNum;
+        return this;
+    }
 
-	public Teacher gender(Gender gender) {
-		this.gender = gender;
-		return this;
-	}
+    public Teacher gender(Gender gender) {
+        this.gender = gender;
+        return this;
+    }
 
-	public Teacher birthday(LocalDate birthday) {
-		this.birthday = birthday;
-		return this;
-	}
+    public Teacher birthday(LocalDate birthday) {
+        this.birthday = birthday;
+        return this;
+    }
 
-	public Teacher workSeniority(Integer workSeniority) {
-		this.workSeniority = workSeniority;
-		return this;
-	}
+    public Teacher workSeniority(Integer workSeniority) {
+        this.workSeniority = workSeniority;
+        return this;
+    }
 
-	public Teacher statusFlag(StatusEnum statusFlag) {
-		this.statusFlag = statusFlag;
-		return this;
-	}
+    public Teacher statusFlag(StatusEnum statusFlag) {
+        this.statusFlag = statusFlag;
+        return this;
+    }
 
-	public Teacher techCourses(List<String> techCourses) {
-		this.techCourses = techCourses;
-		return this;
-	}
+    public Teacher techCourses(List<String> techCourses) {
+        this.techCourses = techCourses;
+        return this;
+    }
 
-	public Teacher version(Long version) {
-		this.version = version;
-		return this;
-	}
+    public Teacher version(Long version) {
+        this.version = version;
+        return this;
+    }
 
-	public Teacher properties(TeachProperty properties) {
-		this.properties = properties;
-		return this;
-	}
+    public Teacher properties(TeachProperty properties) {
+        this.properties = properties;
+        return this;
+    }
 
-	@EnumHandler
-	public enum Gender {
+    @EnumHandler
+    public enum Gender {
 
-		MALE("0", "男"), FEMALE("1", "女");
+        MALE("0", "男"), FEMALE("1", "女");
 
-		@JsonValue
-		@EnumValue
-		private final String value;
+        @JsonValue
+        @EnumValue
+        private final String value;
 
-		private final String label;
+        private final String label;
 
-		Gender(String value, String label) {
-			this.value = value;
-			this.label = label;
-		}
+        Gender(String value, String label) {
+            this.value = value;
+            this.label = label;
+        }
 
-		public String getValue() {
-			return this.value;
-		}
+        public String getValue() {
+            return this.value;
+        }
 
-		public String value() {
-			return this.value;
-		}
+        public String value() {
+            return this.value;
+        }
 
-		public String getLabel() {
-			return this.label;
-		}
+        public String getLabel() {
+            return this.label;
+        }
 
-		@JsonCreator
-		public static Gender parseValue(String value) {
-			if (value != null) {
-				for (Gender item : values()) {
-					if (item.value.equals(value)) {
-						return item;
-					}
-				}
-			}
-			return null;
-		}
+        @JsonCreator
+        public static Gender parseValue(String value) {
+            if (value != null) {
+                for (Gender item : values()) {
+                    if (item.value.equals(value)) {
+                        return item;
+                    }
+                }
+            }
+            return null;
+        }
 
-	}
+    }
 
 }

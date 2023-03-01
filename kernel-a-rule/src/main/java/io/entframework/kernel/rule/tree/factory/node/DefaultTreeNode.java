@@ -19,54 +19,54 @@ import java.util.List;
 @Data
 public class DefaultTreeNode implements AbstractTreeNode<DefaultTreeNode> {
 
-	/**
-	 * 节点id
-	 */
-	private String id;
+    /**
+     * 节点id
+     */
+    private String id;
 
-	/**
-	 * 父节点id
-	 */
-	private String pId;
+    /**
+     * 父节点id
+     */
+    private String pId;
 
-	/**
-	 * 节点名称
-	 */
-	private String name;
+    /**
+     * 节点名称
+     */
+    private String name;
 
-	/**
-	 * 是否打开节点
-	 */
-	private Boolean open;
+    /**
+     * 是否打开节点
+     */
+    private Boolean open;
 
-	/**
-	 * 是否被选中
-	 */
-	private Boolean checked = false;
+    /**
+     * 是否被选中
+     */
+    private Boolean checked = false;
 
-	/**
-	 * 排序，越小越靠前
-	 */
-	private BigDecimal sort;
+    /**
+     * 排序，越小越靠前
+     */
+    private BigDecimal sort;
 
-	/**
-	 * 子节点
-	 */
-	private List<DefaultTreeNode> children;
+    /**
+     * 子节点
+     */
+    private List<DefaultTreeNode> children;
 
-	@Override
-	public String getNodeId() {
-		return id;
-	}
+    @Override
+    public String getNodeId() {
+        return id;
+    }
 
-	@Override
-	public String getNodeParentId() {
-		return pId;
-	}
+    @Override
+    public String getNodeParentId() {
+        return pId;
+    }
 
-	@Override
-	public void setChildrenNodes(List<DefaultTreeNode> childrenNodes) {
-		this.children = childrenNodes;
-	}
+    @Override
+    public void setChildrenNodes(List<DefaultTreeNode> childrenNodes) {
+        this.children = childrenNodes;
+    }
 
 }

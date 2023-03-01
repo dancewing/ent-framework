@@ -16,27 +16,27 @@ import java.util.concurrent.TimeUnit;
  */
 public class LogManagerThreadPool {
 
-	/**
-	 * 异步操作记录日志的线程池
-	 */
-	private final ScheduledThreadPoolExecutor schedule;
+    /**
+     * 异步操作记录日志的线程池
+     */
+    private final ScheduledThreadPoolExecutor schedule;
 
-	public LogManagerThreadPool() {
-		schedule = new ScheduledThreadPoolExecutor(10, new ScheduledExecutorFactoryBean());
-	}
+    public LogManagerThreadPool() {
+        schedule = new ScheduledThreadPoolExecutor(10, new ScheduledExecutorFactoryBean());
+    }
 
-	public LogManagerThreadPool(int poolSize) {
-		schedule = new ScheduledThreadPoolExecutor(poolSize, new ScheduledExecutorFactoryBean());
-	}
+    public LogManagerThreadPool(int poolSize) {
+        schedule = new ScheduledThreadPoolExecutor(poolSize, new ScheduledExecutorFactoryBean());
+    }
 
-	/**
-	 * 异步执行日志的方法
-	 *
-	 * @date 2020/10/28 15:27
-	 */
-	public void executeLog(TimerTask task) {
-		int operateDelayTime = 10;
-		schedule.schedule(task, operateDelayTime, TimeUnit.MILLISECONDS);
-	}
+    /**
+     * 异步执行日志的方法
+     *
+     * @date 2020/10/28 15:27
+     */
+    public void executeLog(TimerTask task) {
+        int operateDelayTime = 10;
+        schedule.schedule(task, operateDelayTime, TimeUnit.MILLISECONDS);
+    }
 
 }

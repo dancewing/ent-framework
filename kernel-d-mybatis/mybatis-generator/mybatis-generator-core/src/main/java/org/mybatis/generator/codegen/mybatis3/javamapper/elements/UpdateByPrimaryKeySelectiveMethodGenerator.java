@@ -24,41 +24,41 @@ import org.mybatis.generator.api.dom.java.Method;
 
 public class UpdateByPrimaryKeySelectiveMethodGenerator extends AbstractJavaMapperMethodGenerator {
 
-	public UpdateByPrimaryKeySelectiveMethodGenerator() {
-		super();
-	}
+    public UpdateByPrimaryKeySelectiveMethodGenerator() {
+        super();
+    }
 
-	@Override
-	public void addInterfaceElements(Interface interfaze) {
-		Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
-		FullyQualifiedJavaType parameterType;
-		if (introspectedTable.getRules().generateRecordWithBLOBsClass()) {
-			parameterType = new FullyQualifiedJavaType(introspectedTable.getRecordWithBLOBsType());
-		}
-		else {
-			parameterType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
-		}
-		String statementId = introspectedTable.getUpdateByPrimaryKeySelectiveStatementId();
-		importedTypes.add(parameterType);
+    @Override
+    public void addInterfaceElements(Interface interfaze) {
+        Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
+        FullyQualifiedJavaType parameterType;
+        if (introspectedTable.getRules().generateRecordWithBLOBsClass()) {
+            parameterType = new FullyQualifiedJavaType(introspectedTable.getRecordWithBLOBsType());
+        }
+        else {
+            parameterType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
+        }
+        String statementId = introspectedTable.getUpdateByPrimaryKeySelectiveStatementId();
+        importedTypes.add(parameterType);
 
-		Method method = buildBasicUpdateByPrimaryKeyMethod(statementId, parameterType);
+        Method method = buildBasicUpdateByPrimaryKeyMethod(statementId, parameterType);
 
-		addMapperAnnotations(method);
+        addMapperAnnotations(method);
 
-		if (context.getPlugins().clientUpdateByPrimaryKeySelectiveMethodGenerated(method, interfaze,
-				introspectedTable)) {
-			addExtraImports(interfaze);
-			interfaze.addImportedTypes(importedTypes);
-			interfaze.addMethod(method);
-		}
-	}
+        if (context.getPlugins().clientUpdateByPrimaryKeySelectiveMethodGenerated(method, interfaze,
+                introspectedTable)) {
+            addExtraImports(interfaze);
+            interfaze.addImportedTypes(importedTypes);
+            interfaze.addMethod(method);
+        }
+    }
 
-	public void addMapperAnnotations(Method method) {
-		// extension point for subclasses
-	}
+    public void addMapperAnnotations(Method method) {
+        // extension point for subclasses
+    }
 
-	public void addExtraImports(Interface interfaze) {
-		// extension point for subclasses
-	}
+    public void addExtraImports(Interface interfaze) {
+        // extension point for subclasses
+    }
 
 }

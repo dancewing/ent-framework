@@ -21,16 +21,16 @@ import org.mybatis.dynamic.sql.BasicColumn;
 
 public abstract class JoinCondition {
 
-	private final BasicColumn rightColumn;
+    private final BasicColumn rightColumn;
 
-	protected JoinCondition(BasicColumn rightColumn) {
-		this.rightColumn = Objects.requireNonNull(rightColumn);
-	}
+    protected JoinCondition(BasicColumn rightColumn) {
+        this.rightColumn = Objects.requireNonNull(rightColumn);
+    }
 
-	public BasicColumn rightColumn() {
-		return rightColumn;
-	}
+    public BasicColumn rightColumn() {
+        return rightColumn;
+    }
 
-	public abstract String operator();
+    public abstract String operator();
 
 }

@@ -28,36 +28,36 @@ import java.util.Set;
  */
 public interface CompilationUnit {
 
-	Set<FullyQualifiedJavaType> getImportedTypes();
+    Set<FullyQualifiedJavaType> getImportedTypes();
 
-	Set<String> getStaticImports();
+    Set<String> getStaticImports();
 
-	FullyQualifiedJavaType getType();
+    FullyQualifiedJavaType getType();
 
-	void addImportedType(FullyQualifiedJavaType importedType);
+    void addImportedType(FullyQualifiedJavaType importedType);
 
-	void addImportedTypes(Set<FullyQualifiedJavaType> importedTypes);
+    void addImportedTypes(Set<FullyQualifiedJavaType> importedTypes);
 
-	void addStaticImport(String staticImport);
+    void addStaticImport(String staticImport);
 
-	void addStaticImports(Set<String> staticImports);
+    void addStaticImports(Set<String> staticImports);
 
-	/**
-	 * Comments will be written at the top of the file as is, we do not append any start
-	 * or end comment characters.
-	 *
-	 * <p>
-	 * Note that in the Eclipse plugin, file comments will not be merged.
-	 * @param commentLine the comment line
-	 */
-	void addFileCommentLine(String commentLine);
+    /**
+     * Comments will be written at the top of the file as is, we do not append any start
+     * or end comment characters.
+     *
+     * <p>
+     * Note that in the Eclipse plugin, file comments will not be merged.
+     * @param commentLine the comment line
+     */
+    void addFileCommentLine(String commentLine);
 
-	List<String> getFileCommentLines();
+    List<String> getFileCommentLines();
 
-	<R> R accept(CompilationUnitVisitor<R> visitor);
+    <R> R accept(CompilationUnitVisitor<R> visitor);
 
-	WriteMode getWriteMode();
+    WriteMode getWriteMode();
 
-	void setWriteMode(WriteMode writeMode);
+    void setWriteMode(WriteMode writeMode);
 
 }

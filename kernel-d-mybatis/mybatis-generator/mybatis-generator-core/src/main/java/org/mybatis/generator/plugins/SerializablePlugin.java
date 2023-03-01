@@ -45,87 +45,87 @@ import org.mybatis.generator.api.dom.kotlin.KotlinType;
  */
 public class SerializablePlugin extends PluginAdapter {
 
-	private final FullyQualifiedJavaType serializable;
+    private final FullyQualifiedJavaType serializable;
 
-	private final FullyQualifiedJavaType gwtSerializable;
+    private final FullyQualifiedJavaType gwtSerializable;
 
-	private boolean addGWTInterface;
+    private boolean addGWTInterface;
 
-	private boolean suppressJavaInterface;
+    private boolean suppressJavaInterface;
 
-	public SerializablePlugin() {
-		super();
-		serializable = new FullyQualifiedJavaType("java.io.Serializable"); //$NON-NLS-1$
-		gwtSerializable = new FullyQualifiedJavaType("com.google.gwt.user.client.rpc.IsSerializable"); //$NON-NLS-1$
-	}
+    public SerializablePlugin() {
+        super();
+        serializable = new FullyQualifiedJavaType("java.io.Serializable"); //$NON-NLS-1$
+        gwtSerializable = new FullyQualifiedJavaType("com.google.gwt.user.client.rpc.IsSerializable"); //$NON-NLS-1$
+    }
 
-	@Override
-	public boolean validate(List<String> warnings) {
-		// this plugin is always valid
-		return true;
-	}
+    @Override
+    public boolean validate(List<String> warnings) {
+        // this plugin is always valid
+        return true;
+    }
 
-	@Override
-	public void setProperties(Properties properties) {
-		super.setProperties(properties);
-		addGWTInterface = Boolean.parseBoolean(properties.getProperty("addGWTInterface")); //$NON-NLS-1$
-		suppressJavaInterface = Boolean.parseBoolean(properties.getProperty("suppressJavaInterface")); //$NON-NLS-1$
-	}
+    @Override
+    public void setProperties(Properties properties) {
+        super.setProperties(properties);
+        addGWTInterface = Boolean.parseBoolean(properties.getProperty("addGWTInterface")); //$NON-NLS-1$
+        suppressJavaInterface = Boolean.parseBoolean(properties.getProperty("suppressJavaInterface")); //$NON-NLS-1$
+    }
 
-	@Override
-	public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-		makeSerializable(topLevelClass, introspectedTable);
-		return true;
-	}
+    @Override
+    public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        makeSerializable(topLevelClass, introspectedTable);
+        return true;
+    }
 
-	@Override
-	public boolean modelPrimaryKeyClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-		makeSerializable(topLevelClass, introspectedTable);
-		return true;
-	}
+    @Override
+    public boolean modelPrimaryKeyClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        makeSerializable(topLevelClass, introspectedTable);
+        return true;
+    }
 
-	@Override
-	public boolean modelRecordWithBLOBsClassGenerated(TopLevelClass topLevelClass,
-			IntrospectedTable introspectedTable) {
-		makeSerializable(topLevelClass, introspectedTable);
-		return true;
-	}
+    @Override
+    public boolean modelRecordWithBLOBsClassGenerated(TopLevelClass topLevelClass,
+            IntrospectedTable introspectedTable) {
+        makeSerializable(topLevelClass, introspectedTable);
+        return true;
+    }
 
-	protected void makeSerializable(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-		if (addGWTInterface) {
-			topLevelClass.addImportedType(gwtSerializable);
-			topLevelClass.addSuperInterface(gwtSerializable);
-		}
+    protected void makeSerializable(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        if (addGWTInterface) {
+            topLevelClass.addImportedType(gwtSerializable);
+            topLevelClass.addSuperInterface(gwtSerializable);
+        }
 
-		if (!suppressJavaInterface) {
-			topLevelClass.addImportedType(serializable);
-			topLevelClass.addSuperInterface(serializable);
+        if (!suppressJavaInterface) {
+            topLevelClass.addImportedType(serializable);
+            topLevelClass.addSuperInterface(serializable);
 
-			Field field = new Field("serialVersionUID", //$NON-NLS-1$
-					new FullyQualifiedJavaType("long")); //$NON-NLS-1$
-			field.setFinal(true);
-			field.setInitializationString("1L"); //$NON-NLS-1$
-			field.setStatic(true);
-			field.setVisibility(JavaVisibility.PRIVATE);
+            Field field = new Field("serialVersionUID", //$NON-NLS-1$
+                    new FullyQualifiedJavaType("long")); //$NON-NLS-1$
+            field.setFinal(true);
+            field.setInitializationString("1L"); //$NON-NLS-1$
+            field.setStatic(true);
+            field.setVisibility(JavaVisibility.PRIVATE);
 
-			if (introspectedTable.getTargetRuntime() == TargetRuntime.MYBATIS3_DSQL) {
-				context.getCommentGenerator().addFieldAnnotation(field, introspectedTable,
-						topLevelClass.getImportedTypes());
-			}
-			else {
-				context.getCommentGenerator().addFieldComment(field, introspectedTable);
-			}
+            if (introspectedTable.getTargetRuntime() == TargetRuntime.MYBATIS3_DSQL) {
+                context.getCommentGenerator().addFieldAnnotation(field, introspectedTable,
+                        topLevelClass.getImportedTypes());
+            }
+            else {
+                context.getCommentGenerator().addFieldComment(field, introspectedTable);
+            }
 
-			topLevelClass.addField(field);
-		}
-	}
+            topLevelClass.addField(field);
+        }
+    }
 
-	@Override
-	public boolean kotlinDataClassGenerated(KotlinFile kotlinFile, KotlinType dataClass,
-			IntrospectedTable introspectedTable) {
-		kotlinFile.addImport("java.io.Serializable"); //$NON-NLS-1$
-		dataClass.addSuperType("Serializable"); //$NON-NLS-1$
-		return true;
-	}
+    @Override
+    public boolean kotlinDataClassGenerated(KotlinFile kotlinFile, KotlinType dataClass,
+            IntrospectedTable introspectedTable) {
+        kotlinFile.addImport("java.io.Serializable"); //$NON-NLS-1$
+        dataClass.addSuperType("Serializable"); //$NON-NLS-1$
+        return true;
+    }
 
 }

@@ -27,36 +27,36 @@ import org.mybatis.dynamic.sql.SortSpecification;
  */
 public class SimpleSortSpecification implements SortSpecification {
 
-	private final String name;
+    private final String name;
 
-	private final boolean isDescending;
+    private final boolean isDescending;
 
-	private SimpleSortSpecification(String name) {
-		this(name, false);
-	}
+    private SimpleSortSpecification(String name) {
+        this(name, false);
+    }
 
-	private SimpleSortSpecification(String name, boolean isDescending) {
-		this.name = Objects.requireNonNull(name);
-		this.isDescending = isDescending;
-	}
+    private SimpleSortSpecification(String name, boolean isDescending) {
+        this.name = Objects.requireNonNull(name);
+        this.isDescending = isDescending;
+    }
 
-	@Override
-	public SortSpecification descending() {
-		return new SimpleSortSpecification(name, true);
-	}
+    @Override
+    public SortSpecification descending() {
+        return new SimpleSortSpecification(name, true);
+    }
 
-	@Override
-	public String orderByName() {
-		return name;
-	}
+    @Override
+    public String orderByName() {
+        return name;
+    }
 
-	@Override
-	public boolean isDescending() {
-		return isDescending;
-	}
+    @Override
+    public boolean isDescending() {
+        return isDescending;
+    }
 
-	public static SimpleSortSpecification of(String name) {
-		return new SimpleSortSpecification(name);
-	}
+    public static SimpleSortSpecification of(String name) {
+        return new SimpleSortSpecification(name);
+    }
 
 }

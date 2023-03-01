@@ -9,14 +9,14 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 public interface SysThemeConverter {
 
-	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-	interface RequestConverter extends ObjectConverter<SysThemeRequest, SysTheme> {
+    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    interface RequestConverter extends ObjectConverter<SysThemeRequest, SysTheme> {
 
-	}
+    }
 
-	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-	interface ResponseConverter extends ObjectConverter<SysTheme, SysThemeResponse> {
+    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    interface ResponseConverter extends ObjectConverter<SysTheme, SysThemeResponse> {
 
-	}
+    }
 
 }

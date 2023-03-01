@@ -33,8 +33,8 @@ import org.mybatis.generator.config.Context;
  */
 public interface KotlinFormatter {
 
-	void setContext(Context context);
+    void setContext(Context context);
 
-	String getFormattedContent(KotlinFile kotlinFile);
+    String getFormattedContent(KotlinFile kotlinFile);
 
 }

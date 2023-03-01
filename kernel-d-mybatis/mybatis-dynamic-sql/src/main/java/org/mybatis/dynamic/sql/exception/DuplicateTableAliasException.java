@@ -34,15 +34,15 @@ import org.mybatis.dynamic.sql.util.Messages;
  */
 public class DuplicateTableAliasException extends DynamicSqlException {
 
-	private static final long serialVersionUID = -2631664872557787391L;
+    private static final long serialVersionUID = -2631664872557787391L;
 
-	public DuplicateTableAliasException(SqlTable table, String newAlias, String existingAlias) {
-		super(generateMessage(Objects.requireNonNull(table), Objects.requireNonNull(newAlias),
-				Objects.requireNonNull(existingAlias)));
-	}
+    public DuplicateTableAliasException(SqlTable table, String newAlias, String existingAlias) {
+        super(generateMessage(Objects.requireNonNull(table), Objects.requireNonNull(newAlias),
+                Objects.requireNonNull(existingAlias)));
+    }
 
-	private static String generateMessage(SqlTable table, String newAlias, String existingAlias) {
-		return Messages.getString("ERROR.1", table.tableNameAtRuntime(), newAlias, existingAlias); //$NON-NLS-1$
-	}
+    private static String generateMessage(SqlTable table, String newAlias, String existingAlias) {
+        return Messages.getString("ERROR.1", table.tableNameAtRuntime(), newAlias, existingAlias); //$NON-NLS-1$
+    }
 
 }

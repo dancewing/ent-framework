@@ -22,49 +22,49 @@ import java.util.StringTokenizer;
  */
 public class GradleShellCallback extends DefaultShellCallback {
 
-	private ConventionTask conventionTask;
+    private ConventionTask conventionTask;
 
-	public GradleShellCallback(ConventionTask conventionTask, boolean overwrite) {
-		super(overwrite);
-		this.conventionTask = conventionTask;
-	}
+    public GradleShellCallback(ConventionTask conventionTask, boolean overwrite) {
+        super(overwrite);
+        this.conventionTask = conventionTask;
+    }
 
-	@Override
-	public File getDirectory(String targetProject, String targetPackage) throws ShellException {
-		MybatisGeneratorExtension extension = conventionTask.getProject().getExtensions()
-				.getByType(MybatisGeneratorExtension.class);
-		File project = new File(extension.getOutputDirectory());
-		if (!project.exists()) {
-			project.mkdirs();
-		}
+    @Override
+    public File getDirectory(String targetProject, String targetPackage) throws ShellException {
+        MybatisGeneratorExtension extension = conventionTask.getProject().getExtensions()
+                .getByType(MybatisGeneratorExtension.class);
+        File project = new File(extension.getOutputDirectory());
+        if (!project.exists()) {
+            project.mkdirs();
+        }
 
-		if (!project.isDirectory()) {
-			throw new ShellException(Messages.getString("Warning.9", //$NON-NLS-1$
-					project.getAbsolutePath()));
-		}
+        if (!project.isDirectory()) {
+            throw new ShellException(Messages.getString("Warning.9", //$NON-NLS-1$
+                    project.getAbsolutePath()));
+        }
 
-		if (!"MAVEN".equals(targetProject)) {
-			return super.getDirectory(new File(project, targetProject).getAbsolutePath(), targetPackage);
-		}
+        if (!"MAVEN".equals(targetProject)) {
+            return super.getDirectory(new File(project, targetProject).getAbsolutePath(), targetPackage);
+        }
 
-		StringBuilder sb = new StringBuilder();
-		sb.append("src/main/java/");
-		StringTokenizer st = new StringTokenizer(targetPackage, "."); //$NON-NLS-1$
-		while (st.hasMoreTokens()) {
-			sb.append(st.nextToken());
-			sb.append(File.separatorChar);
-		}
+        StringBuilder sb = new StringBuilder();
+        sb.append("src/main/java/");
+        StringTokenizer st = new StringTokenizer(targetPackage, "."); //$NON-NLS-1$
+        while (st.hasMoreTokens()) {
+            sb.append(st.nextToken());
+            sb.append(File.separatorChar);
+        }
 
-		File directory = new File(project, sb.toString());
-		if (!directory.isDirectory()) {
-			boolean rc = directory.mkdirs();
-			if (!rc) {
-				throw new ShellException(Messages.getString("Warning.10", //$NON-NLS-1$
-						directory.getAbsolutePath()));
-			}
-		}
+        File directory = new File(project, sb.toString());
+        if (!directory.isDirectory()) {
+            boolean rc = directory.mkdirs();
+            if (!rc) {
+                throw new ShellException(Messages.getString("Warning.10", //$NON-NLS-1$
+                        directory.getAbsolutePath()));
+            }
+        }
 
-		return directory;
-	}
+        return directory;
+    }
 
 }

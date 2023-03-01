@@ -24,35 +24,35 @@ import java.util.Optional;
 
 public class Length extends AbstractTypeConvertingFunction<Object, Integer, Length> {
 
-	private Length(BindableColumn<Object> column) {
-		super(column);
-	}
+    private Length(BindableColumn<Object> column) {
+        super(column);
+    }
 
-	@Override
-	public Optional<JDBCType> jdbcType() {
-		return Optional.of(JDBCType.INTEGER);
-	}
+    @Override
+    public Optional<JDBCType> jdbcType() {
+        return Optional.of(JDBCType.INTEGER);
+    }
 
-	@Override
-	public Optional<String> typeHandler() {
-		return Optional.empty();
-	}
+    @Override
+    public Optional<String> typeHandler() {
+        return Optional.empty();
+    }
 
-	@Override
-	public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
-		return "length(" //$NON-NLS-1$
-				+ column.renderWithTableAlias(tableAliasCalculator) + ")"; //$NON-NLS-1$
-	}
+    @Override
+    public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
+        return "length(" //$NON-NLS-1$
+                + column.renderWithTableAlias(tableAliasCalculator) + ")"; //$NON-NLS-1$
+    }
 
-	@Override
-	protected Length copy() {
-		return new Length(column);
-	}
+    @Override
+    protected Length copy() {
+        return new Length(column);
+    }
 
-	public static Length length(BindableColumn<?> column) {
-		@SuppressWarnings("unchecked")
-		BindableColumn<Object> c = (BindableColumn<Object>) column;
-		return new Length(c);
-	}
+    public static Length length(BindableColumn<?> column) {
+        @SuppressWarnings("unchecked")
+        BindableColumn<Object> c = (BindableColumn<Object>) column;
+        return new Length(c);
+    }
 
 }

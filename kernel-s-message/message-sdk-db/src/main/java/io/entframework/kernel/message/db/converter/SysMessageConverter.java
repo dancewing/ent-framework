@@ -9,14 +9,14 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 public interface SysMessageConverter {
 
-	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-	interface RequestConverter extends ObjectConverter<SysMessageRequest, SysMessage> {
+    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    interface RequestConverter extends ObjectConverter<SysMessageRequest, SysMessage> {
 
-	}
+    }
 
-	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-	interface ResponseConverter extends ObjectConverter<SysMessage, SysMessageResponse> {
+    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    interface ResponseConverter extends ObjectConverter<SysMessage, SysMessageResponse> {
 
-	}
+    }
 
 }

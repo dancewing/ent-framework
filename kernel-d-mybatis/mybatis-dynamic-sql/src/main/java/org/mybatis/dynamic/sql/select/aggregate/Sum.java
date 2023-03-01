@@ -21,22 +21,22 @@ import org.mybatis.dynamic.sql.select.function.AbstractUniTypeFunction;
 
 public class Sum<T> extends AbstractUniTypeFunction<T, Sum<T>> {
 
-	private Sum(BindableColumn<T> column) {
-		super(column);
-	}
+    private Sum(BindableColumn<T> column) {
+        super(column);
+    }
 
-	@Override
-	public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
-		return "sum(" + column.renderWithTableAlias(tableAliasCalculator) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-	}
+    @Override
+    public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
+        return "sum(" + column.renderWithTableAlias(tableAliasCalculator) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+    }
 
-	@Override
-	protected Sum<T> copy() {
-		return new Sum<>(column);
-	}
+    @Override
+    protected Sum<T> copy() {
+        return new Sum<>(column);
+    }
 
-	public static <T> Sum<T> of(BindableColumn<T> column) {
-		return new Sum<>(column);
-	}
+    public static <T> Sum<T> of(BindableColumn<T> column) {
+        return new Sum<>(column);
+    }
 
 }

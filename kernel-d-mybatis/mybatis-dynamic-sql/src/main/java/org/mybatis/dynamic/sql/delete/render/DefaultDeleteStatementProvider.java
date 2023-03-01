@@ -22,66 +22,66 @@ import java.util.Map;
 import java.util.Objects;
 
 public class DefaultDeleteStatementProvider
-		implements DeleteStatementProvider, StatementSourceProvider<DeleteRenderer> {
+        implements DeleteStatementProvider, StatementSourceProvider<DeleteRenderer> {
 
-	private final String deleteStatement;
+    private final String deleteStatement;
 
-	private final Map<String, Object> parameters;
+    private final Map<String, Object> parameters;
 
-	private final DeleteRenderer source;
+    private final DeleteRenderer source;
 
-	private DefaultDeleteStatementProvider(Builder builder) {
-		deleteStatement = Objects.requireNonNull(builder.deleteStatement);
-		parameters = Objects.requireNonNull(builder.parameters);
-		source = builder.source;
-	}
+    private DefaultDeleteStatementProvider(Builder builder) {
+        deleteStatement = Objects.requireNonNull(builder.deleteStatement);
+        parameters = Objects.requireNonNull(builder.parameters);
+        source = builder.source;
+    }
 
-	@Override
-	public DeleteRenderer getSource() {
-		return source;
-	}
+    @Override
+    public DeleteRenderer getSource() {
+        return source;
+    }
 
-	@Override
-	public Map<String, Object> getParameters() {
-		return parameters;
-	}
+    @Override
+    public Map<String, Object> getParameters() {
+        return parameters;
+    }
 
-	@Override
-	public String getDeleteStatement() {
-		return deleteStatement;
-	}
+    @Override
+    public String getDeleteStatement() {
+        return deleteStatement;
+    }
 
-	public static Builder withDeleteStatement(String deleteStatement) {
-		return new Builder().withDeleteStatement(deleteStatement);
-	}
+    public static Builder withDeleteStatement(String deleteStatement) {
+        return new Builder().withDeleteStatement(deleteStatement);
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private String deleteStatement;
+        private String deleteStatement;
 
-		private final Map<String, Object> parameters = new HashMap<>();
+        private final Map<String, Object> parameters = new HashMap<>();
 
-		private DeleteRenderer source;
+        private DeleteRenderer source;
 
-		public Builder withDeleteStatement(String deleteStatement) {
-			this.deleteStatement = deleteStatement;
-			return this;
-		}
+        public Builder withDeleteStatement(String deleteStatement) {
+            this.deleteStatement = deleteStatement;
+            return this;
+        }
 
-		public Builder withParameters(Map<String, Object> parameters) {
-			this.parameters.putAll(parameters);
-			return this;
-		}
+        public Builder withParameters(Map<String, Object> parameters) {
+            this.parameters.putAll(parameters);
+            return this;
+        }
 
-		public Builder withSource(DeleteRenderer deleteRenderer) {
-			this.source = deleteRenderer;
-			return this;
-		}
+        public Builder withSource(DeleteRenderer deleteRenderer) {
+            this.source = deleteRenderer;
+            return this;
+        }
 
-		public DefaultDeleteStatementProvider build() {
-			return new DefaultDeleteStatementProvider(this);
-		}
+        public DefaultDeleteStatementProvider build() {
+            return new DefaultDeleteStatementProvider(this);
+        }
 
-	}
+    }
 
 }

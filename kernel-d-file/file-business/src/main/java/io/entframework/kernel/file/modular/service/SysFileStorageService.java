@@ -18,27 +18,27 @@ import io.entframework.kernel.file.modular.entity.SysFileStorage;
  * @date 2022/01/08 15:53
  */
 public interface SysFileStorageService
-		extends BaseService<SysFileStorageRequest, SysFileStorageResponse, SysFileStorage> {
+        extends BaseService<SysFileStorageRequest, SysFileStorageResponse, SysFileStorage> {
 
-	/**
-	 * 将文件存储在库中
-	 *
-	 * @date 2022/1/8 16:08
-	 */
-	void saveFile(Long fileId, byte[] bytes);
+    /**
+     * 将文件存储在库中
+     *
+     * @date 2022/1/8 16:08
+     */
+    void saveFile(Long fileId, byte[] bytes);
 
-	/**
-	 * 获取文件的访问url
-	 * @param fileId 文件id
-	 * @date 2022/1/8 16:12
-	 */
-	String getFileAuthUrl(String fileId, String token);
+    /**
+     * 获取文件的访问url
+     * @param fileId 文件id
+     * @date 2022/1/8 16:12
+     */
+    String getFileAuthUrl(String fileId, String token);
 
-	/**
-	 * 获取文件不带鉴权的访问url
-	 * @param fileId 文件id
-	 * @date 2022/1/8 16:12
-	 */
-	String getFileUnAuthUrl(String fileId);
+    /**
+     * 获取文件不带鉴权的访问url
+     * @param fileId 文件id
+     * @date 2022/1/8 16:12
+     */
+    String getFileUnAuthUrl(String fileId);
 
 }

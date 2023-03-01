@@ -19,29 +19,29 @@ import org.apache.commons.lang3.math.NumberUtils;
  */
 public class StatusValueValidator implements ConstraintValidator<StatusValue, Object> {
 
-	private Boolean required;
+    private Boolean required;
 
-	@Override
-	public void initialize(StatusValue constraintAnnotation) {
-		this.required = constraintAnnotation.required();
-	}
+    @Override
+    public void initialize(StatusValue constraintAnnotation) {
+        this.required = constraintAnnotation.required();
+    }
 
-	@Override
-	public boolean isValid(Object value, ConstraintValidatorContext context) {
-		// 如果是必填的
-		if (required && value == null) {
-			return false;
-		}
+    @Override
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
+        // 如果是必填的
+        if (required && value == null) {
+            return false;
+        }
 
-		// 如果不是必填，为空的话就通过
-		if (!required && value == null) {
-			return true;
-		}
-		Integer statusValue = NumberUtils.toInt(String.valueOf(value));
-		// 校验值是否是枚举中的值
-		StatusEnum statusEnum = StatusEnum.valueToEnum(statusValue);
-		return statusEnum != null;
+        // 如果不是必填，为空的话就通过
+        if (!required && value == null) {
+            return true;
+        }
+        Integer statusValue = NumberUtils.toInt(String.valueOf(value));
+        // 校验值是否是枚举中的值
+        StatusEnum statusEnum = StatusEnum.valueToEnum(statusValue);
+        return statusEnum != null;
 
-	}
+    }
 
 }

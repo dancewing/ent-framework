@@ -11,6 +11,6 @@ import org.mapstruct.MappingTarget;
 
 public interface ObjectConverter<S, T> extends org.springframework.core.convert.converter.Converter<S, T> {
 
-	void copy(S source, @MappingTarget T target);
+    void copy(S source, @MappingTarget T target);
 
 }

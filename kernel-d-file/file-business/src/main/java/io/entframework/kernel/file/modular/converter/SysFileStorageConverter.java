@@ -9,14 +9,14 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 public interface SysFileStorageConverter {
 
-	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-	interface RequestConverter extends ObjectConverter<SysFileStorageRequest, SysFileStorage> {
+    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    interface RequestConverter extends ObjectConverter<SysFileStorageRequest, SysFileStorage> {
 
-	}
+    }
 
-	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-	interface ResponseConverter extends ObjectConverter<SysFileStorage, SysFileStorageResponse> {
+    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    interface ResponseConverter extends ObjectConverter<SysFileStorage, SysFileStorageResponse> {
 
-	}
+    }
 
 }

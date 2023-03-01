@@ -38,122 +38,122 @@ import org.mybatis.dynamic.sql.where.WhereModel;
  * @author Jeff Butler
  */
 public class CountDSL<R> extends AbstractQueryExpressionDSL<CountDSL<R>.CountWhereBuilder, CountDSL<R>>
-		implements Buildable<R> {
+        implements Buildable<R> {
 
-	private final Function<SelectModel, R> adapterFunction;
+    private final Function<SelectModel, R> adapterFunction;
 
-	private CountWhereBuilder whereBuilder;
+    private CountWhereBuilder whereBuilder;
 
-	private final BasicColumn countColumn;
+    private final BasicColumn countColumn;
 
-	private final StatementConfiguration statementConfiguration = new StatementConfiguration();
+    private final StatementConfiguration statementConfiguration = new StatementConfiguration();
 
-	private CountDSL(BasicColumn countColumn, SqlTable table, Function<SelectModel, R> adapterFunction) {
-		super(table);
-		this.countColumn = Objects.requireNonNull(countColumn);
-		this.adapterFunction = Objects.requireNonNull(adapterFunction);
-	}
+    private CountDSL(BasicColumn countColumn, SqlTable table, Function<SelectModel, R> adapterFunction) {
+        super(table);
+        this.countColumn = Objects.requireNonNull(countColumn);
+        this.adapterFunction = Objects.requireNonNull(adapterFunction);
+    }
 
-	@Override
-	public CountWhereBuilder where() {
-		if (whereBuilder == null) {
-			whereBuilder = new CountWhereBuilder();
-		}
-		return whereBuilder;
-	}
+    @Override
+    public CountWhereBuilder where() {
+        if (whereBuilder == null) {
+            whereBuilder = new CountWhereBuilder();
+        }
+        return whereBuilder;
+    }
 
-	@NotNull
-	@Override
-	public R build() {
-		return adapterFunction.apply(buildModel());
-	}
+    @NotNull
+    @Override
+    public R build() {
+        return adapterFunction.apply(buildModel());
+    }
 
-	@Override
-	public CountDSL<R> configureStatement(Consumer<StatementConfiguration> consumer) {
-		consumer.accept(statementConfiguration);
-		return this;
-	}
+    @Override
+    public CountDSL<R> configureStatement(Consumer<StatementConfiguration> consumer) {
+        consumer.accept(statementConfiguration);
+        return this;
+    }
 
-	private SelectModel buildModel() {
-		QueryExpressionModel.Builder b = new QueryExpressionModel.Builder().withSelectColumn(countColumn)
-				.withTable(table()).withTableAliases(tableAliases());
+    private SelectModel buildModel() {
+        QueryExpressionModel.Builder b = new QueryExpressionModel.Builder().withSelectColumn(countColumn)
+                .withTable(table()).withTableAliases(tableAliases());
 
-		if (whereBuilder != null) {
-			b.withWhereModel(whereBuilder.buildWhereModel());
-		}
+        if (whereBuilder != null) {
+            b.withWhereModel(whereBuilder.buildWhereModel());
+        }
 
-		buildJoinModel().ifPresent(b::withJoinModel);
+        buildJoinModel().ifPresent(b::withJoinModel);
 
-		return new SelectModel.Builder().withQueryExpression(b.build()).build();
-	}
+        return new SelectModel.Builder().withQueryExpression(b.build()).build();
+    }
 
-	public static CountDSL<SelectModel> countFrom(SqlTable table) {
-		return countFrom(Function.identity(), table);
-	}
+    public static CountDSL<SelectModel> countFrom(SqlTable table) {
+        return countFrom(Function.identity(), table);
+    }
 
-	public static <R> CountDSL<R> countFrom(Function<SelectModel, R> adapterFunction, SqlTable table) {
-		return new CountDSL<>(SqlBuilder.count(), table, adapterFunction);
-	}
+    public static <R> CountDSL<R> countFrom(Function<SelectModel, R> adapterFunction, SqlTable table) {
+        return new CountDSL<>(SqlBuilder.count(), table, adapterFunction);
+    }
 
-	public static FromGatherer<SelectModel> count(BasicColumn column) {
-		return count(Function.identity(), column);
-	}
+    public static FromGatherer<SelectModel> count(BasicColumn column) {
+        return count(Function.identity(), column);
+    }
 
-	public static <R> FromGatherer<R> count(Function<SelectModel, R> adapterFunction, BasicColumn column) {
-		return new FromGatherer<>(adapterFunction, SqlBuilder.count(column));
-	}
+    public static <R> FromGatherer<R> count(Function<SelectModel, R> adapterFunction, BasicColumn column) {
+        return new FromGatherer<>(adapterFunction, SqlBuilder.count(column));
+    }
 
-	public static FromGatherer<SelectModel> countDistinct(BasicColumn column) {
-		return countDistinct(Function.identity(), column);
-	}
+    public static FromGatherer<SelectModel> countDistinct(BasicColumn column) {
+        return countDistinct(Function.identity(), column);
+    }
 
-	public static <R> FromGatherer<R> countDistinct(Function<SelectModel, R> adapterFunction, BasicColumn column) {
-		return new FromGatherer<>(adapterFunction, SqlBuilder.countDistinct(column));
-	}
+    public static <R> FromGatherer<R> countDistinct(Function<SelectModel, R> adapterFunction, BasicColumn column) {
+        return new FromGatherer<>(adapterFunction, SqlBuilder.countDistinct(column));
+    }
 
-	@Override
-	protected CountDSL<R> getThis() {
-		return this;
-	}
+    @Override
+    protected CountDSL<R> getThis() {
+        return this;
+    }
 
-	public static class FromGatherer<R> {
+    public static class FromGatherer<R> {
 
-		private final BasicColumn column;
+        private final BasicColumn column;
 
-		private final Function<SelectModel, R> adapterFunction;
+        private final Function<SelectModel, R> adapterFunction;
 
-		public FromGatherer(Function<SelectModel, R> adapterFunction, BasicColumn column) {
-			this.adapterFunction = adapterFunction;
-			this.column = column;
-		}
+        public FromGatherer(Function<SelectModel, R> adapterFunction, BasicColumn column) {
+            this.adapterFunction = adapterFunction;
+            this.column = column;
+        }
 
-		public CountDSL<R> from(SqlTable table) {
-			return new CountDSL<>(column, table, adapterFunction);
-		}
+        public CountDSL<R> from(SqlTable table) {
+            return new CountDSL<>(column, table, adapterFunction);
+        }
 
-	}
+    }
 
-	public class CountWhereBuilder extends AbstractWhereDSL<CountWhereBuilder> implements Buildable<R> {
+    public class CountWhereBuilder extends AbstractWhereDSL<CountWhereBuilder> implements Buildable<R> {
 
-		private CountWhereBuilder() {
-			super(statementConfiguration);
-		}
+        private CountWhereBuilder() {
+            super(statementConfiguration);
+        }
 
-		@NotNull
-		@Override
-		public R build() {
-			return CountDSL.this.build();
-		}
+        @NotNull
+        @Override
+        public R build() {
+            return CountDSL.this.build();
+        }
 
-		@Override
-		protected CountWhereBuilder getThis() {
-			return this;
-		}
+        @Override
+        protected CountWhereBuilder getThis() {
+            return this;
+        }
 
-		protected WhereModel buildWhereModel() {
-			return internalBuild();
-		}
+        protected WhereModel buildWhereModel() {
+            return internalBuild();
+        }
 
-	}
+    }
 
 }

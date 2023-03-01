@@ -43,93 +43,93 @@ import reactor.core.publisher.Mono;
 @EnableConfigurationProperties({ RouteProperties.class, AuthProperties.class })
 public class RouterFunctionConfiguration {
 
-	private final SwaggerResourceHandler swaggerResourceHandler;
+    private final SwaggerResourceHandler swaggerResourceHandler;
 
-	/**
-	 * 这里为支持的请求头，如果有自定义的header字段请自己添加
-	 */
-	private static final String ALLOWED_HEADERS = "X-Requested-With, Content-Type, Authorization, credential, X-XSRF-TOKEN, token, username, client";
+    /**
+     * 这里为支持的请求头，如果有自定义的header字段请自己添加
+     */
+    private static final String ALLOWED_HEADERS = "X-Requested-With, Content-Type, Authorization, credential, X-XSRF-TOKEN, token, username, client";
 
-	private static final String ALLOWED_METHODS = "*";
+    private static final String ALLOWED_METHODS = "*";
 
-	private static final String ALLOWED_ORIGIN = "*";
+    private static final String ALLOWED_ORIGIN = "*";
 
-	private static final String ALLOWED_EXPOSE = "*";
+    private static final String ALLOWED_EXPOSE = "*";
 
-	private static final String MAX_AGE = "18000L";
+    private static final String MAX_AGE = "18000L";
 
-	private static final String ALLOWED_HEADERS_KEY = "Access-Control-Allow-Headers";
+    private static final String ALLOWED_HEADERS_KEY = "Access-Control-Allow-Headers";
 
-	private static final String ALLOWED_METHODS_KEY = "Access-Control-Allow-Methods";
+    private static final String ALLOWED_METHODS_KEY = "Access-Control-Allow-Methods";
 
-	private static final String ALLOWED_ORIGIN_KEY = "Access-Control-Allow-Origin";
+    private static final String ALLOWED_ORIGIN_KEY = "Access-Control-Allow-Origin";
 
-	private static final String ALLOWED_EXPOSE_KEY = "Access-Control-Expose-Headers";
+    private static final String ALLOWED_EXPOSE_KEY = "Access-Control-Expose-Headers";
 
-	private static final String MAX_AGE_KEY = "Access-Control-Max-Age";
+    private static final String MAX_AGE_KEY = "Access-Control-Max-Age";
 
-	private static final String ALLOWED_CREDENTIALS_KEY = "Access-Control-Allow-Credentials";
+    private static final String ALLOWED_CREDENTIALS_KEY = "Access-Control-Allow-Credentials";
 
-	/**
-	 * 跨域配置
-	 */
-	@Bean
-	public WebFilter corsFilter() {
-		return (ServerWebExchange ctx, WebFilterChain chain) -> {
-			ServerHttpRequest request = ctx.getRequest();
-			if (CorsUtils.isCorsRequest(request)) {
-				ServerHttpResponse response = ctx.getResponse();
-				HttpHeaders headers = response.getHeaders();
-				if (!headers.containsKey(ALLOWED_HEADERS_KEY)) {
-					headers.add(ALLOWED_HEADERS_KEY, ALLOWED_HEADERS);
-				}
-				if (!headers.containsKey(ALLOWED_METHODS_KEY)) {
-					headers.add(ALLOWED_METHODS_KEY, ALLOWED_METHODS);
-				}
-				if (!headers.containsKey(ALLOWED_ORIGIN_KEY)) {
-					headers.add(ALLOWED_ORIGIN_KEY, ALLOWED_ORIGIN);
-				}
-				if (!headers.containsKey(ALLOWED_EXPOSE_KEY)) {
-					headers.add(ALLOWED_EXPOSE_KEY, ALLOWED_EXPOSE);
-				}
-				if (!headers.containsKey(MAX_AGE_KEY)) {
-					headers.add(MAX_AGE_KEY, MAX_AGE);
-				}
-				if (!headers.containsKey(ALLOWED_CREDENTIALS_KEY)) {
-					headers.add(ALLOWED_CREDENTIALS_KEY, "true");
-				}
+    /**
+     * 跨域配置
+     */
+    @Bean
+    public WebFilter corsFilter() {
+        return (ServerWebExchange ctx, WebFilterChain chain) -> {
+            ServerHttpRequest request = ctx.getRequest();
+            if (CorsUtils.isCorsRequest(request)) {
+                ServerHttpResponse response = ctx.getResponse();
+                HttpHeaders headers = response.getHeaders();
+                if (!headers.containsKey(ALLOWED_HEADERS_KEY)) {
+                    headers.add(ALLOWED_HEADERS_KEY, ALLOWED_HEADERS);
+                }
+                if (!headers.containsKey(ALLOWED_METHODS_KEY)) {
+                    headers.add(ALLOWED_METHODS_KEY, ALLOWED_METHODS);
+                }
+                if (!headers.containsKey(ALLOWED_ORIGIN_KEY)) {
+                    headers.add(ALLOWED_ORIGIN_KEY, ALLOWED_ORIGIN);
+                }
+                if (!headers.containsKey(ALLOWED_EXPOSE_KEY)) {
+                    headers.add(ALLOWED_EXPOSE_KEY, ALLOWED_EXPOSE);
+                }
+                if (!headers.containsKey(MAX_AGE_KEY)) {
+                    headers.add(MAX_AGE_KEY, MAX_AGE);
+                }
+                if (!headers.containsKey(ALLOWED_CREDENTIALS_KEY)) {
+                    headers.add(ALLOWED_CREDENTIALS_KEY, "true");
+                }
 
-				if (request.getMethod() == HttpMethod.OPTIONS) {
-					response.setStatusCode(HttpStatus.OK);
-					return Mono.empty();
-				}
-			}
-			return chain.filter(ctx);
-		};
-	}
+                if (request.getMethod() == HttpMethod.OPTIONS) {
+                    response.setStatusCode(HttpStatus.OK);
+                    return Mono.empty();
+                }
+            }
+            return chain.filter(ctx);
+        };
+    }
 
-	@Bean
-	public RouterFunction<ServerResponse> routerFunction() {
-		return RouterFunctions.route(
-				RequestPredicates.GET("/swagger-resources").and(RequestPredicates.accept(MediaType.ALL)),
-				swaggerResourceHandler);
+    @Bean
+    public RouterFunction<ServerResponse> routerFunction() {
+        return RouterFunctions.route(
+                RequestPredicates.GET("/swagger-resources").and(RequestPredicates.accept(MediaType.ALL)),
+                swaggerResourceHandler);
 
-	}
+    }
 
-	/**
-	 * 解决 Only one connection receive subscriber allowed.
-	 * 参考：https://github.com/spring-cloud/spring-cloud-gateway/issues/541
-	 */
-	@Bean
-	@ConditionalOnMissingBean(HiddenHttpMethodFilter.class)
-	public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
-		return new HiddenHttpMethodFilter() {
-			@Override
-			@NotNull
-			public Mono<Void> filter(@NotNull ServerWebExchange exchange, @NotNull WebFilterChain chain) {
-				return chain.filter(exchange);
-			}
-		};
-	}
+    /**
+     * 解决 Only one connection receive subscriber allowed.
+     * 参考：https://github.com/spring-cloud/spring-cloud-gateway/issues/541
+     */
+    @Bean
+    @ConditionalOnMissingBean(HiddenHttpMethodFilter.class)
+    public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
+        return new HiddenHttpMethodFilter() {
+            @Override
+            @NotNull
+            public Mono<Void> filter(@NotNull ServerWebExchange exchange, @NotNull WebFilterChain chain) {
+                return chain.filter(exchange);
+            }
+        };
+    }
 
 }

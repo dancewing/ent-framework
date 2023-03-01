@@ -15,49 +15,49 @@ import lombok.Data;
 @Builder
 public class UniqueValidateParam {
 
-	/**
-	 * 表名称
-	 */
-	String tableName;
+    /**
+     * 表名称
+     */
+    String tableName;
 
-	/**
-	 * 列名称
-	 */
-	String columnName;
+    /**
+     * 列名称
+     */
+    String columnName;
 
-	/**
-	 * 被参数校验时候的字段的值
-	 */
-	Object value;
+    /**
+     * 被参数校验时候的字段的值
+     */
+    Object value;
 
-	/**
-	 * 校验时，是否排除当前的记录
-	 */
-	Boolean excludeCurrentRecord;
+    /**
+     * 校验时，是否排除当前的记录
+     */
+    Boolean excludeCurrentRecord;
 
-	/**
-	 * 主键id的字段名
-	 */
-	String idFieldName;
+    /**
+     * 主键id的字段名
+     */
+    String idFieldName;
 
-	/**
-	 * 当前记录的主键id
-	 */
-	Long id;
+    /**
+     * 当前记录的主键id
+     */
+    Long id;
 
-	/**
-	 * 排除所有被逻辑删除的记录的控制
-	 */
-	Boolean excludeLogicDeleteItems;
+    /**
+     * 排除所有被逻辑删除的记录的控制
+     */
+    Boolean excludeLogicDeleteItems;
 
-	/**
-	 * 逻辑删除的字段名
-	 */
-	String logicDeleteFieldName;
+    /**
+     * 逻辑删除的字段名
+     */
+    String logicDeleteFieldName;
 
-	/**
-	 * 逻辑删除的字段的值
-	 */
-	String logicDeleteValue;
+    /**
+     * 逻辑删除的字段的值
+     */
+    String logicDeleteValue;
 
 }

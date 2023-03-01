@@ -16,108 +16,108 @@ import java.util.Date;
 @Data
 public class LogRecordDTO {
 
-	/**
-	 * 日志id
-	 */
-	private Long logId;
+    /**
+     * 日志id
+     */
+    private Long logId;
 
-	/**
-	 * 日志的名称，一般为业务名称
-	 */
-	private String logName;
+    /**
+     * 日志的名称，一般为业务名称
+     */
+    private String logName;
 
-	/**
-	 * 日志记录的内容
-	 */
-	private Object logContent;
+    /**
+     * 日志记录的内容
+     */
+    private Object logContent;
 
-	/**
-	 * 服务名称，一般为spring.application.name
-	 */
-	private String appName;
+    /**
+     * 服务名称，一般为spring.application.name
+     */
+    private String appName;
 
-	/**
-	 * http或方法的请求参数体
-	 */
-	private String requestParams;
+    /**
+     * http或方法的请求参数体
+     */
+    private String requestParams;
 
-	/**
-	 * http或方法的请求结果
-	 */
-	private String requestResult;
+    /**
+     * http或方法的请求结果
+     */
+    private String requestResult;
 
-	/**
-	 * 操作发生的时间
-	 */
-	private Date dateTime;
+    /**
+     * 操作发生的时间
+     */
+    private Date dateTime;
 
-	/**
-	 * 当前服务器的ip
-	 */
-	private String serverIp;
+    /**
+     * 当前服务器的ip
+     */
+    private String serverIp;
 
-	/**
-	 * 客户端请求的token
-	 * <p>
-	 * 如果是http请求，并且用户已经登录，可以带这项
-	 */
-	private String token;
+    /**
+     * 客户端请求的token
+     * <p>
+     * 如果是http请求，并且用户已经登录，可以带这项
+     */
+    private String token;
 
-	/**
-	 * 客户端请求的用户id
-	 * <p>
-	 * 如果是http请求，并且用户已经登录，可以带这项
-	 */
-	private Long userId;
+    /**
+     * 客户端请求的用户id
+     * <p>
+     * 如果是http请求，并且用户已经登录，可以带这项
+     */
+    private Long userId;
 
-	/**
-	 * 客户端的ip
-	 * <p>
-	 * 如果是http请求，可以带这项
-	 */
-	private String clientIp;
+    /**
+     * 客户端的ip
+     * <p>
+     * 如果是http请求，可以带这项
+     */
+    private String clientIp;
 
-	/**
-	 * 当前用户请求的requestUrl
-	 * <p>
-	 * 如果是http请求，可以带这项
-	 */
-	private String requestUrl;
+    /**
+     * 当前用户请求的requestUrl
+     * <p>
+     * 如果是http请求，可以带这项
+     */
+    private String requestUrl;
 
-	/**
-	 * 请求方式（GET POST PUT DELETE)
-	 * <p>
-	 * 如果是http请求，可以带这项
-	 */
-	private String httpMethod;
+    /**
+     * 请求方式（GET POST PUT DELETE)
+     * <p>
+     * 如果是http请求，可以带这项
+     */
+    private String httpMethod;
 
-	/**
-	 * 浏览器
-	 * <p>
-	 * 如果是http请求，可以带这项
-	 */
-	private String clientBrowser;
+    /**
+     * 浏览器
+     * <p>
+     * 如果是http请求，可以带这项
+     */
+    private String clientBrowser;
 
-	/**
-	 * 操作系统
-	 * <p>
-	 * 如果是http请求，可以带这项
-	 */
-	private String clientOs;
+    /**
+     * 操作系统
+     * <p>
+     * 如果是http请求，可以带这项
+     */
+    private String clientOs;
 
-	/**
-	 * 创建时间
-	 */
-	private LocalDateTime createTime;
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
 
-	/**
-	 * 创建人
-	 */
-	private Long createUser;
+    /**
+     * 创建人
+     */
+    private Long createUser;
 
-	/**
-	 * 创建人名称
-	 */
-	private String createUserName;
+    /**
+     * 创建人名称
+     */
+    private String createUserName;
 
 }

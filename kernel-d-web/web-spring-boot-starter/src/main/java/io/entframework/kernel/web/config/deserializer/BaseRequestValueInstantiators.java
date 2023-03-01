@@ -33,19 +33,19 @@ import org.springframework.context.ApplicationContext;
  */
 public class BaseRequestValueInstantiators extends SimpleValueInstantiators {
 
-	private final ApplicationContext context;
+    private final ApplicationContext context;
 
-	public BaseRequestValueInstantiators(ApplicationContext applicationContext) {
-		this.context = applicationContext;
-	}
+    public BaseRequestValueInstantiators(ApplicationContext applicationContext) {
+        this.context = applicationContext;
+    }
 
-	@Override
-	public ValueInstantiator findValueInstantiator(DeserializationConfig config, BeanDescription beanDesc,
-			ValueInstantiator defaultInstantiator) {
-		if (BaseRequest.class.isAssignableFrom(beanDesc.getBeanClass())) {
-			return new BaseRequestInstantiator(this.context, defaultInstantiator);
-		}
-		return defaultInstantiator;
-	}
+    @Override
+    public ValueInstantiator findValueInstantiator(DeserializationConfig config, BeanDescription beanDesc,
+            ValueInstantiator defaultInstantiator) {
+        if (BaseRequest.class.isAssignableFrom(beanDesc.getBeanClass())) {
+            return new BaseRequestInstantiator(this.context, defaultInstantiator);
+        }
+        return defaultInstantiator;
+    }
 
 }

@@ -24,15 +24,15 @@ import java.util.List;
 @Slf4j
 public class OracleSysConfigData implements SysConfigDataApi {
 
-	@Override
-	public List<Entity> getConfigs(Connection conn) throws SQLException {
-		return SqlExecutor.query(conn, getConfigListSql(), new EntityListHandler(), StatusEnum.ENABLE.getValue(),
-				YesOrNotEnum.N.getValue());
-	}
+    @Override
+    public List<Entity> getConfigs(Connection conn) throws SQLException {
+        return SqlExecutor.query(conn, getConfigListSql(), new EntityListHandler(), StatusEnum.ENABLE.getValue(),
+                YesOrNotEnum.N.getValue());
+    }
 
-	@Override
-	public String getConfigListSql() {
-		return "select config_code as \"config_code\", config_value as \"config_value\" from sys_config where status_flag = ? and del_flag = ?";
-	}
+    @Override
+    public String getConfigListSql() {
+        return "select config_code as \"config_code\", config_value as \"config_value\" from sys_config where status_flag = ? and del_flag = ?";
+    }
 
 }

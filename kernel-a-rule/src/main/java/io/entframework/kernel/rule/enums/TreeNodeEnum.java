@@ -13,55 +13,55 @@ import lombok.Getter;
 @Getter
 public enum TreeNodeEnum {
 
-	/**
-	 * 机构
-	 */
-	ORG("org", "机构"),
+    /**
+     * 机构
+     */
+    ORG("org", "机构"),
 
-	/**
-	 * 用户
-	 */
-	USER("user", "用户");
+    /**
+     * 用户
+     */
+    USER("user", "用户");
 
-	private final String code;
+    private final String code;
 
-	private final String name;
+    private final String name;
 
-	TreeNodeEnum(String code, String name) {
-		this.code = code;
-		this.name = name;
-	}
+    TreeNodeEnum(String code, String name) {
+        this.code = code;
+        this.name = name;
+    }
 
-	/**
-	 * 根据code获取枚举
-	 *
-	 * @date 2021/1/15 13:36
-	 */
-	public static TreeNodeEnum codeToEnum(String code) {
-		if (null != code) {
-			for (TreeNodeEnum e : TreeNodeEnum.values()) {
-				if (e.getCode().equals(code)) {
-					return e;
-				}
-			}
-		}
-		return null;
-	}
+    /**
+     * 根据code获取枚举
+     *
+     * @date 2021/1/15 13:36
+     */
+    public static TreeNodeEnum codeToEnum(String code) {
+        if (null != code) {
+            for (TreeNodeEnum e : TreeNodeEnum.values()) {
+                if (e.getCode().equals(code)) {
+                    return e;
+                }
+            }
+        }
+        return null;
+    }
 
-	/**
-	 * 编码转化成中文含义
-	 *
-	 * @date 2021/1/15 13:36
-	 */
-	public static String codeToName(String code) {
-		if (null != code) {
-			for (TreeNodeEnum e : TreeNodeEnum.values()) {
-				if (e.getCode().equals(code)) {
-					return e.getName();
-				}
-			}
-		}
-		return "未知";
-	}
+    /**
+     * 编码转化成中文含义
+     *
+     * @date 2021/1/15 13:36
+     */
+    public static String codeToName(String code) {
+        if (null != code) {
+            for (TreeNodeEnum e : TreeNodeEnum.values()) {
+                if (e.getCode().equals(code)) {
+                    return e.getName();
+                }
+            }
+        }
+        return "未知";
+    }
 
 }

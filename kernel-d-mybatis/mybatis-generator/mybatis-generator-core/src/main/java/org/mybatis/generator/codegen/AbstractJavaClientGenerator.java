@@ -25,26 +25,26 @@ package org.mybatis.generator.codegen;
  */
 public abstract class AbstractJavaClientGenerator extends AbstractJavaGenerator {
 
-	private final boolean requiresXMLGenerator;
+    private final boolean requiresXMLGenerator;
 
-	protected AbstractJavaClientGenerator(String project, boolean requiresXMLGenerator) {
-		super(project);
-		this.requiresXMLGenerator = requiresXMLGenerator;
-	}
+    protected AbstractJavaClientGenerator(String project, boolean requiresXMLGenerator) {
+        super(project);
+        this.requiresXMLGenerator = requiresXMLGenerator;
+    }
 
-	/**
-	 * Returns true is a matching XML generator is required.
-	 * @return true if matching XML is generator required
-	 */
-	public boolean requiresXMLGenerator() {
-		return requiresXMLGenerator;
-	}
+    /**
+     * Returns true is a matching XML generator is required.
+     * @return true if matching XML is generator required
+     */
+    public boolean requiresXMLGenerator() {
+        return requiresXMLGenerator;
+    }
 
-	/**
-	 * Returns an instance of the XML generator associated with this client generator.
-	 * @return the matched XML generator. May return null if no XML is required by this
-	 * generator
-	 */
-	public abstract AbstractXmlGenerator getMatchedXMLGenerator();
+    /**
+     * Returns an instance of the XML generator associated with this client generator.
+     * @return the matched XML generator. May return null if no XML is required by this
+     * generator
+     */
+    public abstract AbstractXmlGenerator getMatchedXMLGenerator();
 
 }

@@ -27,107 +27,107 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @Table(value = "hr_organization", sqlSupport = HrOrganizationDynamicSqlSupport.class, tableProperty = "hrOrganization")
 public class HrOrganization extends BaseEntity implements Serializable {
 
-	/**
-	 * 主键
-	 */
-	@Id
-	@Column(name = "org_id", jdbcType = JDBCType.BIGINT)
-	private Long orgId;
+    /**
+     * 主键
+     */
+    @Id
+    @Column(name = "org_id", jdbcType = JDBCType.BIGINT)
+    private Long orgId;
 
-	/**
-	 * 父id，一级节点父id是0
-	 */
-	@Column(name = "org_parent_id", jdbcType = JDBCType.BIGINT)
-	private Long orgParentId;
+    /**
+     * 父id，一级节点父id是0
+     */
+    @Column(name = "org_parent_id", jdbcType = JDBCType.BIGINT)
+    private Long orgParentId;
 
-	/**
-	 * 父ids
-	 */
-	@Column(name = "org_pids", jdbcType = JDBCType.VARCHAR)
-	private String orgPids;
+    /**
+     * 父ids
+     */
+    @Column(name = "org_pids", jdbcType = JDBCType.VARCHAR)
+    private String orgPids;
 
-	/**
-	 * 组织名称
-	 */
-	@Column(name = "org_name", jdbcType = JDBCType.VARCHAR)
-	private String orgName;
+    /**
+     * 组织名称
+     */
+    @Column(name = "org_name", jdbcType = JDBCType.VARCHAR)
+    private String orgName;
 
-	/**
-	 * 组织编码
-	 */
-	@Column(name = "org_code", jdbcType = JDBCType.VARCHAR)
-	private String orgCode;
+    /**
+     * 组织编码
+     */
+    @Column(name = "org_code", jdbcType = JDBCType.VARCHAR)
+    private String orgCode;
 
-	/**
-	 * 排序
-	 */
-	@Column(name = "org_sort", jdbcType = JDBCType.DECIMAL)
-	private BigDecimal orgSort;
+    /**
+     * 排序
+     */
+    @Column(name = "org_sort", jdbcType = JDBCType.DECIMAL)
+    private BigDecimal orgSort;
 
-	/**
-	 * 状态：1-启用，2-禁用
-	 */
-	@Column(name = "status_flag", jdbcType = JDBCType.TINYINT)
-	private StatusEnum statusFlag;
+    /**
+     * 状态：1-启用，2-禁用
+     */
+    @Column(name = "status_flag", jdbcType = JDBCType.TINYINT)
+    private StatusEnum statusFlag;
 
-	/**
-	 * 描述
-	 */
-	@Column(name = "org_remark", jdbcType = JDBCType.VARCHAR)
-	private String orgRemark;
+    /**
+     * 描述
+     */
+    @Column(name = "org_remark", jdbcType = JDBCType.VARCHAR)
+    private String orgRemark;
 
-	/**
-	 * 删除标记：Y-已删除，N-未删除
-	 */
-	@Column(name = "del_flag", jdbcType = JDBCType.CHAR)
-	@LogicDelete
-	private YesOrNotEnum delFlag;
+    /**
+     * 删除标记：Y-已删除，N-未删除
+     */
+    @Column(name = "del_flag", jdbcType = JDBCType.CHAR)
+    @LogicDelete
+    private YesOrNotEnum delFlag;
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public HrOrganization orgId(Long orgId) {
-		this.orgId = orgId;
-		return this;
-	}
+    public HrOrganization orgId(Long orgId) {
+        this.orgId = orgId;
+        return this;
+    }
 
-	public HrOrganization orgParentId(Long orgParentId) {
-		this.orgParentId = orgParentId;
-		return this;
-	}
+    public HrOrganization orgParentId(Long orgParentId) {
+        this.orgParentId = orgParentId;
+        return this;
+    }
 
-	public HrOrganization orgPids(String orgPids) {
-		this.orgPids = orgPids;
-		return this;
-	}
+    public HrOrganization orgPids(String orgPids) {
+        this.orgPids = orgPids;
+        return this;
+    }
 
-	public HrOrganization orgName(String orgName) {
-		this.orgName = orgName;
-		return this;
-	}
+    public HrOrganization orgName(String orgName) {
+        this.orgName = orgName;
+        return this;
+    }
 
-	public HrOrganization orgCode(String orgCode) {
-		this.orgCode = orgCode;
-		return this;
-	}
+    public HrOrganization orgCode(String orgCode) {
+        this.orgCode = orgCode;
+        return this;
+    }
 
-	public HrOrganization orgSort(BigDecimal orgSort) {
-		this.orgSort = orgSort;
-		return this;
-	}
+    public HrOrganization orgSort(BigDecimal orgSort) {
+        this.orgSort = orgSort;
+        return this;
+    }
 
-	public HrOrganization statusFlag(StatusEnum statusFlag) {
-		this.statusFlag = statusFlag;
-		return this;
-	}
+    public HrOrganization statusFlag(StatusEnum statusFlag) {
+        this.statusFlag = statusFlag;
+        return this;
+    }
 
-	public HrOrganization orgRemark(String orgRemark) {
-		this.orgRemark = orgRemark;
-		return this;
-	}
+    public HrOrganization orgRemark(String orgRemark) {
+        this.orgRemark = orgRemark;
+        return this;
+    }
 
-	public HrOrganization delFlag(YesOrNotEnum delFlag) {
-		this.delFlag = delFlag;
-		return this;
-	}
+    public HrOrganization delFlag(YesOrNotEnum delFlag) {
+        this.delFlag = delFlag;
+        return this;
+    }
 
 }

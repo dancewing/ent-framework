@@ -27,43 +27,43 @@ import issues.gh324.TestUtils;
 @SpringJUnitConfig(classes = TestConfiguration.class)
 class SpringTransactionTest {
 
-	@Autowired
-	private SpringNameService nameService;
+    @Autowired
+    private SpringNameService nameService;
 
-	@Test
-	void testCacheWithCommit() {
-		nameService.resetDatabase();
+    @Test
+    void testCacheWithCommit() {
+        nameService.resetDatabase();
 
-		nameService.insertRecord();
-		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
-		assertThat(ObservableCache.getInstance().getHits()).isZero();
+        nameService.insertRecord();
+        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
+        assertThat(ObservableCache.getInstance().getHits()).isZero();
 
-		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
-		assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
+        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
+        assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
 
-		nameService.updateRecordAndCommit();
-		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsBarney);
-		assertThat(ObservableCache.getInstance().getHits()).isZero();
+        nameService.updateRecordAndCommit();
+        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsBarney);
+        assertThat(ObservableCache.getInstance().getHits()).isZero();
 
-		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsBarney);
-		assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
-	}
+        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsBarney);
+        assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
+    }
 
-	@Test
-	void testCacheWithRollback() {
-		nameService.resetDatabase();
+    @Test
+    void testCacheWithRollback() {
+        nameService.resetDatabase();
 
-		nameService.insertRecord();
-		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
-		assertThat(ObservableCache.getInstance().getHits()).isZero();
+        nameService.insertRecord();
+        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
+        assertThat(ObservableCache.getInstance().getHits()).isZero();
 
-		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
-		assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
+        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
+        assertThat(ObservableCache.getInstance().getHits()).isEqualTo(1);
 
-		nameService.updateRecordAndRollback();
-		assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
-		// should pull the result from cache as the transaction was rolled back
-		assertThat(ObservableCache.getInstance().getHits()).isEqualTo(2);
-	}
+        nameService.updateRecordAndRollback();
+        assertThat(nameService.getRecord()).hasValueSatisfying(TestUtils::recordIsFred);
+        // should pull the result from cache as the transaction was rolled back
+        assertThat(ObservableCache.getInstance().getHits()).isEqualTo(2);
+    }
 
 }

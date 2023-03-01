@@ -13,14 +13,14 @@ package io.entframework.kernel.converter.constants;
  */
 public interface ConverterConstants {
 
-	/**
-	 * config模块的名称
-	 */
-	String CONVERTER_MODULE_NAME = "kernel-d-converter";
+    /**
+     * config模块的名称
+     */
+    String CONVERTER_MODULE_NAME = "kernel-d-converter";
 
-	/**
-	 * 异常枚举的步进值
-	 */
-	String CONVERTER_EXCEPTION_STEP_CODE = "05";
+    /**
+     * 异常枚举的步进值
+     */
+    String CONVERTER_EXCEPTION_STEP_CODE = "05";
 
 }

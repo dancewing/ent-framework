@@ -33,15 +33,15 @@ import org.mybatis.generator.api.IntrospectedColumn;
  */
 public class ListUtilities {
 
-	private ListUtilities() {
-	}
+    private ListUtilities() {
+    }
 
-	public static List<IntrospectedColumn> removeGeneratedAlwaysColumns(List<IntrospectedColumn> columns) {
-		return columns.stream().filter(ic -> !ic.isGeneratedAlways()).collect(Collectors.toList());
-	}
+    public static List<IntrospectedColumn> removeGeneratedAlwaysColumns(List<IntrospectedColumn> columns) {
+        return columns.stream().filter(ic -> !ic.isGeneratedAlways()).collect(Collectors.toList());
+    }
 
-	public static List<IntrospectedColumn> removeIdentityAndGeneratedAlwaysColumns(List<IntrospectedColumn> columns) {
-		return columns.stream().filter(ic -> !ic.isGeneratedAlways() && !ic.isIdentity()).collect(Collectors.toList());
-	}
+    public static List<IntrospectedColumn> removeIdentityAndGeneratedAlwaysColumns(List<IntrospectedColumn> columns) {
+        return columns.stream().filter(ic -> !ic.isGeneratedAlways() && !ic.isIdentity()).collect(Collectors.toList());
+    }
 
 }

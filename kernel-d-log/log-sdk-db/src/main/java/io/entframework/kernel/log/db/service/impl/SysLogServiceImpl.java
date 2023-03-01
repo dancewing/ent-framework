@@ -23,41 +23,41 @@ import java.util.List;
  */
 public class SysLogServiceImpl extends BaseServiceImpl<SysLogRequest, SysLogResponse, SysLog> implements SysLogService {
 
-	public SysLogServiceImpl() {
-		super(SysLogRequest.class, SysLogResponse.class, SysLog.class);
-	}
+    public SysLogServiceImpl() {
+        super(SysLogRequest.class, SysLogResponse.class, SysLog.class);
+    }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void add(SysLogRequest sysLogRequest) {
-		this.insert(sysLogRequest);
-	}
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void add(SysLogRequest sysLogRequest) {
+        this.insert(sysLogRequest);
+    }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void del(SysLogRequest sysLogRequest) {
-		this.deleteBy(sysLogRequest);
-	}
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void del(SysLogRequest sysLogRequest) {
+        this.deleteBy(sysLogRequest);
+    }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void delAll(SysLogRequest sysLogRequest) {
-		this.batchDelete(sysLogRequest);
-	}
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delAll(SysLogRequest sysLogRequest) {
+        this.batchDelete(sysLogRequest);
+    }
 
-	@Override
-	public SysLogResponse detail(SysLogRequest sysLogRequest) {
-		return this.selectOne(sysLogRequest);
-	}
+    @Override
+    public SysLogResponse detail(SysLogRequest sysLogRequest) {
+        return this.selectOne(sysLogRequest);
+    }
 
-	@Override
-	public List<SysLogResponse> findList(SysLogRequest sysLogRequest) {
-		return this.select(sysLogRequest);
-	}
+    @Override
+    public List<SysLogResponse> findList(SysLogRequest sysLogRequest) {
+        return this.select(sysLogRequest);
+    }
 
-	@Override
-	public PageResult<SysLogResponse> findPage(SysLogRequest sysLogRequest) {
-		return this.page(sysLogRequest);
-	}
+    @Override
+    public PageResult<SysLogResponse> findPage(SysLogRequest sysLogRequest) {
+        return this.page(sysLogRequest);
+    }
 
 }

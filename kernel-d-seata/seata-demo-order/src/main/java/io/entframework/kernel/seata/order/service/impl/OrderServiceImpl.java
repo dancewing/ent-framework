@@ -25,30 +25,30 @@ import jakarta.annotation.Resource;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-	@Resource
-	private StorageConsumer storageConsumer;
+    @Resource
+    private StorageConsumer storageConsumer;
 
-	@Resource
-	private WalletConsumer walletConsumer;
+    @Resource
+    private WalletConsumer walletConsumer;
 
-	@Resource
-	private OrderMapper orderMapper;
+    @Resource
+    private OrderMapper orderMapper;
 
-	@GlobalTransactional(rollbackFor = Exception.class)
-	@Override
-	public Order create(String userId, String commodityCode, int orderCount) {
-		Order order = new Order();
+    @GlobalTransactional(rollbackFor = Exception.class)
+    @Override
+    public Order create(String userId, String commodityCode, int orderCount) {
+        Order order = new Order();
 
-		// 保存订单
-		orderMapper.insertOrder(order);
+        // 保存订单
+        orderMapper.insertOrder(order);
 
-		// 扣减商品库存
-		storageConsumer.deduct(commodityCode, orderCount);
+        // 扣减商品库存
+        storageConsumer.deduct(commodityCode, orderCount);
 
-		// 扣用户钱
-		walletConsumer.debit(userId, order.getTotalAmount());
+        // 扣用户钱
+        walletConsumer.debit(userId, order.getTotalAmount());
 
-		return order;
-	}
+        return order;
+    }
 
 }

@@ -21,43 +21,43 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @NoArgsConstructor
 @Entity
 @Table(value = "sys_role_data_scope", sqlSupport = SysRoleDataScopeDynamicSqlSupport.class,
-		tableProperty = "sysRoleDataScope")
+        tableProperty = "sysRoleDataScope")
 public class SysRoleDataScope extends BaseEntity implements Serializable {
 
-	/**
-	 * 主键
-	 */
-	@Id
-	@Column(name = "role_data_scope_id", jdbcType = JDBCType.BIGINT)
-	private Long roleDataScopeId;
+    /**
+     * 主键
+     */
+    @Id
+    @Column(name = "role_data_scope_id", jdbcType = JDBCType.BIGINT)
+    private Long roleDataScopeId;
 
-	/**
-	 * 角色id
-	 */
-	@Column(name = "role_id", jdbcType = JDBCType.BIGINT)
-	private Long roleId;
+    /**
+     * 角色id
+     */
+    @Column(name = "role_id", jdbcType = JDBCType.BIGINT)
+    private Long roleId;
 
-	/**
-	 * 机构id
-	 */
-	@Column(name = "organization_id", jdbcType = JDBCType.BIGINT)
-	private Long organizationId;
+    /**
+     * 机构id
+     */
+    @Column(name = "organization_id", jdbcType = JDBCType.BIGINT)
+    private Long organizationId;
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public SysRoleDataScope roleDataScopeId(Long roleDataScopeId) {
-		this.roleDataScopeId = roleDataScopeId;
-		return this;
-	}
+    public SysRoleDataScope roleDataScopeId(Long roleDataScopeId) {
+        this.roleDataScopeId = roleDataScopeId;
+        return this;
+    }
 
-	public SysRoleDataScope roleId(Long roleId) {
-		this.roleId = roleId;
-		return this;
-	}
+    public SysRoleDataScope roleId(Long roleId) {
+        this.roleId = roleId;
+        return this;
+    }
 
-	public SysRoleDataScope organizationId(Long organizationId) {
-		this.organizationId = organizationId;
-		return this;
-	}
+    public SysRoleDataScope organizationId(Long organizationId) {
+        this.organizationId = organizationId;
+        return this;
+    }
 
 }

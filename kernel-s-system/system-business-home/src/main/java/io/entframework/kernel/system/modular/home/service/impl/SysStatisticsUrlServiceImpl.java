@@ -28,69 +28,69 @@ import java.util.Optional;
  * @date 2022/02/10 21:17
  */
 public class SysStatisticsUrlServiceImpl
-		extends BaseServiceImpl<SysStatisticsUrlRequest, SysStatisticsUrlResponse, SysStatisticsUrl>
-		implements SysStatisticsUrlService {
+        extends BaseServiceImpl<SysStatisticsUrlRequest, SysStatisticsUrlResponse, SysStatisticsUrl>
+        implements SysStatisticsUrlService {
 
-	public SysStatisticsUrlServiceImpl() {
-		super(SysStatisticsUrlRequest.class, SysStatisticsUrlResponse.class, SysStatisticsUrl.class);
-	}
+    public SysStatisticsUrlServiceImpl() {
+        super(SysStatisticsUrlRequest.class, SysStatisticsUrlResponse.class, SysStatisticsUrl.class);
+    }
 
-	@Override
-	public void add(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
-		SysStatisticsUrl sysStatisticsUrl = new SysStatisticsUrl();
-		BeanUtil.copyProperties(sysStatisticsUrlRequest, sysStatisticsUrl);
-		this.getRepository().insert(sysStatisticsUrl);
-	}
+    @Override
+    public void add(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
+        SysStatisticsUrl sysStatisticsUrl = new SysStatisticsUrl();
+        BeanUtil.copyProperties(sysStatisticsUrlRequest, sysStatisticsUrl);
+        this.getRepository().insert(sysStatisticsUrl);
+    }
 
-	@Override
-	public void del(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
-		SysStatisticsUrl sysStatisticsUrl = this.querySysStatisticsUrl(sysStatisticsUrlRequest);
-		this.getRepository().deleteByPrimaryKey(getEntityClass(), sysStatisticsUrl.getStatUrlId());
-	}
+    @Override
+    public void del(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
+        SysStatisticsUrl sysStatisticsUrl = this.querySysStatisticsUrl(sysStatisticsUrlRequest);
+        this.getRepository().deleteByPrimaryKey(getEntityClass(), sysStatisticsUrl.getStatUrlId());
+    }
 
-	@Override
-	public void edit(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
-		SysStatisticsUrl sysStatisticsUrl = this.querySysStatisticsUrl(sysStatisticsUrlRequest);
-		BeanUtil.copyProperties(sysStatisticsUrlRequest, sysStatisticsUrl);
-		this.getRepository().updateByPrimaryKey(sysStatisticsUrl);
-	}
+    @Override
+    public void edit(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
+        SysStatisticsUrl sysStatisticsUrl = this.querySysStatisticsUrl(sysStatisticsUrlRequest);
+        BeanUtil.copyProperties(sysStatisticsUrlRequest, sysStatisticsUrl);
+        this.getRepository().updateByPrimaryKey(sysStatisticsUrl);
+    }
 
-	@Override
-	public SysStatisticsUrlResponse detail(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
-		SysStatisticsUrl row = this.querySysStatisticsUrl(sysStatisticsUrlRequest);
-		return this.converterService.convert(row, getResponseClass());
-	}
+    @Override
+    public SysStatisticsUrlResponse detail(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
+        SysStatisticsUrl row = this.querySysStatisticsUrl(sysStatisticsUrlRequest);
+        return this.converterService.convert(row, getResponseClass());
+    }
 
-	@Override
-	public PageResult<SysStatisticsUrlResponse> findPage(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
-		return this.page(sysStatisticsUrlRequest);
-	}
+    @Override
+    public PageResult<SysStatisticsUrlResponse> findPage(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
+        return this.page(sysStatisticsUrlRequest);
+    }
 
-	@Override
-	public List<SysStatisticsUrlResponse> findList(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
-		return this.select(sysStatisticsUrlRequest);
-	}
+    @Override
+    public List<SysStatisticsUrlResponse> findList(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
+        return this.select(sysStatisticsUrlRequest);
+    }
 
-	/**
-	 * 获取信息
-	 *
-	 * @date 2022/02/10 21:17
-	 */
-	private SysStatisticsUrl querySysStatisticsUrl(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
-		Optional<SysStatisticsUrl> sysStatisticsUrl = this.getRepository().selectByPrimaryKey(getEntityClass(),
-				sysStatisticsUrlRequest.getStatUrlId());
-		if (sysStatisticsUrl.isEmpty()) {
-			throw new ServiceException(SysStatisticsUrlExceptionEnum.SYS_STATISTICS_URL_NOT_EXISTED);
-		}
-		return sysStatisticsUrl.get();
-	}
+    /**
+     * 获取信息
+     *
+     * @date 2022/02/10 21:17
+     */
+    private SysStatisticsUrl querySysStatisticsUrl(SysStatisticsUrlRequest sysStatisticsUrlRequest) {
+        Optional<SysStatisticsUrl> sysStatisticsUrl = this.getRepository().selectByPrimaryKey(getEntityClass(),
+                sysStatisticsUrlRequest.getStatUrlId());
+        if (sysStatisticsUrl.isEmpty()) {
+            throw new ServiceException(SysStatisticsUrlExceptionEnum.SYS_STATISTICS_URL_NOT_EXISTED);
+        }
+        return sysStatisticsUrl.get();
+    }
 
-	@Override
-	public List<Long> getMenuIdsByStatUrlIdList(List<Long> statUrlIds) {
-		List<SysStatisticsUrl> results = this.getRepository().select(getEntityClass(),
-				c -> c.where(SysStatisticsUrlDynamicSqlSupport.statUrlId, SqlBuilder.isIn(statUrlIds))
-						.orderBy(SysStatisticsUrlDynamicSqlSupport.statUrlId));
-		return results.stream().map(SysStatisticsUrl::getStatMenuId).toList();
-	}
+    @Override
+    public List<Long> getMenuIdsByStatUrlIdList(List<Long> statUrlIds) {
+        List<SysStatisticsUrl> results = this.getRepository().select(getEntityClass(),
+                c -> c.where(SysStatisticsUrlDynamicSqlSupport.statUrlId, SqlBuilder.isIn(statUrlIds))
+                        .orderBy(SysStatisticsUrlDynamicSqlSupport.statUrlId));
+        return results.stream().map(SysStatisticsUrl::getStatMenuId).toList();
+    }
 
 }

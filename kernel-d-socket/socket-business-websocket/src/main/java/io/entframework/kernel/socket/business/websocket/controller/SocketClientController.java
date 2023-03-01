@@ -17,12 +17,12 @@ import jakarta.annotation.Resource;
 @RestController
 public class SocketClientController {
 
-	@Resource
-	private SocketOperatorApi socketOperatorApi;
+    @Resource
+    private SocketOperatorApi socketOperatorApi;
 
-	@PostMapping(path = "/client/sys-socket/send-msg-to-user-session")
-	public void sendMsgOfUserSession(String msgType, String userId, Object msg) throws SocketException {
-		socketOperatorApi.sendMsgOfUserSession(msgType, userId, msg);
-	}
+    @PostMapping(path = "/client/sys-socket/send-msg-to-user-session")
+    public void sendMsgOfUserSession(String msgType, String userId, Object msg) throws SocketException {
+        socketOperatorApi.sendMsgOfUserSession(msgType, userId, msg);
+    }
 
 }

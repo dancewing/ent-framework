@@ -43,64 +43,64 @@ import java.util.function.Function;
  */
 public class LimitAndOffsetAdapter<R> {
 
-	private final SelectModel selectModel;
+    private final SelectModel selectModel;
 
-	private final Function<SelectStatementProvider, R> mapperMethod;
+    private final Function<SelectStatementProvider, R> mapperMethod;
 
-	private final int limit;
+    private final int limit;
 
-	private final int offset;
+    private final int offset;
 
-	private LimitAndOffsetAdapter(SelectModel selectModel, Function<SelectStatementProvider, R> mapperMethod, int limit,
-			int offset) {
-		this.selectModel = Objects.requireNonNull(selectModel);
-		this.mapperMethod = Objects.requireNonNull(mapperMethod);
-		this.limit = limit;
-		this.offset = offset;
-	}
+    private LimitAndOffsetAdapter(SelectModel selectModel, Function<SelectStatementProvider, R> mapperMethod, int limit,
+            int offset) {
+        this.selectModel = Objects.requireNonNull(selectModel);
+        this.mapperMethod = Objects.requireNonNull(mapperMethod);
+        this.limit = limit;
+        this.offset = offset;
+    }
 
-	public R execute() {
-		return mapperMethod.apply(selectStatement());
-	}
+    public R execute() {
+        return mapperMethod.apply(selectStatement());
+    }
 
-	private SelectStatementProvider selectStatement() {
-		return new LimitAndOffsetDecorator(selectModel.render(RenderingStrategies.MYBATIS3));
-	}
+    private SelectStatementProvider selectStatement() {
+        return new LimitAndOffsetDecorator(selectModel.render(RenderingStrategies.MYBATIS3));
+    }
 
-	public static <R> LimitAndOffsetAdapter<R> of(SelectModel selectModel,
-			Function<SelectStatementProvider, R> mapperMethod, int limit, int offset) {
-		return new LimitAndOffsetAdapter<>(selectModel, mapperMethod, limit, offset);
-	}
+    public static <R> LimitAndOffsetAdapter<R> of(SelectModel selectModel,
+            Function<SelectStatementProvider, R> mapperMethod, int limit, int offset) {
+        return new LimitAndOffsetAdapter<>(selectModel, mapperMethod, limit, offset);
+    }
 
-	public class LimitAndOffsetDecorator implements SelectStatementProvider {
+    public class LimitAndOffsetDecorator implements SelectStatementProvider {
 
-		private final Map<String, Object> parameters = new HashMap<>();
+        private final Map<String, Object> parameters = new HashMap<>();
 
-		private final String selectStatement;
+        private final String selectStatement;
 
-		@Override
-		public SelectRenderer getSource() {
-			return null;
-		}
+        @Override
+        public SelectRenderer getSource() {
+            return null;
+        }
 
-		public LimitAndOffsetDecorator(SelectStatementProvider delegate) {
-			parameters.putAll(delegate.getParameters());
-			parameters.put("limit", limit);
-			parameters.put("offset", offset);
+        public LimitAndOffsetDecorator(SelectStatementProvider delegate) {
+            parameters.putAll(delegate.getParameters());
+            parameters.put("limit", limit);
+            parameters.put("offset", offset);
 
-			selectStatement = delegate.getSelectStatement() + " LIMIT #{parameters.limit} OFFSET #{parameters.offset}";
-		}
+            selectStatement = delegate.getSelectStatement() + " LIMIT #{parameters.limit} OFFSET #{parameters.offset}";
+        }
 
-		@Override
-		public Map<String, Object> getParameters() {
-			return parameters;
-		}
+        @Override
+        public Map<String, Object> getParameters() {
+            return parameters;
+        }
 
-		@Override
-		public String getSelectStatement() {
-			return selectStatement;
-		}
+        @Override
+        public String getSelectStatement() {
+            return selectStatement;
+        }
 
-	}
+    }
 
 }

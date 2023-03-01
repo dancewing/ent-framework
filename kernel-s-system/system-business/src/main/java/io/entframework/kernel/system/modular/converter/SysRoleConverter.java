@@ -9,14 +9,14 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 public interface SysRoleConverter {
 
-	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-	interface RequestConverter extends ObjectConverter<SysRoleRequest, SysRole> {
+    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    interface RequestConverter extends ObjectConverter<SysRoleRequest, SysRole> {
 
-	}
+    }
 
-	@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-	interface ResponseConverter extends ObjectConverter<SysRole, SysRoleResponse> {
+    @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    interface ResponseConverter extends ObjectConverter<SysRole, SysRoleResponse> {
 
-	}
+    }
 
 }

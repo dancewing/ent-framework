@@ -19,19 +19,19 @@ import lombok.EqualsAndHashCode;
 @Data
 public class SysRoleResourceResponse extends BaseEntity {
 
-	/**
-	 * 主键
-	 */
-	private Long roleResourceId;
+    /**
+     * 主键
+     */
+    private Long roleResourceId;
 
-	/**
-	 * 角色id
-	 */
-	private Long roleId;
+    /**
+     * 角色id
+     */
+    private Long roleId;
 
-	/**
-	 * 资源编码
-	 */
-	private String resourceCode;
+    /**
+     * 资源编码
+     */
+    private String resourceCode;
 
 }

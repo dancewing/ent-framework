@@ -35,19 +35,19 @@ import org.mybatis.generator.config.Context;
  */
 public final class PluginAggregator extends CompositePlugin {
 
-	@Override
-	public void setContext(Context context) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public void setContext(Context context) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public void setProperties(Properties properties) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public void setProperties(Properties properties) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public boolean validate(List<String> warnings) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public boolean validate(List<String> warnings) {
+        throw new UnsupportedOperationException();
+    }
 
 }

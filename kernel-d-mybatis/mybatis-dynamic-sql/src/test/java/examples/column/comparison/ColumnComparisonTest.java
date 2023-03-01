@@ -30,118 +30,118 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 @SpringJUnitConfig(classes = ColumnComparisonConfiguration.class)
 class ColumnComparisonTest {
 
-	@Autowired
-	private ColumnComparisonMapper mapper;
+    @Autowired
+    private ColumnComparisonMapper mapper;
 
-	@Test
-	void testColumnComparisonLessThan() {
-		SelectStatementProvider selectStatement = select(number1, number2).from(columnComparison)
-				.where(number1, isLessThan(number2)).orderBy(number1, number2).build()
-				.render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testColumnComparisonLessThan() {
+        SelectStatementProvider selectStatement = select(number1, number2).from(columnComparison)
+                .where(number1, isLessThan(number2)).orderBy(number1, number2).build()
+                .render(RenderingStrategies.MYBATIS3);
 
-		String expected = "select number1, number2 " + "from ColumnComparison " + "where number1 < number2 "
-				+ "order by number1, number2";
+        String expected = "select number1, number2 " + "from ColumnComparison " + "where number1 < number2 "
+                + "order by number1, number2";
 
-		List<ColumnComparisonRecord> records = mapper.selectMany(selectStatement);
+        List<ColumnComparisonRecord> records = mapper.selectMany(selectStatement);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-		assertThat(records).hasSize(5);
-		assertThat(records.get(0).getNumber1()).isEqualTo(1);
-		assertThat(records.get(4).getNumber1()).isEqualTo(5);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+        assertThat(records).hasSize(5);
+        assertThat(records.get(0).getNumber1()).isEqualTo(1);
+        assertThat(records.get(4).getNumber1()).isEqualTo(5);
+    }
 
-	@Test
-	void testColumnComparisonLessThanOrEqual() {
-		SelectStatementProvider selectStatement = select(number1, number2).from(columnComparison)
-				.where(number1, isLessThanOrEqualTo(number2)).orderBy(number1, number2).build()
-				.render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testColumnComparisonLessThanOrEqual() {
+        SelectStatementProvider selectStatement = select(number1, number2).from(columnComparison)
+                .where(number1, isLessThanOrEqualTo(number2)).orderBy(number1, number2).build()
+                .render(RenderingStrategies.MYBATIS3);
 
-		String expected = "select number1, number2 " + "from ColumnComparison " + "where number1 <= number2 "
-				+ "order by number1, number2";
+        String expected = "select number1, number2 " + "from ColumnComparison " + "where number1 <= number2 "
+                + "order by number1, number2";
 
-		List<ColumnComparisonRecord> records = mapper.selectMany(selectStatement);
+        List<ColumnComparisonRecord> records = mapper.selectMany(selectStatement);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-		assertThat(records).hasSize(6);
-		assertThat(records.get(0).getNumber1()).isEqualTo(1);
-		assertThat(records.get(5).getNumber1()).isEqualTo(6);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+        assertThat(records).hasSize(6);
+        assertThat(records.get(0).getNumber1()).isEqualTo(1);
+        assertThat(records.get(5).getNumber1()).isEqualTo(6);
+    }
 
-	@Test
-	void testColumnComparisonGreaterThan() {
-		SelectStatementProvider selectStatement = select(number1, number2).from(columnComparison)
-				.where(number1, isGreaterThan(number2)).orderBy(number1, number2).build()
-				.render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testColumnComparisonGreaterThan() {
+        SelectStatementProvider selectStatement = select(number1, number2).from(columnComparison)
+                .where(number1, isGreaterThan(number2)).orderBy(number1, number2).build()
+                .render(RenderingStrategies.MYBATIS3);
 
-		String expected = "select number1, number2 " + "from ColumnComparison " + "where number1 > number2 "
-				+ "order by number1, number2";
+        String expected = "select number1, number2 " + "from ColumnComparison " + "where number1 > number2 "
+                + "order by number1, number2";
 
-		List<ColumnComparisonRecord> records = mapper.selectMany(selectStatement);
+        List<ColumnComparisonRecord> records = mapper.selectMany(selectStatement);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-		assertThat(records).hasSize(5);
-		assertThat(records.get(0).getNumber1()).isEqualTo(7);
-		assertThat(records.get(4).getNumber1()).isEqualTo(11);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+        assertThat(records).hasSize(5);
+        assertThat(records.get(0).getNumber1()).isEqualTo(7);
+        assertThat(records.get(4).getNumber1()).isEqualTo(11);
+    }
 
-	@Test
-	void testColumnComparisonGreaterThanOrEqual() {
-		SelectStatementProvider selectStatement = select(number1, number2).from(columnComparison)
-				.where(number1, isGreaterThanOrEqualTo(number2)).orderBy(number1, number2).build()
-				.render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testColumnComparisonGreaterThanOrEqual() {
+        SelectStatementProvider selectStatement = select(number1, number2).from(columnComparison)
+                .where(number1, isGreaterThanOrEqualTo(number2)).orderBy(number1, number2).build()
+                .render(RenderingStrategies.MYBATIS3);
 
-		String expected = "select number1, number2 " + "from ColumnComparison " + "where number1 >= number2 "
-				+ "order by number1, number2";
+        String expected = "select number1, number2 " + "from ColumnComparison " + "where number1 >= number2 "
+                + "order by number1, number2";
 
-		List<ColumnComparisonRecord> records = mapper.selectMany(selectStatement);
+        List<ColumnComparisonRecord> records = mapper.selectMany(selectStatement);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-		assertThat(records).hasSize(6);
-		assertThat(records.get(0).getNumber1()).isEqualTo(6);
-		assertThat(records.get(5).getNumber1()).isEqualTo(11);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+        assertThat(records).hasSize(6);
+        assertThat(records.get(0).getNumber1()).isEqualTo(6);
+        assertThat(records.get(5).getNumber1()).isEqualTo(11);
+    }
 
-	@Test
-	void testColumnComparisonEqual() {
-		SelectStatementProvider selectStatement = select(number1, number2).from(columnComparison)
-				.where(number1, isEqualTo(number2)).orderBy(number1, number2).build()
-				.render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testColumnComparisonEqual() {
+        SelectStatementProvider selectStatement = select(number1, number2).from(columnComparison)
+                .where(number1, isEqualTo(number2)).orderBy(number1, number2).build()
+                .render(RenderingStrategies.MYBATIS3);
 
-		String expected = "select number1, number2 " + "from ColumnComparison " + "where number1 = number2 "
-				+ "order by number1, number2";
+        String expected = "select number1, number2 " + "from ColumnComparison " + "where number1 = number2 "
+                + "order by number1, number2";
 
-		List<ColumnComparisonRecord> records = mapper.selectMany(selectStatement);
+        List<ColumnComparisonRecord> records = mapper.selectMany(selectStatement);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-		assertThat(records).hasSize(1);
-		assertThat(records.get(0).getNumber1()).isEqualTo(6);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+        assertThat(records).hasSize(1);
+        assertThat(records.get(0).getNumber1()).isEqualTo(6);
+    }
 
-	@Test
-	void testColumnComparisonNotEqual() {
-		SelectStatementProvider selectStatement = select(number1, number2).from(columnComparison)
-				.where(number1, isNotEqualTo(number2)).orderBy(number1, number2).build()
-				.render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testColumnComparisonNotEqual() {
+        SelectStatementProvider selectStatement = select(number1, number2).from(columnComparison)
+                .where(number1, isNotEqualTo(number2)).orderBy(number1, number2).build()
+                .render(RenderingStrategies.MYBATIS3);
 
-		String expected = "select number1, number2 " + "from ColumnComparison " + "where number1 <> number2 "
-				+ "order by number1, number2";
+        String expected = "select number1, number2 " + "from ColumnComparison " + "where number1 <> number2 "
+                + "order by number1, number2";
 
-		List<ColumnComparisonRecord> records = mapper.selectMany(selectStatement);
+        List<ColumnComparisonRecord> records = mapper.selectMany(selectStatement);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-		assertThat(records).hasSize(10);
-		assertThat(records.get(0).getNumber1()).isEqualTo(1);
-		assertThat(records.get(9).getNumber1()).isEqualTo(11);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+        assertThat(records).hasSize(10);
+        assertThat(records.get(0).getNumber1()).isEqualTo(1);
+        assertThat(records.get(9).getNumber1()).isEqualTo(11);
+    }
 
-	@Test
-	void testHelperMethod() {
-		List<ColumnComparisonRecord> records = mapper
-				.select(d -> d.where(number1, isNotEqualTo(number2)).orderBy(number1, number2));
+    @Test
+    void testHelperMethod() {
+        List<ColumnComparisonRecord> records = mapper
+                .select(d -> d.where(number1, isNotEqualTo(number2)).orderBy(number1, number2));
 
-		assertThat(records).hasSize(10);
-		assertThat(records.get(0).getNumber1()).isEqualTo(1);
-		assertThat(records.get(9).getNumber1()).isEqualTo(11);
-	}
+        assertThat(records).hasSize(10);
+        assertThat(records.get(0).getNumber1()).isEqualTo(1);
+        assertThat(records.get(9).getNumber1()).isEqualTo(11);
+    }
 
 }

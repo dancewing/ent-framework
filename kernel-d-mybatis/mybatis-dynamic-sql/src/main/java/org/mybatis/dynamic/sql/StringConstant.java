@@ -22,36 +22,36 @@ import org.mybatis.dynamic.sql.render.TableAliasCalculator;
 
 public class StringConstant implements BindableColumn<String> {
 
-	private final String alias;
+    private final String alias;
 
-	private final String value;
+    private final String value;
 
-	private StringConstant(String value) {
-		this(value, null);
-	}
+    private StringConstant(String value) {
+        this(value, null);
+    }
 
-	private StringConstant(String value, String alias) {
-		this.value = Objects.requireNonNull(value);
-		this.alias = alias;
-	}
+    private StringConstant(String value, String alias) {
+        this.value = Objects.requireNonNull(value);
+        this.alias = alias;
+    }
 
-	@Override
-	public Optional<String> alias() {
-		return Optional.ofNullable(alias);
-	}
+    @Override
+    public Optional<String> alias() {
+        return Optional.ofNullable(alias);
+    }
 
-	@Override
-	public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
-		return "'" + value + "'"; //$NON-NLS-1$ //$NON-NLS-2$
-	}
+    @Override
+    public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
+        return "'" + value + "'"; //$NON-NLS-1$ //$NON-NLS-2$
+    }
 
-	@Override
-	public StringConstant as(String alias) {
-		return new StringConstant(value, alias);
-	}
+    @Override
+    public StringConstant as(String alias) {
+        return new StringConstant(value, alias);
+    }
 
-	public static StringConstant of(String value) {
-		return new StringConstant(value);
-	}
+    public static StringConstant of(String value) {
+        return new StringConstant(value);
+    }
 
 }

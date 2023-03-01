@@ -27,64 +27,64 @@ import java.util.List;
 
 @Slf4j
 public class SysMenuResourceServiceImpl
-		extends BaseServiceImpl<SysMenuResourceRequest, SysMenuResourceResponse, SysMenuResource>
-		implements SysMenuResourceService {
+        extends BaseServiceImpl<SysMenuResourceRequest, SysMenuResourceResponse, SysMenuResource>
+        implements SysMenuResourceService {
 
-	public SysMenuResourceServiceImpl() {
-		super(SysMenuResourceRequest.class, SysMenuResourceResponse.class, SysMenuResource.class);
-	}
+    public SysMenuResourceServiceImpl() {
+        super(SysMenuResourceRequest.class, SysMenuResourceResponse.class, SysMenuResource.class);
+    }
 
-	@Resource
-	private ResourceServiceApi resourceServiceApi;
+    @Resource
+    private ResourceServiceApi resourceServiceApi;
 
-	@Override
-	public List<ResourceTreeNode> getMenuResourceTree(Long menuId) {
-		List<SysMenuResource> list = this.getRepository().select(getEntityClass(),
-				c -> c.where(SysMenuResourceDynamicSqlSupport.menuId, SqlBuilder.isEqualTo(menuId)));
-		List<String> resourceCodes = list.stream().map(SysMenuResource::getResourceCode).toList();
-		return resourceServiceApi.getResourceList(resourceCodes, Collections.emptySet(), true);
-	}
+    @Override
+    public List<ResourceTreeNode> getMenuResourceTree(Long menuId) {
+        List<SysMenuResource> list = this.getRepository().select(getEntityClass(),
+                c -> c.where(SysMenuResourceDynamicSqlSupport.menuId, SqlBuilder.isEqualTo(menuId)));
+        List<String> resourceCodes = list.stream().map(SysMenuResource::getResourceCode).toList();
+        return resourceServiceApi.getResourceList(resourceCodes, Collections.emptySet(), true);
+    }
 
-	@Override
-	public List<String> getMenuResourceCodes(Long menuId) {
-		List<SysMenuResource> list = this.getRepository().select(getEntityClass(),
-				c -> c.where(SysMenuResourceDynamicSqlSupport.menuId, SqlBuilder.isEqualTo(menuId)));
-		return list.stream().map(SysMenuResource::getResourceCode).toList();
-	}
+    @Override
+    public List<String> getMenuResourceCodes(Long menuId) {
+        List<SysMenuResource> list = this.getRepository().select(getEntityClass(),
+                c -> c.where(SysMenuResourceDynamicSqlSupport.menuId, SqlBuilder.isEqualTo(menuId)));
+        return list.stream().map(SysMenuResource::getResourceCode).toList();
+    }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void addMenuResourceBind(SysMenuResourceRequest sysMenuResourceRequest) {
-		// 先将所有资源删除掉
-		this.getRepository().delete(getEntityClass(), c -> c.where(SysMenuResourceDynamicSqlSupport.menuId,
-				SqlBuilder.isEqualTo(sysMenuResourceRequest.getMenuId())));
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void addMenuResourceBind(SysMenuResourceRequest sysMenuResourceRequest) {
+        // 先将所有资源删除掉
+        this.getRepository().delete(getEntityClass(), c -> c.where(SysMenuResourceDynamicSqlSupport.menuId,
+                SqlBuilder.isEqualTo(sysMenuResourceRequest.getMenuId())));
 
-		// 需要绑定的资源添加上
-		List<String> selectedResource = sysMenuResourceRequest.getSelectedResource();
-		if (ObjectUtil.isNotEmpty(selectedResource)) {
-			ArrayList<SysMenuResource> menuResources = new ArrayList<>();
-			for (String resourceCode : selectedResource) {
-				if (resourceCode.contains("$")) {
-					SysMenuResource sysMenuResource = new SysMenuResource();
-					sysMenuResource.setMenuId(sysMenuResourceRequest.getMenuId());
-					sysMenuResource.setResourceCode(resourceCode);
-					menuResources.add(sysMenuResource);
-				}
-			}
-			menuResources.forEach(this.getRepository()::insert);
-		}
-	}
+        // 需要绑定的资源添加上
+        List<String> selectedResource = sysMenuResourceRequest.getSelectedResource();
+        if (ObjectUtil.isNotEmpty(selectedResource)) {
+            ArrayList<SysMenuResource> menuResources = new ArrayList<>();
+            for (String resourceCode : selectedResource) {
+                if (resourceCode.contains("$")) {
+                    SysMenuResource sysMenuResource = new SysMenuResource();
+                    sysMenuResource.setMenuId(sysMenuResourceRequest.getMenuId());
+                    sysMenuResource.setResourceCode(resourceCode);
+                    menuResources.add(sysMenuResource);
+                }
+            }
+            menuResources.forEach(this.getRepository()::insert);
+        }
+    }
 
-	@Override
-	public List<String> getResourceCodesByBusinessId(List<Long> businessIds) {
-		if (ObjectUtil.isEmpty(businessIds)) {
-			return new ArrayList<>();
-		}
+    @Override
+    public List<String> getResourceCodesByBusinessId(List<Long> businessIds) {
+        if (ObjectUtil.isEmpty(businessIds)) {
+            return new ArrayList<>();
+        }
 
-		List<SysMenuResource> list = this.getRepository().select(getEntityClass(),
-				c -> c.where(SysMenuResourceDynamicSqlSupport.menuId, SqlBuilder.isIn(businessIds)));
+        List<SysMenuResource> list = this.getRepository().select(getEntityClass(),
+                c -> c.where(SysMenuResourceDynamicSqlSupport.menuId, SqlBuilder.isIn(businessIds)));
 
-		return list.stream().map(SysMenuResource::getResourceCode).toList();
-	}
+        return list.stream().map(SysMenuResource::getResourceCode).toList();
+    }
 
 }

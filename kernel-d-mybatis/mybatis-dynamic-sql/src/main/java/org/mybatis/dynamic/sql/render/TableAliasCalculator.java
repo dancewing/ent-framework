@@ -21,22 +21,22 @@ import org.mybatis.dynamic.sql.SqlTable;
 
 public interface TableAliasCalculator {
 
-	Optional<String> aliasForColumn(SqlTable table);
+    Optional<String> aliasForColumn(SqlTable table);
 
-	Optional<String> aliasForTable(SqlTable table);
+    Optional<String> aliasForTable(SqlTable table);
 
-	static TableAliasCalculator empty() {
-		return new TableAliasCalculator() {
-			@Override
-			public Optional<String> aliasForColumn(SqlTable table) {
-				return table.tableAlias();
-			}
+    static TableAliasCalculator empty() {
+        return new TableAliasCalculator() {
+            @Override
+            public Optional<String> aliasForColumn(SqlTable table) {
+                return table.tableAlias();
+            }
 
-			@Override
-			public Optional<String> aliasForTable(SqlTable table) {
-				return table.tableAlias();
-			}
-		};
-	}
+            @Override
+            public Optional<String> aliasForTable(SqlTable table) {
+                return table.tableAlias();
+            }
+        };
+    }
 
 }

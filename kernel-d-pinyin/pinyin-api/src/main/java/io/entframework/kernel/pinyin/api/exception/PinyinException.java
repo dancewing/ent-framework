@@ -17,13 +17,13 @@ import lombok.Getter;
 @Getter
 public class PinyinException extends ServiceException {
 
-	public PinyinException(AbstractExceptionEnum exceptionEnum) {
-		super(PinyinConstants.PINYIN_MODULE_NAME, exceptionEnum);
-	}
+    public PinyinException(AbstractExceptionEnum exceptionEnum) {
+        super(PinyinConstants.PINYIN_MODULE_NAME, exceptionEnum);
+    }
 
-	public PinyinException(AbstractExceptionEnum exception, Object... params) {
-		super(PinyinConstants.PINYIN_MODULE_NAME, exception.getErrorCode(),
-				CharSequenceUtil.format(exception.getUserTip(), params));
-	}
+    public PinyinException(AbstractExceptionEnum exception, Object... params) {
+        super(PinyinConstants.PINYIN_MODULE_NAME, exception.getErrorCode(),
+                CharSequenceUtil.format(exception.getUserTip(), params));
+    }
 
 }

@@ -9,16 +9,16 @@ import org.springframework.plugin.core.Plugin;
  */
 public interface ModularPlugin extends Plugin<ModuleContext> {
 
-	/**
-	 * 模块的元数据信息
-	 * @return 元数据信息
-	 */
-	ModuleMeta getModuleMeta();
+    /**
+     * 模块的元数据信息
+     * @return 元数据信息
+     */
+    ModuleMeta getModuleMeta();
 
-	/**
-	 * 执行初始化动作 比如关键数据检查，并默认初始化
-	 */
-	default void init(ModuleContext context) {
-	}
+    /**
+     * 执行初始化动作 比如关键数据检查，并默认初始化
+     */
+    default void init(ModuleContext context) {
+    }
 
 }

@@ -21,22 +21,22 @@ import org.junit.jupiter.api.Test;
 
 class StringUtilitiesTest {
 
-	@Test
-	void testInitialUnderscore() {
-		String input = "_USER";
-		assertThat(StringUtilities.toCamelCase(input)).isEqualTo("user");
-	}
+    @Test
+    void testInitialUnderscore() {
+        String input = "_USER";
+        assertThat(StringUtilities.toCamelCase(input)).isEqualTo("user");
+    }
 
-	@Test
-	void testSpace() {
-		String input = "USER NAME";
-		assertThat(StringUtilities.toCamelCase(input)).isEqualTo("userName");
-	}
+    @Test
+    void testSpace() {
+        String input = "USER NAME";
+        assertThat(StringUtilities.toCamelCase(input)).isEqualTo("userName");
+    }
 
-	@Test
-	void testNumeric() {
-		String input = "USER%NAME%3";
-		assertThat(StringUtilities.toCamelCase(input)).isEqualTo("userName3");
-	}
+    @Test
+    void testNumeric() {
+        String input = "USER%NAME%3";
+        assertThat(StringUtilities.toCamelCase(input)).isEqualTo("userName3");
+    }
 
 }

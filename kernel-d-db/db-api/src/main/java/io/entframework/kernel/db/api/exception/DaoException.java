@@ -15,13 +15,13 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class DaoException extends ServiceException {
 
-	public DaoException(AbstractExceptionEnum exception) {
-		super(DbConstants.DB_MODULE_NAME, exception);
-	}
+    public DaoException(AbstractExceptionEnum exception) {
+        super(DbConstants.DB_MODULE_NAME, exception);
+    }
 
-	public DaoException(AbstractExceptionEnum exception, Object... params) {
-		super(DbConstants.DB_MODULE_NAME, exception.getErrorCode(),
-				CharSequenceUtil.format(exception.getUserTip(), params));
-	}
+    public DaoException(AbstractExceptionEnum exception, Object... params) {
+        super(DbConstants.DB_MODULE_NAME, exception.getErrorCode(),
+                CharSequenceUtil.format(exception.getUserTip(), params));
+    }
 
 }

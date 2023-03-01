@@ -17,34 +17,34 @@ package examples.custom_render;
 
 public class JsonTestRecord {
 
-	private int id;
+    private int id;
 
-	private String description;
+    private String description;
 
-	private String info;
+    private String info;
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getInfo() {
-		return info;
-	}
+    public String getInfo() {
+        return info;
+    }
 
-	public void setInfo(String info) {
-		this.info = info;
-	}
+    public void setInfo(String info) {
+        this.info = info;
+    }
 
 }

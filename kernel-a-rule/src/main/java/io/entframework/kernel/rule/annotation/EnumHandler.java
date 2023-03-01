@@ -10,6 +10,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface EnumHandler {
 
-	String value() default "value";
+    String value() default "value";
 
 }

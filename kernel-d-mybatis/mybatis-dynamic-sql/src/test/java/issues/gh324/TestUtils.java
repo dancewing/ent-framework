@@ -19,14 +19,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestUtils {
 
-	public static void recordIsFred(NameRecord record) {
-		assertThat(record.getId()).isEqualTo(1);
-		assertThat(record.getName()).isEqualTo("Fred");
-	}
+    public static void recordIsFred(NameRecord record) {
+        assertThat(record.getId()).isEqualTo(1);
+        assertThat(record.getName()).isEqualTo("Fred");
+    }
 
-	public static void recordIsBarney(NameRecord record) {
-		assertThat(record.getId()).isEqualTo(1);
-		assertThat(record.getName()).isEqualTo("Barney");
-	}
+    public static void recordIsBarney(NameRecord record) {
+        assertThat(record.getId()).isEqualTo(1);
+        assertThat(record.getName()).isEqualTo("Barney");
+    }
 
 }

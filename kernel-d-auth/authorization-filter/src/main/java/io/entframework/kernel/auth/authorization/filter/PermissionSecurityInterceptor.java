@@ -31,31 +31,31 @@ import jakarta.servlet.http.HttpServletResponse;
 @Slf4j
 public class PermissionSecurityInterceptor extends BaseSecurityInterceptor {
 
-	/**
-	 * 资源权限校验API
-	 */
-	@Resource
-	private PermissionServiceApi permissionServiceApi;
+    /**
+     * 资源权限校验API
+     */
+    @Resource
+    private PermissionServiceApi permissionServiceApi;
 
-	@Override
-	public void filterAction(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-			ResourceDefinition resourceDefinition, String token) {
+    @Override
+    public void filterAction(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+            ResourceDefinition resourceDefinition, String token) {
 
-		// 1. 获取当前请求的路径
-		String requestURI = httpServletRequest.getRequestURI();
+        // 1. 获取当前请求的路径
+        String requestURI = httpServletRequest.getRequestURI();
 
-		Boolean requiredPermissionFlag = resourceDefinition.getRequiredPermissionFlag();
-		// 2. 如果需要鉴权
-		if (requiredPermissionFlag != null && requiredPermissionFlag) {
+        Boolean requiredPermissionFlag = resourceDefinition.getRequiredPermissionFlag();
+        // 2. 如果需要鉴权
+        if (requiredPermissionFlag != null && requiredPermissionFlag) {
 
-			// token为空，返回用户校验失败
-			if (CharSequenceUtil.isEmpty(token)) {
-				throw new AuthException(AuthExceptionEnum.TOKEN_GET_ERROR);
-			}
+            // token为空，返回用户校验失败
+            if (CharSequenceUtil.isEmpty(token)) {
+                throw new AuthException(AuthExceptionEnum.TOKEN_GET_ERROR);
+            }
 
-			// 3. 进行当前接口的权限校验
-			permissionServiceApi.checkPermission(token, requestURI);
-		}
-	}
+            // 3. 进行当前接口的权限校验
+            permissionServiceApi.checkPermission(token, requestURI);
+        }
+    }
 
 }

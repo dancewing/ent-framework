@@ -22,42 +22,42 @@ import org.mybatis.dynamic.sql.SqlTable;
 
 public final class Person2DynamicSqlSupport {
 
-	public static final Person2 person2 = new Person2();
+    public static final Person2 person2 = new Person2();
 
-	public static final SqlColumn<Integer> id = person2.id;
+    public static final SqlColumn<Integer> id = person2.id;
 
-	public static final SqlColumn<String> firstName = person2.firstName;
+    public static final SqlColumn<String> firstName = person2.firstName;
 
-	public static final SqlColumn<String> lastName = person2.lastName;
+    public static final SqlColumn<String> lastName = person2.lastName;
 
-	public static final SqlColumn<String> gender = person2.gender;
+    public static final SqlColumn<String> gender = person2.gender;
 
-	public static final SqlColumn<String> human = person2.human;
+    public static final SqlColumn<String> human = person2.human;
 
-	public static final SqlColumn<Integer> age = person2.age;
+    public static final SqlColumn<Integer> age = person2.age;
 
-	public static final SqlColumn<Integer> addressId = person2.addressId;
+    public static final SqlColumn<Integer> addressId = person2.addressId;
 
-	public static final class Person2 extends SqlTable {
+    public static final class Person2 extends SqlTable {
 
-		public final SqlColumn<Integer> id = column("person_id", JDBCType.INTEGER);
+        public final SqlColumn<Integer> id = column("person_id", JDBCType.INTEGER);
 
-		public final SqlColumn<String> firstName = column("first_name", JDBCType.VARCHAR);
+        public final SqlColumn<String> firstName = column("first_name", JDBCType.VARCHAR);
 
-		public final SqlColumn<String> lastName = column("last_name", JDBCType.VARCHAR);
+        public final SqlColumn<String> lastName = column("last_name", JDBCType.VARCHAR);
 
-		public final SqlColumn<String> gender = column("gender", JDBCType.VARCHAR);
+        public final SqlColumn<String> gender = column("gender", JDBCType.VARCHAR);
 
-		public final SqlColumn<String> human = column("human_flag", JDBCType.VARCHAR);
+        public final SqlColumn<String> human = column("human_flag", JDBCType.VARCHAR);
 
-		public final SqlColumn<Integer> age = column("age", JDBCType.INTEGER);
+        public final SqlColumn<Integer> age = column("age", JDBCType.INTEGER);
 
-		public final SqlColumn<Integer> addressId = column("address_id", JDBCType.INTEGER);
+        public final SqlColumn<Integer> addressId = column("address_id", JDBCType.INTEGER);
 
-		public Person2() {
-			super("Person2");
-		}
+        public Person2() {
+            super("Person2");
+        }
 
-	}
+    }
 
 }

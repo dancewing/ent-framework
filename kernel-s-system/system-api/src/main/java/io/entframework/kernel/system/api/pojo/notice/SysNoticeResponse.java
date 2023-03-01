@@ -26,58 +26,58 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class SysNoticeResponse extends BaseResponse {
 
-	/**
-	 * 主键
-	 */
-	@ChineseDescription("主键")
-	private Long noticeId;
+    /**
+     * 主键
+     */
+    @ChineseDescription("主键")
+    private Long noticeId;
 
-	/**
-	 * 通知标题
-	 */
-	@ChineseDescription("通知标题")
-	private String noticeTitle;
+    /**
+     * 通知标题
+     */
+    @ChineseDescription("通知标题")
+    private String noticeTitle;
 
-	/**
-	 * 通知摘要
-	 */
-	@ChineseDescription("通知摘要")
-	private String noticeSummary;
+    /**
+     * 通知摘要
+     */
+    @ChineseDescription("通知摘要")
+    private String noticeSummary;
 
-	/**
-	 * 通知内容
-	 */
-	@ChineseDescription("通知内容")
-	private String noticeContent;
+    /**
+     * 通知内容
+     */
+    @ChineseDescription("通知内容")
+    private String noticeContent;
 
-	/**
-	 * 优先级
-	 */
-	@ChineseDescription("优先级")
-	private String priorityLevel;
+    /**
+     * 优先级
+     */
+    @ChineseDescription("优先级")
+    private String priorityLevel;
 
-	/**
-	 * 开始时间
-	 */
-	@ChineseDescription("开始时间")
-	private LocalDateTime noticeBeginTime;
+    /**
+     * 开始时间
+     */
+    @ChineseDescription("开始时间")
+    private LocalDateTime noticeBeginTime;
 
-	/**
-	 * 结束时间
-	 */
-	@ChineseDescription("结束时间")
-	private LocalDateTime noticeEndTime;
+    /**
+     * 结束时间
+     */
+    @ChineseDescription("结束时间")
+    private LocalDateTime noticeEndTime;
 
-	/**
-	 * 通知范围（用户id字符串）
-	 */
-	@ChineseDescription("通知范围（用户id字符串）")
-	private String noticeScope;
+    /**
+     * 通知范围（用户id字符串）
+     */
+    @ChineseDescription("通知范围（用户id字符串）")
+    private String noticeScope;
 
-	/**
-	 * 是否删除：Y-被删除，N-未删除
-	 */
-	@ChineseDescription("是否删除：Y-被删除，N-未删除")
-	private YesOrNotEnum delFlag;
+    /**
+     * 是否删除：Y-被删除，N-未删除
+     */
+    @ChineseDescription("是否删除：Y-被删除，N-未删除")
+    private YesOrNotEnum delFlag;
 
 }

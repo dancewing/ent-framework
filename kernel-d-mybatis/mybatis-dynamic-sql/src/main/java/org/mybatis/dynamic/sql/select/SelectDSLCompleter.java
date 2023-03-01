@@ -79,22 +79,22 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 @FunctionalInterface
 public interface SelectDSLCompleter extends Function<QueryExpressionDSL<SelectModel>, Buildable<SelectModel>> {
 
-	/**
-	 * Returns a completer that can be used to select every row in a table.
-	 * @return the completer that will select every row in a table
-	 */
-	static SelectDSLCompleter allRows() {
-		return c -> c;
-	}
+    /**
+     * Returns a completer that can be used to select every row in a table.
+     * @return the completer that will select every row in a table
+     */
+    static SelectDSLCompleter allRows() {
+        return c -> c;
+    }
 
-	/**
-	 * Returns a completer that can be used to select every row in a table with specified
-	 * order.
-	 * @param columns list of sort specifications for an order by clause
-	 * @return the completer that will select every row in a table with specified order
-	 */
-	static SelectDSLCompleter allRowsOrderedBy(SortSpecification... columns) {
-		return c -> c.orderBy(columns);
-	}
+    /**
+     * Returns a completer that can be used to select every row in a table with specified
+     * order.
+     * @param columns list of sort specifications for an order by clause
+     * @return the completer that will select every row in a table with specified order
+     */
+    static SelectDSLCompleter allRowsOrderedBy(SortSpecification... columns) {
+        return c -> c.orderBy(columns);
+    }
 
 }

@@ -20,17 +20,17 @@ import org.mybatis.dynamic.sql.BasicColumn;
 
 public class IsLessThanOrEqualToColumn<T> extends AbstractColumnComparisonCondition<T> {
 
-	protected IsLessThanOrEqualToColumn(BasicColumn column) {
-		super(column);
-	}
+    protected IsLessThanOrEqualToColumn(BasicColumn column) {
+        super(column);
+    }
 
-	@Override
-	protected String renderCondition(String leftColumn, String rightColumn) {
-		return leftColumn + " <= " + rightColumn; //$NON-NLS-1$
-	}
+    @Override
+    protected String renderCondition(String leftColumn, String rightColumn) {
+        return leftColumn + " <= " + rightColumn; //$NON-NLS-1$
+    }
 
-	public static <T> IsLessThanOrEqualToColumn<T> of(BasicColumn column) {
-		return new IsLessThanOrEqualToColumn<>(column);
-	}
+    public static <T> IsLessThanOrEqualToColumn<T> of(BasicColumn column) {
+        return new IsLessThanOrEqualToColumn<>(column);
+    }
 
 }

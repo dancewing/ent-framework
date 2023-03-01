@@ -27,10 +27,10 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 @FunctionalInterface
 public interface SqlSessionFactoryBeanCustomizer {
 
-	/**
-	 * Customize the given a {@link SqlSessionFactoryBean} object.
-	 * @param factoryBean the factory bean object to customize
-	 */
-	void customize(SqlSessionFactoryBean factoryBean);
+    /**
+     * Customize the given a {@link SqlSessionFactoryBean} object.
+     * @param factoryBean the factory bean object to customize
+     */
+    void customize(SqlSessionFactoryBean factoryBean);
 
 }

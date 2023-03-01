@@ -27,51 +27,51 @@ import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
  */
 class JavaBeansUtilTest {
 
-	@Test
-	void testGetValidPropertyName() {
-		assertEquals("eMail", getValidPropertyName("eMail")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("firstName", getValidPropertyName("firstName")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("URL", getValidPropertyName("URL")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("XAxis", getValidPropertyName("XAxis")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("a", getValidPropertyName("a")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("b", getValidPropertyName("B")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("yaxis", getValidPropertyName("Yaxis")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("i_PARAM_INT_1", getValidPropertyName("I_PARAM_INT_1")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("_fred", getValidPropertyName("_fred")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("accountType", getValidPropertyName("AccountType")); //$NON-NLS-1$ //$NON-NLS-2$
-	}
+    @Test
+    void testGetValidPropertyName() {
+        assertEquals("eMail", getValidPropertyName("eMail")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("firstName", getValidPropertyName("firstName")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("URL", getValidPropertyName("URL")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("XAxis", getValidPropertyName("XAxis")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("a", getValidPropertyName("a")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("b", getValidPropertyName("B")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("yaxis", getValidPropertyName("Yaxis")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("i_PARAM_INT_1", getValidPropertyName("I_PARAM_INT_1")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("_fred", getValidPropertyName("_fred")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("accountType", getValidPropertyName("AccountType")); //$NON-NLS-1$ //$NON-NLS-2$
+    }
 
-	@Test
-	void testConvertCamelCase() {
-		assertEquals("e-mail", convertCamelCase("eMail", "-")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("first-name", convertCamelCase("firstName", "-")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("account-type", convertCamelCase("AccountType", "-")); //$NON-NLS-1$ //$NON-NLS-2$
-	}
+    @Test
+    void testConvertCamelCase() {
+        assertEquals("e-mail", convertCamelCase("eMail", "-")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("first-name", convertCamelCase("firstName", "-")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("account-type", convertCamelCase("AccountType", "-")); //$NON-NLS-1$ //$NON-NLS-2$
+    }
 
-	@Test
-	void testGetGetterMethodName() {
-		assertEquals("geteMail", getGetterMethodName("eMail", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("getFirstName", getGetterMethodName("firstName", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("getURL", getGetterMethodName("URL", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("getXAxis", getGetterMethodName("XAxis", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("getA", getGetterMethodName("a", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("isActive", getGetterMethodName("active", FullyQualifiedJavaType.getBooleanPrimitiveInstance())); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("getI_PARAM_INT_1", //$NON-NLS-1$
-				getGetterMethodName("i_PARAM_INT_1", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$
-		assertEquals("get_fred", getGetterMethodName("_fred", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("getAccountType", getGetterMethodName("AccountType", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$ //$NON-NLS-2$
-	}
+    @Test
+    void testGetGetterMethodName() {
+        assertEquals("geteMail", getGetterMethodName("eMail", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("getFirstName", getGetterMethodName("firstName", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("getURL", getGetterMethodName("URL", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("getXAxis", getGetterMethodName("XAxis", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("getA", getGetterMethodName("a", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("isActive", getGetterMethodName("active", FullyQualifiedJavaType.getBooleanPrimitiveInstance())); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("getI_PARAM_INT_1", //$NON-NLS-1$
+                getGetterMethodName("i_PARAM_INT_1", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$
+        assertEquals("get_fred", getGetterMethodName("_fred", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("getAccountType", getGetterMethodName("AccountType", FullyQualifiedJavaType.getStringInstance())); //$NON-NLS-1$ //$NON-NLS-2$
+    }
 
-	@Test
-	void testGetSetterMethodName() {
-		assertEquals("seteMail", getSetterMethodName("eMail")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("setFirstName", getSetterMethodName("firstName")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("setURL", getSetterMethodName("URL")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("setXAxis", getSetterMethodName("XAxis")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("setA", getSetterMethodName("a")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("setI_PARAM_INT_1", getSetterMethodName("i_PARAM_INT_1")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("set_fred", getSetterMethodName("_fred")); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals("setAccountType", getSetterMethodName("AccountType")); //$NON-NLS-1$ //$NON-NLS-2$
-	}
+    @Test
+    void testGetSetterMethodName() {
+        assertEquals("seteMail", getSetterMethodName("eMail")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("setFirstName", getSetterMethodName("firstName")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("setURL", getSetterMethodName("URL")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("setXAxis", getSetterMethodName("XAxis")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("setA", getSetterMethodName("a")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("setI_PARAM_INT_1", getSetterMethodName("i_PARAM_INT_1")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("set_fred", getSetterMethodName("_fred")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("setAccountType", getSetterMethodName("AccountType")); //$NON-NLS-1$ //$NON-NLS-2$
+    }
 
 }

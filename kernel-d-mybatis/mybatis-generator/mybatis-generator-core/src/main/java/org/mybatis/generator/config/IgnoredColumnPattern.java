@@ -24,41 +24,41 @@ import java.util.regex.Pattern;
 
 public class IgnoredColumnPattern {
 
-	private final String patternRegex;
+    private final String patternRegex;
 
-	private final Pattern pattern;
+    private final Pattern pattern;
 
-	private final List<IgnoredColumnException> exceptions = new ArrayList<>();
+    private final List<IgnoredColumnException> exceptions = new ArrayList<>();
 
-	public IgnoredColumnPattern(String patternRegex) {
-		this.patternRegex = patternRegex;
-		pattern = Pattern.compile(patternRegex);
-	}
+    public IgnoredColumnPattern(String patternRegex) {
+        this.patternRegex = patternRegex;
+        pattern = Pattern.compile(patternRegex);
+    }
 
-	public void addException(IgnoredColumnException exception) {
-		exceptions.add(exception);
-	}
+    public void addException(IgnoredColumnException exception) {
+        exceptions.add(exception);
+    }
 
-	public boolean matches(String columnName) {
-		boolean matches = pattern.matcher(columnName).matches();
+    public boolean matches(String columnName) {
+        boolean matches = pattern.matcher(columnName).matches();
 
-		if (matches) {
-			for (IgnoredColumnException exception : exceptions) {
-				if (exception.matches(columnName)) {
-					matches = false;
-					break;
-				}
-			}
-		}
+        if (matches) {
+            for (IgnoredColumnException exception : exceptions) {
+                if (exception.matches(columnName)) {
+                    matches = false;
+                    break;
+                }
+            }
+        }
 
-		return matches;
-	}
+        return matches;
+    }
 
-	public void validate(List<String> errors, String tableName) {
-		if (!stringHasValue(patternRegex)) {
-			errors.add(getString("ValidationError.27", //$NON-NLS-1$
-					tableName));
-		}
-	}
+    public void validate(List<String> errors, String tableName) {
+        if (!stringHasValue(patternRegex)) {
+            errors.add(getString("ValidationError.27", //$NON-NLS-1$
+                    tableName));
+        }
+    }
 
 }

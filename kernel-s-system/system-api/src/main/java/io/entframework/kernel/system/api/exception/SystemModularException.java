@@ -15,13 +15,13 @@ import io.entframework.kernel.system.api.constants.SystemConstants;
  */
 public class SystemModularException extends ServiceException {
 
-	public SystemModularException(AbstractExceptionEnum exception, Object... params) {
-		super(SystemConstants.SYSTEM_MODULE_NAME, exception.getErrorCode(),
-				CharSequenceUtil.format(exception.getUserTip(), params));
-	}
+    public SystemModularException(AbstractExceptionEnum exception, Object... params) {
+        super(SystemConstants.SYSTEM_MODULE_NAME, exception.getErrorCode(),
+                CharSequenceUtil.format(exception.getUserTip(), params));
+    }
 
-	public SystemModularException(AbstractExceptionEnum exception) {
-		super(SystemConstants.SYSTEM_MODULE_NAME, exception);
-	}
+    public SystemModularException(AbstractExceptionEnum exception) {
+        super(SystemConstants.SYSTEM_MODULE_NAME, exception);
+    }
 
 }

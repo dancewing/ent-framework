@@ -23,63 +23,63 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 
 public class ResultMapWithoutBLOBsElementGenerator extends AbstractXmlElementGenerator {
 
-	private final boolean isSimple;
+    private final boolean isSimple;
 
-	public ResultMapWithoutBLOBsElementGenerator(boolean isSimple) {
-		super();
-		this.isSimple = isSimple;
-	}
+    public ResultMapWithoutBLOBsElementGenerator(boolean isSimple) {
+        super();
+        this.isSimple = isSimple;
+    }
 
-	@Override
-	public void addElements(XmlElement parentElement) {
-		XmlElement answer = new XmlElement("resultMap"); //$NON-NLS-1$
-		answer.addAttribute(new Attribute("id", introspectedTable.getBaseResultMapId())); //$NON-NLS-1$
+    @Override
+    public void addElements(XmlElement parentElement) {
+        XmlElement answer = new XmlElement("resultMap"); //$NON-NLS-1$
+        answer.addAttribute(new Attribute("id", introspectedTable.getBaseResultMapId())); //$NON-NLS-1$
 
-		String returnType;
-		if (isSimple) {
-			returnType = introspectedTable.getBaseRecordType();
-		}
-		else {
-			if (introspectedTable.getRules().generateBaseRecordClass()) {
-				returnType = introspectedTable.getBaseRecordType();
-			}
-			else {
-				returnType = introspectedTable.getPrimaryKeyType();
-			}
-		}
+        String returnType;
+        if (isSimple) {
+            returnType = introspectedTable.getBaseRecordType();
+        }
+        else {
+            if (introspectedTable.getRules().generateBaseRecordClass()) {
+                returnType = introspectedTable.getBaseRecordType();
+            }
+            else {
+                returnType = introspectedTable.getPrimaryKeyType();
+            }
+        }
 
-		answer.addAttribute(new Attribute("type", returnType)); //$NON-NLS-1$
+        answer.addAttribute(new Attribute("type", returnType)); //$NON-NLS-1$
 
-		context.getCommentGenerator().addComment(answer);
+        context.getCommentGenerator().addComment(answer);
 
-		if (introspectedTable.isConstructorBased()) {
-			addResultMapConstructorElements(answer);
-		}
-		else {
-			addResultMapElements(answer);
-		}
+        if (introspectedTable.isConstructorBased()) {
+            addResultMapConstructorElements(answer);
+        }
+        else {
+            addResultMapElements(answer);
+        }
 
-		if (context.getPlugins().sqlMapResultMapWithoutBLOBsElementGenerated(answer, introspectedTable)) {
-			parentElement.addElement(answer);
-		}
-	}
+        if (context.getPlugins().sqlMapResultMapWithoutBLOBsElementGenerated(answer, introspectedTable)) {
+            parentElement.addElement(answer);
+        }
+    }
 
-	private void addResultMapElements(XmlElement answer) {
-		buildResultMapItems(ResultElementType.ID, introspectedTable.getPrimaryKeyColumns()).forEach(answer::addElement);
+    private void addResultMapElements(XmlElement answer) {
+        buildResultMapItems(ResultElementType.ID, introspectedTable.getPrimaryKeyColumns()).forEach(answer::addElement);
 
-		List<IntrospectedColumn> columns;
-		if (isSimple) {
-			columns = introspectedTable.getNonPrimaryKeyColumns();
-		}
-		else {
-			columns = introspectedTable.getBaseColumns();
-		}
+        List<IntrospectedColumn> columns;
+        if (isSimple) {
+            columns = introspectedTable.getNonPrimaryKeyColumns();
+        }
+        else {
+            columns = introspectedTable.getBaseColumns();
+        }
 
-		buildResultMapItems(ResultElementType.RESULT, columns).forEach(answer::addElement);
-	}
+        buildResultMapItems(ResultElementType.RESULT, columns).forEach(answer::addElement);
+    }
 
-	private void addResultMapConstructorElements(XmlElement answer) {
-		answer.addElement(buildConstructorElement(isSimple));
-	}
+    private void addResultMapConstructorElements(XmlElement answer) {
+        answer.addElement(buildConstructorElement(isSimple));
+    }
 
 }

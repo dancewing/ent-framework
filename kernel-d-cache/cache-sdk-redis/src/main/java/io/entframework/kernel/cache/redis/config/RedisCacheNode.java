@@ -14,10 +14,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class RedisCacheNode extends RedisCacheProperties {
 
-	private String alias;
+    private String alias;
 
-	private String prefix;
+    private String prefix;
 
-	private Boolean isHash;
+    private Boolean isHash;
 
 }

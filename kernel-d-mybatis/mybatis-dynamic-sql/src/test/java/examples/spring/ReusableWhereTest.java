@@ -38,58 +38,58 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 class ReusableWhereTest {
 
-	@Autowired
-	private NamedParameterJdbcTemplateExtensions template;
+    @Autowired
+    private NamedParameterJdbcTemplateExtensions template;
 
-	@Test
-	void testCount() {
-		Buildable<SelectModel> countStatement = countFrom(person).applyWhere(commonWhere);
+    @Test
+    void testCount() {
+        Buildable<SelectModel> countStatement = countFrom(person).applyWhere(commonWhere);
 
-		long rows = template.count(countStatement);
-		assertThat(rows).isEqualTo(3);
-	}
+        long rows = template.count(countStatement);
+        assertThat(rows).isEqualTo(3);
+    }
 
-	@Test
-	void testDelete() {
-		Buildable<DeleteModel> deleteStatement = deleteFrom(person).applyWhere(commonWhere);
+    @Test
+    void testDelete() {
+        Buildable<DeleteModel> deleteStatement = deleteFrom(person).applyWhere(commonWhere);
 
-		long rows = template.delete(deleteStatement);
+        long rows = template.delete(deleteStatement);
 
-		assertThat(rows).isEqualTo(3);
-	}
+        assertThat(rows).isEqualTo(3);
+    }
 
-	@Test
-	void testSelect() {
-		Buildable<SelectModel> selectStatement = select(person.allColumns()).from(person).applyWhere(commonWhere);
+    @Test
+    void testSelect() {
+        Buildable<SelectModel> selectStatement = select(person.allColumns()).from(person).applyWhere(commonWhere);
 
-		List<PersonRecord> rows = template.selectList(selectStatement, PersonTemplateTest.personRowMapper);
+        List<PersonRecord> rows = template.selectList(selectStatement, PersonTemplateTest.personRowMapper);
 
-		assertThat(rows).hasSize(3);
-	}
+        assertThat(rows).hasSize(3);
+    }
 
-	@Test
-	void testUpdate() {
-		Buildable<UpdateModel> updateStatement = update(person).set(occupation).equalToStringConstant("worker")
-				.applyWhere(commonWhere);
+    @Test
+    void testUpdate() {
+        Buildable<UpdateModel> updateStatement = update(person).set(occupation).equalToStringConstant("worker")
+                .applyWhere(commonWhere);
 
-		int rows = template.update(updateStatement);
+        int rows = template.update(updateStatement);
 
-		assertThat(rows).isEqualTo(3);
-	}
+        assertThat(rows).isEqualTo(3);
+    }
 
-	@Test
-	void testComposition() {
-		WhereApplier whereApplier = commonWhere.andThen(wa -> wa.and(birthDate, isNotNull()));
-		whereApplier = whereApplier.andThen(wa -> wa.or(addressId, isLessThan(3)));
+    @Test
+    void testComposition() {
+        WhereApplier whereApplier = commonWhere.andThen(wa -> wa.and(birthDate, isNotNull()));
+        whereApplier = whereApplier.andThen(wa -> wa.or(addressId, isLessThan(3)));
 
-		SelectStatementProvider selectStatement = select(person.allColumns()).from(person).applyWhere(whereApplier)
-				.build().render(RenderingStrategies.SPRING_NAMED_PARAMETER);
+        SelectStatementProvider selectStatement = select(person.allColumns()).from(person).applyWhere(whereApplier)
+                .build().render(RenderingStrategies.SPRING_NAMED_PARAMETER);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo("select * from Person "
-				+ "where id = :p1 or occupation is null and birth_date is not null or address_id < :p2");
+        assertThat(selectStatement.getSelectStatement()).isEqualTo("select * from Person "
+                + "where id = :p1 or occupation is null and birth_date is not null or address_id < :p2");
 
-	}
+    }
 
-	private final WhereApplier commonWhere = d -> d.where(id, isEqualTo(1)).or(occupation, isNull());
+    private final WhereApplier commonWhere = d -> d.where(id, isEqualTo(1)).or(occupation, isNull());
 
 }

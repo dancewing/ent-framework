@@ -28,76 +28,76 @@ import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 
 public class InsertMethodGenerator extends AbstractMethodGenerator {
 
-	private final FullyQualifiedJavaType recordType;
+    private final FullyQualifiedJavaType recordType;
 
-	private InsertMethodGenerator(Builder builder) {
-		super(builder);
-		recordType = builder.recordType;
-	}
+    private InsertMethodGenerator(Builder builder) {
+        super(builder);
+        recordType = builder.recordType;
+    }
 
-	@Override
-	public MethodAndImports generateMethodAndImports() {
-		Set<FullyQualifiedJavaType> imports = new HashSet<>();
+    @Override
+    public MethodAndImports generateMethodAndImports() {
+        Set<FullyQualifiedJavaType> imports = new HashSet<>();
 
-		imports.add(new FullyQualifiedJavaType("org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils")); //$NON-NLS-1$
-		imports.add(recordType);
+        imports.add(new FullyQualifiedJavaType("org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils")); //$NON-NLS-1$
+        imports.add(recordType);
 
-		Method method = new Method("insert"); //$NON-NLS-1$
-		method.setDefault(true);
-		context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
-		method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-		method.addParameter(new Parameter(recordType, "row")); //$NON-NLS-1$
+        Method method = new Method("insert"); //$NON-NLS-1$
+        method.setDefault(true);
+        context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
+        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+        method.addParameter(new Parameter(recordType, "row")); //$NON-NLS-1$
 
-		method.addBodyLine("return MyBatis3Utils.insert(this::insert, row, " + tableFieldName //$NON-NLS-1$
-				+ ", c ->"); //$NON-NLS-1$
+        method.addBodyLine("return MyBatis3Utils.insert(this::insert, row, " + tableFieldName //$NON-NLS-1$
+                + ", c ->"); //$NON-NLS-1$
 
-		List<IntrospectedColumn> columns = ListUtilities
-				.removeIdentityAndGeneratedAlwaysColumns(introspectedTable.getAllColumns());
-		boolean first = true;
-		for (IntrospectedColumn column : columns) {
-			String fieldName = calculateFieldName(column);
+        List<IntrospectedColumn> columns = ListUtilities
+                .removeIdentityAndGeneratedAlwaysColumns(introspectedTable.getAllColumns());
+        boolean first = true;
+        for (IntrospectedColumn column : columns) {
+            String fieldName = calculateFieldName(column);
 
-			if (first) {
-				method.addBodyLine("    c.map(" + fieldName //$NON-NLS-1$
-						+ ").toProperty(\"" + column.getJavaProperty() //$NON-NLS-1$
-						+ "\")"); //$NON-NLS-1$
-				first = false;
-			}
-			else {
-				method.addBodyLine("    .map(" + fieldName //$NON-NLS-1$
-						+ ").toProperty(\"" + column.getJavaProperty() //$NON-NLS-1$
-						+ "\")"); //$NON-NLS-1$
-			}
-		}
+            if (first) {
+                method.addBodyLine("    c.map(" + fieldName //$NON-NLS-1$
+                        + ").toProperty(\"" + column.getJavaProperty() //$NON-NLS-1$
+                        + "\")"); //$NON-NLS-1$
+                first = false;
+            }
+            else {
+                method.addBodyLine("    .map(" + fieldName //$NON-NLS-1$
+                        + ").toProperty(\"" + column.getJavaProperty() //$NON-NLS-1$
+                        + "\")"); //$NON-NLS-1$
+            }
+        }
 
-		method.addBodyLine(");"); //$NON-NLS-1$
+        method.addBodyLine(");"); //$NON-NLS-1$
 
-		return MethodAndImports.withMethod(method).withImports(imports).build();
-	}
+        return MethodAndImports.withMethod(method).withImports(imports).build();
+    }
 
-	@Override
-	public boolean callPlugins(Method method, Interface interfaze) {
-		return context.getPlugins().clientInsertMethodGenerated(method, interfaze, introspectedTable);
-	}
+    @Override
+    public boolean callPlugins(Method method, Interface interfaze) {
+        return context.getPlugins().clientInsertMethodGenerated(method, interfaze, introspectedTable);
+    }
 
-	public static class Builder extends BaseBuilder<Builder> {
+    public static class Builder extends BaseBuilder<Builder> {
 
-		private FullyQualifiedJavaType recordType;
+        private FullyQualifiedJavaType recordType;
 
-		public Builder withRecordType(FullyQualifiedJavaType recordType) {
-			this.recordType = recordType;
-			return this;
-		}
+        public Builder withRecordType(FullyQualifiedJavaType recordType) {
+            this.recordType = recordType;
+            return this;
+        }
 
-		@Override
-		public Builder getThis() {
-			return this;
-		}
+        @Override
+        public Builder getThis() {
+            return this;
+        }
 
-		public InsertMethodGenerator build() {
-			return new InsertMethodGenerator(this);
-		}
+        public InsertMethodGenerator build() {
+            return new InsertMethodGenerator(this);
+        }
 
-	}
+    }
 
 }

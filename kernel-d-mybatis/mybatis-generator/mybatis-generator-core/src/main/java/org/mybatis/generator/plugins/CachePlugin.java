@@ -47,67 +47,67 @@ import org.mybatis.generator.internal.util.StringUtility;
  */
 public class CachePlugin extends PluginAdapter {
 
-	public enum CacheProperty {
+    public enum CacheProperty {
 
-		EVICTION("cache_eviction", "eviction"), //$NON-NLS-1$ //$NON-NLS-2$
-		FLUSH_INTERVAL("cache_flushInterval", "flushInterval"), //$NON-NLS-1$ //$NON-NLS-2$
-		READ_ONLY("cache_readOnly", "readOnly"), //$NON-NLS-1$ //$NON-NLS-2$
-		SIZE("cache_size", "size"), //$NON-NLS-1$ //$NON-NLS-2$
-		TYPE("cache_type", "type"); //$NON-NLS-1$ //$NON-NLS-2$
+        EVICTION("cache_eviction", "eviction"), //$NON-NLS-1$ //$NON-NLS-2$
+        FLUSH_INTERVAL("cache_flushInterval", "flushInterval"), //$NON-NLS-1$ //$NON-NLS-2$
+        READ_ONLY("cache_readOnly", "readOnly"), //$NON-NLS-1$ //$NON-NLS-2$
+        SIZE("cache_size", "size"), //$NON-NLS-1$ //$NON-NLS-2$
+        TYPE("cache_type", "type"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		private final String propertyName;
+        private final String propertyName;
 
-		private final String attributeName;
+        private final String attributeName;
 
-		CacheProperty(String propertyName, String attributeName) {
-			this.propertyName = propertyName;
-			this.attributeName = attributeName;
-		}
+        CacheProperty(String propertyName, String attributeName) {
+            this.propertyName = propertyName;
+            this.attributeName = attributeName;
+        }
 
-		public String getPropertyName() {
-			return propertyName;
-		}
+        public String getPropertyName() {
+            return propertyName;
+        }
 
-		public String getAttributeName() {
-			return attributeName;
-		}
+        public String getAttributeName() {
+            return attributeName;
+        }
 
-	}
+    }
 
-	public CachePlugin() {
-		super();
-	}
+    public CachePlugin() {
+        super();
+    }
 
-	@Override
-	public boolean validate(List<String> warnings) {
-		return true;
-	}
+    @Override
+    public boolean validate(List<String> warnings) {
+        return true;
+    }
 
-	@Override
-	public boolean sqlMapDocumentGenerated(Document document, IntrospectedTable introspectedTable) {
+    @Override
+    public boolean sqlMapDocumentGenerated(Document document, IntrospectedTable introspectedTable) {
 
-		XmlElement element = new XmlElement("cache"); //$NON-NLS-1$
-		context.getCommentGenerator().addComment(element);
+        XmlElement element = new XmlElement("cache"); //$NON-NLS-1$
+        context.getCommentGenerator().addComment(element);
 
-		for (CacheProperty cacheProperty : CacheProperty.values()) {
-			addAttributeIfExists(element, introspectedTable, cacheProperty);
-		}
+        for (CacheProperty cacheProperty : CacheProperty.values()) {
+            addAttributeIfExists(element, introspectedTable, cacheProperty);
+        }
 
-		document.getRootElement().addElement(element);
+        document.getRootElement().addElement(element);
 
-		return true;
-	}
+        return true;
+    }
 
-	private void addAttributeIfExists(XmlElement element, IntrospectedTable introspectedTable,
-			CacheProperty cacheProperty) {
-		String property = introspectedTable.getTableConfigurationProperty(cacheProperty.getPropertyName());
-		if (property == null) {
-			property = properties.getProperty(cacheProperty.getPropertyName());
-		}
+    private void addAttributeIfExists(XmlElement element, IntrospectedTable introspectedTable,
+            CacheProperty cacheProperty) {
+        String property = introspectedTable.getTableConfigurationProperty(cacheProperty.getPropertyName());
+        if (property == null) {
+            property = properties.getProperty(cacheProperty.getPropertyName());
+        }
 
-		if (StringUtility.stringHasValue(property)) {
-			element.addAttribute(new Attribute(cacheProperty.getAttributeName(), property));
-		}
-	}
+        if (StringUtility.stringHasValue(property)) {
+            element.addAttribute(new Attribute(cacheProperty.getAttributeName(), property));
+        }
+    }
 
 }

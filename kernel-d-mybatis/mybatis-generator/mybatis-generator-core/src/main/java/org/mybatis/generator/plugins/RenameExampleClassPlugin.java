@@ -54,44 +54,44 @@ import org.mybatis.generator.api.PluginAdapter;
  */
 public class RenameExampleClassPlugin extends PluginAdapter {
 
-	private String replaceString;
+    private String replaceString;
 
-	private Pattern pattern;
+    private Pattern pattern;
 
-	@Override
-	public boolean validate(List<String> warnings) {
+    @Override
+    public boolean validate(List<String> warnings) {
 
-		String searchString = properties.getProperty("searchString"); //$NON-NLS-1$
-		replaceString = properties.getProperty("replaceString"); //$NON-NLS-1$
+        String searchString = properties.getProperty("searchString"); //$NON-NLS-1$
+        replaceString = properties.getProperty("replaceString"); //$NON-NLS-1$
 
-		boolean valid = stringHasValue(searchString) && stringHasValue(replaceString);
+        boolean valid = stringHasValue(searchString) && stringHasValue(replaceString);
 
-		if (valid) {
-			pattern = Pattern.compile(searchString);
-		}
-		else {
-			if (!stringHasValue(searchString)) {
-				warnings.add(getString("ValidationError.18", //$NON-NLS-1$
-						"RenameExampleClassPlugin", //$NON-NLS-1$
-						"searchString")); //$NON-NLS-1$
-			}
-			if (!stringHasValue(replaceString)) {
-				warnings.add(getString("ValidationError.18", //$NON-NLS-1$
-						"RenameExampleClassPlugin", //$NON-NLS-1$
-						"replaceString")); //$NON-NLS-1$
-			}
-		}
+        if (valid) {
+            pattern = Pattern.compile(searchString);
+        }
+        else {
+            if (!stringHasValue(searchString)) {
+                warnings.add(getString("ValidationError.18", //$NON-NLS-1$
+                        "RenameExampleClassPlugin", //$NON-NLS-1$
+                        "searchString")); //$NON-NLS-1$
+            }
+            if (!stringHasValue(replaceString)) {
+                warnings.add(getString("ValidationError.18", //$NON-NLS-1$
+                        "RenameExampleClassPlugin", //$NON-NLS-1$
+                        "replaceString")); //$NON-NLS-1$
+            }
+        }
 
-		return valid;
-	}
+        return valid;
+    }
 
-	@Override
-	public void initialized(IntrospectedTable introspectedTable) {
-		String oldType = introspectedTable.getExampleType();
-		Matcher matcher = pattern.matcher(oldType);
-		oldType = matcher.replaceAll(replaceString);
+    @Override
+    public void initialized(IntrospectedTable introspectedTable) {
+        String oldType = introspectedTable.getExampleType();
+        Matcher matcher = pattern.matcher(oldType);
+        oldType = matcher.replaceAll(replaceString);
 
-		introspectedTable.setExampleType(oldType);
-	}
+        introspectedTable.setExampleType(oldType);
+    }
 
 }

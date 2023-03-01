@@ -23,9 +23,9 @@ import java.util.Map;
 @Document(collection = "guns_map")
 public class KernelMapEntity {
 
-	@Id
-	private String _id;
+    @Id
+    private String _id;
 
-	private Map<String, Object> data = new HashMap<>();
+    private Map<String, Object> data = new HashMap<>();
 
 }

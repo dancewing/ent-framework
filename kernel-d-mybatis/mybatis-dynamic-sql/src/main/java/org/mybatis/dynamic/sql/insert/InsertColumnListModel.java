@@ -27,23 +27,23 @@ import org.mybatis.dynamic.sql.util.Messages;
 
 public class InsertColumnListModel {
 
-	private final List<SqlColumn<?>> columns = new ArrayList<>();
+    private final List<SqlColumn<?>> columns = new ArrayList<>();
 
-	private InsertColumnListModel(List<SqlColumn<?>> columns) {
-		Objects.requireNonNull(columns);
-		if (columns.isEmpty()) {
-			throw new InvalidSqlException(Messages.getString("ERROR.4")); //$NON-NLS-1$
-		}
+    private InsertColumnListModel(List<SqlColumn<?>> columns) {
+        Objects.requireNonNull(columns);
+        if (columns.isEmpty()) {
+            throw new InvalidSqlException(Messages.getString("ERROR.4")); //$NON-NLS-1$
+        }
 
-		this.columns.addAll(columns);
-	}
+        this.columns.addAll(columns);
+    }
 
-	public <R> Stream<R> mapColumns(Function<SqlColumn<?>, R> mapper) {
-		return columns.stream().map(mapper);
-	}
+    public <R> Stream<R> mapColumns(Function<SqlColumn<?>, R> mapper) {
+        return columns.stream().map(mapper);
+    }
 
-	public static InsertColumnListModel of(List<SqlColumn<?>> columns) {
-		return new InsertColumnListModel(columns);
-	}
+    public static InsertColumnListModel of(List<SqlColumn<?>> columns) {
+        return new InsertColumnListModel(columns);
+    }
 
 }

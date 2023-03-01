@@ -23,21 +23,21 @@ import java.util.Map;
  */
 public class ErrorStaticJsonView implements View {
 
-	@Override
-	public void render(Map<String, ?> model, @NotNull HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		if (response.isCommitted()) {
-			// response已经提交不能响应
-			return;
-		}
+    @Override
+    public void render(Map<String, ?> model, @NotNull HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        if (response.isCommitted()) {
+            // response已经提交不能响应
+            return;
+        }
 
-		ErrorResponseData errorResponseData = new ErrorResponseData("404", "请求资源不存在");
-		ResponseRenderUtil.renderJsonResponse(404, response, errorResponseData);
-	}
+        ErrorResponseData errorResponseData = new ErrorResponseData("404", "请求资源不存在");
+        ResponseRenderUtil.renderJsonResponse(404, response, errorResponseData);
+    }
 
-	@Override
-	public String getContentType() {
-		return "text/html";
-	}
+    @Override
+    public String getContentType() {
+        return "text/html";
+    }
 
 }

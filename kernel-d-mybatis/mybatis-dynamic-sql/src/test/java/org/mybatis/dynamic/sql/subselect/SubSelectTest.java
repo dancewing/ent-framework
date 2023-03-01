@@ -28,42 +28,42 @@ import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 
 class SubSelectTest {
 
-	@Test
-	void testInSubSelect() {
-		Date d = new Date();
+    @Test
+    void testInSubSelect() {
+        Date d = new Date();
 
-		Foo foo2 = new Foo();
+        Foo foo2 = new Foo();
 
-		SelectStatementProvider selectStatement = select(column1.as("A_COLUMN1"), column2).from(foo, "a")
-				.where(column2, isIn(select(foo2.column2).from(foo2).where(foo2.column2, isEqualTo(3))))
-				.and(column1, isLessThan(d)).build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = select(column1.as("A_COLUMN1"), column2).from(foo, "a")
+                .where(column2, isIn(select(foo2.column2).from(foo2).where(foo2.column2, isEqualTo(3))))
+                .and(column1, isLessThan(d)).build().render(RenderingStrategies.MYBATIS3);
 
-		String expectedFullStatement = "select a.column1 as A_COLUMN1, a.column2 " + "from foo a "
-				+ "where a.column2 in (select column2 from foo where column2 = #{parameters.p1,jdbcType=INTEGER}) "
-				+ "and a.column1 < #{parameters.p2,jdbcType=DATE}";
+        String expectedFullStatement = "select a.column1 as A_COLUMN1, a.column2 " + "from foo a "
+                + "where a.column2 in (select column2 from foo where column2 = #{parameters.p1,jdbcType=INTEGER}) "
+                + "and a.column1 < #{parameters.p2,jdbcType=DATE}";
 
-		assertAll(() -> assertThat(selectStatement.getSelectStatement()).isEqualTo(expectedFullStatement),
-				() -> assertThat(selectStatement.getParameters()).containsEntry("p1", 3),
-				() -> assertThat(selectStatement.getParameters()).containsEntry("p2", d));
-	}
+        assertAll(() -> assertThat(selectStatement.getSelectStatement()).isEqualTo(expectedFullStatement),
+                () -> assertThat(selectStatement.getParameters()).containsEntry("p1", 3),
+                () -> assertThat(selectStatement.getParameters()).containsEntry("p2", d));
+    }
 
-	@Test
-	void testNotInSubSelect() {
-		Date d = new Date();
+    @Test
+    void testNotInSubSelect() {
+        Date d = new Date();
 
-		Foo foo2 = new Foo();
+        Foo foo2 = new Foo();
 
-		SelectStatementProvider selectStatement = select(column1.as("A_COLUMN1"), column2).from(foo, "a")
-				.where(column2, isNotIn(select(foo2.column2).from(foo2).where(foo2.column2, isEqualTo(3))))
-				.and(column1, isLessThan(d)).build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = select(column1.as("A_COLUMN1"), column2).from(foo, "a")
+                .where(column2, isNotIn(select(foo2.column2).from(foo2).where(foo2.column2, isEqualTo(3))))
+                .and(column1, isLessThan(d)).build().render(RenderingStrategies.MYBATIS3);
 
-		String expectedFullStatement = "select a.column1 as A_COLUMN1, a.column2 " + "from foo a "
-				+ "where a.column2 not in (select column2 from foo where column2 = #{parameters.p1,jdbcType=INTEGER})"
-				+ " and a.column1 < #{parameters.p2,jdbcType=DATE}";
+        String expectedFullStatement = "select a.column1 as A_COLUMN1, a.column2 " + "from foo a "
+                + "where a.column2 not in (select column2 from foo where column2 = #{parameters.p1,jdbcType=INTEGER})"
+                + " and a.column1 < #{parameters.p2,jdbcType=DATE}";
 
-		assertAll(() -> assertThat(selectStatement.getSelectStatement()).isEqualTo(expectedFullStatement),
-				() -> assertThat(selectStatement.getParameters()).containsEntry("p1", 3),
-				() -> assertThat(selectStatement.getParameters()).containsEntry("p2", d));
-	}
+        assertAll(() -> assertThat(selectStatement.getSelectStatement()).isEqualTo(expectedFullStatement),
+                () -> assertThat(selectStatement.getParameters()).containsEntry("p1", 3),
+                () -> assertThat(selectStatement.getParameters()).containsEntry("p2", d));
+    }
 
 }

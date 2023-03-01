@@ -27,83 +27,83 @@ import java.util.stream.Collectors;
 
 public class MethodRenderer {
 
-	private final TypeParameterRenderer typeParameterRenderer = new TypeParameterRenderer();
+    private final TypeParameterRenderer typeParameterRenderer = new TypeParameterRenderer();
 
-	private final ParameterRenderer parameterRenderer = new ParameterRenderer();
+    private final ParameterRenderer parameterRenderer = new ParameterRenderer();
 
-	private final BodyLineRenderer bodyLineRenderer = new BodyLineRenderer();
+    private final BodyLineRenderer bodyLineRenderer = new BodyLineRenderer();
 
-	public List<String> render(Method method, boolean inInterface, CompilationUnit compilationUnit) {
-		List<String> lines = new ArrayList<>();
+    public List<String> render(Method method, boolean inInterface, CompilationUnit compilationUnit) {
+        List<String> lines = new ArrayList<>();
 
-		lines.addAll(method.getJavaDocLines());
-		lines.addAll(method.getAnnotations());
-		lines.add(getFirstLine(method, inInterface, compilationUnit));
+        lines.addAll(method.getJavaDocLines());
+        lines.addAll(method.getAnnotations());
+        lines.add(getFirstLine(method, inInterface, compilationUnit));
 
-		if (!method.isAbstract() && !method.isNative()) {
-			lines.addAll(bodyLineRenderer.render(method.getBodyLines()));
-		}
-		if (method.getBodyLines().size() > 1) {
-			lines.add("}"); //$NON-NLS-1$
-		}
+        if (!method.isAbstract() && !method.isNative()) {
+            lines.addAll(bodyLineRenderer.render(method.getBodyLines()));
+        }
+        if (method.getBodyLines().size() > 1) {
+            lines.add("}"); //$NON-NLS-1$
+        }
 
-		return lines;
-	}
+        return lines;
+    }
 
-	private String getFirstLine(Method method, boolean inInterface, CompilationUnit compilationUnit) {
-		StringBuilder sb = new StringBuilder();
+    private String getFirstLine(Method method, boolean inInterface, CompilationUnit compilationUnit) {
+        StringBuilder sb = new StringBuilder();
 
-		sb.append(renderVisibility(method, inInterface));
+        sb.append(renderVisibility(method, inInterface));
 
-		sb.append("const ");
-		sb.append(method.getName());
-		sb.append(" = ");
+        sb.append("const ");
+        sb.append(method.getName());
+        sb.append(" = ");
 
-		// sb.append(renderTypeParameters(method, compilationUnit));
+        // sb.append(renderTypeParameters(method, compilationUnit));
 
-		// if (!method.isConstructor()) {
-		// sb.append(method.getReturnType()
-		// .map(t -> JavaDomUtils.calculateTypeName(compilationUnit, t))
-		// .orElse("void")); //$NON-NLS-1$
-		//
-		// sb.append(' ');
-		// }
+        // if (!method.isConstructor()) {
+        // sb.append(method.getReturnType()
+        // .map(t -> JavaDomUtils.calculateTypeName(compilationUnit, t))
+        // .orElse("void")); //$NON-NLS-1$
+        //
+        // sb.append(' ');
+        // }
 
-		sb.append(renderParameters(method, compilationUnit));
+        sb.append(renderParameters(method, compilationUnit));
 
-		sb.append(" =>");
-		if (method.getBodyLines().size() > 1) {
-			sb.append(" {"); //$NON-NLS-1$
-		}
-		return sb.toString();
+        sb.append(" =>");
+        if (method.getBodyLines().size() > 1) {
+            sb.append(" {"); //$NON-NLS-1$
+        }
+        return sb.toString();
 
-	}
+    }
 
-	private String renderVisibility(Method method, boolean inInterface) {
-		if (inInterface && method.getVisibility() == JavaVisibility.PUBLIC) {
-			return ""; //$NON-NLS-1$
-		}
-		if (method.getVisibility() == JavaVisibility.PUBLIC) {
-			return "export ";
-		}
-		return "";
-	}
+    private String renderVisibility(Method method, boolean inInterface) {
+        if (inInterface && method.getVisibility() == JavaVisibility.PUBLIC) {
+            return ""; //$NON-NLS-1$
+        }
+        if (method.getVisibility() == JavaVisibility.PUBLIC) {
+            return "export ";
+        }
+        return "";
+    }
 
-	// should return an empty string if no type parameters
-	private String renderTypeParameters(Method method, CompilationUnit compilationUnit) {
-		return method.getTypeParameters().stream().map(tp -> typeParameterRenderer.render(tp, compilationUnit))
-				.collect(CustomCollectors.joining(", ", "<", "> ")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	}
+    // should return an empty string if no type parameters
+    private String renderTypeParameters(Method method, CompilationUnit compilationUnit) {
+        return method.getTypeParameters().stream().map(tp -> typeParameterRenderer.render(tp, compilationUnit))
+                .collect(CustomCollectors.joining(", ", "<", "> ")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    }
 
-	private String renderParameters(Method method, CompilationUnit compilationUnit) {
-		return method.getParameters().stream().map(p -> parameterRenderer.render(p, compilationUnit))
-				.collect(Collectors.joining(", ", "(", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	}
+    private String renderParameters(Method method, CompilationUnit compilationUnit) {
+        return method.getParameters().stream().map(p -> parameterRenderer.render(p, compilationUnit))
+                .collect(Collectors.joining(", ", "(", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    }
 
-	// should return an empty string if no exceptions
-	private String renderExceptions(Method method, CompilationUnit compilationUnit) {
-		return method.getExceptions().stream().map(jt -> JavaDomUtils.calculateTypeName(compilationUnit, jt))
-				.collect(CustomCollectors.joining(", ", " throws ", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	}
+    // should return an empty string if no exceptions
+    private String renderExceptions(Method method, CompilationUnit compilationUnit) {
+        return method.getExceptions().stream().map(jt -> JavaDomUtils.calculateTypeName(compilationUnit, jt))
+                .collect(CustomCollectors.joining(", ", " throws ", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    }
 
 }

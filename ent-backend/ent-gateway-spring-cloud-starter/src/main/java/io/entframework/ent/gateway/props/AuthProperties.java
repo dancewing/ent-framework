@@ -17,9 +17,9 @@ import java.util.List;
 @ConfigurationProperties("kernel.gateway.auth")
 public class AuthProperties {
 
-	/**
-	 * 放行API集合
-	 */
-	private final List<String> skipUrl = new ArrayList<>();
+    /**
+     * 放行API集合
+     */
+    private final List<String> skipUrl = new ArrayList<>();
 
 }

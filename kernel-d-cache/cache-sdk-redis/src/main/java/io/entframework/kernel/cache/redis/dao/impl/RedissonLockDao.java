@@ -22,23 +22,23 @@ import org.redisson.api.RedissonClient;
  */
 public class RedissonLockDao extends BaseRedissonDao implements RedisLockDao {
 
-	public RedissonLockDao(RedissonClient redissonClient) {
-		super(redissonClient);
-	}
+    public RedissonLockDao(RedissonClient redissonClient) {
+        super(redissonClient);
+    }
 
-	@Override
-	public DistributedLock getLock(String key) {
-		return new RedissonLock(redissonClient.getLock(key));
-	}
+    @Override
+    public DistributedLock getLock(String key) {
+        return new RedissonLock(redissonClient.getLock(key));
+    }
 
-	@Override
-	public DistributedReadWriteLock getReadWriteLock(String key) {
-		return new RedissonReadWriteLock(redissonClient.getReadWriteLock(key));
-	}
+    @Override
+    public DistributedReadWriteLock getReadWriteLock(String key) {
+        return new RedissonReadWriteLock(redissonClient.getReadWriteLock(key));
+    }
 
-	@Override
-	public DistributedCountDownLatch getCountDownLatch(String key) {
-		return new RedissonCountDownLatch(redissonClient.getCountDownLatch(key));
-	}
+    @Override
+    public DistributedCountDownLatch getCountDownLatch(String key) {
+        return new RedissonCountDownLatch(redissonClient.getCountDownLatch(key));
+    }
 
 }

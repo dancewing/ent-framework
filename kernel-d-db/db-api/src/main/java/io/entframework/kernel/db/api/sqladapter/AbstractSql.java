@@ -18,73 +18,73 @@ import static java.util.regex.Pattern.compile;
  */
 public abstract class AbstractSql {
 
-	/**
-	 * 根据jdbcUrl 判断数据库类型
-	 * @param jdbcUrl
-	 * @return
-	 */
-	public static String getDatabaseType(String jdbcUrl) {
-		String dataSourceType = null;
-		jdbcUrl = jdbcUrl.replace("\n", "").replace(" ", "").trim();
-		Matcher matcher = compile("jdbc:\\w+").matcher(jdbcUrl);
-		if (matcher.find()) {
-			dataSourceType = matcher.group().split(":")[1];
-		}
-		return dataSourceType;
-	}
+    /**
+     * 根据jdbcUrl 判断数据库类型
+     * @param jdbcUrl
+     * @return
+     */
+    public static String getDatabaseType(String jdbcUrl) {
+        String dataSourceType = null;
+        jdbcUrl = jdbcUrl.replace("\n", "").replace(" ", "").trim();
+        Matcher matcher = compile("jdbc:\\w+").matcher(jdbcUrl);
+        if (matcher.find()) {
+            dataSourceType = matcher.group().split(":")[1];
+        }
+        return dataSourceType;
+    }
 
-	/**
-	 * 获取异构sql
-	 * @param jdbcUrl 数据连接的url
-	 * @return 具体的sql
-	 * @date 2020/10/31 23:44
-	 */
-	public String getSql(String jdbcUrl) {
-		String databaseType = getDatabaseType(jdbcUrl);
-		if (databaseType == null) {
-			throw new DaoException(DatabaseExceptionEnum.DATABASE_TYPE_ERROR);
-		}
-		if (databaseType.contains(DbTypeEnum.ORACLE.getUrlWords())) {
-			return oracle();
-		}
-		if (databaseType.contains(DbTypeEnum.DM.getUrlWords())) {
-			return oracle();
-		}
-		if (databaseType.contains(DbTypeEnum.MS_SQL.getUrlWords())) {
-			return sqlServer();
-		}
-		if (databaseType.contains(DbTypeEnum.PG_SQL.getUrlWords())) {
-			return pgSql();
-		}
-		return mysql();
-	}
+    /**
+     * 获取异构sql
+     * @param jdbcUrl 数据连接的url
+     * @return 具体的sql
+     * @date 2020/10/31 23:44
+     */
+    public String getSql(String jdbcUrl) {
+        String databaseType = getDatabaseType(jdbcUrl);
+        if (databaseType == null) {
+            throw new DaoException(DatabaseExceptionEnum.DATABASE_TYPE_ERROR);
+        }
+        if (databaseType.contains(DbTypeEnum.ORACLE.getUrlWords())) {
+            return oracle();
+        }
+        if (databaseType.contains(DbTypeEnum.DM.getUrlWords())) {
+            return oracle();
+        }
+        if (databaseType.contains(DbTypeEnum.MS_SQL.getUrlWords())) {
+            return sqlServer();
+        }
+        if (databaseType.contains(DbTypeEnum.PG_SQL.getUrlWords())) {
+            return pgSql();
+        }
+        return mysql();
+    }
 
-	/**
-	 * 获取mysql的sql语句
-	 * @return 具体的sql
-	 * @date 2020/10/31 23:45
-	 */
-	protected abstract String mysql();
+    /**
+     * 获取mysql的sql语句
+     * @return 具体的sql
+     * @date 2020/10/31 23:45
+     */
+    protected abstract String mysql();
 
-	/**
-	 * 获取sqlServer的sql语句
-	 * @return 具体的sql
-	 * @date 2020/10/31 23:45
-	 */
-	protected abstract String sqlServer();
+    /**
+     * 获取sqlServer的sql语句
+     * @return 具体的sql
+     * @date 2020/10/31 23:45
+     */
+    protected abstract String sqlServer();
 
-	/**
-	 * 获取pgSql的sql语句
-	 * @return 具体的sql
-	 * @date 2020/10/31 23:45
-	 */
-	protected abstract String pgSql();
+    /**
+     * 获取pgSql的sql语句
+     * @return 具体的sql
+     * @date 2020/10/31 23:45
+     */
+    protected abstract String pgSql();
 
-	/**
-	 * 获取oracle的sql语句
-	 * @return 具体的sql
-	 * @date 2020/10/31 23:45
-	 */
-	protected abstract String oracle();
+    /**
+     * 获取oracle的sql语句
+     * @return 具体的sql
+     * @date 2020/10/31 23:45
+     */
+    protected abstract String oracle();
 
 }

@@ -33,110 +33,110 @@ import java.sql.Statement;
  */
 public class SqlScriptRunner {
 
-	private final String driver;
+    private final String driver;
 
-	private final String url;
+    private final String url;
 
-	private final String userid;
+    private final String userid;
 
-	private final String password;
+    private final String password;
 
-	private final InputStream sourceFile;
+    private final InputStream sourceFile;
 
-	public SqlScriptRunner(InputStream sourceFile, String driver, String url, String userId, String password)
-			throws Exception {
+    public SqlScriptRunner(InputStream sourceFile, String driver, String url, String userId, String password)
+            throws Exception {
 
-		if (!stringHasValue(driver)) {
-			throw new Exception("JDBC Driver is required");
-		}
+        if (!stringHasValue(driver)) {
+            throw new Exception("JDBC Driver is required");
+        }
 
-		if (!stringHasValue(url)) {
-			throw new Exception("JDBC URL is required");
-		}
+        if (!stringHasValue(url)) {
+            throw new Exception("JDBC URL is required");
+        }
 
-		this.sourceFile = sourceFile;
-		this.driver = driver;
-		this.url = url;
-		this.userid = userId;
-		this.password = password;
-	}
+        this.sourceFile = sourceFile;
+        this.driver = driver;
+        this.url = url;
+        this.userid = userId;
+        this.password = password;
+    }
 
-	public void executeScript() throws Exception {
+    public void executeScript() throws Exception {
 
-		Connection connection = null;
+        Connection connection = null;
 
-		try {
-			Class.forName(driver);
-			connection = DriverManager.getConnection(url, userid, password);
+        try {
+            Class.forName(driver);
+            connection = DriverManager.getConnection(url, userid, password);
 
-			Statement statement = connection.createStatement();
+            Statement statement = connection.createStatement();
 
-			BufferedReader br = new BufferedReader(new InputStreamReader(sourceFile));
+            BufferedReader br = new BufferedReader(new InputStreamReader(sourceFile));
 
-			String sql;
+            String sql;
 
-			while ((sql = readStatement(br)) != null) {
-				statement.execute(sql);
-			}
+            while ((sql = readStatement(br)) != null) {
+                statement.execute(sql);
+            }
 
-			closeStatement(statement);
-			connection.commit();
-			br.close();
-		}
-		finally {
-			closeConnection(connection);
-		}
-	}
+            closeStatement(statement);
+            connection.commit();
+            br.close();
+        }
+        finally {
+            closeConnection(connection);
+        }
+    }
 
-	private void closeConnection(Connection connection) {
-		if (connection != null) {
-			try {
-				connection.close();
-			}
-			catch (SQLException e) {
-				// ignore
-			}
-		}
-	}
+    private void closeConnection(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            }
+            catch (SQLException e) {
+                // ignore
+            }
+        }
+    }
 
-	private void closeStatement(Statement statement) {
-		if (statement != null) {
-			try {
-				statement.close();
-			}
-			catch (SQLException e) {
-				// ignore
-			}
-		}
-	}
+    private void closeStatement(Statement statement) {
+        if (statement != null) {
+            try {
+                statement.close();
+            }
+            catch (SQLException e) {
+                // ignore
+            }
+        }
+    }
 
-	private String readStatement(BufferedReader br) throws IOException {
-		StringBuilder sb = new StringBuilder();
+    private String readStatement(BufferedReader br) throws IOException {
+        StringBuilder sb = new StringBuilder();
 
-		String line;
+        String line;
 
-		while ((line = br.readLine()) != null) {
-			if (line.startsWith("--")) { //$NON-NLS-1$
-				continue;
-			}
+        while ((line = br.readLine()) != null) {
+            if (line.startsWith("--")) { //$NON-NLS-1$
+                continue;
+            }
 
-			if (!stringHasValue(line)) {
-				continue;
-			}
+            if (!stringHasValue(line)) {
+                continue;
+            }
 
-			if (line.endsWith(";")) { //$NON-NLS-1$
-				sb.append(line, 0, line.length() - 1);
-				break;
-			}
-			else {
-				sb.append(' ');
-				sb.append(line);
-			}
-		}
+            if (line.endsWith(";")) { //$NON-NLS-1$
+                sb.append(line, 0, line.length() - 1);
+                break;
+            }
+            else {
+                sb.append(' ');
+                sb.append(line);
+            }
+        }
 
-		String s = sb.toString().trim();
+        String s = sb.toString().trim();
 
-		return s.length() > 0 ? s : null;
-	}
+        return s.length() > 0 ? s : null;
+    }
 
 }

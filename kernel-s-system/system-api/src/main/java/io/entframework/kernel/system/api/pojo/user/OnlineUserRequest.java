@@ -19,17 +19,17 @@ import jakarta.validation.constraints.NotBlank;
 @Data
 public class OnlineUserRequest {
 
-	/**
-	 * 用户的token
-	 */
-	@NotBlank(message = "参数token不能为空")
-	@ChineseDescription("用户的token")
-	private String token;
+    /**
+     * 用户的token
+     */
+    @NotBlank(message = "参数token不能为空")
+    @ChineseDescription("用户的token")
+    private String token;
 
-	/**
-	 * 用户账号
-	 */
-	@ChineseDescription("用户账号")
-	private String account;
+    /**
+     * 用户账号
+     */
+    @ChineseDescription("用户账号")
+    private String account;
 
 }

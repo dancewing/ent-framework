@@ -11,11 +11,11 @@ package io.entframework.kernel.rule.threadlocal;
  */
 public interface RemoveThreadLocalApi {
 
-	/**
-	 * 具体删除ThreadLocal的逻辑
-	 *
-	 * @date 2021/10/29 11:19
-	 */
-	void removeThreadLocalAction();
+    /**
+     * 具体删除ThreadLocal的逻辑
+     *
+     * @date 2021/10/29 11:19
+     */
+    void removeThreadLocalAction();
 
 }

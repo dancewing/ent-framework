@@ -16,25 +16,25 @@ import io.entframework.kernel.cache.api.lock.DistributedReadWriteLock;
  */
 public interface RedisLockDao extends RedisBaseDao {
 
-	/**
-	 * 返回锁对象
-	 * @param key redisKey值
-	 * @return 锁对象
-	 */
-	DistributedLock getLock(String key);
+    /**
+     * 返回锁对象
+     * @param key redisKey值
+     * @return 锁对象
+     */
+    DistributedLock getLock(String key);
 
-	/**
-	 * 返回读写锁对象
-	 * @param key redisKey值
-	 * @return 锁对象
-	 */
-	DistributedReadWriteLock getReadWriteLock(String key);
+    /**
+     * 返回读写锁对象
+     * @param key redisKey值
+     * @return 锁对象
+     */
+    DistributedReadWriteLock getReadWriteLock(String key);
 
-	/**
-	 * 获取CountDownLatch
-	 * @param key redisKey值
-	 * @return RedisCountDownLatch
-	 */
-	DistributedCountDownLatch getCountDownLatch(String key);
+    /**
+     * 获取CountDownLatch
+     * @param key redisKey值
+     * @return RedisCountDownLatch
+     */
+    DistributedCountDownLatch getCountDownLatch(String key);
 
 }

@@ -23,51 +23,51 @@ import org.mybatis.generator.api.dom.kotlin.KotlinFunction;
 
 public class KotlinFunctionRenderer {
 
-	public List<String> render(KotlinFunction function) {
+    public List<String> render(KotlinFunction function) {
 
-		List<String> answer = new ArrayList<>(function.getAnnotations());
+        List<String> answer = new ArrayList<>(function.getAnnotations());
 
-		answer.add(renderFirstLine(function));
+        answer.add(renderFirstLine(function));
 
-		answer.addAll(function.getCodeLines().stream().map(KotlinRenderingUtilities::kotlinIndent)
-				.collect(Collectors.toList()));
+        answer.addAll(function.getCodeLines().stream().map(KotlinRenderingUtilities::kotlinIndent)
+                .collect(Collectors.toList()));
 
-		if (!function.getCodeLines().isEmpty() && !function.isOneLineFunction()) {
-			answer.add("}"); //$NON-NLS-1$
-		}
+        if (!function.getCodeLines().isEmpty() && !function.isOneLineFunction()) {
+            answer.add("}"); //$NON-NLS-1$
+        }
 
-		return answer;
-	}
+        return answer;
+    }
 
-	private String renderFirstLine(KotlinFunction function) {
-		String firstLine = KotlinRenderingUtilities.renderModifiers(function.getModifiers()) + "fun " //$NON-NLS-1$
-				+ function.getName() + "("; //$NON-NLS-1$
+    private String renderFirstLine(KotlinFunction function) {
+        String firstLine = KotlinRenderingUtilities.renderModifiers(function.getModifiers()) + "fun " //$NON-NLS-1$
+                + function.getName() + "("; //$NON-NLS-1$
 
-		firstLine += renderArguments(function);
-		firstLine += ")"; //$NON-NLS-1$
-		firstLine += renderReturnType(function);
+        firstLine += renderArguments(function);
+        firstLine += ")"; //$NON-NLS-1$
+        firstLine += renderReturnType(function);
 
-		if (!function.getCodeLines().isEmpty()) {
-			if (function.isOneLineFunction()) {
-				firstLine += " ="; //$NON-NLS-1$
-			}
-			else {
-				firstLine += " {"; //$NON-NLS-1$
-			}
-		}
+        if (!function.getCodeLines().isEmpty()) {
+            if (function.isOneLineFunction()) {
+                firstLine += " ="; //$NON-NLS-1$
+            }
+            else {
+                firstLine += " {"; //$NON-NLS-1$
+            }
+        }
 
-		return firstLine;
-	}
+        return firstLine;
+    }
 
-	private String renderArguments(KotlinFunction function) {
-		KotlinArgRenderer argRenderer = new KotlinArgRenderer();
+    private String renderArguments(KotlinFunction function) {
+        KotlinArgRenderer argRenderer = new KotlinArgRenderer();
 
-		return function.getArguments().stream().map(argRenderer::render).collect(Collectors.joining(", ")); //$NON-NLS-1$
-	}
+        return function.getArguments().stream().map(argRenderer::render).collect(Collectors.joining(", ")); //$NON-NLS-1$
+    }
 
-	private String renderReturnType(KotlinFunction function) {
-		return function.getExplicitReturnType().map(s -> ": " + s) //$NON-NLS-1$
-				.orElse(""); //$NON-NLS-1$
-	}
+    private String renderReturnType(KotlinFunction function) {
+        return function.getExplicitReturnType().map(s -> ": " + s) //$NON-NLS-1$
+                .orElse(""); //$NON-NLS-1$
+    }
 
 }

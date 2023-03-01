@@ -23,16 +23,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SysFileStorageResponse extends BaseResponse {
 
-	/**
-	 * 文件主键id，关联file_info表的主键
-	 */
-	@ChineseDescription("文件主键id，关联file_info表的主键")
-	private Long fileId;
+    /**
+     * 文件主键id，关联file_info表的主键
+     */
+    @ChineseDescription("文件主键id，关联file_info表的主键")
+    private Long fileId;
 
-	/**
-	 * 具体文件的字节信息
-	 */
-	@ChineseDescription("具体文件的字节信息")
-	private byte[] fileBytes;
+    /**
+     * 具体文件的字节信息
+     */
+    @ChineseDescription("具体文件的字节信息")
+    private byte[] fileBytes;
 
 }

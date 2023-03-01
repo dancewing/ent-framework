@@ -18,14 +18,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class KernelAuthorizationFilterAutoConfiguration implements WebMvcConfigurer {
 
-	@Bean
-	public PermissionSecurityInterceptor permissionSecurityInterceptor() {
-		return new PermissionSecurityInterceptor();
-	}
+    @Bean
+    public PermissionSecurityInterceptor permissionSecurityInterceptor() {
+        return new PermissionSecurityInterceptor();
+    }
 
-	@Bean
-	public AuthJwtTokenSecurityInterceptor authJwtTokenSecurityInterceptor() {
-		return new AuthJwtTokenSecurityInterceptor();
-	}
+    @Bean
+    public AuthJwtTokenSecurityInterceptor authJwtTokenSecurityInterceptor() {
+        return new AuthJwtTokenSecurityInterceptor();
+    }
 
 }

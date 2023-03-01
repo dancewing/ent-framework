@@ -24,17 +24,17 @@ import io.entframework.kernel.system.api.pojo.theme.DefaultTheme;
 @Component
 public class ThemeConfigRefresh implements ConfigInitCallbackApi {
 
-	@Resource(name = "themeCacheApi")
-	private CacheOperatorApi<DefaultTheme> themeCacheApi;
+    @Resource(name = "themeCacheApi")
+    private CacheOperatorApi<DefaultTheme> themeCacheApi;
 
-	@Override
-	public void initBefore() {
+    @Override
+    public void initBefore() {
 
-	}
+    }
 
-	@Override
-	public void initAfter() {
-		themeCacheApi.remove(SystemConstants.THEME_GUNS_PLATFORM);
-	}
+    @Override
+    public void initAfter() {
+        themeCacheApi.remove(SystemConstants.THEME_GUNS_PLATFORM);
+    }
 
 }

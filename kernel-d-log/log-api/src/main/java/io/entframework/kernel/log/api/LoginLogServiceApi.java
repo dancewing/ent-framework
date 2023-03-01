@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 public interface LoginLogServiceApi {
 
-	@PostMapping(path = "/client/login-log/add")
-	boolean add(@RequestBody SysLoginLogRequest request);
+    @PostMapping(path = "/client/login-log/add")
+    boolean add(@RequestBody SysLoginLogRequest request);
 
 }

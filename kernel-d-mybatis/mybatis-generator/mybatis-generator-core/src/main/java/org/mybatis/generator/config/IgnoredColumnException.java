@@ -22,16 +22,16 @@ import java.util.List;
 
 public class IgnoredColumnException extends IgnoredColumn {
 
-	public IgnoredColumnException(String columnName) {
-		super(columnName);
-	}
+    public IgnoredColumnException(String columnName) {
+        super(columnName);
+    }
 
-	@Override
-	public void validate(List<String> errors, String tableName) {
-		if (!stringHasValue(columnName)) {
-			errors.add(getString("ValidationError.26", //$NON-NLS-1$
-					tableName));
-		}
-	}
+    @Override
+    public void validate(List<String> errors, String tableName) {
+        if (!stringHasValue(columnName)) {
+            errors.add(getString("ValidationError.26", //$NON-NLS-1$
+                    tableName));
+        }
+    }
 
 }

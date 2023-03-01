@@ -14,30 +14,30 @@ import lombok.Getter;
 @Getter
 public enum DevopsCheckStatusEnum {
 
-	/**
-	 * 用户不存在
-	 */
-	USER_NOT_EXIST(0),
+    /**
+     * 用户不存在
+     */
+    USER_NOT_EXIST(0),
 
-	/**
-	 * 账号密码错误
-	 */
-	ACCOUNT_PASSWORD_ERROR(1),
+    /**
+     * 账号密码错误
+     */
+    ACCOUNT_PASSWORD_ERROR(1),
 
-	/**
-	 * 请求方未打开开关
-	 */
-	REQUESTER_NOT_OPEN_SWITCH(2),
+    /**
+     * 请求方未打开开关
+     */
+    REQUESTER_NOT_OPEN_SWITCH(2),
 
-	/**
-	 * 成功
-	 */
-	SUCCESSFUL(999);
+    /**
+     * 成功
+     */
+    SUCCESSFUL(999);
 
-	private final Integer code;
+    private final Integer code;
 
-	DevopsCheckStatusEnum(Integer code) {
-		this.code = code;
-	}
+    DevopsCheckStatusEnum(Integer code) {
+        this.code = code;
+    }
 
 }

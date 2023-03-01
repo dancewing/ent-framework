@@ -22,29 +22,29 @@ import lombok.Data;
 @Data
 public class WebSocketMessageDTO {
 
-	/**
-	 * 服务端发送的消息类型(客户端如果需要监听该消息类型，注册对应的消息处理器即可)
-	 */
-	private String serverMsgType;
+    /**
+     * 服务端发送的消息类型(客户端如果需要监听该消息类型，注册对应的消息处理器即可)
+     */
+    private String serverMsgType;
 
-	/**
-	 * 客户端发送的消息类型(服务端需要处理的消息类型)
-	 */
-	private String clientMsgType;
+    /**
+     * 客户端发送的消息类型(服务端需要处理的消息类型)
+     */
+    private String clientMsgType;
 
-	/**
-	 * 目标Id
-	 */
-	private String toUserId;
+    /**
+     * 目标Id
+     */
+    private String toUserId;
 
-	/**
-	 * 发送者ID
-	 */
-	private String formUserId;
+    /**
+     * 发送者ID
+     */
+    private String formUserId;
 
-	/**
-	 * 具体发送的数据
-	 */
-	private Object data;
+    /**
+     * 具体发送的数据
+     */
+    private Object data;
 
 }

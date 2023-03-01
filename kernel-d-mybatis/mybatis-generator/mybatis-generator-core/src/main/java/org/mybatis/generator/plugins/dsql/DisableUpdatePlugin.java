@@ -32,69 +32,69 @@ import org.mybatis.generator.api.dom.kotlin.KotlinFunction;
  */
 public class DisableUpdatePlugin extends PluginAdapter {
 
-	@Override
-	public boolean validate(List<String> warnings) {
-		return true;
-	}
+    @Override
+    public boolean validate(List<String> warnings) {
+        return true;
+    }
 
-	@Override
-	public boolean clientGeneralUpdateMethodGenerated(Method method, Interface interfaze,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientGeneralUpdateMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientGeneralUpdateMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientGeneralUpdateMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientUpdateByPrimaryKeyWithBLOBsMethodGenerated(Method method, Interface interfaze,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientUpdateByPrimaryKeyWithBLOBsMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientUpdateAllColumnsMethodGenerated(Method method, Interface interfaze,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientUpdateAllColumnsMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientUpdateAllColumnsMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientUpdateAllColumnsMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientUpdateSelectiveColumnsMethodGenerated(Method method, Interface interfaze,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientUpdateSelectiveColumnsMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientUpdateSelectiveColumnsMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientUpdateSelectiveColumnsMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientUpdateByPrimaryKeySelectiveMethodGenerated(Method method, Interface interfaze,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientUpdateByPrimaryKeySelectiveMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientUpdateByPrimaryKeySelectiveMethodGenerated(KotlinFunction kotlinFunction,
-			KotlinFile kotlinFile, IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientUpdateByPrimaryKeySelectiveMethodGenerated(KotlinFunction kotlinFunction,
+            KotlinFile kotlinFile, IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientUpdateByPrimaryKeyMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientUpdateByPrimaryKeyMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
 }

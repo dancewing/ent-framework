@@ -35,94 +35,94 @@ import org.mybatis.generator.config.JDBCConnectionConfiguration;
  */
 public class JDBCConnectionFactory implements ConnectionFactory {
 
-	private String userId;
+    private String userId;
 
-	private String password;
+    private String password;
 
-	private String connectionURL;
+    private String connectionURL;
 
-	private String driverClass;
+    private String driverClass;
 
-	private Properties otherProperties;
+    private Properties otherProperties;
 
-	/**
-	 * This constructor is called when there is a JDBCConnectionConfiguration specified in
-	 * the configuration.
-	 * @param config the configuration
-	 */
-	public JDBCConnectionFactory(JDBCConnectionConfiguration config) {
-		super();
-		userId = config.getUserId();
-		password = config.getPassword();
-		connectionURL = config.getConnectionURL();
-		driverClass = config.getDriverClass();
-		otherProperties = config.getProperties();
-	}
+    /**
+     * This constructor is called when there is a JDBCConnectionConfiguration specified in
+     * the configuration.
+     * @param config the configuration
+     */
+    public JDBCConnectionFactory(JDBCConnectionConfiguration config) {
+        super();
+        userId = config.getUserId();
+        password = config.getPassword();
+        connectionURL = config.getConnectionURL();
+        driverClass = config.getDriverClass();
+        otherProperties = config.getProperties();
+    }
 
-	/**
-	 * This constructor is called when this connection factory is specified as the type in
-	 * a ConnectionFactory configuration element.
-	 */
-	public JDBCConnectionFactory() {
-		super();
-	}
+    /**
+     * This constructor is called when this connection factory is specified as the type in
+     * a ConnectionFactory configuration element.
+     */
+    public JDBCConnectionFactory() {
+        super();
+    }
 
-	@Override
-	public Connection getConnection() throws SQLException {
+    @Override
+    public Connection getConnection() throws SQLException {
 
-		Properties props = new Properties();
+        Properties props = new Properties();
 
-		if (stringHasValue(userId)) {
-			props.setProperty("user", userId); //$NON-NLS-1$
-		}
+        if (stringHasValue(userId)) {
+            props.setProperty("user", userId); //$NON-NLS-1$
+        }
 
-		if (stringHasValue(password)) {
-			props.setProperty("password", password); //$NON-NLS-1$
-		}
+        if (stringHasValue(password)) {
+            props.setProperty("password", password); //$NON-NLS-1$
+        }
 
-		props.putAll(otherProperties);
+        props.putAll(otherProperties);
 
-		Driver driver = getDriver();
-		Connection conn = driver.connect(connectionURL, props);
+        Driver driver = getDriver();
+        Connection conn = driver.connect(connectionURL, props);
 
-		if (conn == null) {
-			throw new SQLException(getString("RuntimeError.7")); //$NON-NLS-1$
-		}
+        if (conn == null) {
+            throw new SQLException(getString("RuntimeError.7")); //$NON-NLS-1$
+        }
 
-		return conn;
-	}
+        return conn;
+    }
 
-	private Driver getDriver() {
-		Driver driver;
+    private Driver getDriver() {
+        Driver driver;
 
-		try {
-			Class<?> clazz = ObjectFactory.externalClassForName(driverClass);
-			driver = (Driver) clazz.getConstructor().newInstance();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(getString("RuntimeError.8"), e); //$NON-NLS-1$
-		}
+        try {
+            Class<?> clazz = ObjectFactory.externalClassForName(driverClass);
+            driver = (Driver) clazz.getConstructor().newInstance();
+        }
+        catch (Exception e) {
+            throw new RuntimeException(getString("RuntimeError.8"), e); //$NON-NLS-1$
+        }
 
-		return driver;
-	}
+        return driver;
+    }
 
-	@Override
-	public void addConfigurationProperties(Properties properties) {
-		// this should only be called when this connection factory is
-		// specified in a ConnectionFactory configuration
-		userId = properties.getProperty("userId"); //$NON-NLS-1$
-		password = properties.getProperty("password"); //$NON-NLS-1$
-		connectionURL = properties.getProperty("connectionURL"); //$NON-NLS-1$
-		driverClass = properties.getProperty("driverClass"); //$NON-NLS-1$
+    @Override
+    public void addConfigurationProperties(Properties properties) {
+        // this should only be called when this connection factory is
+        // specified in a ConnectionFactory configuration
+        userId = properties.getProperty("userId"); //$NON-NLS-1$
+        password = properties.getProperty("password"); //$NON-NLS-1$
+        connectionURL = properties.getProperty("connectionURL"); //$NON-NLS-1$
+        driverClass = properties.getProperty("driverClass"); //$NON-NLS-1$
 
-		otherProperties = new Properties();
-		otherProperties.putAll(properties);
+        otherProperties = new Properties();
+        otherProperties.putAll(properties);
 
-		// remove all the properties that we have specific attributes for
-		otherProperties.remove("userId"); //$NON-NLS-1$
-		otherProperties.remove("password"); //$NON-NLS-1$
-		otherProperties.remove("connectionURL"); //$NON-NLS-1$
-		otherProperties.remove("driverClass"); //$NON-NLS-1$
-	}
+        // remove all the properties that we have specific attributes for
+        otherProperties.remove("userId"); //$NON-NLS-1$
+        otherProperties.remove("password"); //$NON-NLS-1$
+        otherProperties.remove("connectionURL"); //$NON-NLS-1$
+        otherProperties.remove("driverClass"); //$NON-NLS-1$
+    }
 
 }

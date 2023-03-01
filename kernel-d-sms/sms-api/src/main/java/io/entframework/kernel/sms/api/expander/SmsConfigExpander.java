@@ -13,16 +13,16 @@ import io.entframework.kernel.sms.api.constants.SmsConstants;
  */
 public class SmsConfigExpander {
 
-	/**
-	 * 获取短信验证码失效时间（单位：秒）
-	 * <p>
-	 * 默认300秒
-	 *
-	 * @date 2020/10/26 22:09
-	 */
-	public static Integer getSmsValidateExpiredSeconds() {
-		return ConfigContext.me().getSysConfigValueWithDefault("SYS_SMS_VALIDATE_EXPIRED_SECONDS", Integer.class,
-				SmsConstants.DEFAULT_SMS_INVALID_SECONDS);
-	}
+    /**
+     * 获取短信验证码失效时间（单位：秒）
+     * <p>
+     * 默认300秒
+     *
+     * @date 2020/10/26 22:09
+     */
+    public static Integer getSmsValidateExpiredSeconds() {
+        return ConfigContext.me().getSysConfigValueWithDefault("SYS_SMS_VALIDATE_EXPIRED_SECONDS", Integer.class,
+                SmsConstants.DEFAULT_SMS_INVALID_SECONDS);
+    }
 
 }

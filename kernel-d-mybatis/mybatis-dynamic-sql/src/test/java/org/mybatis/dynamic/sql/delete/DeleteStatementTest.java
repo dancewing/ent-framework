@@ -29,35 +29,35 @@ import org.mybatis.dynamic.sql.render.RenderingStrategies;
 
 class DeleteStatementTest {
 
-	private static final SqlTable foo = SqlTable.of("foo");
+    private static final SqlTable foo = SqlTable.of("foo");
 
-	private static final SqlColumn<Integer> id = foo.column("id", JDBCType.INTEGER);
+    private static final SqlColumn<Integer> id = foo.column("id", JDBCType.INTEGER);
 
-	private static final SqlColumn<String> firstName = foo.column("first_name", JDBCType.VARCHAR);
+    private static final SqlColumn<String> firstName = foo.column("first_name", JDBCType.VARCHAR);
 
-	@Test
-	void testFullStatement() {
-		DeleteStatementProvider deleteStatement = deleteFrom(foo)
-				.where(id, isEqualTo(3), and(firstName, isEqualTo("Betty")))
-				.or(firstName, isLikeCaseInsensitive("%Fr%")).build().render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testFullStatement() {
+        DeleteStatementProvider deleteStatement = deleteFrom(foo)
+                .where(id, isEqualTo(3), and(firstName, isEqualTo("Betty")))
+                .or(firstName, isLikeCaseInsensitive("%Fr%")).build().render(RenderingStrategies.MYBATIS3);
 
-		String expectedFullStatement = "delete from foo where (id = #{parameters.p1,jdbcType=INTEGER} and first_name = #{parameters.p2,jdbcType=VARCHAR}) or upper(first_name) like #{parameters.p3,jdbcType=VARCHAR}";
+        String expectedFullStatement = "delete from foo where (id = #{parameters.p1,jdbcType=INTEGER} and first_name = #{parameters.p2,jdbcType=VARCHAR}) or upper(first_name) like #{parameters.p3,jdbcType=VARCHAR}";
 
-		assertAll(() -> assertThat(deleteStatement.getDeleteStatement()).isEqualTo(expectedFullStatement),
-				() -> assertThat(deleteStatement.getParameters()).hasSize(3),
-				() -> assertThat(deleteStatement.getParameters()).containsEntry("p1", 3),
-				() -> assertThat(deleteStatement.getParameters()).containsEntry("p2", "Betty"),
-				() -> assertThat(deleteStatement.getParameters()).containsEntry("p3", "%FR%"));
-	}
+        assertAll(() -> assertThat(deleteStatement.getDeleteStatement()).isEqualTo(expectedFullStatement),
+                () -> assertThat(deleteStatement.getParameters()).hasSize(3),
+                () -> assertThat(deleteStatement.getParameters()).containsEntry("p1", 3),
+                () -> assertThat(deleteStatement.getParameters()).containsEntry("p2", "Betty"),
+                () -> assertThat(deleteStatement.getParameters()).containsEntry("p3", "%FR%"));
+    }
 
-	@Test
-	void testFullStatementWithoutWhere() {
-		DeleteStatementProvider deleteStatement = deleteFrom(foo).build().render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testFullStatementWithoutWhere() {
+        DeleteStatementProvider deleteStatement = deleteFrom(foo).build().render(RenderingStrategies.MYBATIS3);
 
-		String expectedFullStatement = "delete from foo";
+        String expectedFullStatement = "delete from foo";
 
-		assertAll(() -> assertThat(deleteStatement.getDeleteStatement()).isEqualTo(expectedFullStatement),
-				() -> assertThat(deleteStatement.getParameters()).isEmpty());
-	}
+        assertAll(() -> assertThat(deleteStatement.getDeleteStatement()).isEqualTo(expectedFullStatement),
+                () -> assertThat(deleteStatement.getParameters()).isEmpty());
+    }
 
 }

@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RequestApiLogConfiguration {
 
-	@Bean
-	@ConditionalOnProperty(prefix = "kernel.sys-log", name = "request-log-enabled", matchIfMissing = true)
-	public RequestApiLogRecordAop requestApiLogRecordAop(LogRecordApi logRecordApi) {
-		return new RequestApiLogRecordAop(logRecordApi);
-	}
+    @Bean
+    @ConditionalOnProperty(prefix = "kernel.sys-log", name = "request-log-enabled", matchIfMissing = true)
+    public RequestApiLogRecordAop requestApiLogRecordAop(LogRecordApi logRecordApi) {
+        return new RequestApiLogRecordAop(logRecordApi);
+    }
 
 }

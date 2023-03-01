@@ -17,15 +17,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KernelSocketAutoConfiguration {
 
-	/**
-	 * Socket操作实现类
-	 *
-	 * @date 2021/6/2 下午5:48
-	 **/
-	@Bean
-	@ConditionalOnMissingBean(SocketOperatorApi.class)
-	public SocketOperatorApi socketOperatorApi() {
-		return new WebSocketOperator();
-	}
+    /**
+     * Socket操作实现类
+     *
+     * @date 2021/6/2 下午5:48
+     **/
+    @Bean
+    @ConditionalOnMissingBean(SocketOperatorApi.class)
+    public SocketOperatorApi socketOperatorApi() {
+        return new WebSocketOperator();
+    }
 
 }

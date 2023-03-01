@@ -31,370 +31,370 @@ import org.mybatis.generator.internal.util.StringUtility;
  */
 public abstract class BaseRules implements Rules {
 
-	protected final TableConfiguration tableConfiguration;
+    protected final TableConfiguration tableConfiguration;
 
-	protected final IntrospectedTable introspectedTable;
+    protected final IntrospectedTable introspectedTable;
 
-	protected final boolean isModelOnly;
+    protected final boolean isModelOnly;
 
-	protected BaseRules(IntrospectedTable introspectedTable) {
-		super();
-		this.introspectedTable = introspectedTable;
-		this.tableConfiguration = introspectedTable.getTableConfiguration();
-		String modelOnly = tableConfiguration.getProperty(PropertyRegistry.TABLE_MODEL_ONLY);
-		isModelOnly = StringUtility.isTrue(modelOnly);
-	}
+    protected BaseRules(IntrospectedTable introspectedTable) {
+        super();
+        this.introspectedTable = introspectedTable;
+        this.tableConfiguration = introspectedTable.getTableConfiguration();
+        String modelOnly = tableConfiguration.getProperty(PropertyRegistry.TABLE_MODEL_ONLY);
+        isModelOnly = StringUtility.isTrue(modelOnly);
+    }
 
-	/**
-	 * Implements the rule for generating the insert SQL Map element and DAO method. If
-	 * the insert statement is allowed, then generate the element and method.
-	 * @return true if the element and method should be generated
-	 */
-	@Override
-	public boolean generateInsert() {
-		if (isModelOnly) {
-			return false;
-		}
+    /**
+     * Implements the rule for generating the insert SQL Map element and DAO method. If
+     * the insert statement is allowed, then generate the element and method.
+     * @return true if the element and method should be generated
+     */
+    @Override
+    public boolean generateInsert() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		return tableConfiguration.isInsertStatementEnabled();
-	}
+        return tableConfiguration.isInsertStatementEnabled();
+    }
 
-	/**
-	 * Implements the rule for generating the insert selective SQL Map element and DAO
-	 * method. If the insert statement is allowed, then generate the element and method.
-	 * @return true if the element and method should be generated
-	 */
-	@Override
-	public boolean generateInsertSelective() {
-		return generateInsert();
-	}
+    /**
+     * Implements the rule for generating the insert selective SQL Map element and DAO
+     * method. If the insert statement is allowed, then generate the element and method.
+     * @return true if the element and method should be generated
+     */
+    @Override
+    public boolean generateInsertSelective() {
+        return generateInsert();
+    }
 
-	/**
-	 * Calculates the class that contains all fields. This class is used as the insert
-	 * statement parameter, as well as the returned value from the select by primary key
-	 * method. The actual class depends on how the domain model is generated.
-	 * @return the type of the class that holds all fields
-	 */
-	@Override
-	public FullyQualifiedJavaType calculateAllFieldsClass() {
+    /**
+     * Calculates the class that contains all fields. This class is used as the insert
+     * statement parameter, as well as the returned value from the select by primary key
+     * method. The actual class depends on how the domain model is generated.
+     * @return the type of the class that holds all fields
+     */
+    @Override
+    public FullyQualifiedJavaType calculateAllFieldsClass() {
 
-		String answer;
+        String answer;
 
-		if (generateRecordWithBLOBsClass()) {
-			answer = introspectedTable.getRecordWithBLOBsType();
-		}
-		else if (generateBaseRecordClass()) {
-			answer = introspectedTable.getBaseRecordType();
-		}
-		else {
-			answer = introspectedTable.getPrimaryKeyType();
-		}
+        if (generateRecordWithBLOBsClass()) {
+            answer = introspectedTable.getRecordWithBLOBsType();
+        }
+        else if (generateBaseRecordClass()) {
+            answer = introspectedTable.getBaseRecordType();
+        }
+        else {
+            answer = introspectedTable.getPrimaryKeyType();
+        }
 
-		return new FullyQualifiedJavaType(answer);
-	}
+        return new FullyQualifiedJavaType(answer);
+    }
 
-	/**
-	 * Implements the rule for generating the update by primary key without BLOBs SQL Map
-	 * element and DAO method. If the table has a primary key as well as other non-BLOB
-	 * fields, and the updateByPrimaryKey statement is allowed, then generate the element
-	 * and method.
-	 * @return true if the element and method should be generated
-	 */
-	@Override
-	public boolean generateUpdateByPrimaryKeyWithoutBLOBs() {
-		if (isModelOnly) {
-			return false;
-		}
+    /**
+     * Implements the rule for generating the update by primary key without BLOBs SQL Map
+     * element and DAO method. If the table has a primary key as well as other non-BLOB
+     * fields, and the updateByPrimaryKey statement is allowed, then generate the element
+     * and method.
+     * @return true if the element and method should be generated
+     */
+    @Override
+    public boolean generateUpdateByPrimaryKeyWithoutBLOBs() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		if (ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getBaseColumns()).isEmpty()) {
-			return false;
-		}
+        if (ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getBaseColumns()).isEmpty()) {
+            return false;
+        }
 
-		return tableConfiguration.isUpdateByPrimaryKeyStatementEnabled() && introspectedTable.hasPrimaryKeyColumns()
-				&& introspectedTable.hasBaseColumns();
-	}
+        return tableConfiguration.isUpdateByPrimaryKeyStatementEnabled() && introspectedTable.hasPrimaryKeyColumns()
+                && introspectedTable.hasBaseColumns();
+    }
 
-	/**
-	 * Implements the rule for generating the update by primary key with BLOBs SQL Map
-	 * element and DAO method. If the table has a primary key as well as other BLOB
-	 * fields, and the updateByPrimaryKey statement is allowed, then generate the element
-	 * and method.
-	 * @return true if the element and method should be generated
-	 */
-	@Override
-	public boolean generateUpdateByPrimaryKeyWithBLOBs() {
-		if (isModelOnly) {
-			return false;
-		}
+    /**
+     * Implements the rule for generating the update by primary key with BLOBs SQL Map
+     * element and DAO method. If the table has a primary key as well as other BLOB
+     * fields, and the updateByPrimaryKey statement is allowed, then generate the element
+     * and method.
+     * @return true if the element and method should be generated
+     */
+    @Override
+    public boolean generateUpdateByPrimaryKeyWithBLOBs() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		if (ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getNonPrimaryKeyColumns()).isEmpty()) {
-			return false;
-		}
+        if (ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getNonPrimaryKeyColumns()).isEmpty()) {
+            return false;
+        }
 
-		return tableConfiguration.isUpdateByPrimaryKeyStatementEnabled() && introspectedTable.hasPrimaryKeyColumns()
-				&& introspectedTable.hasBLOBColumns();
-	}
+        return tableConfiguration.isUpdateByPrimaryKeyStatementEnabled() && introspectedTable.hasPrimaryKeyColumns()
+                && introspectedTable.hasBLOBColumns();
+    }
 
-	/**
-	 * Implements the rule for generating the update by primary key selective SQL Map
-	 * element and DAO method. If the table has a primary key as well as other fields, and
-	 * the updateByPrimaryKey statement is allowed, then generate the element and method.
-	 * @return true if the element and method should be generated
-	 */
-	@Override
-	public boolean generateUpdateByPrimaryKeySelective() {
-		if (isModelOnly) {
-			return false;
-		}
+    /**
+     * Implements the rule for generating the update by primary key selective SQL Map
+     * element and DAO method. If the table has a primary key as well as other fields, and
+     * the updateByPrimaryKey statement is allowed, then generate the element and method.
+     * @return true if the element and method should be generated
+     */
+    @Override
+    public boolean generateUpdateByPrimaryKeySelective() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		if (ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getNonPrimaryKeyColumns()).isEmpty()) {
-			return false;
-		}
+        if (ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getNonPrimaryKeyColumns()).isEmpty()) {
+            return false;
+        }
 
-		return tableConfiguration.isUpdateByPrimaryKeyStatementEnabled() && introspectedTable.hasPrimaryKeyColumns()
-				&& (introspectedTable.hasBLOBColumns() || introspectedTable.hasBaseColumns());
-	}
+        return tableConfiguration.isUpdateByPrimaryKeyStatementEnabled() && introspectedTable.hasPrimaryKeyColumns()
+                && (introspectedTable.hasBLOBColumns() || introspectedTable.hasBaseColumns());
+    }
 
-	/**
-	 * Implements the rule for generating the delete by primary key SQL Map element and
-	 * DAO method. If the table has a primary key, and the deleteByPrimaryKey statement is
-	 * allowed, then generate the element and method.
-	 * @return true if the element and method should be generated
-	 */
-	@Override
-	public boolean generateDeleteByPrimaryKey() {
-		if (isModelOnly) {
-			return false;
-		}
+    /**
+     * Implements the rule for generating the delete by primary key SQL Map element and
+     * DAO method. If the table has a primary key, and the deleteByPrimaryKey statement is
+     * allowed, then generate the element and method.
+     * @return true if the element and method should be generated
+     */
+    @Override
+    public boolean generateDeleteByPrimaryKey() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		return tableConfiguration.isDeleteByPrimaryKeyStatementEnabled() && introspectedTable.hasPrimaryKeyColumns();
-	}
+        return tableConfiguration.isDeleteByPrimaryKeyStatementEnabled() && introspectedTable.hasPrimaryKeyColumns();
+    }
 
-	/**
-	 * Implements the rule for generating the delete by example SQL Map element and DAO
-	 * method. If the deleteByExample statement is allowed, then generate the element and
-	 * method.
-	 * @return true if the element and method should be generated
-	 */
-	@Override
-	public boolean generateDeleteByExample() {
-		if (isModelOnly) {
-			return false;
-		}
+    /**
+     * Implements the rule for generating the delete by example SQL Map element and DAO
+     * method. If the deleteByExample statement is allowed, then generate the element and
+     * method.
+     * @return true if the element and method should be generated
+     */
+    @Override
+    public boolean generateDeleteByExample() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		return tableConfiguration.isDeleteByExampleStatementEnabled();
-	}
+        return tableConfiguration.isDeleteByExampleStatementEnabled();
+    }
 
-	/**
-	 * Implements the rule for generating the result map without BLOBs. If either select
-	 * method is allowed, then generate the result map.
-	 * @return true if the result map should be generated
-	 */
-	@Override
-	public boolean generateBaseResultMap() {
-		if (isModelOnly) {
-			return true;
-		}
+    /**
+     * Implements the rule for generating the result map without BLOBs. If either select
+     * method is allowed, then generate the result map.
+     * @return true if the result map should be generated
+     */
+    @Override
+    public boolean generateBaseResultMap() {
+        if (isModelOnly) {
+            return true;
+        }
 
-		return tableConfiguration.isSelectByExampleStatementEnabled()
-				|| tableConfiguration.isSelectByPrimaryKeyStatementEnabled();
-	}
+        return tableConfiguration.isSelectByExampleStatementEnabled()
+                || tableConfiguration.isSelectByPrimaryKeyStatementEnabled();
+    }
 
-	/**
-	 * Implements the rule for generating the result map with BLOBs. If the table has BLOB
-	 * columns, and either select method is allowed, then generate the result map.
-	 * @return true if the result map should be generated
-	 */
-	@Override
-	public boolean generateResultMapWithBLOBs() {
-		boolean rc;
+    /**
+     * Implements the rule for generating the result map with BLOBs. If the table has BLOB
+     * columns, and either select method is allowed, then generate the result map.
+     * @return true if the result map should be generated
+     */
+    @Override
+    public boolean generateResultMapWithBLOBs() {
+        boolean rc;
 
-		if (introspectedTable.hasBLOBColumns()) {
-			if (isModelOnly) {
-				rc = true;
-			}
-			else {
-				rc = tableConfiguration.isSelectByExampleStatementEnabled()
-						|| tableConfiguration.isSelectByPrimaryKeyStatementEnabled();
-			}
-		}
-		else {
-			rc = false;
-		}
+        if (introspectedTable.hasBLOBColumns()) {
+            if (isModelOnly) {
+                rc = true;
+            }
+            else {
+                rc = tableConfiguration.isSelectByExampleStatementEnabled()
+                        || tableConfiguration.isSelectByPrimaryKeyStatementEnabled();
+            }
+        }
+        else {
+            rc = false;
+        }
 
-		return rc;
-	}
+        return rc;
+    }
 
-	/**
-	 * Implements the rule for generating the SQL example where clause element.
-	 *
-	 * <p>
-	 * In MyBatis3, generate the element if the selectByExample, deleteByExample, or
-	 * countByExample statements are allowed.
-	 * @return true if the SQL where clause element should be generated
-	 */
-	@Override
-	public boolean generateSQLExampleWhereClause() {
-		if (isModelOnly) {
-			return false;
-		}
+    /**
+     * Implements the rule for generating the SQL example where clause element.
+     *
+     * <p>
+     * In MyBatis3, generate the element if the selectByExample, deleteByExample, or
+     * countByExample statements are allowed.
+     * @return true if the SQL where clause element should be generated
+     */
+    @Override
+    public boolean generateSQLExampleWhereClause() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		return tableConfiguration.isSelectByExampleStatementEnabled()
-				|| tableConfiguration.isDeleteByExampleStatementEnabled()
-				|| tableConfiguration.isCountByExampleStatementEnabled();
-	}
+        return tableConfiguration.isSelectByExampleStatementEnabled()
+                || tableConfiguration.isDeleteByExampleStatementEnabled()
+                || tableConfiguration.isCountByExampleStatementEnabled();
+    }
 
-	/**
-	 * Implements the rule for generating the SQL example where clause element
-	 * specifically for use in the update by example methods.
-	 *
-	 * <p>
-	 * In MyBatis3, generate the element if the updateByExample statements are allowed.
-	 * @return true if the SQL where clause element should be generated
-	 */
-	@Override
-	public boolean generateMyBatis3UpdateByExampleWhereClause() {
-		if (isModelOnly) {
-			return false;
-		}
+    /**
+     * Implements the rule for generating the SQL example where clause element
+     * specifically for use in the update by example methods.
+     *
+     * <p>
+     * In MyBatis3, generate the element if the updateByExample statements are allowed.
+     * @return true if the SQL where clause element should be generated
+     */
+    @Override
+    public boolean generateMyBatis3UpdateByExampleWhereClause() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		return introspectedTable.getTargetRuntime() == TargetRuntime.MYBATIS3
-				&& tableConfiguration.isUpdateByExampleStatementEnabled();
-	}
+        return introspectedTable.getTargetRuntime() == TargetRuntime.MYBATIS3
+                && tableConfiguration.isUpdateByExampleStatementEnabled();
+    }
 
-	/**
-	 * Implements the rule for generating the select by primary key SQL Map element and
-	 * DAO method. If the table has a primary key as well as other fields, and the
-	 * selectByPrimaryKey statement is allowed, then generate the element and method.
-	 * @return true if the element and method should be generated
-	 */
-	@Override
-	public boolean generateSelectByPrimaryKey() {
-		if (isModelOnly) {
-			return false;
-		}
+    /**
+     * Implements the rule for generating the select by primary key SQL Map element and
+     * DAO method. If the table has a primary key as well as other fields, and the
+     * selectByPrimaryKey statement is allowed, then generate the element and method.
+     * @return true if the element and method should be generated
+     */
+    @Override
+    public boolean generateSelectByPrimaryKey() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		return tableConfiguration.isSelectByPrimaryKeyStatementEnabled() && introspectedTable.hasPrimaryKeyColumns()
-				&& (introspectedTable.hasBaseColumns() || introspectedTable.hasBLOBColumns());
-	}
+        return tableConfiguration.isSelectByPrimaryKeyStatementEnabled() && introspectedTable.hasPrimaryKeyColumns()
+                && (introspectedTable.hasBaseColumns() || introspectedTable.hasBLOBColumns());
+    }
 
-	/**
-	 * Implements the rule for generating the select by example without BLOBs SQL Map
-	 * element and DAO method. If the selectByExample statement is allowed, then generate
-	 * the element and method.
-	 * @return true if the element and method should be generated
-	 */
-	@Override
-	public boolean generateSelectByExampleWithoutBLOBs() {
-		if (isModelOnly) {
-			return false;
-		}
+    /**
+     * Implements the rule for generating the select by example without BLOBs SQL Map
+     * element and DAO method. If the selectByExample statement is allowed, then generate
+     * the element and method.
+     * @return true if the element and method should be generated
+     */
+    @Override
+    public boolean generateSelectByExampleWithoutBLOBs() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		return tableConfiguration.isSelectByExampleStatementEnabled();
-	}
+        return tableConfiguration.isSelectByExampleStatementEnabled();
+    }
 
-	/**
-	 * Implements the rule for generating the select by example with BLOBs SQL Map element
-	 * and DAO method. If the table has BLOB fields and the selectByExample statement is
-	 * allowed, then generate the element and method.
-	 * @return true if the element and method should be generated
-	 */
-	@Override
-	public boolean generateSelectByExampleWithBLOBs() {
-		if (isModelOnly) {
-			return false;
-		}
+    /**
+     * Implements the rule for generating the select by example with BLOBs SQL Map element
+     * and DAO method. If the table has BLOB fields and the selectByExample statement is
+     * allowed, then generate the element and method.
+     * @return true if the element and method should be generated
+     */
+    @Override
+    public boolean generateSelectByExampleWithBLOBs() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		return tableConfiguration.isSelectByExampleStatementEnabled() && introspectedTable.hasBLOBColumns();
-	}
+        return tableConfiguration.isSelectByExampleStatementEnabled() && introspectedTable.hasBLOBColumns();
+    }
 
-	/**
-	 * Implements the rule for generating an example class. The class should be generated
-	 * if the selectByExample or deleteByExample or countByExample methods are allowed.
-	 * @return true if the example class should be generated
-	 */
-	@Override
-	public boolean generateExampleClass() {
-		if (introspectedTable.getContext().getSqlMapGeneratorConfiguration() == null
-				&& introspectedTable.getContext().getJavaClientGeneratorConfiguration() == null) {
-			// this is a model only context - don't generate the example class
-			return false;
-		}
+    /**
+     * Implements the rule for generating an example class. The class should be generated
+     * if the selectByExample or deleteByExample or countByExample methods are allowed.
+     * @return true if the example class should be generated
+     */
+    @Override
+    public boolean generateExampleClass() {
+        if (introspectedTable.getContext().getSqlMapGeneratorConfiguration() == null
+                && introspectedTable.getContext().getJavaClientGeneratorConfiguration() == null) {
+            // this is a model only context - don't generate the example class
+            return false;
+        }
 
-		if (isModelOnly) {
-			return false;
-		}
+        if (isModelOnly) {
+            return false;
+        }
 
-		return tableConfiguration.isSelectByExampleStatementEnabled()
-				|| tableConfiguration.isDeleteByExampleStatementEnabled()
-				|| tableConfiguration.isCountByExampleStatementEnabled()
-				|| tableConfiguration.isUpdateByExampleStatementEnabled();
-	}
+        return tableConfiguration.isSelectByExampleStatementEnabled()
+                || tableConfiguration.isDeleteByExampleStatementEnabled()
+                || tableConfiguration.isCountByExampleStatementEnabled()
+                || tableConfiguration.isUpdateByExampleStatementEnabled();
+    }
 
-	@Override
-	public boolean generateCountByExample() {
-		if (isModelOnly) {
-			return false;
-		}
+    @Override
+    public boolean generateCountByExample() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		return tableConfiguration.isCountByExampleStatementEnabled();
-	}
+        return tableConfiguration.isCountByExampleStatementEnabled();
+    }
 
-	@Override
-	public boolean generateUpdateByExampleSelective() {
-		if (isModelOnly) {
-			return false;
-		}
+    @Override
+    public boolean generateUpdateByExampleSelective() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		return tableConfiguration.isUpdateByExampleStatementEnabled();
-	}
+        return tableConfiguration.isUpdateByExampleStatementEnabled();
+    }
 
-	@Override
-	public boolean generateUpdateByExampleWithoutBLOBs() {
-		if (isModelOnly) {
-			return false;
-		}
+    @Override
+    public boolean generateUpdateByExampleWithoutBLOBs() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		return tableConfiguration.isUpdateByExampleStatementEnabled()
-				&& (introspectedTable.hasPrimaryKeyColumns() || introspectedTable.hasBaseColumns());
-	}
+        return tableConfiguration.isUpdateByExampleStatementEnabled()
+                && (introspectedTable.hasPrimaryKeyColumns() || introspectedTable.hasBaseColumns());
+    }
 
-	@Override
-	public boolean generateUpdateByExampleWithBLOBs() {
-		if (isModelOnly) {
-			return false;
-		}
+    @Override
+    public boolean generateUpdateByExampleWithBLOBs() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		return tableConfiguration.isUpdateByExampleStatementEnabled() && introspectedTable.hasBLOBColumns();
-	}
+        return tableConfiguration.isUpdateByExampleStatementEnabled() && introspectedTable.hasBLOBColumns();
+    }
 
-	@Override
-	public IntrospectedTable getIntrospectedTable() {
-		return introspectedTable;
-	}
+    @Override
+    public IntrospectedTable getIntrospectedTable() {
+        return introspectedTable;
+    }
 
-	@Override
-	public boolean generateBaseColumnList() {
-		if (isModelOnly) {
-			return false;
-		}
+    @Override
+    public boolean generateBaseColumnList() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		return generateSelectByPrimaryKey() || generateSelectByExampleWithoutBLOBs();
-	}
+        return generateSelectByPrimaryKey() || generateSelectByExampleWithoutBLOBs();
+    }
 
-	@Override
-	public boolean generateBlobColumnList() {
-		if (isModelOnly) {
-			return false;
-		}
+    @Override
+    public boolean generateBlobColumnList() {
+        if (isModelOnly) {
+            return false;
+        }
 
-		return introspectedTable.hasBLOBColumns() && (tableConfiguration.isSelectByExampleStatementEnabled()
-				|| tableConfiguration.isSelectByPrimaryKeyStatementEnabled());
-	}
+        return introspectedTable.hasBLOBColumns() && (tableConfiguration.isSelectByExampleStatementEnabled()
+                || tableConfiguration.isSelectByPrimaryKeyStatementEnabled());
+    }
 
-	@Override
-	public boolean generateJavaClient() {
-		return !isModelOnly;
-	}
+    @Override
+    public boolean generateJavaClient() {
+        return !isModelOnly;
+    }
 
 }

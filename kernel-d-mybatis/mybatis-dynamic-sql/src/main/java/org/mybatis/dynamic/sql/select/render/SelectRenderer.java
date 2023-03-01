@@ -33,96 +33,96 @@ import java.util.stream.Collectors;
 
 public class SelectRenderer {
 
-	private final SelectModel selectModel;
+    private final SelectModel selectModel;
 
-	private final RenderingStrategy renderingStrategy;
+    private final RenderingStrategy renderingStrategy;
 
-	private final AtomicInteger sequence;
+    private final AtomicInteger sequence;
 
-	private final TableAliasCalculator parentTableAliasCalculator; // may be null
+    private final TableAliasCalculator parentTableAliasCalculator; // may be null
 
-	private SelectRenderer(Builder builder) {
-		selectModel = Objects.requireNonNull(builder.selectModel);
-		renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
-		if (builder.sequence == null) {
-			sequence = new AtomicInteger(1);
-		}
-		else {
-			sequence = builder.sequence;
-		}
-		parentTableAliasCalculator = builder.parentTableAliasCalculator;
-	}
+    private SelectRenderer(Builder builder) {
+        selectModel = Objects.requireNonNull(builder.selectModel);
+        renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
+        if (builder.sequence == null) {
+            sequence = new AtomicInteger(1);
+        }
+        else {
+            sequence = builder.sequence;
+        }
+        parentTableAliasCalculator = builder.parentTableAliasCalculator;
+    }
 
-	public SelectStatementProvider render() {
-		FragmentCollector fragmentCollector = selectModel.mapQueryExpressions(this::renderQueryExpression)
-				.collect(FragmentCollector.collect());
-		renderOrderBy(fragmentCollector);
-		renderPagingModel(fragmentCollector);
+    public SelectStatementProvider render() {
+        FragmentCollector fragmentCollector = selectModel.mapQueryExpressions(this::renderQueryExpression)
+                .collect(FragmentCollector.collect());
+        renderOrderBy(fragmentCollector);
+        renderPagingModel(fragmentCollector);
 
-		String selectStatement = fragmentCollector.fragments().collect(Collectors.joining(" ")); //$NON-NLS-1$
+        String selectStatement = fragmentCollector.fragments().collect(Collectors.joining(" ")); //$NON-NLS-1$
 
-		return DefaultSelectStatementProvider.withSelectStatement(selectStatement)
-				.withParameters(fragmentCollector.parameters()).withSource(this).build();
-	}
+        return DefaultSelectStatementProvider.withSelectStatement(selectStatement)
+                .withParameters(fragmentCollector.parameters()).withSource(this).build();
+    }
 
-	private FragmentAndParameters renderQueryExpression(QueryExpressionModel queryExpressionModel) {
-		return QueryExpressionRenderer.withQueryExpression(queryExpressionModel)
-				.withRenderingStrategy(renderingStrategy).withSequence(sequence)
-				.withParentTableAliasCalculator(parentTableAliasCalculator).build().render();
-	}
+    private FragmentAndParameters renderQueryExpression(QueryExpressionModel queryExpressionModel) {
+        return QueryExpressionRenderer.withQueryExpression(queryExpressionModel)
+                .withRenderingStrategy(renderingStrategy).withSequence(sequence)
+                .withParentTableAliasCalculator(parentTableAliasCalculator).build().render();
+    }
 
-	private void renderOrderBy(FragmentCollector fragmentCollector) {
-		selectModel.orderByModel().ifPresent(om -> renderOrderBy(fragmentCollector, om));
-	}
+    private void renderOrderBy(FragmentCollector fragmentCollector) {
+        selectModel.orderByModel().ifPresent(om -> renderOrderBy(fragmentCollector, om));
+    }
 
-	private void renderOrderBy(FragmentCollector fragmentCollector, OrderByModel orderByModel) {
-		String phrase = orderByModel.mapColumns(this::calculateOrderByPhrase)
-				.collect(CustomCollectors.joining(", ", "order by ", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		fragmentCollector.add(FragmentAndParameters.withFragment(phrase).build());
-	}
+    private void renderOrderBy(FragmentCollector fragmentCollector, OrderByModel orderByModel) {
+        String phrase = orderByModel.mapColumns(this::calculateOrderByPhrase)
+                .collect(CustomCollectors.joining(", ", "order by ", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        fragmentCollector.add(FragmentAndParameters.withFragment(phrase).build());
+    }
 
-	private String calculateOrderByPhrase(SortSpecification column) {
-		String phrase = column.orderByName();
-		if (column.isDescending()) {
-			phrase = phrase + " DESC"; //$NON-NLS-1$
-		}
-		return phrase;
-	}
+    private String calculateOrderByPhrase(SortSpecification column) {
+        String phrase = column.orderByName();
+        if (column.isDescending()) {
+            phrase = phrase + " DESC"; //$NON-NLS-1$
+        }
+        return phrase;
+    }
 
-	private void renderPagingModel(FragmentCollector fragmentCollector) {
-		selectModel.pagingModel().flatMap(this::renderPagingModel).ifPresent(fragmentCollector::add);
-	}
+    private void renderPagingModel(FragmentCollector fragmentCollector) {
+        selectModel.pagingModel().flatMap(this::renderPagingModel).ifPresent(fragmentCollector::add);
+    }
 
-	private Optional<FragmentAndParameters> renderPagingModel(PagingModel pagingModel) {
-		return new PagingModelRenderer.Builder().withPagingModel(pagingModel).withRenderingStrategy(renderingStrategy)
-				.withSequence(sequence).build().render();
-	}
+    private Optional<FragmentAndParameters> renderPagingModel(PagingModel pagingModel) {
+        return new PagingModelRenderer.Builder().withPagingModel(pagingModel).withRenderingStrategy(renderingStrategy)
+                .withSequence(sequence).build().render();
+    }
 
-	public static Builder withSelectModel(SelectModel selectModel) {
-		return new Builder().withSelectModel(selectModel);
-	}
+    public static Builder withSelectModel(SelectModel selectModel) {
+        return new Builder().withSelectModel(selectModel);
+    }
 
-	public SelectModel getSelectModel() {
-		return selectModel;
-	}
+    public SelectModel getSelectModel() {
+        return selectModel;
+    }
 
-	public static class Builder extends AbstractQueryRendererBuilder<Builder> {
+    public static class Builder extends AbstractQueryRendererBuilder<Builder> {
 
-		private SelectModel selectModel;
+        private SelectModel selectModel;
 
-		public Builder withSelectModel(SelectModel selectModel) {
-			this.selectModel = selectModel;
-			return this;
-		}
+        public Builder withSelectModel(SelectModel selectModel) {
+            this.selectModel = selectModel;
+            return this;
+        }
 
-		public SelectRenderer build() {
-			return new SelectRenderer(this);
-		}
+        public SelectRenderer build() {
+            return new SelectRenderer(this);
+        }
 
-		Builder getThis() {
-			return this;
-		}
+        Builder getThis() {
+            return this;
+        }
 
-	}
+    }
 
 }

@@ -19,11 +19,11 @@ import org.mybatis.dynamic.sql.ParameterTypeConverter;
 import org.springframework.core.convert.converter.Converter;
 
 public class LastNameParameterConverter
-		implements ParameterTypeConverter<LastName, String>, Converter<LastName, String> {
+        implements ParameterTypeConverter<LastName, String>, Converter<LastName, String> {
 
-	@Override
-	public String convert(LastName source) {
-		return source == null ? null : source.getName();
-	}
+    @Override
+    public String convert(LastName source) {
+        return source == null ? null : source.getName();
+    }
 
 }

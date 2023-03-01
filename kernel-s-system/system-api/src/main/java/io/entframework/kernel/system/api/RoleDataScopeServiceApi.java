@@ -12,12 +12,12 @@ import java.util.Set;
  */
 public interface RoleDataScopeServiceApi {
 
-	/**
-	 * 根据机构id集合删除
-	 * @param orgIds 结构id集合
-	 * @return
-	 * @date 2021/2/4 15:56
-	 */
-	void delByOrgIds(Set<Long> orgIds);
+    /**
+     * 根据机构id集合删除
+     * @param orgIds 结构id集合
+     * @return
+     * @date 2021/2/4 15:56
+     */
+    void delByOrgIds(Set<Long> orgIds);
 
 }

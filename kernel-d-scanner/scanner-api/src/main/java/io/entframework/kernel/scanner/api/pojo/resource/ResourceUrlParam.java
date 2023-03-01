@@ -16,6 +16,6 @@ import lombok.EqualsAndHashCode;
 @Data
 public class ResourceUrlParam extends BaseRequest {
 
-	private String url;
+    private String url;
 
 }

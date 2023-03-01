@@ -16,19 +16,19 @@ import java.util.Set;
 @Data
 public class DataScopeDTO {
 
-	/**
-	 * 数据范围类型的响应结果
-	 */
-	private Set<DataScopeTypeEnum> dataScopeTypeEnums;
+    /**
+     * 数据范围类型的响应结果
+     */
+    private Set<DataScopeTypeEnum> dataScopeTypeEnums;
 
-	/**
-	 * 用户id数据范围集合
-	 */
-	private Set<Long> userIds;
+    /**
+     * 用户id数据范围集合
+     */
+    private Set<Long> userIds;
 
-	/**
-	 * 组织架构id数据范围集合
-	 */
-	private Set<Long> organizationIds;
+    /**
+     * 组织架构id数据范围集合
+     */
+    private Set<Long> organizationIds;
 
 }

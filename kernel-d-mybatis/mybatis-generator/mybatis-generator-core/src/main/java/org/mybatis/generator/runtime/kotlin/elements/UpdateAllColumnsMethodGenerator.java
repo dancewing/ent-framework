@@ -25,73 +25,73 @@ import org.mybatis.generator.api.dom.kotlin.KotlinFunction;
 
 public class UpdateAllColumnsMethodGenerator extends AbstractKotlinFunctionGenerator {
 
-	private final FullyQualifiedKotlinType recordType;
+    private final FullyQualifiedKotlinType recordType;
 
-	private final KotlinFragmentGenerator fragmentGenerator;
+    private final KotlinFragmentGenerator fragmentGenerator;
 
-	private UpdateAllColumnsMethodGenerator(Builder builder) {
-		super(builder);
-		recordType = builder.recordType;
-		fragmentGenerator = builder.fragmentGenerator;
-	}
+    private UpdateAllColumnsMethodGenerator(Builder builder) {
+        super(builder);
+        recordType = builder.recordType;
+        fragmentGenerator = builder.fragmentGenerator;
+    }
 
-	@Override
-	public KotlinFunctionAndImports generateMethodAndImports() {
-		KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports
-				.withFunction(KotlinFunction.newOneLineFunction("KotlinUpdateBuilder.updateAllColumns") //$NON-NLS-1$
-						.withArgument(KotlinArg.newArg("row") //$NON-NLS-1$
-								.withDataType(recordType.getShortNameWithTypeArguments()).build())
-						.build())
-				.withImport("org.mybatis.dynamic.sql.util.kotlin.KotlinUpdateBuilder") //$NON-NLS-1$
-				.withImports(recordType.getImportList()).build();
+    @Override
+    public KotlinFunctionAndImports generateMethodAndImports() {
+        KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports
+                .withFunction(KotlinFunction.newOneLineFunction("KotlinUpdateBuilder.updateAllColumns") //$NON-NLS-1$
+                        .withArgument(KotlinArg.newArg("row") //$NON-NLS-1$
+                                .withDataType(recordType.getShortNameWithTypeArguments()).build())
+                        .build())
+                .withImport("org.mybatis.dynamic.sql.util.kotlin.KotlinUpdateBuilder") //$NON-NLS-1$
+                .withImports(recordType.getImportList()).build();
 
-		addFunctionComment(functionAndImports);
+        addFunctionComment(functionAndImports);
 
-		KotlinFunction function = functionAndImports.getFunction();
+        KotlinFunction function = functionAndImports.getFunction();
 
-		function.addCodeLine("apply {"); //$NON-NLS-1$
+        function.addCodeLine("apply {"); //$NON-NLS-1$
 
-		List<IntrospectedColumn> columns = introspectedTable.getAllColumns();
-		KotlinFunctionParts functionParts = fragmentGenerator.getSetEqualLines(columns);
+        List<IntrospectedColumn> columns = introspectedTable.getAllColumns();
+        KotlinFunctionParts functionParts = fragmentGenerator.getSetEqualLines(columns);
 
-		acceptParts(functionAndImports, functionParts);
+        acceptParts(functionAndImports, functionParts);
 
-		function.addCodeLine("}"); //$NON-NLS-1$
+        function.addCodeLine("}"); //$NON-NLS-1$
 
-		return functionAndImports;
-	}
+        return functionAndImports;
+    }
 
-	@Override
-	public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
-		return context.getPlugins().clientUpdateAllColumnsMethodGenerated(kotlinFunction, kotlinFile,
-				introspectedTable);
-	}
+    @Override
+    public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
+        return context.getPlugins().clientUpdateAllColumnsMethodGenerated(kotlinFunction, kotlinFile,
+                introspectedTable);
+    }
 
-	public static class Builder extends BaseBuilder<Builder> {
+    public static class Builder extends BaseBuilder<Builder> {
 
-		private FullyQualifiedKotlinType recordType;
+        private FullyQualifiedKotlinType recordType;
 
-		private KotlinFragmentGenerator fragmentGenerator;
+        private KotlinFragmentGenerator fragmentGenerator;
 
-		public Builder withRecordType(FullyQualifiedKotlinType recordType) {
-			this.recordType = recordType;
-			return this;
-		}
+        public Builder withRecordType(FullyQualifiedKotlinType recordType) {
+            this.recordType = recordType;
+            return this;
+        }
 
-		public Builder withFragmentGenerator(KotlinFragmentGenerator fragmentGenerator) {
-			this.fragmentGenerator = fragmentGenerator;
-			return this;
-		}
+        public Builder withFragmentGenerator(KotlinFragmentGenerator fragmentGenerator) {
+            this.fragmentGenerator = fragmentGenerator;
+            return this;
+        }
 
-		@Override
-		public Builder getThis() {
-			return this;
-		}
+        @Override
+        public Builder getThis() {
+            return this;
+        }
 
-		public UpdateAllColumnsMethodGenerator build() {
-			return new UpdateAllColumnsMethodGenerator(this);
-		}
+        public UpdateAllColumnsMethodGenerator build() {
+            return new UpdateAllColumnsMethodGenerator(this);
+        }
 
-	}
+    }
 
 }

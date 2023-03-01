@@ -30,87 +30,87 @@ import org.mybatis.generator.runtime.kotlin.elements.AbstractKotlinFunctionGener
 
 public class ColumnListGenerator {
 
-	private final Context context;
+    private final Context context;
 
-	private final IntrospectedTable introspectedTable;
+    private final IntrospectedTable introspectedTable;
 
-	private final String supportObjectImport;
+    private final String supportObjectImport;
 
-	private final String tableFieldName;
+    private final String tableFieldName;
 
-	private ColumnListGenerator(Builder builder) {
-		this.context = Objects.requireNonNull(builder.context);
-		this.introspectedTable = Objects.requireNonNull(builder.introspectedTable);
-		this.supportObjectImport = Objects.requireNonNull(builder.supportObjectImport);
-		this.tableFieldName = Objects.requireNonNull(builder.tableFieldName);
-	}
+    private ColumnListGenerator(Builder builder) {
+        this.context = Objects.requireNonNull(builder.context);
+        this.introspectedTable = Objects.requireNonNull(builder.introspectedTable);
+        this.supportObjectImport = Objects.requireNonNull(builder.supportObjectImport);
+        this.tableFieldName = Objects.requireNonNull(builder.tableFieldName);
+    }
 
-	public KotlinPropertyAndImports generatePropertyAndImports() {
-		List<FieldNameAndImport> fieldsAndImports = introspectedTable.getAllColumns().stream()
-				.map(this::calculateFieldAndImport).collect(Collectors.toList());
+    public KotlinPropertyAndImports generatePropertyAndImports() {
+        List<FieldNameAndImport> fieldsAndImports = introspectedTable.getAllColumns().stream()
+                .map(this::calculateFieldAndImport).collect(Collectors.toList());
 
-		KotlinPropertyAndImports propertyAndImports = KotlinPropertyAndImports
-				.withProperty(KotlinProperty.newVal("columnList") //$NON-NLS-1$
-						.withModifier(KotlinModifier.PRIVATE)
-						.withInitializationString(getInitializationString(fieldsAndImports)).build())
-				.withImports(getImports(fieldsAndImports)).build();
+        KotlinPropertyAndImports propertyAndImports = KotlinPropertyAndImports
+                .withProperty(KotlinProperty.newVal("columnList") //$NON-NLS-1$
+                        .withModifier(KotlinModifier.PRIVATE)
+                        .withInitializationString(getInitializationString(fieldsAndImports)).build())
+                .withImports(getImports(fieldsAndImports)).build();
 
-		context.getCommentGenerator().addGeneralPropertyComment(propertyAndImports.getProperty(), introspectedTable,
-				propertyAndImports.getImports());
-		return propertyAndImports;
-	}
+        context.getCommentGenerator().addGeneralPropertyComment(propertyAndImports.getProperty(), introspectedTable,
+                propertyAndImports.getImports());
+        return propertyAndImports;
+    }
 
-	private FieldNameAndImport calculateFieldAndImport(IntrospectedColumn column) {
-		return AbstractKotlinFunctionGenerator.calculateFieldNameAndImport(tableFieldName, supportObjectImport, column);
-	}
+    private FieldNameAndImport calculateFieldAndImport(IntrospectedColumn column) {
+        return AbstractKotlinFunctionGenerator.calculateFieldNameAndImport(tableFieldName, supportObjectImport, column);
+    }
 
-	private String getInitializationString(List<FieldNameAndImport> fieldsAndImports) {
-		return fieldsAndImports.stream().map(FieldNameAndImport::fieldName)
-				.collect(Collectors.joining(", ", "listOf(", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	}
+    private String getInitializationString(List<FieldNameAndImport> fieldsAndImports) {
+        return fieldsAndImports.stream().map(FieldNameAndImport::fieldName)
+                .collect(Collectors.joining(", ", "listOf(", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    }
 
-	private Set<String> getImports(List<FieldNameAndImport> fieldsAndImports) {
-		return fieldsAndImports.stream().map(FieldNameAndImport::importString).collect(Collectors.toSet());
-	}
+    private Set<String> getImports(List<FieldNameAndImport> fieldsAndImports) {
+        return fieldsAndImports.stream().map(FieldNameAndImport::importString).collect(Collectors.toSet());
+    }
 
-	public boolean callPlugins(KotlinProperty kotlinProperty, KotlinFile kotlinFile) {
-		return context.getPlugins().clientColumnListPropertyGenerated(kotlinProperty, kotlinFile, introspectedTable);
-	}
+    public boolean callPlugins(KotlinProperty kotlinProperty, KotlinFile kotlinFile) {
+        return context.getPlugins().clientColumnListPropertyGenerated(kotlinProperty, kotlinFile, introspectedTable);
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private Context context;
+        private Context context;
 
-		private IntrospectedTable introspectedTable;
+        private IntrospectedTable introspectedTable;
 
-		private String supportObjectImport;
+        private String supportObjectImport;
 
-		private String tableFieldName;
+        private String tableFieldName;
 
-		public Builder withSupportObjectImport(String supportObjectImport) {
-			this.supportObjectImport = supportObjectImport;
-			return this;
-		}
+        public Builder withSupportObjectImport(String supportObjectImport) {
+            this.supportObjectImport = supportObjectImport;
+            return this;
+        }
 
-		public Builder withContext(Context context) {
-			this.context = context;
-			return this;
-		}
+        public Builder withContext(Context context) {
+            this.context = context;
+            return this;
+        }
 
-		public Builder withIntrospectedTable(IntrospectedTable introspectedTable) {
-			this.introspectedTable = introspectedTable;
-			return this;
-		}
+        public Builder withIntrospectedTable(IntrospectedTable introspectedTable) {
+            this.introspectedTable = introspectedTable;
+            return this;
+        }
 
-		public Builder withTableFieldName(String tableFieldName) {
-			this.tableFieldName = tableFieldName;
-			return this;
-		}
+        public Builder withTableFieldName(String tableFieldName) {
+            this.tableFieldName = tableFieldName;
+            return this;
+        }
 
-		public ColumnListGenerator build() {
-			return new ColumnListGenerator(this);
-		}
+        public ColumnListGenerator build() {
+            return new ColumnListGenerator(this);
+        }
 
-	}
+    }
 
 }

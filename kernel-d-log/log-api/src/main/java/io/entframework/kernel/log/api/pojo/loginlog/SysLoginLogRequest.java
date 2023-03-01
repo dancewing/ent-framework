@@ -26,41 +26,41 @@ import java.util.List;
 @Builder(builderClassName = "Builder")
 public class SysLoginLogRequest extends BaseRequest {
 
-	/**
-	 * 主键id
-	 */
-	@NotNull(message = "llgId不能为空", groups = { detail.class })
-	private Long llgId;
+    /**
+     * 主键id
+     */
+    @NotNull(message = "llgId不能为空", groups = { detail.class })
+    private Long llgId;
 
-	/**
-	 * 日志名称
-	 */
-	private String llgName;
+    /**
+     * 日志名称
+     */
+    private String llgName;
 
-	/**
-	 * 是否执行成功
-	 */
-	private String llgSucceed;
+    /**
+     * 是否执行成功
+     */
+    private String llgSucceed;
 
-	/**
-	 * 具体消息
-	 */
-	private String llgMessage;
+    /**
+     * 具体消息
+     */
+    private String llgMessage;
 
-	/**
-	 * 登录ip
-	 */
-	private String llgIpAddress;
+    /**
+     * 登录ip
+     */
+    private String llgIpAddress;
 
-	/**
-	 * 用户id
-	 */
-	private Long userId;
+    /**
+     * 用户id
+     */
+    private Long userId;
 
-	private String loginAccount;
+    private String loginAccount;
 
-	private LoginEventType type;
+    private LoginEventType type;
 
-	private List<Long> llgIds;
+    private List<Long> llgIds;
 
 }

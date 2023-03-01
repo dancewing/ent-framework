@@ -11,22 +11,22 @@ import lombok.Getter;
 @Getter
 public enum MenuTypeEnum implements SupperEnum<Integer> {
 
-	DIRECTORY(0, "目录"), ROUTER(1, "路由菜单"), LINK(2, "外部链接"), BUTTON(3, "按钮");
+    DIRECTORY(0, "目录"), ROUTER(1, "路由菜单"), LINK(2, "外部链接"), BUTTON(3, "按钮");
 
-	@EnumValue
-	@JsonValue
-	private final Integer value;
+    @EnumValue
+    @JsonValue
+    private final Integer value;
 
-	private final String label;
+    private final String label;
 
-	MenuTypeEnum(Integer value, String label) {
-		this.value = value;
-		this.label = label;
-	}
+    MenuTypeEnum(Integer value, String label) {
+        this.value = value;
+        this.label = label;
+    }
 
-	@JsonCreator
-	public static MenuTypeEnum valueToEnum(Integer value) {
-		return SupperEnum.fromValue(MenuTypeEnum.class, value);
-	}
+    @JsonCreator
+    public static MenuTypeEnum valueToEnum(Integer value) {
+        return SupperEnum.fromValue(MenuTypeEnum.class, value);
+    }
 
 }

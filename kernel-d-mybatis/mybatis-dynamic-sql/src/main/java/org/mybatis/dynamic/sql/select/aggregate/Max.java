@@ -21,22 +21,22 @@ import org.mybatis.dynamic.sql.select.function.AbstractUniTypeFunction;
 
 public class Max<T> extends AbstractUniTypeFunction<T, Max<T>> {
 
-	private Max(BindableColumn<T> column) {
-		super(column);
-	}
+    private Max(BindableColumn<T> column) {
+        super(column);
+    }
 
-	@Override
-	public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
-		return "max(" + column.renderWithTableAlias(tableAliasCalculator) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-	}
+    @Override
+    public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
+        return "max(" + column.renderWithTableAlias(tableAliasCalculator) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+    }
 
-	@Override
-	protected Max<T> copy() {
-		return new Max<>(column);
-	}
+    @Override
+    protected Max<T> copy() {
+        return new Max<>(column);
+    }
 
-	public static <T> Max<T> of(BindableColumn<T> column) {
-		return new Max<>(column);
-	}
+    public static <T> Max<T> of(BindableColumn<T> column) {
+        return new Max<>(column);
+    }
 
 }

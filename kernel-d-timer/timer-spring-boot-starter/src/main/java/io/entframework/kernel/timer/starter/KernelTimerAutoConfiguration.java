@@ -23,20 +23,20 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = { "io.entframework.kernel.timer" })
 public class KernelTimerAutoConfiguration {
 
-	/**
-	 * hutool的定时任务
-	 *
-	 * @date 2020/12/1 21:18
-	 */
-	@Bean
-	@ConditionalOnMissingBean(TimerExeService.class)
-	public TimerExeService timerExeService() {
-		return new HutoolTimerExeServiceImpl();
-	}
+    /**
+     * hutool的定时任务
+     *
+     * @date 2020/12/1 21:18
+     */
+    @Bean
+    @ConditionalOnMissingBean(TimerExeService.class)
+    public TimerExeService timerExeService() {
+        return new HutoolTimerExeServiceImpl();
+    }
 
-	@Bean
-	public TaskRunListener taskRunListener() {
-		return new TaskRunListener();
-	}
+    @Bean
+    public TaskRunListener taskRunListener() {
+        return new TaskRunListener();
+    }
 
 }

@@ -17,9 +17,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class SystemOutTaskRunner implements TimerAction {
 
-	@Override
-	public void action(String params) {
-		log.info(CharSequenceUtil.format("这是一个定时任务测试的程序，一直输出这行内容！这个是参数: {}", params));
-	}
+    @Override
+    public void action(String params) {
+        log.info(CharSequenceUtil.format("这是一个定时任务测试的程序，一直输出这行内容！这个是参数: {}", params));
+    }
 
 }

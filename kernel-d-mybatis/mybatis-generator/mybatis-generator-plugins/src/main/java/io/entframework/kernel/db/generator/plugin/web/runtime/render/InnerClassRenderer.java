@@ -25,55 +25,55 @@ import java.util.List;
 
 public class InnerClassRenderer {
 
-	public List<String> render(InnerClass innerClass, CompilationUnit compilationUnit) {
-		List<String> lines = new ArrayList<>();
+    public List<String> render(InnerClass innerClass, CompilationUnit compilationUnit) {
+        List<String> lines = new ArrayList<>();
 
-		lines.addAll(innerClass.getJavaDocLines());
-		// lines.addAll(innerClass.getAnnotations());
+        lines.addAll(innerClass.getJavaDocLines());
+        // lines.addAll(innerClass.getAnnotations());
 
-		if (innerClass.getFields().size() > 0) {
-			lines.add(renderFirstLine(innerClass, compilationUnit));
+        if (innerClass.getFields().size() > 0) {
+            lines.add(renderFirstLine(innerClass, compilationUnit));
 
-			lines.addAll(RenderingUtilities.renderFields(innerClass.getFields(), compilationUnit));
-			lines.addAll(RenderingUtilities.renderInnerInterfaces(innerClass.getInnerInterfaces(), compilationUnit));
-			lines = RenderingUtilities.removeLastEmptyLine(lines);
-			lines.add("}"); //$NON-NLS-1$
-		}
-		if (innerClass.getMethods().size() > 0) {
-			lines.addAll(RenderingUtilities.renderClassOrEnumMethods(innerClass.getMethods(), compilationUnit));
-			lines = RenderingUtilities.removeLastEmptyLine(lines);
-		}
-		// 处理内部类
-		lines.addAll(RenderingUtilities.renderInnerClasses(innerClass.getInnerClasses(), compilationUnit));
-		lines.addAll(RenderingUtilities.renderInitializationBlocks(innerClass.getInitializationBlocks()));
+            lines.addAll(RenderingUtilities.renderFields(innerClass.getFields(), compilationUnit));
+            lines.addAll(RenderingUtilities.renderInnerInterfaces(innerClass.getInnerInterfaces(), compilationUnit));
+            lines = RenderingUtilities.removeLastEmptyLine(lines);
+            lines.add("}"); //$NON-NLS-1$
+        }
+        if (innerClass.getMethods().size() > 0) {
+            lines.addAll(RenderingUtilities.renderClassOrEnumMethods(innerClass.getMethods(), compilationUnit));
+            lines = RenderingUtilities.removeLastEmptyLine(lines);
+        }
+        // 处理内部类
+        lines.addAll(RenderingUtilities.renderInnerClasses(innerClass.getInnerClasses(), compilationUnit));
+        lines.addAll(RenderingUtilities.renderInitializationBlocks(innerClass.getInitializationBlocks()));
 
-		lines.addAll(RenderingUtilities.renderInnerEnums(innerClass.getInnerEnums(), compilationUnit));
-		return lines;
-	}
+        lines.addAll(RenderingUtilities.renderInnerEnums(innerClass.getInnerEnums(), compilationUnit));
+        return lines;
+    }
 
-	private String renderFirstLine(InnerClass innerClass, CompilationUnit compilationUnit) {
-		StringBuilder sb = new StringBuilder();
+    private String renderFirstLine(InnerClass innerClass, CompilationUnit compilationUnit) {
+        StringBuilder sb = new StringBuilder();
 
-		sb.append("export interface "); //$NON-NLS-1$
-		sb.append(innerClass.getType().getShortName());
-		sb.append(RenderingUtilities.renderTypeParameters(innerClass.getTypeParameters(), compilationUnit));
-		sb.append(renderSuperClass(innerClass, compilationUnit));
-		sb.append(renderSuperInterfaces(innerClass, compilationUnit));
-		sb.append(" {"); //$NON-NLS-1$
+        sb.append("export interface "); //$NON-NLS-1$
+        sb.append(innerClass.getType().getShortName());
+        sb.append(RenderingUtilities.renderTypeParameters(innerClass.getTypeParameters(), compilationUnit));
+        sb.append(renderSuperClass(innerClass, compilationUnit));
+        sb.append(renderSuperInterfaces(innerClass, compilationUnit));
+        sb.append(" {"); //$NON-NLS-1$
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
-	private String renderSuperClass(InnerClass innerClass, CompilationUnit compilationUnit) {
-		return innerClass.getSuperClass().map(sc -> " extends " + JavaDomUtils.calculateTypeName(compilationUnit, sc)) //$NON-NLS-1$
-				.orElse(""); //$NON-NLS-1$
-	}
+    private String renderSuperClass(InnerClass innerClass, CompilationUnit compilationUnit) {
+        return innerClass.getSuperClass().map(sc -> " extends " + JavaDomUtils.calculateTypeName(compilationUnit, sc)) //$NON-NLS-1$
+                .orElse(""); //$NON-NLS-1$
+    }
 
-	// should return an empty string if no super interfaces
-	private String renderSuperInterfaces(InnerClass innerClass, CompilationUnit compilationUnit) {
-		return innerClass.getSuperInterfaceTypes().stream()
-				.map(tp -> JavaDomUtils.calculateTypeName(compilationUnit, tp))
-				.collect(CustomCollectors.joining(", ", " implements ", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	}
+    // should return an empty string if no super interfaces
+    private String renderSuperInterfaces(InnerClass innerClass, CompilationUnit compilationUnit) {
+        return innerClass.getSuperInterfaceTypes().stream()
+                .map(tp -> JavaDomUtils.calculateTypeName(compilationUnit, tp))
+                .collect(CustomCollectors.joining(", ", " implements ", "")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    }
 
 }

@@ -57,64 +57,64 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 @MapperScan("examples.springbatch.mapper")
 public class CursorReaderBatchConfiguration {
 
-	@Autowired
-	private JobRepository jobRepository;
+    @Autowired
+    private JobRepository jobRepository;
 
-	@Bean
-	public DataSource dataSource() {
-		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL)
-				.addScript("classpath:/org/springframework/batch/core/schema-drop-hsqldb.sql")
-				.addScript("classpath:/org/springframework/batch/core/schema-hsqldb.sql")
-				.addScript("classpath:/examples/springbatch/schema.sql")
-				.addScript("classpath:/examples/springbatch/data.sql").build();
-	}
+    @Bean
+    public DataSource dataSource() {
+        return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL)
+                .addScript("classpath:/org/springframework/batch/core/schema-drop-hsqldb.sql")
+                .addScript("classpath:/org/springframework/batch/core/schema-hsqldb.sql")
+                .addScript("classpath:/examples/springbatch/schema.sql")
+                .addScript("classpath:/examples/springbatch/data.sql").build();
+    }
 
-	@Bean
-	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
-		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource);
-		return sessionFactory.getObject();
-	}
+    @Bean
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+        SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+        sessionFactory.setDataSource(dataSource);
+        return sessionFactory.getObject();
+    }
 
-	@Bean
-	public PlatformTransactionManager transactionManager(DataSource dataSource) {
-		return new DataSourceTransactionManager(dataSource);
-	}
+    @Bean
+    public PlatformTransactionManager transactionManager(DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
+    }
 
-	@Bean
-	public MyBatisCursorItemReader<PersonRecord> reader(SqlSessionFactory sqlSessionFactory) {
-		SelectStatementProvider selectStatement = SpringBatchUtility.selectForCursor(person.allColumns()).from(person)
-				.where(lastName, isEqualTo("flintstone")).build().render();
+    @Bean
+    public MyBatisCursorItemReader<PersonRecord> reader(SqlSessionFactory sqlSessionFactory) {
+        SelectStatementProvider selectStatement = SpringBatchUtility.selectForCursor(person.allColumns()).from(person)
+                .where(lastName, isEqualTo("flintstone")).build().render();
 
-		MyBatisCursorItemReader<PersonRecord> reader = new MyBatisCursorItemReader<>();
-		reader.setQueryId(PersonMapper.class.getName() + ".selectMany");
-		reader.setSqlSessionFactory(sqlSessionFactory);
-		reader.setParameterValues(SpringBatchUtility.toParameterValues(selectStatement));
-		return reader;
-	}
+        MyBatisCursorItemReader<PersonRecord> reader = new MyBatisCursorItemReader<>();
+        reader.setQueryId(PersonMapper.class.getName() + ".selectMany");
+        reader.setSqlSessionFactory(sqlSessionFactory);
+        reader.setParameterValues(SpringBatchUtility.toParameterValues(selectStatement));
+        return reader;
+    }
 
-	@Bean
-	public MyBatisBatchItemWriter<PersonRecord> writer(SqlSessionFactory sqlSessionFactory,
-			Converter<PersonRecord, UpdateStatementProvider> convertor) {
-		MyBatisBatchItemWriter<PersonRecord> writer = new MyBatisBatchItemWriter<>();
-		writer.setSqlSessionFactory(sqlSessionFactory);
-		writer.setItemToParameterConverter(convertor);
-		writer.setStatementId(PersonMapper.class.getName() + ".update");
-		return writer;
-	}
+    @Bean
+    public MyBatisBatchItemWriter<PersonRecord> writer(SqlSessionFactory sqlSessionFactory,
+            Converter<PersonRecord, UpdateStatementProvider> convertor) {
+        MyBatisBatchItemWriter<PersonRecord> writer = new MyBatisBatchItemWriter<>();
+        writer.setSqlSessionFactory(sqlSessionFactory);
+        writer.setItemToParameterConverter(convertor);
+        writer.setStatementId(PersonMapper.class.getName() + ".update");
+        return writer;
+    }
 
-	@Bean
-	public Step step1(ItemReader<PersonRecord> reader, ItemProcessor<PersonRecord, PersonRecord> processor,
-			ItemWriter<PersonRecord> writer, PlatformTransactionManager transactionManager) {
-		StepBuilder stepBuilder = new StepBuilder("step1", this.jobRepository);
-		return stepBuilder.<PersonRecord, PersonRecord>chunk(10).reader(reader).processor(processor).writer(writer)
-				.transactionManager(transactionManager).build();
-	}
+    @Bean
+    public Step step1(ItemReader<PersonRecord> reader, ItemProcessor<PersonRecord, PersonRecord> processor,
+            ItemWriter<PersonRecord> writer, PlatformTransactionManager transactionManager) {
+        StepBuilder stepBuilder = new StepBuilder("step1", this.jobRepository);
+        return stepBuilder.<PersonRecord, PersonRecord>chunk(10).reader(reader).processor(processor).writer(writer)
+                .transactionManager(transactionManager).build();
+    }
 
-	@Bean
-	public Job upperCaseLastName(Step step1) {
-		JobBuilder jobBuilder = new JobBuilder("upperCaseLastName", this.jobRepository);
-		return jobBuilder.incrementer(new RunIdIncrementer()).flow(step1).end().build();
-	}
+    @Bean
+    public Job upperCaseLastName(Step step1) {
+        JobBuilder jobBuilder = new JobBuilder("upperCaseLastName", this.jobRepository);
+        return jobBuilder.incrementer(new RunIdIncrementer()).flow(step1).end().build();
+    }
 
 }

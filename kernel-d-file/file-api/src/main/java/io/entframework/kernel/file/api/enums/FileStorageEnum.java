@@ -20,45 +20,45 @@ import lombok.Getter;
 @EnumHandler
 public enum FileStorageEnum implements SupperEnum<Integer> {
 
-	/**
-	 * 阿里云
-	 */
-	ALIYUN(1, "阿里云"),
+    /**
+     * 阿里云
+     */
+    ALIYUN(1, "阿里云"),
 
-	/**
-	 * 腾讯云
-	 */
-	TENCENT(2, "腾讯云"),
+    /**
+     * 腾讯云
+     */
+    TENCENT(2, "腾讯云"),
 
-	/**
-	 * minio服务器
-	 */
-	MINIO(3, "Minio"),
+    /**
+     * minio服务器
+     */
+    MINIO(3, "Minio"),
 
-	/**
-	 * 本地
-	 */
-	LOCAL(4, "Local"),
+    /**
+     * 本地
+     */
+    LOCAL(4, "Local"),
 
-	/**
-	 * 数据库中
-	 */
-	DB(5, "DB");
+    /**
+     * 数据库中
+     */
+    DB(5, "DB");
 
-	@JsonValue
-	@EnumValue
-	private final Integer value;
+    @JsonValue
+    @EnumValue
+    private final Integer value;
 
-	private final String label;
+    private final String label;
 
-	FileStorageEnum(Integer value, String label) {
-		this.value = value;
-		this.label = label;
-	}
+    FileStorageEnum(Integer value, String label) {
+        this.value = value;
+        this.label = label;
+    }
 
-	@JsonCreator
-	public static FileStorageEnum getStorage(Integer code) {
-		return SupperEnum.fromValue(FileStorageEnum.class, code);
-	}
+    @JsonCreator
+    public static FileStorageEnum getStorage(Integer code) {
+        return SupperEnum.fromValue(FileStorageEnum.class, code);
+    }
 
 }

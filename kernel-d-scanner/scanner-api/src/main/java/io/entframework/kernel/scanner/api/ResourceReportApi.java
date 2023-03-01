@@ -18,16 +18,16 @@ import java.util.List;
  */
 public interface ResourceReportApi {
 
-	/**
-	 * 持久化资源集合到某个服务中
-	 * <p>
-	 * 如果是单体项目，则吧资源汇报给本服务
-	 * <p>
-	 * 如果是微服务项目，则会有个consumer会将本服务的资源发送给资源管理者（一般为system服务）
-	 * @param reportResourceReq 资源汇报接口
-	 * @date 2020/10/19 22:02
-	 */
-	@PostMapping("/client/sys-resource/report-resources")
-	List<SysResourcePersistencePojo> reportResourcesAndGetResult(@RequestBody ResourceParam reportResourceReq);
+    /**
+     * 持久化资源集合到某个服务中
+     * <p>
+     * 如果是单体项目，则吧资源汇报给本服务
+     * <p>
+     * 如果是微服务项目，则会有个consumer会将本服务的资源发送给资源管理者（一般为system服务）
+     * @param reportResourceReq 资源汇报接口
+     * @date 2020/10/19 22:02
+     */
+    @PostMapping("/client/sys-resource/report-resources")
+    List<SysResourcePersistencePojo> reportResourcesAndGetResult(@RequestBody ResourceParam reportResourceReq);
 
 }

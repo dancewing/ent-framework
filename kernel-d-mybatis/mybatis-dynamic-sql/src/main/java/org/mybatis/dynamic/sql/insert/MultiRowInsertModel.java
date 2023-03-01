@@ -26,37 +26,37 @@ import org.mybatis.dynamic.sql.util.Messages;
 
 public class MultiRowInsertModel<T> extends AbstractMultiRowInsertModel<T> {
 
-	private MultiRowInsertModel(Builder<T> builder) {
-		super(builder);
-		if (records().isEmpty()) {
-			throw new InvalidSqlException(Messages.getString("ERROR.20")); //$NON-NLS-1$
-		}
-		if (columnMappings.isEmpty()) {
-			throw new InvalidSqlException(Messages.getString("ERROR.8")); //$NON-NLS-1$
-		}
-	}
+    private MultiRowInsertModel(Builder<T> builder) {
+        super(builder);
+        if (records().isEmpty()) {
+            throw new InvalidSqlException(Messages.getString("ERROR.20")); //$NON-NLS-1$
+        }
+        if (columnMappings.isEmpty()) {
+            throw new InvalidSqlException(Messages.getString("ERROR.8")); //$NON-NLS-1$
+        }
+    }
 
-	@NotNull
-	public MultiRowInsertStatementProvider<T> render(RenderingStrategy renderingStrategy) {
-		return MultiRowInsertRenderer.withMultiRowInsertModel(this).withRenderingStrategy(renderingStrategy).build()
-				.render();
-	}
+    @NotNull
+    public MultiRowInsertStatementProvider<T> render(RenderingStrategy renderingStrategy) {
+        return MultiRowInsertRenderer.withMultiRowInsertModel(this).withRenderingStrategy(renderingStrategy).build()
+                .render();
+    }
 
-	public static <T> Builder<T> withRecords(Collection<T> records) {
-		return new Builder<T>().withRecords(records);
-	}
+    public static <T> Builder<T> withRecords(Collection<T> records) {
+        return new Builder<T>().withRecords(records);
+    }
 
-	public static class Builder<T> extends AbstractBuilder<T, Builder<T>> {
+    public static class Builder<T> extends AbstractBuilder<T, Builder<T>> {
 
-		@Override
-		protected Builder<T> getThis() {
-			return this;
-		}
+        @Override
+        protected Builder<T> getThis() {
+            return this;
+        }
 
-		public MultiRowInsertModel<T> build() {
-			return new MultiRowInsertModel<>(this);
-		}
+        public MultiRowInsertModel<T> build() {
+            return new MultiRowInsertModel<>(this);
+        }
 
-	}
+    }
 
 }

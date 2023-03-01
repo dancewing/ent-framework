@@ -26,36 +26,36 @@ import org.mybatis.dynamic.sql.util.Messages;
 
 public class BatchInsertModel<T> extends AbstractMultiRowInsertModel<T> {
 
-	private BatchInsertModel(Builder<T> builder) {
-		super(builder);
-		if (records().isEmpty()) {
-			throw new InvalidSqlException(Messages.getString("ERROR.19")); //$NON-NLS-1$
-		}
-		if (columnMappings.isEmpty()) {
-			throw new InvalidSqlException(Messages.getString("ERROR.5")); //$NON-NLS-1$
-		}
-	}
+    private BatchInsertModel(Builder<T> builder) {
+        super(builder);
+        if (records().isEmpty()) {
+            throw new InvalidSqlException(Messages.getString("ERROR.19")); //$NON-NLS-1$
+        }
+        if (columnMappings.isEmpty()) {
+            throw new InvalidSqlException(Messages.getString("ERROR.5")); //$NON-NLS-1$
+        }
+    }
 
-	@NotNull
-	public BatchInsert<T> render(RenderingStrategy renderingStrategy) {
-		return BatchInsertRenderer.withBatchInsertModel(this).withRenderingStrategy(renderingStrategy).build().render();
-	}
+    @NotNull
+    public BatchInsert<T> render(RenderingStrategy renderingStrategy) {
+        return BatchInsertRenderer.withBatchInsertModel(this).withRenderingStrategy(renderingStrategy).build().render();
+    }
 
-	public static <T> Builder<T> withRecords(Collection<T> records) {
-		return new Builder<T>().withRecords(records);
-	}
+    public static <T> Builder<T> withRecords(Collection<T> records) {
+        return new Builder<T>().withRecords(records);
+    }
 
-	public static class Builder<T> extends AbstractBuilder<T, Builder<T>> {
+    public static class Builder<T> extends AbstractBuilder<T, Builder<T>> {
 
-		@Override
-		protected Builder<T> getThis() {
-			return this;
-		}
+        @Override
+        protected Builder<T> getThis() {
+            return this;
+        }
 
-		public BatchInsertModel<T> build() {
-			return new BatchInsertModel<>(this);
-		}
+        public BatchInsertModel<T> build() {
+            return new BatchInsertModel<>(this);
+        }
 
-	}
+    }
 
 }

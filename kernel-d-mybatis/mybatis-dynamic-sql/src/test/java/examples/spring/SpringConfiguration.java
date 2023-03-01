@@ -29,25 +29,25 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 public class SpringConfiguration {
 
-	@Bean
-	public DataSource datasource() {
-		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).generateUniqueName(true)
-				.addScript("classpath:/examples/simple/CreateSimpleDB.sql").build();
-	}
+    @Bean
+    public DataSource datasource() {
+        return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).generateUniqueName(true)
+                .addScript("classpath:/examples/simple/CreateSimpleDB.sql").build();
+    }
 
-	@Bean
-	public NamedParameterJdbcTemplate template(DataSource dataSource) {
-		return new NamedParameterJdbcTemplate(dataSource);
-	}
+    @Bean
+    public NamedParameterJdbcTemplate template(DataSource dataSource) {
+        return new NamedParameterJdbcTemplate(dataSource);
+    }
 
-	@Bean
-	public PlatformTransactionManager transactionManager(DataSource dataSource) {
-		return new DataSourceTransactionManager(dataSource);
-	}
+    @Bean
+    public PlatformTransactionManager transactionManager(DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
+    }
 
-	@Bean
-	public NamedParameterJdbcTemplateExtensions templateExtensions(NamedParameterJdbcTemplate template) {
-		return new NamedParameterJdbcTemplateExtensions(template);
-	}
+    @Bean
+    public NamedParameterJdbcTemplateExtensions templateExtensions(NamedParameterJdbcTemplate template) {
+        return new NamedParameterJdbcTemplateExtensions(template);
+    }
 
 }

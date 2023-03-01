@@ -24,49 +24,49 @@ import java.sql.JDBCType;
 @Table(sqlSupport = AnimalDataDynamicSqlSupport.class, tableProperty = "animalData")
 public class AnimalData {
 
-	@Id
-	@Column(name = "id", jdbcType = JDBCType.INTEGER)
-	private int id;
+    @Id
+    @Column(name = "id", jdbcType = JDBCType.INTEGER)
+    private int id;
 
-	@Column(name = "animal_name", jdbcType = JDBCType.VARCHAR)
-	private String animalName;
+    @Column(name = "animal_name", jdbcType = JDBCType.VARCHAR)
+    private String animalName;
 
-	@Column(name = "brain_weight", jdbcType = JDBCType.DOUBLE)
-	private double brainWeight;
+    @Column(name = "brain_weight", jdbcType = JDBCType.DOUBLE)
+    private double brainWeight;
 
-	@Column(name = "body_weight", jdbcType = JDBCType.DOUBLE)
-	private double bodyWeight;
+    @Column(name = "body_weight", jdbcType = JDBCType.DOUBLE)
+    private double bodyWeight;
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getAnimalName() {
-		return animalName;
-	}
+    public String getAnimalName() {
+        return animalName;
+    }
 
-	public void setAnimalName(String animalName) {
-		this.animalName = animalName;
-	}
+    public void setAnimalName(String animalName) {
+        this.animalName = animalName;
+    }
 
-	public double getBrainWeight() {
-		return brainWeight;
-	}
+    public double getBrainWeight() {
+        return brainWeight;
+    }
 
-	public void setBrainWeight(double brainWeight) {
-		this.brainWeight = brainWeight;
-	}
+    public void setBrainWeight(double brainWeight) {
+        this.brainWeight = brainWeight;
+    }
 
-	public double getBodyWeight() {
-		return bodyWeight;
-	}
+    public double getBodyWeight() {
+        return bodyWeight;
+    }
 
-	public void setBodyWeight(double bodyWeight) {
-		this.bodyWeight = bodyWeight;
-	}
+    public void setBodyWeight(double bodyWeight) {
+        this.bodyWeight = bodyWeight;
+    }
 
 }

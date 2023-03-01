@@ -25,29 +25,29 @@ import java.util.List;
 @AllArgsConstructor
 public class SwaggerProvider {
 
-	private static final String API_URI = "/v2/api-docs";
+    private static final String API_URI = "/v2/api-docs";
 
-	private RouteProperties routeProperties;
+    private RouteProperties routeProperties;
 
-	public List<SwaggerResource> get() {
-		List<SwaggerResource> resources = new ArrayList<>();
-		List<RouteResource> routeResources = routeProperties.getResources();
-		routeResources.forEach(routeResource -> resources.add(swaggerResource(routeResource)));
-		return resources;
-	}
+    public List<SwaggerResource> get() {
+        List<SwaggerResource> resources = new ArrayList<>();
+        List<RouteResource> routeResources = routeProperties.getResources();
+        routeResources.forEach(routeResource -> resources.add(swaggerResource(routeResource)));
+        return resources;
+    }
 
-	private SwaggerResource swaggerResource(RouteResource routeResource) {
-		SwaggerResource swaggerResource = new SwaggerResource();
-		swaggerResource.setName(routeResource.getName());
-		if (StringUtils.isNotEmpty(routeResource.getGroup())) {
-			swaggerResource.setUrl(
-					routeResource.getLocation().concat(API_URI).concat("?group=").concat(routeResource.getGroup()));
-		}
-		else {
-			swaggerResource.setUrl(routeResource.getLocation().concat(API_URI));
-		}
-		swaggerResource.setSwaggerVersion(routeResource.getVersion());
-		return swaggerResource;
-	}
+    private SwaggerResource swaggerResource(RouteResource routeResource) {
+        SwaggerResource swaggerResource = new SwaggerResource();
+        swaggerResource.setName(routeResource.getName());
+        if (StringUtils.isNotEmpty(routeResource.getGroup())) {
+            swaggerResource.setUrl(
+                    routeResource.getLocation().concat(API_URI).concat("?group=").concat(routeResource.getGroup()));
+        }
+        else {
+            swaggerResource.setUrl(routeResource.getLocation().concat(API_URI));
+        }
+        swaggerResource.setSwaggerVersion(routeResource.getVersion());
+        return swaggerResource;
+    }
 
 }

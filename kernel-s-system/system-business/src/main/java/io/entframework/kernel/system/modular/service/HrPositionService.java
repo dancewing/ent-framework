@@ -21,65 +21,65 @@ import java.util.List;
  * @date 2020/11/04 11:07
  */
 public interface HrPositionService
-		extends BaseService<HrPositionRequest, HrPositionResponse, HrPosition>, PositionServiceApi {
+        extends BaseService<HrPositionRequest, HrPositionResponse, HrPosition>, PositionServiceApi {
 
-	/**
-	 * 添加职位
-	 * @param hrPositionRequest 请求参数
-	 * @date 2020/11/04 11:07
-	 */
-	void add(HrPositionRequest hrPositionRequest);
+    /**
+     * 添加职位
+     * @param hrPositionRequest 请求参数
+     * @date 2020/11/04 11:07
+     */
+    void add(HrPositionRequest hrPositionRequest);
 
-	/**
-	 * 删除职位
-	 * @param hrPositionRequest 请求参数
-	 * @date 2020/11/04 11:07
-	 */
-	void del(HrPositionRequest hrPositionRequest);
+    /**
+     * 删除职位
+     * @param hrPositionRequest 请求参数
+     * @date 2020/11/04 11:07
+     */
+    void del(HrPositionRequest hrPositionRequest);
 
-	/**
-	 * 编辑职位
-	 * @param hrPositionRequest 请求参数
-	 * @date 2020/11/04 11:07
-	 */
-	HrPositionResponse update(HrPositionRequest hrPositionRequest);
+    /**
+     * 编辑职位
+     * @param hrPositionRequest 请求参数
+     * @date 2020/11/04 11:07
+     */
+    HrPositionResponse update(HrPositionRequest hrPositionRequest);
 
-	/**
-	 * 更新状态
-	 * @param hrPositionRequest 请求参数
-	 * @date 2020/11/18 23:00
-	 */
-	void changeStatus(HrPositionRequest hrPositionRequest);
+    /**
+     * 更新状态
+     * @param hrPositionRequest 请求参数
+     * @date 2020/11/18 23:00
+     */
+    void changeStatus(HrPositionRequest hrPositionRequest);
 
-	/**
-	 * 查看详情
-	 * @param hrPositionRequest 请求参数
-	 * @return 职位详情
-	 * @date 2020/11/04 11:07
-	 */
-	HrPositionResponse detail(HrPositionRequest hrPositionRequest);
+    /**
+     * 查看详情
+     * @param hrPositionRequest 请求参数
+     * @return 职位详情
+     * @date 2020/11/04 11:07
+     */
+    HrPositionResponse detail(HrPositionRequest hrPositionRequest);
 
-	/**
-	 * 查询职位详情列表
-	 * @param hrPositionRequest 请求参数
-	 * @return 职位详情列表
-	 * @date 2020/11/04 11:07
-	 */
-	List<HrPositionResponse> findList(HrPositionRequest hrPositionRequest);
+    /**
+     * 查询职位详情列表
+     * @param hrPositionRequest 请求参数
+     * @return 职位详情列表
+     * @date 2020/11/04 11:07
+     */
+    List<HrPositionResponse> findList(HrPositionRequest hrPositionRequest);
 
-	/**
-	 * 分页查询职位详情列表
-	 * @param hrPositionRequest 请求参数
-	 * @return 职位详情分页列表
-	 * @date 2020/11/04 11:07
-	 */
-	PageResult<HrPositionResponse> findPage(HrPositionRequest hrPositionRequest);
+    /**
+     * 分页查询职位详情列表
+     * @param hrPositionRequest 请求参数
+     * @return 职位详情分页列表
+     * @date 2020/11/04 11:07
+     */
+    PageResult<HrPositionResponse> findPage(HrPositionRequest hrPositionRequest);
 
-	/**
-	 * 批量删除系统职位
-	 * @param hrPositionRequest 请求参数
-	 * @date 2021/4/8 13:51
-	 */
-	void batchDel(HrPositionRequest hrPositionRequest);
+    /**
+     * 批量删除系统职位
+     * @param hrPositionRequest 请求参数
+     * @date 2021/4/8 13:51
+     */
+    void batchDel(HrPositionRequest hrPositionRequest);
 
 }

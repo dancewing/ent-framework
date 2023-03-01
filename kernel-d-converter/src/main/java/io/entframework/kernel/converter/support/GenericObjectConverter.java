@@ -6,6 +6,6 @@ import org.springframework.lang.Nullable;
 
 public interface GenericObjectConverter extends GenericConverter {
 
-	void copy(@Nullable Object source, @Nullable Object target, TypeDescriptor sourceType, TypeDescriptor targetType);
+    void copy(@Nullable Object source, @Nullable Object target, TypeDescriptor sourceType, TypeDescriptor targetType);
 
 }

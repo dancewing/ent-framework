@@ -25,24 +25,24 @@ import jakarta.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class SysRoleResourceRequest extends BaseRequest {
 
-	/**
-	 * 主键
-	 */
-	@NotBlank(message = "主键不能为空", groups = { add.class, update.class })
-	@ChineseDescription("主键")
-	private Long roleResourceId;
+    /**
+     * 主键
+     */
+    @NotBlank(message = "主键不能为空", groups = { add.class, update.class })
+    @ChineseDescription("主键")
+    private Long roleResourceId;
 
-	/**
-	 * 角色id
-	 */
-	@ChineseDescription("角色id")
-	private Long roleId;
+    /**
+     * 角色id
+     */
+    @ChineseDescription("角色id")
+    private Long roleId;
 
-	/**
-	 * 资源编码
-	 */
-	@NotBlank(message = "资源编码不能为空", groups = { add.class, update.class })
-	@ChineseDescription("资源编码")
-	private String resourceCode;
+    /**
+     * 资源编码
+     */
+    @NotBlank(message = "资源编码不能为空", groups = { add.class, update.class })
+    @ChineseDescription("资源编码")
+    private String resourceCode;
 
 }

@@ -27,306 +27,306 @@ import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 
 class FromGroupByTest {
 
-	@Test
-	void testFromGroupByB1() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByB1() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		builder1.groupBy(StudentDynamicSqlSupport.name);
+        builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		String expected = "select name, count(*)" + " from student" + " group by name";
+        String expected = "select name, count(*)" + " from student" + " group by name";
 
-		SelectStatementProvider selectStatement = builder1.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder1.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByB2() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByB2() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		String expected = "select name, count(*)" + " from student" + " group by name";
+        String expected = "select name, count(*)" + " from student" + " group by name";
 
-		SelectStatementProvider selectStatement = builder2.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder2.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByLimitB1() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByLimitB1() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		builder2.limit(3);
+        builder2.limit(3);
 
-		String expected = "select name, count(*)" + " from student" + " group by name" + " limit #{parameters.p1}";
+        String expected = "select name, count(*)" + " from student" + " group by name" + " limit #{parameters.p1}";
 
-		SelectStatementProvider selectStatement = builder1.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder1.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByLimitB2() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByLimitB2() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		builder2.limit(3);
+        builder2.limit(3);
 
-		String expected = "select name, count(*)" + " from student" + " group by name" + " limit #{parameters.p1}";
+        String expected = "select name, count(*)" + " from student" + " group by name" + " limit #{parameters.p1}";
 
-		SelectStatementProvider selectStatement = builder2.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder2.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByLimitB3() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByLimitB3() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		SelectDSL<SelectModel>.LimitFinisher builder3 = builder2.limit(3);
+        SelectDSL<SelectModel>.LimitFinisher builder3 = builder2.limit(3);
 
-		String expected = "select name, count(*)" + " from student" + " group by name" + " limit #{parameters.p1}";
+        String expected = "select name, count(*)" + " from student" + " group by name" + " limit #{parameters.p1}";
 
-		SelectStatementProvider selectStatement = builder3.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder3.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByOffsetB1() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByOffsetB1() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		builder2.offset(3);
+        builder2.offset(3);
 
-		String expected = "select name, count(*)" + " from student" + " group by name"
-				+ " offset #{parameters.p1} rows";
+        String expected = "select name, count(*)" + " from student" + " group by name"
+                + " offset #{parameters.p1} rows";
 
-		SelectStatementProvider selectStatement = builder1.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder1.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByOffsetB2() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByOffsetB2() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		builder2.offset(3);
+        builder2.offset(3);
 
-		String expected = "select name, count(*)" + " from student" + " group by name"
-				+ " offset #{parameters.p1} rows";
+        String expected = "select name, count(*)" + " from student" + " group by name"
+                + " offset #{parameters.p1} rows";
 
-		SelectStatementProvider selectStatement = builder2.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder2.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByOffsetB3() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByOffsetB3() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		SelectDSL<SelectModel>.OffsetFirstFinisher builder3 = builder2.offset(3);
+        SelectDSL<SelectModel>.OffsetFirstFinisher builder3 = builder2.offset(3);
 
-		String expected = "select name, count(*)" + " from student" + " group by name"
-				+ " offset #{parameters.p1} rows";
+        String expected = "select name, count(*)" + " from student" + " group by name"
+                + " offset #{parameters.p1} rows";
 
-		SelectStatementProvider selectStatement = builder3.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder3.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByFetchFirstB1() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByFetchFirstB1() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		builder2.fetchFirst(2).rowsOnly();
+        builder2.fetchFirst(2).rowsOnly();
 
-		String expected = "select name, count(*)" + " from student" + " group by name"
-				+ " fetch first #{parameters.p1} rows only";
+        String expected = "select name, count(*)" + " from student" + " group by name"
+                + " fetch first #{parameters.p1} rows only";
 
-		SelectStatementProvider selectStatement = builder1.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder1.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByFetchFirstB2() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByFetchFirstB2() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		builder2.fetchFirst(2).rowsOnly();
+        builder2.fetchFirst(2).rowsOnly();
 
-		String expected = "select name, count(*)" + " from student" + " group by name"
-				+ " fetch first #{parameters.p1} rows only";
+        String expected = "select name, count(*)" + " from student" + " group by name"
+                + " fetch first #{parameters.p1} rows only";
 
-		SelectStatementProvider selectStatement = builder2.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder2.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByFetchFirstB3() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByFetchFirstB3() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		SelectDSL<SelectModel>.RowsOnlyFinisher builder3 = builder2.fetchFirst(2).rowsOnly();
+        SelectDSL<SelectModel>.RowsOnlyFinisher builder3 = builder2.fetchFirst(2).rowsOnly();
 
-		String expected = "select name, count(*)" + " from student" + " group by name"
-				+ " fetch first #{parameters.p1} rows only";
+        String expected = "select name, count(*)" + " from student" + " group by name"
+                + " fetch first #{parameters.p1} rows only";
 
-		SelectStatementProvider selectStatement = builder3.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder3.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByOrderByB1() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByOrderByB1() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		builder2.orderBy(StudentDynamicSqlSupport.name);
+        builder2.orderBy(StudentDynamicSqlSupport.name);
 
-		String expected = "select name, count(*)" + " from student" + " group by name" + " order by name";
+        String expected = "select name, count(*)" + " from student" + " group by name" + " order by name";
 
-		SelectStatementProvider selectStatement = builder1.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder1.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByOrderByB2() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByOrderByB2() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		builder2.orderBy(StudentDynamicSqlSupport.name);
+        builder2.orderBy(StudentDynamicSqlSupport.name);
 
-		String expected = "select name, count(*)" + " from student" + " group by name" + " order by name";
+        String expected = "select name, count(*)" + " from student" + " group by name" + " order by name";
 
-		SelectStatementProvider selectStatement = builder2.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder2.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByOrderByB3() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByOrderByB3() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		SelectDSL<SelectModel> builder3 = builder2.orderBy(StudentDynamicSqlSupport.name);
+        SelectDSL<SelectModel> builder3 = builder2.orderBy(StudentDynamicSqlSupport.name);
 
-		String expected = "select name, count(*)" + " from student" + " group by name" + " order by name";
+        String expected = "select name, count(*)" + " from student" + " group by name" + " order by name";
 
-		SelectStatementProvider selectStatement = builder3.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder3.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByOrderByOffsetB1() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByOrderByOffsetB1() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		SelectDSL<SelectModel> builder3 = builder2.orderBy(StudentDynamicSqlSupport.name);
+        SelectDSL<SelectModel> builder3 = builder2.orderBy(StudentDynamicSqlSupport.name);
 
-		builder3.offset(2);
+        builder3.offset(2);
 
-		String expected = "select name, count(*)" + " from student" + " group by name" + " order by name"
-				+ " offset #{parameters.p1} rows";
+        String expected = "select name, count(*)" + " from student" + " group by name" + " order by name"
+                + " offset #{parameters.p1} rows";
 
-		SelectStatementProvider selectStatement = builder1.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder1.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByOrderByOffsetB2() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByOrderByOffsetB2() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		SelectDSL<SelectModel> builder3 = builder2.orderBy(StudentDynamicSqlSupport.name);
+        SelectDSL<SelectModel> builder3 = builder2.orderBy(StudentDynamicSqlSupport.name);
 
-		builder3.offset(2);
+        builder3.offset(2);
 
-		String expected = "select name, count(*)" + " from student" + " group by name" + " order by name"
-				+ " offset #{parameters.p1} rows";
+        String expected = "select name, count(*)" + " from student" + " group by name" + " order by name"
+                + " offset #{parameters.p1} rows";
 
-		SelectStatementProvider selectStatement = builder2.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder2.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByOrderByOffsetB3() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByOrderByOffsetB3() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		SelectDSL<SelectModel> builder3 = builder2.orderBy(StudentDynamicSqlSupport.name);
+        SelectDSL<SelectModel> builder3 = builder2.orderBy(StudentDynamicSqlSupport.name);
 
-		builder3.offset(2);
+        builder3.offset(2);
 
-		String expected = "select name, count(*)" + " from student" + " group by name" + " order by name"
-				+ " offset #{parameters.p1} rows";
+        String expected = "select name, count(*)" + " from student" + " group by name" + " order by name"
+                + " offset #{parameters.p1} rows";
 
-		SelectStatementProvider selectStatement = builder3.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder3.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testFromGroupByOrderByOffsetB4() {
-		QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
-				.from(StudentDynamicSqlSupport.student);
+    @Test
+    void testFromGroupByOrderByOffsetB4() {
+        QueryExpressionDSL<SelectModel> builder1 = select(StudentDynamicSqlSupport.name, count())
+                .from(StudentDynamicSqlSupport.student);
 
-		QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
+        QueryExpressionDSL<SelectModel>.GroupByFinisher builder2 = builder1.groupBy(StudentDynamicSqlSupport.name);
 
-		SelectDSL<SelectModel> builder3 = builder2.orderBy(StudentDynamicSqlSupport.name);
+        SelectDSL<SelectModel> builder3 = builder2.orderBy(StudentDynamicSqlSupport.name);
 
-		SelectDSL<SelectModel>.OffsetFirstFinisher builder4 = builder3.offset(2);
+        SelectDSL<SelectModel>.OffsetFirstFinisher builder4 = builder3.offset(2);
 
-		String expected = "select name, count(*)" + " from student" + " group by name" + " order by name"
-				+ " offset #{parameters.p1} rows";
+        String expected = "select name, count(*)" + " from student" + " group by name" + " order by name"
+                + " offset #{parameters.p1} rows";
 
-		SelectStatementProvider selectStatement = builder4.build().render(RenderingStrategies.MYBATIS3);
+        SelectStatementProvider selectStatement = builder4.build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo(expected);
+    }
 
 }

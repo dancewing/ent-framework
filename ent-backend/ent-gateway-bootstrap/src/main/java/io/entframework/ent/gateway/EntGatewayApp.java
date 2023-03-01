@@ -19,8 +19,8 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 @SpringBootApplication
 public class EntGatewayApp {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EntGatewayApp.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(EntGatewayApp.class, args);
+    }
 
 }

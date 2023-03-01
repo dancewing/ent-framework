@@ -21,29 +21,29 @@ import java.util.function.Supplier;
 
 public abstract class AliasableSqlTable<T extends AliasableSqlTable<T>> extends SqlTable {
 
-	private String tableAlias;
+    private String tableAlias;
 
-	private final Supplier<T> constructor;
+    private final Supplier<T> constructor;
 
-	protected AliasableSqlTable(String tableName, Supplier<T> constructor) {
-		super(tableName);
-		this.constructor = Objects.requireNonNull(constructor);
-	}
+    protected AliasableSqlTable(String tableName, Supplier<T> constructor) {
+        super(tableName);
+        this.constructor = Objects.requireNonNull(constructor);
+    }
 
-	protected AliasableSqlTable(Supplier<String> tableNameSupplier, Supplier<T> constructor) {
-		super(tableNameSupplier);
-		this.constructor = Objects.requireNonNull(constructor);
-	}
+    protected AliasableSqlTable(Supplier<String> tableNameSupplier, Supplier<T> constructor) {
+        super(tableNameSupplier);
+        this.constructor = Objects.requireNonNull(constructor);
+    }
 
-	public T withAlias(String alias) {
-		T newTable = constructor.get();
-		((AliasableSqlTable<T>) newTable).tableAlias = alias;
-		return newTable;
-	}
+    public T withAlias(String alias) {
+        T newTable = constructor.get();
+        ((AliasableSqlTable<T>) newTable).tableAlias = alias;
+        return newTable;
+    }
 
-	@Override
-	public Optional<String> tableAlias() {
-		return Optional.ofNullable(tableAlias);
-	}
+    @Override
+    public Optional<String> tableAlias() {
+        return Optional.ofNullable(tableAlias);
+    }
 
 }

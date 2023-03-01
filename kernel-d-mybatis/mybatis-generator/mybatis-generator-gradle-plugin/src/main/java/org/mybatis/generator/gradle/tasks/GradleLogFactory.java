@@ -13,15 +13,15 @@ import org.mybatis.generator.logging.Log;
 
 public class GradleLogFactory implements AbstractLogFactory {
 
-	private GradleLogImpl log;
+    private GradleLogImpl log;
 
-	public GradleLogFactory(Project project) {
-		log = new GradleLogImpl(project.getLogger());
-	}
+    public GradleLogFactory(Project project) {
+        log = new GradleLogImpl(project.getLogger());
+    }
 
-	@Override
-	public Log getLog(Class<?> targetClass) {
-		return log;
-	}
+    @Override
+    public Log getLog(Class<?> targetClass) {
+        return log;
+    }
 
 }

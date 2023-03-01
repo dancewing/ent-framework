@@ -17,14 +17,14 @@ import org.springframework.context.annotation.Import;
 @Import(FeignClientsConfiguration.class)
 public class KernelResourceFeignServiceConfiguration {
 
-	@Value("${kernel.base-server.resource:http://ent-admin}")
-	private String baseServerUrl;
+    @Value("${kernel.base-server.resource:http://ent-admin}")
+    private String baseServerUrl;
 
-	@Bean
-	@ConditionalOnMissingBean(ResourceReportApi.class)
-	public ResourceReportApi resourceReportApi(CloudFeignFactory cloudFeignFactory) {
-		ResourceReportApi feignClient = cloudFeignFactory.build(ResourceReportApi.class, baseServerUrl);
-		return new ResourceReportServiceWrapper(feignClient);
-	}
+    @Bean
+    @ConditionalOnMissingBean(ResourceReportApi.class)
+    public ResourceReportApi resourceReportApi(CloudFeignFactory cloudFeignFactory) {
+        ResourceReportApi feignClient = cloudFeignFactory.build(ResourceReportApi.class, baseServerUrl);
+        return new ResourceReportServiceWrapper(feignClient);
+    }
 
 }

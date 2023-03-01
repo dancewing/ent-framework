@@ -35,92 +35,92 @@ import java.util.stream.Stream;
 
 public class UpdateModel extends EntityModel {
 
-	private final SqlTable table;
+    private final SqlTable table;
 
-	private final String tableAlias;
+    private final String tableAlias;
 
-	private final WhereModel whereModel;
+    private final WhereModel whereModel;
 
-	private final List<AbstractColumnMapping> columnMappings;
+    private final List<AbstractColumnMapping> columnMappings;
 
-	private UpdateModel(Builder builder) {
-		super(builder.entityClass);
-		table = Objects.requireNonNull(builder.table);
-		whereModel = builder.whereModel;
-		columnMappings = Objects.requireNonNull(builder.columnMappings);
-		tableAlias = builder.tableAlias;
+    private UpdateModel(Builder builder) {
+        super(builder.entityClass);
+        table = Objects.requireNonNull(builder.table);
+        whereModel = builder.whereModel;
+        columnMappings = Objects.requireNonNull(builder.columnMappings);
+        tableAlias = builder.tableAlias;
 
-		if (columnMappings.isEmpty()) {
-			throw new InvalidSqlException(Messages.getString("ERROR.17")); //$NON-NLS-1$
-		}
-	}
+        if (columnMappings.isEmpty()) {
+            throw new InvalidSqlException(Messages.getString("ERROR.17")); //$NON-NLS-1$
+        }
+    }
 
-	public SqlTable table() {
-		return table;
-	}
+    public SqlTable table() {
+        return table;
+    }
 
-	public Optional<String> tableAlias() {
-		return Optional.ofNullable(tableAlias);
-	}
+    public Optional<String> tableAlias() {
+        return Optional.ofNullable(tableAlias);
+    }
 
-	public Optional<WhereModel> whereModel() {
-		return Optional.ofNullable(whereModel);
-	}
+    public Optional<WhereModel> whereModel() {
+        return Optional.ofNullable(whereModel);
+    }
 
-	public <R> Stream<R> mapColumnMappings(Function<AbstractColumnMapping, R> mapper) {
-		return columnMappings.stream().map(mapper);
-	}
+    public <R> Stream<R> mapColumnMappings(Function<AbstractColumnMapping, R> mapper) {
+        return columnMappings.stream().map(mapper);
+    }
 
-	@NotNull
-	public UpdateStatementProvider render(RenderingStrategy renderingStrategy) {
-		return UpdateRenderer.withUpdateModel(this).withRenderingStrategy(renderingStrategy).build().render();
-	}
+    @NotNull
+    public UpdateStatementProvider render(RenderingStrategy renderingStrategy) {
+        return UpdateRenderer.withUpdateModel(this).withRenderingStrategy(renderingStrategy).build().render();
+    }
 
-	public static Builder withTable(SqlTable table) {
-		return new Builder().withTable(table);
-	}
+    public static Builder withTable(SqlTable table) {
+        return new Builder().withTable(table);
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private SqlTable table;
+        private SqlTable table;
 
-		private String tableAlias;
+        private String tableAlias;
 
-		private WhereModel whereModel;
+        private WhereModel whereModel;
 
-		private Class<?> entityClass;
+        private Class<?> entityClass;
 
-		private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
+        private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
 
-		public Builder withTable(SqlTable table) {
-			this.table = table;
-			return this;
-		}
+        public Builder withTable(SqlTable table) {
+            this.table = table;
+            return this;
+        }
 
-		public Builder withTableAlias(String tableAlias) {
-			this.tableAlias = tableAlias;
-			return this;
-		}
+        public Builder withTableAlias(String tableAlias) {
+            this.tableAlias = tableAlias;
+            return this;
+        }
 
-		public Builder withColumnMappings(List<AbstractColumnMapping> columnMappings) {
-			this.columnMappings.addAll(columnMappings);
-			return this;
-		}
+        public Builder withColumnMappings(List<AbstractColumnMapping> columnMappings) {
+            this.columnMappings.addAll(columnMappings);
+            return this;
+        }
 
-		public Builder withWhereModel(WhereModel whereModel) {
-			this.whereModel = whereModel;
-			return this;
-		}
+        public Builder withWhereModel(WhereModel whereModel) {
+            this.whereModel = whereModel;
+            return this;
+        }
 
-		public Builder withEntityClass(Class<?> entityClass) {
-			this.entityClass = entityClass;
-			return this;
-		}
+        public Builder withEntityClass(Class<?> entityClass) {
+            this.entityClass = entityClass;
+            return this;
+        }
 
-		public UpdateModel build() {
-			return new UpdateModel(this);
-		}
+        public UpdateModel build() {
+            return new UpdateModel(this);
+        }
 
-	}
+    }
 
 }

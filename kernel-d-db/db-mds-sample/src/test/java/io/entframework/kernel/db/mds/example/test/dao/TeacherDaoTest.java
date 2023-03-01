@@ -18,53 +18,53 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TeacherDaoTest extends JUnitDaoWithFraud {
 
-	@Test
-	void create() {
-		Teacher ttc = fraudTeacher();
-		Teacher ttcd = generalRepository.insert(ttc);
-		assertNotNull(ttcd.getId());
-	}
+    @Test
+    void create() {
+        Teacher ttc = fraudTeacher();
+        Teacher ttcd = generalRepository.insert(ttc);
+        assertNotNull(ttcd.getId());
+    }
 
-	@Test
-	void batchCreate() {
-		List<Teacher> list = fraudList(this::fraudTeacher);
-		List<Teacher> listd = generalRepository.insertMultiple(list);
-		assertNotNull(listd);
-		listd.forEach(teacher -> {
-			assertNotNull(teacher);
-			assertNotNull(teacher.getId());
-		});
-	}
+    @Test
+    void batchCreate() {
+        List<Teacher> list = fraudList(this::fraudTeacher);
+        List<Teacher> listd = generalRepository.insertMultiple(list);
+        assertNotNull(listd);
+        listd.forEach(teacher -> {
+            assertNotNull(teacher);
+            assertNotNull(teacher.getId());
+        });
+    }
 
-	@Test
-	void update() {
-		Teacher teacher = generalRepository.insert(fraudTeacher());
-		LocalDate newBirth = LocalDate.now().plusYears(-30);
-		teacher.setBirthday(newBirth);
-		Teacher tcu = generalRepository.update(teacher);
-		assertEquals(tcu.getBirthday(), newBirth);
-	}
+    @Test
+    void update() {
+        Teacher teacher = generalRepository.insert(fraudTeacher());
+        LocalDate newBirth = LocalDate.now().plusYears(-30);
+        teacher.setBirthday(newBirth);
+        Teacher tcu = generalRepository.update(teacher);
+        assertEquals(tcu.getBirthday(), newBirth);
+    }
 
-	@Test
-	void delete() {
-		Teacher teacher = generalRepository.insert(fraudTeacher());
-		generalRepository.delete(teacher);
-		assertThrows(DaoException.class, () -> generalRepository.get(Teacher.class, teacher.getId()));
-	}
+    @Test
+    void delete() {
+        Teacher teacher = generalRepository.insert(fraudTeacher());
+        generalRepository.delete(teacher);
+        assertThrows(DaoException.class, () -> generalRepository.get(Teacher.class, teacher.getId()));
+    }
 
-	@Test
-	void get() {
-		Teacher teacher = generalRepository.insert(fraudTeacher());
-		Teacher tcg = generalRepository.get(Teacher.class, teacher.getId());
-		assertNotNull(tcg);
-		assertEquals(tcg.getId(), teacher.getId());
-	}
+    @Test
+    void get() {
+        Teacher teacher = generalRepository.insert(fraudTeacher());
+        Teacher tcg = generalRepository.get(Teacher.class, teacher.getId());
+        assertNotNull(tcg);
+        assertEquals(tcg.getId(), teacher.getId());
+    }
 
-	@Test
-	void getAll() {
-		Teacher teacher = generalRepository.insert(fraudTeacher());
-		List<Teacher> teachers = generalRepository.selectBy(new Teacher());
-		assertTrue(teachers.size() >= 1);
-	}
+    @Test
+    void getAll() {
+        Teacher teacher = generalRepository.insert(fraudTeacher());
+        List<Teacher> teachers = generalRepository.selectBy(new Teacher());
+        assertTrue(teachers.size() >= 1);
+    }
 
 }

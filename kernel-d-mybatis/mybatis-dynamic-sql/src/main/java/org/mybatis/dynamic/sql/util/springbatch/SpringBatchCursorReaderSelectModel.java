@@ -20,14 +20,14 @@ import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 
 public class SpringBatchCursorReaderSelectModel {
 
-	private final SelectModel selectModel;
+    private final SelectModel selectModel;
 
-	public SpringBatchCursorReaderSelectModel(SelectModel selectModel) {
-		this.selectModel = selectModel;
-	}
+    public SpringBatchCursorReaderSelectModel(SelectModel selectModel) {
+        this.selectModel = selectModel;
+    }
 
-	public SelectStatementProvider render() {
-		return selectModel.render(SpringBatchUtility.SPRING_BATCH_READER_RENDERING_STRATEGY);
-	}
+    public SelectStatementProvider render() {
+        return selectModel.render(SpringBatchUtility.SPRING_BATCH_READER_RENDERING_STRATEGY);
+    }
 
 }

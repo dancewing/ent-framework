@@ -18,24 +18,24 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @Slf4j
 public class KernelValidator extends LocalValidatorFactoryBean {
 
-	@Override
-	public void validate(Object target, Errors errors, Object... validationHints) {
+    @Override
+    public void validate(Object target, Errors errors, Object... validationHints) {
 
-		try {
-			if (validationHints.length > 0) {
+        try {
+            if (validationHints.length > 0) {
 
-				// 如果是class类型，利用ThreadLocal缓存一下class类型
-				if (validationHints[0] instanceof Class) {
+                // 如果是class类型，利用ThreadLocal缓存一下class类型
+                if (validationHints[0] instanceof Class) {
 
-					// 临时保存group的class值
-					RequestGroupContext.set((Class<?>) validationHints[0]);
-				}
-			}
-			super.validate(target, errors, validationHints);
-		}
-		finally {
-			RequestGroupContext.clear();
-		}
-	}
+                    // 临时保存group的class值
+                    RequestGroupContext.set((Class<?>) validationHints[0]);
+                }
+            }
+            super.validate(target, errors, validationHints);
+        }
+        finally {
+            RequestGroupContext.clear();
+        }
+    }
 
 }

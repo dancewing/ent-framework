@@ -19,9 +19,9 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = { "io.entframework.kernel.message" })
 public class KernelMessageAutoConfiguration {
 
-	@Bean
-	public KernelMessageModuleRegister kernelMessageModuleRegister() {
-		return new KernelMessageModuleRegister();
-	}
+    @Bean
+    public KernelMessageModuleRegister kernelMessageModuleRegister() {
+        return new KernelMessageModuleRegister();
+    }
 
 }

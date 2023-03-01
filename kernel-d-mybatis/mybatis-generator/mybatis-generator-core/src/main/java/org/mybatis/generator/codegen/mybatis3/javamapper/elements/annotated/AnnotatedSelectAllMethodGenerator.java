@@ -27,47 +27,47 @@ import org.mybatis.generator.internal.util.StringUtility;
 
 public class AnnotatedSelectAllMethodGenerator extends SelectAllMethodGenerator {
 
-	public AnnotatedSelectAllMethodGenerator() {
-		super();
-	}
+    public AnnotatedSelectAllMethodGenerator() {
+        super();
+    }
 
-	@Override
-	public void addMapperAnnotations(Interface interfaze, Method method) {
-		interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Select")); //$NON-NLS-1$
+    @Override
+    public void addMapperAnnotations(Interface interfaze, Method method) {
+        interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Select")); //$NON-NLS-1$
 
-		buildInitialSelectAnnotationStrings().forEach(method::addAnnotation);
+        buildInitialSelectAnnotationStrings().forEach(method::addAnnotation);
 
-		StringBuilder sb = new StringBuilder();
-		javaIndent(sb, 1);
-		sb.append("\"from "); //$NON-NLS-1$
-		sb.append(escapeStringForJava(introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime()));
-		sb.append('\"');
+        StringBuilder sb = new StringBuilder();
+        javaIndent(sb, 1);
+        sb.append("\"from "); //$NON-NLS-1$
+        sb.append(escapeStringForJava(introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime()));
+        sb.append('\"');
 
-		String orderByClause = introspectedTable
-				.getTableConfigurationProperty(PropertyRegistry.TABLE_SELECT_ALL_ORDER_BY_CLAUSE);
-		boolean hasOrderBy = StringUtility.stringHasValue(orderByClause);
-		if (hasOrderBy) {
-			sb.append(',');
-		}
-		method.addAnnotation(sb.toString());
+        String orderByClause = introspectedTable
+                .getTableConfigurationProperty(PropertyRegistry.TABLE_SELECT_ALL_ORDER_BY_CLAUSE);
+        boolean hasOrderBy = StringUtility.stringHasValue(orderByClause);
+        if (hasOrderBy) {
+            sb.append(',');
+        }
+        method.addAnnotation(sb.toString());
 
-		if (hasOrderBy) {
-			sb.setLength(0);
-			javaIndent(sb, 1);
-			sb.append("\"order by "); //$NON-NLS-1$
-			sb.append(orderByClause);
-			sb.append('\"');
-			method.addAnnotation(sb.toString());
-		}
+        if (hasOrderBy) {
+            sb.setLength(0);
+            javaIndent(sb, 1);
+            sb.append("\"order by "); //$NON-NLS-1$
+            sb.append(orderByClause);
+            sb.append('\"');
+            method.addAnnotation(sb.toString());
+        }
 
-		method.addAnnotation("})"); //$NON-NLS-1$
+        method.addAnnotation("})"); //$NON-NLS-1$
 
-		addAnnotatedResults(interfaze, method, introspectedTable.getNonPrimaryKeyColumns());
-	}
+        addAnnotatedResults(interfaze, method, introspectedTable.getNonPrimaryKeyColumns());
+    }
 
-	@Override
-	public void addExtraImports(Interface interfaze) {
-		addAnnotatedSelectImports(interfaze);
-	}
+    @Override
+    public void addExtraImports(Interface interfaze) {
+        addAnnotatedSelectImports(interfaze);
+    }
 
 }

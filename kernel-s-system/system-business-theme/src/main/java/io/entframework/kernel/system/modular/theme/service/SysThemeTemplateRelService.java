@@ -18,20 +18,20 @@ import io.entframework.kernel.system.modular.theme.entity.SysThemeTemplateRel;
  * @date 2021/12/17 16:13
  */
 public interface SysThemeTemplateRelService
-		extends BaseService<SysThemeTemplateRelRequest, SysThemeTemplateRelResponse, SysThemeTemplateRel> {
+        extends BaseService<SysThemeTemplateRelRequest, SysThemeTemplateRelResponse, SysThemeTemplateRel> {
 
-	/**
-	 * 增加系统主题模板属性关系
-	 *
-	 * @date 2021/12/24 10:56
-	 */
-	void add(SysThemeTemplateRelRequest sysThemeTemplateRelRequest);
+    /**
+     * 增加系统主题模板属性关系
+     *
+     * @date 2021/12/24 10:56
+     */
+    void add(SysThemeTemplateRelRequest sysThemeTemplateRelRequest);
 
-	/**
-	 * 删除系统主题模板属性关系
-	 *
-	 * @date 2021/12/24 11:18
-	 */
-	void del(SysThemeTemplateRelRequest sysThemeTemplateRelRequest);
+    /**
+     * 删除系统主题模板属性关系
+     *
+     * @date 2021/12/24 11:18
+     */
+    void del(SysThemeTemplateRelRequest sysThemeTemplateRelRequest);
 
 }

@@ -38,104 +38,104 @@ import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 
 class StatementConfigurationTest {
 
-	@Test
-	void testCountWhereCalledButNoCriteriaThrowsException() {
-		SelectModel selectModel = countFrom(person).where().build();
+    @Test
+    void testCountWhereCalledButNoCriteriaThrowsException() {
+        SelectModel selectModel = countFrom(person).where().build();
 
-		assertThatExceptionOfType(NonRenderingWhereClauseException.class)
-				.isThrownBy(() -> selectModel.render(RenderingStrategies.MYBATIS3));
-	}
+        assertThatExceptionOfType(NonRenderingWhereClauseException.class)
+                .isThrownBy(() -> selectModel.render(RenderingStrategies.MYBATIS3));
+    }
 
-	@Test
-	void testCountWhereCalledButNoCriteriaRequiresConfiguration() {
-		SelectStatementProvider selectStatement = countFrom(person).where()
-				.configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true)).build()
-				.render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testCountWhereCalledButNoCriteriaRequiresConfiguration() {
+        SelectStatementProvider selectStatement = countFrom(person).where()
+                .configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true)).build()
+                .render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo("select count(*) from Person");
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo("select count(*) from Person");
+    }
 
-	@Test
-	void testCountWhereNotCalledIsOK() {
-		SelectStatementProvider selectStatement = countFrom(person).build().render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testCountWhereNotCalledIsOK() {
+        SelectStatementProvider selectStatement = countFrom(person).build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement()).isEqualTo("select count(*) from Person");
-	}
+        assertThat(selectStatement.getSelectStatement()).isEqualTo("select count(*) from Person");
+    }
 
-	@Test
-	void testDeleteWhereCalledButNoCriteriaThrowsException() {
-		DeleteModel deleteModel = deleteFrom(person).where().build();
+    @Test
+    void testDeleteWhereCalledButNoCriteriaThrowsException() {
+        DeleteModel deleteModel = deleteFrom(person).where().build();
 
-		assertThatExceptionOfType(NonRenderingWhereClauseException.class)
-				.isThrownBy(() -> deleteModel.render(RenderingStrategies.MYBATIS3));
-	}
+        assertThatExceptionOfType(NonRenderingWhereClauseException.class)
+                .isThrownBy(() -> deleteModel.render(RenderingStrategies.MYBATIS3));
+    }
 
-	@Test
-	void testDeleteWhereCalledButNoCriteriaRequiresConfiguration() {
-		DeleteStatementProvider deleteStatement = deleteFrom(person).where()
-				.configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true)).build()
-				.render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testDeleteWhereCalledButNoCriteriaRequiresConfiguration() {
+        DeleteStatementProvider deleteStatement = deleteFrom(person).where()
+                .configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true)).build()
+                .render(RenderingStrategies.MYBATIS3);
 
-		assertThat(deleteStatement.getDeleteStatement()).isEqualTo("delete from Person");
-	}
+        assertThat(deleteStatement.getDeleteStatement()).isEqualTo("delete from Person");
+    }
 
-	@Test
-	void testDeleteWhereNotCalledIsOK() {
-		DeleteStatementProvider deleteStatement = deleteFrom(person).build().render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testDeleteWhereNotCalledIsOK() {
+        DeleteStatementProvider deleteStatement = deleteFrom(person).build().render(RenderingStrategies.MYBATIS3);
 
-		assertThat(deleteStatement.getDeleteStatement()).isEqualTo("delete from Person");
-	}
+        assertThat(deleteStatement.getDeleteStatement()).isEqualTo("delete from Person");
+    }
 
-	@Test
-	void testSelectWhereCalledButNoCriteriaThrowsException() {
-		SelectModel selectModel = select(id, firstName, lastName).from(person).where().build();
+    @Test
+    void testSelectWhereCalledButNoCriteriaThrowsException() {
+        SelectModel selectModel = select(id, firstName, lastName).from(person).where().build();
 
-		assertThatExceptionOfType(NonRenderingWhereClauseException.class)
-				.isThrownBy(() -> selectModel.render(RenderingStrategies.MYBATIS3));
-	}
+        assertThatExceptionOfType(NonRenderingWhereClauseException.class)
+                .isThrownBy(() -> selectModel.render(RenderingStrategies.MYBATIS3));
+    }
 
-	@Test
-	void testSelectWhereCalledButNoCriteriaRequiresConfiguration() {
-		SelectStatementProvider selectStatement = select(id, firstName, lastName).from(person).where()
-				.configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true)).build()
-				.render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testSelectWhereCalledButNoCriteriaRequiresConfiguration() {
+        SelectStatementProvider selectStatement = select(id, firstName, lastName).from(person).where()
+                .configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true)).build()
+                .render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement())
-				.isEqualTo("select person_id, first_name, last_name from Person");
-	}
+        assertThat(selectStatement.getSelectStatement())
+                .isEqualTo("select person_id, first_name, last_name from Person");
+    }
 
-	@Test
-	void testSelectWhereNotCalledIsOK() {
-		SelectStatementProvider selectStatement = select(id, firstName, lastName).from(person).build()
-				.render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testSelectWhereNotCalledIsOK() {
+        SelectStatementProvider selectStatement = select(id, firstName, lastName).from(person).build()
+                .render(RenderingStrategies.MYBATIS3);
 
-		assertThat(selectStatement.getSelectStatement())
-				.isEqualTo("select person_id, first_name, last_name from Person");
-	}
+        assertThat(selectStatement.getSelectStatement())
+                .isEqualTo("select person_id, first_name, last_name from Person");
+    }
 
-	@Test
-	void testUpdateWhereCalledButNoCriteriaThrowsException() {
-		UpdateModel updateModel = update(person).set(id).equalTo(1).where().build();
+    @Test
+    void testUpdateWhereCalledButNoCriteriaThrowsException() {
+        UpdateModel updateModel = update(person).set(id).equalTo(1).where().build();
 
-		assertThatExceptionOfType(NonRenderingWhereClauseException.class)
-				.isThrownBy(() -> updateModel.render(RenderingStrategies.MYBATIS3));
-	}
+        assertThatExceptionOfType(NonRenderingWhereClauseException.class)
+                .isThrownBy(() -> updateModel.render(RenderingStrategies.MYBATIS3));
+    }
 
-	@Test
-	void testUpdateWhereCalledButNoCriteriaRequiresConfiguration() {
-		UpdateStatementProvider updateStatement = update(person).set(id).equalTo(1).where()
-				.configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true)).build()
-				.render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testUpdateWhereCalledButNoCriteriaRequiresConfiguration() {
+        UpdateStatementProvider updateStatement = update(person).set(id).equalTo(1).where()
+                .configureStatement(c -> c.setNonRenderingWhereClauseAllowed(true)).build()
+                .render(RenderingStrategies.MYBATIS3);
 
-		assertThat(updateStatement.getUpdateStatement()).isEqualTo("update Person set person_id = #{parameters.p1}");
-	}
+        assertThat(updateStatement.getUpdateStatement()).isEqualTo("update Person set person_id = #{parameters.p1}");
+    }
 
-	@Test
-	void testUpdateWhereNotCalledIsOK() {
-		UpdateStatementProvider updateStatement = update(person).set(id).equalTo(1).build()
-				.render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testUpdateWhereNotCalledIsOK() {
+        UpdateStatementProvider updateStatement = update(person).set(id).equalTo(1).build()
+                .render(RenderingStrategies.MYBATIS3);
 
-		assertThat(updateStatement.getUpdateStatement()).isEqualTo("update Person set person_id = #{parameters.p1}");
-	}
+        assertThat(updateStatement.getUpdateStatement()).isEqualTo("update Person set person_id = #{parameters.p1}");
+    }
 
 }

@@ -31,79 +31,79 @@ import java.util.stream.Stream;
 
 public class SelectModel {
 
-	private final List<QueryExpressionModel> queryExpressions;
+    private final List<QueryExpressionModel> queryExpressions;
 
-	private final OrderByModel orderByModel;
+    private final OrderByModel orderByModel;
 
-	private final PagingModel pagingModel;
+    private final PagingModel pagingModel;
 
-	private SelectModel(Builder builder) {
-		queryExpressions = Objects.requireNonNull(builder.queryExpressions);
-		if (queryExpressions.isEmpty()) {
-			throw new InvalidSqlException(Messages.getString("ERROR.14")); //$NON-NLS-1$
-		}
+    private SelectModel(Builder builder) {
+        queryExpressions = Objects.requireNonNull(builder.queryExpressions);
+        if (queryExpressions.isEmpty()) {
+            throw new InvalidSqlException(Messages.getString("ERROR.14")); //$NON-NLS-1$
+        }
 
-		orderByModel = builder.orderByModel;
-		pagingModel = builder.pagingModel;
-	}
+        orderByModel = builder.orderByModel;
+        pagingModel = builder.pagingModel;
+    }
 
-	public <R> Stream<R> mapQueryExpressions(Function<QueryExpressionModel, R> mapper) {
-		return queryExpressions.stream().map(mapper);
-	}
+    public <R> Stream<R> mapQueryExpressions(Function<QueryExpressionModel, R> mapper) {
+        return queryExpressions.stream().map(mapper);
+    }
 
-	public Optional<OrderByModel> orderByModel() {
-		return Optional.ofNullable(orderByModel);
-	}
+    public Optional<OrderByModel> orderByModel() {
+        return Optional.ofNullable(orderByModel);
+    }
 
-	public Optional<PagingModel> pagingModel() {
-		return Optional.ofNullable(pagingModel);
-	}
+    public Optional<PagingModel> pagingModel() {
+        return Optional.ofNullable(pagingModel);
+    }
 
-	@NotNull
-	public SelectStatementProvider render(RenderingStrategy renderingStrategy) {
-		return SelectRenderer.withSelectModel(this).withRenderingStrategy(renderingStrategy).build().render();
-	}
+    @NotNull
+    public SelectStatementProvider render(RenderingStrategy renderingStrategy) {
+        return SelectRenderer.withSelectModel(this).withRenderingStrategy(renderingStrategy).build().render();
+    }
 
-	public static Builder withQueryExpressions(List<QueryExpressionModel> queryExpressions) {
-		return new Builder().withQueryExpressions(queryExpressions);
-	}
+    public static Builder withQueryExpressions(List<QueryExpressionModel> queryExpressions) {
+        return new Builder().withQueryExpressions(queryExpressions);
+    }
 
-	public List<QueryExpressionModel> queryExpressions() {
-		return queryExpressions;
-	}
+    public List<QueryExpressionModel> queryExpressions() {
+        return queryExpressions;
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private final List<QueryExpressionModel> queryExpressions = new ArrayList<>();
+        private final List<QueryExpressionModel> queryExpressions = new ArrayList<>();
 
-		private OrderByModel orderByModel;
+        private OrderByModel orderByModel;
 
-		private PagingModel pagingModel;
+        private PagingModel pagingModel;
 
-		public Builder withQueryExpression(QueryExpressionModel queryExpression) {
-			this.queryExpressions.add(queryExpression);
-			return this;
-		}
+        public Builder withQueryExpression(QueryExpressionModel queryExpression) {
+            this.queryExpressions.add(queryExpression);
+            return this;
+        }
 
-		public Builder withQueryExpressions(List<QueryExpressionModel> queryExpressions) {
-			this.queryExpressions.addAll(queryExpressions);
-			return this;
-		}
+        public Builder withQueryExpressions(List<QueryExpressionModel> queryExpressions) {
+            this.queryExpressions.addAll(queryExpressions);
+            return this;
+        }
 
-		public Builder withOrderByModel(OrderByModel orderByModel) {
-			this.orderByModel = orderByModel;
-			return this;
-		}
+        public Builder withOrderByModel(OrderByModel orderByModel) {
+            this.orderByModel = orderByModel;
+            return this;
+        }
 
-		public Builder withPagingModel(PagingModel pagingModel) {
-			this.pagingModel = pagingModel;
-			return this;
-		}
+        public Builder withPagingModel(PagingModel pagingModel) {
+            this.pagingModel = pagingModel;
+            return this;
+        }
 
-		public SelectModel build() {
-			return new SelectModel(this);
-		}
+        public SelectModel build() {
+            return new SelectModel(this);
+        }
 
-	}
+    }
 
 }

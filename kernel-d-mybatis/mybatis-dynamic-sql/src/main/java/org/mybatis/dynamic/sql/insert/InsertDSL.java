@@ -34,108 +34,108 @@ import org.mybatis.dynamic.sql.util.StringConstantMapping;
 
 public class InsertDSL<T> implements Buildable<InsertModel<T>> {
 
-	private final T row;
+    private final T row;
 
-	private final SqlTable table;
+    private final SqlTable table;
 
-	private final List<AbstractColumnMapping> columnMappings;
+    private final List<AbstractColumnMapping> columnMappings;
 
-	private InsertDSL(Builder<T> builder) {
-		this.row = Objects.requireNonNull(builder.row);
-		this.table = Objects.requireNonNull(builder.table);
-		columnMappings = builder.columnMappings;
-	}
+    private InsertDSL(Builder<T> builder) {
+        this.row = Objects.requireNonNull(builder.row);
+        this.table = Objects.requireNonNull(builder.table);
+        columnMappings = builder.columnMappings;
+    }
 
-	public <F> ColumnMappingFinisher<F> map(SqlColumn<F> column) {
-		return new ColumnMappingFinisher<>(column);
-	}
+    public <F> ColumnMappingFinisher<F> map(SqlColumn<F> column) {
+        return new ColumnMappingFinisher<>(column);
+    }
 
-	@NotNull
-	@Override
-	public InsertModel<T> build() {
-		return InsertModel.withRow(row).withTable(table).withColumnMappings(columnMappings).build();
-	}
+    @NotNull
+    @Override
+    public InsertModel<T> build() {
+        return InsertModel.withRow(row).withTable(table).withColumnMappings(columnMappings).build();
+    }
 
-	public static <T> IntoGatherer<T> insert(T row) {
-		return new IntoGatherer<>(row);
-	}
+    public static <T> IntoGatherer<T> insert(T row) {
+        return new IntoGatherer<>(row);
+    }
 
-	public static class IntoGatherer<T> {
+    public static class IntoGatherer<T> {
 
-		private final T row;
+        private final T row;
 
-		private IntoGatherer(T row) {
-			this.row = row;
-		}
+        private IntoGatherer(T row) {
+            this.row = row;
+        }
 
-		public InsertDSL<T> into(SqlTable table) {
-			return new InsertDSL.Builder<T>().withRow(row).withTable(table).build();
-		}
+        public InsertDSL<T> into(SqlTable table) {
+            return new InsertDSL.Builder<T>().withRow(row).withTable(table).build();
+        }
 
-	}
+    }
 
-	public class ColumnMappingFinisher<F> {
+    public class ColumnMappingFinisher<F> {
 
-		private final SqlColumn<F> column;
+        private final SqlColumn<F> column;
 
-		public ColumnMappingFinisher(SqlColumn<F> column) {
-			this.column = column;
-		}
+        public ColumnMappingFinisher(SqlColumn<F> column) {
+            this.column = column;
+        }
 
-		public InsertDSL<T> toProperty(String property) {
-			columnMappings.add(PropertyMapping.of(column, property));
-			return InsertDSL.this;
-		}
+        public InsertDSL<T> toProperty(String property) {
+            columnMappings.add(PropertyMapping.of(column, property));
+            return InsertDSL.this;
+        }
 
-		public InsertDSL<T> toPropertyWhenPresent(String property, Supplier<?> valueSupplier) {
-			columnMappings.add(PropertyWhenPresentMapping.of(column, property, valueSupplier));
-			return InsertDSL.this;
-		}
+        public InsertDSL<T> toPropertyWhenPresent(String property, Supplier<?> valueSupplier) {
+            columnMappings.add(PropertyWhenPresentMapping.of(column, property, valueSupplier));
+            return InsertDSL.this;
+        }
 
-		public InsertDSL<T> toNull() {
-			columnMappings.add(NullMapping.of(column));
-			return InsertDSL.this;
-		}
+        public InsertDSL<T> toNull() {
+            columnMappings.add(NullMapping.of(column));
+            return InsertDSL.this;
+        }
 
-		public InsertDSL<T> toConstant(String constant) {
-			columnMappings.add(ConstantMapping.of(column, constant));
-			return InsertDSL.this;
-		}
+        public InsertDSL<T> toConstant(String constant) {
+            columnMappings.add(ConstantMapping.of(column, constant));
+            return InsertDSL.this;
+        }
 
-		public InsertDSL<T> toStringConstant(String constant) {
-			columnMappings.add(StringConstantMapping.of(column, constant));
-			return InsertDSL.this;
-		}
+        public InsertDSL<T> toStringConstant(String constant) {
+            columnMappings.add(StringConstantMapping.of(column, constant));
+            return InsertDSL.this;
+        }
 
-	}
+    }
 
-	public static class Builder<T> {
+    public static class Builder<T> {
 
-		private T row;
+        private T row;
 
-		private SqlTable table;
+        private SqlTable table;
 
-		private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
+        private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
 
-		public Builder<T> withRow(T row) {
-			this.row = row;
-			return this;
-		}
+        public Builder<T> withRow(T row) {
+            this.row = row;
+            return this;
+        }
 
-		public Builder<T> withTable(SqlTable table) {
-			this.table = table;
-			return this;
-		}
+        public Builder<T> withTable(SqlTable table) {
+            this.table = table;
+            return this;
+        }
 
-		public Builder<T> withColumnMappings(Collection<AbstractColumnMapping> columnMappings) {
-			this.columnMappings.addAll(columnMappings);
-			return this;
-		}
+        public Builder<T> withColumnMappings(Collection<AbstractColumnMapping> columnMappings) {
+            this.columnMappings.addAll(columnMappings);
+            return this;
+        }
 
-		public InsertDSL<T> build() {
-			return new InsertDSL<>(this);
-		}
+        public InsertDSL<T> build() {
+            return new InsertDSL<>(this);
+        }
 
-	}
+    }
 
 }

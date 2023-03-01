@@ -28,94 +28,94 @@ import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 
 public class InsertMultipleMethodGenerator extends AbstractMethodGenerator {
 
-	private final FullyQualifiedJavaType recordType;
+    private final FullyQualifiedJavaType recordType;
 
-	private InsertMultipleMethodGenerator(Builder builder) {
-		super(builder);
-		recordType = builder.recordType;
-	}
+    private InsertMultipleMethodGenerator(Builder builder) {
+        super(builder);
+        recordType = builder.recordType;
+    }
 
-	@Override
-	public MethodAndImports generateMethodAndImports() {
-		if (!Utils.generateMultipleRowInsert(introspectedTable)) {
-			return null;
-		}
+    @Override
+    public MethodAndImports generateMethodAndImports() {
+        if (!Utils.generateMultipleRowInsert(introspectedTable)) {
+            return null;
+        }
 
-		Set<FullyQualifiedJavaType> imports = new HashSet<>();
+        Set<FullyQualifiedJavaType> imports = new HashSet<>();
 
-		imports.add(new FullyQualifiedJavaType("org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils")); //$NON-NLS-1$
-		imports.add(recordType);
+        imports.add(new FullyQualifiedJavaType("org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils")); //$NON-NLS-1$
+        imports.add(recordType);
 
-		Method method = new Method("insertMultiple"); //$NON-NLS-1$
-		method.setDefault(true);
-		context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
-		method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+        Method method = new Method("insertMultiple"); //$NON-NLS-1$
+        method.setDefault(true);
+        context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
+        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
 
-		FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType("java.util.Collection"); //$NON-NLS-1$
-		parameterType.addTypeArgument(recordType);
-		imports.add(parameterType);
+        FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType("java.util.Collection"); //$NON-NLS-1$
+        parameterType.addTypeArgument(recordType);
+        imports.add(parameterType);
 
-		method.addParameter(new Parameter(parameterType, "records")); //$NON-NLS-1$
+        method.addParameter(new Parameter(parameterType, "records")); //$NON-NLS-1$
 
-		String methodName;
-		if (Utils.canRetrieveMultiRowGeneratedKeys(introspectedTable)) {
-			methodName = "MyBatis3Utils.insertMultipleWithGeneratedKeys";
-		}
-		else {
-			methodName = "MyBatis3Utils.insertMultiple";
-		}
+        String methodName;
+        if (Utils.canRetrieveMultiRowGeneratedKeys(introspectedTable)) {
+            methodName = "MyBatis3Utils.insertMultipleWithGeneratedKeys";
+        }
+        else {
+            methodName = "MyBatis3Utils.insertMultiple";
+        }
 
-		method.addBodyLine("return " + methodName + "(this::insertMultiple, records, " //$NON-NLS-1$ //$NON-NLS-2$
-				+ tableFieldName // $NON-NLS-1$
-				+ ", c ->"); //$NON-NLS-1$
+        method.addBodyLine("return " + methodName + "(this::insertMultiple, records, " //$NON-NLS-1$ //$NON-NLS-2$
+                + tableFieldName // $NON-NLS-1$
+                + ", c ->"); //$NON-NLS-1$
 
-		List<IntrospectedColumn> columns = ListUtilities
-				.removeIdentityAndGeneratedAlwaysColumns(introspectedTable.getAllColumns());
-		boolean first = true;
-		for (IntrospectedColumn column : columns) {
-			String fieldName = calculateFieldName(column);
+        List<IntrospectedColumn> columns = ListUtilities
+                .removeIdentityAndGeneratedAlwaysColumns(introspectedTable.getAllColumns());
+        boolean first = true;
+        for (IntrospectedColumn column : columns) {
+            String fieldName = calculateFieldName(column);
 
-			if (first) {
-				method.addBodyLine("    c.map(" + fieldName //$NON-NLS-1$
-						+ ").toProperty(\"" + column.getJavaProperty() //$NON-NLS-1$
-						+ "\")"); //$NON-NLS-1$
-				first = false;
-			}
-			else {
-				method.addBodyLine("    .map(" + fieldName //$NON-NLS-1$
-						+ ").toProperty(\"" + column.getJavaProperty() //$NON-NLS-1$
-						+ "\")"); //$NON-NLS-1$
-			}
-		}
+            if (first) {
+                method.addBodyLine("    c.map(" + fieldName //$NON-NLS-1$
+                        + ").toProperty(\"" + column.getJavaProperty() //$NON-NLS-1$
+                        + "\")"); //$NON-NLS-1$
+                first = false;
+            }
+            else {
+                method.addBodyLine("    .map(" + fieldName //$NON-NLS-1$
+                        + ").toProperty(\"" + column.getJavaProperty() //$NON-NLS-1$
+                        + "\")"); //$NON-NLS-1$
+            }
+        }
 
-		method.addBodyLine(");"); //$NON-NLS-1$
+        method.addBodyLine(");"); //$NON-NLS-1$
 
-		return MethodAndImports.withMethod(method).withImports(imports).build();
-	}
+        return MethodAndImports.withMethod(method).withImports(imports).build();
+    }
 
-	@Override
-	public boolean callPlugins(Method method, Interface interfaze) {
-		return context.getPlugins().clientInsertMultipleMethodGenerated(method, interfaze, introspectedTable);
-	}
+    @Override
+    public boolean callPlugins(Method method, Interface interfaze) {
+        return context.getPlugins().clientInsertMultipleMethodGenerated(method, interfaze, introspectedTable);
+    }
 
-	public static class Builder extends BaseBuilder<Builder> {
+    public static class Builder extends BaseBuilder<Builder> {
 
-		private FullyQualifiedJavaType recordType;
+        private FullyQualifiedJavaType recordType;
 
-		public Builder withRecordType(FullyQualifiedJavaType recordType) {
-			this.recordType = recordType;
-			return this;
-		}
+        public Builder withRecordType(FullyQualifiedJavaType recordType) {
+            this.recordType = recordType;
+            return this;
+        }
 
-		@Override
-		public Builder getThis() {
-			return this;
-		}
+        @Override
+        public Builder getThis() {
+            return this;
+        }
 
-		public InsertMultipleMethodGenerator build() {
-			return new InsertMultipleMethodGenerator(this);
-		}
+        public InsertMultipleMethodGenerator build() {
+            return new InsertMultipleMethodGenerator(this);
+        }
 
-	}
+    }
 
 }

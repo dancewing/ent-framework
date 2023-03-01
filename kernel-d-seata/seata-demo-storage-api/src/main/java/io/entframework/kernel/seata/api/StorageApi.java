@@ -11,12 +11,12 @@ package io.entframework.kernel.seata.api;
  */
 public interface StorageApi {
 
-	/**
-	 * 扣除存储数量
-	 * @param commodityCode 商品编码
-	 * @param count 购买数量
-	 * @date 2021/4/21 9:44
-	 */
-	void deduct(String commodityCode, Integer count);
+    /**
+     * 扣除存储数量
+     * @param commodityCode 商品编码
+     * @param count 购买数量
+     * @date 2021/4/21 9:44
+     */
+    void deduct(String commodityCode, Integer count);
 
 }

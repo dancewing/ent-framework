@@ -20,24 +20,24 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KernelMongodbAutoConfiguration {
 
-	/**
-	 * Mongodb 数据存储
-	 *
-	 * @date 2021/03/20 16:24
-	 */
-	@Bean
-	public MongodbApi<KernelMapEntity, String> mongodbApi() {
-		return new KernelMapServiceImpl();
-	}
+    /**
+     * Mongodb 数据存储
+     *
+     * @date 2021/03/20 16:24
+     */
+    @Bean
+    public MongodbApi<KernelMapEntity, String> mongodbApi() {
+        return new KernelMapServiceImpl();
+    }
 
-	/**
-	 * Mongodb 文件管理
-	 *
-	 * @date 2021/03/20 16:24
-	 */
-	@Bean
-	public MongoFileApi<MongoFileEntity, String> mongoFileApi() {
-		return new MongoFileServiceImpl();
-	}
+    /**
+     * Mongodb 文件管理
+     *
+     * @date 2021/03/20 16:24
+     */
+    @Bean
+    public MongoFileApi<MongoFileEntity, String> mongoFileApi() {
+        return new MongoFileServiceImpl();
+    }
 
 }

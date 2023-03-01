@@ -36,177 +36,177 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class UpdateDSL<R> extends AbstractWhereSupport<UpdateDSL<R>.UpdateWhereBuilder, UpdateDSL<R>>
-		implements Buildable<R> {
+        implements Buildable<R> {
 
-	private final Function<UpdateModel, R> adapterFunction;
+    private final Function<UpdateModel, R> adapterFunction;
 
-	private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
+    private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
 
-	private final SqlTable table;
+    private final SqlTable table;
 
-	private final String tableAlias;
+    private final String tableAlias;
 
-	private UpdateWhereBuilder whereBuilder;
+    private UpdateWhereBuilder whereBuilder;
 
-	private Class<?> entityClass;
+    private Class<?> entityClass;
 
-	private final StatementConfiguration statementConfiguration = new StatementConfiguration();
+    private final StatementConfiguration statementConfiguration = new StatementConfiguration();
 
-	private UpdateDSL(SqlTable table, String tableAlias, Function<UpdateModel, R> adapterFunction) {
-		this.table = Objects.requireNonNull(table);
-		this.tableAlias = tableAlias;
-		this.adapterFunction = Objects.requireNonNull(adapterFunction);
-	}
+    private UpdateDSL(SqlTable table, String tableAlias, Function<UpdateModel, R> adapterFunction) {
+        this.table = Objects.requireNonNull(table);
+        this.tableAlias = tableAlias;
+        this.adapterFunction = Objects.requireNonNull(adapterFunction);
+    }
 
-	private UpdateDSL(Class<?> entityClass, String tableAlias, Function<UpdateModel, R> adapterFunction) {
-		this.entityClass = entityClass;
-		EntityMeta entityMeta = Entities.getInstance(entityClass);
-		this.table = Objects.requireNonNull(entityMeta.getTable());
-		this.tableAlias = tableAlias;
-		this.adapterFunction = Objects.requireNonNull(adapterFunction);
-	}
+    private UpdateDSL(Class<?> entityClass, String tableAlias, Function<UpdateModel, R> adapterFunction) {
+        this.entityClass = entityClass;
+        EntityMeta entityMeta = Entities.getInstance(entityClass);
+        this.table = Objects.requireNonNull(entityMeta.getTable());
+        this.tableAlias = tableAlias;
+        this.adapterFunction = Objects.requireNonNull(adapterFunction);
+    }
 
-	public <T> SetClauseFinisher<T> set(SqlColumn<T> column) {
-		return new SetClauseFinisher<>(column);
-	}
+    public <T> SetClauseFinisher<T> set(SqlColumn<T> column) {
+        return new SetClauseFinisher<>(column);
+    }
 
-	@Override
-	public UpdateWhereBuilder where() {
-		if (whereBuilder == null) {
-			whereBuilder = new UpdateWhereBuilder();
-		}
+    @Override
+    public UpdateWhereBuilder where() {
+        if (whereBuilder == null) {
+            whereBuilder = new UpdateWhereBuilder();
+        }
 
-		return whereBuilder;
-	}
+        return whereBuilder;
+    }
 
-	/**
-	 * WARNING! Calling this method could result in an update statement that updates all
-	 * rows in a table.
-	 * @return the update model
-	 */
-	@NotNull
-	@Override
-	public R build() {
-		UpdateModel.Builder updateModelBuilder = UpdateModel.withTable(table).withTableAlias(tableAlias)
-				.withEntityClass(entityClass).withColumnMappings(columnMappings);
+    /**
+     * WARNING! Calling this method could result in an update statement that updates all
+     * rows in a table.
+     * @return the update model
+     */
+    @NotNull
+    @Override
+    public R build() {
+        UpdateModel.Builder updateModelBuilder = UpdateModel.withTable(table).withTableAlias(tableAlias)
+                .withEntityClass(entityClass).withColumnMappings(columnMappings);
 
-		if (whereBuilder != null) {
-			updateModelBuilder.withWhereModel(whereBuilder.buildWhereModel());
-		}
+        if (whereBuilder != null) {
+            updateModelBuilder.withWhereModel(whereBuilder.buildWhereModel());
+        }
 
-		return adapterFunction.apply(updateModelBuilder.build());
-	}
+        return adapterFunction.apply(updateModelBuilder.build());
+    }
 
-	@Override
-	public UpdateDSL<R> configureStatement(Consumer<StatementConfiguration> consumer) {
-		consumer.accept(statementConfiguration);
-		return this;
-	}
+    @Override
+    public UpdateDSL<R> configureStatement(Consumer<StatementConfiguration> consumer) {
+        consumer.accept(statementConfiguration);
+        return this;
+    }
 
-	public static <R> UpdateDSL<R> update(Function<UpdateModel, R> adapterFunction, SqlTable table, String tableAlias) {
-		return new UpdateDSL<>(table, tableAlias, adapterFunction);
-	}
+    public static <R> UpdateDSL<R> update(Function<UpdateModel, R> adapterFunction, SqlTable table, String tableAlias) {
+        return new UpdateDSL<>(table, tableAlias, adapterFunction);
+    }
 
-	public static <R> UpdateDSL<R> update(Function<UpdateModel, R> adapterFunction, Class<?> entityClass,
-			String tableAlias) {
-		return new UpdateDSL<>(entityClass, tableAlias, adapterFunction);
-	}
+    public static <R> UpdateDSL<R> update(Function<UpdateModel, R> adapterFunction, Class<?> entityClass,
+            String tableAlias) {
+        return new UpdateDSL<>(entityClass, tableAlias, adapterFunction);
+    }
 
-	public static UpdateDSL<UpdateModel> update(SqlTable table) {
-		return update(Function.identity(), table, null);
-	}
+    public static UpdateDSL<UpdateModel> update(SqlTable table) {
+        return update(Function.identity(), table, null);
+    }
 
-	public static UpdateDSL<UpdateModel> update(Class<?> entityClass) {
-		return update(Function.identity(), entityClass, null);
-	}
+    public static UpdateDSL<UpdateModel> update(Class<?> entityClass) {
+        return update(Function.identity(), entityClass, null);
+    }
 
-	public static UpdateDSL<UpdateModel> update(SqlTable table, String tableAlias) {
-		return update(Function.identity(), table, tableAlias);
-	}
+    public static UpdateDSL<UpdateModel> update(SqlTable table, String tableAlias) {
+        return update(Function.identity(), table, tableAlias);
+    }
 
-	public class SetClauseFinisher<T> {
+    public class SetClauseFinisher<T> {
 
-		private final SqlColumn<T> column;
+        private final SqlColumn<T> column;
 
-		public SetClauseFinisher(SqlColumn<T> column) {
-			this.column = column;
-		}
+        public SetClauseFinisher(SqlColumn<T> column) {
+            this.column = column;
+        }
 
-		public UpdateDSL<R> equalToNull() {
-			columnMappings.add(NullMapping.of(column));
-			return UpdateDSL.this;
-		}
+        public UpdateDSL<R> equalToNull() {
+            columnMappings.add(NullMapping.of(column));
+            return UpdateDSL.this;
+        }
 
-		public UpdateDSL<R> equalToConstant(String constant) {
-			columnMappings.add(ConstantMapping.of(column, constant));
-			return UpdateDSL.this;
-		}
+        public UpdateDSL<R> equalToConstant(String constant) {
+            columnMappings.add(ConstantMapping.of(column, constant));
+            return UpdateDSL.this;
+        }
 
-		public UpdateDSL<R> equalToStringConstant(String constant) {
-			columnMappings.add(StringConstantMapping.of(column, constant));
-			return UpdateDSL.this;
-		}
+        public UpdateDSL<R> equalToStringConstant(String constant) {
+            columnMappings.add(StringConstantMapping.of(column, constant));
+            return UpdateDSL.this;
+        }
 
-		public UpdateDSL<R> equalTo(T value) {
-			return equalTo(() -> value);
-		}
+        public UpdateDSL<R> equalTo(T value) {
+            return equalTo(() -> value);
+        }
 
-		public UpdateDSL<R> equalTo(Supplier<T> valueSupplier) {
-			columnMappings.add(ValueMapping.of(column, valueSupplier));
-			return UpdateDSL.this;
-		}
+        public UpdateDSL<R> equalTo(Supplier<T> valueSupplier) {
+            columnMappings.add(ValueMapping.of(column, valueSupplier));
+            return UpdateDSL.this;
+        }
 
-		public UpdateDSL<R> equalTo(Buildable<SelectModel> buildable) {
-			columnMappings.add(SelectMapping.of(column, buildable));
-			return UpdateDSL.this;
-		}
+        public UpdateDSL<R> equalTo(Buildable<SelectModel> buildable) {
+            columnMappings.add(SelectMapping.of(column, buildable));
+            return UpdateDSL.this;
+        }
 
-		public UpdateDSL<R> equalTo(BasicColumn rightColumn) {
-			columnMappings.add(ColumnToColumnMapping.of(column, rightColumn));
-			return UpdateDSL.this;
-		}
+        public UpdateDSL<R> equalTo(BasicColumn rightColumn) {
+            columnMappings.add(ColumnToColumnMapping.of(column, rightColumn));
+            return UpdateDSL.this;
+        }
 
-		public UpdateDSL<R> equalToOrNull(T value) {
-			return equalToOrNull(() -> value);
-		}
+        public UpdateDSL<R> equalToOrNull(T value) {
+            return equalToOrNull(() -> value);
+        }
 
-		public UpdateDSL<R> equalToOrNull(Supplier<T> valueSupplier) {
-			columnMappings.add(ValueOrNullMapping.of(column, valueSupplier));
-			return UpdateDSL.this;
-		}
+        public UpdateDSL<R> equalToOrNull(Supplier<T> valueSupplier) {
+            columnMappings.add(ValueOrNullMapping.of(column, valueSupplier));
+            return UpdateDSL.this;
+        }
 
-		public UpdateDSL<R> equalToWhenPresent(T value) {
-			return equalToWhenPresent(() -> value);
-		}
+        public UpdateDSL<R> equalToWhenPresent(T value) {
+            return equalToWhenPresent(() -> value);
+        }
 
-		public UpdateDSL<R> equalToWhenPresent(Supplier<T> valueSupplier) {
-			columnMappings.add(ValueWhenPresentMapping.of(column, valueSupplier));
-			return UpdateDSL.this;
-		}
+        public UpdateDSL<R> equalToWhenPresent(Supplier<T> valueSupplier) {
+            columnMappings.add(ValueWhenPresentMapping.of(column, valueSupplier));
+            return UpdateDSL.this;
+        }
 
-	}
+    }
 
-	public class UpdateWhereBuilder extends AbstractWhereDSL<UpdateWhereBuilder> implements Buildable<R> {
+    public class UpdateWhereBuilder extends AbstractWhereDSL<UpdateWhereBuilder> implements Buildable<R> {
 
-		private UpdateWhereBuilder() {
-			super(statementConfiguration);
-		}
+        private UpdateWhereBuilder() {
+            super(statementConfiguration);
+        }
 
-		@NotNull
-		@Override
-		public R build() {
-			return UpdateDSL.this.build();
-		}
+        @NotNull
+        @Override
+        public R build() {
+            return UpdateDSL.this.build();
+        }
 
-		@Override
-		protected UpdateWhereBuilder getThis() {
-			return this;
-		}
+        @Override
+        protected UpdateWhereBuilder getThis() {
+            return this;
+        }
 
-		protected WhereModel buildWhereModel() {
-			return internalBuild();
-		}
+        protected WhereModel buildWhereModel() {
+            return internalBuild();
+        }
 
-	}
+    }
 
 }

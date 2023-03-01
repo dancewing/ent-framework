@@ -13,20 +13,20 @@ package io.entframework.kernel.security.database.algorithm;
  */
 public interface EncryptAlgorithmApi {
 
-	/**
-	 * 加密算法
-	 * @param encryptedData 加密数据
-	 * @return {@link java.lang.String}
-	 * @date 2021/7/3 11:07
-	 **/
-	String encrypt(String encryptedData);
+    /**
+     * 加密算法
+     * @param encryptedData 加密数据
+     * @return {@link java.lang.String}
+     * @date 2021/7/3 11:07
+     **/
+    String encrypt(String encryptedData);
 
-	/**
-	 * 解密算法
-	 * @param cipher 待解密密文
-	 * @return {@link java.lang.String}
-	 * @date 2021/7/3 11:33
-	 **/
-	String decrypt(String cipher);
+    /**
+     * 解密算法
+     * @param cipher 待解密密文
+     * @return {@link java.lang.String}
+     * @date 2021/7/3 11:33
+     **/
+    String decrypt(String cipher);
 
 }

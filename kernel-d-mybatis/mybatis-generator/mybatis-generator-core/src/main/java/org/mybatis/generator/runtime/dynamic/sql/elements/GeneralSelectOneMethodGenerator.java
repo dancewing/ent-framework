@@ -25,64 +25,64 @@ import org.mybatis.generator.api.dom.java.Parameter;
 
 public class GeneralSelectOneMethodGenerator extends AbstractMethodGenerator {
 
-	private final FullyQualifiedJavaType recordType;
+    private final FullyQualifiedJavaType recordType;
 
-	private GeneralSelectOneMethodGenerator(Builder builder) {
-		super(builder);
-		recordType = builder.recordType;
-	}
+    private GeneralSelectOneMethodGenerator(Builder builder) {
+        super(builder);
+        recordType = builder.recordType;
+    }
 
-	@Override
-	public MethodAndImports generateMethodAndImports() {
-		Set<FullyQualifiedJavaType> imports = new HashSet<>();
+    @Override
+    public MethodAndImports generateMethodAndImports() {
+        Set<FullyQualifiedJavaType> imports = new HashSet<>();
 
-		FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType(
-				"org.mybatis.dynamic.sql.select.SelectDSLCompleter"); //$NON-NLS-1$
+        FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType(
+                "org.mybatis.dynamic.sql.select.SelectDSLCompleter"); //$NON-NLS-1$
 
-		imports.add(parameterType);
-		imports.add(new FullyQualifiedJavaType("org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils")); //$NON-NLS-1$
+        imports.add(parameterType);
+        imports.add(new FullyQualifiedJavaType("org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils")); //$NON-NLS-1$
 
-		FullyQualifiedJavaType returnType = new FullyQualifiedJavaType("java.util.Optional"); //$NON-NLS-1$
-		returnType.addTypeArgument(recordType);
+        FullyQualifiedJavaType returnType = new FullyQualifiedJavaType("java.util.Optional"); //$NON-NLS-1$
+        returnType.addTypeArgument(recordType);
 
-		imports.add(returnType);
+        imports.add(returnType);
 
-		Method method = new Method("selectOne"); //$NON-NLS-1$
-		method.setDefault(true);
-		method.addParameter(new Parameter(parameterType, "completer")); //$NON-NLS-1$
+        Method method = new Method("selectOne"); //$NON-NLS-1$
+        method.setDefault(true);
+        method.addParameter(new Parameter(parameterType, "completer")); //$NON-NLS-1$
 
-		context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
+        context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
 
-		method.setReturnType(returnType);
-		method.addBodyLine("return MyBatis3Utils.selectOne(this::selectOne, selectList, " //$NON-NLS-1$
-				+ tableFieldName + ", completer);"); //$NON-NLS-1$
+        method.setReturnType(returnType);
+        method.addBodyLine("return MyBatis3Utils.selectOne(this::selectOne, selectList, " //$NON-NLS-1$
+                + tableFieldName + ", completer);"); //$NON-NLS-1$
 
-		return MethodAndImports.withMethod(method).withImports(imports).build();
-	}
+        return MethodAndImports.withMethod(method).withImports(imports).build();
+    }
 
-	@Override
-	public boolean callPlugins(Method method, Interface interfaze) {
-		return context.getPlugins().clientSelectOneMethodGenerated(method, interfaze, introspectedTable);
-	}
+    @Override
+    public boolean callPlugins(Method method, Interface interfaze) {
+        return context.getPlugins().clientSelectOneMethodGenerated(method, interfaze, introspectedTable);
+    }
 
-	public static class Builder extends BaseBuilder<Builder> {
+    public static class Builder extends BaseBuilder<Builder> {
 
-		private FullyQualifiedJavaType recordType;
+        private FullyQualifiedJavaType recordType;
 
-		public Builder withRecordType(FullyQualifiedJavaType recordType) {
-			this.recordType = recordType;
-			return this;
-		}
+        public Builder withRecordType(FullyQualifiedJavaType recordType) {
+            this.recordType = recordType;
+            return this;
+        }
 
-		@Override
-		public Builder getThis() {
-			return this;
-		}
+        @Override
+        public Builder getThis() {
+            return this;
+        }
 
-		public GeneralSelectOneMethodGenerator build() {
-			return new GeneralSelectOneMethodGenerator(this);
-		}
+        public GeneralSelectOneMethodGenerator build() {
+            return new GeneralSelectOneMethodGenerator(this);
+        }
 
-	}
+    }
 
 }

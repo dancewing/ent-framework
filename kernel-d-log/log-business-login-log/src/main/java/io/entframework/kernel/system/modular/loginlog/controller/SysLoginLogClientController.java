@@ -22,12 +22,12 @@ import jakarta.annotation.Resource;
 @RestController
 public class SysLoginLogClientController {
 
-	@Resource
-	private LoginLogServiceApi loginLogServiceApi;
+    @Resource
+    private LoginLogServiceApi loginLogServiceApi;
 
-	@PostMapping(path = "/client/login-log/add")
-	public boolean add(@RequestBody SysLoginLogRequest request) {
-		return this.loginLogServiceApi.add(request);
-	}
+    @PostMapping(path = "/client/login-log/add")
+    public boolean add(@RequestBody SysLoginLogRequest request) {
+        return this.loginLogServiceApi.add(request);
+    }
 
 }

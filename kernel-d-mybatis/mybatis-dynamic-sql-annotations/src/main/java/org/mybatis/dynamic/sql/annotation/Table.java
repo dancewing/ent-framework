@@ -15,10 +15,10 @@ import java.lang.annotation.*;
 @Inherited
 public @interface Table {
 
-	String value() default "";
+    String value() default "";
 
-	Class<?> sqlSupport() default void.class;
+    Class<?> sqlSupport() default void.class;
 
-	String tableProperty() default "";
+    String tableProperty() default "";
 
 }

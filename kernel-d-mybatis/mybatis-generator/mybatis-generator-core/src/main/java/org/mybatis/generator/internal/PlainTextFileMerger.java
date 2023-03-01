@@ -22,26 +22,26 @@ import java.util.Set;
 
 public class PlainTextFileMerger {
 
-	public static String getMergedSource(GeneratedFile generatedFile, File existingFile) throws ShellException {
-		if (generatedFile instanceof GeneratedPlainFile generatedPlainFile) {
+    public static String getMergedSource(GeneratedFile generatedFile, File existingFile) throws ShellException {
+        if (generatedFile instanceof GeneratedPlainFile generatedPlainFile) {
 
-			List<String> existingFileLines = new ArrayList<>();
-			try {
-				existingFileLines = FileUtils.readLines(existingFile, StandardCharsets.UTF_8);
-			}
-			catch (Exception ex) {
-				return generatedFile.getFormattedContent();
-			}
-			if (existingFileLines.isEmpty()) {
-				return generatedFile.getFormattedContent();
-			}
-			Set<String> contents = new HashSet<>(existingFileLines);
-			List<String> bodyLines = generatedPlainFile.getBodyLine();
-			contents.addAll(bodyLines);
-			return StringUtils.join(contents, '\n');
-		}
+            List<String> existingFileLines = new ArrayList<>();
+            try {
+                existingFileLines = FileUtils.readLines(existingFile, StandardCharsets.UTF_8);
+            }
+            catch (Exception ex) {
+                return generatedFile.getFormattedContent();
+            }
+            if (existingFileLines.isEmpty()) {
+                return generatedFile.getFormattedContent();
+            }
+            Set<String> contents = new HashSet<>(existingFileLines);
+            List<String> bodyLines = generatedPlainFile.getBodyLine();
+            contents.addAll(bodyLines);
+            return StringUtils.join(contents, '\n');
+        }
 
-		return generatedFile.getFormattedContent();
-	}
+        return generatedFile.getFormattedContent();
+    }
 
 }

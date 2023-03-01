@@ -14,16 +14,16 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class ConfigException extends ServiceException {
 
-	public ConfigException(String errorCode, String userTip) {
-		super(ConfigConstants.CONFIG_MODULE_NAME, errorCode, userTip);
-	}
+    public ConfigException(String errorCode, String userTip) {
+        super(ConfigConstants.CONFIG_MODULE_NAME, errorCode, userTip);
+    }
 
-	public ConfigException(AbstractExceptionEnum exception) {
-		super(ConfigConstants.CONFIG_MODULE_NAME, exception);
-	}
+    public ConfigException(AbstractExceptionEnum exception) {
+        super(ConfigConstants.CONFIG_MODULE_NAME, exception);
+    }
 
-	public ConfigException(AbstractExceptionEnum exception, String userTip) {
-		super(ConfigConstants.CONFIG_MODULE_NAME, exception.getErrorCode(), userTip);
-	}
+    public ConfigException(AbstractExceptionEnum exception, String userTip) {
+        super(ConfigConstants.CONFIG_MODULE_NAME, exception.getErrorCode(), userTip);
+    }
 
 }

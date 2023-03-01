@@ -17,12 +17,12 @@ package org.mybatis.dynamic.sql;
 
 public interface SqlCriterionVisitor<R> {
 
-	<T> R visit(ColumnAndConditionCriterion<T> criterion);
+    <T> R visit(ColumnAndConditionCriterion<T> criterion);
 
-	R visit(ExistsCriterion criterion);
+    R visit(ExistsCriterion criterion);
 
-	R visit(CriteriaGroup criterion);
+    R visit(CriteriaGroup criterion);
 
-	R visit(NotCriterion criterion);
+    R visit(NotCriterion criterion);
 
 }

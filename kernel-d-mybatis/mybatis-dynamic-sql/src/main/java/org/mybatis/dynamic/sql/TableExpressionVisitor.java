@@ -19,8 +19,8 @@ import org.mybatis.dynamic.sql.select.SubQuery;
 
 public interface TableExpressionVisitor<R> {
 
-	R visit(SqlTable table);
+    R visit(SqlTable table);
 
-	R visit(SubQuery subQuery);
+    R visit(SubQuery subQuery);
 
 }

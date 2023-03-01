@@ -5,8 +5,8 @@ import io.entframework.kernel.sms.api.constants.SmsConstants;
 
 public class SmsModuleMeta extends AbstractModuleMeta {
 
-	public SmsModuleMeta() {
-		super(SmsConstants.SMS_MODULE_NAME, SmsConstants.FLYWAY_TABLE_SUFFIX, SmsConstants.FLYWAY_LOCATIONS);
-	}
+    public SmsModuleMeta() {
+        super(SmsConstants.SMS_MODULE_NAME, SmsConstants.FLYWAY_TABLE_SUFFIX, SmsConstants.FLYWAY_LOCATIONS);
+    }
 
 }

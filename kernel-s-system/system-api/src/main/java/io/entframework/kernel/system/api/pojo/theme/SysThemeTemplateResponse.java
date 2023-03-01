@@ -16,34 +16,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SysThemeTemplateResponse extends BaseResponse {
 
-	/**
-	 * 主键
-	 */
-	@ChineseDescription("主键")
-	private Long templateId;
+    /**
+     * 主键
+     */
+    @ChineseDescription("主键")
+    private Long templateId;
 
-	/**
-	 * 主题名称
-	 */
-	@ChineseDescription("主题名称")
-	private String templateName;
+    /**
+     * 主题名称
+     */
+    @ChineseDescription("主题名称")
+    private String templateName;
 
-	/**
-	 * 主题编码
-	 */
-	@ChineseDescription("主题编码")
-	private String templateCode;
+    /**
+     * 主题编码
+     */
+    @ChineseDescription("主题编码")
+    private String templateCode;
 
-	/**
-	 * 主题类型：1-系统类型，2-业务类型
-	 */
-	@ChineseDescription("主题类型：1-系统类型，2-业务类型")
-	private ThemeFieldTypeEnum templateType;
+    /**
+     * 主题类型：1-系统类型，2-业务类型
+     */
+    @ChineseDescription("主题类型：1-系统类型，2-业务类型")
+    private ThemeFieldTypeEnum templateType;
 
-	/**
-	 * 启用状态：Y-启用，N-禁用
-	 */
-	@ChineseDescription("启用状态：Y-启用，N-禁用")
-	private YesOrNotEnum statusFlag;
+    /**
+     * 启用状态：Y-启用，N-禁用
+     */
+    @ChineseDescription("启用状态：Y-启用，N-禁用")
+    private YesOrNotEnum statusFlag;
 
 }

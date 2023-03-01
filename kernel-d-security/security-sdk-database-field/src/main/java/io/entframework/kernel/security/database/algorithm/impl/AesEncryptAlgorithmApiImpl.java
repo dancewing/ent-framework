@@ -18,18 +18,18 @@ import java.nio.charset.StandardCharsets;
  */
 public class AesEncryptAlgorithmApiImpl implements EncryptAlgorithmApi {
 
-	@Override
-	public String encrypt(String encryptedData) {
-		SymmetricCrypto symmetricCrypto = new SymmetricCrypto(SymmetricAlgorithm.AES,
-				SecurityConfigExpander.getEncryptSecretKey().getBytes(StandardCharsets.UTF_8));
-		return symmetricCrypto.encryptHex(encryptedData);
-	}
+    @Override
+    public String encrypt(String encryptedData) {
+        SymmetricCrypto symmetricCrypto = new SymmetricCrypto(SymmetricAlgorithm.AES,
+                SecurityConfigExpander.getEncryptSecretKey().getBytes(StandardCharsets.UTF_8));
+        return symmetricCrypto.encryptHex(encryptedData);
+    }
 
-	@Override
-	public String decrypt(String cipher) {
-		SymmetricCrypto symmetricCrypto = new SymmetricCrypto(SymmetricAlgorithm.AES,
-				SecurityConfigExpander.getEncryptSecretKey().getBytes(StandardCharsets.UTF_8));
-		return symmetricCrypto.decryptStr(cipher);
-	}
+    @Override
+    public String decrypt(String cipher) {
+        SymmetricCrypto symmetricCrypto = new SymmetricCrypto(SymmetricAlgorithm.AES,
+                SecurityConfigExpander.getEncryptSecretKey().getBytes(StandardCharsets.UTF_8));
+        return symmetricCrypto.decryptStr(cipher);
+    }
 
 }

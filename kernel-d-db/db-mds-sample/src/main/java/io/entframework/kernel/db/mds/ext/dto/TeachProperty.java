@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 @Builder(builderClassName = "Builder")
 public class TeachProperty {
 
-	private String test;
+    private String test;
 
 }

@@ -29,69 +29,69 @@ import org.mybatis.dynamic.sql.util.FragmentAndParameters;
 
 public class TableExpressionRenderer implements TableExpressionVisitor<FragmentAndParameters> {
 
-	private final TableAliasCalculator tableAliasCalculator;
+    private final TableAliasCalculator tableAliasCalculator;
 
-	private final RenderingStrategy renderingStrategy;
+    private final RenderingStrategy renderingStrategy;
 
-	private final AtomicInteger sequence;
+    private final AtomicInteger sequence;
 
-	private TableExpressionRenderer(Builder builder) {
-		tableAliasCalculator = Objects.requireNonNull(builder.tableAliasCalculator);
-		renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
-		sequence = Objects.requireNonNull(builder.sequence);
-	}
+    private TableExpressionRenderer(Builder builder) {
+        tableAliasCalculator = Objects.requireNonNull(builder.tableAliasCalculator);
+        renderingStrategy = Objects.requireNonNull(builder.renderingStrategy);
+        sequence = Objects.requireNonNull(builder.sequence);
+    }
 
-	@Override
-	public FragmentAndParameters visit(SqlTable table) {
-		return FragmentAndParameters
-				.withFragment(tableAliasCalculator.aliasForTable(table)
-						.map(a -> table.tableNameAtRuntime() + spaceBefore(a)).orElseGet(table::tableNameAtRuntime))
-				.build();
-	}
+    @Override
+    public FragmentAndParameters visit(SqlTable table) {
+        return FragmentAndParameters
+                .withFragment(tableAliasCalculator.aliasForTable(table)
+                        .map(a -> table.tableNameAtRuntime() + spaceBefore(a)).orElseGet(table::tableNameAtRuntime))
+                .build();
+    }
 
-	@Override
-	public FragmentAndParameters visit(SubQuery subQuery) {
-		SelectStatementProvider selectStatement = new SelectRenderer.Builder().withSelectModel(subQuery.selectModel())
-				.withRenderingStrategy(renderingStrategy).withSequence(sequence).build().render();
+    @Override
+    public FragmentAndParameters visit(SubQuery subQuery) {
+        SelectStatementProvider selectStatement = new SelectRenderer.Builder().withSelectModel(subQuery.selectModel())
+                .withRenderingStrategy(renderingStrategy).withSequence(sequence).build().render();
 
-		String fragment = "(" + selectStatement.getSelectStatement() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+        String fragment = "(" + selectStatement.getSelectStatement() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 
-		fragment = applyAlias(fragment, subQuery);
+        fragment = applyAlias(fragment, subQuery);
 
-		return FragmentAndParameters.withFragment(fragment).withParameters(selectStatement.getParameters()).build();
-	}
+        return FragmentAndParameters.withFragment(fragment).withParameters(selectStatement.getParameters()).build();
+    }
 
-	private String applyAlias(String fragment, SubQuery subQuery) {
-		return subQuery.alias().map(a -> fragment + spaceBefore(a)).orElse(fragment);
-	}
+    private String applyAlias(String fragment, SubQuery subQuery) {
+        return subQuery.alias().map(a -> fragment + spaceBefore(a)).orElse(fragment);
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private TableAliasCalculator tableAliasCalculator;
+        private TableAliasCalculator tableAliasCalculator;
 
-		private RenderingStrategy renderingStrategy;
+        private RenderingStrategy renderingStrategy;
 
-		private AtomicInteger sequence;
+        private AtomicInteger sequence;
 
-		public Builder withTableAliasCalculator(TableAliasCalculator tableAliasCalculator) {
-			this.tableAliasCalculator = tableAliasCalculator;
-			return this;
-		}
+        public Builder withTableAliasCalculator(TableAliasCalculator tableAliasCalculator) {
+            this.tableAliasCalculator = tableAliasCalculator;
+            return this;
+        }
 
-		public Builder withRenderingStrategy(RenderingStrategy renderingStrategy) {
-			this.renderingStrategy = renderingStrategy;
-			return this;
-		}
+        public Builder withRenderingStrategy(RenderingStrategy renderingStrategy) {
+            this.renderingStrategy = renderingStrategy;
+            return this;
+        }
 
-		public Builder withSequence(AtomicInteger sequence) {
-			this.sequence = sequence;
-			return this;
-		}
+        public Builder withSequence(AtomicInteger sequence) {
+            this.sequence = sequence;
+            return this;
+        }
 
-		public TableExpressionRenderer build() {
-			return new TableExpressionRenderer(this);
-		}
+        public TableExpressionRenderer build() {
+            return new TableExpressionRenderer(this);
+        }
 
-	}
+    }
 
 }

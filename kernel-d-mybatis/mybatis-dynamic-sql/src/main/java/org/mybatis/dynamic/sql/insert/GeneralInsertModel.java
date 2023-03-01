@@ -32,51 +32,51 @@ import org.mybatis.dynamic.sql.util.Messages;
 
 public class GeneralInsertModel {
 
-	private final SqlTable table;
+    private final SqlTable table;
 
-	private final List<AbstractColumnMapping> insertMappings;
+    private final List<AbstractColumnMapping> insertMappings;
 
-	private GeneralInsertModel(Builder builder) {
-		table = Objects.requireNonNull(builder.table);
-		if (builder.insertMappings.isEmpty()) {
-			throw new InvalidSqlException(Messages.getString("ERROR.6")); //$NON-NLS-1$
-		}
-		insertMappings = builder.insertMappings;
-	}
+    private GeneralInsertModel(Builder builder) {
+        table = Objects.requireNonNull(builder.table);
+        if (builder.insertMappings.isEmpty()) {
+            throw new InvalidSqlException(Messages.getString("ERROR.6")); //$NON-NLS-1$
+        }
+        insertMappings = builder.insertMappings;
+    }
 
-	public <R> Stream<R> mapColumnMappings(Function<AbstractColumnMapping, R> mapper) {
-		return insertMappings.stream().map(mapper);
-	}
+    public <R> Stream<R> mapColumnMappings(Function<AbstractColumnMapping, R> mapper) {
+        return insertMappings.stream().map(mapper);
+    }
 
-	public SqlTable table() {
-		return table;
-	}
+    public SqlTable table() {
+        return table;
+    }
 
-	@NotNull
-	public GeneralInsertStatementProvider render(RenderingStrategy renderingStrategy) {
-		return GeneralInsertRenderer.withInsertModel(this).withRenderingStrategy(renderingStrategy).build().render();
-	}
+    @NotNull
+    public GeneralInsertStatementProvider render(RenderingStrategy renderingStrategy) {
+        return GeneralInsertRenderer.withInsertModel(this).withRenderingStrategy(renderingStrategy).build().render();
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private SqlTable table;
+        private SqlTable table;
 
-		private final List<AbstractColumnMapping> insertMappings = new ArrayList<>();
+        private final List<AbstractColumnMapping> insertMappings = new ArrayList<>();
 
-		public Builder withTable(SqlTable table) {
-			this.table = table;
-			return this;
-		}
+        public Builder withTable(SqlTable table) {
+            this.table = table;
+            return this;
+        }
 
-		public Builder withInsertMappings(List<AbstractColumnMapping> insertMappings) {
-			this.insertMappings.addAll(insertMappings);
-			return this;
-		}
+        public Builder withInsertMappings(List<AbstractColumnMapping> insertMappings) {
+            this.insertMappings.addAll(insertMappings);
+            return this;
+        }
 
-		public GeneralInsertModel build() {
-			return new GeneralInsertModel(this);
-		}
+        public GeneralInsertModel build() {
+            return new GeneralInsertModel(this);
+        }
 
-	}
+    }
 
 }

@@ -32,87 +32,87 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
 public class NameService {
 
-	private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
+    private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
 
-	private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
+    private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
 
-	private final SqlSessionFactory sqlSessionFactory;
+    private final SqlSessionFactory sqlSessionFactory;
 
-	public NameService() {
-		try {
-			Class.forName(JDBC_DRIVER);
-			InputStream is = getClass().getResourceAsStream("/issues/gh324/CreateDB.sql");
-			try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
-				ScriptRunner sr = new ScriptRunner(connection);
-				sr.setLogWriter(null);
-				sr.runScript(new InputStreamReader(is));
-			}
+    public NameService() {
+        try {
+            Class.forName(JDBC_DRIVER);
+            InputStream is = getClass().getResourceAsStream("/issues/gh324/CreateDB.sql");
+            try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
+                ScriptRunner sr = new ScriptRunner(connection);
+                sr.setLogWriter(null);
+                sr.runScript(new InputStreamReader(is));
+            }
 
-			UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
-			Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
-			Configuration config = new Configuration(environment);
-			config.addMapper(NameTableMapper.class);
-			sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+            UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
+            Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
+            Configuration config = new Configuration(environment);
+            config.addMapper(NameTableMapper.class);
+            sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	public void insertRecord() {
-		try (SqlSession session = sqlSessionFactory.openSession(true)) {
-			NameTableMapper mapper = session.getMapper(NameTableMapper.class);
-			NameRecord record = new NameRecord();
-			record.setId(1);
-			record.setName("Fred");
-			mapper.insert(record);
-		}
-	}
+    public void insertRecord() {
+        try (SqlSession session = sqlSessionFactory.openSession(true)) {
+            NameTableMapper mapper = session.getMapper(NameTableMapper.class);
+            NameRecord record = new NameRecord();
+            record.setId(1);
+            record.setName("Fred");
+            mapper.insert(record);
+        }
+    }
 
-	public void updateRecordWithAutoCommit() {
-		try (SqlSession session = sqlSessionFactory.openSession(true)) {
-			NameTableMapper mapper = session.getMapper(NameTableMapper.class);
-			NameRecord record = new NameRecord();
-			record.setId(1);
-			record.setName("Barney");
-			mapper.updateByPrimaryKey(record);
-		}
-	}
+    public void updateRecordWithAutoCommit() {
+        try (SqlSession session = sqlSessionFactory.openSession(true)) {
+            NameTableMapper mapper = session.getMapper(NameTableMapper.class);
+            NameRecord record = new NameRecord();
+            record.setId(1);
+            record.setName("Barney");
+            mapper.updateByPrimaryKey(record);
+        }
+    }
 
-	public void updateRecordWithoutAutoCommitAndNoExplicitCommit() {
-		// this should rollback
-		try (SqlSession session = sqlSessionFactory.openSession()) {
-			NameTableMapper mapper = session.getMapper(NameTableMapper.class);
-			NameRecord record = new NameRecord();
-			record.setId(1);
-			record.setName("Barney");
-			mapper.updateByPrimaryKey(record);
-		}
-	}
+    public void updateRecordWithoutAutoCommitAndNoExplicitCommit() {
+        // this should rollback
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            NameTableMapper mapper = session.getMapper(NameTableMapper.class);
+            NameRecord record = new NameRecord();
+            record.setId(1);
+            record.setName("Barney");
+            mapper.updateByPrimaryKey(record);
+        }
+    }
 
-	public void updateRecordWithoutAutoCommitAndExplicitCommit() {
-		try (SqlSession session = sqlSessionFactory.openSession()) {
-			NameTableMapper mapper = session.getMapper(NameTableMapper.class);
-			NameRecord record = new NameRecord();
-			record.setId(1);
-			record.setName("Barney");
-			mapper.updateByPrimaryKey(record);
-			session.commit();
-		}
-	}
+    public void updateRecordWithoutAutoCommitAndExplicitCommit() {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            NameTableMapper mapper = session.getMapper(NameTableMapper.class);
+            NameRecord record = new NameRecord();
+            record.setId(1);
+            record.setName("Barney");
+            mapper.updateByPrimaryKey(record);
+            session.commit();
+        }
+    }
 
-	public Optional<NameRecord> getRecord() {
-		try (SqlSession session = sqlSessionFactory.openSession()) {
-			NameTableMapper mapper = session.getMapper(NameTableMapper.class);
-			return mapper.selectByPrimaryKey(1);
-		}
-	}
+    public Optional<NameRecord> getRecord() {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            NameTableMapper mapper = session.getMapper(NameTableMapper.class);
+            return mapper.selectByPrimaryKey(1);
+        }
+    }
 
-	public void resetDatabase() {
-		try (SqlSession session = sqlSessionFactory.openSession()) {
-			NameTableMapper mapper = session.getMapper(NameTableMapper.class);
-			mapper.deleteAll();
-		}
-	}
+    public void resetDatabase() {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            NameTableMapper mapper = session.getMapper(NameTableMapper.class);
+            mapper.deleteAll();
+        }
+    }
 
 }

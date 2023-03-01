@@ -23,45 +23,45 @@ import java.util.Date;
 @Document("mongo_file")
 public class MongoFileEntity extends BaseRequest {
 
-	/**
-	 * 集合id
-	 */
-	@Id
-	private String id;
+    /**
+     * 集合id
+     */
+    @Id
+    private String id;
 
-	/**
-	 * 文件名称
-	 */
-	private String name;
+    /**
+     * 文件名称
+     */
+    private String name;
 
-	/**
-	 * 上传文件日期
-	 */
-	private Date uploadDate;
+    /**
+     * 上传文件日期
+     */
+    private Date uploadDate;
 
-	/**
-	 * 上传文件用户编号
-	 */
-	private Long uploadUserId;
+    /**
+     * 上传文件用户编号
+     */
+    private Long uploadUserId;
 
-	/**
-	 * 文件后缀名
-	 */
-	private String suffix;
+    /**
+     * 文件后缀名
+     */
+    private String suffix;
 
-	/**
-	 * 文件描述
-	 */
-	private String description;
+    /**
+     * 文件描述
+     */
+    private String description;
 
-	/**
-	 * Mongodb GridFS 中 fs.files集合编号
-	 */
-	private String gridfsId;
+    /**
+     * Mongodb GridFS 中 fs.files集合编号
+     */
+    private String gridfsId;
 
-	/**
-	 * 下载文件的 响应字段
-	 */
-	private byte[] content;
+    /**
+     * 下载文件的 响应字段
+     */
+    private byte[] content;
 
 }

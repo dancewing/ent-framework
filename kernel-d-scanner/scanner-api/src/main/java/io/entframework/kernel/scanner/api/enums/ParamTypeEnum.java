@@ -13,20 +13,20 @@ import lombok.Getter;
 @Getter
 public enum ParamTypeEnum {
 
-	/**
-	 * query param参数，例如：?field1=aaa&field2=bbb
-	 */
-	QUERY_PARAM(1),
+    /**
+     * query param参数，例如：?field1=aaa&field2=bbb
+     */
+    QUERY_PARAM(1),
 
-	/**
-	 * body param参数，请求是json传来的
-	 */
-	REQUEST_BODY(2);
+    /**
+     * body param参数，请求是json传来的
+     */
+    REQUEST_BODY(2);
 
-	ParamTypeEnum(Integer code) {
-		this.code = code;
-	}
+    ParamTypeEnum(Integer code) {
+        this.code = code;
+    }
 
-	private final Integer code;
+    private final Integer code;
 
 }

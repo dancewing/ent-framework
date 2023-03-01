@@ -18,19 +18,19 @@ package io.entframework.kernel.file.minio.policy;
 
 public enum PolicyType {
 
-	NONE("none"), READ_ONLY("readonly"), READ_WRITE("readwrite"), WRITE_ONLY("writeonly");
+    NONE("none"), READ_ONLY("readonly"), READ_WRITE("readwrite"), WRITE_ONLY("writeonly");
 
-	private final String value;
+    private final String value;
 
-	private PolicyType(final String value) {
-		this.value = value;
-	}
+    private PolicyType(final String value) {
+        this.value = value;
+    }
 
-	/**
-	 * Returns the policyType value.
-	 */
-	public String getValue() {
-		return value;
-	}
+    /**
+     * Returns the policyType value.
+     */
+    public String getValue() {
+        return value;
+    }
 
 }

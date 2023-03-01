@@ -19,30 +19,30 @@ import lombok.Getter;
 @EnumHandler
 public enum YesOrNotEnum implements SupperEnum<String> {
 
-	/**
-	 * 是
-	 */
-	Y("Y", "是"),
+    /**
+     * 是
+     */
+    Y("Y", "是"),
 
-	/**
-	 * 否
-	 */
-	N("N", "否");
+    /**
+     * 否
+     */
+    N("N", "否");
 
-	@JsonValue
-	@EnumValue
-	private final String value;
+    @JsonValue
+    @EnumValue
+    private final String value;
 
-	private final String label;
+    private final String label;
 
-	YesOrNotEnum(String value, String label) {
-		this.value = value;
-		this.label = label;
-	}
+    YesOrNotEnum(String value, String label) {
+        this.value = value;
+        this.label = label;
+    }
 
-	@JsonCreator
-	public static YesOrNotEnum valueToEnum(String value) {
-		return SupperEnum.fromValue(YesOrNotEnum.class, value);
-	}
+    @JsonCreator
+    public static YesOrNotEnum valueToEnum(String value) {
+        return SupperEnum.fromValue(YesOrNotEnum.class, value);
+    }
 
 }

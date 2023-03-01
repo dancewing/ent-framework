@@ -35,86 +35,86 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 class XmlCodeGenerationTest {
 
-	@ParameterizedTest
-	@MethodSource("generateXmlFiles")
-	void testXmlParse(GeneratedXmlFile generatedXmlFile) {
-		ByteArrayInputStream is = new ByteArrayInputStream(generatedXmlFile.getFormattedContent().getBytes());
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			factory.setValidating(true);
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			builder.setEntityResolver(new TestEntityResolver());
-			builder.setErrorHandler(new TestErrorHandler());
-			builder.parse(is);
-		}
-		catch (Exception e) {
-			fail("Generated XML File " + generatedXmlFile.getFileName() + " will not parse");
-		}
-	}
+    @ParameterizedTest
+    @MethodSource("generateXmlFiles")
+    void testXmlParse(GeneratedXmlFile generatedXmlFile) {
+        ByteArrayInputStream is = new ByteArrayInputStream(generatedXmlFile.getFormattedContent().getBytes());
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setValidating(true);
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            builder.setEntityResolver(new TestEntityResolver());
+            builder.setErrorHandler(new TestErrorHandler());
+            builder.parse(is);
+        }
+        catch (Exception e) {
+            fail("Generated XML File " + generatedXmlFile.getFileName() + " will not parse");
+        }
+    }
 
-	static List<GeneratedXmlFile> generateXmlFiles() throws Exception {
-		List<GeneratedXmlFile> generatedFiles = new ArrayList<>();
-		generatedFiles.addAll(generateXmlFilesMybatis());
-		return generatedFiles;
-	}
+    static List<GeneratedXmlFile> generateXmlFiles() throws Exception {
+        List<GeneratedXmlFile> generatedFiles = new ArrayList<>();
+        generatedFiles.addAll(generateXmlFilesMybatis());
+        return generatedFiles;
+    }
 
-	static List<GeneratedXmlFile> generateXmlFilesMybatis() throws Exception {
-		JavaCodeGenerationTest.createDatabase();
-		return generateInnerXmlFiles("/scripts/generatorConfig.xml");
-	}
+    static List<GeneratedXmlFile> generateXmlFilesMybatis() throws Exception {
+        JavaCodeGenerationTest.createDatabase();
+        return generateInnerXmlFiles("/scripts/generatorConfig.xml");
+    }
 
-	static List<GeneratedXmlFile> generateInnerXmlFiles(String configFile) throws Exception {
-		List<String> warnings = new ArrayList<>();
-		ConfigurationParser cp = new ConfigurationParser(warnings);
-		Configuration config = cp.parseConfiguration(JavaCodeGenerationTest.class.getResourceAsStream(configFile));
+    static List<GeneratedXmlFile> generateInnerXmlFiles(String configFile) throws Exception {
+        List<String> warnings = new ArrayList<>();
+        ConfigurationParser cp = new ConfigurationParser(warnings);
+        Configuration config = cp.parseConfiguration(JavaCodeGenerationTest.class.getResourceAsStream(configFile));
 
-		DefaultShellCallback shellCallback = new DefaultShellCallback(true);
+        DefaultShellCallback shellCallback = new DefaultShellCallback(true);
 
-		MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, shellCallback, warnings);
-		myBatisGenerator.generate(null, null, null, false);
-		return myBatisGenerator.getGeneratedXmlFiles();
-	}
+        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, shellCallback, warnings);
+        myBatisGenerator.generate(null, null, null, false);
+        return myBatisGenerator.getGeneratedXmlFiles();
+    }
 
-	static class TestEntityResolver implements EntityResolver {
+    static class TestEntityResolver implements EntityResolver {
 
-		@Override
-		public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
-			// just return an empty string. this should stop the parser from trying to
-			// access the network
-			return new InputSource(new ByteArrayInputStream("".getBytes()));
-		}
+        @Override
+        public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
+            // just return an empty string. this should stop the parser from trying to
+            // access the network
+            return new InputSource(new ByteArrayInputStream("".getBytes()));
+        }
 
-	}
+    }
 
-	static class TestErrorHandler implements ErrorHandler {
+    static class TestErrorHandler implements ErrorHandler {
 
-		private final List<String> errors = new ArrayList<>();
+        private final List<String> errors = new ArrayList<>();
 
-		private final List<String> warnings = new ArrayList<>();
+        private final List<String> warnings = new ArrayList<>();
 
-		@Override
-		public void warning(SAXParseException exception) throws SAXException {
-			warnings.add(exception.getMessage());
-		}
+        @Override
+        public void warning(SAXParseException exception) throws SAXException {
+            warnings.add(exception.getMessage());
+        }
 
-		@Override
-		public void error(SAXParseException exception) throws SAXException {
-			errors.add(exception.getMessage());
-		}
+        @Override
+        public void error(SAXParseException exception) throws SAXException {
+            errors.add(exception.getMessage());
+        }
 
-		@Override
-		public void fatalError(SAXParseException exception) throws SAXException {
-			errors.add(exception.getMessage());
-		}
+        @Override
+        public void fatalError(SAXParseException exception) throws SAXException {
+            errors.add(exception.getMessage());
+        }
 
-		public List<String> getErrors() {
-			return errors;
-		}
+        public List<String> getErrors() {
+            return errors;
+        }
 
-		public List<String> getWarnings() {
-			return warnings;
-		}
+        public List<String> getWarnings() {
+            return warnings;
+        }
 
-	}
+    }
 
 }

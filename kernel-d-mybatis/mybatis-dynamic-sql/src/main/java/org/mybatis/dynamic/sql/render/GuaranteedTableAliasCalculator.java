@@ -28,23 +28,23 @@ import org.mybatis.dynamic.sql.SqlTable;
  */
 public class GuaranteedTableAliasCalculator extends ExplicitTableAliasCalculator {
 
-	private GuaranteedTableAliasCalculator(Map<SqlTable, String> aliases) {
-		super(aliases);
-	}
+    private GuaranteedTableAliasCalculator(Map<SqlTable, String> aliases) {
+        super(aliases);
+    }
 
-	@Override
-	public Optional<String> aliasForColumn(SqlTable table) {
-		Optional<String> alias = super.aliasForColumn(table);
-		if (alias.isPresent()) {
-			return alias;
-		}
-		else {
-			return Optional.of(table.tableNameAtRuntime());
-		}
-	}
+    @Override
+    public Optional<String> aliasForColumn(SqlTable table) {
+        Optional<String> alias = super.aliasForColumn(table);
+        if (alias.isPresent()) {
+            return alias;
+        }
+        else {
+            return Optional.of(table.tableNameAtRuntime());
+        }
+    }
 
-	public static TableAliasCalculator of(Map<SqlTable, String> aliases) {
-		return new GuaranteedTableAliasCalculator(aliases);
-	}
+    public static TableAliasCalculator of(Map<SqlTable, String> aliases) {
+        return new GuaranteedTableAliasCalculator(aliases);
+    }
 
 }

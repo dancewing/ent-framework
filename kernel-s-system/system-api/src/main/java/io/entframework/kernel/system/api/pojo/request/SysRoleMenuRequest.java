@@ -25,23 +25,23 @@ import jakarta.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class SysRoleMenuRequest extends BaseRequest {
 
-	/**
-	 * 主键
-	 */
-	@NotBlank(message = "主键不能为空", groups = { add.class, update.class })
-	@ChineseDescription("主键")
-	private Long roleMenuId;
+    /**
+     * 主键
+     */
+    @NotBlank(message = "主键不能为空", groups = { add.class, update.class })
+    @ChineseDescription("主键")
+    private Long roleMenuId;
 
-	/**
-	 * 角色id
-	 */
-	@ChineseDescription("角色id")
-	private Long roleId;
+    /**
+     * 角色id
+     */
+    @ChineseDescription("角色id")
+    private Long roleId;
 
-	/**
-	 * 菜单id
-	 */
-	@ChineseDescription("菜单id")
-	private Long menuId;
+    /**
+     * 菜单id
+     */
+    @ChineseDescription("菜单id")
+    private Long menuId;
 
 }

@@ -21,8 +21,8 @@ import java.util.Map;
 
 public interface UpdateStatementProvider extends StatementSourceProvider<UpdateRenderer> {
 
-	Map<String, Object> getParameters();
+    Map<String, Object> getParameters();
 
-	String getUpdateStatement();
+    String getUpdateStatement();
 
 }

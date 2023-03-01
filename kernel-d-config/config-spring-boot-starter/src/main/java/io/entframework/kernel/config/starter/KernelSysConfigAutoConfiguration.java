@@ -20,9 +20,9 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = { "io.entframework.kernel.config" })
 public class KernelSysConfigAutoConfiguration {
 
-	@Bean
-	public KernelSysConfigModuleRegister kernelSysConfigModuleRegister() {
-		return new KernelSysConfigModuleRegister();
-	}
+    @Bean
+    public KernelSysConfigModuleRegister kernelSysConfigModuleRegister() {
+        return new KernelSysConfigModuleRegister();
+    }
 
 }

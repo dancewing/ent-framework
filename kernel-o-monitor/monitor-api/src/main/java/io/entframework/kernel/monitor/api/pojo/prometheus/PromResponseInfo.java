@@ -13,16 +13,16 @@ import lombok.Data;
 @Data
 public class PromResponseInfo {
 
-	/**
-	 * 状态:
-	 * <p>
-	 * 成功-success
-	 */
-	private String status;
+    /**
+     * 状态:
+     * <p>
+     * 成功-success
+     */
+    private String status;
 
-	/**
-	 * prometheus指标属性和值
-	 */
-	private PromDataInfo data;
+    /**
+     * prometheus指标属性和值
+     */
+    private PromDataInfo data;
 
 }

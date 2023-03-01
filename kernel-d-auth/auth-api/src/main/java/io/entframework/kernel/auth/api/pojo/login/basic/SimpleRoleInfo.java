@@ -15,19 +15,19 @@ import java.io.Serializable;
 @Data
 public class SimpleRoleInfo implements Serializable {
 
-	/**
-	 * 主键
-	 */
-	private Long roleId;
+    /**
+     * 主键
+     */
+    private Long roleId;
 
-	/**
-	 * 名称
-	 */
-	private String roleName;
+    /**
+     * 名称
+     */
+    private String roleName;
 
-	/**
-	 * 编码
-	 */
-	private String roleCode;
+    /**
+     * 编码
+     */
+    private String roleCode;
 
 }

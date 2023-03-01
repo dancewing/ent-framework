@@ -22,22 +22,22 @@ import org.mybatis.dynamic.sql.SqlColumn;
 
 public final class ItemMasterDynamicSQLSupport {
 
-	public static final ItemMaster itemMaster = new ItemMaster();
+    public static final ItemMaster itemMaster = new ItemMaster();
 
-	public static final SqlColumn<Integer> itemId = itemMaster.itemId;
+    public static final SqlColumn<Integer> itemId = itemMaster.itemId;
 
-	public static final SqlColumn<String> description = itemMaster.description;
+    public static final SqlColumn<String> description = itemMaster.description;
 
-	public static final class ItemMaster extends AliasableSqlTable<ItemMaster> {
+    public static final class ItemMaster extends AliasableSqlTable<ItemMaster> {
 
-		public final SqlColumn<Integer> itemId = column("item_id", JDBCType.INTEGER);
+        public final SqlColumn<Integer> itemId = column("item_id", JDBCType.INTEGER);
 
-		public final SqlColumn<String> description = column("description", JDBCType.VARCHAR);
+        public final SqlColumn<String> description = column("description", JDBCType.VARCHAR);
 
-		public ItemMaster() {
-			super("ItemMaster", ItemMaster::new);
-		}
+        public ItemMaster() {
+            super("ItemMaster", ItemMaster::new);
+        }
 
-	}
+    }
 
 }

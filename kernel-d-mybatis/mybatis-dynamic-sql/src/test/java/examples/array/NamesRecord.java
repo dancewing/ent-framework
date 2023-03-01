@@ -17,24 +17,24 @@ package examples.array;
 
 public class NamesRecord {
 
-	private Integer id;
+    private Integer id;
 
-	private String[] names;
+    private String[] names;
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String[] getNames() {
-		return names;
-	}
+    public String[] getNames() {
+        return names;
+    }
 
-	public void setNames(String[] names) {
-		this.names = names;
-	}
+    public void setNames(String[] names) {
+        this.names = names;
+    }
 
 }

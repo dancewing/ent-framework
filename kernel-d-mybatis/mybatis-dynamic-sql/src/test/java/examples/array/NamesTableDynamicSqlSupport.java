@@ -22,23 +22,23 @@ import org.mybatis.dynamic.sql.SqlTable;
 
 public class NamesTableDynamicSqlSupport {
 
-	public static final NamesTable namesTable = new NamesTable();
+    public static final NamesTable namesTable = new NamesTable();
 
-	public static final SqlColumn<Integer> id = namesTable.id;
+    public static final SqlColumn<Integer> id = namesTable.id;
 
-	public static final SqlColumn<String[]> names = namesTable.names;
+    public static final SqlColumn<String[]> names = namesTable.names;
 
-	public static final class NamesTable extends SqlTable {
+    public static final class NamesTable extends SqlTable {
 
-		public NamesTable() {
-			super("NamesTable");
-		}
+        public NamesTable() {
+            super("NamesTable");
+        }
 
-		public final SqlColumn<Integer> id = column("id", JDBCType.INTEGER);
+        public final SqlColumn<Integer> id = column("id", JDBCType.INTEGER);
 
-		public final SqlColumn<String[]> names = column("names", JDBCType.ARRAY,
-				"examples.array.StringArrayTypeHandler");
+        public final SqlColumn<String[]> names = column("names", JDBCType.ARRAY,
+                "examples.array.StringArrayTypeHandler");
 
-	}
+    }
 
 }

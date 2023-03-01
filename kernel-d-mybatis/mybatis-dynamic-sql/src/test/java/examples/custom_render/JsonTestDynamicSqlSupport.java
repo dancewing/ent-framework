@@ -22,27 +22,27 @@ import org.mybatis.dynamic.sql.SqlTable;
 
 public final class JsonTestDynamicSqlSupport {
 
-	public static final JsonTest jsonTest = new JsonTest();
+    public static final JsonTest jsonTest = new JsonTest();
 
-	public static final SqlColumn<Integer> id = jsonTest.id;
+    public static final SqlColumn<Integer> id = jsonTest.id;
 
-	public static final SqlColumn<String> description = jsonTest.description;
+    public static final SqlColumn<String> description = jsonTest.description;
 
-	public static final SqlColumn<String> info = jsonTest.info;
+    public static final SqlColumn<String> info = jsonTest.info;
 
-	public static class JsonTest extends SqlTable {
+    public static class JsonTest extends SqlTable {
 
-		public final SqlColumn<Integer> id = column("id", JDBCType.INTEGER);
+        public final SqlColumn<Integer> id = column("id", JDBCType.INTEGER);
 
-		public final SqlColumn<String> description = column("description", JDBCType.VARCHAR);
+        public final SqlColumn<String> description = column("description", JDBCType.VARCHAR);
 
-		public final SqlColumn<String> info = column("info", JDBCType.VARCHAR)
-				.withRenderingStrategy(new JsonRenderingStrategy());
+        public final SqlColumn<String> info = column("info", JDBCType.VARCHAR)
+                .withRenderingStrategy(new JsonRenderingStrategy());
 
-		public JsonTest() {
-			super("JsonTest");
-		}
+        public JsonTest() {
+            super("JsonTest");
+        }
 
-	}
+    }
 
 }

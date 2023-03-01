@@ -19,74 +19,74 @@ import java.util.Date;
 
 public class PersonWithAddress {
 
-	private Integer id;
+    private Integer id;
 
-	private String firstName;
+    private String firstName;
 
-	private LastName lastName;
+    private LastName lastName;
 
-	private Date birthDate;
+    private Date birthDate;
 
-	private Boolean employed;
+    private Boolean employed;
 
-	private String occupation;
+    private String occupation;
 
-	private AddressRecord address;
+    private AddressRecord address;
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public LastName getLastName() {
-		return lastName;
-	}
+    public LastName getLastName() {
+        return lastName;
+    }
 
-	public void setLastName(LastName lastName) {
-		this.lastName = lastName;
-	}
+    public void setLastName(LastName lastName) {
+        this.lastName = lastName;
+    }
 
-	public Date getBirthDate() {
-		return birthDate;
-	}
+    public Date getBirthDate() {
+        return birthDate;
+    }
 
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
-	}
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
 
-	public String getOccupation() {
-		return occupation;
-	}
+    public String getOccupation() {
+        return occupation;
+    }
 
-	public void setOccupation(String occupation) {
-		this.occupation = occupation;
-	}
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
 
-	public Boolean getEmployed() {
-		return employed;
-	}
+    public Boolean getEmployed() {
+        return employed;
+    }
 
-	public void setEmployed(Boolean employed) {
-		this.employed = employed;
-	}
+    public void setEmployed(Boolean employed) {
+        this.employed = employed;
+    }
 
-	public AddressRecord getAddress() {
-		return address;
-	}
+    public AddressRecord getAddress() {
+        return address;
+    }
 
-	public void setAddress(AddressRecord address) {
-		this.address = address;
-	}
+    public void setAddress(AddressRecord address) {
+        this.address = address;
+    }
 
 }

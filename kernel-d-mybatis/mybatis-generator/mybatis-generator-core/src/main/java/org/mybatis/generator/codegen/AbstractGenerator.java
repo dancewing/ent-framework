@@ -23,32 +23,32 @@ import org.mybatis.generator.config.Context;
 
 public abstract class AbstractGenerator {
 
-	protected Context context;
+    protected Context context;
 
-	protected IntrospectedTable introspectedTable;
+    protected IntrospectedTable introspectedTable;
 
-	protected List<String> warnings;
+    protected List<String> warnings;
 
-	protected ProgressCallback progressCallback;
+    protected ProgressCallback progressCallback;
 
-	protected AbstractGenerator() {
-		super();
-	}
+    protected AbstractGenerator() {
+        super();
+    }
 
-	public void setContext(Context context) {
-		this.context = context;
-	}
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
-	public void setIntrospectedTable(IntrospectedTable introspectedTable) {
-		this.introspectedTable = introspectedTable;
-	}
+    public void setIntrospectedTable(IntrospectedTable introspectedTable) {
+        this.introspectedTable = introspectedTable;
+    }
 
-	public void setWarnings(List<String> warnings) {
-		this.warnings = warnings;
-	}
+    public void setWarnings(List<String> warnings) {
+        this.warnings = warnings;
+    }
 
-	public void setProgressCallback(ProgressCallback progressCallback) {
-		this.progressCallback = progressCallback;
-	}
+    public void setProgressCallback(ProgressCallback progressCallback) {
+        this.progressCallback = progressCallback;
+    }
 
 }

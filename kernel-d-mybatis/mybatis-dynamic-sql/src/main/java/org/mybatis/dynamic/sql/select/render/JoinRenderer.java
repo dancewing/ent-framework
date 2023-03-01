@@ -31,79 +31,79 @@ import org.mybatis.dynamic.sql.util.FragmentCollector;
 
 public class JoinRenderer {
 
-	private final JoinModel joinModel;
+    private final JoinModel joinModel;
 
-	private final TableExpressionRenderer tableExpressionRenderer;
+    private final TableExpressionRenderer tableExpressionRenderer;
 
-	private final TableAliasCalculator tableAliasCalculator;
+    private final TableAliasCalculator tableAliasCalculator;
 
-	private JoinRenderer(Builder builder) {
-		joinModel = Objects.requireNonNull(builder.joinModel);
-		tableExpressionRenderer = Objects.requireNonNull(builder.tableExpressionRenderer);
-		tableAliasCalculator = Objects.requireNonNull(builder.tableAliasCalculator);
-	}
+    private JoinRenderer(Builder builder) {
+        joinModel = Objects.requireNonNull(builder.joinModel);
+        tableExpressionRenderer = Objects.requireNonNull(builder.tableExpressionRenderer);
+        tableAliasCalculator = Objects.requireNonNull(builder.tableAliasCalculator);
+    }
 
-	public FragmentAndParameters render() {
-		FragmentCollector fc = joinModel.mapJoinSpecifications(this::renderJoinSpecification)
-				.collect(FragmentCollector.collect());
+    public FragmentAndParameters render() {
+        FragmentCollector fc = joinModel.mapJoinSpecifications(this::renderJoinSpecification)
+                .collect(FragmentCollector.collect());
 
-		return FragmentAndParameters.withFragment(fc.fragments().collect(Collectors.joining(" "))) //$NON-NLS-1$
-				.withParameters(fc.parameters()).build();
-	}
+        return FragmentAndParameters.withFragment(fc.fragments().collect(Collectors.joining(" "))) //$NON-NLS-1$
+                .withParameters(fc.parameters()).build();
+    }
 
-	private FragmentAndParameters renderJoinSpecification(JoinSpecification joinSpecification) {
-		FragmentAndParameters renderedTable = joinSpecification.table().accept(tableExpressionRenderer);
+    private FragmentAndParameters renderJoinSpecification(JoinSpecification joinSpecification) {
+        FragmentAndParameters renderedTable = joinSpecification.table().accept(tableExpressionRenderer);
 
-		String fragment = spaceAfter(joinSpecification.joinType().shortType()) + "join" //$NON-NLS-1$
-				+ spaceBefore(renderedTable.fragment()) + spaceBefore(renderConditions(joinSpecification));
+        String fragment = spaceAfter(joinSpecification.joinType().shortType()) + "join" //$NON-NLS-1$
+                + spaceBefore(renderedTable.fragment()) + spaceBefore(renderConditions(joinSpecification));
 
-		return FragmentAndParameters.withFragment(fragment).withParameters(renderedTable.parameters()).build();
-	}
+        return FragmentAndParameters.withFragment(fragment).withParameters(renderedTable.parameters()).build();
+    }
 
-	private String renderConditions(JoinSpecification joinSpecification) {
-		return joinSpecification.mapJoinCriteria(this::renderCriterion).collect(Collectors.joining(" ")); //$NON-NLS-1$
-	}
+    private String renderConditions(JoinSpecification joinSpecification) {
+        return joinSpecification.mapJoinCriteria(this::renderCriterion).collect(Collectors.joining(" ")); //$NON-NLS-1$
+    }
 
-	private String renderCriterion(JoinCriterion joinCriterion) {
-		return joinCriterion.connector() + spaceBefore(applyTableAlias(joinCriterion.leftColumn()))
-				+ spaceBefore(joinCriterion.operator()) + spaceBefore(applyTableAlias(joinCriterion.rightColumn()));
-	}
+    private String renderCriterion(JoinCriterion joinCriterion) {
+        return joinCriterion.connector() + spaceBefore(applyTableAlias(joinCriterion.leftColumn()))
+                + spaceBefore(joinCriterion.operator()) + spaceBefore(applyTableAlias(joinCriterion.rightColumn()));
+    }
 
-	private String applyTableAlias(BasicColumn column) {
-		return column.renderWithTableAlias(tableAliasCalculator);
-	}
+    private String applyTableAlias(BasicColumn column) {
+        return column.renderWithTableAlias(tableAliasCalculator);
+    }
 
-	public static Builder withJoinModel(JoinModel joinModel) {
-		return new Builder().withJoinModel(joinModel);
-	}
+    public static Builder withJoinModel(JoinModel joinModel) {
+        return new Builder().withJoinModel(joinModel);
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private JoinModel joinModel;
+        private JoinModel joinModel;
 
-		private TableExpressionRenderer tableExpressionRenderer;
+        private TableExpressionRenderer tableExpressionRenderer;
 
-		private TableAliasCalculator tableAliasCalculator;
+        private TableAliasCalculator tableAliasCalculator;
 
-		public Builder withJoinModel(JoinModel joinModel) {
-			this.joinModel = joinModel;
-			return this;
-		}
+        public Builder withJoinModel(JoinModel joinModel) {
+            this.joinModel = joinModel;
+            return this;
+        }
 
-		public Builder withTableExpressionRenderer(TableExpressionRenderer tableExpressionRenderer) {
-			this.tableExpressionRenderer = tableExpressionRenderer;
-			return this;
-		}
+        public Builder withTableExpressionRenderer(TableExpressionRenderer tableExpressionRenderer) {
+            this.tableExpressionRenderer = tableExpressionRenderer;
+            return this;
+        }
 
-		public Builder withTableAliasCalculator(TableAliasCalculator tableAliasCalculator) {
-			this.tableAliasCalculator = tableAliasCalculator;
-			return this;
-		}
+        public Builder withTableAliasCalculator(TableAliasCalculator tableAliasCalculator) {
+            this.tableAliasCalculator = tableAliasCalculator;
+            return this;
+        }
 
-		public JoinRenderer build() {
-			return new JoinRenderer(this);
-		}
+        public JoinRenderer build() {
+            return new JoinRenderer(this);
+        }
 
-	}
+    }
 
 }

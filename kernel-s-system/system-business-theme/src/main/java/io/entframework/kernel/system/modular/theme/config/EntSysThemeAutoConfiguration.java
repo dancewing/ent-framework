@@ -16,33 +16,33 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = { "io.entframework.kernel.system.modular.theme.controller",
-		"io.entframework.kernel.system.modular.theme.converter",
-		"io.entframework.kernel.system.modular.theme.service" })
+        "io.entframework.kernel.system.modular.theme.converter",
+        "io.entframework.kernel.system.modular.theme.service" })
 @EntityScan("io.entframework.kernel.system.modular.theme.entity")
 public class EntSysThemeAutoConfiguration {
 
-	@Bean
-	@ConditionalOnMissingBean(SysThemeService.class)
-	public SysThemeService sysThemeService() {
-		return new SysThemeServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysThemeService.class)
+    public SysThemeService sysThemeService() {
+        return new SysThemeServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(SysThemeTemplateService.class)
-	public SysThemeTemplateService sysThemeTemplateService() {
-		return new SysThemeTemplateServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysThemeTemplateService.class)
+    public SysThemeTemplateService sysThemeTemplateService() {
+        return new SysThemeTemplateServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(SysThemeTemplateFieldService.class)
-	public SysThemeTemplateFieldService sysThemeTemplateFieldService() {
-		return new SysThemeTemplateFieldServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysThemeTemplateFieldService.class)
+    public SysThemeTemplateFieldService sysThemeTemplateFieldService() {
+        return new SysThemeTemplateFieldServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(SysThemeTemplateRelService.class)
-	public SysThemeTemplateRelService sysThemeTemplateRelService() {
-		return new SysThemeTemplateRelServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysThemeTemplateRelService.class)
+    public SysThemeTemplateRelService sysThemeTemplateRelService() {
+        return new SysThemeTemplateRelServiceImpl();
+    }
 
 }

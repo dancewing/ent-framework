@@ -15,24 +15,24 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "kernel.file.ten-cos")
 public class TenCosProperties {
 
-	/**
-	 * Bucket
-	 */
-	private String bucket;
+    /**
+     * Bucket
+     */
+    private String bucket;
 
-	/**
-	 * secretId
-	 */
-	private String secretId;
+    /**
+     * secretId
+     */
+    private String secretId;
 
-	/**
-	 * secretKey
-	 */
-	private String secretKey;
+    /**
+     * secretKey
+     */
+    private String secretKey;
 
-	/**
-	 * 地域id（默认北京）
-	 */
-	private String regionId = "ap-beijing";
+    /**
+     * 地域id（默认北京）
+     */
+    private String regionId = "ap-beijing";
 
 }

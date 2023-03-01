@@ -24,35 +24,35 @@ import org.mybatis.generator.api.dom.java.Method;
 
 public class UpdateByPrimaryKeyWithoutBLOBsMethodGenerator extends AbstractJavaMapperMethodGenerator {
 
-	public UpdateByPrimaryKeyWithoutBLOBsMethodGenerator() {
-		super();
-	}
+    public UpdateByPrimaryKeyWithoutBLOBsMethodGenerator() {
+        super();
+    }
 
-	@Override
-	public void addInterfaceElements(Interface interfaze) {
-		Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
-		FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
-		String statementId = introspectedTable.getUpdateByPrimaryKeyStatementId();
-		importedTypes.add(parameterType);
+    @Override
+    public void addInterfaceElements(Interface interfaze) {
+        Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
+        FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
+        String statementId = introspectedTable.getUpdateByPrimaryKeyStatementId();
+        importedTypes.add(parameterType);
 
-		Method method = buildBasicUpdateByPrimaryKeyMethod(statementId, parameterType);
+        Method method = buildBasicUpdateByPrimaryKeyMethod(statementId, parameterType);
 
-		addMapperAnnotations(method);
+        addMapperAnnotations(method);
 
-		if (context.getPlugins().clientUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(method, interfaze,
-				introspectedTable)) {
-			addExtraImports(interfaze);
-			interfaze.addImportedTypes(importedTypes);
-			interfaze.addMethod(method);
-		}
-	}
+        if (context.getPlugins().clientUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(method, interfaze,
+                introspectedTable)) {
+            addExtraImports(interfaze);
+            interfaze.addImportedTypes(importedTypes);
+            interfaze.addMethod(method);
+        }
+    }
 
-	public void addMapperAnnotations(Method method) {
-		// extension point for subclasses
-	}
+    public void addMapperAnnotations(Method method) {
+        // extension point for subclasses
+    }
 
-	public void addExtraImports(Interface interfaze) {
-		// extension point for subclasses
-	}
+    public void addExtraImports(Interface interfaze) {
+        // extension point for subclasses
+    }
 
 }

@@ -59,6 +59,6 @@ package org.mybatis.dynamic.sql;
 @FunctionalInterface
 public interface ParameterTypeConverter<S, T> {
 
-	T convert(S source);
+    T convert(S source);
 
 }

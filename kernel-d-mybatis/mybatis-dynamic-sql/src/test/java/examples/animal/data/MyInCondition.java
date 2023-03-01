@@ -22,8 +22,8 @@ import org.mybatis.dynamic.sql.where.condition.IsIn;
 
 public class MyInCondition {
 
-	public static IsIn<String> isIn(String... values) {
-		return SqlBuilder.isIn(values).filter(Objects::nonNull).map((String::trim)).filter(st -> !st.isEmpty());
-	}
+    public static IsIn<String> isIn(String... values) {
+        return SqlBuilder.isIn(values).filter(Objects::nonNull).map((String::trim)).filter(st -> !st.isEmpty());
+    }
 
 }

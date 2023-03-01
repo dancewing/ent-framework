@@ -32,80 +32,80 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = { "io.entframework.kernel.system.modular.controller",
-		"io.entframework.kernel.system.modular.converter", "io.entframework.kernel.system.modular.service" })
+        "io.entframework.kernel.system.modular.converter", "io.entframework.kernel.system.modular.service" })
 @EntityScan("io.entframework.kernel.system.modular.entity")
 public class EntSystemAutoConfiguration {
 
-	@Bean
-	@ConditionalOnMissingBean(SysUserService.class)
-	public SysUserService sysUserService() {
-		return new SysUserServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysUserService.class)
+    public SysUserService sysUserService() {
+        return new SysUserServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(SysUserRoleService.class)
-	public SysUserRoleService sysUserRoleService() {
-		return new SysUserRoleServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysUserRoleService.class)
+    public SysUserRoleService sysUserRoleService() {
+        return new SysUserRoleServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(SysUserDataScopeService.class)
-	public SysUserDataScopeService sysUserDataScopeService() {
-		return new SysUserDataScopeServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysUserDataScopeService.class)
+    public SysUserDataScopeService sysUserDataScopeService() {
+        return new SysUserDataScopeServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(SysRoleService.class)
-	public SysRoleService sysRoleService() {
-		return new SysRoleServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysRoleService.class)
+    public SysRoleService sysRoleService() {
+        return new SysRoleServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(SysRoleMenuService.class)
-	public SysRoleMenuService sysRoleMenuService() {
-		return new SysRoleMenuServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysRoleMenuService.class)
+    public SysRoleMenuService sysRoleMenuService() {
+        return new SysRoleMenuServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(SysRoleResourceService.class)
-	public SysRoleResourceService sysRoleResourceService() {
-		return new SysRoleResourceServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysRoleResourceService.class)
+    public SysRoleResourceService sysRoleResourceService() {
+        return new SysRoleResourceServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(SysRoleDataScopeService.class)
-	public SysRoleDataScopeService sysRoleDataScopeService() {
-		return new SysRoleDataScopeServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysRoleDataScopeService.class)
+    public SysRoleDataScopeService sysRoleDataScopeService() {
+        return new SysRoleDataScopeServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(HrOrganizationService.class)
-	public HrOrganizationService hrOrganizationService() {
-		return new HrOrganizationServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(HrOrganizationService.class)
+    public HrOrganizationService hrOrganizationService() {
+        return new HrOrganizationServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(HrPositionService.class)
-	public HrPositionService hrPositionService() {
-		return new HrPositionServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(HrPositionService.class)
+    public HrPositionService hrPositionService() {
+        return new HrPositionServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(SysMenuService.class)
-	public SysMenuService sysMenuService() {
-		return new SysMenuServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysMenuService.class)
+    public SysMenuService sysMenuService() {
+        return new SysMenuServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(SysMenuResourceService.class)
-	public SysMenuResourceService sysMenuResourceService() {
-		return new SysMenuResourceServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysMenuResourceService.class)
+    public SysMenuResourceService sysMenuResourceService() {
+        return new SysMenuResourceServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(SysAppService.class)
-	public SysAppService sysAppService() {
-		return new SysAppServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysAppService.class)
+    public SysAppService sysAppService() {
+        return new SysAppServiceImpl();
+    }
 
 }

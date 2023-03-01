@@ -14,24 +14,24 @@ import lombok.Getter;
 @Getter
 public class CreateDatabaseSql extends AbstractSql {
 
-	@Override
-	protected String mysql() {
-		return "CREATE DATABASE IF NOT EXISTS ? DEFAULT CHARSET utf8 COLLATE utf8_general_ci;";
-	}
+    @Override
+    protected String mysql() {
+        return "CREATE DATABASE IF NOT EXISTS ? DEFAULT CHARSET utf8 COLLATE utf8_general_ci;";
+    }
 
-	@Override
-	protected String sqlServer() {
-		return "if not exists (select * from sysobjects where name=? and xtype='U')\n" + "    create table ? ;" + "go";
-	}
+    @Override
+    protected String sqlServer() {
+        return "if not exists (select * from sysobjects where name=? and xtype='U')\n" + "    create table ? ;" + "go";
+    }
 
-	@Override
-	protected String pgSql() {
-		return "CREATE DATABASE ?;";
-	}
+    @Override
+    protected String pgSql() {
+        return "CREATE DATABASE ?;";
+    }
 
-	@Override
-	protected String oracle() {
-		return "create tablespace ? datafile '/opt/oracle/guns.dbf' size 500m autoextend on next 5m maxsize unlimited;";
-	}
+    @Override
+    protected String oracle() {
+        return "create tablespace ? datafile '/opt/oracle/guns.dbf' size 500m autoextend on next 5m maxsize unlimited;";
+    }
 
 }

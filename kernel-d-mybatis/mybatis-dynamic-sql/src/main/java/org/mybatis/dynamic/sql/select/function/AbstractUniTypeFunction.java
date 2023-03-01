@@ -28,20 +28,20 @@ import org.mybatis.dynamic.sql.BindableColumn;
  * @param <U> the specific subtype that implements the function
  */
 public abstract class AbstractUniTypeFunction<T, U extends AbstractUniTypeFunction<T, U>>
-		extends AbstractTypeConvertingFunction<T, T, U> {
+        extends AbstractTypeConvertingFunction<T, T, U> {
 
-	protected AbstractUniTypeFunction(BindableColumn<T> column) {
-		super(column);
-	}
+    protected AbstractUniTypeFunction(BindableColumn<T> column) {
+        super(column);
+    }
 
-	@Override
-	public Optional<JDBCType> jdbcType() {
-		return column.jdbcType();
-	}
+    @Override
+    public Optional<JDBCType> jdbcType() {
+        return column.jdbcType();
+    }
 
-	@Override
-	public Optional<String> typeHandler() {
-		return column.typeHandler();
-	}
+    @Override
+    public Optional<String> typeHandler() {
+        return column.typeHandler();
+    }
 
 }

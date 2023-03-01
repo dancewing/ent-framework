@@ -15,21 +15,21 @@ import org.mybatis.generator.api.ProgressCallback;
  */
 public class GradleProgressCallback implements ProgressCallback {
 
-	private final org.gradle.api.logging.Logger log;
+    private final org.gradle.api.logging.Logger log;
 
-	private final boolean verbose;
+    private final boolean verbose;
 
-	public GradleProgressCallback(org.gradle.api.logging.Logger log, boolean verbose) {
-		super();
-		this.log = log;
-		this.verbose = verbose;
-	}
+    public GradleProgressCallback(org.gradle.api.logging.Logger log, boolean verbose) {
+        super();
+        this.log = log;
+        this.verbose = verbose;
+    }
 
-	@Override
-	public void startTask(String subTaskName) {
-		if (verbose) {
-			log.info(subTaskName);
-		}
-	}
+    @Override
+    public void startTask(String subTaskName) {
+        if (verbose) {
+            log.info(subTaskName);
+        }
+    }
 
 }

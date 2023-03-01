@@ -21,76 +21,76 @@ import java.util.*;
 
 public class RestMethodAndImports {
 
-	private final List<RestMethod> methods;
+    private final List<RestMethod> methods;
 
-	private final Set<FullyQualifiedJavaType> imports;
+    private final Set<FullyQualifiedJavaType> imports;
 
-	private final Set<String> staticImports;
+    private final Set<String> staticImports;
 
-	private RestMethodAndImports(Builder builder) {
-		methods = builder.methods;
-		imports = builder.imports;
-		staticImports = builder.staticImports;
-	}
+    private RestMethodAndImports(Builder builder) {
+        methods = builder.methods;
+        imports = builder.imports;
+        staticImports = builder.staticImports;
+    }
 
-	public List<RestMethod> getMethods() {
-		return methods;
-	}
+    public List<RestMethod> getMethods() {
+        return methods;
+    }
 
-	public Set<FullyQualifiedJavaType> getImports() {
-		return imports;
-	}
+    public Set<FullyQualifiedJavaType> getImports() {
+        return imports;
+    }
 
-	public Set<String> getStaticImports() {
-		return staticImports;
-	}
+    public Set<String> getStaticImports() {
+        return staticImports;
+    }
 
-	public static RestMethodAndImports.Builder withMethod(RestMethod method) {
-		return new RestMethodAndImports.Builder().withMethod(method);
-	}
+    public static RestMethodAndImports.Builder withMethod(RestMethod method) {
+        return new RestMethodAndImports.Builder().withMethod(method);
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private final List<RestMethod> methods = new ArrayList<>();
+        private final List<RestMethod> methods = new ArrayList<>();
 
-		private final Set<FullyQualifiedJavaType> imports = new TreeSet<>();
+        private final Set<FullyQualifiedJavaType> imports = new TreeSet<>();
 
-		private final Set<String> staticImports = new TreeSet<>();
+        private final Set<String> staticImports = new TreeSet<>();
 
-		public Builder withMethod(RestMethod method) {
-			this.methods.add(method);
-			return this;
-		}
+        public Builder withMethod(RestMethod method) {
+            this.methods.add(method);
+            return this;
+        }
 
-		public Builder withImport(FullyQualifiedJavaType importedType) {
-			this.imports.add(importedType);
-			return this;
-		}
+        public Builder withImport(FullyQualifiedJavaType importedType) {
+            this.imports.add(importedType);
+            return this;
+        }
 
-		public Builder withImport(String importedType) {
-			this.imports.add(new FullyQualifiedJavaType(importedType));
-			return this;
-		}
+        public Builder withImport(String importedType) {
+            this.imports.add(new FullyQualifiedJavaType(importedType));
+            return this;
+        }
 
-		public Builder withImports(Set<FullyQualifiedJavaType> imports) {
-			this.imports.addAll(imports);
-			return this;
-		}
+        public Builder withImports(Set<FullyQualifiedJavaType> imports) {
+            this.imports.addAll(imports);
+            return this;
+        }
 
-		public Builder withStaticImport(String staticImport) {
-			this.staticImports.add(staticImport);
-			return this;
-		}
+        public Builder withStaticImport(String staticImport) {
+            this.staticImports.add(staticImport);
+            return this;
+        }
 
-		public Builder withStaticImports(Set<String> staticImports) {
-			this.staticImports.addAll(staticImports);
-			return this;
-		}
+        public Builder withStaticImports(Set<String> staticImports) {
+            this.staticImports.addAll(staticImports);
+            return this;
+        }
 
-		public RestMethodAndImports build() {
-			return new RestMethodAndImports(this);
-		}
+        public RestMethodAndImports build() {
+            return new RestMethodAndImports(this);
+        }
 
-	}
+    }
 
 }

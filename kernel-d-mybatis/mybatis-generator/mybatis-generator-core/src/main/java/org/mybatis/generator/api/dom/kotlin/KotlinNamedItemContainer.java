@@ -20,37 +20,37 @@ import java.util.List;
 
 public abstract class KotlinNamedItemContainer extends KotlinNamedItem {
 
-	private final List<KotlinNamedItem> namedItems = new ArrayList<>();
+    private final List<KotlinNamedItem> namedItems = new ArrayList<>();
 
-	protected KotlinNamedItemContainer(NamedItemContainerBuilder<?> builder) {
-		super(builder);
-		namedItems.addAll(builder.namedItems);
-	}
+    protected KotlinNamedItemContainer(NamedItemContainerBuilder<?> builder) {
+        super(builder);
+        namedItems.addAll(builder.namedItems);
+    }
 
-	public void addNamedItem(KotlinNamedItem namedItem) {
-		namedItems.add(namedItem);
-	}
+    public void addNamedItem(KotlinNamedItem namedItem) {
+        namedItems.add(namedItem);
+    }
 
-	public List<KotlinNamedItem> getNamedItems() {
-		return namedItems;
-	}
+    public List<KotlinNamedItem> getNamedItems() {
+        return namedItems;
+    }
 
-	public abstract static class NamedItemContainerBuilder<T extends NamedItemContainerBuilder<T>>
-			extends AbstractBuilder<T> {
+    public abstract static class NamedItemContainerBuilder<T extends NamedItemContainerBuilder<T>>
+            extends AbstractBuilder<T> {
 
-		private final List<KotlinNamedItem> namedItems = new ArrayList<>();
+        private final List<KotlinNamedItem> namedItems = new ArrayList<>();
 
-		protected NamedItemContainerBuilder(String name) {
-			super(name);
-		}
+        protected NamedItemContainerBuilder(String name) {
+            super(name);
+        }
 
-		public T withNamedItem(KotlinNamedItem namedItem) {
-			namedItems.add(namedItem);
-			return getThis();
-		}
+        public T withNamedItem(KotlinNamedItem namedItem) {
+            namedItems.add(namedItem);
+            return getThis();
+        }
 
-		protected abstract T getThis();
+        protected abstract T getThis();
 
-	}
+    }
 
 }

@@ -16,25 +16,25 @@ import lombok.Getter;
 @Getter
 public enum GroovyExceptionEnum implements AbstractExceptionEnum {
 
-	/**
-	 * groovy脚本执行异常的枚举
-	 */
-	GROOVY_EXE_ERROR(RuleConstants.BUSINESS_ERROR_TYPE_CODE + GroovyConstants.GROOVY_EXCEPTION_STEP_CODE + "01",
-			"执行groovy类中方法出错");
+    /**
+     * groovy脚本执行异常的枚举
+     */
+    GROOVY_EXE_ERROR(RuleConstants.BUSINESS_ERROR_TYPE_CODE + GroovyConstants.GROOVY_EXCEPTION_STEP_CODE + "01",
+            "执行groovy类中方法出错");
 
-	/**
-	 * 错误编码
-	 */
-	private final String errorCode;
+    /**
+     * 错误编码
+     */
+    private final String errorCode;
 
-	/**
-	 * 提示用户信息
-	 */
-	private final String userTip;
+    /**
+     * 提示用户信息
+     */
+    private final String userTip;
 
-	GroovyExceptionEnum(String errorCode, String userTip) {
-		this.errorCode = errorCode;
-		this.userTip = userTip;
-	}
+    GroovyExceptionEnum(String errorCode, String userTip) {
+        this.errorCode = errorCode;
+        this.userTip = userTip;
+    }
 
 }

@@ -15,14 +15,14 @@ import java.util.List;
 @Data
 public class MenuAuthorityItem {
 
-	/**
-	 * 权限编码
-	 */
-	private List<String> permission;
+    /**
+     * 权限编码
+     */
+    private List<String> permission;
 
-	/**
-	 * 角色编码
-	 */
-	private List<String> role;
+    /**
+     * 角色编码
+     */
+    private List<String> role;
 
 }

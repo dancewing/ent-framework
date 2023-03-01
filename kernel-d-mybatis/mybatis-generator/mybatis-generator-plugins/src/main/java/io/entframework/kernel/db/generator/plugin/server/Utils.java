@@ -20,28 +20,28 @@ import java.util.Set;
 
 public class Utils {
 
-	public static Set<FullyQualifiedJavaType> getRelatedFieldType(IntrospectedTable introspectedTable) {
-		Set<FullyQualifiedJavaType> relatedFieldType = new HashSet<>();
-		TopLevelClass modelClass = (TopLevelClass) introspectedTable
-				.getAttribute(Constants.INTROSPECTED_TABLE_MODEL_CLASS);
-		if (GeneratorUtils.hasRelation(modelClass, JoinTarget.JoinType.ONE)) {
-			List<Field> fields = GeneratorUtils.getRelatedFields(modelClass, JoinTarget.JoinType.ONE);
-			if (fields.size() > 0) {
-				for (Field field : fields) {
-					relatedFieldType.add(field.getType());
-				}
-			}
-		}
+    public static Set<FullyQualifiedJavaType> getRelatedFieldType(IntrospectedTable introspectedTable) {
+        Set<FullyQualifiedJavaType> relatedFieldType = new HashSet<>();
+        TopLevelClass modelClass = (TopLevelClass) introspectedTable
+                .getAttribute(Constants.INTROSPECTED_TABLE_MODEL_CLASS);
+        if (GeneratorUtils.hasRelation(modelClass, JoinTarget.JoinType.ONE)) {
+            List<Field> fields = GeneratorUtils.getRelatedFields(modelClass, JoinTarget.JoinType.ONE);
+            if (fields.size() > 0) {
+                for (Field field : fields) {
+                    relatedFieldType.add(field.getType());
+                }
+            }
+        }
 
-		if (GeneratorUtils.hasRelation(modelClass, JoinTarget.JoinType.MORE)) {
-			List<Field> fields = GeneratorUtils.getRelatedFields(modelClass, JoinTarget.JoinType.MORE);
-			if (fields.size() > 0) {
-				for (Field field : fields) {
-					relatedFieldType.add(field.getType().getTypeArguments().get(0));
-				}
-			}
-		}
-		return relatedFieldType;
-	}
+        if (GeneratorUtils.hasRelation(modelClass, JoinTarget.JoinType.MORE)) {
+            List<Field> fields = GeneratorUtils.getRelatedFields(modelClass, JoinTarget.JoinType.MORE);
+            if (fields.size() > 0) {
+                for (Field field : fields) {
+                    relatedFieldType.add(field.getType().getTypeArguments().get(0));
+                }
+            }
+        }
+        return relatedFieldType;
+    }
 
 }

@@ -28,22 +28,22 @@ import org.mybatis.dynamic.sql.util.Messages;
 
 public class GroupByModel {
 
-	private final List<BasicColumn> columns = new ArrayList<>();
+    private final List<BasicColumn> columns = new ArrayList<>();
 
-	private GroupByModel(Collection<BasicColumn> columns) {
-		Objects.requireNonNull(columns);
-		if (columns.isEmpty()) {
-			throw new InvalidSqlException(Messages.getString("ERROR.11")); //$NON-NLS-1$
-		}
-		this.columns.addAll(columns);
-	}
+    private GroupByModel(Collection<BasicColumn> columns) {
+        Objects.requireNonNull(columns);
+        if (columns.isEmpty()) {
+            throw new InvalidSqlException(Messages.getString("ERROR.11")); //$NON-NLS-1$
+        }
+        this.columns.addAll(columns);
+    }
 
-	public <R> Stream<R> mapColumns(Function<BasicColumn, R> mapper) {
-		return columns.stream().map(mapper);
-	}
+    public <R> Stream<R> mapColumns(Function<BasicColumn, R> mapper) {
+        return columns.stream().map(mapper);
+    }
 
-	public static GroupByModel of(Collection<BasicColumn> columns) {
-		return new GroupByModel(columns);
-	}
+    public static GroupByModel of(Collection<BasicColumn> columns) {
+        return new GroupByModel(columns);
+    }
 
 }

@@ -24,39 +24,39 @@ import lombok.EqualsAndHashCode;
 @Data
 public class HrPositionResponse extends BaseResponse {
 
-	/**
-	 * 主键
-	 */
-	private Long positionId;
+    /**
+     * 主键
+     */
+    private Long positionId;
 
-	/**
-	 * 职位名称
-	 */
-	private String positionName;
+    /**
+     * 职位名称
+     */
+    private String positionName;
 
-	/**
-	 * 职位编码
-	 */
-	private String positionCode;
+    /**
+     * 职位编码
+     */
+    private String positionCode;
 
-	/**
-	 * 排序
-	 */
-	private BigDecimal positionSort;
+    /**
+     * 排序
+     */
+    private BigDecimal positionSort;
 
-	/**
-	 * 状态：1-启用，2-禁用
-	 */
-	private StatusEnum statusFlag;
+    /**
+     * 状态：1-启用，2-禁用
+     */
+    private StatusEnum statusFlag;
 
-	/**
-	 * 职位备注
-	 */
-	private String positionRemark;
+    /**
+     * 职位备注
+     */
+    private String positionRemark;
 
-	/**
-	 * 删除标记：Y-已删除，N-未删除
-	 */
-	private String delFlag;
+    /**
+     * 删除标记：Y-已删除，N-未删除
+     */
+    private String delFlag;
 
 }

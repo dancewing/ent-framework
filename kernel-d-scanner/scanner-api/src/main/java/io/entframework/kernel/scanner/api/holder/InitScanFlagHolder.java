@@ -10,14 +10,14 @@ package io.entframework.kernel.scanner.api.holder;
  */
 public class InitScanFlagHolder {
 
-	private static Boolean INIT_MANAGER_FLAG = false;
+    private static Boolean INIT_MANAGER_FLAG = false;
 
-	public static synchronized Boolean getFlag() {
-		return INIT_MANAGER_FLAG;
-	}
+    public static synchronized Boolean getFlag() {
+        return INIT_MANAGER_FLAG;
+    }
 
-	public static synchronized void setFlag() {
-		INIT_MANAGER_FLAG = true;
-	}
+    public static synchronized void setFlag() {
+        INIT_MANAGER_FLAG = true;
+    }
 
 }

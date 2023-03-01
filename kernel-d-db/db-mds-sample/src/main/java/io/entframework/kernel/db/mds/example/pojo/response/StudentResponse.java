@@ -19,70 +19,70 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StudentResponse extends BaseResponse {
 
-	/**
-	 * Id
-	 */
-	@ChineseDescription("Id")
-	private Long id;
+    /**
+     * Id
+     */
+    @ChineseDescription("Id")
+    private Long id;
 
-	/**
-	 * 班级ID
-	 */
-	@ChineseDescription("班级ID")
-	private Long gradeId;
+    /**
+     * 班级ID
+     */
+    @ChineseDescription("班级ID")
+    private Long gradeId;
 
-	/**
-	 * 姓名
-	 */
-	@ChineseDescription("姓名")
-	private String name;
+    /**
+     * 姓名
+     */
+    @ChineseDescription("姓名")
+    private String name;
 
-	/**
-	 * 卡号
-	 */
-	@ChineseDescription("卡号")
-	private String cardNum;
+    /**
+     * 卡号
+     */
+    @ChineseDescription("卡号")
+    private String cardNum;
 
-	/**
-	 * 性别[MALE(0):男,FEMALE(1):女]
-	 */
-	@ChineseDescription("性别")
-	private Gender gender;
+    /**
+     * 性别[MALE(0):男,FEMALE(1):女]
+     */
+    @ChineseDescription("性别")
+    private Gender gender;
 
-	/**
-	 * 生日
-	 */
-	@ChineseDescription("生日")
-	private LocalDate birthday;
+    /**
+     * 生日
+     */
+    @ChineseDescription("生日")
+    private LocalDate birthday;
 
-	/**
-	 * 学习课程
-	 */
-	@ChineseDescription("学习课程")
-	private List<String> takeCourses;
+    /**
+     * 学习课程
+     */
+    @ChineseDescription("学习课程")
+    private List<String> takeCourses;
 
-	/**
-	 * 外国学生
-	 */
-	@ChineseDescription("外国学生")
-	private Boolean fromForeign;
+    /**
+     * 外国学生
+     */
+    @ChineseDescription("外国学生")
+    private Boolean fromForeign;
 
-	/**
-	 * 籍贯
-	 */
-	@ChineseDescription("籍贯")
-	private String hometown;
+    /**
+     * 籍贯
+     */
+    @ChineseDescription("籍贯")
+    private String hometown;
 
-	/**
-	 * 版本
-	 */
-	@ChineseDescription("版本")
-	private Long version;
+    /**
+     * 版本
+     */
+    @ChineseDescription("版本")
+    private Long version;
 
-	/**
-	 * 爱好
-	 */
-	@ChineseDescription("爱好")
-	private String hobbies;
+    /**
+     * 爱好
+     */
+    @ChineseDescription("爱好")
+    private String hobbies;
 
 }

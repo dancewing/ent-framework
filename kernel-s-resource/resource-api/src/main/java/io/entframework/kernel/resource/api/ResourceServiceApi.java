@@ -18,37 +18,37 @@ import java.util.Set;
  */
 public interface ResourceServiceApi extends ResourceReportApi {
 
-	/**
-	 * 通过url获取资源
-	 * @param resourceUrlReq 资源url的封装
-	 * @return 资源详情
-	 * @date 2020/10/19 22:06
-	 */
-	ResourceDefinition getResourceByUrl(ResourceUrlParam resourceUrlReq);
+    /**
+     * 通过url获取资源
+     * @param resourceUrlReq 资源url的封装
+     * @return 资源详情
+     * @date 2020/10/19 22:06
+     */
+    ResourceDefinition getResourceByUrl(ResourceUrlParam resourceUrlReq);
 
-	/**
-	 * 获取资源的url列表，根据资源code集合查询
-	 * @param resourceCodes 资源编码集合
-	 * @return 资源url列表
-	 * @date 2020/11/29 19:49
-	 */
-	Set<String> getResourceUrlsListByCodes(Set<String> resourceCodes);
+    /**
+     * 获取资源的url列表，根据资源code集合查询
+     * @param resourceCodes 资源编码集合
+     * @return 资源url列表
+     * @date 2020/11/29 19:49
+     */
+    Set<String> getResourceUrlsListByCodes(Set<String> resourceCodes);
 
-	/**
-	 * 获取当前资源url的数量
-	 *
-	 * @date 2021/11/3 15:11
-	 */
-	long getResourceCount();
+    /**
+     * 获取当前资源url的数量
+     *
+     * @date 2021/11/3 15:11
+     */
+    long getResourceCount();
 
-	/**
-	 * 构建菜单和角色资源树
-	 * @param resourceCodes
-	 * @param restrictCodes
-	 * @param treeBuildFlag
-	 * @return
-	 */
-	List<ResourceTreeNode> getResourceList(List<String> resourceCodes, Set<String> restrictCodes,
-			boolean treeBuildFlag);
+    /**
+     * 构建菜单和角色资源树
+     * @param resourceCodes
+     * @param restrictCodes
+     * @param treeBuildFlag
+     * @return
+     */
+    List<ResourceTreeNode> getResourceList(List<String> resourceCodes, Set<String> restrictCodes,
+            boolean treeBuildFlag);
 
 }

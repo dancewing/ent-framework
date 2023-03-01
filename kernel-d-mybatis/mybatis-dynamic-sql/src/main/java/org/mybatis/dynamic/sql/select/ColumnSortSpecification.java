@@ -22,35 +22,35 @@ import org.mybatis.dynamic.sql.SqlColumn;
 
 public class ColumnSortSpecification implements SortSpecification {
 
-	private final String tableAlias;
+    private final String tableAlias;
 
-	private final SqlColumn<?> column;
+    private final SqlColumn<?> column;
 
-	private final boolean isDescending;
+    private final boolean isDescending;
 
-	public ColumnSortSpecification(String tableAlias, SqlColumn<?> column) {
-		this(tableAlias, column, false);
-	}
+    public ColumnSortSpecification(String tableAlias, SqlColumn<?> column) {
+        this(tableAlias, column, false);
+    }
 
-	private ColumnSortSpecification(String tableAlias, SqlColumn<?> column, boolean isDescending) {
-		this.tableAlias = Objects.requireNonNull(tableAlias);
-		this.column = Objects.requireNonNull(column);
-		this.isDescending = isDescending;
-	}
+    private ColumnSortSpecification(String tableAlias, SqlColumn<?> column, boolean isDescending) {
+        this.tableAlias = Objects.requireNonNull(tableAlias);
+        this.column = Objects.requireNonNull(column);
+        this.isDescending = isDescending;
+    }
 
-	@Override
-	public SortSpecification descending() {
-		return new ColumnSortSpecification(tableAlias, column, true);
-	}
+    @Override
+    public SortSpecification descending() {
+        return new ColumnSortSpecification(tableAlias, column, true);
+    }
 
-	@Override
-	public String orderByName() {
-		return tableAlias + "." + column.name(); //$NON-NLS-1$
-	}
+    @Override
+    public String orderByName() {
+        return tableAlias + "." + column.name(); //$NON-NLS-1$
+    }
 
-	@Override
-	public boolean isDescending() {
-		return isDescending;
-	}
+    @Override
+    public boolean isDescending() {
+        return isDescending;
+    }
 
 }

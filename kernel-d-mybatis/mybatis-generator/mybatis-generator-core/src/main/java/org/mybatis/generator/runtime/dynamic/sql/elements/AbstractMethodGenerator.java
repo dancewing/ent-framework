@@ -24,73 +24,73 @@ import org.mybatis.generator.config.Context;
 
 public abstract class AbstractMethodGenerator {
 
-	protected final Context context;
+    protected final Context context;
 
-	protected final IntrospectedTable introspectedTable;
+    protected final IntrospectedTable introspectedTable;
 
-	protected final String tableFieldName;
+    protected final String tableFieldName;
 
-	protected AbstractMethodGenerator(BaseBuilder<?> builder) {
-		context = builder.context;
-		introspectedTable = builder.introspectedTable;
-		tableFieldName = builder.tableFieldName;
-	}
+    protected AbstractMethodGenerator(BaseBuilder<?> builder) {
+        context = builder.context;
+        introspectedTable = builder.introspectedTable;
+        tableFieldName = builder.tableFieldName;
+    }
 
-	protected String calculateFieldName(IntrospectedColumn column) {
-		return calculateFieldName(tableFieldName, column);
-	}
+    protected String calculateFieldName(IntrospectedColumn column) {
+        return calculateFieldName(tableFieldName, column);
+    }
 
-	public static String calculateFieldName(String tableFieldName, IntrospectedColumn column) {
-		String fieldName = column.getJavaProperty();
-		if (fieldName.equals(tableFieldName)) {
-			// name collision, no shortcut generated
-			fieldName = tableFieldName + "." + fieldName; //$NON-NLS-1$
-		}
-		return fieldName;
-	}
+    public static String calculateFieldName(String tableFieldName, IntrospectedColumn column) {
+        String fieldName = column.getJavaProperty();
+        if (fieldName.equals(tableFieldName)) {
+            // name collision, no shortcut generated
+            fieldName = tableFieldName + "." + fieldName; //$NON-NLS-1$
+        }
+        return fieldName;
+    }
 
-	protected void acceptParts(MethodAndImports.Builder builder, Method method, MethodParts methodParts) {
-		for (Parameter parameter : methodParts.getParameters()) {
-			method.addParameter(parameter);
-		}
+    protected void acceptParts(MethodAndImports.Builder builder, Method method, MethodParts methodParts) {
+        for (Parameter parameter : methodParts.getParameters()) {
+            method.addParameter(parameter);
+        }
 
-		for (String annotation : methodParts.getAnnotations()) {
-			method.addAnnotation(annotation);
-		}
+        for (String annotation : methodParts.getAnnotations()) {
+            method.addAnnotation(annotation);
+        }
 
-		method.addBodyLines(methodParts.getBodyLines());
-		builder.withImports(methodParts.getImports());
-	}
+        method.addBodyLines(methodParts.getBodyLines());
+        builder.withImports(methodParts.getImports());
+    }
 
-	public abstract MethodAndImports generateMethodAndImports();
+    public abstract MethodAndImports generateMethodAndImports();
 
-	public abstract boolean callPlugins(Method method, Interface interfaze);
+    public abstract boolean callPlugins(Method method, Interface interfaze);
 
-	public abstract static class BaseBuilder<T extends BaseBuilder<T>> {
+    public abstract static class BaseBuilder<T extends BaseBuilder<T>> {
 
-		private Context context;
+        private Context context;
 
-		private IntrospectedTable introspectedTable;
+        private IntrospectedTable introspectedTable;
 
-		private String tableFieldName;
+        private String tableFieldName;
 
-		public T withContext(Context context) {
-			this.context = context;
-			return getThis();
-		}
+        public T withContext(Context context) {
+            this.context = context;
+            return getThis();
+        }
 
-		public T withIntrospectedTable(IntrospectedTable introspectedTable) {
-			this.introspectedTable = introspectedTable;
-			return getThis();
-		}
+        public T withIntrospectedTable(IntrospectedTable introspectedTable) {
+            this.introspectedTable = introspectedTable;
+            return getThis();
+        }
 
-		public T withTableFieldName(String tableFieldName) {
-			this.tableFieldName = tableFieldName;
-			return getThis();
-		}
+        public T withTableFieldName(String tableFieldName) {
+            this.tableFieldName = tableFieldName;
+            return getThis();
+        }
 
-		public abstract T getThis();
+        public abstract T getThis();
 
-	}
+    }
 
 }

@@ -21,61 +21,61 @@ import org.jetbrains.annotations.NotNull;
 
 public class DefaultInsertStatementProvider<T> implements InsertStatementProvider<T> {
 
-	private final String insertStatement;
+    private final String insertStatement;
 
-	// need to keep both row and record for now so we don't break
-	// old code. The MyBatis reflection utilities don't handle
-	// the case where the attribute name is different from the getter.
-	private final T record;
+    // need to keep both row and record for now so we don't break
+    // old code. The MyBatis reflection utilities don't handle
+    // the case where the attribute name is different from the getter.
+    private final T record;
 
-	private final T row;
+    private final T row;
 
-	private DefaultInsertStatementProvider(Builder<T> builder) {
-		insertStatement = Objects.requireNonNull(builder.insertStatement);
-		row = Objects.requireNonNull(builder.row);
-		record = row;
-	}
+    private DefaultInsertStatementProvider(Builder<T> builder) {
+        insertStatement = Objects.requireNonNull(builder.insertStatement);
+        row = Objects.requireNonNull(builder.row);
+        record = row;
+    }
 
-	@Override
-	public T getRecord() {
-		return record;
-	}
+    @Override
+    public T getRecord() {
+        return record;
+    }
 
-	@Override
-	@NotNull
-	public T getRow() {
-		return row;
-	}
+    @Override
+    @NotNull
+    public T getRow() {
+        return row;
+    }
 
-	@Override
-	public String getInsertStatement() {
-		return insertStatement;
-	}
+    @Override
+    public String getInsertStatement() {
+        return insertStatement;
+    }
 
-	public static <T> Builder<T> withRow(T row) {
-		return new Builder<T>().withRow(row);
-	}
+    public static <T> Builder<T> withRow(T row) {
+        return new Builder<T>().withRow(row);
+    }
 
-	public static class Builder<T> {
+    public static class Builder<T> {
 
-		private String insertStatement;
+        private String insertStatement;
 
-		private T row;
+        private T row;
 
-		public Builder<T> withInsertStatement(String insertStatement) {
-			this.insertStatement = insertStatement;
-			return this;
-		}
+        public Builder<T> withInsertStatement(String insertStatement) {
+            this.insertStatement = insertStatement;
+            return this;
+        }
 
-		public Builder<T> withRow(T row) {
-			this.row = row;
-			return this;
-		}
+        public Builder<T> withRow(T row) {
+            this.row = row;
+            return this;
+        }
 
-		public DefaultInsertStatementProvider<T> build() {
-			return new DefaultInsertStatementProvider<>(this);
-		}
+        public DefaultInsertStatementProvider<T> build() {
+            return new DefaultInsertStatementProvider<>(this);
+        }
 
-	}
+    }
 
 }

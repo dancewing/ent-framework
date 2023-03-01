@@ -27,43 +27,43 @@ import org.mybatis.dynamic.sql.util.Messages;
 
 class GlobalConfigurationTest {
 
-	@Test
-	void testAlternateConfigurationFileChangesDefaults() {
-		System.setProperty(GlobalConfiguration.CONFIGURATION_FILE_PROPERTY, "defaultTrue.properties");
-		GlobalConfiguration configuration = new GlobalConfiguration();
-		System.clearProperty(GlobalConfiguration.CONFIGURATION_FILE_PROPERTY);
+    @Test
+    void testAlternateConfigurationFileChangesDefaults() {
+        System.setProperty(GlobalConfiguration.CONFIGURATION_FILE_PROPERTY, "defaultTrue.properties");
+        GlobalConfiguration configuration = new GlobalConfiguration();
+        System.clearProperty(GlobalConfiguration.CONFIGURATION_FILE_PROPERTY);
 
-		assertThat(configuration.isIsNonRenderingWhereClauseAllowed()).isTrue();
-	}
+        assertThat(configuration.isIsNonRenderingWhereClauseAllowed()).isTrue();
+    }
 
-	@Test
-	void testMissingPropertyUsesDefaults() {
-		System.setProperty(GlobalConfiguration.CONFIGURATION_FILE_PROPERTY, "empty.properties");
-		GlobalConfiguration configuration = new GlobalConfiguration();
-		System.clearProperty(GlobalConfiguration.CONFIGURATION_FILE_PROPERTY);
+    @Test
+    void testMissingPropertyUsesDefaults() {
+        System.setProperty(GlobalConfiguration.CONFIGURATION_FILE_PROPERTY, "empty.properties");
+        GlobalConfiguration configuration = new GlobalConfiguration();
+        System.clearProperty(GlobalConfiguration.CONFIGURATION_FILE_PROPERTY);
 
-		assertThat(configuration.isIsNonRenderingWhereClauseAllowed()).isFalse();
-	}
+        assertThat(configuration.isIsNonRenderingWhereClauseAllowed()).isFalse();
+    }
 
-	@Test
-	void testMissingPropertyFileUsesDefaults() {
-		System.setProperty(GlobalConfiguration.CONFIGURATION_FILE_PROPERTY, "apfbsglf.properties");
-		GlobalConfiguration configuration = new GlobalConfiguration();
-		System.clearProperty(GlobalConfiguration.CONFIGURATION_FILE_PROPERTY);
+    @Test
+    void testMissingPropertyFileUsesDefaults() {
+        System.setProperty(GlobalConfiguration.CONFIGURATION_FILE_PROPERTY, "apfbsglf.properties");
+        GlobalConfiguration configuration = new GlobalConfiguration();
+        System.clearProperty(GlobalConfiguration.CONFIGURATION_FILE_PROPERTY);
 
-		assertThat(configuration.isIsNonRenderingWhereClauseAllowed()).isFalse();
-	}
+        assertThat(configuration.isIsNonRenderingWhereClauseAllowed()).isFalse();
+    }
 
-	@Test
-	void testBadPropertyFile() throws IOException {
-		GlobalConfiguration configuration = new GlobalConfiguration();
-		InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("empty.properties");
-		assert inputStream != null;
-		inputStream.close();
+    @Test
+    void testBadPropertyFile() throws IOException {
+        GlobalConfiguration configuration = new GlobalConfiguration();
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("empty.properties");
+        assert inputStream != null;
+        inputStream.close();
 
-		assertThatExceptionOfType(DynamicSqlException.class)
-				.isThrownBy(() -> configuration.loadProperties(inputStream, "empty.properties"))
-				.withMessage(Messages.getString("ERROR.3", "empty.properties")).withCauseInstanceOf(IOException.class);
-	}
+        assertThatExceptionOfType(DynamicSqlException.class)
+                .isThrownBy(() -> configuration.loadProperties(inputStream, "empty.properties"))
+                .withMessage(Messages.getString("ERROR.3", "empty.properties")).withCauseInstanceOf(IOException.class);
+    }
 
 }

@@ -21,23 +21,23 @@ import java.util.Map;
 @NoArgsConstructor
 public class ResourceParam extends BaseRequest {
 
-	/**
-	 * 项目编码（如果您不设置的话，默认使用spring.application.name填充）
-	 * <p>
-	 * 修复一个项目启动的时候会误删别的项目资源的问题
-	 */
-	@ChineseDescription("项目编码")
-	private String projectCode;
+    /**
+     * 项目编码（如果您不设置的话，默认使用spring.application.name填充）
+     * <p>
+     * 修复一个项目启动的时候会误删别的项目资源的问题
+     */
+    @ChineseDescription("项目编码")
+    private String projectCode;
 
-	/**
-	 * 资源集合
-	 */
-	@ChineseDescription("资源集合")
-	private Map<String, Map<String, ResourceDefinition>> resourceDefinitions;
+    /**
+     * 资源集合
+     */
+    @ChineseDescription("资源集合")
+    private Map<String, Map<String, ResourceDefinition>> resourceDefinitions;
 
-	public ResourceParam(String projectCode, Map<String, Map<String, ResourceDefinition>> resourceDefinitions) {
-		this.projectCode = projectCode;
-		this.resourceDefinitions = resourceDefinitions;
-	}
+    public ResourceParam(String projectCode, Map<String, Map<String, ResourceDefinition>> resourceDefinitions) {
+        this.projectCode = projectCode;
+        this.resourceDefinitions = resourceDefinitions;
+    }
 
 }

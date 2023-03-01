@@ -30,15 +30,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface JsonTestMapper
-		extends CommonDeleteMapper, GenericInsertMapper<JsonTestRecord>, CommonSelectMapper, CommonUpdateMapper {
+        extends CommonDeleteMapper, GenericInsertMapper<JsonTestRecord>, CommonSelectMapper, CommonUpdateMapper {
 
-	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
-	@Results(id = "JsonTestResult", value = { @Result(column = "id", property = "id", id = true),
-			@Result(column = "description", property = "description"), @Result(column = "info", property = "info") })
-	List<JsonTestRecord> selectMany(SelectStatementProvider selectStatement);
+    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
+    @Results(id = "JsonTestResult", value = { @Result(column = "id", property = "id", id = true),
+            @Result(column = "description", property = "description"), @Result(column = "info", property = "info") })
+    List<JsonTestRecord> selectMany(SelectStatementProvider selectStatement);
 
-	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
-	@ResultMap("JsonTestResult")
-	Optional<JsonTestRecord> selectOne(SelectStatementProvider selectStatement);
+    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
+    @ResultMap("JsonTestResult")
+    Optional<JsonTestRecord> selectOne(SelectStatementProvider selectStatement);
 
 }

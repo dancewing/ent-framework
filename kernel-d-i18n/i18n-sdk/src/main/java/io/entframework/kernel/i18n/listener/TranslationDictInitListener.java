@@ -21,18 +21,18 @@ import java.util.List;
 @Slf4j
 public class TranslationDictInitListener extends ApplicationStartedListener {
 
-	@Override
-	public void eventCallback(ApplicationStartedEvent event) {
+    @Override
+    public void eventCallback(ApplicationStartedEvent event) {
 
-		TranslationPersistenceApi tanTranslationPersistenceApi = SpringUtil.getBean(TranslationPersistenceApi.class);
-		TranslationApi translationApi = SpringUtil.getBean(TranslationApi.class);
+        TranslationPersistenceApi tanTranslationPersistenceApi = SpringUtil.getBean(TranslationPersistenceApi.class);
+        TranslationApi translationApi = SpringUtil.getBean(TranslationApi.class);
 
-		// 从数据库读取翻译字典
-		List<TranslationDict> allTranslationDict = tanTranslationPersistenceApi.getAllTranslationDict();
-		if (allTranslationDict != null) {
-			translationApi.init(allTranslationDict);
-			log.debug("初始化所有的翻译字典" + allTranslationDict.size() + "条！");
-		}
-	}
+        // 从数据库读取翻译字典
+        List<TranslationDict> allTranslationDict = tanTranslationPersistenceApi.getAllTranslationDict();
+        if (allTranslationDict != null) {
+            translationApi.init(allTranslationDict);
+            log.debug("初始化所有的翻译字典" + allTranslationDict.size() + "条！");
+        }
+    }
 
 }

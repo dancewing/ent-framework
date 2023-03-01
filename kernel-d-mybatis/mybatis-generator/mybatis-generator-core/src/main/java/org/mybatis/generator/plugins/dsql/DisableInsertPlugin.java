@@ -32,75 +32,75 @@ import org.mybatis.generator.api.dom.kotlin.KotlinFunction;
  */
 public class DisableInsertPlugin extends PluginAdapter {
 
-	@Override
-	public boolean validate(List<String> warnings) {
-		return true;
-	}
+    @Override
+    public boolean validate(List<String> warnings) {
+        return true;
+    }
 
-	@Override
-	public boolean clientBasicInsertMethodGenerated(Method method, Interface interfaze,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientBasicInsertMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientBasicInsertMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientBasicInsertMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientBasicInsertMultipleMethodGenerated(Method method, Interface interfaze,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientBasicInsertMultipleMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientBasicInsertMultipleMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientBasicInsertMultipleMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientInsertMethodGenerated(Method method, Interface interfaze,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientInsertMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientInsertMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientInsertMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientInsertMultipleMethodGenerated(Method method, Interface interfaze,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientInsertMultipleMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientInsertMultipleMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientInsertMultipleMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientInsertSelectiveMethodGenerated(Method method, Interface interfaze,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientInsertSelectiveMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientInsertSelectiveMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientInsertSelectiveMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
-	@Override
-	public boolean clientInsertMultipleVarargMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
-			IntrospectedTable introspectedTable) {
-		return false;
-	}
+    @Override
+    public boolean clientInsertMultipleVarargMethodGenerated(KotlinFunction kotlinFunction, KotlinFile kotlinFile,
+            IntrospectedTable introspectedTable) {
+        return false;
+    }
 
 }

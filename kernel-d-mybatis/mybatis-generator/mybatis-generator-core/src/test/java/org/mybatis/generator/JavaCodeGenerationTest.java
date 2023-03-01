@@ -34,55 +34,55 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 class JavaCodeGenerationTest {
 
-	@ParameterizedTest
-	@MethodSource("generateJavaFiles")
-	void testJavaParse(GeneratedJavaFile generatedJavaFile) {
-		DefaultJavaFormatter formatter = new DefaultJavaFormatter();
+    @ParameterizedTest
+    @MethodSource("generateJavaFiles")
+    void testJavaParse(GeneratedJavaFile generatedJavaFile) {
+        DefaultJavaFormatter formatter = new DefaultJavaFormatter();
 
-		ByteArrayInputStream is = new ByteArrayInputStream(
-				formatter.getFormattedContent(generatedJavaFile.getCompilationUnit()).getBytes());
-		try {
-			StaticJavaParser.parse(is);
-		}
-		catch (ParseProblemException e) {
-			fail("Generated Java File " + generatedJavaFile.getFileName() + " will not compile");
-		}
-	}
+        ByteArrayInputStream is = new ByteArrayInputStream(
+                formatter.getFormattedContent(generatedJavaFile.getCompilationUnit()).getBytes());
+        try {
+            StaticJavaParser.parse(is);
+        }
+        catch (ParseProblemException e) {
+            fail("Generated Java File " + generatedJavaFile.getFileName() + " will not compile");
+        }
+    }
 
-	static List<GeneratedJavaFile> generateJavaFiles() throws Exception {
-		List<GeneratedJavaFile> generatedFiles = new ArrayList<>();
-		generatedFiles.addAll(generateJavaFilesMybatis());
-		generatedFiles.addAll(generateJavaFilesMybatisDsql());
-		return generatedFiles;
-	}
+    static List<GeneratedJavaFile> generateJavaFiles() throws Exception {
+        List<GeneratedJavaFile> generatedFiles = new ArrayList<>();
+        generatedFiles.addAll(generateJavaFilesMybatis());
+        generatedFiles.addAll(generateJavaFilesMybatisDsql());
+        return generatedFiles;
+    }
 
-	static List<GeneratedJavaFile> generateJavaFilesMybatis() throws Exception {
-		createDatabase();
-		return generateInnerJavaFiles("/scripts/generatorConfig.xml");
-	}
+    static List<GeneratedJavaFile> generateJavaFilesMybatis() throws Exception {
+        createDatabase();
+        return generateInnerJavaFiles("/scripts/generatorConfig.xml");
+    }
 
-	static List<GeneratedJavaFile> generateJavaFilesMybatisDsql() throws Exception {
-		createDatabase();
-		return generateInnerJavaFiles("/scripts/generatorConfig_Dsql.xml");
-	}
+    static List<GeneratedJavaFile> generateJavaFilesMybatisDsql() throws Exception {
+        createDatabase();
+        return generateInnerJavaFiles("/scripts/generatorConfig_Dsql.xml");
+    }
 
-	static List<GeneratedJavaFile> generateInnerJavaFiles(String configFile) throws Exception {
-		List<String> warnings = new ArrayList<>();
-		ConfigurationParser cp = new ConfigurationParser(warnings);
-		Configuration config = cp.parseConfiguration(JavaCodeGenerationTest.class.getResourceAsStream(configFile));
+    static List<GeneratedJavaFile> generateInnerJavaFiles(String configFile) throws Exception {
+        List<String> warnings = new ArrayList<>();
+        ConfigurationParser cp = new ConfigurationParser(warnings);
+        Configuration config = cp.parseConfiguration(JavaCodeGenerationTest.class.getResourceAsStream(configFile));
 
-		DefaultShellCallback shellCallback = new DefaultShellCallback(true);
+        DefaultShellCallback shellCallback = new DefaultShellCallback(true);
 
-		MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, shellCallback, warnings);
-		myBatisGenerator.generate(null, null, null, false);
-		return myBatisGenerator.getGeneratedJavaFiles();
-	}
+        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, shellCallback, warnings);
+        myBatisGenerator.generate(null, null, null, false);
+        return myBatisGenerator.getGeneratedJavaFiles();
+    }
 
-	static void createDatabase() throws Exception {
-		SqlScriptRunner scriptRunner = new SqlScriptRunner(
-				JavaCodeGenerationTest.class.getResourceAsStream("/scripts/CreateDB.sql"), "org.hsqldb.jdbcDriver",
-				"jdbc:hsqldb:mem:aname", "sa", "");
-		scriptRunner.executeScript();
-	}
+    static void createDatabase() throws Exception {
+        SqlScriptRunner scriptRunner = new SqlScriptRunner(
+                JavaCodeGenerationTest.class.getResourceAsStream("/scripts/CreateDB.sql"), "org.hsqldb.jdbcDriver",
+                "jdbc:hsqldb:mem:aname", "sa", "");
+        scriptRunner.executeScript();
+    }
 
 }

@@ -25,85 +25,85 @@ import org.mybatis.generator.api.dom.java.Parameter;
 
 public class BasicSelectManyMethodGenerator extends AbstractMethodGenerator {
 
-	private final FullyQualifiedJavaType recordType;
+    private final FullyQualifiedJavaType recordType;
 
-	private final FragmentGenerator fragmentGenerator;
+    private final FragmentGenerator fragmentGenerator;
 
-	private BasicSelectManyMethodGenerator(Builder builder) {
-		super(builder);
-		recordType = builder.recordType;
-		fragmentGenerator = builder.fragmentGenerator;
-	}
+    private BasicSelectManyMethodGenerator(Builder builder) {
+        super(builder);
+        recordType = builder.recordType;
+        fragmentGenerator = builder.fragmentGenerator;
+    }
 
-	@Override
-	public MethodAndImports generateMethodAndImports() {
-		Set<FullyQualifiedJavaType> imports = new HashSet<>();
+    @Override
+    public MethodAndImports generateMethodAndImports() {
+        Set<FullyQualifiedJavaType> imports = new HashSet<>();
 
-		FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType(
-				"org.mybatis.dynamic.sql.select.render.SelectStatementProvider"); //$NON-NLS-1$
-		FullyQualifiedJavaType adapter = new FullyQualifiedJavaType("org.mybatis.dynamic.sql.util.SqlProviderAdapter"); //$NON-NLS-1$
-		FullyQualifiedJavaType annotation = new FullyQualifiedJavaType("org.apache.ibatis.annotations.SelectProvider"); //$NON-NLS-1$
+        FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType(
+                "org.mybatis.dynamic.sql.select.render.SelectStatementProvider"); //$NON-NLS-1$
+        FullyQualifiedJavaType adapter = new FullyQualifiedJavaType("org.mybatis.dynamic.sql.util.SqlProviderAdapter"); //$NON-NLS-1$
+        FullyQualifiedJavaType annotation = new FullyQualifiedJavaType("org.apache.ibatis.annotations.SelectProvider"); //$NON-NLS-1$
 
-		imports.add(parameterType);
-		imports.add(adapter);
-		imports.add(annotation);
+        imports.add(parameterType);
+        imports.add(adapter);
+        imports.add(annotation);
 
-		imports.add(FullyQualifiedJavaType.getNewListInstance());
+        imports.add(FullyQualifiedJavaType.getNewListInstance());
 
-		imports.add(recordType);
-		FullyQualifiedJavaType returnType = FullyQualifiedJavaType.getNewListInstance();
-		returnType.addTypeArgument(recordType);
-		Method method = new Method("selectMany"); //$NON-NLS-1$
-		method.setAbstract(true);
-		method.setReturnType(returnType);
-		method.addParameter(new Parameter(parameterType, "selectStatement")); //$NON-NLS-1$
-		context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
-		method.addAnnotation("@SelectProvider(type=SqlProviderAdapter.class, method=\"select\")"); //$NON-NLS-1$
+        imports.add(recordType);
+        FullyQualifiedJavaType returnType = FullyQualifiedJavaType.getNewListInstance();
+        returnType.addTypeArgument(recordType);
+        Method method = new Method("selectMany"); //$NON-NLS-1$
+        method.setAbstract(true);
+        method.setReturnType(returnType);
+        method.addParameter(new Parameter(parameterType, "selectStatement")); //$NON-NLS-1$
+        context.getCommentGenerator().addGeneralMethodAnnotation(method, introspectedTable, imports);
+        method.addAnnotation("@SelectProvider(type=SqlProviderAdapter.class, method=\"select\")"); //$NON-NLS-1$
 
-		MethodAndImports.Builder builder = MethodAndImports.withMethod(method).withImports(imports);
+        MethodAndImports.Builder builder = MethodAndImports.withMethod(method).withImports(imports);
 
-		MethodParts methodParts;
-		if (introspectedTable.isConstructorBased()) {
-			methodParts = fragmentGenerator.getAnnotatedConstructorArgs();
-		}
-		else {
-			methodParts = fragmentGenerator.getAnnotatedResults();
-		}
-		acceptParts(builder, method, methodParts);
+        MethodParts methodParts;
+        if (introspectedTable.isConstructorBased()) {
+            methodParts = fragmentGenerator.getAnnotatedConstructorArgs();
+        }
+        else {
+            methodParts = fragmentGenerator.getAnnotatedResults();
+        }
+        acceptParts(builder, method, methodParts);
 
-		return builder.build();
-	}
+        return builder.build();
+    }
 
-	@Override
-	public boolean callPlugins(Method method, Interface interfaze) {
-		return context.getPlugins().clientBasicSelectManyMethodGenerated(method, interfaze, introspectedTable);
-	}
+    @Override
+    public boolean callPlugins(Method method, Interface interfaze) {
+        return context.getPlugins().clientBasicSelectManyMethodGenerated(method, interfaze, introspectedTable);
+    }
 
-	public static class Builder extends BaseBuilder<Builder> {
+    public static class Builder extends BaseBuilder<Builder> {
 
-		private FullyQualifiedJavaType recordType;
+        private FullyQualifiedJavaType recordType;
 
-		private FragmentGenerator fragmentGenerator;
+        private FragmentGenerator fragmentGenerator;
 
-		public Builder withRecordType(FullyQualifiedJavaType recordType) {
-			this.recordType = recordType;
-			return this;
-		}
+        public Builder withRecordType(FullyQualifiedJavaType recordType) {
+            this.recordType = recordType;
+            return this;
+        }
 
-		public Builder withFragmentGenerator(FragmentGenerator fragmentGenerator) {
-			this.fragmentGenerator = fragmentGenerator;
-			return this;
-		}
+        public Builder withFragmentGenerator(FragmentGenerator fragmentGenerator) {
+            this.fragmentGenerator = fragmentGenerator;
+            return this;
+        }
 
-		@Override
-		public Builder getThis() {
-			return this;
-		}
+        @Override
+        public Builder getThis() {
+            return this;
+        }
 
-		public BasicSelectManyMethodGenerator build() {
-			return new BasicSelectManyMethodGenerator(this);
-		}
+        public BasicSelectManyMethodGenerator build() {
+            return new BasicSelectManyMethodGenerator(this);
+        }
 
-	}
+    }
 
 }

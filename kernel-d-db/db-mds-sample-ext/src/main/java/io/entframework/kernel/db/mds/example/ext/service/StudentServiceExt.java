@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentServiceExt extends StudentServiceImpl {
 
-	public StudentServiceExt() {
-		super(StudentRequestExt.class, StudentResponseExt.class, StudentExt.class);
-	}
+    public StudentServiceExt() {
+        super(StudentRequestExt.class, StudentResponseExt.class, StudentExt.class);
+    }
 
 }

@@ -17,14 +17,14 @@ import org.springframework.context.annotation.Import;
 @Import(FeignClientsConfiguration.class)
 public class KernelFileFeignServiceConfiguration {
 
-	@Value("${kernel.base-server.file:http://ent-misc}")
-	private String baseServerUrl;
+    @Value("${kernel.base-server.file:http://ent-misc}")
+    private String baseServerUrl;
 
-	@Bean
-	@ConditionalOnMissingBean(FileInfoClientApi.class)
-	public FileInfoClientApi fileInfoApi(CloudFeignFactory cloudFeignFactory) {
-		FileInfoClientApi feignClient = cloudFeignFactory.build(FileInfoClientApi.class, baseServerUrl);
-		return new FileInfoClientServiceFeignWrapper(feignClient);
-	}
+    @Bean
+    @ConditionalOnMissingBean(FileInfoClientApi.class)
+    public FileInfoClientApi fileInfoApi(CloudFeignFactory cloudFeignFactory) {
+        FileInfoClientApi feignClient = cloudFeignFactory.build(FileInfoClientApi.class, baseServerUrl);
+        return new FileInfoClientServiceFeignWrapper(feignClient);
+    }
 
 }

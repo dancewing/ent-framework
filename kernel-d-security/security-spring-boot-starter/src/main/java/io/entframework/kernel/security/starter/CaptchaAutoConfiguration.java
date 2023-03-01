@@ -23,34 +23,34 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CaptchaAutoConfiguration {
 
-	/**
-	 * 图形验证码
-	 *
-	 * @date 2021/1/15 11:25
-	 */
-	@Bean
-	@ConditionalOnMissingBean(ImageCaptchaApi.class)
-	public ImageCaptchaApi captchaApi() {
-		// 验证码过期时间 120秒
-		TimedCache<String, String> timedCache = CacheUtil.newTimedCache(1000 * 120);
-		DefaultMemoryCacheOperator<String> captchaMemoryCache = new DefaultMemoryCacheOperator<>(timedCache,
-				CaptchaConstants.CAPTCHA_CACHE_KEY_PREFIX);
-		return new ImageCaptchaService(captchaMemoryCache);
-	}
+    /**
+     * 图形验证码
+     *
+     * @date 2021/1/15 11:25
+     */
+    @Bean
+    @ConditionalOnMissingBean(ImageCaptchaApi.class)
+    public ImageCaptchaApi captchaApi() {
+        // 验证码过期时间 120秒
+        TimedCache<String, String> timedCache = CacheUtil.newTimedCache(1000 * 120);
+        DefaultMemoryCacheOperator<String> captchaMemoryCache = new DefaultMemoryCacheOperator<>(timedCache,
+                CaptchaConstants.CAPTCHA_CACHE_KEY_PREFIX);
+        return new ImageCaptchaService(captchaMemoryCache);
+    }
 
-	/**
-	 * 拖拽验证码工具
-	 *
-	 * @date 2021/7/5 11:57
-	 */
-	@Bean
-	@ConditionalOnMissingBean(DragCaptchaApi.class)
-	public DragCaptchaApi dragCaptchaService() {
-		// 验证码过期时间 120秒
-		TimedCache<String, String> timedCache = CacheUtil.newTimedCache(1000 * 120);
-		DefaultMemoryCacheOperator<String> captchaMemoryCache = new DefaultMemoryCacheOperator<>(timedCache,
-				CaptchaConstants.CAPTCHA_CACHE_KEY_PREFIX);
-		return new DragCaptchaService(captchaMemoryCache);
-	}
+    /**
+     * 拖拽验证码工具
+     *
+     * @date 2021/7/5 11:57
+     */
+    @Bean
+    @ConditionalOnMissingBean(DragCaptchaApi.class)
+    public DragCaptchaApi dragCaptchaService() {
+        // 验证码过期时间 120秒
+        TimedCache<String, String> timedCache = CacheUtil.newTimedCache(1000 * 120);
+        DefaultMemoryCacheOperator<String> captchaMemoryCache = new DefaultMemoryCacheOperator<>(timedCache,
+                CaptchaConstants.CAPTCHA_CACHE_KEY_PREFIX);
+        return new DragCaptchaService(captchaMemoryCache);
+    }
 
 }

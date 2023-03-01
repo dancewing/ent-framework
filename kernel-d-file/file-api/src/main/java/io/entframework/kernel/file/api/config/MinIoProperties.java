@@ -15,24 +15,24 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "kernel.file.minio")
 public class MinIoProperties {
 
-	/**
-	 * Bucket
-	 */
-	private String bucket;
+    /**
+     * Bucket
+     */
+    private String bucket;
 
-	/**
-	 * 服务器端点 MinIO服务器地址 默认：http://127.0.0.1:9000
-	 */
-	private String endpoint = "http://127.0.0.1:9000";
+    /**
+     * 服务器端点 MinIO服务器地址 默认：http://127.0.0.1:9000
+     */
+    private String endpoint = "http://127.0.0.1:9000";
 
-	/**
-	 * MinIO accessKey
-	 */
-	private String accessKey;
+    /**
+     * MinIO accessKey
+     */
+    private String accessKey;
 
-	/**
-	 * MinIO secretKey
-	 */
-	private String secretKey;
+    /**
+     * MinIO secretKey
+     */
+    private String secretKey;
 
 }

@@ -40,189 +40,189 @@ import java.util.stream.Collectors;
  */
 public class SelectDSL<R> implements Buildable<R>, ConfigurableStatement<SelectDSL<R>> {
 
-	private final Function<SelectModel, R> adapterFunction;
+    private final Function<SelectModel, R> adapterFunction;
 
-	private final List<QueryExpressionDSL<R>> queryExpressions = new ArrayList<>();
+    private final List<QueryExpressionDSL<R>> queryExpressions = new ArrayList<>();
 
-	private OrderByModel orderByModel;
+    private OrderByModel orderByModel;
 
-	private Long limit;
+    private Long limit;
 
-	private Long offset;
+    private Long offset;
 
-	private Long fetchFirstRows;
+    private Long fetchFirstRows;
 
-	private SelectDSL(Function<SelectModel, R> adapterFunction) {
-		this.adapterFunction = Objects.requireNonNull(adapterFunction);
-	}
+    private SelectDSL(Function<SelectModel, R> adapterFunction) {
+        this.adapterFunction = Objects.requireNonNull(adapterFunction);
+    }
 
-	public static QueryExpressionDSL.FromGatherer<SelectModel> select(BasicColumn... selectList) {
-		return select(Arrays.asList(selectList));
-	}
+    public static QueryExpressionDSL.FromGatherer<SelectModel> select(BasicColumn... selectList) {
+        return select(Arrays.asList(selectList));
+    }
 
-	public static QueryExpressionDSL.FromGatherer<SelectModel> select(Collection<BasicColumn> selectList) {
-		return select(Function.identity(), selectList);
-	}
+    public static QueryExpressionDSL.FromGatherer<SelectModel> select(Collection<BasicColumn> selectList) {
+        return select(Function.identity(), selectList);
+    }
 
-	public static <R> QueryExpressionDSL.FromGatherer<R> select(Function<SelectModel, R> adapterFunction,
-			BasicColumn... selectList) {
-		return select(adapterFunction, Arrays.asList(selectList));
-	}
+    public static <R> QueryExpressionDSL.FromGatherer<R> select(Function<SelectModel, R> adapterFunction,
+            BasicColumn... selectList) {
+        return select(adapterFunction, Arrays.asList(selectList));
+    }
 
-	public static <R> QueryExpressionDSL.FromGatherer<R> select(Function<SelectModel, R> adapterFunction,
-			Collection<BasicColumn> selectList) {
-		return new FromGatherer.Builder<R>().withSelectList(selectList).withSelectDSL(new SelectDSL<>(adapterFunction))
-				.build();
-	}
+    public static <R> QueryExpressionDSL.FromGatherer<R> select(Function<SelectModel, R> adapterFunction,
+            Collection<BasicColumn> selectList) {
+        return new FromGatherer.Builder<R>().withSelectList(selectList).withSelectDSL(new SelectDSL<>(adapterFunction))
+                .build();
+    }
 
-	public static QueryExpressionDSL.FromGatherer<SelectModel> selectDistinct(BasicColumn... selectList) {
-		return selectDistinct(Function.identity(), selectList);
-	}
+    public static QueryExpressionDSL.FromGatherer<SelectModel> selectDistinct(BasicColumn... selectList) {
+        return selectDistinct(Function.identity(), selectList);
+    }
 
-	public static QueryExpressionDSL.FromGatherer<SelectModel> selectDistinct(Collection<BasicColumn> selectList) {
-		return selectDistinct(Function.identity(), selectList);
-	}
+    public static QueryExpressionDSL.FromGatherer<SelectModel> selectDistinct(Collection<BasicColumn> selectList) {
+        return selectDistinct(Function.identity(), selectList);
+    }
 
-	public static <R> QueryExpressionDSL.FromGatherer<R> selectDistinct(Function<SelectModel, R> adapterFunction,
-			BasicColumn... selectList) {
-		return selectDistinct(adapterFunction, Arrays.asList(selectList));
-	}
+    public static <R> QueryExpressionDSL.FromGatherer<R> selectDistinct(Function<SelectModel, R> adapterFunction,
+            BasicColumn... selectList) {
+        return selectDistinct(adapterFunction, Arrays.asList(selectList));
+    }
 
-	public static <R> QueryExpressionDSL.FromGatherer<R> selectDistinct(Function<SelectModel, R> adapterFunction,
-			Collection<BasicColumn> selectList) {
-		return new FromGatherer.Builder<R>().withSelectList(selectList).withSelectDSL(new SelectDSL<>(adapterFunction))
-				.isDistinct().build();
-	}
+    public static <R> QueryExpressionDSL.FromGatherer<R> selectDistinct(Function<SelectModel, R> adapterFunction,
+            Collection<BasicColumn> selectList) {
+        return new FromGatherer.Builder<R>().withSelectList(selectList).withSelectDSL(new SelectDSL<>(adapterFunction))
+                .isDistinct().build();
+    }
 
-	QueryExpressionDSL<R> newQueryExpression(FromGatherer<R> fromGatherer, TableExpression table) {
-		QueryExpressionDSL<R> queryExpression = new QueryExpressionDSL<>(fromGatherer, table);
-		queryExpressions.add(queryExpression);
-		return queryExpression;
-	}
+    QueryExpressionDSL<R> newQueryExpression(FromGatherer<R> fromGatherer, TableExpression table) {
+        QueryExpressionDSL<R> queryExpression = new QueryExpressionDSL<>(fromGatherer, table);
+        queryExpressions.add(queryExpression);
+        return queryExpression;
+    }
 
-	QueryExpressionDSL<R> newQueryExpression(FromGatherer<R> fromGatherer, TableExpression table,
-			Class<?> entityClass) {
-		QueryExpressionDSL<R> queryExpression = new QueryExpressionDSL<>(fromGatherer, table, entityClass);
-		queryExpressions.add(queryExpression);
-		return queryExpression;
-	}
+    QueryExpressionDSL<R> newQueryExpression(FromGatherer<R> fromGatherer, TableExpression table,
+            Class<?> entityClass) {
+        QueryExpressionDSL<R> queryExpression = new QueryExpressionDSL<>(fromGatherer, table, entityClass);
+        queryExpressions.add(queryExpression);
+        return queryExpression;
+    }
 
-	QueryExpressionDSL<R> newQueryExpression(FromGatherer<R> fromGatherer, SqlTable table, String tableAlias) {
-		QueryExpressionDSL<R> queryExpression = new QueryExpressionDSL<>(fromGatherer, table, tableAlias);
-		queryExpressions.add(queryExpression);
-		return queryExpression;
-	}
+    QueryExpressionDSL<R> newQueryExpression(FromGatherer<R> fromGatherer, SqlTable table, String tableAlias) {
+        QueryExpressionDSL<R> queryExpression = new QueryExpressionDSL<>(fromGatherer, table, tableAlias);
+        queryExpressions.add(queryExpression);
+        return queryExpression;
+    }
 
-	QueryExpressionDSL<R> newQueryExpression(FromGatherer<R> fromGatherer, Class<?> entityClass) {
-		EntityMeta entities = Entities.getInstance(entityClass);
-		QueryExpressionDSL<R> queryExpression = new QueryExpressionDSL<>(fromGatherer, entities.getTable(),
-				entityClass);
-		queryExpressions.add(queryExpression);
-		return queryExpression;
-	}
+    QueryExpressionDSL<R> newQueryExpression(FromGatherer<R> fromGatherer, Class<?> entityClass) {
+        EntityMeta entities = Entities.getInstance(entityClass);
+        QueryExpressionDSL<R> queryExpression = new QueryExpressionDSL<>(fromGatherer, entities.getTable(),
+                entityClass);
+        queryExpressions.add(queryExpression);
+        return queryExpression;
+    }
 
-	void orderBy(Collection<SortSpecification> columns) {
-		orderByModel = OrderByModel.of(columns);
-	}
+    void orderBy(Collection<SortSpecification> columns) {
+        orderByModel = OrderByModel.of(columns);
+    }
 
-	public LimitFinisher limit(long limit) {
-		this.limit = limit;
-		return new LimitFinisher();
-	}
+    public LimitFinisher limit(long limit) {
+        this.limit = limit;
+        return new LimitFinisher();
+    }
 
-	public OffsetFirstFinisher offset(long offset) {
-		this.offset = offset;
-		return new OffsetFirstFinisher();
-	}
+    public OffsetFirstFinisher offset(long offset) {
+        this.offset = offset;
+        return new OffsetFirstFinisher();
+    }
 
-	public FetchFirstFinisher fetchFirst(long fetchFirstRows) {
-		this.fetchFirstRows = fetchFirstRows;
-		return new FetchFirstFinisher();
-	}
+    public FetchFirstFinisher fetchFirst(long fetchFirstRows) {
+        this.fetchFirstRows = fetchFirstRows;
+        return new FetchFirstFinisher();
+    }
 
-	@Override
-	public SelectDSL<R> configureStatement(Consumer<StatementConfiguration> consumer) {
-		queryExpressions.forEach(q -> q.configureStatement(consumer));
-		return this;
-	}
+    @Override
+    public SelectDSL<R> configureStatement(Consumer<StatementConfiguration> consumer) {
+        queryExpressions.forEach(q -> q.configureStatement(consumer));
+        return this;
+    }
 
-	@NotNull
-	@Override
-	public R build() {
-		List<QueryExpressionModel> queryExpressionModels = buildModels();
-		Class<?> entityClass = null;
-		if (!queryExpressionModels.isEmpty()) {
-			entityClass = queryExpressionModels.get(0).getEntityClass();
-		}
-		SelectModel selectModel = SelectModel.withQueryExpressions(queryExpressionModels).withOrderByModel(orderByModel)
-				.withPagingModel(buildPagingModel()).build();
-		return adapterFunction.apply(selectModel);
-	}
+    @NotNull
+    @Override
+    public R build() {
+        List<QueryExpressionModel> queryExpressionModels = buildModels();
+        Class<?> entityClass = null;
+        if (!queryExpressionModels.isEmpty()) {
+            entityClass = queryExpressionModels.get(0).getEntityClass();
+        }
+        SelectModel selectModel = SelectModel.withQueryExpressions(queryExpressionModels).withOrderByModel(orderByModel)
+                .withPagingModel(buildPagingModel()).build();
+        return adapterFunction.apply(selectModel);
+    }
 
-	private List<QueryExpressionModel> buildModels() {
-		return queryExpressions.stream().map(QueryExpressionDSL::buildModel).collect(Collectors.toList());
-	}
+    private List<QueryExpressionModel> buildModels() {
+        return queryExpressions.stream().map(QueryExpressionDSL::buildModel).collect(Collectors.toList());
+    }
 
-	private PagingModel buildPagingModel() {
-		return new PagingModel.Builder().withLimit(limit).withOffset(offset).withFetchFirstRows(fetchFirstRows).build();
-	}
+    private PagingModel buildPagingModel() {
+        return new PagingModel.Builder().withLimit(limit).withOffset(offset).withFetchFirstRows(fetchFirstRows).build();
+    }
 
-	public class LimitFinisher implements Buildable<R> {
+    public class LimitFinisher implements Buildable<R> {
 
-		public OffsetFinisher offset(long offset) {
-			SelectDSL.this.offset = offset;
-			return new OffsetFinisher();
-		}
+        public OffsetFinisher offset(long offset) {
+            SelectDSL.this.offset = offset;
+            return new OffsetFinisher();
+        }
 
-		@NotNull
-		@Override
-		public R build() {
-			return SelectDSL.this.build();
-		}
+        @NotNull
+        @Override
+        public R build() {
+            return SelectDSL.this.build();
+        }
 
-	}
+    }
 
-	public class OffsetFinisher implements Buildable<R> {
+    public class OffsetFinisher implements Buildable<R> {
 
-		@NotNull
-		@Override
-		public R build() {
-			return SelectDSL.this.build();
-		}
+        @NotNull
+        @Override
+        public R build() {
+            return SelectDSL.this.build();
+        }
 
-	}
+    }
 
-	public class OffsetFirstFinisher implements Buildable<R> {
+    public class OffsetFirstFinisher implements Buildable<R> {
 
-		public FetchFirstFinisher fetchFirst(long fetchFirstRows) {
-			SelectDSL.this.fetchFirstRows = fetchFirstRows;
-			return new FetchFirstFinisher();
-		}
+        public FetchFirstFinisher fetchFirst(long fetchFirstRows) {
+            SelectDSL.this.fetchFirstRows = fetchFirstRows;
+            return new FetchFirstFinisher();
+        }
 
-		@NotNull
-		@Override
-		public R build() {
-			return SelectDSL.this.build();
-		}
+        @NotNull
+        @Override
+        public R build() {
+            return SelectDSL.this.build();
+        }
 
-	}
+    }
 
-	public class FetchFirstFinisher {
+    public class FetchFirstFinisher {
 
-		public RowsOnlyFinisher rowsOnly() {
-			return new RowsOnlyFinisher();
-		}
+        public RowsOnlyFinisher rowsOnly() {
+            return new RowsOnlyFinisher();
+        }
 
-	}
+    }
 
-	public class RowsOnlyFinisher implements Buildable<R> {
+    public class RowsOnlyFinisher implements Buildable<R> {
 
-		@NotNull
-		@Override
-		public R build() {
-			return SelectDSL.this.build();
-		}
+        @NotNull
+        @Override
+        public R build() {
+            return SelectDSL.this.build();
+        }
 
-	}
+    }
 
 }

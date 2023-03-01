@@ -7,17 +7,17 @@ import java.util.Map;
 
 public interface UpdateRowStatementProvider<T> extends StatementProvider {
 
-	/**
-	 * Return the row associated with this update statement.
-	 */
-	@NotNull
-	T getRow();
+    /**
+     * Return the row associated with this update statement.
+     */
+    @NotNull
+    T getRow();
 
-	/**
-	 * Return the formatted update statement.
-	 */
-	String getUpdateStatement();
+    /**
+     * Return the formatted update statement.
+     */
+    String getUpdateStatement();
 
-	Map<String, Object> getParameters();
+    Map<String, Object> getParameters();
 
 }

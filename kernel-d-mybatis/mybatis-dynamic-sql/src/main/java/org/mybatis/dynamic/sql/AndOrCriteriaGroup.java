@@ -31,57 +31,57 @@ import java.util.Optional;
  */
 public class AndOrCriteriaGroup {
 
-	private final String connector;
+    private final String connector;
 
-	private final SqlCriterion initialCriterion;
+    private final SqlCriterion initialCriterion;
 
-	private final List<AndOrCriteriaGroup> subCriteria;
+    private final List<AndOrCriteriaGroup> subCriteria;
 
-	private AndOrCriteriaGroup(Builder builder) {
-		connector = Objects.requireNonNull(builder.connector);
-		initialCriterion = builder.initialCriterion;
-		subCriteria = builder.subCriteria;
-	}
+    private AndOrCriteriaGroup(Builder builder) {
+        connector = Objects.requireNonNull(builder.connector);
+        initialCriterion = builder.initialCriterion;
+        subCriteria = builder.subCriteria;
+    }
 
-	public String connector() {
-		return connector;
-	}
+    public String connector() {
+        return connector;
+    }
 
-	public Optional<SqlCriterion> initialCriterion() {
-		return Optional.ofNullable(initialCriterion);
-	}
+    public Optional<SqlCriterion> initialCriterion() {
+        return Optional.ofNullable(initialCriterion);
+    }
 
-	public List<AndOrCriteriaGroup> subCriteria() {
-		return Collections.unmodifiableList(subCriteria);
-	}
+    public List<AndOrCriteriaGroup> subCriteria() {
+        return Collections.unmodifiableList(subCriteria);
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private String connector;
+        private String connector;
 
-		private SqlCriterion initialCriterion;
+        private SqlCriterion initialCriterion;
 
-		private final List<AndOrCriteriaGroup> subCriteria = new ArrayList<>();
+        private final List<AndOrCriteriaGroup> subCriteria = new ArrayList<>();
 
-		public Builder withConnector(String connector) {
-			this.connector = connector;
-			return this;
-		}
+        public Builder withConnector(String connector) {
+            this.connector = connector;
+            return this;
+        }
 
-		public Builder withInitialCriterion(SqlCriterion initialCriterion) {
-			this.initialCriterion = initialCriterion;
-			return this;
-		}
+        public Builder withInitialCriterion(SqlCriterion initialCriterion) {
+            this.initialCriterion = initialCriterion;
+            return this;
+        }
 
-		public Builder withSubCriteria(List<AndOrCriteriaGroup> subCriteria) {
-			this.subCriteria.addAll(subCriteria);
-			return this;
-		}
+        public Builder withSubCriteria(List<AndOrCriteriaGroup> subCriteria) {
+            this.subCriteria.addAll(subCriteria);
+            return this;
+        }
 
-		public AndOrCriteriaGroup build() {
-			return new AndOrCriteriaGroup(this);
-		}
+        public AndOrCriteriaGroup build() {
+            return new AndOrCriteriaGroup(this);
+        }
 
-	}
+    }
 
 }

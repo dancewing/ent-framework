@@ -27,14 +27,14 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 public interface ColumnComparisonMapper {
 
-	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
-	@Results({ @Result(column = "number1", property = "number1", id = true),
-			@Result(column = "number2", property = "number2", id = true) })
-	List<ColumnComparisonRecord> selectMany(SelectStatementProvider selectStatement);
+    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
+    @Results({ @Result(column = "number1", property = "number1", id = true),
+            @Result(column = "number2", property = "number2", id = true) })
+    List<ColumnComparisonRecord> selectMany(SelectStatementProvider selectStatement);
 
-	default List<ColumnComparisonRecord> select(SelectDSLCompleter completer) {
-		return MyBatis3Utils.selectList(this::selectMany, ColumnComparisonDynamicSqlSupport.columnList,
-				ColumnComparisonDynamicSqlSupport.columnComparison, completer);
-	}
+    default List<ColumnComparisonRecord> select(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectList(this::selectMany, ColumnComparisonDynamicSqlSupport.columnList,
+                ColumnComparisonDynamicSqlSupport.columnComparison, completer);
+    }
 
 }

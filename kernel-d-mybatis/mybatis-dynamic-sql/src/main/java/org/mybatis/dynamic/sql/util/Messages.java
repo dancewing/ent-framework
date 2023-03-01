@@ -20,27 +20,27 @@ import java.util.ResourceBundle;
 
 public class Messages {
 
-	private static final String BUNDLE_NAME = "org.mybatis.dynamic.sql.util.messages"; //$NON-NLS-1$
+    private static final String BUNDLE_NAME = "org.mybatis.dynamic.sql.util.messages"; //$NON-NLS-1$
 
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
+    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
-	private Messages() {
-	}
+    private Messages() {
+    }
 
-	public static String getString(String key) {
-		return RESOURCE_BUNDLE.getString(key);
-	}
+    public static String getString(String key) {
+        return RESOURCE_BUNDLE.getString(key);
+    }
 
-	public static String getString(String key, String p1) {
-		return MessageFormat.format(getString(key), p1);
-	}
+    public static String getString(String key, String p1) {
+        return MessageFormat.format(getString(key), p1);
+    }
 
-	public static String getString(String key, String p1, String p2, String p3) {
-		return MessageFormat.format(getString(key), p1, p2, p3);
-	}
+    public static String getString(String key, String p1, String p2, String p3) {
+        return MessageFormat.format(getString(key), p1, p2, p3);
+    }
 
-	public static String getInternalErrorString(int internalErrorNumber) {
-		return MessageFormat.format(getString("INTERNAL.ERROR"), internalErrorNumber); //$NON-NLS-1$
-	}
+    public static String getInternalErrorString(int internalErrorNumber) {
+        return MessageFormat.format(getString("INTERNAL.ERROR"), internalErrorNumber); //$NON-NLS-1$
+    }
 
 }

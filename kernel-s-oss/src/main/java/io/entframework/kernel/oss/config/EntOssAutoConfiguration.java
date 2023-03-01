@@ -15,14 +15,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = "io.entframework.kernel.oss.controller")
 public class EntOssAutoConfiguration implements WebMvcConfigurer {
 
-	@Bean
-	public HandlerInterceptor virtualHostInterceptor() {
-		return new VirtualHostInterceptor();
-	}
+    @Bean
+    public HandlerInterceptor virtualHostInterceptor() {
+        return new VirtualHostInterceptor();
+    }
 
-	@Override
-	public void addInterceptors(InterceptorRegistry interceptor) {
-		interceptor.addInterceptor(virtualHostInterceptor()).addPathPatterns("/**");
-	}
+    @Override
+    public void addInterceptors(InterceptorRegistry interceptor) {
+        interceptor.addInterceptor(virtualHostInterceptor()).addPathPatterns("/**");
+    }
 
 }

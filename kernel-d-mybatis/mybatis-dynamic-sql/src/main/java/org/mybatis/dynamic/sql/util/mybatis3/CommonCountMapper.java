@@ -31,14 +31,14 @@ import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
  */
 public interface CommonCountMapper {
 
-	/**
-	 * Execute a select statement that returns a long (typically a select(count(*))
-	 * statement). This mapper assumes the statement returns a single row with a single
-	 * column that cen be retrieved as a long.
-	 * @param selectStatement the select statement
-	 * @return the long value
-	 */
-	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
-	long count(SelectStatementProvider selectStatement);
+    /**
+     * Execute a select statement that returns a long (typically a select(count(*))
+     * statement). This mapper assumes the statement returns a single row with a single
+     * column that cen be retrieved as a long.
+     * @param selectStatement the select statement
+     * @return the long value
+     */
+    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
+    long count(SelectStatementProvider selectStatement);
 
 }

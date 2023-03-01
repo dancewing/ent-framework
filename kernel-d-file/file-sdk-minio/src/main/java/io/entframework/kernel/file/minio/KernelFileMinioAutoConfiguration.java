@@ -21,16 +21,16 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties({ MinIoProperties.class })
 public class KernelFileMinioAutoConfiguration {
 
-	/**
-	 * 本地文件操作
-	 *
-	 * @date 2020/12/1 14:40
-	 */
-	@Bean
-	@ConditionalOnMissingBean(name = "minIoFileOperator")
-	public FileOperatorApi minIoFileOperator(MinIoProperties minIoProperties,
-			FileServerProperties fileServerProperties) {
-		return new MinIoFileOperator(minIoProperties, fileServerProperties);
-	}
+    /**
+     * 本地文件操作
+     *
+     * @date 2020/12/1 14:40
+     */
+    @Bean
+    @ConditionalOnMissingBean(name = "minIoFileOperator")
+    public FileOperatorApi minIoFileOperator(MinIoProperties minIoProperties,
+            FileServerProperties fileServerProperties) {
+        return new MinIoFileOperator(minIoProperties, fileServerProperties);
+    }
 
 }

@@ -11,14 +11,14 @@ import io.entframework.kernel.db.mds.example.pojo.request.StudentRequest;
 
 public class StudentRequestExt extends StudentRequest {
 
-	private String childTest;
+    private String childTest;
 
-	public String getChildTest() {
-		return childTest;
-	}
+    public String getChildTest() {
+        return childTest;
+    }
 
-	public void setChildTest(String childTest) {
-		this.childTest = childTest;
-	}
+    public void setChildTest(String childTest) {
+        this.childTest = childTest;
+    }
 
 }

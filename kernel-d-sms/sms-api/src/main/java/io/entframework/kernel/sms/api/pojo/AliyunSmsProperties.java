@@ -15,39 +15,39 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "kernel.sms.ali-cloud")
 public class AliyunSmsProperties {
 
-	/**
-	 * accessKeyId
-	 */
-	private String accessKeyId;
+    /**
+     * accessKeyId
+     */
+    private String accessKeyId;
 
-	/**
-	 * accessKeySecret
-	 */
-	private String accessKeySecret;
+    /**
+     * accessKeySecret
+     */
+    private String accessKeySecret;
 
-	/**
-	 * 签名名称
-	 */
-	private String signName;
+    /**
+     * 签名名称
+     */
+    private String signName;
 
-	/**
-	 * 地域id（阿里云sdk默认的，一般不用修改）
-	 */
-	private String regionId = "cn-hangzhou";
+    /**
+     * 地域id（阿里云sdk默认的，一般不用修改）
+     */
+    private String regionId = "cn-hangzhou";
 
-	/**
-	 * domain（阿里云sdk默认的，一般不用修改）
-	 */
-	private String smsDomain = "dysmsapi.aliyuncs.com";
+    /**
+     * domain（阿里云sdk默认的，一般不用修改）
+     */
+    private String smsDomain = "dysmsapi.aliyuncs.com";
 
-	/**
-	 * version（阿里云sdk默认的，一般不用修改）
-	 */
-	private String smsVersion = "2017-05-25";
+    /**
+     * version（阿里云sdk默认的，一般不用修改）
+     */
+    private String smsVersion = "2017-05-25";
 
-	/**
-	 * sms发送（阿里云sdk默认的，一般不用修改）
-	 */
-	private String smsSendAction = "SendSms";
+    /**
+     * sms发送（阿里云sdk默认的，一般不用修改）
+     */
+    private String smsSendAction = "SendSms";
 
 }

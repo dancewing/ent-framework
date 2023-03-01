@@ -30,12 +30,12 @@ import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
  */
 public interface CommonDeleteMapper {
 
-	/**
-	 * Execute a delete statement.
-	 * @param deleteStatement the delete statement
-	 * @return the number of rows affected
-	 */
-	@DeleteProvider(type = SqlProviderAdapter.class, method = "delete")
-	int delete(DeleteStatementProvider deleteStatement);
+    /**
+     * Execute a delete statement.
+     * @param deleteStatement the delete statement
+     * @return the number of rows affected
+     */
+    @DeleteProvider(type = SqlProviderAdapter.class, method = "delete")
+    int delete(DeleteStatementProvider deleteStatement);
 
 }

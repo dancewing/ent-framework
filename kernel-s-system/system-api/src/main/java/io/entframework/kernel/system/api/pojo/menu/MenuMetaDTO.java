@@ -14,18 +14,18 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MenuMetaDTO {
 
-	private String icon;
+    private String icon;
 
-	private String title;
+    private String title;
 
-	private Boolean hideMenu;
+    private Boolean hideMenu;
 
-	private Boolean ignoreKeepAlive;
+    private Boolean ignoreKeepAlive;
 
-	private Boolean showMenu;
+    private Boolean showMenu;
 
-	private Integer orderNo;
+    private Integer orderNo;
 
-	private String frameSrc;
+    private String frameSrc;
 
 }

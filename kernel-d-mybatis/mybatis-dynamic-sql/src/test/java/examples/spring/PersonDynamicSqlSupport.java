@@ -22,44 +22,44 @@ import org.mybatis.dynamic.sql.SqlTable;
 
 public final class PersonDynamicSqlSupport {
 
-	public static final Person person = new Person();
+    public static final Person person = new Person();
 
-	public static final SqlColumn<Integer> id = person.id;
+    public static final SqlColumn<Integer> id = person.id;
 
-	public static final SqlColumn<String> firstName = person.firstName;
+    public static final SqlColumn<String> firstName = person.firstName;
 
-	public static final SqlColumn<LastName> lastName = person.lastName;
+    public static final SqlColumn<LastName> lastName = person.lastName;
 
-	public static final SqlColumn<Date> birthDate = person.birthDate;
+    public static final SqlColumn<Date> birthDate = person.birthDate;
 
-	public static final SqlColumn<Boolean> employed = person.employed;
+    public static final SqlColumn<Boolean> employed = person.employed;
 
-	public static final SqlColumn<String> occupation = person.occupation;
+    public static final SqlColumn<String> occupation = person.occupation;
 
-	public static final SqlColumn<Integer> addressId = person.addressId;
+    public static final SqlColumn<Integer> addressId = person.addressId;
 
-	public static final class Person extends SqlTable {
+    public static final class Person extends SqlTable {
 
-		public final SqlColumn<Integer> id = column("id");
+        public final SqlColumn<Integer> id = column("id");
 
-		public final SqlColumn<String> firstName = column("first_name");
+        public final SqlColumn<String> firstName = column("first_name");
 
-		public final SqlColumn<LastName> lastName = column("last_name")
-				.withParameterTypeConverter(new LastNameParameterConverter());
+        public final SqlColumn<LastName> lastName = column("last_name")
+                .withParameterTypeConverter(new LastNameParameterConverter());
 
-		public final SqlColumn<Date> birthDate = column("birth_date");
+        public final SqlColumn<Date> birthDate = column("birth_date");
 
-		public final SqlColumn<Boolean> employed = column("employed")
-				.withParameterTypeConverter(new YesNoParameterConverter());
+        public final SqlColumn<Boolean> employed = column("employed")
+                .withParameterTypeConverter(new YesNoParameterConverter());
 
-		public final SqlColumn<String> occupation = column("occupation");
+        public final SqlColumn<String> occupation = column("occupation");
 
-		public final SqlColumn<Integer> addressId = column("address_id");
+        public final SqlColumn<Integer> addressId = column("address_id");
 
-		public Person() {
-			super("Person");
-		}
+        public Person() {
+            super("Person");
+        }
 
-	}
+    }
 
 }

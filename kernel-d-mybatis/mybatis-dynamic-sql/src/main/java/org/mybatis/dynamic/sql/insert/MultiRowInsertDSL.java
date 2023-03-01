@@ -32,92 +32,92 @@ import org.mybatis.dynamic.sql.util.StringConstantMapping;
 
 public class MultiRowInsertDSL<T> implements Buildable<MultiRowInsertModel<T>> {
 
-	private final Collection<T> records;
+    private final Collection<T> records;
 
-	private final SqlTable table;
+    private final SqlTable table;
 
-	private final List<AbstractColumnMapping> columnMappings;
+    private final List<AbstractColumnMapping> columnMappings;
 
-	private MultiRowInsertDSL(BatchInsertDSL.AbstractBuilder<T, ?> builder) {
-		this.records = builder.records;
-		this.table = Objects.requireNonNull(builder.table);
-		this.columnMappings = builder.columnMappings;
-	}
+    private MultiRowInsertDSL(BatchInsertDSL.AbstractBuilder<T, ?> builder) {
+        this.records = builder.records;
+        this.table = Objects.requireNonNull(builder.table);
+        this.columnMappings = builder.columnMappings;
+    }
 
-	public <F> ColumnMappingFinisher<F> map(SqlColumn<F> column) {
-		return new ColumnMappingFinisher<>(column);
-	}
+    public <F> ColumnMappingFinisher<F> map(SqlColumn<F> column) {
+        return new ColumnMappingFinisher<>(column);
+    }
 
-	@NotNull
-	@Override
-	public MultiRowInsertModel<T> build() {
-		return MultiRowInsertModel.withRecords(records).withTable(table).withColumnMappings(columnMappings).build();
-	}
+    @NotNull
+    @Override
+    public MultiRowInsertModel<T> build() {
+        return MultiRowInsertModel.withRecords(records).withTable(table).withColumnMappings(columnMappings).build();
+    }
 
-	@SafeVarargs
-	public static <T> IntoGatherer<T> insert(T... records) {
-		return MultiRowInsertDSL.insert(Arrays.asList(records));
-	}
+    @SafeVarargs
+    public static <T> IntoGatherer<T> insert(T... records) {
+        return MultiRowInsertDSL.insert(Arrays.asList(records));
+    }
 
-	public static <T> IntoGatherer<T> insert(Collection<T> records) {
-		return new IntoGatherer<>(records);
-	}
+    public static <T> IntoGatherer<T> insert(Collection<T> records) {
+        return new IntoGatherer<>(records);
+    }
 
-	public static class IntoGatherer<T> {
+    public static class IntoGatherer<T> {
 
-		private final Collection<T> records;
+        private final Collection<T> records;
 
-		private IntoGatherer(Collection<T> records) {
-			this.records = records;
-		}
+        private IntoGatherer(Collection<T> records) {
+            this.records = records;
+        }
 
-		public MultiRowInsertDSL<T> into(SqlTable table) {
-			return new Builder<T>().withRecords(records).withTable(table).build();
-		}
+        public MultiRowInsertDSL<T> into(SqlTable table) {
+            return new Builder<T>().withRecords(records).withTable(table).build();
+        }
 
-	}
+    }
 
-	public class ColumnMappingFinisher<F> {
+    public class ColumnMappingFinisher<F> {
 
-		private final SqlColumn<F> column;
+        private final SqlColumn<F> column;
 
-		public ColumnMappingFinisher(SqlColumn<F> column) {
-			this.column = column;
-		}
+        public ColumnMappingFinisher(SqlColumn<F> column) {
+            this.column = column;
+        }
 
-		public MultiRowInsertDSL<T> toProperty(String property) {
-			columnMappings.add(PropertyMapping.of(column, property));
-			return MultiRowInsertDSL.this;
-		}
+        public MultiRowInsertDSL<T> toProperty(String property) {
+            columnMappings.add(PropertyMapping.of(column, property));
+            return MultiRowInsertDSL.this;
+        }
 
-		public MultiRowInsertDSL<T> toNull() {
-			columnMappings.add(NullMapping.of(column));
-			return MultiRowInsertDSL.this;
-		}
+        public MultiRowInsertDSL<T> toNull() {
+            columnMappings.add(NullMapping.of(column));
+            return MultiRowInsertDSL.this;
+        }
 
-		public MultiRowInsertDSL<T> toConstant(String constant) {
-			columnMappings.add(ConstantMapping.of(column, constant));
-			return MultiRowInsertDSL.this;
-		}
+        public MultiRowInsertDSL<T> toConstant(String constant) {
+            columnMappings.add(ConstantMapping.of(column, constant));
+            return MultiRowInsertDSL.this;
+        }
 
-		public MultiRowInsertDSL<T> toStringConstant(String constant) {
-			columnMappings.add(StringConstantMapping.of(column, constant));
-			return MultiRowInsertDSL.this;
-		}
+        public MultiRowInsertDSL<T> toStringConstant(String constant) {
+            columnMappings.add(StringConstantMapping.of(column, constant));
+            return MultiRowInsertDSL.this;
+        }
 
-	}
+    }
 
-	public static class Builder<T> extends BatchInsertDSL.AbstractBuilder<T, Builder<T>> {
+    public static class Builder<T> extends BatchInsertDSL.AbstractBuilder<T, Builder<T>> {
 
-		@Override
-		protected Builder<T> getThis() {
-			return this;
-		}
+        @Override
+        protected Builder<T> getThis() {
+            return this;
+        }
 
-		public MultiRowInsertDSL<T> build() {
-			return new MultiRowInsertDSL<>(this);
-		}
+        public MultiRowInsertDSL<T> build() {
+            return new MultiRowInsertDSL<>(this);
+        }
 
-	}
+    }
 
 }

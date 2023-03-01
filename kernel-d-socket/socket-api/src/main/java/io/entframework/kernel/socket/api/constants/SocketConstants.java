@@ -10,14 +10,14 @@ package io.entframework.kernel.socket.api.constants;
  */
 public interface SocketConstants {
 
-	/**
-	 * socket模块的名称
-	 */
-	String SOCKET_MODULE_NAME = "kernel-d-socket";
+    /**
+     * socket模块的名称
+     */
+    String SOCKET_MODULE_NAME = "kernel-d-socket";
 
-	/**
-	 * 异常枚举的步进值
-	 */
-	String SOCKET_EXCEPTION_STEP_CODE = "30";
+    /**
+     * 异常枚举的步进值
+     */
+    String SOCKET_EXCEPTION_STEP_CODE = "30";
 
 }

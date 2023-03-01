@@ -22,12 +22,12 @@ import java.util.List;
  */
 public interface SysRoleMenuService extends BaseService<SysRoleMenuRequest, SysRoleMenuResponse, SysRoleMenu> {
 
-	CheckedKeys<Long> getRoleMenuCheckedKeys(List<Long> roleIds);
+    CheckedKeys<Long> getRoleMenuCheckedKeys(List<Long> roleIds);
 
-	void deleteByRoleId(Long roleId);
+    void deleteByRoleId(Long roleId);
 
-	List<SysRoleMenu> getRoleMenus(Collection<Long> roleIds);
+    List<SysRoleMenu> getRoleMenus(Collection<Long> roleIds);
 
-	List<SysRoleMenu> batchCreateEntity(List<SysRoleMenu> request);
+    List<SysRoleMenu> batchCreateEntity(List<SysRoleMenu> request);
 
 }

@@ -22,30 +22,30 @@ import java.util.Map;
 @Slf4j
 public class ClearThreadLocalFilter implements Filter {
 
-	public static final String NAME = "ClearThreadLocalFilter";
+    public static final String NAME = "ClearThreadLocalFilter";
 
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws ServletException, IOException {
-		try {
-			chain.doFilter(request, response);
-		}
-		finally {
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws ServletException, IOException {
+        try {
+            chain.doFilter(request, response);
+        }
+        finally {
 
-			try {
-				Map<String, RemoveThreadLocalApi> beansOfType = SpringUtil.getBeansOfType(RemoveThreadLocalApi.class);
-				if (beansOfType != null) {
-					for (Map.Entry<String, RemoveThreadLocalApi> entry : beansOfType.entrySet()) {
-						RemoveThreadLocalApi removeThreadLocalApi = entry.getValue();
-						removeThreadLocalApi.removeThreadLocalAction();
-					}
-				}
-			}
-			catch (Exception e) {
-				// 清空失败
-				log.error("清空threadLocal失败！", e);
-			}
-		}
-	}
+            try {
+                Map<String, RemoveThreadLocalApi> beansOfType = SpringUtil.getBeansOfType(RemoveThreadLocalApi.class);
+                if (beansOfType != null) {
+                    for (Map.Entry<String, RemoveThreadLocalApi> entry : beansOfType.entrySet()) {
+                        RemoveThreadLocalApi removeThreadLocalApi = entry.getValue();
+                        removeThreadLocalApi.removeThreadLocalAction();
+                    }
+                }
+            }
+            catch (Exception e) {
+                // 清空失败
+                log.error("清空threadLocal失败！", e);
+            }
+        }
+    }
 
 }

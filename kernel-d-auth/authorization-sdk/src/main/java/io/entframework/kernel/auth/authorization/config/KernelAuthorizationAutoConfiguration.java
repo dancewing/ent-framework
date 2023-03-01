@@ -18,10 +18,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KernelAuthorizationAutoConfiguration {
 
-	@Bean
-	@ConditionalOnMissingBean(PermissionServiceApi.class)
-	public PermissionServiceApi permissionServiceApi() {
-		return new PermissionServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(PermissionServiceApi.class)
+    public PermissionServiceApi permissionServiceApi() {
+        return new PermissionServiceImpl();
+    }
 
 }

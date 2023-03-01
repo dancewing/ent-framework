@@ -10,19 +10,19 @@ package io.entframework.kernel.migration.api.constants;
  */
 public interface MigrationConstants {
 
-	/**
-	 * migration模块的名称
-	 */
-	String MIGRATION_MODULE_NAME = "kernel-d-migration";
+    /**
+     * migration模块的名称
+     */
+    String MIGRATION_MODULE_NAME = "kernel-d-migration";
 
-	/**
-	 * 异常枚举的步进值
-	 */
-	String MIGRATION_EXCEPTION_STEP_CODE = "32";
+    /**
+     * 异常枚举的步进值
+     */
+    String MIGRATION_EXCEPTION_STEP_CODE = "32";
 
-	/**
-	 * 名称分隔符
-	 */
-	String NAME_SEPARATOR = "#";
+    /**
+     * 名称分隔符
+     */
+    String NAME_SEPARATOR = "#";
 
 }

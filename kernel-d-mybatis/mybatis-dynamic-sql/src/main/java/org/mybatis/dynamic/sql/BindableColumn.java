@@ -29,30 +29,30 @@ import org.mybatis.dynamic.sql.render.RenderingStrategy;
  */
 public interface BindableColumn<T> extends BasicColumn {
 
-	/**
-	 * Override the base method definition to make it more specific to this interface.
-	 */
-	@Override
-	BindableColumn<T> as(String alias);
+    /**
+     * Override the base method definition to make it more specific to this interface.
+     */
+    @Override
+    BindableColumn<T> as(String alias);
 
-	default Optional<JDBCType> jdbcType() {
-		return Optional.empty();
-	}
+    default Optional<JDBCType> jdbcType() {
+        return Optional.empty();
+    }
 
-	default Optional<String> typeHandler() {
-		return Optional.empty();
-	}
+    default Optional<String> typeHandler() {
+        return Optional.empty();
+    }
 
-	default Optional<RenderingStrategy> renderingStrategy() {
-		return Optional.empty();
-	}
+    default Optional<RenderingStrategy> renderingStrategy() {
+        return Optional.empty();
+    }
 
-	default Object convertParameterType(T value) {
-		return value;
-	}
+    default Object convertParameterType(T value) {
+        return value;
+    }
 
-	default Optional<Class<T>> javaType() {
-		return Optional.empty();
-	}
+    default Optional<Class<T>> javaType() {
+        return Optional.empty();
+    }
 
 }

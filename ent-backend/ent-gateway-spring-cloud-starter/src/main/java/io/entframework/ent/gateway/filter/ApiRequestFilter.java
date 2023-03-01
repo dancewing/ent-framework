@@ -22,37 +22,37 @@ import reactor.core.publisher.Mono;
 @Component
 public class ApiRequestFilter implements GlobalFilter, Ordered {
 
-	private static final String INTERNAL_API_PREFIX = "internal";
+    private static final String INTERNAL_API_PREFIX = "internal";
 
-	private static final Integer NUMBER_2 = 2;
+    private static final Integer NUMBER_2 = 2;
 
-	/**
-	 * Process the Web request and (optionally) delegate to the next {@code WebFilter}
-	 * through the given {@link GatewayFilterChain}.
-	 * @param exchange the current server exchange
-	 * @param chain provides a way to delegate to the next filter
-	 * @return {@code Mono<Void>} to indicate when request processing is complete
-	 */
-	@Override
-	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-		// 如果访问service的internal 接口，gateway直接返回错误
-		ServerHttpRequest request = exchange.getRequest().mutate().build();
+    /**
+     * Process the Web request and (optionally) delegate to the next {@code WebFilter}
+     * through the given {@link GatewayFilterChain}.
+     * @param exchange the current server exchange
+     * @param chain provides a way to delegate to the next filter
+     * @return {@code Mono<Void>} to indicate when request processing is complete
+     */
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        // 如果访问service的internal 接口，gateway直接返回错误
+        ServerHttpRequest request = exchange.getRequest().mutate().build();
 
-		String rawPath = request.getURI().getRawPath();
-		String[] paths = StringUtils.split(rawPath, "/");
-		if (paths != null && paths.length >= NUMBER_2 && INTERNAL_API_PREFIX.equalsIgnoreCase(paths[1])) {
-			ServerHttpResponse response = exchange.getResponse();
-			response.setStatusCode(HttpStatus.BAD_REQUEST);
-			DataBuffer buff = response.bufferFactory().wrap(HttpStatus.BAD_REQUEST.getReasonPhrase().getBytes());
-			return response.writeWith(Mono.just(buff));
-		}
+        String rawPath = request.getURI().getRawPath();
+        String[] paths = StringUtils.split(rawPath, "/");
+        if (paths != null && paths.length >= NUMBER_2 && INTERNAL_API_PREFIX.equalsIgnoreCase(paths[1])) {
+            ServerHttpResponse response = exchange.getResponse();
+            response.setStatusCode(HttpStatus.BAD_REQUEST);
+            DataBuffer buff = response.bufferFactory().wrap(HttpStatus.BAD_REQUEST.getReasonPhrase().getBytes());
+            return response.writeWith(Mono.just(buff));
+        }
 
-		return chain.filter(exchange);
-	}
+        return chain.filter(exchange);
+    }
 
-	@Override
-	public int getOrder() {
-		return -1000;
-	}
+    @Override
+    public int getOrder() {
+        return -1000;
+    }
 
 }

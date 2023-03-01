@@ -15,6 +15,6 @@ import java.util.List;
 @ConfigurationProperties("kernel.gateway.document")
 public class RouteProperties {
 
-	private final List<RouteResource> resources = new ArrayList<>();
+    private final List<RouteResource> resources = new ArrayList<>();
 
 }

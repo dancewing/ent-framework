@@ -25,76 +25,76 @@ import org.mybatis.generator.api.dom.java.Parameter;
 
 public class MethodParts {
 
-	private final List<String> annotations;
+    private final List<String> annotations;
 
-	private final List<String> bodyLines;
+    private final List<String> bodyLines;
 
-	private final Set<FullyQualifiedJavaType> imports;
+    private final Set<FullyQualifiedJavaType> imports;
 
-	private final List<Parameter> parameters;
+    private final List<Parameter> parameters;
 
-	private MethodParts(Builder builder) {
-		imports = builder.imports;
-		bodyLines = builder.bodyLines;
-		parameters = builder.parameters;
-		annotations = builder.annotations;
-	}
+    private MethodParts(Builder builder) {
+        imports = builder.imports;
+        bodyLines = builder.bodyLines;
+        parameters = builder.parameters;
+        annotations = builder.annotations;
+    }
 
-	public Set<FullyQualifiedJavaType> getImports() {
-		return imports;
-	}
+    public Set<FullyQualifiedJavaType> getImports() {
+        return imports;
+    }
 
-	public List<String> getAnnotations() {
-		return annotations;
-	}
+    public List<String> getAnnotations() {
+        return annotations;
+    }
 
-	public List<String> getBodyLines() {
-		return bodyLines;
-	}
+    public List<String> getBodyLines() {
+        return bodyLines;
+    }
 
-	public List<Parameter> getParameters() {
-		return parameters;
-	}
+    public List<Parameter> getParameters() {
+        return parameters;
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private final List<String> bodyLines = new ArrayList<>();
+        private final List<String> bodyLines = new ArrayList<>();
 
-		private final Set<FullyQualifiedJavaType> imports = new HashSet<>();
+        private final Set<FullyQualifiedJavaType> imports = new HashSet<>();
 
-		private final List<Parameter> parameters = new ArrayList<>();
+        private final List<Parameter> parameters = new ArrayList<>();
 
-		private final List<String> annotations = new ArrayList<>();
+        private final List<String> annotations = new ArrayList<>();
 
-		public Builder withAnnotation(String annotation) {
-			annotations.add(annotation);
-			return this;
-		}
+        public Builder withAnnotation(String annotation) {
+            annotations.add(annotation);
+            return this;
+        }
 
-		public Builder withBodyLine(String bodyLine) {
-			this.bodyLines.add(bodyLine);
-			return this;
-		}
+        public Builder withBodyLine(String bodyLine) {
+            this.bodyLines.add(bodyLine);
+            return this;
+        }
 
-		public Builder withImport(FullyQualifiedJavaType importedType) {
-			this.imports.add(importedType);
-			return this;
-		}
+        public Builder withImport(FullyQualifiedJavaType importedType) {
+            this.imports.add(importedType);
+            return this;
+        }
 
-		public Builder withImports(Set<FullyQualifiedJavaType> imports) {
-			this.imports.addAll(imports);
-			return this;
-		}
+        public Builder withImports(Set<FullyQualifiedJavaType> imports) {
+            this.imports.addAll(imports);
+            return this;
+        }
 
-		public Builder withParameter(Parameter parameter) {
-			parameters.add(parameter);
-			return this;
-		}
+        public Builder withParameter(Parameter parameter) {
+            parameters.add(parameter);
+            return this;
+        }
 
-		public MethodParts build() {
-			return new MethodParts(this);
-		}
+        public MethodParts build() {
+            return new MethodParts(this);
+        }
 
-	}
+    }
 
 }

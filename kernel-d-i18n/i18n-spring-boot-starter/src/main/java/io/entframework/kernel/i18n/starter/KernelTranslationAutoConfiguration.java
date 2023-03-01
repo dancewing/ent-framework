@@ -21,19 +21,19 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = { "io.entframework.kernel.i18n" })
 public class KernelTranslationAutoConfiguration {
 
-	/**
-	 * 多语言翻译条目存放容器
-	 *
-	 * @date 2021/1/24 19:42
-	 */
-	@Bean
-	public TranslationApi translationApi() {
-		return new TranslationContainer();
-	}
+    /**
+     * 多语言翻译条目存放容器
+     *
+     * @date 2021/1/24 19:42
+     */
+    @Bean
+    public TranslationApi translationApi() {
+        return new TranslationContainer();
+    }
 
-	@Bean
-	public KernelTranslationModuleRegister kernelTranslationModuleRegister() {
-		return new KernelTranslationModuleRegister();
-	}
+    @Bean
+    public KernelTranslationModuleRegister kernelTranslationModuleRegister() {
+        return new KernelTranslationModuleRegister();
+    }
 
 }

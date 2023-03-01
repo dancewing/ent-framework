@@ -24,72 +24,72 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HutoolTimerExeServiceImpl implements TimerExeService {
 
-	private boolean timerStarted = false;
+    private boolean timerStarted = false;
 
-	@Override
-	public void start() {
+    @Override
+    public void start() {
 
-		// ApplicationStartedListener 会被触发两次导致启动失败，临时方案
-		// 本身这个Timer实现的方式意义不大
-		if (!timerStarted) {
-			// 设置秒级别的启用
-			CronUtil.setMatchSecond(true);
-			// 启动定时器执行器
-			CronUtil.start();
-			timerStarted = true;
-		}
+        // ApplicationStartedListener 会被触发两次导致启动失败，临时方案
+        // 本身这个Timer实现的方式意义不大
+        if (!timerStarted) {
+            // 设置秒级别的启用
+            CronUtil.setMatchSecond(true);
+            // 启动定时器执行器
+            CronUtil.start();
+            timerStarted = true;
+        }
 
-	}
+    }
 
-	@Override
-	public void stop() {
-		CronUtil.stop();
-	}
+    @Override
+    public void stop() {
+        CronUtil.stop();
+    }
 
-	@Override
-	public void startTimer(String taskId, String cron, String className, String params) {
+    @Override
+    public void startTimer(String taskId, String cron, String className, String params) {
 
-		// 判断任务id是否为空
-		if (CharSequenceUtil.isBlank(taskId)) {
-			throw new TimerException(TimerExceptionEnum.PARAM_HAS_NULL, "taskId");
-		}
+        // 判断任务id是否为空
+        if (CharSequenceUtil.isBlank(taskId)) {
+            throw new TimerException(TimerExceptionEnum.PARAM_HAS_NULL, "taskId");
+        }
 
-		// 判断任务cron表达式是否为空
-		if (CharSequenceUtil.isBlank(cron)) {
-			throw new TimerException(TimerExceptionEnum.PARAM_HAS_NULL, "cron");
-		}
+        // 判断任务cron表达式是否为空
+        if (CharSequenceUtil.isBlank(cron)) {
+            throw new TimerException(TimerExceptionEnum.PARAM_HAS_NULL, "cron");
+        }
 
-		// 判断类名称是否为空
-		if (CharSequenceUtil.isBlank(className)) {
-			throw new TimerException(TimerExceptionEnum.PARAM_HAS_NULL, "className");
-		}
+        // 判断类名称是否为空
+        if (CharSequenceUtil.isBlank(className)) {
+            throw new TimerException(TimerExceptionEnum.PARAM_HAS_NULL, "className");
+        }
 
-		// 预加载类看是否存在此定时任务类
-		try {
-			Class.forName(className);
-		}
-		catch (ClassNotFoundException e) {
-			throw new TimerException(TimerExceptionEnum.CLASS_NOT_FOUND, className);
-		}
+        // 预加载类看是否存在此定时任务类
+        try {
+            Class.forName(className);
+        }
+        catch (ClassNotFoundException e) {
+            throw new TimerException(TimerExceptionEnum.CLASS_NOT_FOUND, className);
+        }
 
-		// 定义hutool的任务
-		Task task = () -> {
-			try {
-				TimerAction timerAction = (TimerAction) SpringUtil.getBean(Class.forName(className));
-				timerAction.action(params);
-			}
-			catch (ClassNotFoundException e) {
-				log.error("任务执行异常：{}", e.getMessage());
-			}
-		};
+        // 定义hutool的任务
+        Task task = () -> {
+            try {
+                TimerAction timerAction = (TimerAction) SpringUtil.getBean(Class.forName(className));
+                timerAction.action(params);
+            }
+            catch (ClassNotFoundException e) {
+                log.error("任务执行异常：{}", e.getMessage());
+            }
+        };
 
-		// 开始执行任务
-		CronUtil.schedule(taskId, cron, task);
-	}
+        // 开始执行任务
+        CronUtil.schedule(taskId, cron, task);
+    }
 
-	@Override
-	public void stopTimer(String taskId) {
-		CronUtil.remove(taskId);
-	}
+    @Override
+    public void stopTimer(String taskId) {
+        CronUtil.remove(taskId);
+    }
 
 }

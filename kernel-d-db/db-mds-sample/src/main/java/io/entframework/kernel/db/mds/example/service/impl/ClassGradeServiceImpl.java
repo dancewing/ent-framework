@@ -9,15 +9,15 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ClassGradeServiceImpl extends BaseServiceImpl<ClassGradeRequest, ClassGradeResponse, ClassGrade>
-		implements ClassGradeService {
+        implements ClassGradeService {
 
-	public ClassGradeServiceImpl() {
-		super(ClassGradeRequest.class, ClassGradeResponse.class, ClassGrade.class);
-	}
+    public ClassGradeServiceImpl() {
+        super(ClassGradeRequest.class, ClassGradeResponse.class, ClassGrade.class);
+    }
 
-	public ClassGradeServiceImpl(Class<? extends ClassGradeRequest> requestClass,
-			Class<? extends ClassGradeResponse> responseClass, Class<? extends ClassGrade> entityClass) {
-		super(requestClass, responseClass, entityClass);
-	}
+    public ClassGradeServiceImpl(Class<? extends ClassGradeRequest> requestClass,
+            Class<? extends ClassGradeResponse> responseClass, Class<? extends ClassGrade> entityClass) {
+        super(requestClass, responseClass, entityClass);
+    }
 
 }

@@ -17,24 +17,24 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KernelSystemHomeStatisticsAutoConfiguration {
 
-	/**
-	 * 接口统计的AOP
-	 *
-	 * @date 2022/2/9 14:00
-	 */
-	@Bean
-	public InterfaceStatisticsAop interfaceStatisticsAspect() {
-		return new InterfaceStatisticsAop();
-	}
+    /**
+     * 接口统计的AOP
+     *
+     * @date 2022/2/9 14:00
+     */
+    @Bean
+    public InterfaceStatisticsAop interfaceStatisticsAspect() {
+        return new InterfaceStatisticsAop();
+    }
 
-	/**
-	 * 定时将统计数据存入数据库
-	 *
-	 * @date 2022/2/9 17:58
-	 */
-	@Bean
-	public InterfaceStatisticsTimer interfaceStatisticsHolder() {
-		return new InterfaceStatisticsTimer();
-	}
+    /**
+     * 定时将统计数据存入数据库
+     *
+     * @date 2022/2/9 17:58
+     */
+    @Bean
+    public InterfaceStatisticsTimer interfaceStatisticsHolder() {
+        return new InterfaceStatisticsTimer();
+    }
 
 }

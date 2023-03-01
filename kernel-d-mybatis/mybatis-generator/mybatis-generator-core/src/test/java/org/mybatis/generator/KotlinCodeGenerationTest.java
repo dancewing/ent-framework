@@ -40,30 +40,30 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class KotlinCodeGenerationTest {
 
-	@ParameterizedTest
-	@MethodSource("generateKotlinFiles")
-	void testKotlinParse(GeneratedKotlinFile generatedKotlinFile) {
-		// for now, just let the test pass. if we find a good Kotlin parser, then mimic
-		// the
-		// function of the Java test by trying to parse generated code
-		assertTrue(true);
-	}
+    @ParameterizedTest
+    @MethodSource("generateKotlinFiles")
+    void testKotlinParse(GeneratedKotlinFile generatedKotlinFile) {
+        // for now, just let the test pass. if we find a good Kotlin parser, then mimic
+        // the
+        // function of the Java test by trying to parse generated code
+        assertTrue(true);
+    }
 
-	static List<GeneratedKotlinFile> generateKotlinFiles() throws Exception {
-		JavaCodeGenerationTest.createDatabase();
-		return generateInnerKotlinFiles("/scripts/generatorConfig-kotlin.xml");
-	}
+    static List<GeneratedKotlinFile> generateKotlinFiles() throws Exception {
+        JavaCodeGenerationTest.createDatabase();
+        return generateInnerKotlinFiles("/scripts/generatorConfig-kotlin.xml");
+    }
 
-	static List<GeneratedKotlinFile> generateInnerKotlinFiles(String configFile) throws Exception {
-		List<String> warnings = new ArrayList<>();
-		ConfigurationParser cp = new ConfigurationParser(warnings);
-		Configuration config = cp.parseConfiguration(KotlinCodeGenerationTest.class.getResourceAsStream(configFile));
+    static List<GeneratedKotlinFile> generateInnerKotlinFiles(String configFile) throws Exception {
+        List<String> warnings = new ArrayList<>();
+        ConfigurationParser cp = new ConfigurationParser(warnings);
+        Configuration config = cp.parseConfiguration(KotlinCodeGenerationTest.class.getResourceAsStream(configFile));
 
-		DefaultShellCallback shellCallback = new DefaultShellCallback(true);
+        DefaultShellCallback shellCallback = new DefaultShellCallback(true);
 
-		MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, shellCallback, warnings);
-		myBatisGenerator.generate(null, null, null, false);
-		return myBatisGenerator.getGeneratedKotlinFiles();
-	}
+        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, shellCallback, warnings);
+        myBatisGenerator.generate(null, null, null, false);
+        return myBatisGenerator.getGeneratedKotlinFiles();
+    }
 
 }

@@ -33,8 +33,8 @@ import org.mybatis.generator.config.Context;
  */
 public interface JavaFormatter {
 
-	void setContext(Context context);
+    void setContext(Context context);
 
-	String getFormattedContent(CompilationUnit compilationUnit);
+    String getFormattedContent(CompilationUnit compilationUnit);
 
 }

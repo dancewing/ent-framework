@@ -29,36 +29,36 @@ import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 @EnableConfigurationProperties({ XssProperties.class })
 public class KernelXssAutoConfiguration {
 
-	/**
-	 * XSS Filter过滤器，用来过滤param之类的传参
-	 *
-	 * @date 2021/1/13 23:09
-	 */
-	@Bean
-	@ConditionalOnProperty(prefix = "kernel.security.xss", name = "enabled", havingValue = "true",
-			matchIfMissing = true)
-	public FilterRegistrationBean<XssFilter> xssFilterFilterRegistrationBean(XssProperties properties) {
-		List<String> split = CharSequenceUtil.split(properties.getUrlPatterns(), ',');
-		String[] urlPatterns = ArrayUtil.toArray(split, String.class);
-		FilterRegistrationBean<XssFilter> xssFilterFilterRegistrationBean = new FilterRegistrationBean<>();
-		xssFilterFilterRegistrationBean.setFilter(new XssFilter(properties));
-		xssFilterFilterRegistrationBean.addUrlPatterns(urlPatterns);
-		xssFilterFilterRegistrationBean.setName(XssFilter.FILTER_NAME);
-		xssFilterFilterRegistrationBean.setOrder(HIGHEST_PRECEDENCE);
-		return xssFilterFilterRegistrationBean;
-	}
+    /**
+     * XSS Filter过滤器，用来过滤param之类的传参
+     *
+     * @date 2021/1/13 23:09
+     */
+    @Bean
+    @ConditionalOnProperty(prefix = "kernel.security.xss", name = "enabled", havingValue = "true",
+            matchIfMissing = true)
+    public FilterRegistrationBean<XssFilter> xssFilterFilterRegistrationBean(XssProperties properties) {
+        List<String> split = CharSequenceUtil.split(properties.getUrlPatterns(), ',');
+        String[] urlPatterns = ArrayUtil.toArray(split, String.class);
+        FilterRegistrationBean<XssFilter> xssFilterFilterRegistrationBean = new FilterRegistrationBean<>();
+        xssFilterFilterRegistrationBean.setFilter(new XssFilter(properties));
+        xssFilterFilterRegistrationBean.addUrlPatterns(urlPatterns);
+        xssFilterFilterRegistrationBean.setName(XssFilter.FILTER_NAME);
+        xssFilterFilterRegistrationBean.setOrder(HIGHEST_PRECEDENCE);
+        return xssFilterFilterRegistrationBean;
+    }
 
-	/**
-	 * XSS的json反序列化器，针对json的传参
-	 *
-	 * @date 2021/1/13 23:09
-	 */
-	@Bean
-	@ConditionalOnProperty(prefix = "kernel.security.xss", name = "enabled", havingValue = "true",
-			matchIfMissing = true)
-	public Jackson2ObjectMapperBuilderCustomizer xssJackson2ObjectMapperBuilderCustomizer(XssProperties properties) {
-		return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder.deserializerByType(String.class,
-				new XssJacksonDeserializer(properties));
-	}
+    /**
+     * XSS的json反序列化器，针对json的传参
+     *
+     * @date 2021/1/13 23:09
+     */
+    @Bean
+    @ConditionalOnProperty(prefix = "kernel.security.xss", name = "enabled", havingValue = "true",
+            matchIfMissing = true)
+    public Jackson2ObjectMapperBuilderCustomizer xssJackson2ObjectMapperBuilderCustomizer(XssProperties properties) {
+        return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder.deserializerByType(String.class,
+                new XssJacksonDeserializer(properties));
+    }
 
 }

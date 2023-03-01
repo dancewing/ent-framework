@@ -27,39 +27,39 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties({ ScannerProperties.class, DevOpsReportProperties.class })
 public class KernelResourceAutoConfiguration {
 
-	@Value("${spring.application.name:}")
-	private String springApplicationName;
+    @Value("${spring.application.name:}")
+    private String springApplicationName;
 
-	/**
-	 * 资源扫描器
-	 *
-	 * @date 2020/12/1 17:29
-	 */
-	@Bean
-	@ConditionalOnMissingBean(ApiResourceScanner.class)
-	@ConditionalOnProperty(prefix = ScannerConstants.SCANNER_PREFIX, name = "open", havingValue = "true")
-	public ApiResourceScanner apiResourceScanner(ResourceCollectorApi resourceCollectorApi,
-			ScannerProperties scannerProperties) {
-		if (CharSequenceUtil.isBlank(scannerProperties.getAppCode())
-				&& CharSequenceUtil.isBlank(springApplicationName)) {
-			throw new RuntimeException("请设置spring.application.name或者kernel.scanner.app-code");
-		}
-		if (CharSequenceUtil.isBlank(scannerProperties.getAppCode())) {
-			scannerProperties.setAppCode(springApplicationName);
-		}
-		return new ApiResourceScanner(resourceCollectorApi, scannerProperties);
-	}
+    /**
+     * 资源扫描器
+     *
+     * @date 2020/12/1 17:29
+     */
+    @Bean
+    @ConditionalOnMissingBean(ApiResourceScanner.class)
+    @ConditionalOnProperty(prefix = ScannerConstants.SCANNER_PREFIX, name = "open", havingValue = "true")
+    public ApiResourceScanner apiResourceScanner(ResourceCollectorApi resourceCollectorApi,
+            ScannerProperties scannerProperties) {
+        if (CharSequenceUtil.isBlank(scannerProperties.getAppCode())
+                && CharSequenceUtil.isBlank(springApplicationName)) {
+            throw new RuntimeException("请设置spring.application.name或者kernel.scanner.app-code");
+        }
+        if (CharSequenceUtil.isBlank(scannerProperties.getAppCode())) {
+            scannerProperties.setAppCode(springApplicationName);
+        }
+        return new ApiResourceScanner(resourceCollectorApi, scannerProperties);
+    }
 
-	/**
-	 * 资源搜集器
-	 *
-	 * @date 2020/12/1 17:29
-	 */
-	@Bean
-	@ConditionalOnMissingBean(ResourceCollectorApi.class)
-	@ConditionalOnProperty(prefix = ScannerConstants.SCANNER_PREFIX, name = "open", havingValue = "true")
-	public ResourceCollectorApi resourceCollectorApi() {
-		return new DefaultResourceCollector();
-	}
+    /**
+     * 资源搜集器
+     *
+     * @date 2020/12/1 17:29
+     */
+    @Bean
+    @ConditionalOnMissingBean(ResourceCollectorApi.class)
+    @ConditionalOnProperty(prefix = ScannerConstants.SCANNER_PREFIX, name = "open", havingValue = "true")
+    public ResourceCollectorApi resourceCollectorApi() {
+        return new DefaultResourceCollector();
+    }
 
 }

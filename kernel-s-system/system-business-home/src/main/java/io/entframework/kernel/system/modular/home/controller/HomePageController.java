@@ -30,37 +30,37 @@ import java.util.List;
 @ApiResource(name = "首页")
 public class HomePageController {
 
-	@Resource
-	private HomePageService homePageService;
+    @Resource
+    private HomePageService homePageService;
 
-	/**
-	 * 查询在线用户列表
-	 *
-	 * @date 2022/1/25 14:11
-	 */
-	@GetResource(name = "查询在线用户列表", path = "/home-page/get-online-user-list", requiredPermission = false)
-	public ResponseData<OnlineUserStat> getOnlineUserList(OnlineUserRequest onlineUserRequest) {
-		return ResponseData.ok(homePageService.getOnlineUserList(onlineUserRequest));
-	}
+    /**
+     * 查询在线用户列表
+     *
+     * @date 2022/1/25 14:11
+     */
+    @GetResource(name = "查询在线用户列表", path = "/home-page/get-online-user-list", requiredPermission = false)
+    public ResponseData<OnlineUserStat> getOnlineUserList(OnlineUserRequest onlineUserRequest) {
+        return ResponseData.ok(homePageService.getOnlineUserList(onlineUserRequest));
+    }
 
-	/**
-	 * 获取首页企业和公司信息
-	 *
-	 * @date 2022/2/9 10:12
-	 */
-	@GetResource(name = "获取首页企业和公司信息", path = "/home-page/get-home-company-info", requiredPermission = false)
-	public ResponseData<HomeCompanyInfo> getHomeCompanyInfo() {
-		return ResponseData.ok(homePageService.getHomeCompanyInfo());
-	}
+    /**
+     * 获取首页企业和公司信息
+     *
+     * @date 2022/2/9 10:12
+     */
+    @GetResource(name = "获取首页企业和公司信息", path = "/home-page/get-home-company-info", requiredPermission = false)
+    public ResponseData<HomeCompanyInfo> getHomeCompanyInfo() {
+        return ResponseData.ok(homePageService.getHomeCompanyInfo());
+    }
 
-	/**
-	 * 获取常用功能接口
-	 *
-	 * @date 2022/2/10 11:34
-	 */
-	@GetResource(name = "获取常用功能接口", path = "/home-page/get-common-functions", requiredPermission = false)
-	public ResponseData<List<SysMenu>> getCommonFunctions() {
-		return ResponseData.ok(homePageService.getCommonFunctions());
-	}
+    /**
+     * 获取常用功能接口
+     *
+     * @date 2022/2/10 11:34
+     */
+    @GetResource(name = "获取常用功能接口", path = "/home-page/get-common-functions", requiredPermission = false)
+    public ResponseData<List<SysMenu>> getCommonFunctions() {
+        return ResponseData.ok(homePageService.getCommonFunctions());
+    }
 
 }

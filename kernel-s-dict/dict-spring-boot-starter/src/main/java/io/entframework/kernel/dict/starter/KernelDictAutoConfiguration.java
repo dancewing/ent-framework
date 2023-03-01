@@ -19,9 +19,9 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = { "io.entframework.kernel.dict" })
 public class KernelDictAutoConfiguration {
 
-	@Bean
-	public KernelDictModuleRegister kernelDictModuleRegister() {
-		return new KernelDictModuleRegister();
-	}
+    @Bean
+    public KernelDictModuleRegister kernelDictModuleRegister() {
+        return new KernelDictModuleRegister();
+    }
 
 }

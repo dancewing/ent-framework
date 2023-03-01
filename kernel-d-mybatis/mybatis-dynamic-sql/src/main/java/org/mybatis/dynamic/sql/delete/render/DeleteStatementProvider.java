@@ -21,8 +21,8 @@ import java.util.Map;
 
 public interface DeleteStatementProvider extends StatementProvider {
 
-	Map<String, Object> getParameters();
+    Map<String, Object> getParameters();
 
-	String getDeleteStatement();
+    String getDeleteStatement();
 
 }

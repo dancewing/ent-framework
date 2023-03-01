@@ -23,23 +23,23 @@ import org.mybatis.dynamic.sql.BindableColumn;
 
 public class Divide<T> extends OperatorFunction<T> {
 
-	private Divide(BindableColumn<T> firstColumn, BasicColumn secondColumn, List<BasicColumn> subsequentColumns) {
-		super("/", firstColumn, secondColumn, subsequentColumns); //$NON-NLS-1$
-	}
+    private Divide(BindableColumn<T> firstColumn, BasicColumn secondColumn, List<BasicColumn> subsequentColumns) {
+        super("/", firstColumn, secondColumn, subsequentColumns); //$NON-NLS-1$
+    }
 
-	@Override
-	protected Divide<T> copy() {
-		return new Divide<>(column, secondColumn, subsequentColumns);
-	}
+    @Override
+    protected Divide<T> copy() {
+        return new Divide<>(column, secondColumn, subsequentColumns);
+    }
 
-	public static <T> Divide<T> of(BindableColumn<T> firstColumn, BasicColumn secondColumn,
-			BasicColumn... subsequentColumns) {
-		return of(firstColumn, secondColumn, Arrays.asList(subsequentColumns));
-	}
+    public static <T> Divide<T> of(BindableColumn<T> firstColumn, BasicColumn secondColumn,
+            BasicColumn... subsequentColumns) {
+        return of(firstColumn, secondColumn, Arrays.asList(subsequentColumns));
+    }
 
-	public static <T> Divide<T> of(BindableColumn<T> firstColumn, BasicColumn secondColumn,
-			List<BasicColumn> subsequentColumns) {
-		return new Divide<>(firstColumn, secondColumn, subsequentColumns);
-	}
+    public static <T> Divide<T> of(BindableColumn<T> firstColumn, BasicColumn secondColumn,
+            List<BasicColumn> subsequentColumns) {
+        return new Divide<>(firstColumn, secondColumn, subsequentColumns);
+    }
 
 }

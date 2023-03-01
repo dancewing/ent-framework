@@ -32,38 +32,38 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties({ SysLogProperties.class })
 public class KernelLogAutoConfiguration {
 
-	/**
-	 * 日志管理器
-	 * @param sysLogProperties 系统日志配置文件
-	 * @date 2020/12/20 18:53
-	 */
-	@Bean
-	public LogManagerApi logManagerApi(SysLogProperties sysLogProperties) {
+    /**
+     * 日志管理器
+     * @param sysLogProperties 系统日志配置文件
+     * @date 2020/12/20 18:53
+     */
+    @Bean
+    public LogManagerApi logManagerApi(SysLogProperties sysLogProperties) {
 
-		// 如果类型是文件
-		if (CharSequenceUtil.isNotBlank(sysLogProperties.getType())
-				&& LogSaveTypeEnum.FILE.getCode().equals(sysLogProperties.getType())) {
+        // 如果类型是文件
+        if (CharSequenceUtil.isNotBlank(sysLogProperties.getType())
+                && LogSaveTypeEnum.FILE.getCode().equals(sysLogProperties.getType())) {
 
-			return new FileLogManagerServiceImpl(sysLogProperties.getFileSavePath());
-		}
+            return new FileLogManagerServiceImpl(sysLogProperties.getFileSavePath());
+        }
 
-		// 其他情况用数据库存储日志
-		return new DbLogManagerServiceImpl();
-	}
+        // 其他情况用数据库存储日志
+        return new DbLogManagerServiceImpl();
+    }
 
-	/**
-	 * 日志记录的api
-	 *
-	 * @date 2021/3/4 22:16
-	 */
-	@Bean
-	public LogRecordApi logRecordApi(SysLogService sysLogService) {
-		return new DbLogRecordServiceImpl(new LogManagerThreadPool(), sysLogService);
-	}
+    /**
+     * 日志记录的api
+     *
+     * @date 2021/3/4 22:16
+     */
+    @Bean
+    public LogRecordApi logRecordApi(SysLogService sysLogService) {
+        return new DbLogRecordServiceImpl(new LogManagerThreadPool(), sysLogService);
+    }
 
-	@Bean
-	public KernelLogModuleRegister kernelLogModuleRegister() {
-		return new KernelLogModuleRegister();
-	}
+    @Bean
+    public KernelLogModuleRegister kernelLogModuleRegister() {
+        return new KernelLogModuleRegister();
+    }
 
 }

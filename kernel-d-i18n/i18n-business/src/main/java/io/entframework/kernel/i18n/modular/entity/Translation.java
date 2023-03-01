@@ -22,60 +22,60 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @Table(value = "sys_translation", sqlSupport = TranslationDynamicSqlSupport.class, tableProperty = "translation")
 public class Translation extends BaseEntity {
 
-	/**
-	 * 主键id
-	 */
-	@Id
-	@Column(name = "tran_id", jdbcType = JDBCType.BIGINT)
-	private Long tranId;
+    /**
+     * 主键id
+     */
+    @Id
+    @Column(name = "tran_id", jdbcType = JDBCType.BIGINT)
+    private Long tranId;
 
-	/**
-	 * 编码
-	 */
-	@Column(name = "tran_code", jdbcType = JDBCType.VARCHAR)
-	private String tranCode;
+    /**
+     * 编码
+     */
+    @Column(name = "tran_code", jdbcType = JDBCType.VARCHAR)
+    private String tranCode;
 
-	/**
-	 * 多语言条例名称
-	 */
-	@Column(name = "tran_name", jdbcType = JDBCType.VARCHAR)
-	private String tranName;
+    /**
+     * 多语言条例名称
+     */
+    @Column(name = "tran_name", jdbcType = JDBCType.VARCHAR)
+    private String tranName;
 
-	/**
-	 * 语种字典
-	 */
-	@Column(name = "tran_language_code", jdbcType = JDBCType.VARCHAR)
-	private String tranLanguageCode;
+    /**
+     * 语种字典
+     */
+    @Column(name = "tran_language_code", jdbcType = JDBCType.VARCHAR)
+    private String tranLanguageCode;
 
-	/**
-	 * 翻译的值
-	 */
-	@Column(name = "tran_value", jdbcType = JDBCType.VARCHAR)
-	private String tranValue;
+    /**
+     * 翻译的值
+     */
+    @Column(name = "tran_value", jdbcType = JDBCType.VARCHAR)
+    private String tranValue;
 
-	public Translation tranId(Long tranId) {
-		this.tranId = tranId;
-		return this;
-	}
+    public Translation tranId(Long tranId) {
+        this.tranId = tranId;
+        return this;
+    }
 
-	public Translation tranCode(String tranCode) {
-		this.tranCode = tranCode;
-		return this;
-	}
+    public Translation tranCode(String tranCode) {
+        this.tranCode = tranCode;
+        return this;
+    }
 
-	public Translation tranName(String tranName) {
-		this.tranName = tranName;
-		return this;
-	}
+    public Translation tranName(String tranName) {
+        this.tranName = tranName;
+        return this;
+    }
 
-	public Translation tranLanguageCode(String tranLanguageCode) {
-		this.tranLanguageCode = tranLanguageCode;
-		return this;
-	}
+    public Translation tranLanguageCode(String tranLanguageCode) {
+        this.tranLanguageCode = tranLanguageCode;
+        return this;
+    }
 
-	public Translation tranValue(String tranValue) {
-		this.tranValue = tranValue;
-		return this;
-	}
+    public Translation tranValue(String tranValue) {
+        this.tranValue = tranValue;
+        return this;
+    }
 
 }

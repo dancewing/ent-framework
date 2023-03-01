@@ -14,6 +14,6 @@ import io.entframework.kernel.security.request.encrypt.constants.EncryptionConst
  */
 public class EncryptionRsaHolder {
 
-	public static RSA STATIC_RSA = new RSA(EncryptionConstants.PRIVATE_KEY, EncryptionConstants.PUBLIC_KEY);
+    public static RSA STATIC_RSA = new RSA(EncryptionConstants.PRIVATE_KEY, EncryptionConstants.PUBLIC_KEY);
 
 }

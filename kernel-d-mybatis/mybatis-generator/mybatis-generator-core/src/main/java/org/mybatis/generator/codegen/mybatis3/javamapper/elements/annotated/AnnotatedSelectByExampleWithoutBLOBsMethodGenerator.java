@@ -22,26 +22,26 @@ import org.mybatis.generator.codegen.mybatis3.javamapper.elements.SelectByExampl
 
 public class AnnotatedSelectByExampleWithoutBLOBsMethodGenerator extends SelectByExampleWithoutBLOBsMethodGenerator {
 
-	public AnnotatedSelectByExampleWithoutBLOBsMethodGenerator() {
-		super();
-	}
+    public AnnotatedSelectByExampleWithoutBLOBsMethodGenerator() {
+        super();
+    }
 
-	@Override
-	public void addMapperAnnotations(Interface interfaze, Method method) {
-		FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(introspectedTable.getMyBatis3SqlProviderType());
+    @Override
+    public void addMapperAnnotations(Interface interfaze, Method method) {
+        FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(introspectedTable.getMyBatis3SqlProviderType());
 
-		String s = "@SelectProvider(type=" //$NON-NLS-1$
-				+ fqjt.getShortName() + ".class, method=\"" //$NON-NLS-1$
-				+ introspectedTable.getSelectByExampleStatementId() + "\")"; //$NON-NLS-1$
-		method.addAnnotation(s);
+        String s = "@SelectProvider(type=" //$NON-NLS-1$
+                + fqjt.getShortName() + ".class, method=\"" //$NON-NLS-1$
+                + introspectedTable.getSelectByExampleStatementId() + "\")"; //$NON-NLS-1$
+        method.addAnnotation(s);
 
-		addAnnotatedResults(interfaze, method, introspectedTable.getBaseColumns());
-	}
+        addAnnotatedResults(interfaze, method, introspectedTable.getBaseColumns());
+    }
 
-	@Override
-	public void addExtraImports(Interface interfaze) {
-		addAnnotatedSelectImports(interfaze);
-		interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.SelectProvider")); //$NON-NLS-1$
-	}
+    @Override
+    public void addExtraImports(Interface interfaze) {
+        addAnnotatedSelectImports(interfaze);
+        interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.SelectProvider")); //$NON-NLS-1$
+    }
 
 }

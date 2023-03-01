@@ -23,6 +23,6 @@ package org.mybatis.generator.logging;
  */
 public interface AbstractLogFactory {
 
-	Log getLog(Class<?> targetClass);
+    Log getLog(Class<?> targetClass);
 
 }

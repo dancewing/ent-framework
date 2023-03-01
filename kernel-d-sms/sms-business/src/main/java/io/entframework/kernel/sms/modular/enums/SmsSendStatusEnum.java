@@ -19,40 +19,40 @@ import lombok.Getter;
 @EnumHandler
 public enum SmsSendStatusEnum implements SupperEnum<Integer> {
 
-	/**
-	 * 未发送
-	 */
-	WAITING(0, "未发送"),
+    /**
+     * 未发送
+     */
+    WAITING(0, "未发送"),
 
-	/**
-	 * 发送成功
-	 */
-	SUCCESS(1, "发送成功"),
+    /**
+     * 发送成功
+     */
+    SUCCESS(1, "发送成功"),
 
-	/**
-	 * 发送失败
-	 */
-	FAILED(2, "发送失败"),
+    /**
+     * 发送失败
+     */
+    FAILED(2, "发送失败"),
 
-	/**
-	 * 失效
-	 */
-	INVALID(3, "失效");
+    /**
+     * 失效
+     */
+    INVALID(3, "失效");
 
-	@JsonValue
-	@EnumValue
-	private final Integer value;
+    @JsonValue
+    @EnumValue
+    private final Integer value;
 
-	private final String label;
+    private final String label;
 
-	SmsSendStatusEnum(Integer value, String label) {
-		this.value = value;
-		this.label = label;
-	}
+    SmsSendStatusEnum(Integer value, String label) {
+        this.value = value;
+        this.label = label;
+    }
 
-	@JsonCreator
-	public static SmsSendStatusEnum valueToEnum(Integer value) {
-		return SupperEnum.fromValue(SmsSendStatusEnum.class, value);
-	}
+    @JsonCreator
+    public static SmsSendStatusEnum valueToEnum(Integer value) {
+        return SupperEnum.fromValue(SmsSendStatusEnum.class, value);
+    }
 
 }

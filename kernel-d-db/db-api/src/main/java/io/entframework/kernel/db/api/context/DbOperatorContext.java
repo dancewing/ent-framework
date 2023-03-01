@@ -13,8 +13,8 @@ import io.entframework.kernel.db.api.DbOperatorApi;
  */
 public class DbOperatorContext {
 
-	public static DbOperatorApi me() {
-		return SpringUtil.getBean(DbOperatorApi.class);
-	}
+    public static DbOperatorApi me() {
+        return SpringUtil.getBean(DbOperatorApi.class);
+    }
 
 }

@@ -8,11 +8,11 @@ import java.lang.annotation.*;
 // @Repeatable(GeneratedValue.List.class)
 public @interface GeneratedValue {
 
-	// @Documented
-	// @Retention(RetentionPolicy.RUNTIME)
-	// @Target(ElementType.FIELD)
-	// @interface List {
-	// GeneratedValue[] value();
-	// }
+    // @Documented
+    // @Retention(RetentionPolicy.RUNTIME)
+    // @Target(ElementType.FIELD)
+    // @interface List {
+    // GeneratedValue[] value();
+    // }
 
 }

@@ -19,12 +19,12 @@ import jakarta.annotation.Resource;
  */
 public class InterfaceStatisticsTimer implements TimerAction {
 
-	@Resource
-	private HomePageService homePageService;
+    @Resource
+    private HomePageService homePageService;
 
-	@Override
-	public void action(String params) {
-		homePageService.saveStatisticsCacheToDb();
-	}
+    @Override
+    public void action(String params) {
+        homePageService.saveStatisticsCacheToDb();
+    }
 
 }

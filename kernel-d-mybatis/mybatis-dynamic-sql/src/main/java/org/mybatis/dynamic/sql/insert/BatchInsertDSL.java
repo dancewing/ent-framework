@@ -33,119 +33,119 @@ import org.mybatis.dynamic.sql.util.StringConstantMapping;
 
 public class BatchInsertDSL<T> implements Buildable<BatchInsertModel<T>> {
 
-	private final Collection<T> records;
+    private final Collection<T> records;
 
-	private final SqlTable table;
+    private final SqlTable table;
 
-	private final List<AbstractColumnMapping> columnMappings;
+    private final List<AbstractColumnMapping> columnMappings;
 
-	private BatchInsertDSL(AbstractBuilder<T, ?> builder) {
-		this.records = builder.records;
-		this.table = Objects.requireNonNull(builder.table);
-		this.columnMappings = builder.columnMappings;
-	}
+    private BatchInsertDSL(AbstractBuilder<T, ?> builder) {
+        this.records = builder.records;
+        this.table = Objects.requireNonNull(builder.table);
+        this.columnMappings = builder.columnMappings;
+    }
 
-	public <F> ColumnMappingFinisher<F> map(SqlColumn<F> column) {
-		return new ColumnMappingFinisher<>(column);
-	}
+    public <F> ColumnMappingFinisher<F> map(SqlColumn<F> column) {
+        return new ColumnMappingFinisher<>(column);
+    }
 
-	@NotNull
-	@Override
-	public BatchInsertModel<T> build() {
-		return BatchInsertModel.withRecords(records).withTable(table).withColumnMappings(columnMappings).build();
-	}
+    @NotNull
+    @Override
+    public BatchInsertModel<T> build() {
+        return BatchInsertModel.withRecords(records).withTable(table).withColumnMappings(columnMappings).build();
+    }
 
-	@SafeVarargs
-	public static <T> IntoGatherer<T> insert(T... records) {
-		return BatchInsertDSL.insert(Arrays.asList(records));
-	}
+    @SafeVarargs
+    public static <T> IntoGatherer<T> insert(T... records) {
+        return BatchInsertDSL.insert(Arrays.asList(records));
+    }
 
-	public static <T> IntoGatherer<T> insert(Collection<T> records) {
-		return new IntoGatherer<>(records);
-	}
+    public static <T> IntoGatherer<T> insert(Collection<T> records) {
+        return new IntoGatherer<>(records);
+    }
 
-	public static class IntoGatherer<T> {
+    public static class IntoGatherer<T> {
 
-		private final Collection<T> records;
+        private final Collection<T> records;
 
-		private IntoGatherer(Collection<T> records) {
-			this.records = records;
-		}
+        private IntoGatherer(Collection<T> records) {
+            this.records = records;
+        }
 
-		public BatchInsertDSL<T> into(SqlTable table) {
-			return new Builder<T>().withRecords(records).withTable(table).build();
-		}
+        public BatchInsertDSL<T> into(SqlTable table) {
+            return new Builder<T>().withRecords(records).withTable(table).build();
+        }
 
-	}
+    }
 
-	public class ColumnMappingFinisher<F> {
+    public class ColumnMappingFinisher<F> {
 
-		private final SqlColumn<F> column;
+        private final SqlColumn<F> column;
 
-		public ColumnMappingFinisher(SqlColumn<F> column) {
-			this.column = column;
-		}
+        public ColumnMappingFinisher(SqlColumn<F> column) {
+            this.column = column;
+        }
 
-		public BatchInsertDSL<T> toProperty(String property) {
-			columnMappings.add(PropertyMapping.of(column, property));
-			return BatchInsertDSL.this;
-		}
+        public BatchInsertDSL<T> toProperty(String property) {
+            columnMappings.add(PropertyMapping.of(column, property));
+            return BatchInsertDSL.this;
+        }
 
-		public BatchInsertDSL<T> toNull() {
-			columnMappings.add(NullMapping.of(column));
-			return BatchInsertDSL.this;
-		}
+        public BatchInsertDSL<T> toNull() {
+            columnMappings.add(NullMapping.of(column));
+            return BatchInsertDSL.this;
+        }
 
-		public BatchInsertDSL<T> toConstant(String constant) {
-			columnMappings.add(ConstantMapping.of(column, constant));
-			return BatchInsertDSL.this;
-		}
+        public BatchInsertDSL<T> toConstant(String constant) {
+            columnMappings.add(ConstantMapping.of(column, constant));
+            return BatchInsertDSL.this;
+        }
 
-		public BatchInsertDSL<T> toStringConstant(String constant) {
-			columnMappings.add(StringConstantMapping.of(column, constant));
-			return BatchInsertDSL.this;
-		}
+        public BatchInsertDSL<T> toStringConstant(String constant) {
+            columnMappings.add(StringConstantMapping.of(column, constant));
+            return BatchInsertDSL.this;
+        }
 
-	}
+    }
 
-	public abstract static class AbstractBuilder<T, B extends AbstractBuilder<T, B>> {
+    public abstract static class AbstractBuilder<T, B extends AbstractBuilder<T, B>> {
 
-		final Collection<T> records = new ArrayList<>();
+        final Collection<T> records = new ArrayList<>();
 
-		SqlTable table;
+        SqlTable table;
 
-		final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
+        final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
 
-		public B withRecords(Collection<T> records) {
-			this.records.addAll(records);
-			return getThis();
-		}
+        public B withRecords(Collection<T> records) {
+            this.records.addAll(records);
+            return getThis();
+        }
 
-		public B withTable(SqlTable table) {
-			this.table = table;
-			return getThis();
-		}
+        public B withTable(SqlTable table) {
+            this.table = table;
+            return getThis();
+        }
 
-		public B withColumnMappings(Collection<AbstractColumnMapping> columnMappings) {
-			this.columnMappings.addAll(columnMappings);
-			return getThis();
-		}
+        public B withColumnMappings(Collection<AbstractColumnMapping> columnMappings) {
+            this.columnMappings.addAll(columnMappings);
+            return getThis();
+        }
 
-		protected abstract B getThis();
+        protected abstract B getThis();
 
-	}
+    }
 
-	public static class Builder<T> extends AbstractBuilder<T, Builder<T>> {
+    public static class Builder<T> extends AbstractBuilder<T, Builder<T>> {
 
-		@Override
-		protected Builder<T> getThis() {
-			return this;
-		}
+        @Override
+        protected Builder<T> getThis() {
+            return this;
+        }
 
-		public BatchInsertDSL<T> build() {
-			return new BatchInsertDSL<>(this);
-		}
+        public BatchInsertDSL<T> build() {
+            return new BatchInsertDSL<>(this);
+        }
 
-	}
+    }
 
 }

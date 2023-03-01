@@ -27,38 +27,38 @@ import lombok.EqualsAndHashCode;
 @Data
 public class SysThemeTemplateRequest extends BaseRequest {
 
-	/**
-	 * 主键ID
-	 */
-	@NotNull(message = "主键ID不能为空", groups = { update.class, delete.class, detail.class, updateStatus.class })
-	@ChineseDescription("主键ID")
-	private Long templateId;
+    /**
+     * 主键ID
+     */
+    @NotNull(message = "主键ID不能为空", groups = { update.class, delete.class, detail.class, updateStatus.class })
+    @ChineseDescription("主键ID")
+    private Long templateId;
 
-	/**
-	 * 主题模板名称
-	 */
-	@NotBlank(message = "主题模板名称不能为空", groups = { add.class, update.class })
-	@ChineseDescription("主题模板名称")
-	private String templateName;
+    /**
+     * 主题模板名称
+     */
+    @NotBlank(message = "主题模板名称不能为空", groups = { add.class, update.class })
+    @ChineseDescription("主题模板名称")
+    private String templateName;
 
-	/**
-	 * 主题模板编码
-	 */
-	@NotNull(message = "主题模板编码不能为空", groups = { add.class, update.class })
-	@ChineseDescription("主题模板编码")
-	private String templateCode;
+    /**
+     * 主题模板编码
+     */
+    @NotNull(message = "主题模板编码不能为空", groups = { add.class, update.class })
+    @ChineseDescription("主题模板编码")
+    private String templateCode;
 
-	/**
-	 * 主题模板类型：1-系统类型，2-业务类型
-	 */
-	@NotNull(message = "主题模板类型不能为空", groups = { add.class, update.class })
-	@ChineseDescription("主题模板类型")
-	private TemplateTypeEnum templateType;
+    /**
+     * 主题模板类型：1-系统类型，2-业务类型
+     */
+    @NotNull(message = "主题模板类型不能为空", groups = { add.class, update.class })
+    @ChineseDescription("主题模板类型")
+    private TemplateTypeEnum templateType;
 
-	/**
-	 * 主题模板启用状态：Y-启用，N-禁用
-	 */
-	@ChineseDescription("主题模板启用状态")
-	private YesOrNotEnum statusFlag;
+    /**
+     * 主题模板启用状态：Y-启用，N-禁用
+     */
+    @ChineseDescription("主题模板启用状态")
+    private YesOrNotEnum statusFlag;
 
 }

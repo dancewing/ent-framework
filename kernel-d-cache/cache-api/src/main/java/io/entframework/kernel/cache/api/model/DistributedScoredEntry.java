@@ -10,14 +10,14 @@ import lombok.Data;
 @AllArgsConstructor
 public class DistributedScoredEntry<V> {
 
-	/**
-	 * 分值
-	 */
-	private Double score;
+    /**
+     * 分值
+     */
+    private Double score;
 
-	/**
-	 * 数值
-	 */
-	private V value;
+    /**
+     * 数值
+     */
+    private V value;
 
 }

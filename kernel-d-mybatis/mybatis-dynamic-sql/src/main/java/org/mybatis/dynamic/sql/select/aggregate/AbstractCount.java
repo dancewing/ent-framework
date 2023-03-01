@@ -27,19 +27,19 @@ import org.mybatis.dynamic.sql.BindableColumn;
  */
 public abstract class AbstractCount implements BindableColumn<Long> {
 
-	private final String alias;
+    private final String alias;
 
-	protected AbstractCount() {
-		this(null);
-	}
+    protected AbstractCount() {
+        this(null);
+    }
 
-	protected AbstractCount(String alias) {
-		this.alias = alias;
-	}
+    protected AbstractCount(String alias) {
+        this.alias = alias;
+    }
 
-	@Override
-	public Optional<String> alias() {
-		return Optional.ofNullable(alias);
-	}
+    @Override
+    public Optional<String> alias() {
+        return Optional.ofNullable(alias);
+    }
 
 }

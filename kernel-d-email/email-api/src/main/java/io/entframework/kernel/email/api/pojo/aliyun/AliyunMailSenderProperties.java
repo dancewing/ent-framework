@@ -13,19 +13,19 @@ import lombok.Data;
 @Data
 public class AliyunMailSenderProperties {
 
-	/**
-	 * 发送邮件的key
-	 */
-	private String accessKeyId;
+    /**
+     * 发送邮件的key
+     */
+    private String accessKeyId;
 
-	/**
-	 * 发送邮件的secret
-	 */
-	private String accessKeySecret;
+    /**
+     * 发送邮件的secret
+     */
+    private String accessKeySecret;
 
-	/**
-	 * 发信人的地址，控制台配置
-	 */
-	private String accountName;
+    /**
+     * 发信人的地址，控制台配置
+     */
+    private String accountName;
 
 }

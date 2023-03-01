@@ -18,9 +18,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SessionValidateResponse {
 
-	/**
-	 * 校验结果
-	 */
-	private Boolean validateResult;
+    /**
+     * 校验结果
+     */
+    private Boolean validateResult;
 
 }

@@ -17,22 +17,22 @@ import lombok.Getter;
 @EnumHandler
 public enum DictTypeClassEnum {
 
-	/**
-	 * 业务类型
-	 */
-	BUSINESS_TYPE(1),
+    /**
+     * 业务类型
+     */
+    BUSINESS_TYPE(1),
 
-	/**
-	 * 系统类型
-	 */
-	SYSTEM_TYPE(2);
+    /**
+     * 系统类型
+     */
+    SYSTEM_TYPE(2);
 
-	@EnumValue
-	@JsonValue
-	private final Integer code;
+    @EnumValue
+    @JsonValue
+    private final Integer code;
 
-	DictTypeClassEnum(Integer code) {
-		this.code = code;
-	}
+    DictTypeClassEnum(Integer code) {
+        this.code = code;
+    }
 
 }

@@ -21,8 +21,8 @@ import java.util.Map;
 
 public interface InsertSelectStatementProvider extends StatementProvider {
 
-	Map<String, Object> getParameters();
+    Map<String, Object> getParameters();
 
-	String getInsertStatement();
+    String getInsertStatement();
 
 }

@@ -27,118 +27,118 @@ import java.util.List;
  * @date 2020/11/6 10:28
  */
 public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleRequest, SysUserRoleResponse, SysUserRole>
-		implements SysUserRoleService {
+        implements SysUserRoleService {
 
-	@Resource(name = "userRoleCacheApi")
-	private CacheOperatorApi<List<Long>> userRoleCacheApi;
+    @Resource(name = "userRoleCacheApi")
+    private CacheOperatorApi<List<Long>> userRoleCacheApi;
 
-	public SysUserRoleServiceImpl() {
-		super(SysUserRoleRequest.class, SysUserRoleResponse.class, SysUserRole.class);
-	}
+    public SysUserRoleServiceImpl() {
+        super(SysUserRoleRequest.class, SysUserRoleResponse.class, SysUserRole.class);
+    }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void add(SysUserRoleRequest sysUserRoleRequest) {
-		SysUserRole sysUserRole = this.converterService.convert(sysUserRoleRequest, getEntityClass());
-		this.getRepository().insert(sysUserRole);
-	}
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void add(SysUserRoleRequest sysUserRoleRequest) {
+        SysUserRole sysUserRole = this.converterService.convert(sysUserRoleRequest, getEntityClass());
+        this.getRepository().insert(sysUserRole);
+    }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void del(SysUserRoleRequest sysUserRoleRequest) {
-		SysUserRole sysUserRole = querySysUserRoleById(sysUserRoleRequest);
-		this.getRepository().deleteByPrimaryKey(getEntityClass(), sysUserRole.getUserRoleId());
-	}
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void del(SysUserRoleRequest sysUserRoleRequest) {
+        SysUserRole sysUserRole = querySysUserRoleById(sysUserRoleRequest);
+        this.getRepository().deleteByPrimaryKey(getEntityClass(), sysUserRole.getUserRoleId());
+    }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void delByUserId(Long userId) {
-		this.getRepository().delete(getEntityClass(),
-				c -> c.where(SysUserRoleDynamicSqlSupport.userId, SqlBuilder.isEqualTo(userId)));
-	}
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delByUserId(Long userId) {
+        this.getRepository().delete(getEntityClass(),
+                c -> c.where(SysUserRoleDynamicSqlSupport.userId, SqlBuilder.isEqualTo(userId)));
+    }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public SysUserRoleResponse update(SysUserRoleRequest sysUserRoleRequest) {
-		SysUserRole sysUserRole = this.querySysUserRoleById(sysUserRoleRequest);
-		this.converterService.copy(sysUserRoleRequest, sysUserRole);
-		this.getRepository().updateByPrimaryKey(sysUserRole);
-		return this.converterService.convert(sysUserRole, getResponseClass());
-	}
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public SysUserRoleResponse update(SysUserRoleRequest sysUserRoleRequest) {
+        SysUserRole sysUserRole = this.querySysUserRoleById(sysUserRoleRequest);
+        this.converterService.copy(sysUserRoleRequest, sysUserRole);
+        this.getRepository().updateByPrimaryKey(sysUserRole);
+        return this.converterService.convert(sysUserRole, getResponseClass());
+    }
 
-	@Override
-	public SysUserRole detail(SysUserRoleRequest sysUserRoleRequest) {
-		return this.getRepository().get(getEntityClass(), sysUserRoleRequest.getUserRoleId());
-	}
+    @Override
+    public SysUserRole detail(SysUserRoleRequest sysUserRoleRequest) {
+        return this.getRepository().get(getEntityClass(), sysUserRoleRequest.getUserRoleId());
+    }
 
-	@Override
-	public List<SysUserRole> findList(SysUserRoleRequest sysUserRoleRequest) {
-		SysUserRole query = this.converterService.convert(sysUserRoleRequest, getEntityClass());
-		return this.getRepository().selectBy(query);
-	}
+    @Override
+    public List<SysUserRole> findList(SysUserRoleRequest sysUserRoleRequest) {
+        SysUserRole query = this.converterService.convert(sysUserRoleRequest, getEntityClass());
+        return this.getRepository().selectBy(query);
+    }
 
-	@Override
-	public List<SysUserRole> findListByUserId(Long userId) {
-		SysUserRoleRequest sysUserRoleRequest = new SysUserRoleRequest();
-		sysUserRoleRequest.setUserId(userId);
-		return this.findList(sysUserRoleRequest);
-	}
+    @Override
+    public List<SysUserRole> findListByUserId(Long userId) {
+        SysUserRoleRequest sysUserRoleRequest = new SysUserRoleRequest();
+        sysUserRoleRequest.setUserId(userId);
+        return this.findList(sysUserRoleRequest);
+    }
 
-	@Override
+    @Override
 
-	public List<Long> findRoleIdsByUserId(Long userId) {
+    public List<Long> findRoleIdsByUserId(Long userId) {
 
-		// 先从缓存获取用户绑定的角色
-		String key = String.valueOf(userId);
-		List<Long> userRolesCache = userRoleCacheApi.get(key);
-		if (userRolesCache != null) {
-			return userRolesCache;
-		}
+        // 先从缓存获取用户绑定的角色
+        String key = String.valueOf(userId);
+        List<Long> userRolesCache = userRoleCacheApi.get(key);
+        if (userRolesCache != null) {
+            return userRolesCache;
+        }
 
-		// 从数据库查询角色
-		SysUserRoleRequest sysUserRoleRequest = new SysUserRoleRequest();
-		sysUserRoleRequest.setUserId(userId);
-		List<SysUserRole> sysUserRoleList = this.findList(sysUserRoleRequest);
-		List<Long> userRoles = sysUserRoleList.stream().map(SysUserRole::getRoleId).toList();
-		userRoleCacheApi.put(key, userRoles);
-		return userRoles;
-	}
+        // 从数据库查询角色
+        SysUserRoleRequest sysUserRoleRequest = new SysUserRoleRequest();
+        sysUserRoleRequest.setUserId(userId);
+        List<SysUserRole> sysUserRoleList = this.findList(sysUserRoleRequest);
+        List<Long> userRoles = sysUserRoleList.stream().map(SysUserRole::getRoleId).toList();
+        userRoleCacheApi.put(key, userRoles);
+        return userRoles;
+    }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void assignRoles(SysUserRequest sysUserRequest) {
-		// 获取用户id
-		Long userId = sysUserRequest.getUserId();
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void assignRoles(SysUserRequest sysUserRequest) {
+        // 获取用户id
+        Long userId = sysUserRequest.getUserId();
 
-		// 删除已有角色
-		this.delByUserId(userId);
+        // 删除已有角色
+        this.delByUserId(userId);
 
-		// 为该用户授权角色
-		List<Long> rileIds = sysUserRequest.getGrantRoleIdList();
+        // 为该用户授权角色
+        List<Long> rileIds = sysUserRequest.getGrantRoleIdList();
 
-		// 批量添加角色
-		List<SysUserRole> sysUserRoleList = CollUtil.newArrayList();
-		rileIds.forEach(roleId -> {
-			SysUserRole sysUserRole = new SysUserRole();
-			sysUserRole.setUserId(userId);
-			sysUserRole.setRoleId(roleId);
-			sysUserRoleList.add(sysUserRole);
-		});
+        // 批量添加角色
+        List<SysUserRole> sysUserRoleList = CollUtil.newArrayList();
+        rileIds.forEach(roleId -> {
+            SysUserRole sysUserRole = new SysUserRole();
+            sysUserRole.setUserId(userId);
+            sysUserRole.setRoleId(roleId);
+            sysUserRoleList.add(sysUserRole);
+        });
 
-		this.getRepository().insertMultiple(sysUserRoleList);
+        this.getRepository().insertMultiple(sysUserRoleList);
 
-		// 清除用户角色的缓存
-		userRoleCacheApi.remove(String.valueOf(userId));
-	}
+        // 清除用户角色的缓存
+        userRoleCacheApi.remove(String.valueOf(userId));
+    }
 
-	/**
-	 * 根据主键查询
-	 * @param sysUserRoleRequest dto实体
-	 * @return
-	 * @date 2021/2/3 15:02
-	 */
-	private SysUserRole querySysUserRoleById(SysUserRoleRequest sysUserRoleRequest) {
-		return this.getRepository().get(getEntityClass(), sysUserRoleRequest.getUserRoleId());
-	}
+    /**
+     * 根据主键查询
+     * @param sysUserRoleRequest dto实体
+     * @return
+     * @date 2021/2/3 15:02
+     */
+    private SysUserRole querySysUserRoleById(SysUserRoleRequest sysUserRoleRequest) {
+        return this.getRepository().get(getEntityClass(), sysUserRoleRequest.getUserRoleId());
+    }
 
 }

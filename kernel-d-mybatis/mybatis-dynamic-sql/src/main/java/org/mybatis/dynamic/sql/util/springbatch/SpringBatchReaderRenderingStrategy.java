@@ -26,10 +26,10 @@ import org.mybatis.dynamic.sql.render.MyBatis3RenderingStrategy;
  */
 public class SpringBatchReaderRenderingStrategy extends MyBatis3RenderingStrategy {
 
-	@Override
-	public String getFormattedJdbcPlaceholder(BindableColumn<?> column, String prefix, String parameterName) {
-		String newPrefix = SpringBatchUtility.PARAMETER_KEY + "." + prefix; //$NON-NLS-1$
-		return super.getFormattedJdbcPlaceholder(column, newPrefix, parameterName);
-	}
+    @Override
+    public String getFormattedJdbcPlaceholder(BindableColumn<?> column, String prefix, String parameterName) {
+        String newPrefix = SpringBatchUtility.PARAMETER_KEY + "." + prefix; //$NON-NLS-1$
+        return super.getFormattedJdbcPlaceholder(column, newPrefix, parameterName);
+    }
 
 }

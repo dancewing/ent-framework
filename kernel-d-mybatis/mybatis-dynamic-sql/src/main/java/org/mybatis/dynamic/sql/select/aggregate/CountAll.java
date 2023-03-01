@@ -19,22 +19,22 @@ import org.mybatis.dynamic.sql.render.TableAliasCalculator;
 
 public class CountAll extends AbstractCount {
 
-	public CountAll() {
-		super();
-	}
+    public CountAll() {
+        super();
+    }
 
-	private CountAll(String alias) {
-		super(alias);
-	}
+    private CountAll(String alias) {
+        super(alias);
+    }
 
-	@Override
-	public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
-		return "count(*)"; //$NON-NLS-1$
-	}
+    @Override
+    public String renderWithTableAlias(TableAliasCalculator tableAliasCalculator) {
+        return "count(*)"; //$NON-NLS-1$
+    }
 
-	@Override
-	public CountAll as(String alias) {
-		return new CountAll(alias);
-	}
+    @Override
+    public CountAll as(String alias) {
+        return new CountAll(alias);
+    }
 
 }

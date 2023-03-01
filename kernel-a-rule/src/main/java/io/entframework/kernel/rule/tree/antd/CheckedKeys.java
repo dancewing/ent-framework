@@ -11,8 +11,8 @@ import java.util.List;
 @Data
 public class CheckedKeys<T> {
 
-	private List<T> checked = new ArrayList<>();
+    private List<T> checked = new ArrayList<>();
 
-	private List<T> halfChecked = new ArrayList<>();
+    private List<T> halfChecked = new ArrayList<>();
 
 }

@@ -41,73 +41,73 @@ import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 
 class ArrayTest {
 
-	private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
+    private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
 
-	private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
+    private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
 
-	private SqlSessionFactory sqlSessionFactory;
+    private SqlSessionFactory sqlSessionFactory;
 
-	@BeforeEach
-	void setup() throws Exception {
-		Class.forName(JDBC_DRIVER);
-		InputStream is = getClass().getResourceAsStream("/examples/array/CreateDB.sql");
-		try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
-			ScriptRunner sr = new ScriptRunner(connection);
-			sr.setLogWriter(null);
-			sr.runScript(new InputStreamReader(is));
-		}
+    @BeforeEach
+    void setup() throws Exception {
+        Class.forName(JDBC_DRIVER);
+        InputStream is = getClass().getResourceAsStream("/examples/array/CreateDB.sql");
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
+            ScriptRunner sr = new ScriptRunner(connection);
+            sr.setLogWriter(null);
+            sr.runScript(new InputStreamReader(is));
+        }
 
-		UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
-		Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
-		Configuration config = new Configuration(environment);
-		config.addMapper(NamesTableMapper.class);
-		sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
-	}
+        UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
+        Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
+        Configuration config = new Configuration(environment);
+        config.addMapper(NamesTableMapper.class);
+        sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
+    }
 
-	@Test
-	void testInsertSelectById() {
-		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-			NamesTableMapper mapper = sqlSession.getMapper(NamesTableMapper.class);
+    @Test
+    void testInsertSelectById() {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            NamesTableMapper mapper = sqlSession.getMapper(NamesTableMapper.class);
 
-			String[] someNames = { "Fred", "Wilma", "Pebbles" };
+            String[] someNames = { "Fred", "Wilma", "Pebbles" };
 
-			GeneralInsertStatementProvider insertStatement = insertInto(namesTable).set(id).toValue(1).set(names)
-					.toValue(someNames).build().render(RenderingStrategies.MYBATIS3);
-			int rows = mapper.generalInsert(insertStatement);
-			assertThat(rows).isEqualTo(1);
+            GeneralInsertStatementProvider insertStatement = insertInto(namesTable).set(id).toValue(1).set(names)
+                    .toValue(someNames).build().render(RenderingStrategies.MYBATIS3);
+            int rows = mapper.generalInsert(insertStatement);
+            assertThat(rows).isEqualTo(1);
 
-			SelectStatementProvider selectStatement = select(id, NamesTableDynamicSqlSupport.names).from(namesTable)
-					.where(id, isEqualTo(1)).build().render(RenderingStrategies.MYBATIS3);
+            SelectStatementProvider selectStatement = select(id, NamesTableDynamicSqlSupport.names).from(namesTable)
+                    .where(id, isEqualTo(1)).build().render(RenderingStrategies.MYBATIS3);
 
-			Optional<NamesRecord> record = mapper.selectOne(selectStatement);
-			assertThat(record).hasValueSatisfying(r -> {
-				assertThat(r.getId()).isEqualTo(1);
-				assertThat(r.getNames()).isEqualTo(someNames);
-			});
-		}
-	}
+            Optional<NamesRecord> record = mapper.selectOne(selectStatement);
+            assertThat(record).hasValueSatisfying(r -> {
+                assertThat(r.getId()).isEqualTo(1);
+                assertThat(r.getNames()).isEqualTo(someNames);
+            });
+        }
+    }
 
-	@Test
-	void testInsertSelectByArray() {
-		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-			NamesTableMapper mapper = sqlSession.getMapper(NamesTableMapper.class);
+    @Test
+    void testInsertSelectByArray() {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            NamesTableMapper mapper = sqlSession.getMapper(NamesTableMapper.class);
 
-			String[] someNames = { "Fred", "Wilma", "Pebbles" };
+            String[] someNames = { "Fred", "Wilma", "Pebbles" };
 
-			GeneralInsertStatementProvider insertStatement = insertInto(namesTable).set(id).toValue(1).set(names)
-					.toValue(someNames).build().render(RenderingStrategies.MYBATIS3);
-			int rows = mapper.generalInsert(insertStatement);
-			assertThat(rows).isEqualTo(1);
+            GeneralInsertStatementProvider insertStatement = insertInto(namesTable).set(id).toValue(1).set(names)
+                    .toValue(someNames).build().render(RenderingStrategies.MYBATIS3);
+            int rows = mapper.generalInsert(insertStatement);
+            assertThat(rows).isEqualTo(1);
 
-			SelectStatementProvider selectStatement = select(id, NamesTableDynamicSqlSupport.names).from(namesTable)
-					.where(names, isEqualTo(someNames)).build().render(RenderingStrategies.MYBATIS3);
+            SelectStatementProvider selectStatement = select(id, NamesTableDynamicSqlSupport.names).from(namesTable)
+                    .where(names, isEqualTo(someNames)).build().render(RenderingStrategies.MYBATIS3);
 
-			Optional<NamesRecord> record = mapper.selectOne(selectStatement);
-			assertThat(record).hasValueSatisfying(r -> {
-				assertThat(r.getId()).isEqualTo(1);
-				assertThat(r.getNames()).isEqualTo(someNames);
-			});
-		}
-	}
+            Optional<NamesRecord> record = mapper.selectOne(selectStatement);
+            assertThat(record).hasValueSatisfying(r -> {
+                assertThat(r.getId()).isEqualTo(1);
+                assertThat(r.getNames()).isEqualTo(someNames);
+            });
+        }
+    }
 
 }

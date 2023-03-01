@@ -14,10 +14,10 @@ import java.lang.annotation.*;
 @Documented
 public @interface JoinColumn {
 
-	Class<?> target();
+    Class<?> target();
 
-	String left();
+    String left();
 
-	String right();
+    String right();
 
 }

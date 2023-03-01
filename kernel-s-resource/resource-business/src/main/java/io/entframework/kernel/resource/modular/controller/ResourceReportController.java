@@ -21,12 +21,12 @@ import java.util.List;
 @RestController
 public class ResourceReportController {
 
-	@Resource
-	private ResourceServiceApi resourceServiceApi;
+    @Resource
+    private ResourceServiceApi resourceServiceApi;
 
-	@PostMapping("/client/sys-resource/report-resources")
-	public List<SysResourcePersistencePojo> reportResourcesAndGetResult(@RequestBody ResourceParam reportResourceReq) {
-		return resourceServiceApi.reportResourcesAndGetResult(reportResourceReq);
-	}
+    @PostMapping("/client/sys-resource/report-resources")
+    public List<SysResourcePersistencePojo> reportResourcesAndGetResult(@RequestBody ResourceParam reportResourceReq) {
+        return resourceServiceApi.reportResourcesAndGetResult(reportResourceReq);
+    }
 
 }

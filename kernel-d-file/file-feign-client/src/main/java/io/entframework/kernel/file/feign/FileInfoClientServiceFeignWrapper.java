@@ -10,37 +10,37 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FileInfoClientServiceFeignWrapper implements FileInfoClientApi {
 
-	private final FileInfoClientApi fileInfoClient;
+    private final FileInfoClientApi fileInfoClient;
 
-	public FileInfoClientServiceFeignWrapper(FileInfoClientApi fileInfoClient) {
-		this.fileInfoClient = fileInfoClient;
-	}
+    public FileInfoClientServiceFeignWrapper(FileInfoClientApi fileInfoClient) {
+        this.fileInfoClient = fileInfoClient;
+    }
 
-	@Override
-	public SysFileInfoResponse getFileInfoWithoutContent(Long fileId) {
-		return fileInfoClient.getFileInfoWithoutContent(fileId);
-	}
+    @Override
+    public SysFileInfoResponse getFileInfoWithoutContent(Long fileId) {
+        return fileInfoClient.getFileInfoWithoutContent(fileId);
+    }
 
-	@Override
-	public String getFileAuthUrl(Long fileId) {
-		return fileInfoClient.getFileAuthUrl(fileId);
-	}
+    @Override
+    public String getFileAuthUrl(Long fileId) {
+        return fileInfoClient.getFileAuthUrl(fileId);
+    }
 
-	@Override
-	public String getFileAuthUrl(Long fileId, String token) {
-		return Try.call(() -> fileInfoClient.getFileAuthUrl(fileId, token)).ifFailure(e -> {
-			log.info("fileInfoClient.getFileAuthUrl error: ", e);
-		}).toOptional().orElse(null);
-	}
+    @Override
+    public String getFileAuthUrl(Long fileId, String token) {
+        return Try.call(() -> fileInfoClient.getFileAuthUrl(fileId, token)).ifFailure(e -> {
+            log.info("fileInfoClient.getFileAuthUrl error: ", e);
+        }).toOptional().orElse(null);
+    }
 
-	@Override
-	public String getFileUnAuthUrl(Long fileId) {
-		return fileInfoClient.getFileUnAuthUrl(fileId);
-	}
+    @Override
+    public String getFileUnAuthUrl(Long fileId) {
+        return fileInfoClient.getFileUnAuthUrl(fileId);
+    }
 
-	@Override
-	public ResponseData<Void> deleteReally(SysFileInfoRequest fileInfoRequest) {
-		return fileInfoClient.deleteReally(fileInfoRequest);
-	}
+    @Override
+    public ResponseData<Void> deleteReally(SysFileInfoRequest fileInfoRequest) {
+        return fileInfoClient.deleteReally(fileInfoRequest);
+    }
 
 }

@@ -23,26 +23,26 @@ import jakarta.annotation.Resource;
 @Slf4j
 public class PrometheusConfiguration {
 
-	@Value("${prometheus.enabled}")
-	private boolean prometheusEnabled;
+    @Value("${prometheus.enabled}")
+    private boolean prometheusEnabled;
 
-	@Resource
-	private PrometheusApi prometheusApi;
+    @Resource
+    private PrometheusApi prometheusApi;
 
-	/***
-	 * 配置是否开启prometheus相关菜单
-	 *
-	 *
-	 * @date 2021/3/3 17:14
-	 */
-	@Bean
-	public void configPrometheusMenu() {
-		if (prometheusEnabled) {
-			prometheusApi.displayPrometheusMenu();
-		}
-		else {
-			prometheusApi.closePrometheusMenu();
-		}
-	}
+    /***
+     * 配置是否开启prometheus相关菜单
+     *
+     *
+     * @date 2021/3/3 17:14
+     */
+    @Bean
+    public void configPrometheusMenu() {
+        if (prometheusEnabled) {
+            prometheusApi.displayPrometheusMenu();
+        }
+        else {
+            prometheusApi.closePrometheusMenu();
+        }
+    }
 
 }

@@ -26,46 +26,46 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CounterAutoConfiguration {
 
-	/**
-	 * 黑名单校验
-	 *
-	 * @date 2020/12/1 21:18
-	 */
-	@Bean
-	@ConditionalOnMissingBean(BlackListApi.class)
-	public BlackListApi blackListApi() {
-		TimedCache<String, String> timedCache = CacheUtil.newTimedCache(CacheConstants.NONE_EXPIRED_TIME);
-		DefaultMemoryCacheOperator<String> blackListMemoryCache = new DefaultMemoryCacheOperator<>(timedCache,
-				CounterConstants.BLACK_LIST_CACHE_KEY_PREFIX);
-		return new BlackListService(blackListMemoryCache);
-	}
+    /**
+     * 黑名单校验
+     *
+     * @date 2020/12/1 21:18
+     */
+    @Bean
+    @ConditionalOnMissingBean(BlackListApi.class)
+    public BlackListApi blackListApi() {
+        TimedCache<String, String> timedCache = CacheUtil.newTimedCache(CacheConstants.NONE_EXPIRED_TIME);
+        DefaultMemoryCacheOperator<String> blackListMemoryCache = new DefaultMemoryCacheOperator<>(timedCache,
+                CounterConstants.BLACK_LIST_CACHE_KEY_PREFIX);
+        return new BlackListService(blackListMemoryCache);
+    }
 
-	/**
-	 * 计数校验器
-	 *
-	 * @date 2020/12/1 21:18
-	 */
-	@Bean
-	@ConditionalOnMissingBean(CountValidatorApi.class)
-	public CountValidatorApi countValidatorApi() {
-		TimedCache<String, Long> timedCache = CacheUtil.newTimedCache(CacheConstants.NONE_EXPIRED_TIME);
-		DefaultMemoryCacheOperator<Long> defaultCountValidateCache = new DefaultMemoryCacheOperator<>(timedCache,
-				CounterConstants.COUNT_VALIDATE_CACHE_KEY_PREFIX);
-		return new DefaultCountValidator(defaultCountValidateCache);
-	}
+    /**
+     * 计数校验器
+     *
+     * @date 2020/12/1 21:18
+     */
+    @Bean
+    @ConditionalOnMissingBean(CountValidatorApi.class)
+    public CountValidatorApi countValidatorApi() {
+        TimedCache<String, Long> timedCache = CacheUtil.newTimedCache(CacheConstants.NONE_EXPIRED_TIME);
+        DefaultMemoryCacheOperator<Long> defaultCountValidateCache = new DefaultMemoryCacheOperator<>(timedCache,
+                CounterConstants.COUNT_VALIDATE_CACHE_KEY_PREFIX);
+        return new DefaultCountValidator(defaultCountValidateCache);
+    }
 
-	/**
-	 * 白名单校验
-	 *
-	 * @date 2020/12/1 21:18
-	 */
-	@Bean
-	@ConditionalOnMissingBean(WhiteListApi.class)
-	public WhiteListApi whiteListApi() {
-		TimedCache<String, String> timedCache = CacheUtil.newTimedCache(CacheConstants.NONE_EXPIRED_TIME);
-		DefaultMemoryCacheOperator<String> whiteListMemoryCache = new DefaultMemoryCacheOperator<>(timedCache,
-				CounterConstants.WHITE_LIST_CACHE_KEY_PREFIX);
-		return new WhiteListService(whiteListMemoryCache);
-	}
+    /**
+     * 白名单校验
+     *
+     * @date 2020/12/1 21:18
+     */
+    @Bean
+    @ConditionalOnMissingBean(WhiteListApi.class)
+    public WhiteListApi whiteListApi() {
+        TimedCache<String, String> timedCache = CacheUtil.newTimedCache(CacheConstants.NONE_EXPIRED_TIME);
+        DefaultMemoryCacheOperator<String> whiteListMemoryCache = new DefaultMemoryCacheOperator<>(timedCache,
+                CounterConstants.WHITE_LIST_CACHE_KEY_PREFIX);
+        return new WhiteListService(whiteListMemoryCache);
+    }
 
 }

@@ -32,24 +32,24 @@ package org.mybatis.dynamic.sql.util;
  */
 public interface ColumnMappingVisitor<R> {
 
-	R visit(NullMapping mapping);
+    R visit(NullMapping mapping);
 
-	R visit(ConstantMapping mapping);
+    R visit(ConstantMapping mapping);
 
-	R visit(StringConstantMapping mapping);
+    R visit(StringConstantMapping mapping);
 
-	<T> R visit(ValueMapping<T> mapping);
+    <T> R visit(ValueMapping<T> mapping);
 
-	<T> R visit(ValueOrNullMapping<T> mapping);
+    <T> R visit(ValueOrNullMapping<T> mapping);
 
-	<T> R visit(ValueWhenPresentMapping<T> mapping);
+    <T> R visit(ValueWhenPresentMapping<T> mapping);
 
-	R visit(SelectMapping mapping);
+    R visit(SelectMapping mapping);
 
-	R visit(PropertyMapping mapping);
+    R visit(PropertyMapping mapping);
 
-	R visit(PropertyWhenPresentMapping mapping);
+    R visit(PropertyWhenPresentMapping mapping);
 
-	R visit(ColumnToColumnMapping columnMapping);
+    R visit(ColumnToColumnMapping columnMapping);
 
 }

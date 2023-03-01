@@ -32,68 +32,68 @@ import java.util.List;
  * @date 2021/12/17 16:14
  */
 public class SysThemeTemplateRelServiceImpl
-		extends BaseServiceImpl<SysThemeTemplateRelRequest, SysThemeTemplateRelResponse, SysThemeTemplateRel>
-		implements SysThemeTemplateRelService {
+        extends BaseServiceImpl<SysThemeTemplateRelRequest, SysThemeTemplateRelResponse, SysThemeTemplateRel>
+        implements SysThemeTemplateRelService {
 
-	@Resource
-	private SysThemeTemplateService sysThemeTemplateService;
+    @Resource
+    private SysThemeTemplateService sysThemeTemplateService;
 
-	public SysThemeTemplateRelServiceImpl() {
-		super(SysThemeTemplateRelRequest.class, SysThemeTemplateRelResponse.class, SysThemeTemplateRel.class);
-	}
+    public SysThemeTemplateRelServiceImpl() {
+        super(SysThemeTemplateRelRequest.class, SysThemeTemplateRelResponse.class, SysThemeTemplateRel.class);
+    }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void add(SysThemeTemplateRelRequest sysThemeTemplateRelRequest) {
-		// 校验模板状态
-		this.checkTemplateStatus(sysThemeTemplateRelRequest);
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void add(SysThemeTemplateRelRequest sysThemeTemplateRelRequest) {
+        // 校验模板状态
+        this.checkTemplateStatus(sysThemeTemplateRelRequest);
 
-		// 获取请求中的所有属性编码
-		String[] fieldCodes = sysThemeTemplateRelRequest.getFieldCodes();
+        // 获取请求中的所有属性编码
+        String[] fieldCodes = sysThemeTemplateRelRequest.getFieldCodes();
 
-		List<SysThemeTemplateRel> sysThemeTemplateRels = new ArrayList<>();
+        List<SysThemeTemplateRel> sysThemeTemplateRels = new ArrayList<>();
 
-		// 填充对象
-		for (String fieldCode : fieldCodes) {
-			SysThemeTemplateRel sysThemeTemplateRel = new SysThemeTemplateRel();
-			sysThemeTemplateRel.setTemplateId(sysThemeTemplateRelRequest.getTemplateId());
-			sysThemeTemplateRel.setFieldCode(fieldCode);
+        // 填充对象
+        for (String fieldCode : fieldCodes) {
+            SysThemeTemplateRel sysThemeTemplateRel = new SysThemeTemplateRel();
+            sysThemeTemplateRel.setTemplateId(sysThemeTemplateRelRequest.getTemplateId());
+            sysThemeTemplateRel.setFieldCode(fieldCode);
 
-			sysThemeTemplateRels.add(sysThemeTemplateRel);
-		}
+            sysThemeTemplateRels.add(sysThemeTemplateRel);
+        }
 
-		// 保存关系
-		this.getRepository().insertMultiple(sysThemeTemplateRels);
-	}
+        // 保存关系
+        this.getRepository().insertMultiple(sysThemeTemplateRels);
+    }
 
-	/**
-	 * 校验模板使用状态
-	 *
-	 * @date 2021/12/30 17:28
-	 */
-	private void checkTemplateStatus(SysThemeTemplateRelRequest sysThemeTemplateRelRequest) {
-		// 判断当前模板是否被使用
-		SysThemeTemplateRequest request = new SysThemeTemplateRequest();
-		request.setTemplateId(sysThemeTemplateRelRequest.getTemplateId());
-		SysThemeTemplateResponse sysThemeTemplate = sysThemeTemplateService.selectOne(request);
-		// 判断状态，如果是启用则禁止操作
-		if (YesOrNotEnum.Y == sysThemeTemplate.getStatusFlag()) {
-			throw new SystemModularException(SysThemeTemplateExceptionEnum.TEMPLATE_IS_USED);
-		}
-	}
+    /**
+     * 校验模板使用状态
+     *
+     * @date 2021/12/30 17:28
+     */
+    private void checkTemplateStatus(SysThemeTemplateRelRequest sysThemeTemplateRelRequest) {
+        // 判断当前模板是否被使用
+        SysThemeTemplateRequest request = new SysThemeTemplateRequest();
+        request.setTemplateId(sysThemeTemplateRelRequest.getTemplateId());
+        SysThemeTemplateResponse sysThemeTemplate = sysThemeTemplateService.selectOne(request);
+        // 判断状态，如果是启用则禁止操作
+        if (YesOrNotEnum.Y == sysThemeTemplate.getStatusFlag()) {
+            throw new SystemModularException(SysThemeTemplateExceptionEnum.TEMPLATE_IS_USED);
+        }
+    }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void del(SysThemeTemplateRelRequest sysThemeTemplateRelRequest) {
-		// 校验模板状态
-		this.checkTemplateStatus(sysThemeTemplateRelRequest);
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void del(SysThemeTemplateRelRequest sysThemeTemplateRelRequest) {
+        // 校验模板状态
+        this.checkTemplateStatus(sysThemeTemplateRelRequest);
 
-		// 获取请求中的所有属性编码
-		String[] fieldCodes = sysThemeTemplateRelRequest.getFieldCodes();
+        // 获取请求中的所有属性编码
+        String[] fieldCodes = sysThemeTemplateRelRequest.getFieldCodes();
 
-		// 构建删除条件
-		this.getRepository().delete(getEntityClass(),
-				c -> c.where(SysThemeTemplateRelDynamicSqlSupport.fieldCode, SqlBuilder.isIn(fieldCodes)));
-	}
+        // 构建删除条件
+        this.getRepository().delete(getEntityClass(),
+                c -> c.where(SysThemeTemplateRelDynamicSqlSupport.fieldCode, SqlBuilder.isIn(fieldCodes)));
+    }
 
 }

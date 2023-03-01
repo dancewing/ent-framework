@@ -23,92 +23,92 @@ import java.io.InputStream;
  */
 public class DatabaseFileOperator implements FileOperatorApi {
 
-	@Resource
-	private SysFileStorageService sysFileStorageService;
+    @Resource
+    private SysFileStorageService sysFileStorageService;
 
-	@Override
-	public String getBucket(Long fileId) {
-		return String.valueOf(fileId);
-	}
+    @Override
+    public String getBucket(Long fileId) {
+        return String.valueOf(fileId);
+    }
 
-	@Override
-	public void initClient() {
-		// Database client don't need to init client
-	}
+    @Override
+    public void initClient() {
+        // Database client don't need to init client
+    }
 
-	@Override
-	public void destroyClient() {
-		// Database client don't need to destroy client
-	}
+    @Override
+    public void destroyClient() {
+        // Database client don't need to destroy client
+    }
 
-	@Override
-	public Object getClient() {
-		return null;
-	}
+    @Override
+    public Object getClient() {
+        return null;
+    }
 
-	@Override
-	public boolean doesBucketExist(String bucketName) {
-		return false;
-	}
+    @Override
+    public boolean doesBucketExist(String bucketName) {
+        return false;
+    }
 
-	@Override
-	public void setBucketAcl(String bucketName, BucketAuthEnum bucketAuthEnum) {
-		// Don't have this operation in database client
-	}
+    @Override
+    public void setBucketAcl(String bucketName, BucketAuthEnum bucketAuthEnum) {
+        // Don't have this operation in database client
+    }
 
-	@Override
-	public boolean isExistingFile(String bucketName, String key) {
-		return false;
-	}
+    @Override
+    public boolean isExistingFile(String bucketName, String key) {
+        return false;
+    }
 
-	@Override
-	public void storageFile(String bucketName, String key, byte[] bytes) {
-		this.sysFileStorageService.saveFile(Long.parseLong(bucketName), bytes);
-	}
+    @Override
+    public void storageFile(String bucketName, String key, byte[] bytes) {
+        this.sysFileStorageService.saveFile(Long.parseLong(bucketName), bytes);
+    }
 
-	@Override
-	public void storageFile(String bucketName, String key, InputStream inputStream) {
-		// Don't have this operation in database client
-	}
+    @Override
+    public void storageFile(String bucketName, String key, InputStream inputStream) {
+        // Don't have this operation in database client
+    }
 
-	@Override
-	public byte[] getFileBytes(String bucketName, String key) {
-		return new byte[0];
-	}
+    @Override
+    public byte[] getFileBytes(String bucketName, String key) {
+        return new byte[0];
+    }
 
-	@Override
-	public void setFileAcl(String bucketName, String key, BucketAuthEnum bucketAuthEnum) {
-		// Don't have this operation in database client
-	}
+    @Override
+    public void setFileAcl(String bucketName, String key, BucketAuthEnum bucketAuthEnum) {
+        // Don't have this operation in database client
+    }
 
-	@Override
-	public void copyFile(String originBucketName, String originFileKey, String newBucketName, String newFileKey) {
-		// Don't have this operation in database client
-	}
+    @Override
+    public void copyFile(String originBucketName, String originFileKey, String newBucketName, String newFileKey) {
+        // Don't have this operation in database client
+    }
 
-	@Override
-	public String getFileAuthUrl(String bucketName, String key, Long timeoutMillis, String token) {
-		return this.sysFileStorageService.getFileAuthUrl(bucketName, token);
-	}
+    @Override
+    public String getFileAuthUrl(String bucketName, String key, Long timeoutMillis, String token) {
+        return this.sysFileStorageService.getFileAuthUrl(bucketName, token);
+    }
 
-	@Override
-	public String getFileUnAuthUrl(String bucketName, String key) {
-		return this.sysFileStorageService.getFileUnAuthUrl(bucketName);
-	}
+    @Override
+    public String getFileUnAuthUrl(String bucketName, String key) {
+        return this.sysFileStorageService.getFileUnAuthUrl(bucketName);
+    }
 
-	@Override
-	public void deleteFile(String bucketName, String key) {
-		// Don't have this operation in database client
-	}
+    @Override
+    public void deleteFile(String bucketName, String key) {
+        // Don't have this operation in database client
+    }
 
-	@Override
-	public FileStorageEnum getFileLocationEnum() {
-		return FileStorageEnum.DB;
-	}
+    @Override
+    public FileStorageEnum getFileLocationEnum() {
+        return FileStorageEnum.DB;
+    }
 
-	@Override
-	public void close() throws IOException {
-		// Don't have this operation in database client
-	}
+    @Override
+    public void close() throws IOException {
+        // Don't have this operation in database client
+    }
 
 }

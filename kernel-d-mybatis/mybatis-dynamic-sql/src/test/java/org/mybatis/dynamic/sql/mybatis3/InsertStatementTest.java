@@ -28,92 +28,92 @@ import org.mybatis.dynamic.sql.render.RenderingStrategies;
 
 class InsertStatementTest {
 
-	private static final SqlTable foo = SqlTable.of("foo");
+    private static final SqlTable foo = SqlTable.of("foo");
 
-	private static final SqlColumn<Integer> id = foo.column("id", JDBCType.INTEGER);
+    private static final SqlColumn<Integer> id = foo.column("id", JDBCType.INTEGER);
 
-	private static final SqlColumn<String> firstName = foo.column("first_name", JDBCType.VARCHAR);
+    private static final SqlColumn<String> firstName = foo.column("first_name", JDBCType.VARCHAR);
 
-	private static final SqlColumn<String> lastName = foo.column("last_name", JDBCType.VARCHAR);
+    private static final SqlColumn<String> lastName = foo.column("last_name", JDBCType.VARCHAR);
 
-	private static final SqlColumn<String> occupation = foo.column("occupation", JDBCType.VARCHAR);
+    private static final SqlColumn<String> occupation = foo.column("occupation", JDBCType.VARCHAR);
 
-	@Test
-	void testFullInsertStatementBuilder() {
-		TestRecord record = new TestRecord();
-		record.setLastName("jones");
-		record.setOccupation("dino driver");
+    @Test
+    void testFullInsertStatementBuilder() {
+        TestRecord record = new TestRecord();
+        record.setLastName("jones");
+        record.setOccupation("dino driver");
 
-		InsertStatementProvider<?> insertStatement = insert(record).into(foo).map(id).toProperty("id").map(firstName)
-				.toProperty("firstName").map(lastName).toProperty("lastName").map(occupation).toProperty("occupation")
-				.build().render(RenderingStrategies.MYBATIS3);
+        InsertStatementProvider<?> insertStatement = insert(record).into(foo).map(id).toProperty("id").map(firstName)
+                .toProperty("firstName").map(lastName).toProperty("lastName").map(occupation).toProperty("occupation")
+                .build().render(RenderingStrategies.MYBATIS3);
 
-		String expected = "insert into foo (id, first_name, last_name, occupation) "
-				+ "values (#{row.id,jdbcType=INTEGER}, " + "#{row.firstName,jdbcType=VARCHAR}, "
-				+ "#{row.lastName,jdbcType=VARCHAR}, " + "#{row.occupation,jdbcType=VARCHAR})";
-		assertThat(insertStatement.getInsertStatement()).isEqualTo(expected);
-	}
+        String expected = "insert into foo (id, first_name, last_name, occupation) "
+                + "values (#{row.id,jdbcType=INTEGER}, " + "#{row.firstName,jdbcType=VARCHAR}, "
+                + "#{row.lastName,jdbcType=VARCHAR}, " + "#{row.occupation,jdbcType=VARCHAR})";
+        assertThat(insertStatement.getInsertStatement()).isEqualTo(expected);
+    }
 
-	@Test
-	void testSelectiveInsertStatementBuilder() {
-		TestRecord record = new TestRecord();
-		record.setLastName("jones");
-		record.setOccupation("dino driver");
+    @Test
+    void testSelectiveInsertStatementBuilder() {
+        TestRecord record = new TestRecord();
+        record.setLastName("jones");
+        record.setOccupation("dino driver");
 
-		InsertStatementProvider<?> insertStatement = insert(record).into(foo).map(id)
-				.toPropertyWhenPresent("id", record::getId).map(firstName)
-				.toPropertyWhenPresent("firstName", record::getFirstName).map(lastName)
-				.toPropertyWhenPresent("lastName", record::getLastName).map(occupation)
-				.toPropertyWhenPresent("occupation", record::getOccupation).build()
-				.render(RenderingStrategies.MYBATIS3);
+        InsertStatementProvider<?> insertStatement = insert(record).into(foo).map(id)
+                .toPropertyWhenPresent("id", record::getId).map(firstName)
+                .toPropertyWhenPresent("firstName", record::getFirstName).map(lastName)
+                .toPropertyWhenPresent("lastName", record::getLastName).map(occupation)
+                .toPropertyWhenPresent("occupation", record::getOccupation).build()
+                .render(RenderingStrategies.MYBATIS3);
 
-		String expected = "insert into foo (last_name, occupation) " + "values (#{row.lastName,jdbcType=VARCHAR}, "
-				+ "#{row.occupation,jdbcType=VARCHAR})";
-		assertThat(insertStatement.getInsertStatement()).isEqualTo(expected);
-	}
+        String expected = "insert into foo (last_name, occupation) " + "values (#{row.lastName,jdbcType=VARCHAR}, "
+                + "#{row.occupation,jdbcType=VARCHAR})";
+        assertThat(insertStatement.getInsertStatement()).isEqualTo(expected);
+    }
 
-	static class TestRecord {
+    static class TestRecord {
 
-		private Integer id;
+        private Integer id;
 
-		private String firstName;
+        private String firstName;
 
-		private String lastName;
+        private String lastName;
 
-		private String occupation;
+        private String occupation;
 
-		Integer getId() {
-			return id;
-		}
+        Integer getId() {
+            return id;
+        }
 
-		void setId(Integer id) {
-			this.id = id;
-		}
+        void setId(Integer id) {
+            this.id = id;
+        }
 
-		String getFirstName() {
-			return firstName;
-		}
+        String getFirstName() {
+            return firstName;
+        }
 
-		void setFirstName(String firstName) {
-			this.firstName = firstName;
-		}
+        void setFirstName(String firstName) {
+            this.firstName = firstName;
+        }
 
-		String getLastName() {
-			return lastName;
-		}
+        String getLastName() {
+            return lastName;
+        }
 
-		void setLastName(String lastName) {
-			this.lastName = lastName;
-		}
+        void setLastName(String lastName) {
+            this.lastName = lastName;
+        }
 
-		String getOccupation() {
-			return occupation;
-		}
+        String getOccupation() {
+            return occupation;
+        }
 
-		void setOccupation(String occupation) {
-			this.occupation = occupation;
-		}
+        void setOccupation(String occupation) {
+            this.occupation = occupation;
+        }
 
-	}
+    }
 
 }

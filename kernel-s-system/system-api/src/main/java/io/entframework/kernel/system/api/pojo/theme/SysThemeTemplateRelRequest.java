@@ -24,24 +24,24 @@ import jakarta.validation.constraints.NotNull;
 @Data
 public class SysThemeTemplateRelRequest extends BaseRequest {
 
-	/**
-	 * 主键ID
-	 */
-	@ChineseDescription("主键ID")
-	private Long relationId;
+    /**
+     * 主键ID
+     */
+    @ChineseDescription("主键ID")
+    private Long relationId;
 
-	/**
-	 * 模板ID
-	 */
-	@NotNull(message = "模板ID不能为空", groups = { add.class })
-	@ChineseDescription("模板ID")
-	private Long templateId;
+    /**
+     * 模板ID
+     */
+    @NotNull(message = "模板ID不能为空", groups = { add.class })
+    @ChineseDescription("模板ID")
+    private Long templateId;
 
-	/**
-	 * 属性编码集合
-	 */
-	@NotEmpty(message = "属性编码集合不能为空", groups = { add.class, delete.class })
-	@ChineseDescription("属性编码集合")
-	private String[] fieldCodes;
+    /**
+     * 属性编码集合
+     */
+    @NotEmpty(message = "属性编码集合不能为空", groups = { add.class, delete.class })
+    @ChineseDescription("属性编码集合")
+    private String[] fieldCodes;
 
 }

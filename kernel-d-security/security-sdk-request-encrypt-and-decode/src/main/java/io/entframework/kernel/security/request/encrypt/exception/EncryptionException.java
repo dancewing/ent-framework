@@ -16,13 +16,13 @@ import io.entframework.kernel.security.request.encrypt.constants.EncryptionConst
  */
 public class EncryptionException extends ServiceException {
 
-	public EncryptionException(AbstractExceptionEnum exception, Object... params) {
-		super(EncryptionConstants.ENCRYPTION_MODULE_NAME, exception.getErrorCode(),
-				CharSequenceUtil.format(exception.getUserTip(), params));
-	}
+    public EncryptionException(AbstractExceptionEnum exception, Object... params) {
+        super(EncryptionConstants.ENCRYPTION_MODULE_NAME, exception.getErrorCode(),
+                CharSequenceUtil.format(exception.getUserTip(), params));
+    }
 
-	public EncryptionException(AbstractExceptionEnum exception) {
-		super(EncryptionConstants.ENCRYPTION_MODULE_NAME, exception);
-	}
+    public EncryptionException(AbstractExceptionEnum exception) {
+        super(EncryptionConstants.ENCRYPTION_MODULE_NAME, exception);
+    }
 
 }

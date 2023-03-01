@@ -35,114 +35,114 @@ import java.util.List;
 @Service
 public class OfficeExcel implements OfficeExcelApi {
 
-	@Override
-	public <T> List<T> easyReadToList(InputStream inputStream, Class<T> clazz) {
-		if (inputStream == null) {
-			return new ArrayList<>();
-		}
+    @Override
+    public <T> List<T> easyReadToList(InputStream inputStream, Class<T> clazz) {
+        if (inputStream == null) {
+            return new ArrayList<>();
+        }
 
-		// 创建一个简单的数据监听器
-		SimpleDataListener<T> readListener = new SimpleDataListener<>();
+        // 创建一个简单的数据监听器
+        SimpleDataListener<T> readListener = new SimpleDataListener<>();
 
-		// 读取文件
-		try {
-			EasyExcelFactory.read(inputStream, clazz, readListener).sheet().doRead();
-		}
-		catch (Exception e) {
-			log.error(e.getMessage());
+        // 读取文件
+        try {
+            EasyExcelFactory.read(inputStream, clazz, readListener).sheet().doRead();
+        }
+        catch (Exception e) {
+            log.error(e.getMessage());
 
-			// 组装提示信息
-			String userTip = OfficeExceptionEnum.OFFICE_ERROR.getUserTip();
-			String finalUserTip = CharSequenceUtil.format(userTip, e.getMessage());
-			throw new OfficeException(OfficeExceptionEnum.OFFICE_ERROR.getErrorCode(), finalUserTip);
-		}
+            // 组装提示信息
+            String userTip = OfficeExceptionEnum.OFFICE_ERROR.getUserTip();
+            String finalUserTip = CharSequenceUtil.format(userTip, e.getMessage());
+            throw new OfficeException(OfficeExceptionEnum.OFFICE_ERROR.getErrorCode(), finalUserTip);
+        }
 
-		return readListener.getDataList();
-	}
+        return readListener.getDataList();
+    }
 
-	@Override
-	public void easyWriteToFile(ExcelExportParam excelExportParam) {
+    @Override
+    public void easyWriteToFile(ExcelExportParam excelExportParam) {
 
-		// 默认值
-		createDefaultValue(excelExportParam);
+        // 默认值
+        createDefaultValue(excelExportParam);
 
-		ExcelTypeEnum excelTypeEnum = excelExportParam.getExcelTypeEnum();
-		String excelFileWriteAbsolutePath = excelExportParam.getExcelFileWriteAbsolutePath();
+        ExcelTypeEnum excelTypeEnum = excelExportParam.getExcelTypeEnum();
+        String excelFileWriteAbsolutePath = excelExportParam.getExcelFileWriteAbsolutePath();
 
-		try {
-			EasyExcelFactory.write(excelFileWriteAbsolutePath, excelExportParam.getClazz()).excelType(excelTypeEnum)
-					.sheet(excelExportParam.getSheetName()).doWrite(excelExportParam.getDataList());
-		}
-		catch (Exception e) {
-			log.error(e.getMessage());
+        try {
+            EasyExcelFactory.write(excelFileWriteAbsolutePath, excelExportParam.getClazz()).excelType(excelTypeEnum)
+                    .sheet(excelExportParam.getSheetName()).doWrite(excelExportParam.getDataList());
+        }
+        catch (Exception e) {
+            log.error(e.getMessage());
 
-			// 组装提示信息
-			String userTip = OfficeExceptionEnum.OFFICE_ERROR.getUserTip();
-			String finalUserTip = CharSequenceUtil.format(userTip, e.getMessage());
-			throw new OfficeException(OfficeExceptionEnum.OFFICE_ERROR.getErrorCode(), finalUserTip);
-		}
-	}
+            // 组装提示信息
+            String userTip = OfficeExceptionEnum.OFFICE_ERROR.getUserTip();
+            String finalUserTip = CharSequenceUtil.format(userTip, e.getMessage());
+            throw new OfficeException(OfficeExceptionEnum.OFFICE_ERROR.getErrorCode(), finalUserTip);
+        }
+    }
 
-	@Override
-	public void easyExportDownload(ExcelExportParam excelExportParam) {
-		if (ObjectUtil.isEmpty(excelExportParam)) {
-			return;
-		}
+    @Override
+    public void easyExportDownload(ExcelExportParam excelExportParam) {
+        if (ObjectUtil.isEmpty(excelExportParam)) {
+            return;
+        }
 
-		try {
-			HttpServletResponse response = excelExportParam.getResponse();
-			if (response == null) {
-				throw new OfficeException(OfficeExceptionEnum.OFFICE_EXCEL_EXPORT_RESPONSE_ISNULL);
-			}
+        try {
+            HttpServletResponse response = excelExportParam.getResponse();
+            if (response == null) {
+                throw new OfficeException(OfficeExceptionEnum.OFFICE_EXCEL_EXPORT_RESPONSE_ISNULL);
+            }
 
-			if (excelExportParam.getClazz() == null) {
-				throw new OfficeException(OfficeExceptionEnum.OFFICE_EXCEL_EXPORT_ENTITY_CLASS_ISNULL);
-			}
+            if (excelExportParam.getClazz() == null) {
+                throw new OfficeException(OfficeExceptionEnum.OFFICE_EXCEL_EXPORT_ENTITY_CLASS_ISNULL);
+            }
 
-			// 默认值
-			createDefaultValue(excelExportParam);
+            // 默认值
+            createDefaultValue(excelExportParam);
 
-			ExcelTypeEnum excelTypeEnum = excelExportParam.getExcelTypeEnum();
+            ExcelTypeEnum excelTypeEnum = excelExportParam.getExcelTypeEnum();
 
-			response.setContentType("application/vnd.ms-excel");
-			response.setCharacterEncoding("utf-8");
-			String fileName = URLEncoder.encode(excelExportParam.getFileName(), StandardCharsets.UTF_8).replace("\\+",
-					"%20");
-			response.setHeader("Content-disposition", String.format("attachment;filename=\"%s;\"", fileName));
+            response.setContentType("application/vnd.ms-excel");
+            response.setCharacterEncoding("utf-8");
+            String fileName = URLEncoder.encode(excelExportParam.getFileName(), StandardCharsets.UTF_8).replace("\\+",
+                    "%20");
+            response.setHeader("Content-disposition", String.format("attachment;filename=\"%s;\"", fileName));
 
-			EasyExcelFactory.write(response.getOutputStream(), excelExportParam.getClazz()).excelType(excelTypeEnum)
-					.sheet(excelExportParam.getSheetName()).doWrite(excelExportParam.getDataList());
+            EasyExcelFactory.write(response.getOutputStream(), excelExportParam.getClazz()).excelType(excelTypeEnum)
+                    .sheet(excelExportParam.getSheetName()).doWrite(excelExportParam.getDataList());
 
-		}
-		catch (Exception e) {
-			log.error(e.getMessage());
+        }
+        catch (Exception e) {
+            log.error(e.getMessage());
 
-			// 组装提示信息
-			String userTip = OfficeExceptionEnum.OFFICE_ERROR.getUserTip();
-			String finalUserTip = CharSequenceUtil.format(userTip, e.getMessage());
-			throw new OfficeException(OfficeExceptionEnum.OFFICE_ERROR.getErrorCode(), finalUserTip);
-		}
+            // 组装提示信息
+            String userTip = OfficeExceptionEnum.OFFICE_ERROR.getUserTip();
+            String finalUserTip = CharSequenceUtil.format(userTip, e.getMessage());
+            throw new OfficeException(OfficeExceptionEnum.OFFICE_ERROR.getErrorCode(), finalUserTip);
+        }
 
-	}
+    }
 
-	/**
-	 * excel导出文件的默认属性
-	 * @param param Excel导出参数
-	 * @date 2020/11/4 11:45
-	 */
-	private void createDefaultValue(ExcelExportParam param) {
+    /**
+     * excel导出文件的默认属性
+     * @param param Excel导出参数
+     * @date 2020/11/4 11:45
+     */
+    private void createDefaultValue(ExcelExportParam param) {
 
-		if (CharSequenceUtil.isEmpty(param.getSheetName())) {
-			param.setSheetName(OfficeConstants.OFFICE_EXCEL_DEFAULT_SHEET_NAME);
-		}
+        if (CharSequenceUtil.isEmpty(param.getSheetName())) {
+            param.setSheetName(OfficeConstants.OFFICE_EXCEL_DEFAULT_SHEET_NAME);
+        }
 
-		if (CharSequenceUtil.isEmpty(param.getFileName())) {
-			param.setFileName(OfficeConstants.OFFICE_EXCEL_EXPORT_DEFAULT_FILE_NAME);
-		}
+        if (CharSequenceUtil.isEmpty(param.getFileName())) {
+            param.setFileName(OfficeConstants.OFFICE_EXCEL_EXPORT_DEFAULT_FILE_NAME);
+        }
 
-		if (param.getExcelTypeEnum() == null) {
-			param.setExcelTypeEnum(ExcelTypeEnum.XLSX);
-		}
-	}
+        if (param.getExcelTypeEnum() == null) {
+            param.setExcelTypeEnum(ExcelTypeEnum.XLSX);
+        }
+    }
 
 }

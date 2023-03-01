@@ -14,12 +14,12 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class MigrationException extends ServiceException {
 
-	public MigrationException(AbstractExceptionEnum exception) {
-		super(MigrationConstants.MIGRATION_MODULE_NAME, exception);
-	}
+    public MigrationException(AbstractExceptionEnum exception) {
+        super(MigrationConstants.MIGRATION_MODULE_NAME, exception);
+    }
 
-	public MigrationException(String errorCode, String userTip) {
-		super(MigrationConstants.MIGRATION_MODULE_NAME, errorCode, userTip);
-	}
+    public MigrationException(String errorCode, String userTip) {
+        super(MigrationConstants.MIGRATION_MODULE_NAME, errorCode, userTip);
+    }
 
 }

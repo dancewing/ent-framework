@@ -19,30 +19,30 @@ import lombok.Getter;
 @EnumHandler
 public enum ThemeFieldTypeEnum implements SupperEnum<String> {
 
-	/**
-	 * 字符串类型
-	 */
-	STRING("string", "字符串类型"),
+    /**
+     * 字符串类型
+     */
+    STRING("string", "字符串类型"),
 
-	/**
-	 * 文件类型
-	 */
-	FILE("file", "文件类型");
+    /**
+     * 文件类型
+     */
+    FILE("file", "文件类型");
 
-	@JsonValue
-	@EnumValue
-	private final String value;
+    @JsonValue
+    @EnumValue
+    private final String value;
 
-	private final String label;
+    private final String label;
 
-	ThemeFieldTypeEnum(String value, String label) {
-		this.value = value;
-		this.label = label;
-	}
+    ThemeFieldTypeEnum(String value, String label) {
+        this.value = value;
+        this.label = label;
+    }
 
-	@JsonCreator
-	public static ThemeFieldTypeEnum valueToEnum(String value) {
-		return SupperEnum.fromValue(ThemeFieldTypeEnum.class, value);
-	}
+    @JsonCreator
+    public static ThemeFieldTypeEnum valueToEnum(String value) {
+        return SupperEnum.fromValue(ThemeFieldTypeEnum.class, value);
+    }
 
 }

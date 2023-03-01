@@ -12,8 +12,8 @@ import lombok.Data;
 @Data
 public class CacheNode {
 
-	private String prefix;
+    private String prefix;
 
-	private String alias;
+    private String alias;
 
 }

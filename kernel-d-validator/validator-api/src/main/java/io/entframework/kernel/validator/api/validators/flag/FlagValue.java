@@ -24,26 +24,26 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FlagValue {
 
-	String message() default "不正确的flag标识，请传递Y或者N";
+    String message() default "不正确的flag标识，请传递Y或者N";
 
-	Class[] groups() default {};
+    Class[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 
-	/**
-	 * 是否必填
-	 * <p>
-	 * 如果必填，在校验的时候本字段没值就会报错
-	 */
-	boolean required() default true;
+    /**
+     * 是否必填
+     * <p>
+     * 如果必填，在校验的时候本字段没值就会报错
+     */
+    boolean required() default true;
 
-	@Target({ ElementType.FIELD, ElementType.PARAMETER })
-	@Retention(RUNTIME)
-	@Documented
-	@interface List {
+    @Target({ ElementType.FIELD, ElementType.PARAMETER })
+    @Retention(RUNTIME)
+    @Documented
+    @interface List {
 
-		FlagValue[] value();
+        FlagValue[] value();
 
-	}
+    }
 
 }

@@ -23,26 +23,26 @@ package org.mybatis.dynamic.sql;
  */
 public class NotCriterion extends CriteriaGroup {
 
-	private NotCriterion(Builder builder) {
-		super(builder);
-	}
+    private NotCriterion(Builder builder) {
+        super(builder);
+    }
 
-	@Override
-	public <R> R accept(SqlCriterionVisitor<R> visitor) {
-		return visitor.visit(this);
-	}
+    @Override
+    public <R> R accept(SqlCriterionVisitor<R> visitor) {
+        return visitor.visit(this);
+    }
 
-	public static class Builder extends AbstractGroupBuilder<Builder> {
+    public static class Builder extends AbstractGroupBuilder<Builder> {
 
-		public NotCriterion build() {
-			return new NotCriterion(this);
-		}
+        public NotCriterion build() {
+            return new NotCriterion(this);
+        }
 
-		@Override
-		protected Builder getThis() {
-			return this;
-		}
+        @Override
+        protected Builder getThis() {
+            return this;
+        }
 
-	}
+    }
 
 }

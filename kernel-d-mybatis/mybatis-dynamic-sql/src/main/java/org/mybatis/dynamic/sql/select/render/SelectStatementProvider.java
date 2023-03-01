@@ -21,8 +21,8 @@ import java.util.Map;
 
 public interface SelectStatementProvider extends StatementSourceProvider<SelectRenderer> {
 
-	Map<String, Object> getParameters();
+    Map<String, Object> getParameters();
 
-	String getSelectStatement();
+    String getSelectStatement();
 
 }

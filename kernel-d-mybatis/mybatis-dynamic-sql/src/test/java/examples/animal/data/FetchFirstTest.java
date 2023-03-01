@@ -41,127 +41,127 @@ import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 
 class FetchFirstTest {
 
-	private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
+    private static final String JDBC_URL = "jdbc:hsqldb:mem:aname";
 
-	private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
+    private static final String JDBC_DRIVER = "org.hsqldb.jdbcDriver";
 
-	private SqlSessionFactory sqlSessionFactory;
+    private SqlSessionFactory sqlSessionFactory;
 
-	@BeforeEach
-	void setup() throws Exception {
-		Class.forName(JDBC_DRIVER);
-		InputStream is = getClass().getResourceAsStream("/examples/animal/data/CreateAnimalData.sql");
-		try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
-			ScriptRunner sr = new ScriptRunner(connection);
-			sr.setLogWriter(null);
-			sr.runScript(new InputStreamReader(is));
-		}
+    @BeforeEach
+    void setup() throws Exception {
+        Class.forName(JDBC_DRIVER);
+        InputStream is = getClass().getResourceAsStream("/examples/animal/data/CreateAnimalData.sql");
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, "sa", "")) {
+            ScriptRunner sr = new ScriptRunner(connection);
+            sr.setLogWriter(null);
+            sr.runScript(new InputStreamReader(is));
+        }
 
-		UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
-		Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
-		Configuration config = new Configuration(environment);
-		config.addMapper(AnimalDataMapper.class);
-		sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
-	}
+        UnpooledDataSource ds = new UnpooledDataSource(JDBC_DRIVER, JDBC_URL, "sa", "");
+        Environment environment = new Environment("test", new JdbcTransactionFactory(), ds);
+        Configuration config = new Configuration(environment);
+        config.addMapper(AnimalDataMapper.class);
+        sqlSessionFactory = new SqlSessionFactoryBuilder().build(config);
+    }
 
-	@Test
-	void testOffsetAndFetchFirstAfterFrom() {
-		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-			SelectStatementProvider selectStatement = select(animalData.allColumns()).from(animalData).offset(22)
-					.fetchFirst(3).rowsOnly().build().render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testOffsetAndFetchFirstAfterFrom() {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            SelectStatementProvider selectStatement = select(animalData.allColumns()).from(animalData).offset(22)
+                    .fetchFirst(3).rowsOnly().build().render(RenderingStrategies.MYBATIS3);
 
-			AnimalDataMapper mapper = sqlSession.getMapper(AnimalDataMapper.class);
-			List<AnimalData> records = mapper.selectMany(selectStatement);
+            AnimalDataMapper mapper = sqlSession.getMapper(AnimalDataMapper.class);
+            List<AnimalData> records = mapper.selectMany(selectStatement);
 
-			assertAll(() -> assertThat(records).hasSize(3), () -> assertThat(records.get(0).getId()).isEqualTo(23),
-					() -> assertThat(selectStatement.getSelectStatement()).isEqualTo(
-							"select * from AnimalData offset #{parameters.p1} rows fetch first #{parameters.p2} rows only"),
-					() -> assertThat(selectStatement.getParameters()).containsEntry("p2", 3L),
-					() -> assertThat(selectStatement.getParameters()).containsEntry("p1", 22L));
-		}
-	}
+            assertAll(() -> assertThat(records).hasSize(3), () -> assertThat(records.get(0).getId()).isEqualTo(23),
+                    () -> assertThat(selectStatement.getSelectStatement()).isEqualTo(
+                            "select * from AnimalData offset #{parameters.p1} rows fetch first #{parameters.p2} rows only"),
+                    () -> assertThat(selectStatement.getParameters()).containsEntry("p2", 3L),
+                    () -> assertThat(selectStatement.getParameters()).containsEntry("p1", 22L));
+        }
+    }
 
-	@Test
-	void testFetchFirstOnlyAfterFrom() {
-		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-			SelectStatementProvider selectStatement = select(animalData.allColumns()).from(animalData).fetchFirst(3)
-					.rowsOnly().build().render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testFetchFirstOnlyAfterFrom() {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            SelectStatementProvider selectStatement = select(animalData.allColumns()).from(animalData).fetchFirst(3)
+                    .rowsOnly().build().render(RenderingStrategies.MYBATIS3);
 
-			AnimalDataMapper mapper = sqlSession.getMapper(AnimalDataMapper.class);
-			List<AnimalData> records = mapper.selectMany(selectStatement);
+            AnimalDataMapper mapper = sqlSession.getMapper(AnimalDataMapper.class);
+            List<AnimalData> records = mapper.selectMany(selectStatement);
 
-			assertAll(() -> assertThat(records).hasSize(3), () -> assertThat(records.get(0).getId()).isEqualTo(1),
-					() -> assertThat(selectStatement.getSelectStatement())
-							.isEqualTo("select * from AnimalData fetch first #{parameters.p1} rows only"),
-					() -> assertThat(selectStatement.getParameters()).containsEntry("p1", 3L));
-		}
-	}
+            assertAll(() -> assertThat(records).hasSize(3), () -> assertThat(records.get(0).getId()).isEqualTo(1),
+                    () -> assertThat(selectStatement.getSelectStatement())
+                            .isEqualTo("select * from AnimalData fetch first #{parameters.p1} rows only"),
+                    () -> assertThat(selectStatement.getParameters()).containsEntry("p1", 3L));
+        }
+    }
 
-	@Test
-	void testOffsetAndFetchFirstAfterWhere() {
-		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-			SelectStatementProvider selectStatement = select(animalData.allColumns()).from(animalData)
-					.where(id, isLessThan(50)).and(id, isGreaterThan(22)).offset(22).fetchFirst(3).rowsOnly().build()
-					.render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testOffsetAndFetchFirstAfterWhere() {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            SelectStatementProvider selectStatement = select(animalData.allColumns()).from(animalData)
+                    .where(id, isLessThan(50)).and(id, isGreaterThan(22)).offset(22).fetchFirst(3).rowsOnly().build()
+                    .render(RenderingStrategies.MYBATIS3);
 
-			AnimalDataMapper mapper = sqlSession.getMapper(AnimalDataMapper.class);
-			List<AnimalData> records = mapper.selectMany(selectStatement);
+            AnimalDataMapper mapper = sqlSession.getMapper(AnimalDataMapper.class);
+            List<AnimalData> records = mapper.selectMany(selectStatement);
 
-			assertAll(() -> assertThat(records).hasSize(3), () -> assertThat(records.get(0).getId()).isEqualTo(45),
-					() -> assertThat(selectStatement.getSelectStatement()).isEqualTo(
-							"select * from AnimalData where id < #{parameters.p1,jdbcType=INTEGER} and id > #{parameters.p2,jdbcType=INTEGER} offset #{parameters.p3} rows fetch first #{parameters.p4} rows only"),
-					() -> assertThat(selectStatement.getParameters()).containsEntry("p4", 3L),
-					() -> assertThat(selectStatement.getParameters()).containsEntry("p3", 22L));
-		}
-	}
+            assertAll(() -> assertThat(records).hasSize(3), () -> assertThat(records.get(0).getId()).isEqualTo(45),
+                    () -> assertThat(selectStatement.getSelectStatement()).isEqualTo(
+                            "select * from AnimalData where id < #{parameters.p1,jdbcType=INTEGER} and id > #{parameters.p2,jdbcType=INTEGER} offset #{parameters.p3} rows fetch first #{parameters.p4} rows only"),
+                    () -> assertThat(selectStatement.getParameters()).containsEntry("p4", 3L),
+                    () -> assertThat(selectStatement.getParameters()).containsEntry("p3", 22L));
+        }
+    }
 
-	@Test
-	void testFetchFirstOnlyAfterWhere() {
-		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-			SelectStatementProvider selectStatement = select(animalData.allColumns()).from(animalData)
-					.where(id, isLessThan(50)).fetchFirst(3).rowsOnly().build().render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testFetchFirstOnlyAfterWhere() {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            SelectStatementProvider selectStatement = select(animalData.allColumns()).from(animalData)
+                    .where(id, isLessThan(50)).fetchFirst(3).rowsOnly().build().render(RenderingStrategies.MYBATIS3);
 
-			AnimalDataMapper mapper = sqlSession.getMapper(AnimalDataMapper.class);
-			List<AnimalData> records = mapper.selectMany(selectStatement);
+            AnimalDataMapper mapper = sqlSession.getMapper(AnimalDataMapper.class);
+            List<AnimalData> records = mapper.selectMany(selectStatement);
 
-			assertAll(() -> assertThat(records).hasSize(3), () -> assertThat(records.get(0).getId()).isEqualTo(1),
-					() -> assertThat(selectStatement.getSelectStatement()).isEqualTo(
-							"select * from AnimalData where id < #{parameters.p1,jdbcType=INTEGER} fetch first #{parameters.p2} rows only"),
-					() -> assertThat(selectStatement.getParameters()).containsEntry("p2", 3L));
-		}
-	}
+            assertAll(() -> assertThat(records).hasSize(3), () -> assertThat(records.get(0).getId()).isEqualTo(1),
+                    () -> assertThat(selectStatement.getSelectStatement()).isEqualTo(
+                            "select * from AnimalData where id < #{parameters.p1,jdbcType=INTEGER} fetch first #{parameters.p2} rows only"),
+                    () -> assertThat(selectStatement.getParameters()).containsEntry("p2", 3L));
+        }
+    }
 
-	@Test
-	void testOffsetAndFetchFirstAfterOrderBy() {
-		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-			SelectStatementProvider selectStatement = select(animalData.allColumns()).from(animalData).orderBy(id)
-					.offset(22).fetchFirst(3).rowsOnly().build().render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testOffsetAndFetchFirstAfterOrderBy() {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            SelectStatementProvider selectStatement = select(animalData.allColumns()).from(animalData).orderBy(id)
+                    .offset(22).fetchFirst(3).rowsOnly().build().render(RenderingStrategies.MYBATIS3);
 
-			AnimalDataMapper mapper = sqlSession.getMapper(AnimalDataMapper.class);
-			List<AnimalData> records = mapper.selectMany(selectStatement);
+            AnimalDataMapper mapper = sqlSession.getMapper(AnimalDataMapper.class);
+            List<AnimalData> records = mapper.selectMany(selectStatement);
 
-			assertAll(() -> assertThat(records).hasSize(3), () -> assertThat(records.get(0).getId()).isEqualTo(23),
-					() -> assertThat(selectStatement.getSelectStatement()).isEqualTo(
-							"select * from AnimalData order by id offset #{parameters.p1} rows fetch first #{parameters.p2} rows only"),
-					() -> assertThat(selectStatement.getParameters()).containsEntry("p2", 3L),
-					() -> assertThat(selectStatement.getParameters()).containsEntry("p1", 22L));
-		}
-	}
+            assertAll(() -> assertThat(records).hasSize(3), () -> assertThat(records.get(0).getId()).isEqualTo(23),
+                    () -> assertThat(selectStatement.getSelectStatement()).isEqualTo(
+                            "select * from AnimalData order by id offset #{parameters.p1} rows fetch first #{parameters.p2} rows only"),
+                    () -> assertThat(selectStatement.getParameters()).containsEntry("p2", 3L),
+                    () -> assertThat(selectStatement.getParameters()).containsEntry("p1", 22L));
+        }
+    }
 
-	@Test
-	void testLimitOnlyAfterOrderBy() {
-		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-			SelectStatementProvider selectStatement = select(animalData.allColumns()).from(animalData).orderBy(id)
-					.fetchFirst(3).rowsOnly().build().render(RenderingStrategies.MYBATIS3);
+    @Test
+    void testLimitOnlyAfterOrderBy() {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            SelectStatementProvider selectStatement = select(animalData.allColumns()).from(animalData).orderBy(id)
+                    .fetchFirst(3).rowsOnly().build().render(RenderingStrategies.MYBATIS3);
 
-			AnimalDataMapper mapper = sqlSession.getMapper(AnimalDataMapper.class);
-			List<AnimalData> records = mapper.selectMany(selectStatement);
+            AnimalDataMapper mapper = sqlSession.getMapper(AnimalDataMapper.class);
+            List<AnimalData> records = mapper.selectMany(selectStatement);
 
-			assertAll(() -> assertThat(records).hasSize(3), () -> assertThat(records.get(0).getId()).isEqualTo(1),
-					() -> assertThat(selectStatement.getSelectStatement())
-							.isEqualTo("select * from AnimalData order by id fetch first #{parameters.p1} rows only"),
-					() -> assertThat(selectStatement.getParameters()).containsEntry("p1", 3L));
-		}
-	}
+            assertAll(() -> assertThat(records).hasSize(3), () -> assertThat(records.get(0).getId()).isEqualTo(1),
+                    () -> assertThat(selectStatement.getSelectStatement())
+                            .isEqualTo("select * from AnimalData order by id fetch first #{parameters.p1} rows only"),
+                    () -> assertThat(selectStatement.getParameters()).containsEntry("p1", 3L));
+        }
+    }
 
 }

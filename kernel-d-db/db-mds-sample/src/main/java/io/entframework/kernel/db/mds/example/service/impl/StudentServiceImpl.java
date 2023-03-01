@@ -9,15 +9,15 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class StudentServiceImpl extends BaseServiceImpl<StudentRequest, StudentResponse, Student>
-		implements StudentService {
+        implements StudentService {
 
-	public StudentServiceImpl() {
-		super(StudentRequest.class, StudentResponse.class, Student.class);
-	}
+    public StudentServiceImpl() {
+        super(StudentRequest.class, StudentResponse.class, Student.class);
+    }
 
-	public StudentServiceImpl(Class<? extends StudentRequest> requestClass,
-			Class<? extends StudentResponse> responseClass, Class<? extends Student> entityClass) {
-		super(requestClass, responseClass, entityClass);
-	}
+    public StudentServiceImpl(Class<? extends StudentRequest> requestClass,
+            Class<? extends StudentResponse> responseClass, Class<? extends Student> entityClass) {
+        super(requestClass, responseClass, entityClass);
+    }
 
 }

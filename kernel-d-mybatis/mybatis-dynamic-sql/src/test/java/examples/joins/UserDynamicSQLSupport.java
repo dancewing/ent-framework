@@ -22,26 +22,26 @@ import org.mybatis.dynamic.sql.SqlColumn;
 
 public class UserDynamicSQLSupport {
 
-	public static final User user = new User();
+    public static final User user = new User();
 
-	public final SqlColumn<Integer> userId = user.userId;
+    public final SqlColumn<Integer> userId = user.userId;
 
-	public final SqlColumn<String> userName = user.userName;
+    public final SqlColumn<String> userName = user.userName;
 
-	public final SqlColumn<Integer> parentId = user.parentId;
+    public final SqlColumn<Integer> parentId = user.parentId;
 
-	public static final class User extends AliasableSqlTable<User> {
+    public static final class User extends AliasableSqlTable<User> {
 
-		public final SqlColumn<Integer> userId = column("user_id", JDBCType.INTEGER);
+        public final SqlColumn<Integer> userId = column("user_id", JDBCType.INTEGER);
 
-		public final SqlColumn<String> userName = column("user_name", JDBCType.VARCHAR);
+        public final SqlColumn<String> userName = column("user_name", JDBCType.VARCHAR);
 
-		public final SqlColumn<Integer> parentId = column("parent_id", JDBCType.INTEGER);
+        public final SqlColumn<Integer> parentId = column("parent_id", JDBCType.INTEGER);
 
-		public User() {
-			super(() -> "User", User::new);
-		}
+        public User() {
+            super(() -> "User", User::new);
+        }
 
-	}
+    }
 
 }

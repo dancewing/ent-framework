@@ -23,13 +23,13 @@ package org.mybatis.generator.api;
  */
 public class VerboseProgressCallback implements ProgressCallback {
 
-	public VerboseProgressCallback() {
-		super();
-	}
+    public VerboseProgressCallback() {
+        super();
+    }
 
-	@Override
-	public void startTask(String taskName) {
-		System.out.println(taskName);
-	}
+    @Override
+    public void startTask(String taskName) {
+        System.out.println(taskName);
+    }
 
 }

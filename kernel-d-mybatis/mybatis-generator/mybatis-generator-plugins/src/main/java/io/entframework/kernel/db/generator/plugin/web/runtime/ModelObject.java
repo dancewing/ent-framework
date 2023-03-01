@@ -7,12 +7,12 @@ import lombok.Data;
 @Builder(builderClassName = "Builder")
 public class ModelObject {
 
-	private String name;
+    private String name;
 
-	private String type;
+    private String type;
 
-	private String description;
+    private String description;
 
-	private String camelModelName;
+    private String camelModelName;
 
 }

@@ -14,14 +14,14 @@ import lombok.Data;
 @Data
 public class TableInfo {
 
-	/**
-	 * 表名称
-	 */
-	private String tableName;
+    /**
+     * 表名称
+     */
+    private String tableName;
 
-	/**
-	 * 表的注释
-	 */
-	private String tableComment;
+    /**
+     * 表的注释
+     */
+    private String tableComment;
 
 }

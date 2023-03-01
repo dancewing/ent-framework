@@ -12,10 +12,10 @@ import lombok.Data;
 @AllArgsConstructor
 public class TreeDataItem<T> {
 
-	private T id;
+    private T id;
 
-	private T parentId;
+    private T parentId;
 
-	private String path;
+    private String path;
 
 }

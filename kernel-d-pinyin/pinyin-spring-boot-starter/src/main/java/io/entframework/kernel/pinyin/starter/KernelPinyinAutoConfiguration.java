@@ -17,15 +17,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KernelPinyinAutoConfiguration {
 
-	/**
-	 * 拼音工具接口的封装
-	 *
-	 * @date 2020/12/4 15:29
-	 */
-	@Bean
-	@ConditionalOnMissingBean(PinYinApi.class)
-	public PinYinApi pinYinApi() {
-		return new PinyinServiceImpl();
-	}
+    /**
+     * 拼音工具接口的封装
+     *
+     * @date 2020/12/4 15:29
+     */
+    @Bean
+    @ConditionalOnMissingBean(PinYinApi.class)
+    public PinYinApi pinYinApi() {
+        return new PinyinServiceImpl();
+    }
 
 }

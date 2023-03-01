@@ -15,9 +15,9 @@ import java.lang.annotation.*;
 @Documented
 public @interface BusinessLog {
 
-	/**
-	 * 是否进行日志记录，默认是开启
-	 */
-	boolean openLog() default true;
+    /**
+     * 是否进行日志记录，默认是开启
+     */
+    boolean openLog() default true;
 
 }

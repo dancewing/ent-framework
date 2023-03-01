@@ -19,30 +19,30 @@ import lombok.Getter;
 @EnumHandler
 public enum GenderEnum implements SupperEnum<String> {
 
-	/**
-	 * 男
-	 */
-	M("M", "男"),
+    /**
+     * 男
+     */
+    M("M", "男"),
 
-	/**
-	 * 女
-	 */
-	F("F", "女");
+    /**
+     * 女
+     */
+    F("F", "女");
 
-	@JsonValue
-	@EnumValue
-	private final String value;
+    @JsonValue
+    @EnumValue
+    private final String value;
 
-	private final String label;
+    private final String label;
 
-	GenderEnum(String value, String label) {
-		this.value = value;
-		this.label = label;
-	}
+    GenderEnum(String value, String label) {
+        this.value = value;
+        this.label = label;
+    }
 
-	@JsonCreator
-	public static GenderEnum valueToEnum(String value) {
-		return SupperEnum.fromValue(GenderEnum.class, value);
-	}
+    @JsonCreator
+    public static GenderEnum valueToEnum(String value) {
+        return SupperEnum.fromValue(GenderEnum.class, value);
+    }
 
 }

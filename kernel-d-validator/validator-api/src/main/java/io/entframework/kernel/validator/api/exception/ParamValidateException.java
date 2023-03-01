@@ -15,13 +15,13 @@ import io.entframework.kernel.validator.api.constants.ValidatorConstants;
  */
 public class ParamValidateException extends ServiceException {
 
-	public ParamValidateException(AbstractExceptionEnum exception, Object... params) {
-		super(ValidatorConstants.VALIDATOR_MODULE_NAME, exception.getErrorCode(),
-				CharSequenceUtil.format(exception.getUserTip(), params));
-	}
+    public ParamValidateException(AbstractExceptionEnum exception, Object... params) {
+        super(ValidatorConstants.VALIDATOR_MODULE_NAME, exception.getErrorCode(),
+                CharSequenceUtil.format(exception.getUserTip(), params));
+    }
 
-	public ParamValidateException(AbstractExceptionEnum exception) {
-		super(ValidatorConstants.VALIDATOR_MODULE_NAME, exception);
-	}
+    public ParamValidateException(AbstractExceptionEnum exception) {
+        super(ValidatorConstants.VALIDATOR_MODULE_NAME, exception);
+    }
 
 }

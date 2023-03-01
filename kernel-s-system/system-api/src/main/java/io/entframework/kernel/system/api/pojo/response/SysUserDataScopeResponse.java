@@ -23,22 +23,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SysUserDataScopeResponse extends BaseResponse {
 
-	/**
-	 * 主键
-	 */
-	@ChineseDescription("主键")
-	private Long userDataScopeId;
+    /**
+     * 主键
+     */
+    @ChineseDescription("主键")
+    private Long userDataScopeId;
 
-	/**
-	 * 用户id
-	 */
-	@ChineseDescription("用户id")
-	private Long userId;
+    /**
+     * 用户id
+     */
+    @ChineseDescription("用户id")
+    private Long userId;
 
-	/**
-	 * 机构id
-	 */
-	@ChineseDescription("机构id")
-	private Long orgId;
+    /**
+     * 机构id
+     */
+    @ChineseDescription("机构id")
+    private Long orgId;
 
 }

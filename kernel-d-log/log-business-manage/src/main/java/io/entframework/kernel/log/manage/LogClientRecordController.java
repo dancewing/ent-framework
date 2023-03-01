@@ -20,22 +20,22 @@ import java.util.List;
 @RestController
 public class LogClientRecordController {
 
-	@Resource
-	private LogRecordApi logRecordApi;
+    @Resource
+    private LogRecordApi logRecordApi;
 
-	@PostMapping(path = "/client/sys-log/add")
-	public Boolean add(@RequestBody LogRecordDTO logRecordDTO) {
-		return logRecordApi.add(logRecordDTO);
-	}
+    @PostMapping(path = "/client/sys-log/add")
+    public Boolean add(@RequestBody LogRecordDTO logRecordDTO) {
+        return logRecordApi.add(logRecordDTO);
+    }
 
-	@PostMapping(path = "/client/sys-log/add-async")
-	public boolean addAsync(@RequestBody LogRecordDTO logRecordDTO) {
-		return logRecordApi.addAsync(logRecordDTO);
-	}
+    @PostMapping(path = "/client/sys-log/add-async")
+    public boolean addAsync(@RequestBody LogRecordDTO logRecordDTO) {
+        return logRecordApi.addAsync(logRecordDTO);
+    }
 
-	@PostMapping(path = "/client/sys-log/add-batch")
-	public boolean addBatch(@RequestBody List<LogRecordDTO> logRecords) {
-		return logRecordApi.addBatch(logRecords);
-	}
+    @PostMapping(path = "/client/sys-log/add-batch")
+    public boolean addBatch(@RequestBody List<LogRecordDTO> logRecords) {
+        return logRecordApi.addBatch(logRecords);
+    }
 
 }

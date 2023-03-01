@@ -32,129 +32,129 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @Table(value = "exam_class_grade", sqlSupport = ClassGradeDynamicSqlSupport.class, tableProperty = "classGrade")
 public class ClassGrade extends BaseEntity implements Serializable {
 
-	/**
-	 * ID
-	 */
-	@Id
-	@Column(name = "id", jdbcType = JDBCType.BIGINT)
-	private Long id;
+    /**
+     * ID
+     */
+    @Id
+    @Column(name = "id", jdbcType = JDBCType.BIGINT)
+    private Long id;
 
-	/**
-	 * 名称
-	 */
-	@Column(name = "name", jdbcType = JDBCType.VARCHAR)
-	private String name;
+    /**
+     * 名称
+     */
+    @Column(name = "name", jdbcType = JDBCType.VARCHAR)
+    private String name;
 
-	/**
-	 * 描述
-	 */
-	@Column(name = "description", jdbcType = JDBCType.VARCHAR)
-	private String description;
+    /**
+     * 描述
+     */
+    @Column(name = "description", jdbcType = JDBCType.VARCHAR)
+    private String description;
 
-	/**
-	 * 类型[ADVANCE(0):高级,COMMON(1):普通]
-	 */
-	@Column(name = "grade_type", jdbcType = JDBCType.VARCHAR)
-	private GradeType gradeType;
+    /**
+     * 类型[ADVANCE(0):高级,COMMON(1):普通]
+     */
+    @Column(name = "grade_type", jdbcType = JDBCType.VARCHAR)
+    private GradeType gradeType;
 
-	/**
-	 * 开学时间
-	 */
-	@Column(name = "start_time", jdbcType = JDBCType.TIMESTAMP)
-	private LocalDateTime startTime;
+    /**
+     * 开学时间
+     */
+    @Column(name = "start_time", jdbcType = JDBCType.TIMESTAMP)
+    private LocalDateTime startTime;
 
-	/**
-	 * 班主任
-	 */
-	@Column(name = "regulator_id", jdbcType = JDBCType.BIGINT)
-	private Long regulatorId;
+    /**
+     * 班主任
+     */
+    @Column(name = "regulator_id", jdbcType = JDBCType.BIGINT)
+    private Long regulatorId;
 
-	/**
-	 * 学生
-	 */
-	@OneToMany
-	@JoinColumn(target = Student.class, left = "id", right = "gradeId")
-	private List<Student> students;
+    /**
+     * 学生
+     */
+    @OneToMany
+    @JoinColumn(target = Student.class, left = "id", right = "gradeId")
+    private List<Student> students;
 
-	/**
-	 * 班主任
-	 */
-	@ManyToOne
-	@JoinColumn(target = Teacher.class, left = "regulatorId", right = "id")
-	private Teacher regulator;
+    /**
+     * 班主任
+     */
+    @ManyToOne
+    @JoinColumn(target = Teacher.class, left = "regulatorId", right = "id")
+    private Teacher regulator;
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ClassGrade id(Long id) {
-		this.id = id;
-		return this;
-	}
+    public ClassGrade id(Long id) {
+        this.id = id;
+        return this;
+    }
 
-	public ClassGrade name(String name) {
-		this.name = name;
-		return this;
-	}
+    public ClassGrade name(String name) {
+        this.name = name;
+        return this;
+    }
 
-	public ClassGrade description(String description) {
-		this.description = description;
-		return this;
-	}
+    public ClassGrade description(String description) {
+        this.description = description;
+        return this;
+    }
 
-	public ClassGrade gradeType(GradeType gradeType) {
-		this.gradeType = gradeType;
-		return this;
-	}
+    public ClassGrade gradeType(GradeType gradeType) {
+        this.gradeType = gradeType;
+        return this;
+    }
 
-	public ClassGrade startTime(LocalDateTime startTime) {
-		this.startTime = startTime;
-		return this;
-	}
+    public ClassGrade startTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+        return this;
+    }
 
-	public ClassGrade regulatorId(Long regulatorId) {
-		this.regulatorId = regulatorId;
-		return this;
-	}
+    public ClassGrade regulatorId(Long regulatorId) {
+        this.regulatorId = regulatorId;
+        return this;
+    }
 
-	@EnumHandler
-	public enum GradeType {
+    @EnumHandler
+    public enum GradeType {
 
-		ADVANCE("0", "高级"), COMMON("1", "普通");
+        ADVANCE("0", "高级"), COMMON("1", "普通");
 
-		@JsonValue
-		@EnumValue
-		private final String value;
+        @JsonValue
+        @EnumValue
+        private final String value;
 
-		private final String label;
+        private final String label;
 
-		GradeType(String value, String label) {
-			this.value = value;
-			this.label = label;
-		}
+        GradeType(String value, String label) {
+            this.value = value;
+            this.label = label;
+        }
 
-		public String getValue() {
-			return this.value;
-		}
+        public String getValue() {
+            return this.value;
+        }
 
-		public String value() {
-			return this.value;
-		}
+        public String value() {
+            return this.value;
+        }
 
-		public String getLabel() {
-			return this.label;
-		}
+        public String getLabel() {
+            return this.label;
+        }
 
-		@JsonCreator
-		public static GradeType parseValue(String value) {
-			if (value != null) {
-				for (GradeType item : values()) {
-					if (item.value.equals(value)) {
-						return item;
-					}
-				}
-			}
-			return null;
-		}
+        @JsonCreator
+        public static GradeType parseValue(String value) {
+            if (value != null) {
+                for (GradeType item : values()) {
+                    if (item.value.equals(value)) {
+                        return item;
+                    }
+                }
+            }
+            return null;
+        }
 
-	}
+    }
 
 }

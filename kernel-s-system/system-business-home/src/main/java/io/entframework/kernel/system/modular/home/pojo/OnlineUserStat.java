@@ -16,14 +16,14 @@ import java.util.Set;
 @Data
 public class OnlineUserStat {
 
-	/**
-	 * 总在线用户
-	 */
-	private Integer totalNum;
+    /**
+     * 总在线用户
+     */
+    private Integer totalNum;
 
-	/**
-	 * 总的人员姓名汇总
-	 */
-	private Set<String> totalUserNames;
+    /**
+     * 总的人员姓名汇总
+     */
+    private Set<String> totalUserNames;
 
 }

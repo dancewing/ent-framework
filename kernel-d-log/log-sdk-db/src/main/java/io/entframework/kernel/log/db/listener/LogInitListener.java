@@ -8,15 +8,15 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 public class LogInitListener extends FlywayInitListener implements Ordered {
 
-	@Override
-	public int getOrder() {
-		return Ordered.HIGHEST_PRECEDENCE + 200;
-	}
+    @Override
+    public int getOrder() {
+        return Ordered.HIGHEST_PRECEDENCE + 200;
+    }
 
-	@Override
-	public void eventCallback(ApplicationContextInitializedEvent event) {
-		ConfigurableEnvironment environment = event.getApplicationContext().getEnvironment();
-		flywayMigrate(environment, LogConstants.FLYWAY_LOCATIONS, LogConstants.FLYWAY_TABLE_SUFFIX);
-	}
+    @Override
+    public void eventCallback(ApplicationContextInitializedEvent event) {
+        ConfigurableEnvironment environment = event.getApplicationContext().getEnvironment();
+        flywayMigrate(environment, LogConstants.FLYWAY_LOCATIONS, LogConstants.FLYWAY_TABLE_SUFFIX);
+    }
 
 }

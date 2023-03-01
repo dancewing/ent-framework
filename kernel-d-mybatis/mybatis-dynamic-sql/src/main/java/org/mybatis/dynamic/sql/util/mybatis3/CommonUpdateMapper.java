@@ -30,12 +30,12 @@ import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
  */
 public interface CommonUpdateMapper {
 
-	/**
-	 * Execute an update statement.
-	 * @param updateStatement the update statement
-	 * @return the number of rows affected
-	 */
-	@UpdateProvider(type = SqlProviderAdapter.class, method = "update")
-	int update(UpdateStatementProvider updateStatement);
+    /**
+     * Execute an update statement.
+     * @param updateStatement the update statement
+     * @return the number of rows affected
+     */
+    @UpdateProvider(type = SqlProviderAdapter.class, method = "update")
+    int update(UpdateStatementProvider updateStatement);
 
 }

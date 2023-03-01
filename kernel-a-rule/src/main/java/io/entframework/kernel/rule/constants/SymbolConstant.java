@@ -10,24 +10,24 @@ package io.entframework.kernel.rule.constants;
  */
 public interface SymbolConstant {
 
-	String COMMA = ",";
+    String COMMA = ",";
 
-	String LEFT_SQUARE_BRACKETS = "[";
+    String LEFT_SQUARE_BRACKETS = "[";
 
-	String RIGHT_SQUARE_BRACKETS = "]";
+    String RIGHT_SQUARE_BRACKETS = "]";
 
-	String DOLLAR = "$";
+    String DOLLAR = "$";
 
-	String PERCENT = "%";
+    String PERCENT = "%";
 
-	String AND = "&";
+    String AND = "&";
 
-	String DOT = ".";
+    String DOT = ".";
 
-	String SLASH = "/";
+    String SLASH = "/";
 
-	String BACK_SLASH = "\\";
+    String BACK_SLASH = "\\";
 
-	String SPACE = " ";
+    String SPACE = " ";
 
 }

@@ -11,29 +11,29 @@ import java.util.List;
 
 public class ActualEntityClassDetector {
 
-	public static Class<?> determine(StatementProvider statementProvider) {
-		if (statementProvider instanceof SelectStatementProvider selectStatementProvider) {
-			SelectRenderer selectRenderer = selectStatementProvider.getSource();
-			SelectModel selectModel = selectRenderer.getSelectModel();
-			List<QueryExpressionModel> queryExpressions = selectModel.queryExpressions();
-			if (!queryExpressions.isEmpty()) {
-				QueryExpressionModel queryExpressionModel = queryExpressions.get(0);
-				return queryExpressionModel.getEntityClass();
-			}
-		}
-		if (statementProvider instanceof InsertStatementProvider<?> insertStatementProvider) {
-			return insertStatementProvider.getRow().getClass();
-		}
-		return null;
-	}
+    public static Class<?> determine(StatementProvider statementProvider) {
+        if (statementProvider instanceof SelectStatementProvider selectStatementProvider) {
+            SelectRenderer selectRenderer = selectStatementProvider.getSource();
+            SelectModel selectModel = selectRenderer.getSelectModel();
+            List<QueryExpressionModel> queryExpressions = selectModel.queryExpressions();
+            if (!queryExpressions.isEmpty()) {
+                QueryExpressionModel queryExpressionModel = queryExpressions.get(0);
+                return queryExpressionModel.getEntityClass();
+            }
+        }
+        if (statementProvider instanceof InsertStatementProvider<?> insertStatementProvider) {
+            return insertStatementProvider.getRow().getClass();
+        }
+        return null;
+    }
 
-	public static StatementProvider determineStatementProvider(Object[] args) {
-		if (args != null && args.length == 1) {
-			if (args[0] instanceof StatementProvider statementProvider) {
-				return statementProvider;
-			}
-		}
-		return null;
-	}
+    public static StatementProvider determineStatementProvider(Object[] args) {
+        if (args != null && args.length == 1) {
+            if (args[0] instanceof StatementProvider statementProvider) {
+                return statementProvider;
+            }
+        }
+        return null;
+    }
 
 }

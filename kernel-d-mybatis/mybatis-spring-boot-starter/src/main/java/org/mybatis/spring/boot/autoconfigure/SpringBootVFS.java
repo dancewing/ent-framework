@@ -34,35 +34,35 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  */
 public class SpringBootVFS extends VFS {
 
-	private final ResourcePatternResolver resourceResolver;
+    private final ResourcePatternResolver resourceResolver;
 
-	public SpringBootVFS() {
-		this.resourceResolver = new PathMatchingResourcePatternResolver(getClass().getClassLoader());
-	}
+    public SpringBootVFS() {
+        this.resourceResolver = new PathMatchingResourcePatternResolver(getClass().getClassLoader());
+    }
 
-	@Override
-	public boolean isValid() {
-		return true;
-	}
+    @Override
+    public boolean isValid() {
+        return true;
+    }
 
-	@Override
-	protected List<String> list(URL url, String path) throws IOException {
-		String urlString = url.toString();
-		String baseUrlString = urlString.endsWith("/") ? urlString : urlString.concat("/");
-		Resource[] resources = resourceResolver.getResources(baseUrlString + "**/*.class");
-		return Stream.of(resources).map(resource -> preserveSubpackageName(baseUrlString, resource, path))
-				.collect(Collectors.toList());
-	}
+    @Override
+    protected List<String> list(URL url, String path) throws IOException {
+        String urlString = url.toString();
+        String baseUrlString = urlString.endsWith("/") ? urlString : urlString.concat("/");
+        Resource[] resources = resourceResolver.getResources(baseUrlString + "**/*.class");
+        return Stream.of(resources).map(resource -> preserveSubpackageName(baseUrlString, resource, path))
+                .collect(Collectors.toList());
+    }
 
-	private static String preserveSubpackageName(final String baseUrlString, final Resource resource,
-			final String rootPath) {
-		try {
-			return rootPath + (rootPath.endsWith("/") ? "" : "/")
-					+ resource.getURL().toString().substring(baseUrlString.length());
-		}
-		catch (IOException e) {
-			throw new UncheckedIOException(e);
-		}
-	}
+    private static String preserveSubpackageName(final String baseUrlString, final Resource resource,
+            final String rootPath) {
+        try {
+            return rootPath + (rootPath.endsWith("/") ? "" : "/")
+                    + resource.getURL().toString().substring(baseUrlString.length());
+        }
+        catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
 
 }

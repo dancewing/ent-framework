@@ -20,65 +20,65 @@ import java.util.Optional;
 
 public class SetAndWhere {
 
-	private final String fieldName;
+    private final String fieldName;
 
-	private final String valuePhrase;
+    private final String valuePhrase;
 
-	private final Object value;
+    private final Object value;
 
-	private SetAndWhere(Builder builder) {
-		fieldName = Objects.requireNonNull(builder.fieldName);
-		valuePhrase = Objects.requireNonNull(builder.valuePhrase);
-		value = builder.value;
-	}
+    private SetAndWhere(Builder builder) {
+        fieldName = Objects.requireNonNull(builder.fieldName);
+        valuePhrase = Objects.requireNonNull(builder.valuePhrase);
+        value = builder.value;
+    }
 
-	public String fieldName() {
-		return fieldName;
-	}
+    public String fieldName() {
+        return fieldName;
+    }
 
-	public String valuePhrase() {
-		return valuePhrase;
-	}
+    public String valuePhrase() {
+        return valuePhrase;
+    }
 
-	public Optional<Object> value() {
-		return Optional.ofNullable(value);
-	}
+    public Optional<Object> value() {
+        return Optional.ofNullable(value);
+    }
 
-	public static Builder withFieldName(String fieldName) {
-		return new Builder().withFieldName(fieldName);
-	}
+    public static Builder withFieldName(String fieldName) {
+        return new Builder().withFieldName(fieldName);
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private String fieldName;
+        private String fieldName;
 
-		private String valuePhrase;
+        private String valuePhrase;
 
-		private Object value;
+        private Object value;
 
-		public Builder withFieldName(String fieldName) {
-			this.fieldName = fieldName;
-			return this;
-		}
+        public Builder withFieldName(String fieldName) {
+            this.fieldName = fieldName;
+            return this;
+        }
 
-		public Builder withValuePhrase(String valuePhrase) {
-			this.valuePhrase = valuePhrase;
-			return this;
-		}
+        public Builder withValuePhrase(String valuePhrase) {
+            this.valuePhrase = valuePhrase;
+            return this;
+        }
 
-		public Builder withValue(Object value) {
-			this.value = value;
-			return this;
-		}
+        public Builder withValue(Object value) {
+            this.value = value;
+            return this;
+        }
 
-		public SetAndWhere build() {
-			return new SetAndWhere(this);
-		}
+        public SetAndWhere build() {
+            return new SetAndWhere(this);
+        }
 
-		public Optional<SetAndWhere> buildOptional() {
-			return Optional.of(build());
-		}
+        public Optional<SetAndWhere> buildOptional() {
+            return Optional.of(build());
+        }
 
-	}
+    }
 
 }

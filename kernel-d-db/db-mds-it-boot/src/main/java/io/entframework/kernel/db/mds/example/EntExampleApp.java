@@ -22,20 +22,20 @@ import org.springframework.context.annotation.Scope;
 @SpringBootApplication(scanBasePackages = "io.entframework.kernel.db.mds.example.ext")
 public class EntExampleApp {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EntExampleApp.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(EntExampleApp.class, args);
+    }
 
-	@Bean(name = LoginCacheConstants.LOGIN_USER_CACHE_BEAN_NAME)
-	public CacheOperatorApi<LoginUser> loginUserCache(RedisCacheManagerFactory redisCacheManagerFactory) {
-		return new DefaultRedisCacheOperator<>(redisCacheManagerFactory
-				.createCache(LoginCacheConstants.LOGIN_USER_CACHE_BEAN_NAME, AuthConstants.LOGGED_TOKEN_PREFIX));
-	}
+    @Bean(name = LoginCacheConstants.LOGIN_USER_CACHE_BEAN_NAME)
+    public CacheOperatorApi<LoginUser> loginUserCache(RedisCacheManagerFactory redisCacheManagerFactory) {
+        return new DefaultRedisCacheOperator<>(redisCacheManagerFactory
+                .createCache(LoginCacheConstants.LOGIN_USER_CACHE_BEAN_NAME, AuthConstants.LOGGED_TOKEN_PREFIX));
+    }
 
-	@Bean
-	@Scope("prototype")
-	public StudentRequest studentRequest() {
-		return new StudentRequest();
-	}
+    @Bean
+    @Scope("prototype")
+    public StudentRequest studentRequest() {
+        return new StudentRequest();
+    }
 
 }

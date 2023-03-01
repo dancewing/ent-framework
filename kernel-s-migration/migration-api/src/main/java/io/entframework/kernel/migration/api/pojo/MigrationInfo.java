@@ -14,14 +14,14 @@ import lombok.Data;
 @Data
 public class MigrationInfo {
 
-	/**
-	 * 版本
-	 */
-	private String version;
+    /**
+     * 版本
+     */
+    private String version;
 
-	/**
-	 * 数据
-	 */
-	private Object data;
+    /**
+     * 数据
+     */
+    private Object data;
 
 }

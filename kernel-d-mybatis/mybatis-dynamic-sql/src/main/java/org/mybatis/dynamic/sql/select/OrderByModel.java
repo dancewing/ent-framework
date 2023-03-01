@@ -28,22 +28,22 @@ import org.mybatis.dynamic.sql.util.Messages;
 
 public class OrderByModel {
 
-	private final List<SortSpecification> columns = new ArrayList<>();
+    private final List<SortSpecification> columns = new ArrayList<>();
 
-	private OrderByModel(Collection<SortSpecification> columns) {
-		Objects.requireNonNull(columns);
-		if (columns.isEmpty()) {
-			throw new InvalidSqlException(Messages.getString("ERROR.12")); //$NON-NLS-1$
-		}
-		this.columns.addAll(columns);
-	}
+    private OrderByModel(Collection<SortSpecification> columns) {
+        Objects.requireNonNull(columns);
+        if (columns.isEmpty()) {
+            throw new InvalidSqlException(Messages.getString("ERROR.12")); //$NON-NLS-1$
+        }
+        this.columns.addAll(columns);
+    }
 
-	public <R> Stream<R> mapColumns(Function<SortSpecification, R> mapper) {
-		return columns.stream().map(mapper);
-	}
+    public <R> Stream<R> mapColumns(Function<SortSpecification, R> mapper) {
+        return columns.stream().map(mapper);
+    }
 
-	public static OrderByModel of(Collection<SortSpecification> columns) {
-		return new OrderByModel(columns);
-	}
+    public static OrderByModel of(Collection<SortSpecification> columns) {
+        return new OrderByModel(columns);
+    }
 
 }

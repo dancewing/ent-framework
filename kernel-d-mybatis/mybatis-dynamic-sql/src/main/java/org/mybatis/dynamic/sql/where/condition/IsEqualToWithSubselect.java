@@ -22,18 +22,18 @@ import org.mybatis.dynamic.sql.util.Buildable;
 
 public class IsEqualToWithSubselect<T> extends AbstractSubselectCondition<T> {
 
-	protected IsEqualToWithSubselect(Buildable<SelectModel> selectModelBuilder) {
-		super(selectModelBuilder);
-	}
+    protected IsEqualToWithSubselect(Buildable<SelectModel> selectModelBuilder) {
+        super(selectModelBuilder);
+    }
 
-	@NotNull
-	public static <T> IsEqualToWithSubselect<T> of(Buildable<SelectModel> selectModelBuilder) {
-		return new IsEqualToWithSubselect<>(selectModelBuilder);
-	}
+    @NotNull
+    public static <T> IsEqualToWithSubselect<T> of(Buildable<SelectModel> selectModelBuilder) {
+        return new IsEqualToWithSubselect<>(selectModelBuilder);
+    }
 
-	@Override
-	public String renderCondition(String columnName, String renderedSelectStatement) {
-		return columnName + " = (" + renderedSelectStatement + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-	}
+    @Override
+    public String renderCondition(String columnName, String renderedSelectStatement) {
+        return columnName + " = (" + renderedSelectStatement + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+    }
 
 }

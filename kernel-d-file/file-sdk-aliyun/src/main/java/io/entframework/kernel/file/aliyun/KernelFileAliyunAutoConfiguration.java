@@ -21,16 +21,16 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(AliyunOssProperties.class)
 public class KernelFileAliyunAutoConfiguration {
 
-	/**
-	 * 本地文件操作
-	 *
-	 * @date 2020/12/1 14:40
-	 */
-	@Bean
-	@ConditionalOnMissingBean(name = "aliyunFileOperator")
-	public FileOperatorApi aliyunFileOperator(AliyunOssProperties aliyunOssProperties,
-			FileServerProperties fileServerProperties) {
-		return new AliyunFileOperator(aliyunOssProperties, fileServerProperties);
-	}
+    /**
+     * 本地文件操作
+     *
+     * @date 2020/12/1 14:40
+     */
+    @Bean
+    @ConditionalOnMissingBean(name = "aliyunFileOperator")
+    public FileOperatorApi aliyunFileOperator(AliyunOssProperties aliyunOssProperties,
+            FileServerProperties fileServerProperties) {
+        return new AliyunFileOperator(aliyunOssProperties, fileServerProperties);
+    }
 
 }

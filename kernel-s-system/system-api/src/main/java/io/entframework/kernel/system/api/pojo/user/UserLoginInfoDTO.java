@@ -16,19 +16,19 @@ import lombok.Data;
 @Data
 public class UserLoginInfoDTO {
 
-	/**
-	 * 加密后的密码
-	 */
-	private String userPasswordHexed;
+    /**
+     * 加密后的密码
+     */
+    private String userPasswordHexed;
 
-	/**
-	 * 用户状态，状态在UserStatusEnum维护
-	 */
-	private UserStatusEnum userStatus;
+    /**
+     * 用户状态，状态在UserStatusEnum维护
+     */
+    private UserStatusEnum userStatus;
 
-	/**
-	 * 用户登录信息，用于保存当前登陆用户
-	 */
-	private LoginUser loginUser;
+    /**
+     * 用户登录信息，用于保存当前登陆用户
+     */
+    private LoginUser loginUser;
 
 }

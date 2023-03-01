@@ -31,21 +31,21 @@ import org.mybatis.generator.config.Context;
  */
 public abstract class PluginAdapter implements Plugin {
 
-	protected Context context;
+    protected Context context;
 
-	protected final Properties properties = new Properties();
+    protected final Properties properties = new Properties();
 
-	protected PluginAdapter() {
-	}
+    protected PluginAdapter() {
+    }
 
-	@Override
-	public void setContext(Context context) {
-		this.context = context;
-	}
+    @Override
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
-	@Override
-	public void setProperties(Properties properties) {
-		this.properties.putAll(properties);
-	}
+    @Override
+    public void setProperties(Properties properties) {
+        this.properties.putAll(properties);
+    }
 
 }

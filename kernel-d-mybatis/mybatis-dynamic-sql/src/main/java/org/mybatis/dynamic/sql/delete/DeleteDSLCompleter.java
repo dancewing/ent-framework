@@ -70,12 +70,12 @@ import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 @FunctionalInterface
 public interface DeleteDSLCompleter extends Function<DeleteDSL<DeleteModel>, Buildable<DeleteModel>> {
 
-	/**
-	 * Returns a completer that can be used to delete every row in a table.
-	 * @return the completer that will delete every row in a table
-	 */
-	static DeleteDSLCompleter allRows() {
-		return c -> c;
-	}
+    /**
+     * Returns a completer that can be used to delete every row in a table.
+     * @return the completer that will delete every row in a table
+     */
+    static DeleteDSLCompleter allRows() {
+        return c -> c;
+    }
 
 }

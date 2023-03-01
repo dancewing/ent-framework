@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class IpAddrRemoveThreadLocalHolder implements RemoveThreadLocalApi {
 
-	@Override
-	public void removeThreadLocalAction() {
-		IpAddrHolder.clear();
-	}
+    @Override
+    public void removeThreadLocalAction() {
+        IpAddrHolder.clear();
+    }
 
 }

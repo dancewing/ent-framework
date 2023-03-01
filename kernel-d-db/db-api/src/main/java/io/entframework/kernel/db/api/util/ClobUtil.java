@@ -15,55 +15,55 @@ import java.sql.Clob;
  */
 public class ClobUtil {
 
-	/**
-	 * Clob类型转换成String类型
-	 *
-	 * @date 2021/5/19 10:33
-	 */
-	public static String clobToString(final Clob clob) {
+    /**
+     * Clob类型转换成String类型
+     *
+     * @date 2021/5/19 10:33
+     */
+    public static String clobToString(final Clob clob) {
 
-		if (clob == null) {
-			return null;
-		}
+        if (clob == null) {
+            return null;
+        }
 
-		Reader reader = null;
-		try {
-			reader = clob.getCharacterStream();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+        Reader reader = null;
+        try {
+            reader = clob.getCharacterStream();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
-		if (reader == null) {
-			return "";
-		}
+        if (reader == null) {
+            return "";
+        }
 
-		BufferedReader br = new BufferedReader(reader);
+        BufferedReader br = new BufferedReader(reader);
 
-		String str = null;
+        String str = null;
 
-		// 读取第一行
-		try {
-			str = br.readLine();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+        // 读取第一行
+        try {
+            str = br.readLine();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
-		StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
-		// 如果没有到达流的末尾，则继续读取下一行
-		while (str != null) {
-			sb.append(str);
-			try {
-				str = br.readLine();
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+        // 如果没有到达流的末尾，则继续读取下一行
+        while (str != null) {
+            sb.append(str);
+            try {
+                str = br.readLine();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
 }

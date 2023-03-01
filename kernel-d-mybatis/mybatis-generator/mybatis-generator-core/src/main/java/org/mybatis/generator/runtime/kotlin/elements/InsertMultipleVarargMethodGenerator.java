@@ -23,67 +23,67 @@ import org.mybatis.generator.runtime.dynamic.sql.elements.Utils;
 
 public class InsertMultipleVarargMethodGenerator extends AbstractKotlinFunctionGenerator {
 
-	private final FullyQualifiedKotlinType recordType;
+    private final FullyQualifiedKotlinType recordType;
 
-	private final String mapperName;
+    private final String mapperName;
 
-	private InsertMultipleVarargMethodGenerator(Builder builder) {
-		super(builder);
-		recordType = builder.recordType;
-		mapperName = builder.mapperName;
-	}
+    private InsertMultipleVarargMethodGenerator(Builder builder) {
+        super(builder);
+        recordType = builder.recordType;
+        mapperName = builder.mapperName;
+    }
 
-	@Override
-	public KotlinFunctionAndImports generateMethodAndImports() {
-		if (!Utils.generateMultipleRowInsert(introspectedTable)) {
-			return null;
-		}
+    @Override
+    public KotlinFunctionAndImports generateMethodAndImports() {
+        if (!Utils.generateMultipleRowInsert(introspectedTable)) {
+            return null;
+        }
 
-		KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports
-				.withFunction(KotlinFunction.newOneLineFunction(mapperName + ".insertMultiple") //$NON-NLS-1$
-						.withArgument(KotlinArg.newArg("vararg records") //$NON-NLS-1$
-								.withDataType(recordType.getShortNameWithTypeArguments()) // $NON-NLS-1$
-																							// //$NON-NLS-2$
-								.build())
-						.withCodeLine("insertMultiple(records.toList())") //$NON-NLS-1$
-						.build())
-				.withImports(recordType.getImportList()).build();
+        KotlinFunctionAndImports functionAndImports = KotlinFunctionAndImports
+                .withFunction(KotlinFunction.newOneLineFunction(mapperName + ".insertMultiple") //$NON-NLS-1$
+                        .withArgument(KotlinArg.newArg("vararg records") //$NON-NLS-1$
+                                .withDataType(recordType.getShortNameWithTypeArguments()) // $NON-NLS-1$
+                                                                                          // //$NON-NLS-2$
+                                .build())
+                        .withCodeLine("insertMultiple(records.toList())") //$NON-NLS-1$
+                        .build())
+                .withImports(recordType.getImportList()).build();
 
-		addFunctionComment(functionAndImports);
-		return functionAndImports;
-	}
+        addFunctionComment(functionAndImports);
+        return functionAndImports;
+    }
 
-	@Override
-	public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
-		return context.getPlugins().clientInsertMultipleVarargMethodGenerated(kotlinFunction, kotlinFile,
-				introspectedTable);
-	}
+    @Override
+    public boolean callPlugins(KotlinFunction kotlinFunction, KotlinFile kotlinFile) {
+        return context.getPlugins().clientInsertMultipleVarargMethodGenerated(kotlinFunction, kotlinFile,
+                introspectedTable);
+    }
 
-	public static class Builder extends BaseBuilder<Builder> {
+    public static class Builder extends BaseBuilder<Builder> {
 
-		private FullyQualifiedKotlinType recordType;
+        private FullyQualifiedKotlinType recordType;
 
-		private String mapperName;
+        private String mapperName;
 
-		public Builder withRecordType(FullyQualifiedKotlinType recordType) {
-			this.recordType = recordType;
-			return this;
-		}
+        public Builder withRecordType(FullyQualifiedKotlinType recordType) {
+            this.recordType = recordType;
+            return this;
+        }
 
-		public Builder withMapperName(String mapperName) {
-			this.mapperName = mapperName;
-			return this;
-		}
+        public Builder withMapperName(String mapperName) {
+            this.mapperName = mapperName;
+            return this;
+        }
 
-		@Override
-		public Builder getThis() {
-			return this;
-		}
+        @Override
+        public Builder getThis() {
+            return this;
+        }
 
-		public InsertMultipleVarargMethodGenerator build() {
-			return new InsertMultipleVarargMethodGenerator(this);
-		}
+        public InsertMultipleVarargMethodGenerator build() {
+            return new InsertMultipleVarargMethodGenerator(this);
+        }
 
-	}
+    }
 
 }

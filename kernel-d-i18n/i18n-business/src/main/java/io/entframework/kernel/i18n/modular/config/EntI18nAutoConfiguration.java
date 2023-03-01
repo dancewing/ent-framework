@@ -10,14 +10,14 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = { "io.entframework.kernel.i18n.modular.controller",
-		"io.entframework.kernel.i18n.modular.converter", "io.entframework.kernel.i18n.modular.service" })
+        "io.entframework.kernel.i18n.modular.converter", "io.entframework.kernel.i18n.modular.service" })
 @EntityScan("io.entframework.kernel.i18n.modular.entity")
 public class EntI18nAutoConfiguration {
 
-	@Bean
-	@ConditionalOnMissingBean(TranslationService.class)
-	public TranslationService translationService() {
-		return new TranslationServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(TranslationService.class)
+    public TranslationService translationService() {
+        return new TranslationServiceImpl();
+    }
 
 }

@@ -27,15 +27,15 @@ import org.mybatis.generator.api.CompositePlugin;
  */
 public class ReadOnlyPlugin extends CompositePlugin {
 
-	public ReadOnlyPlugin() {
-		addPlugin(new DisableDeletePlugin());
-		addPlugin(new DisableInsertPlugin());
-		addPlugin(new DisableUpdatePlugin());
-	}
+    public ReadOnlyPlugin() {
+        addPlugin(new DisableDeletePlugin());
+        addPlugin(new DisableInsertPlugin());
+        addPlugin(new DisableUpdatePlugin());
+    }
 
-	@Override
-	public boolean validate(List<String> warnings) {
-		return true;
-	}
+    @Override
+    public boolean validate(List<String> warnings) {
+        return true;
+    }
 
 }

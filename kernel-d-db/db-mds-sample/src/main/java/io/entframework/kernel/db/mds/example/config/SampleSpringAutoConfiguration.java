@@ -18,38 +18,38 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = { "io.entframework.kernel.db.mds.example.controller",
-		"io.entframework.kernel.db.mds.example.converter", "io.entframework.kernel.db.mds.example.service" })
+        "io.entframework.kernel.db.mds.example.converter", "io.entframework.kernel.db.mds.example.service" })
 @EntityScan("io.entframework.kernel.db.mds.example.entity")
 public class SampleSpringAutoConfiguration {
 
-	@Bean
-	@ConditionalOnMissingBean(ClassGradeService.class)
-	public ClassGradeService classGradeService() {
-		return new ClassGradeServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(ClassGradeService.class)
+    public ClassGradeService classGradeService() {
+        return new ClassGradeServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(HistoryScoreService.class)
-	public HistoryScoreService historyScoreService() {
-		return new HistoryScoreServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(HistoryScoreService.class)
+    public HistoryScoreService historyScoreService() {
+        return new HistoryScoreServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(TeacherService.class)
-	public TeacherService teacherService() {
-		return new TeacherServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(TeacherService.class)
+    public TeacherService teacherService() {
+        return new TeacherServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(StudentService.class)
-	public StudentService studentService() {
-		return new StudentServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(StudentService.class)
+    public StudentService studentService() {
+        return new StudentServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(AutoIncrementService.class)
-	public AutoIncrementService autoIncrementService() {
-		return new AutoIncrementServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(AutoIncrementService.class)
+    public AutoIncrementService autoIncrementService() {
+        return new AutoIncrementServiceImpl();
+    }
 
 }

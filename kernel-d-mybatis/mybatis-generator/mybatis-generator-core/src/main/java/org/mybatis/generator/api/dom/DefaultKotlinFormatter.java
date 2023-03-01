@@ -29,16 +29,16 @@ import org.mybatis.generator.config.Context;
  */
 public class DefaultKotlinFormatter implements KotlinFormatter {
 
-	protected Context context;
+    protected Context context;
 
-	@Override
-	public String getFormattedContent(KotlinFile kotlinFile) {
-		return new KotlinFileRenderer().render(kotlinFile);
-	}
+    @Override
+    public String getFormattedContent(KotlinFile kotlinFile) {
+        return new KotlinFileRenderer().render(kotlinFile);
+    }
 
-	@Override
-	public void setContext(Context context) {
-		this.context = context;
-	}
+    @Override
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
 }

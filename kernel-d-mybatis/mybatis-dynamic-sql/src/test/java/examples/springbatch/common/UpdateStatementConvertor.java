@@ -27,11 +27,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class UpdateStatementConvertor implements Converter<PersonRecord, UpdateStatementProvider> {
 
-	@Override
-	public UpdateStatementProvider convert(PersonRecord source) {
-		return UpdateDSL.update(person).set(firstName).equalTo(source::getFirstName).set(lastName)
-				.equalTo(source::getLastName).where(id, isEqualTo(source::getId)).build()
-				.render(RenderingStrategies.MYBATIS3);
-	}
+    @Override
+    public UpdateStatementProvider convert(PersonRecord source) {
+        return UpdateDSL.update(person).set(firstName).equalTo(source::getFirstName).set(lastName)
+                .equalTo(source::getLastName).where(id, isEqualTo(source::getId)).build()
+                .render(RenderingStrategies.MYBATIS3);
+    }
 
 }

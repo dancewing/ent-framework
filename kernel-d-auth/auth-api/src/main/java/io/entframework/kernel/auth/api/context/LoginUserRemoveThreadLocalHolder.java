@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoginUserRemoveThreadLocalHolder implements RemoveThreadLocalApi {
 
-	@Override
-	public void removeThreadLocalAction() {
-		LoginUserHolder.remove();
-	}
+    @Override
+    public void removeThreadLocalAction() {
+        LoginUserHolder.remove();
+    }
 
 }

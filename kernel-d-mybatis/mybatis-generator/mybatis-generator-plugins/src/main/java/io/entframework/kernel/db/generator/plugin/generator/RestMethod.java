@@ -7,59 +7,59 @@ import org.mybatis.generator.internal.util.JavaBeansUtil;
 
 public class RestMethod extends Method {
 
-	private String httpMethod = "GET";
+    private String httpMethod = "GET";
 
-	private String url = "";
+    private String url = "";
 
-	private String operation;
+    private String operation;
 
-	private FullyQualifiedJavaType recordType;
+    private FullyQualifiedJavaType recordType;
 
-	public RestMethod(String name) {
-		super(name);
-	}
+    public RestMethod(String name) {
+        super(name);
+    }
 
-	public RestMethod(Method original) {
-		super(original);
-	}
+    public RestMethod(Method original) {
+        super(original);
+    }
 
-	public RestMethod(String name, String httpMethod, FullyQualifiedJavaType recordType) {
-		super(name);
-		this.httpMethod = httpMethod;
-		this.recordType = recordType;
-	}
+    public RestMethod(String name, String httpMethod, FullyQualifiedJavaType recordType) {
+        super(name);
+        this.httpMethod = httpMethod;
+        this.recordType = recordType;
+    }
 
-	public String getHttpMethod() {
-		return httpMethod;
-	}
+    public String getHttpMethod() {
+        return httpMethod;
+    }
 
-	public void setHttpMethod(String httpMethod) {
-		this.httpMethod = httpMethod;
-	}
+    public void setHttpMethod(String httpMethod) {
+        this.httpMethod = httpMethod;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public String getOperation() {
-		return operation;
-	}
+    public String getOperation() {
+        return operation;
+    }
 
-	public void setOperation(String operation) {
-		this.operation = operation;
-	}
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
 
-	public String getRestPath() {
-		String url = this.getUrl();
-		if (StringUtils.isEmpty(url)) {
-			url = "/" + JavaBeansUtil.convertCamelCase(this.getName(), "-");
-		}
-		String modelObjectName = this.recordType.getShortName();
-		return "/" + JavaBeansUtil.convertCamelCase(modelObjectName, "-") + url;
-	}
+    public String getRestPath() {
+        String url = this.getUrl();
+        if (StringUtils.isEmpty(url)) {
+            url = "/" + JavaBeansUtil.convertCamelCase(this.getName(), "-");
+        }
+        String modelObjectName = this.recordType.getShortName();
+        return "/" + JavaBeansUtil.convertCamelCase(modelObjectName, "-") + url;
+    }
 
 }

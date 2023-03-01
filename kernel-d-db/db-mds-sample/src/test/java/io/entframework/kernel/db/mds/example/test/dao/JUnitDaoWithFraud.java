@@ -19,27 +19,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class JUnitDaoWithFraud extends JUnitWithFraud {
 
-	@Autowired
-	protected GeneralRepository generalRepository;
+    @Autowired
+    protected GeneralRepository generalRepository;
 
-	@Autowired
-	protected GeneralMapperSupport generalMapperSupport;
+    @Autowired
+    protected GeneralMapperSupport generalMapperSupport;
 
-	@BeforeEach
-	public void setUp() throws Exception {
-		super.setUp();
-		clean();
-	}
+    @BeforeEach
+    public void setUp() throws Exception {
+        super.setUp();
+        clean();
+    }
 
-	@AfterEach
-	public void tearDown() throws Exception {
-		clean();
-	}
+    @AfterEach
+    public void tearDown() throws Exception {
+        clean();
+    }
 
-	private void clean() {
-		this.generalRepository.deleteBy(new ClassGrade());
-		this.generalRepository.deleteBy(new Student());
-		this.generalRepository.deleteBy(new Teacher());
-	}
+    private void clean() {
+        this.generalRepository.deleteBy(new ClassGrade());
+        this.generalRepository.deleteBy(new Student());
+        this.generalRepository.deleteBy(new Teacher());
+    }
 
 }

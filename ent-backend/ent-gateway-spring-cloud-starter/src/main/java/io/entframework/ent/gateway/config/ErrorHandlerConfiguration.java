@@ -37,35 +37,35 @@ import java.util.List;
 @EnableConfigurationProperties({ ServerProperties.class, WebProperties.class })
 public class ErrorHandlerConfiguration {
 
-	private final ServerProperties serverProperties;
+    private final ServerProperties serverProperties;
 
-	private final ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
-	private final WebProperties.Resources resourceProperties;
+    private final WebProperties.Resources resourceProperties;
 
-	private final List<ViewResolver> viewResolvers;
+    private final List<ViewResolver> viewResolvers;
 
-	private final ServerCodecConfigurer serverCodecConfigurer;
+    private final ServerCodecConfigurer serverCodecConfigurer;
 
-	public ErrorHandlerConfiguration(ServerProperties serverProperties, WebProperties webProperties,
-			ObjectProvider<List<ViewResolver>> viewResolversProvider, ServerCodecConfigurer serverCodecConfigurer,
-			ApplicationContext applicationContext) {
-		this.serverProperties = serverProperties;
-		this.applicationContext = applicationContext;
-		this.resourceProperties = webProperties.getResources();
-		this.viewResolvers = viewResolversProvider.getIfAvailable(Collections::emptyList);
-		this.serverCodecConfigurer = serverCodecConfigurer;
-	}
+    public ErrorHandlerConfiguration(ServerProperties serverProperties, WebProperties webProperties,
+            ObjectProvider<List<ViewResolver>> viewResolversProvider, ServerCodecConfigurer serverCodecConfigurer,
+            ApplicationContext applicationContext) {
+        this.serverProperties = serverProperties;
+        this.applicationContext = applicationContext;
+        this.resourceProperties = webProperties.getResources();
+        this.viewResolvers = viewResolversProvider.getIfAvailable(Collections::emptyList);
+        this.serverCodecConfigurer = serverCodecConfigurer;
+    }
 
-	@Bean
-	@Order(Ordered.HIGHEST_PRECEDENCE)
-	public ErrorWebExceptionHandler errorWebExceptionHandler(ErrorAttributes errorAttributes) {
-		ErrorExceptionHandler exceptionHandler = new ErrorExceptionHandler(errorAttributes, this.resourceProperties,
-				this.serverProperties.getError(), this.applicationContext);
-		exceptionHandler.setViewResolvers(this.viewResolvers);
-		exceptionHandler.setMessageWriters(this.serverCodecConfigurer.getWriters());
-		exceptionHandler.setMessageReaders(this.serverCodecConfigurer.getReaders());
-		return exceptionHandler;
-	}
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public ErrorWebExceptionHandler errorWebExceptionHandler(ErrorAttributes errorAttributes) {
+        ErrorExceptionHandler exceptionHandler = new ErrorExceptionHandler(errorAttributes, this.resourceProperties,
+                this.serverProperties.getError(), this.applicationContext);
+        exceptionHandler.setViewResolvers(this.viewResolvers);
+        exceptionHandler.setMessageWriters(this.serverCodecConfigurer.getWriters());
+        exceptionHandler.setMessageReaders(this.serverCodecConfigurer.getReaders());
+        return exceptionHandler;
+    }
 
 }

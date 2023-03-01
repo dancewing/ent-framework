@@ -19,13 +19,13 @@ import org.mybatis.dynamic.sql.BasicColumn;
 
 public class EqualTo extends JoinCondition {
 
-	public EqualTo(BasicColumn rightColumn) {
-		super(rightColumn);
-	}
+    public EqualTo(BasicColumn rightColumn) {
+        super(rightColumn);
+    }
 
-	@Override
-	public String operator() {
-		return "="; //$NON-NLS-1$
-	}
+    @Override
+    public String operator() {
+        return "="; //$NON-NLS-1$
+    }
 
 }

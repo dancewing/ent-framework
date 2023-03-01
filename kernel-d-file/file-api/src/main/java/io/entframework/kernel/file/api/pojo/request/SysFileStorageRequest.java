@@ -24,22 +24,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SysFileStorageRequest extends BaseRequest {
 
-	/**
-	 * 文件主键id，关联file_info表的主键
-	 */
-	@NotNull(message = "文件主键id，关联file_info表的主键不能为空",
-			groups = { update.class, delete.class, detail.class, updateStatus.class })
-	@ChineseDescription("文件主键id，关联file_info表的主键")
-	private Long fileId;
+    /**
+     * 文件主键id，关联file_info表的主键
+     */
+    @NotNull(message = "文件主键id，关联file_info表的主键不能为空",
+            groups = { update.class, delete.class, detail.class, updateStatus.class })
+    @ChineseDescription("文件主键id，关联file_info表的主键")
+    private Long fileId;
 
-	/**
-	 * 具体文件的字节信息
-	 */
-	@ChineseDescription("具体文件的字节信息")
-	private byte[] fileBytes;
+    /**
+     * 具体文件的字节信息
+     */
+    @ChineseDescription("具体文件的字节信息")
+    private byte[] fileBytes;
 
-	@NotNull(message = "ID集合不能为空", groups = { batchDelete.class })
-	@ChineseDescription("ID集合")
-	private java.util.List<Long> fileIds;
+    @NotNull(message = "ID集合不能为空", groups = { batchDelete.class })
+    @ChineseDescription("ID集合")
+    private java.util.List<Long> fileIds;
 
 }

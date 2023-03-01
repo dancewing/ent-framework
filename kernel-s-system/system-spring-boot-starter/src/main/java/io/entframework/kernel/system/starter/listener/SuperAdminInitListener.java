@@ -25,17 +25,17 @@ import jakarta.annotation.Resource;
 @Slf4j
 public class SuperAdminInitListener extends ApplicationReadyListener implements Ordered {
 
-	@Resource
-	private InitAdminService initAdminService;
+    @Resource
+    private InitAdminService initAdminService;
 
-	@Override
-	public void eventCallback(ApplicationReadyEvent event) {
-		initAdminService.initSuperAdmin();
-	}
+    @Override
+    public void eventCallback(ApplicationReadyEvent event) {
+        initAdminService.initSuperAdmin();
+    }
 
-	@Override
-	public int getOrder() {
-		return SystemConstants.SUPER_ADMIN_INIT_LISTENER_SORT;
-	}
+    @Override
+    public int getOrder() {
+        return SystemConstants.SUPER_ADMIN_INIT_LISTENER_SORT;
+    }
 
 }

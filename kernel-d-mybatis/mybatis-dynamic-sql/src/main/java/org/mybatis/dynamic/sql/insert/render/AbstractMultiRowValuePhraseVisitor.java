@@ -25,38 +25,38 @@ import org.mybatis.dynamic.sql.util.StringConstantMapping;
 
 public abstract class AbstractMultiRowValuePhraseVisitor extends MultiRowInsertMappingVisitor<FieldAndValue> {
 
-	protected final RenderingStrategy renderingStrategy;
+    protected final RenderingStrategy renderingStrategy;
 
-	protected final String prefix;
+    protected final String prefix;
 
-	protected AbstractMultiRowValuePhraseVisitor(RenderingStrategy renderingStrategy, String prefix) {
-		this.renderingStrategy = renderingStrategy;
-		this.prefix = prefix;
-	}
+    protected AbstractMultiRowValuePhraseVisitor(RenderingStrategy renderingStrategy, String prefix) {
+        this.renderingStrategy = renderingStrategy;
+        this.prefix = prefix;
+    }
 
-	@Override
-	public FieldAndValue visit(NullMapping mapping) {
-		return FieldAndValue.withFieldName(mapping.columnName()).withValuePhrase("null") //$NON-NLS-1$
-				.build();
-	}
+    @Override
+    public FieldAndValue visit(NullMapping mapping) {
+        return FieldAndValue.withFieldName(mapping.columnName()).withValuePhrase("null") //$NON-NLS-1$
+                .build();
+    }
 
-	@Override
-	public FieldAndValue visit(ConstantMapping mapping) {
-		return FieldAndValue.withFieldName(mapping.columnName()).withValuePhrase(mapping.constant()).build();
-	}
+    @Override
+    public FieldAndValue visit(ConstantMapping mapping) {
+        return FieldAndValue.withFieldName(mapping.columnName()).withValuePhrase(mapping.constant()).build();
+    }
 
-	@Override
-	public FieldAndValue visit(StringConstantMapping mapping) {
-		return FieldAndValue.withFieldName(mapping.columnName()).withValuePhrase("'" + mapping.constant() + "'") //$NON-NLS-1$ //$NON-NLS-2$
-				.build();
-	}
+    @Override
+    public FieldAndValue visit(StringConstantMapping mapping) {
+        return FieldAndValue.withFieldName(mapping.columnName()).withValuePhrase("'" + mapping.constant() + "'") //$NON-NLS-1$ //$NON-NLS-2$
+                .build();
+    }
 
-	@Override
-	public FieldAndValue visit(PropertyMapping mapping) {
-		return FieldAndValue.withFieldName(mapping.columnName())
-				.withValuePhrase(mapping.mapColumn(c -> calculateJdbcPlaceholder(c, mapping.property()))).build();
-	}
+    @Override
+    public FieldAndValue visit(PropertyMapping mapping) {
+        return FieldAndValue.withFieldName(mapping.columnName())
+                .withValuePhrase(mapping.mapColumn(c -> calculateJdbcPlaceholder(c, mapping.property()))).build();
+    }
 
-	abstract String calculateJdbcPlaceholder(SqlColumn<?> column, String parameterName);
+    abstract String calculateJdbcPlaceholder(SqlColumn<?> column, String parameterName);
 
 }

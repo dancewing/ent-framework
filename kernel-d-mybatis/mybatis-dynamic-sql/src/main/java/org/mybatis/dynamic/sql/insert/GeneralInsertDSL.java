@@ -35,101 +35,101 @@ import org.mybatis.dynamic.sql.util.ValueWhenPresentMapping;
 
 public class GeneralInsertDSL implements Buildable<GeneralInsertModel> {
 
-	private final List<AbstractColumnMapping> columnMappings;
+    private final List<AbstractColumnMapping> columnMappings;
 
-	private final SqlTable table;
+    private final SqlTable table;
 
-	private GeneralInsertDSL(Builder builder) {
-		table = Objects.requireNonNull(builder.table);
-		columnMappings = builder.columnMappings;
-	}
+    private GeneralInsertDSL(Builder builder) {
+        table = Objects.requireNonNull(builder.table);
+        columnMappings = builder.columnMappings;
+    }
 
-	public <T> SetClauseFinisher<T> set(SqlColumn<T> column) {
-		return new SetClauseFinisher<>(column);
-	}
+    public <T> SetClauseFinisher<T> set(SqlColumn<T> column) {
+        return new SetClauseFinisher<>(column);
+    }
 
-	@NotNull
-	@Override
-	public GeneralInsertModel build() {
-		return new GeneralInsertModel.Builder().withTable(table).withInsertMappings(columnMappings).build();
-	}
+    @NotNull
+    @Override
+    public GeneralInsertModel build() {
+        return new GeneralInsertModel.Builder().withTable(table).withInsertMappings(columnMappings).build();
+    }
 
-	public static GeneralInsertDSL insertInto(SqlTable table) {
-		return new GeneralInsertDSL.Builder().withTable(table).build();
-	}
+    public static GeneralInsertDSL insertInto(SqlTable table) {
+        return new GeneralInsertDSL.Builder().withTable(table).build();
+    }
 
-	public class SetClauseFinisher<T> {
+    public class SetClauseFinisher<T> {
 
-		private final SqlColumn<T> column;
+        private final SqlColumn<T> column;
 
-		public SetClauseFinisher(SqlColumn<T> column) {
-			this.column = column;
-		}
+        public SetClauseFinisher(SqlColumn<T> column) {
+            this.column = column;
+        }
 
-		public GeneralInsertDSL toNull() {
-			columnMappings.add(NullMapping.of(column));
-			return GeneralInsertDSL.this;
-		}
+        public GeneralInsertDSL toNull() {
+            columnMappings.add(NullMapping.of(column));
+            return GeneralInsertDSL.this;
+        }
 
-		public GeneralInsertDSL toConstant(String constant) {
-			columnMappings.add(ConstantMapping.of(column, constant));
-			return GeneralInsertDSL.this;
-		}
+        public GeneralInsertDSL toConstant(String constant) {
+            columnMappings.add(ConstantMapping.of(column, constant));
+            return GeneralInsertDSL.this;
+        }
 
-		public GeneralInsertDSL toStringConstant(String constant) {
-			columnMappings.add(StringConstantMapping.of(column, constant));
-			return GeneralInsertDSL.this;
-		}
+        public GeneralInsertDSL toStringConstant(String constant) {
+            columnMappings.add(StringConstantMapping.of(column, constant));
+            return GeneralInsertDSL.this;
+        }
 
-		public GeneralInsertDSL toValue(T value) {
-			return toValue(() -> value);
-		}
+        public GeneralInsertDSL toValue(T value) {
+            return toValue(() -> value);
+        }
 
-		public GeneralInsertDSL toValue(Supplier<T> valueSupplier) {
-			columnMappings.add(ValueMapping.of(column, valueSupplier));
-			return GeneralInsertDSL.this;
-		}
+        public GeneralInsertDSL toValue(Supplier<T> valueSupplier) {
+            columnMappings.add(ValueMapping.of(column, valueSupplier));
+            return GeneralInsertDSL.this;
+        }
 
-		public GeneralInsertDSL toValueOrNull(T value) {
-			return toValueOrNull(() -> value);
-		}
+        public GeneralInsertDSL toValueOrNull(T value) {
+            return toValueOrNull(() -> value);
+        }
 
-		public GeneralInsertDSL toValueOrNull(Supplier<T> valueSupplier) {
-			columnMappings.add(ValueOrNullMapping.of(column, valueSupplier));
-			return GeneralInsertDSL.this;
-		}
+        public GeneralInsertDSL toValueOrNull(Supplier<T> valueSupplier) {
+            columnMappings.add(ValueOrNullMapping.of(column, valueSupplier));
+            return GeneralInsertDSL.this;
+        }
 
-		public GeneralInsertDSL toValueWhenPresent(T value) {
-			return toValueWhenPresent(() -> value);
-		}
+        public GeneralInsertDSL toValueWhenPresent(T value) {
+            return toValueWhenPresent(() -> value);
+        }
 
-		public GeneralInsertDSL toValueWhenPresent(Supplier<T> valueSupplier) {
-			columnMappings.add(ValueWhenPresentMapping.of(column, valueSupplier));
-			return GeneralInsertDSL.this;
-		}
+        public GeneralInsertDSL toValueWhenPresent(Supplier<T> valueSupplier) {
+            columnMappings.add(ValueWhenPresentMapping.of(column, valueSupplier));
+            return GeneralInsertDSL.this;
+        }
 
-	}
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
+        private final List<AbstractColumnMapping> columnMappings = new ArrayList<>();
 
-		private SqlTable table;
+        private SqlTable table;
 
-		public Builder withTable(SqlTable table) {
-			this.table = table;
-			return this;
-		}
+        public Builder withTable(SqlTable table) {
+            this.table = table;
+            return this;
+        }
 
-		public Builder withColumnMappings(Collection<AbstractColumnMapping> columnMappings) {
-			this.columnMappings.addAll(columnMappings);
-			return this;
-		}
+        public Builder withColumnMappings(Collection<AbstractColumnMapping> columnMappings) {
+            this.columnMappings.addAll(columnMappings);
+            return this;
+        }
 
-		public GeneralInsertDSL build() {
-			return new GeneralInsertDSL(this);
-		}
+        public GeneralInsertDSL build() {
+            return new GeneralInsertDSL(this);
+        }
 
-	}
+    }
 
 }

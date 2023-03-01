@@ -43,54 +43,54 @@ import examples.generated.always.PersonRecord;
 
 public interface PersonMapper {
 
-	@InsertProvider(type = SqlProviderAdapter.class, method = "insertSelect")
-	@Options(useGeneratedKeys = true, keyProperty = "parameters.id")
-	int insertSelect(InsertSelectStatementProvider insertSelectStatement);
+    @InsertProvider(type = SqlProviderAdapter.class, method = "insertSelect")
+    @Options(useGeneratedKeys = true, keyProperty = "parameters.id")
+    int insertSelect(InsertSelectStatementProvider insertSelectStatement);
 
-	@InsertProvider(type = SqlProviderAdapter.class, method = "insert")
-	@Options(useGeneratedKeys = true, keyProperty = "row.id")
-	int insert(InsertStatementProvider<PersonRecord> insertStatement);
+    @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
+    @Options(useGeneratedKeys = true, keyProperty = "row.id")
+    int insert(InsertStatementProvider<PersonRecord> insertStatement);
 
-	@InsertProvider(type = SqlProviderAdapter.class, method = "insertMultipleWithGeneratedKeys")
-	@Options(useGeneratedKeys = true, keyProperty = "records.id")
-	int insertMultiple(@Param("insertStatement") String insertStatement, @Param("records") List<PersonRecord> records);
+    @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultipleWithGeneratedKeys")
+    @Options(useGeneratedKeys = true, keyProperty = "records.id")
+    int insertMultiple(@Param("insertStatement") String insertStatement, @Param("records") List<PersonRecord> records);
 
-	default int insertMultiple(MultiRowInsertStatementProvider<PersonRecord> multiRowInsertStatement) {
-		return insertMultiple(multiRowInsertStatement.getInsertStatement(), multiRowInsertStatement.getRecords());
-	}
+    default int insertMultiple(MultiRowInsertStatementProvider<PersonRecord> multiRowInsertStatement) {
+        return insertMultiple(multiRowInsertStatement.getInsertStatement(), multiRowInsertStatement.getRecords());
+    }
 
-	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
-	List<PersonRecord> selectMany(SelectStatementProvider selectStatement);
+    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
+    List<PersonRecord> selectMany(SelectStatementProvider selectStatement);
 
-	// insertSelect when there are multiple generated keys expected
-	@Insert({ "${insertStatement}" })
-	@Options(useGeneratedKeys = true, keyProperty = "keys.key")
-	int insertSelectMultiple(@Param("insertStatement") String insertStatement,
-			@Param("parameters") Map<String, Object> parameters, @Param("keys") GeneratedKeyList keys);
+    // insertSelect when there are multiple generated keys expected
+    @Insert({ "${insertStatement}" })
+    @Options(useGeneratedKeys = true, keyProperty = "keys.key")
+    int insertSelectMultiple(@Param("insertStatement") String insertStatement,
+            @Param("parameters") Map<String, Object> parameters, @Param("keys") GeneratedKeyList keys);
 
-	default int insertSelect(InsertSelectStatementProvider insertSelectStatement, GeneratedKeyList keys) {
-		return insertSelectMultiple(insertSelectStatement.getInsertStatement(), insertSelectStatement.getParameters(),
-				keys);
-	}
+    default int insertSelect(InsertSelectStatementProvider insertSelectStatement, GeneratedKeyList keys) {
+        return insertSelectMultiple(insertSelectStatement.getInsertStatement(), insertSelectStatement.getParameters(),
+                keys);
+    }
 
-	default int insert(PersonRecord record) {
-		return MyBatis3Utils.insert(this::insert, record, person,
-				c -> c.map(firstName).toProperty("firstName").map(lastName).toProperty("lastName"));
-	}
+    default int insert(PersonRecord record) {
+        return MyBatis3Utils.insert(this::insert, record, person,
+                c -> c.map(firstName).toProperty("firstName").map(lastName).toProperty("lastName"));
+    }
 
-	default int insertMultiple(PersonRecord... records) {
-		return insertMultiple(Arrays.asList(records));
-	}
+    default int insertMultiple(PersonRecord... records) {
+        return insertMultiple(Arrays.asList(records));
+    }
 
-	default int insertMultiple(Collection<PersonRecord> records) {
-		return MyBatis3Utils.insertMultiple(this::insertMultiple, records, person,
-				c -> c.map(firstName).toProperty("firstName").map(lastName).toProperty("lastName"));
-	}
+    default int insertMultiple(Collection<PersonRecord> records) {
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, person,
+                c -> c.map(firstName).toProperty("firstName").map(lastName).toProperty("lastName"));
+    }
 
-	BasicColumn[] selectList = BasicColumn.columnList(id, firstName, lastName);
+    BasicColumn[] selectList = BasicColumn.columnList(id, firstName, lastName);
 
-	default List<PersonRecord> select(SelectDSLCompleter completer) {
-		return MyBatis3Utils.selectList(this::selectMany, selectList, person, completer);
-	}
+    default List<PersonRecord> select(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectList(this::selectMany, selectList, person, completer);
+    }
 
 }

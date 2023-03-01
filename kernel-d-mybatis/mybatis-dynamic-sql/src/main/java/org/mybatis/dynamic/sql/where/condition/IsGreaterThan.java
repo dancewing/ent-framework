@@ -22,47 +22,47 @@ import org.mybatis.dynamic.sql.AbstractSingleValueCondition;
 
 public class IsGreaterThan<T> extends AbstractSingleValueCondition<T> {
 
-	private static final IsGreaterThan<?> EMPTY = new IsGreaterThan<Object>(null) {
-		@Override
-		public boolean shouldRender() {
-			return false;
-		}
-	};
+    private static final IsGreaterThan<?> EMPTY = new IsGreaterThan<Object>(null) {
+        @Override
+        public boolean shouldRender() {
+            return false;
+        }
+    };
 
-	public static <T> IsGreaterThan<T> empty() {
-		@SuppressWarnings("unchecked")
-		IsGreaterThan<T> t = (IsGreaterThan<T>) EMPTY;
-		return t;
-	}
+    public static <T> IsGreaterThan<T> empty() {
+        @SuppressWarnings("unchecked")
+        IsGreaterThan<T> t = (IsGreaterThan<T>) EMPTY;
+        return t;
+    }
 
-	protected IsGreaterThan(T value) {
-		super(value);
-	}
+    protected IsGreaterThan(T value) {
+        super(value);
+    }
 
-	@Override
-	public String renderCondition(String columnName, String placeholder) {
-		return columnName + " > " + placeholder; //$NON-NLS-1$
-	}
+    @Override
+    public String renderCondition(String columnName, String placeholder) {
+        return columnName + " > " + placeholder; //$NON-NLS-1$
+    }
 
-	public static <T> IsGreaterThan<T> of(T value) {
-		return new IsGreaterThan<>(value);
-	}
+    public static <T> IsGreaterThan<T> of(T value) {
+        return new IsGreaterThan<>(value);
+    }
 
-	@Override
-	public IsGreaterThan<T> filter(Predicate<? super T> predicate) {
-		return filterSupport(predicate, IsGreaterThan::empty, this);
-	}
+    @Override
+    public IsGreaterThan<T> filter(Predicate<? super T> predicate) {
+        return filterSupport(predicate, IsGreaterThan::empty, this);
+    }
 
-	/**
-	 * If renderable, apply the mapping to the value and return a new condition with the
-	 * new value. Else return a condition that will not render (this).
-	 * @param mapper a mapping function to apply to the value, if renderable
-	 * @param <R> type of the new condition
-	 * @return a new condition with the result of applying the mapper to the value of this
-	 * condition, if renderable, otherwise a condition that will not render.
-	 */
-	public <R> IsGreaterThan<R> map(Function<? super T, ? extends R> mapper) {
-		return mapSupport(mapper, IsGreaterThan::new, IsGreaterThan::empty);
-	}
+    /**
+     * If renderable, apply the mapping to the value and return a new condition with the
+     * new value. Else return a condition that will not render (this).
+     * @param mapper a mapping function to apply to the value, if renderable
+     * @param <R> type of the new condition
+     * @return a new condition with the result of applying the mapper to the value of this
+     * condition, if renderable, otherwise a condition that will not render.
+     */
+    public <R> IsGreaterThan<R> map(Function<? super T, ? extends R> mapper) {
+        return mapSupport(mapper, IsGreaterThan::new, IsGreaterThan::empty);
+    }
 
 }

@@ -17,15 +17,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KernelGroovyAutoConfiguration {
 
-	/**
-	 * Groovy的操作类
-	 *
-	 * @date 2021/1/29 11:23
-	 */
-	@Bean
-	@ConditionalOnMissingBean(GroovyApi.class)
-	public GroovyApi groovyApi() {
-		return new GroovyOperator();
-	}
+    /**
+     * Groovy的操作类
+     *
+     * @date 2021/1/29 11:23
+     */
+    @Bean
+    @ConditionalOnMissingBean(GroovyApi.class)
+    public GroovyApi groovyApi() {
+        return new GroovyOperator();
+    }
 
 }

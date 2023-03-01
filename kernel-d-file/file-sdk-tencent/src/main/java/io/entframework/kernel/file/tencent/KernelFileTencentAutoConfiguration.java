@@ -21,16 +21,16 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties({ TenCosProperties.class })
 public class KernelFileTencentAutoConfiguration {
 
-	/**
-	 * 本地文件操作
-	 *
-	 * @date 2020/12/1 14:40
-	 */
-	@Bean
-	@ConditionalOnMissingBean(name = "tenFileOperator")
-	public FileOperatorApi tenFileOperator(TenCosProperties tenCosProperties,
-			FileServerProperties fileServerProperties) {
-		return new TenFileOperator(tenCosProperties, fileServerProperties);
-	}
+    /**
+     * 本地文件操作
+     *
+     * @date 2020/12/1 14:40
+     */
+    @Bean
+    @ConditionalOnMissingBean(name = "tenFileOperator")
+    public FileOperatorApi tenFileOperator(TenCosProperties tenCosProperties,
+            FileServerProperties fileServerProperties) {
+        return new TenFileOperator(tenCosProperties, fileServerProperties);
+    }
 
 }

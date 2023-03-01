@@ -19,35 +19,35 @@ import lombok.Getter;
 @EnumHandler
 public enum SmsSendSourceEnum implements SupperEnum<Integer> {
 
-	/**
-	 * APP
-	 */
-	APP(1, "APP"),
+    /**
+     * APP
+     */
+    APP(1, "APP"),
 
-	/**
-	 * PC
-	 */
-	PC(2, "PC"),
+    /**
+     * PC
+     */
+    PC(2, "PC"),
 
-	/**
-	 * OTHER
-	 */
-	OTHER(3, "OTHER");
+    /**
+     * OTHER
+     */
+    OTHER(3, "OTHER");
 
-	@JsonValue
-	@EnumValue
-	private final Integer value;
+    @JsonValue
+    @EnumValue
+    private final Integer value;
 
-	private final String label;
+    private final String label;
 
-	SmsSendSourceEnum(Integer value, String label) {
-		this.value = value;
-		this.label = label;
-	}
+    SmsSendSourceEnum(Integer value, String label) {
+        this.value = value;
+        this.label = label;
+    }
 
-	@JsonCreator
-	public static SmsSendSourceEnum valueToEnum(Integer value) {
-		return SupperEnum.fromValue(SmsSendSourceEnum.class, value);
-	}
+    @JsonCreator
+    public static SmsSendSourceEnum valueToEnum(Integer value) {
+        return SupperEnum.fromValue(SmsSendSourceEnum.class, value);
+    }
 
 }

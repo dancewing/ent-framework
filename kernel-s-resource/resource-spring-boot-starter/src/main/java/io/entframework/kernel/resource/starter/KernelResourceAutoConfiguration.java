@@ -29,21 +29,21 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = { "io.entframework.kernel.resource" })
 public class KernelResourceAutoConfiguration {
 
-	/**
-	 * 资源缓存
-	 *
-	 * @date 2021/5/17 16:44
-	 */
-	@Bean
-	@ConditionalOnMissingBean(name = ResourceConstants.RESOURCE_CACHE_BEAN_NAME)
-	public CacheOperatorApi<ResourceDefinition> resourceCache() {
-		TimedCache<String, ResourceDefinition> timedCache = CacheUtil.newTimedCache(CacheConstants.NONE_EXPIRED_TIME);
-		return new DefaultMemoryCacheOperator<>(timedCache, ScannerConstants.RESOURCE_CACHE_KEY);
-	}
+    /**
+     * 资源缓存
+     *
+     * @date 2021/5/17 16:44
+     */
+    @Bean
+    @ConditionalOnMissingBean(name = ResourceConstants.RESOURCE_CACHE_BEAN_NAME)
+    public CacheOperatorApi<ResourceDefinition> resourceCache() {
+        TimedCache<String, ResourceDefinition> timedCache = CacheUtil.newTimedCache(CacheConstants.NONE_EXPIRED_TIME);
+        return new DefaultMemoryCacheOperator<>(timedCache, ScannerConstants.RESOURCE_CACHE_KEY);
+    }
 
-	@Bean
-	public KernelResourceModuleRegister kernelResourceModuleRegister() {
-		return new KernelResourceModuleRegister();
-	}
+    @Bean
+    public KernelResourceModuleRegister kernelResourceModuleRegister() {
+        return new KernelResourceModuleRegister();
+    }
 
 }

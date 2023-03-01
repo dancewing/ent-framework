@@ -16,25 +16,25 @@ import lombok.Getter;
 @Getter
 public enum LogExceptionEnum implements AbstractExceptionEnum {
 
-	/**
-	 * 日志不存在
-	 */
-	LOG_NOT_EXIST(RuleConstants.USER_OPERATION_ERROR_TYPE_CODE + SystemConstants.SYSTEM_EXCEPTION_STEP_CODE + "21",
-			"日志不存在");
+    /**
+     * 日志不存在
+     */
+    LOG_NOT_EXIST(RuleConstants.USER_OPERATION_ERROR_TYPE_CODE + SystemConstants.SYSTEM_EXCEPTION_STEP_CODE + "21",
+            "日志不存在");
 
-	/**
-	 * 错误编码
-	 */
-	private final String errorCode;
+    /**
+     * 错误编码
+     */
+    private final String errorCode;
 
-	/**
-	 * 提示用户信息
-	 */
-	private final String userTip;
+    /**
+     * 提示用户信息
+     */
+    private final String userTip;
 
-	LogExceptionEnum(String errorCode, String userTip) {
-		this.errorCode = errorCode;
-		this.userTip = userTip;
-	}
+    LogExceptionEnum(String errorCode, String userTip) {
+        this.errorCode = errorCode;
+        this.userTip = userTip;
+    }
 
 }

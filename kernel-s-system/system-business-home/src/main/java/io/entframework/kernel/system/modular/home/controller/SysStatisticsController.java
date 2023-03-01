@@ -34,75 +34,75 @@ import io.entframework.kernel.db.api.pojo.page.PageResult;
 @ApiResource(name = "常用功能的统计次数")
 public class SysStatisticsController {
 
-	@Resource
-	private SysStatisticsCountService sysStatisticsCountService;
+    @Resource
+    private SysStatisticsCountService sysStatisticsCountService;
 
-	/**
-	 * 添加
-	 *
-	 * @date 2022/02/10 21:17
-	 */
-	@PostResource(name = "添加", path = "/sys-statistics-count/add")
-	public ResponseData<Void> add(
-			@RequestBody @Validated(BaseRequest.add.class) SysStatisticsCountRequest sysStatisticsCountRequest) {
-		sysStatisticsCountService.add(sysStatisticsCountRequest);
-		return ResponseData.OK_VOID;
-	}
+    /**
+     * 添加
+     *
+     * @date 2022/02/10 21:17
+     */
+    @PostResource(name = "添加", path = "/sys-statistics-count/add")
+    public ResponseData<Void> add(
+            @RequestBody @Validated(BaseRequest.add.class) SysStatisticsCountRequest sysStatisticsCountRequest) {
+        sysStatisticsCountService.add(sysStatisticsCountRequest);
+        return ResponseData.OK_VOID;
+    }
 
-	/**
-	 * 删除
-	 *
-	 * @date 2022/02/10 21:17
-	 */
-	@PostResource(name = "删除", path = "/sys-statistics-count/delete")
-	public ResponseData<Void> delete(
-			@RequestBody @Validated(BaseRequest.delete.class) SysStatisticsCountRequest sysStatisticsCountRequest) {
-		sysStatisticsCountService.del(sysStatisticsCountRequest);
-		return ResponseData.OK_VOID;
-	}
+    /**
+     * 删除
+     *
+     * @date 2022/02/10 21:17
+     */
+    @PostResource(name = "删除", path = "/sys-statistics-count/delete")
+    public ResponseData<Void> delete(
+            @RequestBody @Validated(BaseRequest.delete.class) SysStatisticsCountRequest sysStatisticsCountRequest) {
+        sysStatisticsCountService.del(sysStatisticsCountRequest);
+        return ResponseData.OK_VOID;
+    }
 
-	/**
-	 * 更新
-	 *
-	 * @date 2022/02/10 21:17
-	 */
-	@PostResource(name = "编辑", path = "/sys-statistics-count/update")
-	public ResponseData<Void> update(
-			@RequestBody @Validated(BaseRequest.update.class) SysStatisticsCountRequest sysStatisticsCountRequest) {
-		sysStatisticsCountService.update(sysStatisticsCountRequest);
-		return ResponseData.OK_VOID;
-	}
+    /**
+     * 更新
+     *
+     * @date 2022/02/10 21:17
+     */
+    @PostResource(name = "编辑", path = "/sys-statistics-count/update")
+    public ResponseData<Void> update(
+            @RequestBody @Validated(BaseRequest.update.class) SysStatisticsCountRequest sysStatisticsCountRequest) {
+        sysStatisticsCountService.update(sysStatisticsCountRequest);
+        return ResponseData.OK_VOID;
+    }
 
-	/**
-	 * 查看详情
-	 *
-	 * @date 2022/02/10 21:17
-	 */
-	@GetResource(name = "查看详情", path = "/sys-statistics-count/detail")
-	public ResponseData<SysStatisticsCountResponse> detail(
-			@Validated(BaseRequest.detail.class) SysStatisticsCountRequest sysStatisticsCountRequest) {
-		return ResponseData.ok(sysStatisticsCountService.detail(sysStatisticsCountRequest));
-	}
+    /**
+     * 查看详情
+     *
+     * @date 2022/02/10 21:17
+     */
+    @GetResource(name = "查看详情", path = "/sys-statistics-count/detail")
+    public ResponseData<SysStatisticsCountResponse> detail(
+            @Validated(BaseRequest.detail.class) SysStatisticsCountRequest sysStatisticsCountRequest) {
+        return ResponseData.ok(sysStatisticsCountService.detail(sysStatisticsCountRequest));
+    }
 
-	/**
-	 * 获取列表
-	 *
-	 * @date 2022/02/10 21:17
-	 */
-	@GetResource(name = "获取列表", path = "/sys-statistics-count/list")
-	public ResponseData<List<SysStatisticsCountResponse>> list(SysStatisticsCountRequest sysStatisticsCountRequest) {
-		return ResponseData.ok(sysStatisticsCountService.findList(sysStatisticsCountRequest));
-	}
+    /**
+     * 获取列表
+     *
+     * @date 2022/02/10 21:17
+     */
+    @GetResource(name = "获取列表", path = "/sys-statistics-count/list")
+    public ResponseData<List<SysStatisticsCountResponse>> list(SysStatisticsCountRequest sysStatisticsCountRequest) {
+        return ResponseData.ok(sysStatisticsCountService.findList(sysStatisticsCountRequest));
+    }
 
-	/**
-	 * 获取列表（带分页）
-	 *
-	 * @date 2022/02/10 21:17
-	 */
-	@GetResource(name = "分页查询", path = "/sys-statistics-count/page")
-	public ResponseData<PageResult<SysStatisticsCountResponse>> page(
-			SysStatisticsCountRequest sysStatisticsCountRequest) {
-		return ResponseData.ok(sysStatisticsCountService.findPage(sysStatisticsCountRequest));
-	}
+    /**
+     * 获取列表（带分页）
+     *
+     * @date 2022/02/10 21:17
+     */
+    @GetResource(name = "分页查询", path = "/sys-statistics-count/page")
+    public ResponseData<PageResult<SysStatisticsCountResponse>> page(
+            SysStatisticsCountRequest sysStatisticsCountRequest) {
+        return ResponseData.ok(sysStatisticsCountService.findPage(sysStatisticsCountRequest));
+    }
 
 }

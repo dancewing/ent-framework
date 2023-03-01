@@ -34,15 +34,15 @@ import org.mybatis.generator.api.PluginAdapter;
  */
 public class UnmergeableXmlMappersPlugin extends PluginAdapter {
 
-	@Override
-	public boolean validate(List<String> warnings) {
-		return true;
-	}
+    @Override
+    public boolean validate(List<String> warnings) {
+        return true;
+    }
 
-	@Override
-	public boolean sqlMapGenerated(GeneratedXmlFile sqlMap, IntrospectedTable introspectedTable) {
-		sqlMap.setMergeable(false);
-		return true;
-	}
+    @Override
+    public boolean sqlMapGenerated(GeneratedXmlFile sqlMap, IntrospectedTable introspectedTable) {
+        sqlMap.setMergeable(false);
+        return true;
+    }
 
 }

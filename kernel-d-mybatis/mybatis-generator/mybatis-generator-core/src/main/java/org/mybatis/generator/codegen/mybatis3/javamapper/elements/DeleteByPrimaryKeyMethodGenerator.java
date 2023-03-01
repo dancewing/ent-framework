@@ -25,40 +25,40 @@ import org.mybatis.generator.api.dom.java.Method;
 
 public class DeleteByPrimaryKeyMethodGenerator extends AbstractJavaMapperMethodGenerator {
 
-	private final boolean isSimple;
+    private final boolean isSimple;
 
-	public DeleteByPrimaryKeyMethodGenerator(boolean isSimple) {
-		super();
-		this.isSimple = isSimple;
-	}
+    public DeleteByPrimaryKeyMethodGenerator(boolean isSimple) {
+        super();
+        this.isSimple = isSimple;
+    }
 
-	@Override
-	public void addInterfaceElements(Interface interfaze) {
-		Method method = new Method(introspectedTable.getDeleteByPrimaryKeyStatementId());
-		method.setVisibility(JavaVisibility.PUBLIC);
-		method.setAbstract(true);
-		method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+    @Override
+    public void addInterfaceElements(Interface interfaze) {
+        Method method = new Method(introspectedTable.getDeleteByPrimaryKeyStatementId());
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setAbstract(true);
+        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
 
-		Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
-		addPrimaryKeyMethodParameters(isSimple, method, importedTypes);
+        Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
+        addPrimaryKeyMethodParameters(isSimple, method, importedTypes);
 
-		addMapperAnnotations(method);
+        addMapperAnnotations(method);
 
-		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
+        context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
 
-		if (context.getPlugins().clientDeleteByPrimaryKeyMethodGenerated(method, interfaze, introspectedTable)) {
-			addExtraImports(interfaze);
-			interfaze.addImportedTypes(importedTypes);
-			interfaze.addMethod(method);
-		}
-	}
+        if (context.getPlugins().clientDeleteByPrimaryKeyMethodGenerated(method, interfaze, introspectedTable)) {
+            addExtraImports(interfaze);
+            interfaze.addImportedTypes(importedTypes);
+            interfaze.addMethod(method);
+        }
+    }
 
-	public void addMapperAnnotations(Method method) {
-		// extension point for subclasses
-	}
+    public void addMapperAnnotations(Method method) {
+        // extension point for subclasses
+    }
 
-	public void addExtraImports(Interface interfaze) {
-		// extension point for subclasses
-	}
+    public void addExtraImports(Interface interfaze) {
+        // extension point for subclasses
+    }
 
 }

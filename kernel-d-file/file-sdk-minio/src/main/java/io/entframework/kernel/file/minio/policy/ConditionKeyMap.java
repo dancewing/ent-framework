@@ -22,58 +22,58 @@ import java.util.Set;
 
 class ConditionKeyMap extends Hashtable<String, Set<String>> {
 
-	public ConditionKeyMap() {
-		super();
-	}
+    public ConditionKeyMap() {
+        super();
+    }
 
-	public ConditionKeyMap(ConditionKeyMap map) {
-		super(map);
-	}
+    public ConditionKeyMap(ConditionKeyMap map) {
+        super(map);
+    }
 
-	public ConditionKeyMap(String key, String value) {
-		super();
+    public ConditionKeyMap(String key, String value) {
+        super();
 
-		this.put(key, value);
-	}
+        this.put(key, value);
+    }
 
-	@Override
-	public Set<String> put(String key, Set<String> value) {
-		Set<String> existingValue = super.get(key);
+    @Override
+    public Set<String> put(String key, Set<String> value) {
+        Set<String> existingValue = super.get(key);
 
-		if (existingValue == null) {
-			existingValue = new HashSet<String>(value);
-		}
-		else {
-			existingValue.addAll(value);
-		}
+        if (existingValue == null) {
+            existingValue = new HashSet<String>(value);
+        }
+        else {
+            existingValue.addAll(value);
+        }
 
-		return super.put(key, existingValue);
-	}
+        return super.put(key, existingValue);
+    }
 
-	public Set<String> put(String key, String value) {
-		Set<String> set = new HashSet<String>();
-		set.add(value);
+    public Set<String> put(String key, String value) {
+        Set<String> set = new HashSet<String>();
+        set.add(value);
 
-		return this.put(key, set);
-	}
+        return this.put(key, set);
+    }
 
-	/**
-	 * Removes value of given key and key if key has empty value.
-	 */
-	public Set<String> remove(String key, Set<String> value) {
-		Set<String> existingValue = super.get(key);
+    /**
+     * Removes value of given key and key if key has empty value.
+     */
+    public Set<String> remove(String key, Set<String> value) {
+        Set<String> existingValue = super.get(key);
 
-		if (existingValue == null) {
-			return null;
-		}
+        if (existingValue == null) {
+            return null;
+        }
 
-		existingValue.removeAll(value);
+        existingValue.removeAll(value);
 
-		if (existingValue.isEmpty()) {
-			return super.remove(key);
-		}
+        if (existingValue.isEmpty()) {
+            return super.remove(key);
+        }
 
-		return super.put(key, existingValue);
-	}
+        return super.put(key, existingValue);
+    }
 
 }

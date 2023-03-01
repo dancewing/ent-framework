@@ -17,35 +17,35 @@ import java.util.concurrent.TimeUnit;
  */
 public class RedissonCountDownLatch implements DistributedCountDownLatch {
 
-	private RCountDownLatch countDownLatch;
+    private RCountDownLatch countDownLatch;
 
-	public RedissonCountDownLatch(RCountDownLatch countDownLatch) {
-		this.countDownLatch = countDownLatch;
-	}
+    public RedissonCountDownLatch(RCountDownLatch countDownLatch) {
+        this.countDownLatch = countDownLatch;
+    }
 
-	@Override
-	public void await() throws InterruptedException {
-		countDownLatch.await();
-	}
+    @Override
+    public void await() throws InterruptedException {
+        countDownLatch.await();
+    }
 
-	@Override
-	public boolean await(long timeout, TimeUnit unit) throws InterruptedException {
-		return countDownLatch.await(timeout, unit);
-	}
+    @Override
+    public boolean await(long timeout, TimeUnit unit) throws InterruptedException {
+        return countDownLatch.await(timeout, unit);
+    }
 
-	@Override
-	public void countDown() {
-		countDownLatch.countDown();
-	}
+    @Override
+    public void countDown() {
+        countDownLatch.countDown();
+    }
 
-	@Override
-	public long getCount() {
-		return countDownLatch.getCount();
-	}
+    @Override
+    public long getCount() {
+        return countDownLatch.getCount();
+    }
 
-	@Override
-	public boolean trySetCount(long count) {
-		return countDownLatch.trySetCount(count);
-	}
+    @Override
+    public boolean trySetCount(long count) {
+        return countDownLatch.trySetCount(count);
+    }
 
 }

@@ -16,9 +16,9 @@ import lombok.EqualsAndHashCode;
 @Data
 public class UserResourceParam extends BaseRequest {
 
-	/**
-	 * 用户id
-	 */
-	private String userId;
+    /**
+     * 用户id
+     */
+    private String userId;
 
 }

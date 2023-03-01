@@ -14,12 +14,12 @@ import io.entframework.kernel.socket.api.constants.SocketConstants;
  */
 public class SocketException extends ServiceException {
 
-	public SocketException(AbstractExceptionEnum exception) {
-		super(SocketConstants.SOCKET_MODULE_NAME, exception);
-	}
+    public SocketException(AbstractExceptionEnum exception) {
+        super(SocketConstants.SOCKET_MODULE_NAME, exception);
+    }
 
-	public SocketException(String errorCode, String userTip) {
-		super(SocketConstants.SOCKET_MODULE_NAME, errorCode, userTip);
-	}
+    public SocketException(String errorCode, String userTip) {
+        super(SocketConstants.SOCKET_MODULE_NAME, errorCode, userTip);
+    }
 
 }

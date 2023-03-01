@@ -16,28 +16,28 @@ import lombok.Getter;
 @Getter
 public enum SystemMessageTypeEnum {
 
-	/**
-	 * 监听首次连接
-	 */
-	SYS_LISTENER_ONOPEN("S00001", "监听首次连接"),
+    /**
+     * 监听首次连接
+     */
+    SYS_LISTENER_ONOPEN("S00001", "监听首次连接"),
 
-	/**
-	 * 监听断开连接
-	 */
-	SYS_LISTENER_ONCLOSE("S00002", "监听断开连接"),
+    /**
+     * 监听断开连接
+     */
+    SYS_LISTENER_ONCLOSE("S00002", "监听断开连接"),
 
-	/**
-	 * 监听异常信息
-	 */
-	SYS_LISTENER_ONERROR("S00003", "监听异常信息");
+    /**
+     * 监听异常信息
+     */
+    SYS_LISTENER_ONERROR("S00003", "监听异常信息");
 
-	private final String code;
+    private final String code;
 
-	private final String name;
+    private final String name;
 
-	SystemMessageTypeEnum(String code, String name) {
-		this.code = code;
-		this.name = name;
-	}
+    SystemMessageTypeEnum(String code, String name) {
+        this.code = code;
+        this.name = name;
+    }
 
 }

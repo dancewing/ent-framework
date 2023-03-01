@@ -11,34 +11,34 @@ import java.util.List;
 @Slf4j
 public class LogRecordServiceFeignWrapper implements LogRecordApi {
 
-	private final LogRecordApi feignClient;
+    private final LogRecordApi feignClient;
 
-	public LogRecordServiceFeignWrapper(LogRecordApi feignClient) {
-		this.feignClient = feignClient;
-	}
+    public LogRecordServiceFeignWrapper(LogRecordApi feignClient) {
+        this.feignClient = feignClient;
+    }
 
-	@Override
-	public boolean add(LogRecordDTO logRecordDTO) {
-		RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
-		return Try.call(() -> feignClient.add(logRecordDTO)).ifFailure(e -> {
-			log.error("feignClient.add error: ", e);
-		}).toOptional().orElse(false);
-	}
+    @Override
+    public boolean add(LogRecordDTO logRecordDTO) {
+        RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
+        return Try.call(() -> feignClient.add(logRecordDTO)).ifFailure(e -> {
+            log.error("feignClient.add error: ", e);
+        }).toOptional().orElse(false);
+    }
 
-	@Override
-	public boolean addAsync(LogRecordDTO logRecordDTO) {
-		RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
-		return Try.call(() -> feignClient.addAsync(logRecordDTO)).ifFailure(e -> {
-			log.error("feignClient.addAsync error: ", e);
-		}).toOptional().orElse(false);
-	}
+    @Override
+    public boolean addAsync(LogRecordDTO logRecordDTO) {
+        RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
+        return Try.call(() -> feignClient.addAsync(logRecordDTO)).ifFailure(e -> {
+            log.error("feignClient.addAsync error: ", e);
+        }).toOptional().orElse(false);
+    }
 
-	@Override
-	public boolean addBatch(List<LogRecordDTO> logRecords) {
-		RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
-		return Try.call(() -> feignClient.addBatch(logRecords)).ifFailure(e -> {
-			log.error("feignClient.addBatch error: ", e);
-		}).toOptional().orElse(false);
-	}
+    @Override
+    public boolean addBatch(List<LogRecordDTO> logRecords) {
+        RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
+        return Try.call(() -> feignClient.addBatch(logRecords)).ifFailure(e -> {
+            log.error("feignClient.addBatch error: ", e);
+        }).toOptional().orElse(false);
+    }
 
 }

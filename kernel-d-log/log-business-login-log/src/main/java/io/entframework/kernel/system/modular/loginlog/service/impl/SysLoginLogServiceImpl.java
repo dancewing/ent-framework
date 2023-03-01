@@ -21,63 +21,63 @@ import org.springframework.transaction.annotation.Transactional;
  * @date 2020/3/13 16:15
  */
 public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogRequest, SysLoginLogResponse, SysLoginLog>
-		implements SysLoginLogService {
+        implements SysLoginLogService {
 
-	public SysLoginLogServiceImpl() {
-		super(SysLoginLogRequest.class, SysLoginLogResponse.class, SysLoginLog.class);
-	}
+    public SysLoginLogServiceImpl() {
+        super(SysLoginLogRequest.class, SysLoginLogResponse.class, SysLoginLog.class);
+    }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void del(SysLoginLogRequest sysLoginLogRequest) {
-		this.deleteBy(sysLoginLogRequest);
-	}
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void del(SysLoginLogRequest sysLoginLogRequest) {
+        this.deleteBy(sysLoginLogRequest);
+    }
 
-	@Override
-	public SysLoginLogResponse detail(SysLoginLogRequest sysLoginLogRequest) {
-		return this.selectOne(sysLoginLogRequest);
-	}
+    @Override
+    public SysLoginLogResponse detail(SysLoginLogRequest sysLoginLogRequest) {
+        return this.selectOne(sysLoginLogRequest);
+    }
 
-	@Override
-	public PageResult<SysLoginLogResponse> findPage(SysLoginLogRequest sysLoginLogRequest) {
-		return this.page(sysLoginLogRequest);
-	}
+    @Override
+    public PageResult<SysLoginLogResponse> findPage(SysLoginLogRequest sysLoginLogRequest) {
+        return this.page(sysLoginLogRequest);
+    }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public boolean add(SysLoginLogRequest sysLoginLog) {
-		switch (sysLoginLog.getType()) {
-			case LOGIN_IN_SUCCESS:
-				sysLoginLog.setLlgName(LoginLogConstant.LOGIN_IN_LOGINNAME);
-				sysLoginLog.setLlgSucceed(LoginLogConstant.OPERATION_SUCCESS);
-				sysLoginLog.setLlgMessage(LoginLogConstant.LOGIN_IN_SUCCESS_MESSAGE);
-				break;
-			case LOGIN_IN_FAIL:
-				sysLoginLog.setLlgName(LoginLogConstant.LOGIN_IN_LOGINNAME);
-				sysLoginLog.setLlgSucceed(LoginLogConstant.OPERATION_FAIL);
-				break;
-			case LOGIN_OUT_SUCCESS:
-				sysLoginLog.setLlgName(LoginLogConstant.LOGIN_OUT_LOGINNAME);
-				sysLoginLog.setLlgSucceed(LoginLogConstant.OPERATION_SUCCESS);
-				sysLoginLog.setLlgMessage(LoginLogConstant.LOGIN_OUT_SUCCESS_MESSAGE);
-				break;
-			case LOGIN_OUT_FAIL:
-				sysLoginLog.setLlgName(LoginLogConstant.LOGIN_OUT_LOGINNAME);
-				sysLoginLog.setLlgSucceed(LoginLogConstant.OPERATION_FAIL);
-				sysLoginLog.setLlgMessage(LoginLogConstant.LOGIN_OUT_SUCCESS_FAIL);
-				break;
-			default:
-				sysLoginLog.setLlgName(LoginLogConstant.LOGIN_IN_LOGINNAME);
-				sysLoginLog.setLlgSucceed(LoginLogConstant.OPERATION_FAIL);
-				sysLoginLog.setLlgMessage(LoginLogConstant.OPERATION_FAIL);
-		}
-		this.insert(sysLoginLog);
-		return true;
-	}
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean add(SysLoginLogRequest sysLoginLog) {
+        switch (sysLoginLog.getType()) {
+            case LOGIN_IN_SUCCESS:
+                sysLoginLog.setLlgName(LoginLogConstant.LOGIN_IN_LOGINNAME);
+                sysLoginLog.setLlgSucceed(LoginLogConstant.OPERATION_SUCCESS);
+                sysLoginLog.setLlgMessage(LoginLogConstant.LOGIN_IN_SUCCESS_MESSAGE);
+                break;
+            case LOGIN_IN_FAIL:
+                sysLoginLog.setLlgName(LoginLogConstant.LOGIN_IN_LOGINNAME);
+                sysLoginLog.setLlgSucceed(LoginLogConstant.OPERATION_FAIL);
+                break;
+            case LOGIN_OUT_SUCCESS:
+                sysLoginLog.setLlgName(LoginLogConstant.LOGIN_OUT_LOGINNAME);
+                sysLoginLog.setLlgSucceed(LoginLogConstant.OPERATION_SUCCESS);
+                sysLoginLog.setLlgMessage(LoginLogConstant.LOGIN_OUT_SUCCESS_MESSAGE);
+                break;
+            case LOGIN_OUT_FAIL:
+                sysLoginLog.setLlgName(LoginLogConstant.LOGIN_OUT_LOGINNAME);
+                sysLoginLog.setLlgSucceed(LoginLogConstant.OPERATION_FAIL);
+                sysLoginLog.setLlgMessage(LoginLogConstant.LOGIN_OUT_SUCCESS_FAIL);
+                break;
+            default:
+                sysLoginLog.setLlgName(LoginLogConstant.LOGIN_IN_LOGINNAME);
+                sysLoginLog.setLlgSucceed(LoginLogConstant.OPERATION_FAIL);
+                sysLoginLog.setLlgMessage(LoginLogConstant.OPERATION_FAIL);
+        }
+        this.insert(sysLoginLog);
+        return true;
+    }
 
-	@Override
-	public void delAll() {
-		this.deleteBy(new SysLoginLogRequest());
-	}
+    @Override
+    public void delAll() {
+        this.deleteBy(new SysLoginLogRequest());
+    }
 
 }

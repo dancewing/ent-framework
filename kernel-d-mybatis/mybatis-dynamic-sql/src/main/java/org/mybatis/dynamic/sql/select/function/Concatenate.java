@@ -23,24 +23,24 @@ import org.mybatis.dynamic.sql.BindableColumn;
 
 public class Concatenate<T> extends OperatorFunction<T> {
 
-	protected Concatenate(BindableColumn<T> firstColumn, BasicColumn secondColumn,
-			List<BasicColumn> subsequentColumns) {
-		super("||", firstColumn, secondColumn, subsequentColumns); //$NON-NLS-1$
-	}
+    protected Concatenate(BindableColumn<T> firstColumn, BasicColumn secondColumn,
+            List<BasicColumn> subsequentColumns) {
+        super("||", firstColumn, secondColumn, subsequentColumns); //$NON-NLS-1$
+    }
 
-	@Override
-	protected Concatenate<T> copy() {
-		return new Concatenate<>(column, secondColumn, subsequentColumns);
-	}
+    @Override
+    protected Concatenate<T> copy() {
+        return new Concatenate<>(column, secondColumn, subsequentColumns);
+    }
 
-	public static <T> Concatenate<T> concatenate(BindableColumn<T> firstColumn, BasicColumn secondColumn,
-			BasicColumn... subsequentColumns) {
-		return new Concatenate<>(firstColumn, secondColumn, Arrays.asList(subsequentColumns));
-	}
+    public static <T> Concatenate<T> concatenate(BindableColumn<T> firstColumn, BasicColumn secondColumn,
+            BasicColumn... subsequentColumns) {
+        return new Concatenate<>(firstColumn, secondColumn, Arrays.asList(subsequentColumns));
+    }
 
-	public static <T> Concatenate<T> of(BindableColumn<T> firstColumn, BasicColumn secondColumn,
-			List<BasicColumn> subsequentColumns) {
-		return new Concatenate<>(firstColumn, secondColumn, subsequentColumns);
-	}
+    public static <T> Concatenate<T> of(BindableColumn<T> firstColumn, BasicColumn secondColumn,
+            List<BasicColumn> subsequentColumns) {
+        return new Concatenate<>(firstColumn, secondColumn, subsequentColumns);
+    }
 
 }

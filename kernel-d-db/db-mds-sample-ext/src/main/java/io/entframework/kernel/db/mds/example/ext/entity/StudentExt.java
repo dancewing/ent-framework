@@ -14,15 +14,15 @@ import java.sql.JDBCType;
 
 public class StudentExt extends Student {
 
-	@Column(name = "child_test", jdbcType = JDBCType.VARCHAR)
-	private String childTest;
+    @Column(name = "child_test", jdbcType = JDBCType.VARCHAR)
+    private String childTest;
 
-	public String getChildTest() {
-		return childTest;
-	}
+    public String getChildTest() {
+        return childTest;
+    }
 
-	public void setChildTest(String childTest) {
-		this.childTest = childTest;
-	}
+    public void setChildTest(String childTest) {
+        this.childTest = childTest;
+    }
 
 }

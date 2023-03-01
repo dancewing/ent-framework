@@ -16,21 +16,21 @@ import org.redisson.api.RReadWriteLock;
  */
 public class RedissonReadWriteLock implements DistributedReadWriteLock {
 
-	/** 读写锁的对象 */
-	private RReadWriteLock lock;
+    /** 读写锁的对象 */
+    private RReadWriteLock lock;
 
-	public RedissonReadWriteLock(RReadWriteLock lock) {
-		this.lock = lock;
-	}
+    public RedissonReadWriteLock(RReadWriteLock lock) {
+        this.lock = lock;
+    }
 
-	@Override
-	public DistributedLock readLock() {
-		return new RedissonLock(lock.readLock());
-	}
+    @Override
+    public DistributedLock readLock() {
+        return new RedissonLock(lock.readLock());
+    }
 
-	@Override
-	public DistributedLock writeLock() {
-		return new RedissonLock(lock.writeLock());
-	}
+    @Override
+    public DistributedLock writeLock() {
+        return new RedissonLock(lock.writeLock());
+    }
 
 }

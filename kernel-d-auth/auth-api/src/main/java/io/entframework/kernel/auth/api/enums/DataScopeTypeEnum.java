@@ -19,53 +19,53 @@ import lombok.Getter;
 @EnumHandler
 public enum DataScopeTypeEnum implements SupperEnum<Integer> {
 
-	/**
-	 * 仅本人数据
-	 */
-	SELF(10, "仅本人数据"),
+    /**
+     * 仅本人数据
+     */
+    SELF(10, "仅本人数据"),
 
-	/**
-	 * 本部门数据
-	 */
-	DEPT(20, "本部门数据"),
+    /**
+     * 本部门数据
+     */
+    DEPT(20, "本部门数据"),
 
-	/**
-	 * 本部门及以下数据
-	 */
-	DEPT_WITH_CHILD(30, "本部门及以下数据"),
+    /**
+     * 本部门及以下数据
+     */
+    DEPT_WITH_CHILD(30, "本部门及以下数据"),
 
-	/**
-	 * 指定部门数据
-	 */
-	DEFINE(40, "指定部门数据"),
+    /**
+     * 指定部门数据
+     */
+    DEFINE(40, "指定部门数据"),
 
-	/**
-	 * 全部数据
-	 */
-	ALL(50, "全部数据");
+    /**
+     * 全部数据
+     */
+    ALL(50, "全部数据");
 
-	@EnumValue
-	@JsonValue
-	private final Integer value;
+    @EnumValue
+    @JsonValue
+    private final Integer value;
 
-	private final String label;
+    private final String label;
 
-	DataScopeTypeEnum(Integer value, String label) {
-		this.value = value;
-		this.label = label;
-	}
+    DataScopeTypeEnum(Integer value, String label) {
+        this.value = value;
+        this.label = label;
+    }
 
-	/**
-	 * 根据code获取枚举
-	 *
-	 * @date 2020/10/29 18:59
-	 */
-	@JsonCreator
-	public static DataScopeTypeEnum codeToEnum(Integer code) {
-		if (null != code) {
-			return SupperEnum.fromValue(DataScopeTypeEnum.class, code);
-		}
-		return null;
-	}
+    /**
+     * 根据code获取枚举
+     *
+     * @date 2020/10/29 18:59
+     */
+    @JsonCreator
+    public static DataScopeTypeEnum codeToEnum(Integer code) {
+        if (null != code) {
+            return SupperEnum.fromValue(DataScopeTypeEnum.class, code);
+        }
+        return null;
+    }
 
 }

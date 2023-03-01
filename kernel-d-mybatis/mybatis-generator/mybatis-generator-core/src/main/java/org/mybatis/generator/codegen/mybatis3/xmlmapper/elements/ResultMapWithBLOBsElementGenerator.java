@@ -20,54 +20,54 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 
 public class ResultMapWithBLOBsElementGenerator extends AbstractXmlElementGenerator {
 
-	public ResultMapWithBLOBsElementGenerator() {
-		super();
-	}
+    public ResultMapWithBLOBsElementGenerator() {
+        super();
+    }
 
-	@Override
-	public void addElements(XmlElement parentElement) {
-		XmlElement answer = new XmlElement("resultMap"); //$NON-NLS-1$
+    @Override
+    public void addElements(XmlElement parentElement) {
+        XmlElement answer = new XmlElement("resultMap"); //$NON-NLS-1$
 
-		answer.addAttribute(new Attribute("id", //$NON-NLS-1$
-				introspectedTable.getResultMapWithBLOBsId()));
+        answer.addAttribute(new Attribute("id", //$NON-NLS-1$
+                introspectedTable.getResultMapWithBLOBsId()));
 
-		String returnType;
-		if (introspectedTable.getRules().generateRecordWithBLOBsClass()) {
-			returnType = introspectedTable.getRecordWithBLOBsType();
-		}
-		else {
-			// table has BLOBs, but no BLOB class - BLOB fields must be
-			// in the base class
-			returnType = introspectedTable.getBaseRecordType();
-		}
+        String returnType;
+        if (introspectedTable.getRules().generateRecordWithBLOBsClass()) {
+            returnType = introspectedTable.getRecordWithBLOBsType();
+        }
+        else {
+            // table has BLOBs, but no BLOB class - BLOB fields must be
+            // in the base class
+            returnType = introspectedTable.getBaseRecordType();
+        }
 
-		answer.addAttribute(new Attribute("type", returnType)); //$NON-NLS-1$
+        answer.addAttribute(new Attribute("type", returnType)); //$NON-NLS-1$
 
-		if (!introspectedTable.isConstructorBased()) {
-			answer.addAttribute(new Attribute("extends", //$NON-NLS-1$
-					introspectedTable.getBaseResultMapId()));
-		}
+        if (!introspectedTable.isConstructorBased()) {
+            answer.addAttribute(new Attribute("extends", //$NON-NLS-1$
+                    introspectedTable.getBaseResultMapId()));
+        }
 
-		context.getCommentGenerator().addComment(answer);
+        context.getCommentGenerator().addComment(answer);
 
-		if (introspectedTable.isConstructorBased()) {
-			addResultMapConstructorElements(answer);
-		}
-		else {
-			addResultMapElements(answer);
-		}
+        if (introspectedTable.isConstructorBased()) {
+            addResultMapConstructorElements(answer);
+        }
+        else {
+            addResultMapElements(answer);
+        }
 
-		if (context.getPlugins().sqlMapResultMapWithBLOBsElementGenerated(answer, introspectedTable)) {
-			parentElement.addElement(answer);
-		}
-	}
+        if (context.getPlugins().sqlMapResultMapWithBLOBsElementGenerated(answer, introspectedTable)) {
+            parentElement.addElement(answer);
+        }
+    }
 
-	private void addResultMapElements(XmlElement answer) {
-		buildResultMapItems(ResultElementType.RESULT, introspectedTable.getBLOBColumns()).forEach(answer::addElement);
-	}
+    private void addResultMapElements(XmlElement answer) {
+        buildResultMapItems(ResultElementType.RESULT, introspectedTable.getBLOBColumns()).forEach(answer::addElement);
+    }
 
-	private void addResultMapConstructorElements(XmlElement answer) {
-		answer.addElement(buildConstructorElement(true));
-	}
+    private void addResultMapConstructorElements(XmlElement answer) {
+        answer.addElement(buildConstructorElement(true));
+    }
 
 }

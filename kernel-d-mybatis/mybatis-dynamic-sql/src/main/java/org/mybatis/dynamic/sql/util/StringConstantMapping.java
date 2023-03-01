@@ -25,24 +25,24 @@ import org.mybatis.dynamic.sql.SqlColumn;
  */
 public class StringConstantMapping extends AbstractColumnMapping {
 
-	private final String constant;
+    private final String constant;
 
-	private StringConstantMapping(SqlColumn<?> column, String constant) {
-		super(column);
-		this.constant = constant;
-	}
+    private StringConstantMapping(SqlColumn<?> column, String constant) {
+        super(column);
+        this.constant = constant;
+    }
 
-	public String constant() {
-		return constant;
-	}
+    public String constant() {
+        return constant;
+    }
 
-	public static StringConstantMapping of(SqlColumn<?> column, String constant) {
-		return new StringConstantMapping(column, constant);
-	}
+    public static StringConstantMapping of(SqlColumn<?> column, String constant) {
+        return new StringConstantMapping(column, constant);
+    }
 
-	@Override
-	public <R> R accept(ColumnMappingVisitor<R> visitor) {
-		return visitor.visit(this);
-	}
+    @Override
+    public <R> R accept(ColumnMappingVisitor<R> visitor) {
+        return visitor.visit(this);
+    }
 
 }

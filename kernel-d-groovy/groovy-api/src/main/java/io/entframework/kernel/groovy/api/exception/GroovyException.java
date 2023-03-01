@@ -14,12 +14,12 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class GroovyException extends ServiceException {
 
-	public GroovyException(AbstractExceptionEnum exception, String userTip) {
-		super(GroovyConstants.GROOVY_MODULE_NAME, exception.getErrorCode(), userTip);
-	}
+    public GroovyException(AbstractExceptionEnum exception, String userTip) {
+        super(GroovyConstants.GROOVY_MODULE_NAME, exception.getErrorCode(), userTip);
+    }
 
-	public GroovyException(AbstractExceptionEnum exception) {
-		super(GroovyConstants.GROOVY_MODULE_NAME, exception);
-	}
+    public GroovyException(AbstractExceptionEnum exception) {
+        super(GroovyConstants.GROOVY_MODULE_NAME, exception);
+    }
 
 }

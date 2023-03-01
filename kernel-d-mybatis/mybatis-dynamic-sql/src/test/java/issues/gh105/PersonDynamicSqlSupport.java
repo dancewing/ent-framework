@@ -20,30 +20,30 @@ import org.mybatis.dynamic.sql.SqlTable;
 
 public final class PersonDynamicSqlSupport {
 
-	public static final Person person = new Person();
+    public static final Person person = new Person();
 
-	public static final SqlColumn<Integer> id = person.id;
+    public static final SqlColumn<Integer> id = person.id;
 
-	public static final SqlColumn<String> firstName = person.firstName;
+    public static final SqlColumn<String> firstName = person.firstName;
 
-	public static final SqlColumn<String> lastName = person.lastName;
+    public static final SqlColumn<String> lastName = person.lastName;
 
-	public static final SqlColumn<Integer> age = person.age;
+    public static final SqlColumn<Integer> age = person.age;
 
-	public static final class Person extends SqlTable {
+    public static final class Person extends SqlTable {
 
-		public final SqlColumn<Integer> id = column("person_id");
+        public final SqlColumn<Integer> id = column("person_id");
 
-		public final SqlColumn<String> firstName = column("first_name");
+        public final SqlColumn<String> firstName = column("first_name");
 
-		public final SqlColumn<String> lastName = column("last_name");
+        public final SqlColumn<String> lastName = column("last_name");
 
-		public final SqlColumn<Integer> age = column("age");
+        public final SqlColumn<Integer> age = column("age");
 
-		public Person() {
-			super("Person");
-		}
+        public Person() {
+            super("Person");
+        }
 
-	}
+    }
 
 }

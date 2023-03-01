@@ -9,15 +9,15 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class AutoIncrementServiceImpl extends
-		BaseServiceImpl<AutoIncrementRequest, AutoIncrementResponse, AutoIncrement> implements AutoIncrementService {
+        BaseServiceImpl<AutoIncrementRequest, AutoIncrementResponse, AutoIncrement> implements AutoIncrementService {
 
-	public AutoIncrementServiceImpl() {
-		super(AutoIncrementRequest.class, AutoIncrementResponse.class, AutoIncrement.class);
-	}
+    public AutoIncrementServiceImpl() {
+        super(AutoIncrementRequest.class, AutoIncrementResponse.class, AutoIncrement.class);
+    }
 
-	public AutoIncrementServiceImpl(Class<? extends AutoIncrementRequest> requestClass,
-			Class<? extends AutoIncrementResponse> responseClass, Class<? extends AutoIncrement> entityClass) {
-		super(requestClass, responseClass, entityClass);
-	}
+    public AutoIncrementServiceImpl(Class<? extends AutoIncrementRequest> requestClass,
+            Class<? extends AutoIncrementResponse> responseClass, Class<? extends AutoIncrement> entityClass) {
+        super(requestClass, responseClass, entityClass);
+    }
 
 }

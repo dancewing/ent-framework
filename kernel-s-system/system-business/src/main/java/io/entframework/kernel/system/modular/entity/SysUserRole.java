@@ -23,40 +23,40 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @Table(value = "sys_user_role", sqlSupport = SysUserRoleDynamicSqlSupport.class, tableProperty = "sysUserRole")
 public class SysUserRole extends BaseEntity implements Serializable {
 
-	/**
-	 * 主键
-	 */
-	@Id
-	@Column(name = "user_role_id", jdbcType = JDBCType.BIGINT)
-	private Long userRoleId;
+    /**
+     * 主键
+     */
+    @Id
+    @Column(name = "user_role_id", jdbcType = JDBCType.BIGINT)
+    private Long userRoleId;
 
-	/**
-	 * 用户id
-	 */
-	@Column(name = "user_id", jdbcType = JDBCType.BIGINT)
-	private Long userId;
+    /**
+     * 用户id
+     */
+    @Column(name = "user_id", jdbcType = JDBCType.BIGINT)
+    private Long userId;
 
-	/**
-	 * 角色id
-	 */
-	@Column(name = "role_id", jdbcType = JDBCType.BIGINT)
-	private Long roleId;
+    /**
+     * 角色id
+     */
+    @Column(name = "role_id", jdbcType = JDBCType.BIGINT)
+    private Long roleId;
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public SysUserRole userRoleId(Long userRoleId) {
-		this.userRoleId = userRoleId;
-		return this;
-	}
+    public SysUserRole userRoleId(Long userRoleId) {
+        this.userRoleId = userRoleId;
+        return this;
+    }
 
-	public SysUserRole userId(Long userId) {
-		this.userId = userId;
-		return this;
-	}
+    public SysUserRole userId(Long userId) {
+        this.userId = userId;
+        return this;
+    }
 
-	public SysUserRole roleId(Long roleId) {
-		this.roleId = roleId;
-		return this;
-	}
+    public SysUserRole roleId(Long roleId) {
+        this.roleId = roleId;
+        return this;
+    }
 
 }

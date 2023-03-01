@@ -23,15 +23,15 @@ import java.util.stream.Collectors;
 
 public class TopLevelClassRenderer {
 
-	public String render(TopLevelClass topLevelClass) {
-		List<String> lines = new ArrayList<>();
+    public String render(TopLevelClass topLevelClass) {
+        List<String> lines = new ArrayList<>();
 
-		lines.addAll(topLevelClass.getFileCommentLines());
-		lines.addAll(RenderingUtilities.renderImports(topLevelClass));
-		lines.addAll(RenderingUtilities.renderInnerClassNoIndent(topLevelClass, topLevelClass));
-		lines = RenderingUtilities.removeLastEmptyLine(lines);
-		lines.add("");
-		return lines.stream().collect(Collectors.joining(System.getProperty("line.separator"))); //$NON-NLS-1$
-	}
+        lines.addAll(topLevelClass.getFileCommentLines());
+        lines.addAll(RenderingUtilities.renderImports(topLevelClass));
+        lines.addAll(RenderingUtilities.renderInnerClassNoIndent(topLevelClass, topLevelClass));
+        lines = RenderingUtilities.removeLastEmptyLine(lines);
+        lines.add("");
+        return lines.stream().collect(Collectors.joining(System.getProperty("line.separator"))); //$NON-NLS-1$
+    }
 
 }

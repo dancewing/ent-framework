@@ -13,13 +13,13 @@ import io.entframework.kernel.dict.api.DictApi;
  */
 public class DictContext {
 
-	/**
-	 * 获取字典相关操作接口
-	 *
-	 * @date 2020/10/29 11:55
-	 */
-	public static DictApi me() {
-		return SpringUtil.getBean(DictApi.class);
-	}
+    /**
+     * 获取字典相关操作接口
+     *
+     * @date 2020/10/29 11:55
+     */
+    public static DictApi me() {
+        return SpringUtil.getBean(DictApi.class);
+    }
 
 }

@@ -30,108 +30,108 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class DeleteDSL<R> extends AbstractWhereSupport<DeleteDSL<R>.DeleteWhereBuilder, DeleteDSL<R>>
-		implements Buildable<R> {
+        implements Buildable<R> {
 
-	private final Function<DeleteModel, R> adapterFunction;
+    private final Function<DeleteModel, R> adapterFunction;
 
-	private final SqlTable table;
+    private final SqlTable table;
 
-	private final String tableAlias;
+    private final String tableAlias;
 
-	private DeleteWhereBuilder whereBuilder;
+    private DeleteWhereBuilder whereBuilder;
 
-	private Class<?> entityClass;
+    private Class<?> entityClass;
 
-	private final StatementConfiguration statementConfiguration = new StatementConfiguration();
+    private final StatementConfiguration statementConfiguration = new StatementConfiguration();
 
-	private DeleteDSL(SqlTable table, String tableAlias, Function<DeleteModel, R> adapterFunction) {
-		this.table = Objects.requireNonNull(table);
-		this.tableAlias = tableAlias;
-		this.adapterFunction = Objects.requireNonNull(adapterFunction);
-	}
+    private DeleteDSL(SqlTable table, String tableAlias, Function<DeleteModel, R> adapterFunction) {
+        this.table = Objects.requireNonNull(table);
+        this.tableAlias = tableAlias;
+        this.adapterFunction = Objects.requireNonNull(adapterFunction);
+    }
 
-	private DeleteDSL(Class<?> entityClass, String tableAlias, Function<DeleteModel, R> adapterFunction) {
-		this.entityClass = entityClass;
-		EntityMeta entityMeta = Entities.getInstance(entityClass);
-		this.table = Objects.requireNonNull(entityMeta.getTable());
-		this.tableAlias = tableAlias;
-		this.adapterFunction = Objects.requireNonNull(adapterFunction);
-	}
+    private DeleteDSL(Class<?> entityClass, String tableAlias, Function<DeleteModel, R> adapterFunction) {
+        this.entityClass = entityClass;
+        EntityMeta entityMeta = Entities.getInstance(entityClass);
+        this.table = Objects.requireNonNull(entityMeta.getTable());
+        this.tableAlias = tableAlias;
+        this.adapterFunction = Objects.requireNonNull(adapterFunction);
+    }
 
-	@Override
-	public DeleteWhereBuilder where() {
-		if (whereBuilder == null) {
-			whereBuilder = new DeleteWhereBuilder();
-		}
-		return whereBuilder;
-	}
+    @Override
+    public DeleteWhereBuilder where() {
+        if (whereBuilder == null) {
+            whereBuilder = new DeleteWhereBuilder();
+        }
+        return whereBuilder;
+    }
 
-	/**
-	 * WARNING! Calling this method could result in a delete statement that deletes all
-	 * rows in a table.
-	 * @return the model class
-	 */
-	@NotNull
-	@Override
-	public R build() {
-		DeleteModel.Builder deleteModelBuilder = DeleteModel.withTable(table).withEntityClass(entityClass)
-				.withTableAlias(tableAlias);
-		if (whereBuilder != null) {
-			deleteModelBuilder.withWhereModel(whereBuilder.buildWhereModel());
-		}
+    /**
+     * WARNING! Calling this method could result in a delete statement that deletes all
+     * rows in a table.
+     * @return the model class
+     */
+    @NotNull
+    @Override
+    public R build() {
+        DeleteModel.Builder deleteModelBuilder = DeleteModel.withTable(table).withEntityClass(entityClass)
+                .withTableAlias(tableAlias);
+        if (whereBuilder != null) {
+            deleteModelBuilder.withWhereModel(whereBuilder.buildWhereModel());
+        }
 
-		return adapterFunction.apply(deleteModelBuilder.build());
-	}
+        return adapterFunction.apply(deleteModelBuilder.build());
+    }
 
-	@Override
-	public DeleteDSL<R> configureStatement(Consumer<StatementConfiguration> consumer) {
-		consumer.accept(statementConfiguration);
-		return this;
-	}
+    @Override
+    public DeleteDSL<R> configureStatement(Consumer<StatementConfiguration> consumer) {
+        consumer.accept(statementConfiguration);
+        return this;
+    }
 
-	public static <R> DeleteDSL<R> deleteFrom(Function<DeleteModel, R> adapterFunction, SqlTable table,
-			String tableAlias) {
-		return new DeleteDSL<>(table, tableAlias, adapterFunction);
-	}
+    public static <R> DeleteDSL<R> deleteFrom(Function<DeleteModel, R> adapterFunction, SqlTable table,
+            String tableAlias) {
+        return new DeleteDSL<>(table, tableAlias, adapterFunction);
+    }
 
-	public static <R> DeleteDSL<R> deleteFrom(Function<DeleteModel, R> adapterFunction, Class<?> entityClass,
-			String tableAlias) {
-		return new DeleteDSL<>(entityClass, tableAlias, adapterFunction);
-	}
+    public static <R> DeleteDSL<R> deleteFrom(Function<DeleteModel, R> adapterFunction, Class<?> entityClass,
+            String tableAlias) {
+        return new DeleteDSL<>(entityClass, tableAlias, adapterFunction);
+    }
 
-	public static DeleteDSL<DeleteModel> deleteFrom(SqlTable table) {
-		return deleteFrom(Function.identity(), table, null);
-	}
+    public static DeleteDSL<DeleteModel> deleteFrom(SqlTable table) {
+        return deleteFrom(Function.identity(), table, null);
+    }
 
-	public static DeleteDSL<DeleteModel> deleteFrom(SqlTable table, String tableAlias) {
-		return deleteFrom(Function.identity(), table, tableAlias);
-	}
+    public static DeleteDSL<DeleteModel> deleteFrom(SqlTable table, String tableAlias) {
+        return deleteFrom(Function.identity(), table, tableAlias);
+    }
 
-	public static DeleteDSL<DeleteModel> deleteFrom(Class<?> entityClass) {
-		return deleteFrom(Function.identity(), entityClass, null);
-	}
+    public static DeleteDSL<DeleteModel> deleteFrom(Class<?> entityClass) {
+        return deleteFrom(Function.identity(), entityClass, null);
+    }
 
-	public class DeleteWhereBuilder extends AbstractWhereDSL<DeleteWhereBuilder> implements Buildable<R> {
+    public class DeleteWhereBuilder extends AbstractWhereDSL<DeleteWhereBuilder> implements Buildable<R> {
 
-		private DeleteWhereBuilder() {
-			super(statementConfiguration);
-		}
+        private DeleteWhereBuilder() {
+            super(statementConfiguration);
+        }
 
-		@NotNull
-		@Override
-		public R build() {
-			return DeleteDSL.this.build();
-		}
+        @NotNull
+        @Override
+        public R build() {
+            return DeleteDSL.this.build();
+        }
 
-		@Override
-		protected DeleteWhereBuilder getThis() {
-			return this;
-		}
+        @Override
+        protected DeleteWhereBuilder getThis() {
+            return this;
+        }
 
-		protected WhereModel buildWhereModel() {
-			return internalBuild();
-		}
+        protected WhereModel buildWhereModel() {
+            return internalBuild();
+        }
 
-	}
+    }
 
 }

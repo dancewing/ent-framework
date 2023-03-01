@@ -45,79 +45,79 @@ import examples.generated.always.GeneratedAlwaysRecord;
 
 public interface GeneratedAlwaysMapper extends CommonUpdateMapper {
 
-	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
-	@Results(id = "gaResults",
-			value = { @Result(property = "id", column = "id", id = true),
-					@Result(property = "firstName", column = "first_name"),
-					@Result(property = "lastName", column = "last_name"),
-					@Result(property = "fullName", column = "full_name") })
-	List<GeneratedAlwaysRecord> selectMany(SelectStatementProvider selectStatement);
+    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
+    @Results(id = "gaResults",
+            value = { @Result(property = "id", column = "id", id = true),
+                    @Result(property = "firstName", column = "first_name"),
+                    @Result(property = "lastName", column = "last_name"),
+                    @Result(property = "fullName", column = "full_name") })
+    List<GeneratedAlwaysRecord> selectMany(SelectStatementProvider selectStatement);
 
-	@SelectProvider(type = SqlProviderAdapter.class, method = "select")
-	@ResultMap("gaResults")
-	Optional<GeneratedAlwaysRecord> selectOne(SelectStatementProvider selectStatement);
+    @SelectProvider(type = SqlProviderAdapter.class, method = "select")
+    @ResultMap("gaResults")
+    Optional<GeneratedAlwaysRecord> selectOne(SelectStatementProvider selectStatement);
 
-	@InsertProvider(type = SqlProviderAdapter.class, method = "insert")
-	@Options(useGeneratedKeys = true, keyProperty = "row.fullName")
-	int insert(InsertStatementProvider<GeneratedAlwaysRecord> insertStatement);
+    @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
+    @Options(useGeneratedKeys = true, keyProperty = "row.fullName")
+    int insert(InsertStatementProvider<GeneratedAlwaysRecord> insertStatement);
 
-	@InsertProvider(type = SqlProviderAdapter.class, method = "insertMultipleWithGeneratedKeys")
-	@Options(useGeneratedKeys = true, keyProperty = "records.fullName")
-	int insertMultiple(@Param("insertStatement") String statement,
-			@Param("records") List<GeneratedAlwaysRecord> records);
+    @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultipleWithGeneratedKeys")
+    @Options(useGeneratedKeys = true, keyProperty = "records.fullName")
+    int insertMultiple(@Param("insertStatement") String statement,
+            @Param("records") List<GeneratedAlwaysRecord> records);
 
-	BasicColumn[] selectList = BasicColumn.columnList(id, firstName, lastName, fullName);
+    BasicColumn[] selectList = BasicColumn.columnList(id, firstName, lastName, fullName);
 
-	default Optional<GeneratedAlwaysRecord> selectOne(SelectDSLCompleter completer) {
-		return MyBatis3Utils.selectOne(this::selectOne, selectList, generatedAlways, completer);
-	}
+    default Optional<GeneratedAlwaysRecord> selectOne(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectOne(this::selectOne, selectList, generatedAlways, completer);
+    }
 
-	default List<GeneratedAlwaysRecord> select(SelectDSLCompleter completer) {
-		return MyBatis3Utils.selectList(this::selectMany, selectList, generatedAlways, completer);
-	}
+    default List<GeneratedAlwaysRecord> select(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectList(this::selectMany, selectList, generatedAlways, completer);
+    }
 
-	default Optional<GeneratedAlwaysRecord> selectByPrimaryKey(Integer _id) {
-		return selectOne(c -> c.where(id, isEqualTo(_id)));
-	}
+    default Optional<GeneratedAlwaysRecord> selectByPrimaryKey(Integer _id) {
+        return selectOne(c -> c.where(id, isEqualTo(_id)));
+    }
 
-	default int insert(GeneratedAlwaysRecord record) {
-		return MyBatis3Utils.insert(this::insert, record, generatedAlways, c -> c.map(id).toProperty("id")
-				.map(firstName).toProperty("firstName").map(lastName).toProperty("lastName"));
-	}
+    default int insert(GeneratedAlwaysRecord record) {
+        return MyBatis3Utils.insert(this::insert, record, generatedAlways, c -> c.map(id).toProperty("id")
+                .map(firstName).toProperty("firstName").map(lastName).toProperty("lastName"));
+    }
 
-	default int insertMultiple(GeneratedAlwaysRecord... records) {
-		return insertMultiple(Arrays.asList(records));
-	}
+    default int insertMultiple(GeneratedAlwaysRecord... records) {
+        return insertMultiple(Arrays.asList(records));
+    }
 
-	default int insertMultiple(Collection<GeneratedAlwaysRecord> records) {
-		return MyBatis3Utils.insertMultipleWithGeneratedKeys(this::insertMultiple, records, generatedAlways, c -> c
-				.map(id).toProperty("id").map(firstName).toProperty("firstName").map(lastName).toProperty("lastName"));
-	}
+    default int insertMultiple(Collection<GeneratedAlwaysRecord> records) {
+        return MyBatis3Utils.insertMultipleWithGeneratedKeys(this::insertMultiple, records, generatedAlways, c -> c
+                .map(id).toProperty("id").map(firstName).toProperty("firstName").map(lastName).toProperty("lastName"));
+    }
 
-	default int insertSelective(GeneratedAlwaysRecord record) {
-		return MyBatis3Utils.insert(this::insert, record, generatedAlways,
-				c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(firstName)
-						.toPropertyWhenPresent("firstName", record::getFirstName).map(lastName)
-						.toPropertyWhenPresent("lastName", record::getLastName));
-	}
+    default int insertSelective(GeneratedAlwaysRecord record) {
+        return MyBatis3Utils.insert(this::insert, record, generatedAlways,
+                c -> c.map(id).toPropertyWhenPresent("id", record::getId).map(firstName)
+                        .toPropertyWhenPresent("firstName", record::getFirstName).map(lastName)
+                        .toPropertyWhenPresent("lastName", record::getLastName));
+    }
 
-	default int update(UpdateDSLCompleter completer) {
-		return MyBatis3Utils.update(this::update, generatedAlways, completer);
-	}
+    default int update(UpdateDSLCompleter completer) {
+        return MyBatis3Utils.update(this::update, generatedAlways, completer);
+    }
 
-	default int updateByPrimaryKey(GeneratedAlwaysRecord record) {
-		return update(c -> c.set(firstName).equalTo(record::getFirstName).set(lastName).equalTo(record::getLastName)
-				.where(id, isEqualTo(record::getId)));
-	}
+    default int updateByPrimaryKey(GeneratedAlwaysRecord record) {
+        return update(c -> c.set(firstName).equalTo(record::getFirstName).set(lastName).equalTo(record::getLastName)
+                .where(id, isEqualTo(record::getId)));
+    }
 
-	default int updateByPrimaryKeySelective(GeneratedAlwaysRecord record) {
-		return update(c -> c.set(firstName).equalToWhenPresent(record::getFirstName).set(lastName)
-				.equalToWhenPresent(record::getLastName).where(id, isEqualTo(record::getId)));
-	}
+    default int updateByPrimaryKeySelective(GeneratedAlwaysRecord record) {
+        return update(c -> c.set(firstName).equalToWhenPresent(record::getFirstName).set(lastName)
+                .equalToWhenPresent(record::getLastName).where(id, isEqualTo(record::getId)));
+    }
 
-	static UpdateDSL<UpdateModel> updateSelectiveColumns(GeneratedAlwaysRecord record, UpdateDSL<UpdateModel> dsl) {
-		return dsl.set(id).equalToWhenPresent(record::getId).set(firstName).equalToWhenPresent(record::getFirstName)
-				.set(lastName).equalToWhenPresent(record::getLastName);
-	}
+    static UpdateDSL<UpdateModel> updateSelectiveColumns(GeneratedAlwaysRecord record, UpdateDSL<UpdateModel> dsl) {
+        return dsl.set(id).equalToWhenPresent(record::getId).set(firstName).equalToWhenPresent(record::getFirstName)
+                .set(lastName).equalToWhenPresent(record::getLastName);
+    }
 
 }

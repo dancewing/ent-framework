@@ -35,28 +35,28 @@ import org.mybatis.dynamic.sql.BindableColumn;
  * @param <U> the specific subtype that implements the function
  */
 public abstract class AbstractTypeConvertingFunction<T, R, U extends AbstractTypeConvertingFunction<T, R, U>>
-		implements BindableColumn<R> {
+        implements BindableColumn<R> {
 
-	protected final BindableColumn<T> column;
+    protected final BindableColumn<T> column;
 
-	protected String alias;
+    protected String alias;
 
-	protected AbstractTypeConvertingFunction(BindableColumn<T> column) {
-		this.column = Objects.requireNonNull(column);
-	}
+    protected AbstractTypeConvertingFunction(BindableColumn<T> column) {
+        this.column = Objects.requireNonNull(column);
+    }
 
-	@Override
-	public Optional<String> alias() {
-		return Optional.ofNullable(alias);
-	}
+    @Override
+    public Optional<String> alias() {
+        return Optional.ofNullable(alias);
+    }
 
-	@Override
-	public U as(String alias) {
-		U newThing = copy();
-		newThing.alias = alias;
-		return newThing;
-	}
+    @Override
+    public U as(String alias) {
+        U newThing = copy();
+        newThing.alias = alias;
+        return newThing;
+    }
 
-	protected abstract U copy();
+    protected abstract U copy();
 
 }

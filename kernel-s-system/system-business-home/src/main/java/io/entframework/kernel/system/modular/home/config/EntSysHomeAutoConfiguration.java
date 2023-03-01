@@ -12,20 +12,20 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = { "io.entframework.kernel.system.modular.home.controller",
-		"io.entframework.kernel.system.modular.home.converter", "io.entframework.kernel.system.modular.home.service" })
+        "io.entframework.kernel.system.modular.home.converter", "io.entframework.kernel.system.modular.home.service" })
 @EntityScan("io.entframework.kernel.system.modular.home.entity")
 public class EntSysHomeAutoConfiguration {
 
-	@Bean
-	@ConditionalOnMissingBean(SysStatisticsCountService.class)
-	public SysStatisticsCountService sysStatisticsCountService() {
-		return new SysStatisticsCountServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysStatisticsCountService.class)
+    public SysStatisticsCountService sysStatisticsCountService() {
+        return new SysStatisticsCountServiceImpl();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(SysStatisticsUrlService.class)
-	public SysStatisticsUrlService sysStatisticsUrlService() {
-		return new SysStatisticsUrlServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysStatisticsUrlService.class)
+    public SysStatisticsUrlService sysStatisticsUrlService() {
+        return new SysStatisticsUrlServiceImpl();
+    }
 
 }

@@ -6,11 +6,11 @@ package io.entframework.kernel.rule.plugin;
 
 public enum PluginAction {
 
-	// 初试化
-	INIT,
-	// 调用migrate脚本
-	MIGRATE,
-	// 只是采集MetaInfo
-	INFO;
+    // 初试化
+    INIT,
+    // 调用migrate脚本
+    MIGRATE,
+    // 只是采集MetaInfo
+    INFO;
 
 }

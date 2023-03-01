@@ -16,13 +16,13 @@ import java.util.List;
  */
 public interface DevOpsReportApi {
 
-	/**
-	 * 向DevOps一体化平台汇报资源
-	 * @param devOpsReportProperties DevOps平台的系统配置
-	 * @param sysResourcePersistencePojoList 资源汇报具体数据
-	 * @date 2022/1/11 15:02
-	 */
-	void reportResources(DevOpsReportProperties devOpsReportProperties,
-			List<SysResourcePersistencePojo> sysResourcePersistencePojoList);
+    /**
+     * 向DevOps一体化平台汇报资源
+     * @param devOpsReportProperties DevOps平台的系统配置
+     * @param sysResourcePersistencePojoList 资源汇报具体数据
+     * @date 2022/1/11 15:02
+     */
+    void reportResources(DevOpsReportProperties devOpsReportProperties,
+            List<SysResourcePersistencePojo> sysResourcePersistencePojoList);
 
 }

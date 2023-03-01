@@ -17,9 +17,9 @@ import java.lang.annotation.*;
 @Documented
 public @interface ChineseDescription {
 
-	/**
-	 * 中文注释的值
-	 */
-	String value() default "";
+    /**
+     * 中文注释的值
+     */
+    String value() default "";
 
 }

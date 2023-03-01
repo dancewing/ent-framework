@@ -13,8 +13,8 @@ import io.entframework.kernel.auth.api.LoginUserApi;
  */
 public class LoginContext {
 
-	public static LoginUserApi me() {
-		return SpringUtil.getBean(LoginUserApi.class);
-	}
+    public static LoginUserApi me() {
+        return SpringUtil.getBean(LoginUserApi.class);
+    }
 
 }

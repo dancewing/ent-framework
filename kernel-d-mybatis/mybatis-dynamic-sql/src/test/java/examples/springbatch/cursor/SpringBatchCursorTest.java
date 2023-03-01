@@ -40,43 +40,43 @@ import examples.springbatch.mapper.PersonMapper;
 @SpringJUnitConfig(classes = CursorReaderBatchConfiguration.class)
 class SpringBatchCursorTest {
 
-	@Autowired
-	private JobLauncherTestUtils jobLauncherTestUtils;
+    @Autowired
+    private JobLauncherTestUtils jobLauncherTestUtils;
 
-	@Autowired
-	private SqlSessionFactory sqlSessionFactory;
+    @Autowired
+    private SqlSessionFactory sqlSessionFactory;
 
-	@Test
-	void testThatRowsAreTransformedToUpperCase() throws Exception {
-		// starting condition
-		assertThat(upperCaseRowCount()).isZero();
+    @Test
+    void testThatRowsAreTransformedToUpperCase() throws Exception {
+        // starting condition
+        assertThat(upperCaseRowCount()).isZero();
 
-		JobExecution execution = jobLauncherTestUtils.launchJob();
-		assertThat(execution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
-		assertThat(numberOfRowsProcessed(execution)).isEqualTo(2);
+        JobExecution execution = jobLauncherTestUtils.launchJob();
+        assertThat(execution.getExitStatus()).isEqualTo(ExitStatus.COMPLETED);
+        assertThat(numberOfRowsProcessed(execution)).isEqualTo(2);
 
-		// ending condition
-		assertThat(upperCaseRowCount()).isEqualTo(2);
-	}
+        // ending condition
+        assertThat(upperCaseRowCount()).isEqualTo(2);
+    }
 
-	private int numberOfRowsProcessed(JobExecution jobExecution) {
-		return jobExecution.getStepExecutions().stream().map(StepExecution::getExecutionContext)
-				.mapToInt(this::getRowCount).sum();
-	}
+    private int numberOfRowsProcessed(JobExecution jobExecution) {
+        return jobExecution.getStepExecutions().stream().map(StepExecution::getExecutionContext)
+                .mapToInt(this::getRowCount).sum();
+    }
 
-	private int getRowCount(ExecutionContext executionContext) {
-		return executionContext.getInt("row_count", 0);
-	}
+    private int getRowCount(ExecutionContext executionContext) {
+        return executionContext.getInt("row_count", 0);
+    }
 
-	private long upperCaseRowCount() throws Exception {
-		try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-			PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
+    private long upperCaseRowCount() throws Exception {
+        try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+            PersonMapper personMapper = sqlSession.getMapper(PersonMapper.class);
 
-			SelectStatementProvider selectStatement = SelectDSL.select(count()).from(person)
-					.where(lastName, isEqualTo("FLINTSTONE")).build().render(RenderingStrategies.MYBATIS3);
+            SelectStatementProvider selectStatement = SelectDSL.select(count()).from(person)
+                    .where(lastName, isEqualTo("FLINTSTONE")).build().render(RenderingStrategies.MYBATIS3);
 
-			return personMapper.count(selectStatement);
-		}
-	}
+            return personMapper.count(selectStatement);
+        }
+    }
 
 }

@@ -15,13 +15,13 @@ import io.entframework.kernel.scanner.api.constants.ScannerConstants;
  */
 public class ScannerException extends ServiceException {
 
-	public ScannerException(AbstractExceptionEnum exception) {
-		super(ScannerConstants.RESOURCE_MODULE_NAME, exception);
-	}
+    public ScannerException(AbstractExceptionEnum exception) {
+        super(ScannerConstants.RESOURCE_MODULE_NAME, exception);
+    }
 
-	public ScannerException(AbstractExceptionEnum exception, Object... params) {
-		super(ScannerConstants.RESOURCE_MODULE_NAME, exception.getErrorCode(),
-				CharSequenceUtil.format(exception.getUserTip(), params));
-	}
+    public ScannerException(AbstractExceptionEnum exception, Object... params) {
+        super(ScannerConstants.RESOURCE_MODULE_NAME, exception.getErrorCode(),
+                CharSequenceUtil.format(exception.getUserTip(), params));
+    }
 
 }

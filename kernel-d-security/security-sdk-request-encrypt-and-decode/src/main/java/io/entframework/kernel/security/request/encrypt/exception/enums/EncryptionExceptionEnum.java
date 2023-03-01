@@ -17,41 +17,41 @@ import lombok.Getter;
 @Getter
 public enum EncryptionExceptionEnum implements AbstractExceptionEnum {
 
-	/**
-	 * 请求的json解析异常
-	 */
-	REQUEST_JSON_PARSE_ERROR(
-			RuleConstants.BUSINESS_ERROR_TYPE_CODE + EncryptionConstants.ENCRYPTION_EXCEPTION_STEP_CODE + "01",
-			"请求的json解析异常"),
+    /**
+     * 请求的json解析异常
+     */
+    REQUEST_JSON_PARSE_ERROR(
+            RuleConstants.BUSINESS_ERROR_TYPE_CODE + EncryptionConstants.ENCRYPTION_EXCEPTION_STEP_CODE + "01",
+            "请求的json解析异常"),
 
-	/**
-	 * 请求的json格式错误，未包含加密的data字段数据以及加密的key字段
-	 */
-	REQUEST_JSON_ERROR(
-			RuleConstants.BUSINESS_ERROR_TYPE_CODE + EncryptionConstants.ENCRYPTION_EXCEPTION_STEP_CODE + "02",
-			"请求的json格式错误，未包含加密的data字段数据以及加密的key字段"),
+    /**
+     * 请求的json格式错误，未包含加密的data字段数据以及加密的key字段
+     */
+    REQUEST_JSON_ERROR(
+            RuleConstants.BUSINESS_ERROR_TYPE_CODE + EncryptionConstants.ENCRYPTION_EXCEPTION_STEP_CODE + "02",
+            "请求的json格式错误，未包含加密的data字段数据以及加密的key字段"),
 
-	/**
-	 * 解密失败
-	 */
-	RSA_DECRYPT_ERROR(
-			RuleConstants.BUSINESS_ERROR_TYPE_CODE + EncryptionConstants.ENCRYPTION_EXCEPTION_STEP_CODE + "03", "解密失败"),
+    /**
+     * 解密失败
+     */
+    RSA_DECRYPT_ERROR(
+            RuleConstants.BUSINESS_ERROR_TYPE_CODE + EncryptionConstants.ENCRYPTION_EXCEPTION_STEP_CODE + "03", "解密失败"),
 
-	;
+    ;
 
-	/**
-	 * 错误编码
-	 */
-	private final String errorCode;
+    /**
+     * 错误编码
+     */
+    private final String errorCode;
 
-	/**
-	 * 提示用户信息
-	 */
-	private final String userTip;
+    /**
+     * 提示用户信息
+     */
+    private final String userTip;
 
-	EncryptionExceptionEnum(String errorCode, String userTip) {
-		this.errorCode = errorCode;
-		this.userTip = userTip;
-	}
+    EncryptionExceptionEnum(String errorCode, String userTip) {
+        this.errorCode = errorCode;
+        this.userTip = userTip;
+    }
 
 }

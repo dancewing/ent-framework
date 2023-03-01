@@ -31,82 +31,82 @@ import org.mybatis.dynamic.sql.Callback;
 
 public class IsNotIn<T> extends AbstractListValueCondition<T> {
 
-	private static final IsNotIn<?> EMPTY = new IsNotIn<>(Collections.emptyList());
+    private static final IsNotIn<?> EMPTY = new IsNotIn<>(Collections.emptyList());
 
-	public static <T> IsNotIn<T> empty() {
-		@SuppressWarnings("unchecked")
-		IsNotIn<T> t = (IsNotIn<T>) EMPTY;
-		return t;
-	}
+    public static <T> IsNotIn<T> empty() {
+        @SuppressWarnings("unchecked")
+        IsNotIn<T> t = (IsNotIn<T>) EMPTY;
+        return t;
+    }
 
-	/**
-	 * Build an empty condition.
-	 * @return a new empty condition
-	 * @deprecated in favor of the statement configuration functions
-	 */
-	@Deprecated
-	private <S> IsNotIn<S> emptyWithCallback() {
-		return new IsNotIn<>(Collections.emptyList(), emptyCallback);
-	}
+    /**
+     * Build an empty condition.
+     * @return a new empty condition
+     * @deprecated in favor of the statement configuration functions
+     */
+    @Deprecated
+    private <S> IsNotIn<S> emptyWithCallback() {
+        return new IsNotIn<>(Collections.emptyList(), emptyCallback);
+    }
 
-	protected IsNotIn(Collection<T> values) {
-		super(values);
-	}
+    protected IsNotIn(Collection<T> values) {
+        super(values);
+    }
 
-	/**
-	 * Build a new condition with a callback.
-	 * @param values values
-	 * @param emptyCallback empty callback
-	 * @deprecated in favor of the statement configuration functions
-	 */
-	@Deprecated
-	protected IsNotIn(Collection<T> values, Callback emptyCallback) {
-		super(values, emptyCallback);
-	}
+    /**
+     * Build a new condition with a callback.
+     * @param values values
+     * @param emptyCallback empty callback
+     * @deprecated in favor of the statement configuration functions
+     */
+    @Deprecated
+    protected IsNotIn(Collection<T> values, Callback emptyCallback) {
+        super(values, emptyCallback);
+    }
 
-	@Override
-	public String renderCondition(String columnName, Stream<String> placeholders) {
-		return spaceAfter(columnName) + placeholders.collect(Collectors.joining(",", "not in (", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	}
+    @Override
+    public String renderCondition(String columnName, Stream<String> placeholders) {
+        return spaceAfter(columnName) + placeholders.collect(Collectors.joining(",", "not in (", ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+    }
 
-	/**
-	 * Build a new instance with a callback.
-	 * @param callback a callback function - typically throws an exception to block the
-	 * statement from executing
-	 * @return this condition
-	 * @deprecated in favor of the statement configuration functions
-	 */
-	@Deprecated
-	@Override
-	public IsNotIn<T> withListEmptyCallback(Callback callback) {
-		return new IsNotIn<>(values, callback);
-	}
+    /**
+     * Build a new instance with a callback.
+     * @param callback a callback function - typically throws an exception to block the
+     * statement from executing
+     * @return this condition
+     * @deprecated in favor of the statement configuration functions
+     */
+    @Deprecated
+    @Override
+    public IsNotIn<T> withListEmptyCallback(Callback callback) {
+        return new IsNotIn<>(values, callback);
+    }
 
-	@Override
-	public IsNotIn<T> filter(Predicate<? super T> predicate) {
-		return filterSupport(predicate, IsNotIn::new, this, this::emptyWithCallback);
-	}
+    @Override
+    public IsNotIn<T> filter(Predicate<? super T> predicate) {
+        return filterSupport(predicate, IsNotIn::new, this, this::emptyWithCallback);
+    }
 
-	/**
-	 * If renderable, apply the mapping to each value in the list return a new condition
-	 * with the mapped values. Else return a condition that will not render (this).
-	 * @param mapper a mapping function to apply to the values, if renderable
-	 * @param <R> type of the new condition
-	 * @return a new condition with mapped values if renderable, otherwise a condition
-	 * that will not render.
-	 */
-	public <R> IsNotIn<R> map(Function<? super T, ? extends R> mapper) {
-		BiFunction<Collection<R>, Callback, IsNotIn<R>> constructor = IsNotIn::new;
-		return mapSupport(mapper, constructor, this::emptyWithCallback);
-	}
+    /**
+     * If renderable, apply the mapping to each value in the list return a new condition
+     * with the mapped values. Else return a condition that will not render (this).
+     * @param mapper a mapping function to apply to the values, if renderable
+     * @param <R> type of the new condition
+     * @return a new condition with mapped values if renderable, otherwise a condition
+     * that will not render.
+     */
+    public <R> IsNotIn<R> map(Function<? super T, ? extends R> mapper) {
+        BiFunction<Collection<R>, Callback, IsNotIn<R>> constructor = IsNotIn::new;
+        return mapSupport(mapper, constructor, this::emptyWithCallback);
+    }
 
-	@SafeVarargs
-	public static <T> IsNotIn<T> of(T... values) {
-		return of(Arrays.asList(values));
-	}
+    @SafeVarargs
+    public static <T> IsNotIn<T> of(T... values) {
+        return of(Arrays.asList(values));
+    }
 
-	public static <T> IsNotIn<T> of(Collection<T> values) {
-		return new IsNotIn<>(values);
-	}
+    public static <T> IsNotIn<T> of(Collection<T> values) {
+        return new IsNotIn<>(values);
+    }
 
 }

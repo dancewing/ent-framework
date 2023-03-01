@@ -22,65 +22,65 @@ import org.mybatis.dynamic.sql.annotation.Table;
 @NoArgsConstructor
 @Entity
 @Table(value = "sys_statistics_url", sqlSupport = SysStatisticsUrlDynamicSqlSupport.class,
-		tableProperty = "sysStatisticsUrl")
+        tableProperty = "sysStatisticsUrl")
 public class SysStatisticsUrl extends BaseEntity implements Serializable {
 
-	/**
-	 * 主键ID
-	 */
-	@Id
-	@Column(name = "stat_url_id", jdbcType = JDBCType.BIGINT)
-	private Long statUrlId;
+    /**
+     * 主键ID
+     */
+    @Id
+    @Column(name = "stat_url_id", jdbcType = JDBCType.BIGINT)
+    private Long statUrlId;
 
-	/**
-	 * 被统计名称
-	 */
-	@Column(name = "stat_name", jdbcType = JDBCType.VARCHAR)
-	private String statName;
+    /**
+     * 被统计名称
+     */
+    @Column(name = "stat_name", jdbcType = JDBCType.VARCHAR)
+    private String statName;
 
-	/**
-	 * 被统计菜单ID
-	 */
-	@Column(name = "stat_menu_id", jdbcType = JDBCType.BIGINT)
-	private Long statMenuId;
+    /**
+     * 被统计菜单ID
+     */
+    @Column(name = "stat_menu_id", jdbcType = JDBCType.BIGINT)
+    private Long statMenuId;
 
-	/**
-	 * 被统计的URL
-	 */
-	@Column(name = "stat_url", jdbcType = JDBCType.VARCHAR)
-	private String statUrl;
+    /**
+     * 被统计的URL
+     */
+    @Column(name = "stat_url", jdbcType = JDBCType.VARCHAR)
+    private String statUrl;
 
-	/**
-	 * 是否常驻显示，Y-是，N-否
-	 */
-	@Column(name = "always_show", jdbcType = JDBCType.CHAR)
-	private YesOrNotEnum alwaysShow;
+    /**
+     * 是否常驻显示，Y-是，N-否
+     */
+    @Column(name = "always_show", jdbcType = JDBCType.CHAR)
+    private YesOrNotEnum alwaysShow;
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public SysStatisticsUrl statUrlId(Long statUrlId) {
-		this.statUrlId = statUrlId;
-		return this;
-	}
+    public SysStatisticsUrl statUrlId(Long statUrlId) {
+        this.statUrlId = statUrlId;
+        return this;
+    }
 
-	public SysStatisticsUrl statName(String statName) {
-		this.statName = statName;
-		return this;
-	}
+    public SysStatisticsUrl statName(String statName) {
+        this.statName = statName;
+        return this;
+    }
 
-	public SysStatisticsUrl statMenuId(Long statMenuId) {
-		this.statMenuId = statMenuId;
-		return this;
-	}
+    public SysStatisticsUrl statMenuId(Long statMenuId) {
+        this.statMenuId = statMenuId;
+        return this;
+    }
 
-	public SysStatisticsUrl statUrl(String statUrl) {
-		this.statUrl = statUrl;
-		return this;
-	}
+    public SysStatisticsUrl statUrl(String statUrl) {
+        this.statUrl = statUrl;
+        return this;
+    }
 
-	public SysStatisticsUrl alwaysShow(YesOrNotEnum alwaysShow) {
-		this.alwaysShow = alwaysShow;
-		return this;
-	}
+    public SysStatisticsUrl alwaysShow(YesOrNotEnum alwaysShow) {
+        this.alwaysShow = alwaysShow;
+        return this;
+    }
 
 }

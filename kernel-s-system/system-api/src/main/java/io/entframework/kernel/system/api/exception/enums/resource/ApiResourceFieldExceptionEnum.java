@@ -17,26 +17,26 @@ import lombok.Getter;
 @Getter
 public enum ApiResourceFieldExceptionEnum implements AbstractExceptionEnum {
 
-	/**
-	 * 查询结果不存在
-	 */
-	APIRESOURCEFIELD_NOT_EXISTED(
-			RuleConstants.USER_OPERATION_ERROR_TYPE_CODE + SystemConstants.SYSTEM_EXCEPTION_STEP_CODE + "01",
-			"查询结果不存在");
+    /**
+     * 查询结果不存在
+     */
+    APIRESOURCEFIELD_NOT_EXISTED(
+            RuleConstants.USER_OPERATION_ERROR_TYPE_CODE + SystemConstants.SYSTEM_EXCEPTION_STEP_CODE + "01",
+            "查询结果不存在");
 
-	/**
-	 * 错误编码
-	 */
-	private final String errorCode;
+    /**
+     * 错误编码
+     */
+    private final String errorCode;
 
-	/**
-	 * 提示用户信息
-	 */
-	private final String userTip;
+    /**
+     * 提示用户信息
+     */
+    private final String userTip;
 
-	ApiResourceFieldExceptionEnum(String errorCode, String userTip) {
-		this.errorCode = errorCode;
-		this.userTip = userTip;
-	}
+    ApiResourceFieldExceptionEnum(String errorCode, String userTip) {
+        this.errorCode = errorCode;
+        this.userTip = userTip;
+    }
 
 }

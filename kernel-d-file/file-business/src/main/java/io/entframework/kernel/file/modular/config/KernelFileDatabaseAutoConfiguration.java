@@ -18,15 +18,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KernelFileDatabaseAutoConfiguration {
 
-	/**
-	 * 数据库文件操作
-	 *
-	 * @date 2020/12/1 14:40
-	 */
-	@Bean
-	@ConditionalOnMissingBean(name = "databaseFileOperator")
-	public FileOperatorApi databaseFileOperator() {
-		return new DatabaseFileOperator();
-	}
+    /**
+     * 数据库文件操作
+     *
+     * @date 2020/12/1 14:40
+     */
+    @Bean
+    @ConditionalOnMissingBean(name = "databaseFileOperator")
+    public FileOperatorApi databaseFileOperator() {
+        return new DatabaseFileOperator();
+    }
 
 }

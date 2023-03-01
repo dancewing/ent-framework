@@ -19,30 +19,30 @@ import lombok.Getter;
 @EnumHandler
 public enum TemplateTypeEnum implements SupperEnum<Integer> {
 
-	/**
-	 * 字符串类型
-	 */
-	STRING(1, "系统类型"),
+    /**
+     * 字符串类型
+     */
+    STRING(1, "系统类型"),
 
-	/**
-	 * 文件类型
-	 */
-	FILE(2, "业务类型");
+    /**
+     * 文件类型
+     */
+    FILE(2, "业务类型");
 
-	@JsonValue
-	@EnumValue
-	private final Integer value;
+    @JsonValue
+    @EnumValue
+    private final Integer value;
 
-	private final String label;
+    private final String label;
 
-	TemplateTypeEnum(Integer value, String label) {
-		this.value = value;
-		this.label = label;
-	}
+    TemplateTypeEnum(Integer value, String label) {
+        this.value = value;
+        this.label = label;
+    }
 
-	@JsonCreator
-	public static TemplateTypeEnum valueToEnum(Integer value) {
-		return SupperEnum.fromValue(TemplateTypeEnum.class, value);
-	}
+    @JsonCreator
+    public static TemplateTypeEnum valueToEnum(Integer value) {
+        return SupperEnum.fromValue(TemplateTypeEnum.class, value);
+    }
 
 }

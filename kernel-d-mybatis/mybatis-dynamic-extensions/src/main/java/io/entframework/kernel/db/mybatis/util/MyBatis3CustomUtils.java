@@ -31,47 +31,47 @@ import java.util.function.UnaryOperator;
  */
 public class MyBatis3CustomUtils {
 
-	/**
-	 * mysql的insert ignore into语句, 使用时先确认数据库是否支持该语法
-	 */
-	public static <R> int ignoreInsert(ToIntFunction<InsertStatementProvider<R>> mapper, R row, SqlTable table,
-			UnaryOperator<InsertIgnoreDSL<R>> completer) {
-		return mapper.applyAsInt(ignoreInsert(row, table, completer));
-	}
+    /**
+     * mysql的insert ignore into语句, 使用时先确认数据库是否支持该语法
+     */
+    public static <R> int ignoreInsert(ToIntFunction<InsertStatementProvider<R>> mapper, R row, SqlTable table,
+            UnaryOperator<InsertIgnoreDSL<R>> completer) {
+        return mapper.applyAsInt(ignoreInsert(row, table, completer));
+    }
 
-	/**
-	 * mysql的insert ignore into语句, 使用时先确认数据库是否支持该语法
-	 */
-	public static <R> InsertStatementProvider<R> ignoreInsert(R row, SqlTable table,
-			UnaryOperator<InsertIgnoreDSL<R>> completer) {
-		return completer.apply(InsertIgnoreDSL.insert(row).into(table)).build().render(RenderingStrategies.MYBATIS3);
-	}
+    /**
+     * mysql的insert ignore into语句, 使用时先确认数据库是否支持该语法
+     */
+    public static <R> InsertStatementProvider<R> ignoreInsert(R row, SqlTable table,
+            UnaryOperator<InsertIgnoreDSL<R>> completer) {
+        return completer.apply(InsertIgnoreDSL.insert(row).into(table)).build().render(RenderingStrategies.MYBATIS3);
+    }
 
-	/**
-	 * mysql的insert ignore into语句, 使用时先确认数据库是否支持该语法, 批量插入
-	 */
-	public static <R> int ignoreInsertMultiple(ToIntFunction<MultiRowInsertStatementProvider<R>> mapper,
-			Collection<R> records, SqlTable table, UnaryOperator<MultiRowIgnoreInsertDSL<R>> completer) {
-		return mapper.applyAsInt(ignoreInsertMultiple(records, table, completer));
-	}
+    /**
+     * mysql的insert ignore into语句, 使用时先确认数据库是否支持该语法, 批量插入
+     */
+    public static <R> int ignoreInsertMultiple(ToIntFunction<MultiRowInsertStatementProvider<R>> mapper,
+            Collection<R> records, SqlTable table, UnaryOperator<MultiRowIgnoreInsertDSL<R>> completer) {
+        return mapper.applyAsInt(ignoreInsertMultiple(records, table, completer));
+    }
 
-	/**
-	 * mysql的insert ignore into语句, 使用时先确认数据库是否支持该语法, 批量插入
-	 */
-	public static <R> MultiRowInsertStatementProvider<R> ignoreInsertMultiple(Collection<R> records, SqlTable table,
-			UnaryOperator<MultiRowIgnoreInsertDSL<R>> completer) {
-		return completer.apply(MultiRowIgnoreInsertDSL.insert(records).into(table)).build()
-				.render(RenderingStrategies.MYBATIS3);
-	}
+    /**
+     * mysql的insert ignore into语句, 使用时先确认数据库是否支持该语法, 批量插入
+     */
+    public static <R> MultiRowInsertStatementProvider<R> ignoreInsertMultiple(Collection<R> records, SqlTable table,
+            UnaryOperator<MultiRowIgnoreInsertDSL<R>> completer) {
+        return completer.apply(MultiRowIgnoreInsertDSL.insert(records).into(table)).build()
+                .render(RenderingStrategies.MYBATIS3);
+    }
 
-	public static SelectStatementProvider groupBySelect(BasicColumn[] selectList, SqlTable table,
-			BasicColumn[] groupByColumns, SortSpecification[] orderByColumns, SelectDSLCompleter completer) {
-		QueryExpressionDSL<SelectModel> start = SqlBuilder.select(selectList).from(table);
-		start.groupBy(groupByColumns);
-		if (orderByColumns != null && orderByColumns.length != 0) {
-			start.orderBy(orderByColumns);
-		}
-		return MyBatis3Utils.select(start, completer);
-	}
+    public static SelectStatementProvider groupBySelect(BasicColumn[] selectList, SqlTable table,
+            BasicColumn[] groupByColumns, SortSpecification[] orderByColumns, SelectDSLCompleter completer) {
+        QueryExpressionDSL<SelectModel> start = SqlBuilder.select(selectList).from(table);
+        start.groupBy(groupByColumns);
+        if (orderByColumns != null && orderByColumns.length != 0) {
+            start.orderBy(orderByColumns);
+        }
+        return MyBatis3Utils.select(start, completer);
+    }
 
 }

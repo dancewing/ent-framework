@@ -15,13 +15,13 @@ import io.entframework.kernel.rule.exception.base.ServiceException;
  */
 public class JwtException extends ServiceException {
 
-	public JwtException(AbstractExceptionEnum exception, Object... params) {
-		super(JwtConstants.JWT_MODULE_NAME, exception.getErrorCode(),
-				CharSequenceUtil.format(exception.getUserTip(), params));
-	}
+    public JwtException(AbstractExceptionEnum exception, Object... params) {
+        super(JwtConstants.JWT_MODULE_NAME, exception.getErrorCode(),
+                CharSequenceUtil.format(exception.getUserTip(), params));
+    }
 
-	public JwtException(AbstractExceptionEnum exception) {
-		super(JwtConstants.JWT_MODULE_NAME, exception);
-	}
+    public JwtException(AbstractExceptionEnum exception) {
+        super(JwtConstants.JWT_MODULE_NAME, exception);
+    }
 
 }

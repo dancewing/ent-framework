@@ -40,10 +40,10 @@ import org.mybatis.dynamic.sql.util.Messages;
  */
 public class NonRenderingWhereClauseException extends DynamicSqlException {
 
-	private static final long serialVersionUID = 6619119078542625135L;
+    private static final long serialVersionUID = 6619119078542625135L;
 
-	public NonRenderingWhereClauseException() {
-		super(Messages.getString("ERROR.2")); //$NON-NLS-1$
-	}
+    public NonRenderingWhereClauseException() {
+        super(Messages.getString("ERROR.2")); //$NON-NLS-1$
+    }
 
 }

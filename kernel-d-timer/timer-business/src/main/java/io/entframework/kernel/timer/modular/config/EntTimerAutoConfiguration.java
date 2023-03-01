@@ -10,14 +10,14 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = { "io.entframework.kernel.timer.modular.controller",
-		"io.entframework.kernel.timer.modular.converter", "io.entframework.kernel.timer.modular.service" })
+        "io.entframework.kernel.timer.modular.converter", "io.entframework.kernel.timer.modular.service" })
 @EntityScan("io.entframework.kernel.timer.modular.entity")
 public class EntTimerAutoConfiguration {
 
-	@Bean
-	@ConditionalOnMissingBean(SysTimersService.class)
-	public SysTimersService sysTimersService() {
-		return new SysTimersServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysTimersService.class)
+    public SysTimersService sysTimersService() {
+        return new SysTimersServiceImpl();
+    }
 
 }

@@ -20,25 +20,25 @@ import org.mybatis.dynamic.sql.StatementProvider;
 
 public interface InsertStatementProvider<T> extends StatementProvider {
 
-	/**
-	 * Return the row associated with this insert statement.
-	 * @return the row associated with this insert statement.
-	 * @deprecated in favor of {@link InsertStatementProvider#getRow()}
-	 */
-	@Deprecated
-	T getRecord();
+    /**
+     * Return the row associated with this insert statement.
+     * @return the row associated with this insert statement.
+     * @deprecated in favor of {@link InsertStatementProvider#getRow()}
+     */
+    @Deprecated
+    T getRecord();
 
-	/**
-	 * Return the row associated with this insert statement.
-	 * @return the row associated with this insert statement.
-	 */
-	@NotNull
-	T getRow();
+    /**
+     * Return the row associated with this insert statement.
+     * @return the row associated with this insert statement.
+     */
+    @NotNull
+    T getRow();
 
-	/**
-	 * Return the formatted insert statement.
-	 * @return the formatted insert statement.
-	 */
-	String getInsertStatement();
+    /**
+     * Return the formatted insert statement.
+     * @return the formatted insert statement.
+     */
+    String getInsertStatement();
 
 }

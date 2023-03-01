@@ -40,15 +40,15 @@ import org.mybatis.dynamic.sql.exception.NonRenderingWhereClauseException;
  */
 public class StatementConfiguration {
 
-	private boolean isNonRenderingWhereClauseAllowed = GlobalContext.getConfiguration()
-			.isIsNonRenderingWhereClauseAllowed();
+    private boolean isNonRenderingWhereClauseAllowed = GlobalContext.getConfiguration()
+            .isIsNonRenderingWhereClauseAllowed();
 
-	public boolean isNonRenderingWhereClauseAllowed() {
-		return isNonRenderingWhereClauseAllowed;
-	}
+    public boolean isNonRenderingWhereClauseAllowed() {
+        return isNonRenderingWhereClauseAllowed;
+    }
 
-	public void setNonRenderingWhereClauseAllowed(boolean nonRenderingWhereClauseAllowed) {
-		this.isNonRenderingWhereClauseAllowed = nonRenderingWhereClauseAllowed;
-	}
+    public void setNonRenderingWhereClauseAllowed(boolean nonRenderingWhereClauseAllowed) {
+        this.isNonRenderingWhereClauseAllowed = nonRenderingWhereClauseAllowed;
+    }
 
 }

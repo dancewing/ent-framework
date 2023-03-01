@@ -13,19 +13,19 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 public record FieldAndColumn(SqlColumn<Object> column, Field field) {
-	public Class<?> fieldType() {
-		return field.getType();
-	}
+    public Class<?> fieldType() {
+        return field.getType();
+    }
 
-	public String fieldName() {
-		return field.getName();
-	}
+    public String fieldName() {
+        return field.getName();
+    }
 
-	public String columnName() {
-		return column.name();
-	}
+    public String columnName() {
+        return column.name();
+    }
 
-	public boolean isAnnotationPresent(Class<? extends Annotation> annotationClass) {
-		return this.field.isAnnotationPresent(annotationClass);
-	}
+    public boolean isAnnotationPresent(Class<? extends Annotation> annotationClass) {
+        return this.field.isAnnotationPresent(annotationClass);
+    }
 }

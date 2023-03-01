@@ -16,14 +16,14 @@ import java.util.Date;
 @Data
 public class ParentIdsUpdateRequest implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String oldParentIds;
+    private String oldParentIds;
 
-	private String newParentIds;
+    private String newParentIds;
 
-	private Date updateTime;
+    private Date updateTime;
 
-	private Long updateUser;
+    private Long updateUser;
 
 }

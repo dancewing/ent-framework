@@ -15,6 +15,10 @@
  */
 package org.mybatis.generator.api.dom;
 
+import io.spring.javaformat.config.IndentationStyle;
+import io.spring.javaformat.config.JavaBaseline;
+import io.spring.javaformat.config.JavaFormatConfig;
+import io.spring.javaformat.formatter.StreamsFormatter;
 import org.mybatis.generator.api.JavaFormatter;
 import org.mybatis.generator.api.dom.java.CompilationUnit;
 import org.mybatis.generator.api.dom.java.CompilationUnitVisitor;
@@ -26,6 +30,9 @@ import org.mybatis.generator.api.dom.java.render.TopLevelEnumerationRenderer;
 import org.mybatis.generator.api.dom.java.render.TopLevelInterfaceRenderer;
 import org.mybatis.generator.config.Context;
 
+import java.io.StringReader;
+import java.io.StringWriter;
+
 /**
  * This class is the default formatter for generated Java. This class will use the built
  * in DOM renderers.
@@ -35,31 +42,39 @@ import org.mybatis.generator.config.Context;
  */
 public class DefaultJavaFormatter implements JavaFormatter, CompilationUnitVisitor<String> {
 
-	protected Context context;
+    protected Context context;
 
-	@Override
-	public String getFormattedContent(CompilationUnit compilationUnit) {
-		return compilationUnit.accept(this);
-	}
+    private static StreamsFormatter formatter = new StreamsFormatter(JavaFormatConfig.of(JavaBaseline.V11, IndentationStyle.SPACES));
 
-	@Override
-	public void setContext(Context context) {
-		this.context = context;
-	}
+    @Override
+    public String getFormattedContent(CompilationUnit compilationUnit) {
+        return compilationUnit.accept(this);
+    }
 
-	@Override
-	public String visit(TopLevelClass topLevelClass) {
-		return new TopLevelClassRenderer().render(topLevelClass);
-	}
+    @Override
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
-	@Override
-	public String visit(TopLevelEnumeration topLevelEnumeration) {
-		return new TopLevelEnumerationRenderer().render(topLevelEnumeration);
-	}
+    @Override
+    public String visit(TopLevelClass topLevelClass) {
+        StringWriter stringWriter = new StringWriter();
+        formatter.format(new StringReader(new TopLevelClassRenderer().render(topLevelClass))).writeTo(stringWriter);
+        return stringWriter.toString();
+    }
 
-	@Override
-	public String visit(Interface topLevelInterface) {
-		return new TopLevelInterfaceRenderer().render(topLevelInterface);
-	}
+    @Override
+    public String visit(TopLevelEnumeration topLevelEnumeration) {
+        StringWriter stringWriter = new StringWriter();
+        formatter.format(new StringReader(new TopLevelEnumerationRenderer().render(topLevelEnumeration))).writeTo(stringWriter);
+        return stringWriter.toString();
+    }
+
+    @Override
+    public String visit(Interface topLevelInterface) {
+        StringWriter stringWriter = new StringWriter();
+        formatter.format(new StringReader(new TopLevelInterfaceRenderer().render(topLevelInterface))).writeTo(stringWriter);
+        return stringWriter.toString();
+    }
 
 }

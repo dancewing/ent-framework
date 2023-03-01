@@ -37,156 +37,156 @@ import org.mybatis.generator.internal.util.messages.Messages;
 
 public class KotlinDynamicSqlSupportClassGenerator {
 
-	private final IntrospectedTable introspectedTable;
+    private final IntrospectedTable introspectedTable;
 
-	private final Context context;
+    private final Context context;
 
-	private final List<String> warnings;
+    private final List<String> warnings;
 
-	private KotlinFile kotlinFile;
+    private KotlinFile kotlinFile;
 
-	private KotlinType innerClass;
+    private KotlinType innerClass;
 
-	private KotlinType outerObject;
+    private KotlinType outerObject;
 
-	private KotlinProperty tableProperty;
+    private KotlinProperty tableProperty;
 
-	public KotlinDynamicSqlSupportClassGenerator(Context context, IntrospectedTable introspectedTable,
-			List<String> warnings) {
-		this.introspectedTable = Objects.requireNonNull(introspectedTable);
-		this.context = Objects.requireNonNull(context);
-		this.warnings = Objects.requireNonNull(warnings);
-		generate();
-	}
+    public KotlinDynamicSqlSupportClassGenerator(Context context, IntrospectedTable introspectedTable,
+            List<String> warnings) {
+        this.introspectedTable = Objects.requireNonNull(introspectedTable);
+        this.context = Objects.requireNonNull(context);
+        this.warnings = Objects.requireNonNull(warnings);
+        generate();
+    }
 
-	private void generate() {
-		FullyQualifiedJavaType type = new FullyQualifiedJavaType(introspectedTable.getMyBatisDynamicSqlSupportType());
+    private void generate() {
+        FullyQualifiedJavaType type = new FullyQualifiedJavaType(introspectedTable.getMyBatisDynamicSqlSupportType());
 
-		kotlinFile = buildBasicFile(type);
+        kotlinFile = buildBasicFile(type);
 
-		outerObject = buildOuterObject(kotlinFile, type);
+        outerObject = buildOuterObject(kotlinFile, type);
 
-		tableProperty = calculateTableProperty();
-		outerObject.addNamedItem(tableProperty);
+        tableProperty = calculateTableProperty();
+        outerObject.addNamedItem(tableProperty);
 
-		innerClass = buildInnerClass();
+        innerClass = buildInnerClass();
 
-		List<IntrospectedColumn> columns = introspectedTable.getAllColumns();
-		for (IntrospectedColumn column : columns) {
-			handleColumn(kotlinFile, outerObject, innerClass, getTablePropertyName(), column);
-		}
+        List<IntrospectedColumn> columns = introspectedTable.getAllColumns();
+        for (IntrospectedColumn column : columns) {
+            handleColumn(kotlinFile, outerObject, innerClass, getTablePropertyName(), column);
+        }
 
-		outerObject.addNamedItem(innerClass);
-	}
+        outerObject.addNamedItem(innerClass);
+    }
 
-	public KotlinFile getKotlinFile() {
-		return kotlinFile;
-	}
+    public KotlinFile getKotlinFile() {
+        return kotlinFile;
+    }
 
-	public String getTablePropertyName() {
-		return tableProperty.getName();
-	}
+    public String getTablePropertyName() {
+        return tableProperty.getName();
+    }
 
-	public KotlinType getInnerClass() {
-		return innerClass;
-	}
+    public KotlinType getInnerClass() {
+        return innerClass;
+    }
 
-	public KotlinType getOuterObject() {
-		return outerObject;
-	}
+    public KotlinType getOuterObject() {
+        return outerObject;
+    }
 
-	public String getTablePropertyImport() {
-		return getSupportObjectImport() + "." //$NON-NLS-1$
-				+ tableProperty.getName();
-	}
+    public String getTablePropertyImport() {
+        return getSupportObjectImport() + "." //$NON-NLS-1$
+                + tableProperty.getName();
+    }
 
-	public String getSupportObjectImport() {
-		return kotlinFile.getPackage().map(s -> s + ".").orElse("") //$NON-NLS-1$ //$NON-NLS-2$
-				+ outerObject.getName();
-	}
+    public String getSupportObjectImport() {
+        return kotlinFile.getPackage().map(s -> s + ".").orElse("") //$NON-NLS-1$ //$NON-NLS-2$
+                + outerObject.getName();
+    }
 
-	private KotlinFile buildBasicFile(FullyQualifiedJavaType type) {
-		KotlinFile kf = new KotlinFile(type.getShortNameWithoutTypeArguments());
-		kf.setPackage(type.getPackageName());
-		context.getCommentGenerator().addFileComment(kf);
+    private KotlinFile buildBasicFile(FullyQualifiedJavaType type) {
+        KotlinFile kf = new KotlinFile(type.getShortNameWithoutTypeArguments());
+        kf.setPackage(type.getPackageName());
+        context.getCommentGenerator().addFileComment(kf);
 
-		return kf;
-	}
+        return kf;
+    }
 
-	private KotlinType buildOuterObject(KotlinFile kotlinFile, FullyQualifiedJavaType type) {
-		KotlinType outerObject = KotlinType.newObject(type.getShortNameWithoutTypeArguments()).build();
+    private KotlinType buildOuterObject(KotlinFile kotlinFile, FullyQualifiedJavaType type) {
+        KotlinType outerObject = KotlinType.newObject(type.getShortNameWithoutTypeArguments()).build();
 
-		kotlinFile.addImport("org.mybatis.dynamic.sql.AliasableSqlTable"); //$NON-NLS-1$
-		kotlinFile.addImport("org.mybatis.dynamic.sql.util.kotlin.elements.column"); //$NON-NLS-1$
-		kotlinFile.addImport("java.sql.JDBCType"); //$NON-NLS-1$
-		kotlinFile.addNamedItem(outerObject);
-		return outerObject;
-	}
+        kotlinFile.addImport("org.mybatis.dynamic.sql.AliasableSqlTable"); //$NON-NLS-1$
+        kotlinFile.addImport("org.mybatis.dynamic.sql.util.kotlin.elements.column"); //$NON-NLS-1$
+        kotlinFile.addImport("java.sql.JDBCType"); //$NON-NLS-1$
+        kotlinFile.addNamedItem(outerObject);
+        return outerObject;
+    }
 
-	private KotlinType buildInnerClass() {
-		String domainObjectName = introspectedTable.getMyBatisDynamicSQLTableObjectName();
+    private KotlinType buildInnerClass() {
+        String domainObjectName = introspectedTable.getMyBatisDynamicSQLTableObjectName();
 
-		return KotlinType.newClass(domainObjectName).withSuperType("AliasableSqlTable<" + domainObjectName + ">(\"" //$NON-NLS-1$ //$NON-NLS-2$
-				+ escapeStringForKotlin(introspectedTable.getFullyQualifiedTableNameAtRuntime()) + "\", ::" //$NON-NLS-1$
-				+ domainObjectName + ")") //$NON-NLS-1$
-				.build();
-	}
+        return KotlinType.newClass(domainObjectName).withSuperType("AliasableSqlTable<" + domainObjectName + ">(\"" //$NON-NLS-1$ //$NON-NLS-2$
+                + escapeStringForKotlin(introspectedTable.getFullyQualifiedTableNameAtRuntime()) + "\", ::" //$NON-NLS-1$
+                + domainObjectName + ")") //$NON-NLS-1$
+                .build();
+    }
 
-	private KotlinProperty calculateTableProperty() {
-		String tableType = introspectedTable.getMyBatisDynamicSQLTableObjectName();
-		String fieldName = JavaBeansUtil.getValidPropertyName(introspectedTable.getMyBatisDynamicSQLTableObjectName());
+    private KotlinProperty calculateTableProperty() {
+        String tableType = introspectedTable.getMyBatisDynamicSQLTableObjectName();
+        String fieldName = JavaBeansUtil.getValidPropertyName(introspectedTable.getMyBatisDynamicSQLTableObjectName());
 
-		return KotlinProperty.newVal(fieldName).withInitializationString(tableType + "()") //$NON-NLS-1$
-				.build();
-	}
+        return KotlinProperty.newVal(fieldName).withInitializationString(tableType + "()") //$NON-NLS-1$
+                .build();
+    }
 
-	private void handleColumn(KotlinFile kotlinFile, KotlinType outerObject, KotlinType innerClass,
-			String tableFieldName, IntrospectedColumn column) {
+    private void handleColumn(KotlinFile kotlinFile, KotlinType outerObject, KotlinType innerClass,
+            String tableFieldName, IntrospectedColumn column) {
 
-		FullyQualifiedKotlinType kt = JavaToKotlinTypeConverter.convert(column.getFullyQualifiedJavaType());
+        FullyQualifiedKotlinType kt = JavaToKotlinTypeConverter.convert(column.getFullyQualifiedJavaType());
 
-		kotlinFile.addImports(kt.getImportList());
+        kotlinFile.addImports(kt.getImportList());
 
-		String fieldName = column.getJavaProperty();
+        String fieldName = column.getJavaProperty();
 
-		// outer object
-		if (fieldName.equals(tableFieldName)) {
-			// name collision, skip the shortcut field
-			warnings.add(Messages.getString("Warning.29", //$NON-NLS-1$
-					fieldName, getSupportObjectImport()));
-		}
-		else {
-			KotlinProperty prop = KotlinProperty.newVal(fieldName)
-					.withInitializationString(tableFieldName + "." + fieldName).build();
-			outerObject.addNamedItem(prop);
-		}
+        // outer object
+        if (fieldName.equals(tableFieldName)) {
+            // name collision, skip the shortcut field
+            warnings.add(Messages.getString("Warning.29", //$NON-NLS-1$
+                    fieldName, getSupportObjectImport()));
+        }
+        else {
+            KotlinProperty prop = KotlinProperty.newVal(fieldName)
+                    .withInitializationString(tableFieldName + "." + fieldName).build();
+            outerObject.addNamedItem(prop);
+        }
 
-		// inner class
-		KotlinProperty property = KotlinProperty.newVal(fieldName)
-				.withInitializationString(calculateInnerInitializationString(column, kt)).build();
+        // inner class
+        KotlinProperty property = KotlinProperty.newVal(fieldName)
+                .withInitializationString(calculateInnerInitializationString(column, kt)).build();
 
-		innerClass.addNamedItem(property);
-	}
+        innerClass.addNamedItem(property);
+    }
 
-	private String calculateInnerInitializationString(IntrospectedColumn column, FullyQualifiedKotlinType kt) {
-		StringBuilder initializationString = new StringBuilder();
+    private String calculateInnerInitializationString(IntrospectedColumn column, FullyQualifiedKotlinType kt) {
+        StringBuilder initializationString = new StringBuilder();
 
-		initializationString.append(String.format("column<%s>(name = \"%s\", jdbcType = JDBCType.%s", //$NON-NLS-1$
-				kt.getShortNameWithTypeArguments(), escapeStringForKotlin(getEscapedColumnName(column)),
-				column.getJdbcTypeName()));
+        initializationString.append(String.format("column<%s>(name = \"%s\", jdbcType = JDBCType.%s", //$NON-NLS-1$
+                kt.getShortNameWithTypeArguments(), escapeStringForKotlin(getEscapedColumnName(column)),
+                column.getJdbcTypeName()));
 
-		if (StringUtility.stringHasValue(column.getTypeHandler())) {
-			initializationString.append(String.format(", typeHandler = \"%s\"", column.getTypeHandler())); //$NON-NLS-1$
-		}
+        if (StringUtility.stringHasValue(column.getTypeHandler())) {
+            initializationString.append(String.format(", typeHandler = \"%s\"", column.getTypeHandler())); //$NON-NLS-1$
+        }
 
-		if (StringUtility
-				.isTrue(column.getProperties().getProperty(PropertyRegistry.COLUMN_OVERRIDE_FORCE_JAVA_TYPE))) {
-			initializationString.append(String.format(", javaType = %s::class", kt.getShortNameWithoutTypeArguments())); //$NON-NLS-1$
-		}
+        if (StringUtility
+                .isTrue(column.getProperties().getProperty(PropertyRegistry.COLUMN_OVERRIDE_FORCE_JAVA_TYPE))) {
+            initializationString.append(String.format(", javaType = %s::class", kt.getShortNameWithoutTypeArguments())); //$NON-NLS-1$
+        }
 
-		initializationString.append(')'); // $NON-NLS-1$
+        initializationString.append(')'); // $NON-NLS-1$
 
-		return initializationString.toString();
-	}
+        return initializationString.toString();
+    }
 
 }

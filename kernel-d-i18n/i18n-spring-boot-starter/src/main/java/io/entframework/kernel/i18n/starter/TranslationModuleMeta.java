@@ -5,9 +5,9 @@ import io.entframework.kernel.rule.plugin.AbstractModuleMeta;
 
 public class TranslationModuleMeta extends AbstractModuleMeta {
 
-	public TranslationModuleMeta() {
-		super(TranslationConstants.I18N_MODULE_NAME, TranslationConstants.FLYWAY_TABLE_SUFFIX,
-				TranslationConstants.FLYWAY_LOCATIONS);
-	}
+    public TranslationModuleMeta() {
+        super(TranslationConstants.I18N_MODULE_NAME, TranslationConstants.FLYWAY_TABLE_SUFFIX,
+                TranslationConstants.FLYWAY_LOCATIONS);
+    }
 
 }

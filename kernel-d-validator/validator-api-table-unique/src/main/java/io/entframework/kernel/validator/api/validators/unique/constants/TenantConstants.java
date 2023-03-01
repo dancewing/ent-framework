@@ -11,14 +11,14 @@ package io.entframework.kernel.validator.api.validators.unique.constants;
  */
 public interface TenantConstants {
 
-	/**
-	 * 租户库的前缀
-	 */
-	String TENANT_DB_PREFIX = "sys_tenant_db_";
+    /**
+     * 租户库的前缀
+     */
+    String TENANT_DB_PREFIX = "sys_tenant_db_";
 
-	/**
-	 * master数据源名称
-	 */
-	String MASTER_DATASOURCE_NAME = "master";
+    /**
+     * master数据源名称
+     */
+    String MASTER_DATASOURCE_NAME = "master";
 
 }

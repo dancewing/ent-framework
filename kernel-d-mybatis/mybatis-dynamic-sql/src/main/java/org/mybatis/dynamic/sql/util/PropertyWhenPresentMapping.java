@@ -22,24 +22,24 @@ import org.mybatis.dynamic.sql.SqlColumn;
 
 public class PropertyWhenPresentMapping extends PropertyMapping {
 
-	private final Supplier<?> valueSupplier;
+    private final Supplier<?> valueSupplier;
 
-	private PropertyWhenPresentMapping(SqlColumn<?> column, String property, Supplier<?> valueSupplier) {
-		super(column, property);
-		this.valueSupplier = Objects.requireNonNull(valueSupplier);
-	}
+    private PropertyWhenPresentMapping(SqlColumn<?> column, String property, Supplier<?> valueSupplier) {
+        super(column, property);
+        this.valueSupplier = Objects.requireNonNull(valueSupplier);
+    }
 
-	public boolean shouldRender() {
-		return valueSupplier.get() != null;
-	}
+    public boolean shouldRender() {
+        return valueSupplier.get() != null;
+    }
 
-	@Override
-	public <R> R accept(ColumnMappingVisitor<R> visitor) {
-		return visitor.visit(this);
-	}
+    @Override
+    public <R> R accept(ColumnMappingVisitor<R> visitor) {
+        return visitor.visit(this);
+    }
 
-	public static PropertyWhenPresentMapping of(SqlColumn<?> column, String property, Supplier<?> valueSupplier) {
-		return new PropertyWhenPresentMapping(column, property, valueSupplier);
-	}
+    public static PropertyWhenPresentMapping of(SqlColumn<?> column, String property, Supplier<?> valueSupplier) {
+        return new PropertyWhenPresentMapping(column, property, valueSupplier);
+    }
 
 }

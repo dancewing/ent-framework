@@ -27,44 +27,44 @@ import java.util.Optional;
  */
 public class CriteriaGroup extends SqlCriterion {
 
-	private final SqlCriterion initialCriterion;
+    private final SqlCriterion initialCriterion;
 
-	protected CriteriaGroup(AbstractGroupBuilder<?> builder) {
-		super(builder);
-		initialCriterion = builder.initialCriterion;
-	}
+    protected CriteriaGroup(AbstractGroupBuilder<?> builder) {
+        super(builder);
+        initialCriterion = builder.initialCriterion;
+    }
 
-	public Optional<SqlCriterion> initialCriterion() {
-		return Optional.ofNullable(initialCriterion);
-	}
+    public Optional<SqlCriterion> initialCriterion() {
+        return Optional.ofNullable(initialCriterion);
+    }
 
-	@Override
-	public <R> R accept(SqlCriterionVisitor<R> visitor) {
-		return visitor.visit(this);
-	}
+    @Override
+    public <R> R accept(SqlCriterionVisitor<R> visitor) {
+        return visitor.visit(this);
+    }
 
-	public abstract static class AbstractGroupBuilder<T extends AbstractGroupBuilder<T>> extends AbstractBuilder<T> {
+    public abstract static class AbstractGroupBuilder<T extends AbstractGroupBuilder<T>> extends AbstractBuilder<T> {
 
-		private SqlCriterion initialCriterion;
+        private SqlCriterion initialCriterion;
 
-		public T withInitialCriterion(SqlCriterion initialCriterion) {
-			this.initialCriterion = initialCriterion;
-			return getThis();
-		}
+        public T withInitialCriterion(SqlCriterion initialCriterion) {
+            this.initialCriterion = initialCriterion;
+            return getThis();
+        }
 
-	}
+    }
 
-	public static class Builder extends AbstractGroupBuilder<Builder> {
+    public static class Builder extends AbstractGroupBuilder<Builder> {
 
-		public CriteriaGroup build() {
-			return new CriteriaGroup(this);
-		}
+        public CriteriaGroup build() {
+            return new CriteriaGroup(this);
+        }
 
-		@Override
-		protected Builder getThis() {
-			return this;
-		}
+        @Override
+        protected Builder getThis() {
+            return this;
+        }
 
-	}
+    }
 
 }

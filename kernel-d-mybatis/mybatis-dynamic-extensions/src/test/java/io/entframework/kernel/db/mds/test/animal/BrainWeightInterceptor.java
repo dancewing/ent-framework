@@ -20,41 +20,41 @@ import org.mybatis.dynamic.sql.where.WhereDSL;
 import java.util.List;
 
 @Intercepts({
-		@Signature(type = Executor.class, method = "query",
-				args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }),
-		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class,
-				RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class }), })
+        @Signature(type = Executor.class, method = "query",
+                args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }),
+        @Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class,
+                RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class }), })
 public class BrainWeightInterceptor implements Interceptor {
 
-	@Override
-	public Object intercept(Invocation invocation) throws Throwable {
-		Object target = invocation.getTarget();
-		Object[] args = invocation.getArgs();
-		if (args.length > 1) {
-			if (args[1] instanceof SelectStatementProvider selectStatementProvider) {
-				SelectRenderer selectRenderer = selectStatementProvider.getSource();
-				SelectModel selectModel = selectRenderer.getSelectModel();
-				List<QueryExpressionModel> queryExpressions = selectModel.queryExpressions();
-				if (queryExpressions.size() > 0) {
-					QueryExpressionModel queryExpressionModel = queryExpressions.get(0);
-					Class<?> entityClass = queryExpressionModel.getEntityClass();
-					if (AnimalData.class.isAssignableFrom(entityClass)) {
-						if (queryExpressionModel.whereModel().isEmpty()) {
-							QueryExpressionModel.Builder build = QueryExpressionModel.newBuilder(queryExpressionModel);
-							WhereDSL whereDSL = WhereDSL.where();
-							whereDSL.and(AnimalDataDynamicSqlSupport.brainWeight, SqlBuilder.isGreaterThan(2D));
-							build.withWhereModel(whereDSL.build());
-							// SqlBuilder.select(queryExpressionModel.mapColumns())
-							queryExpressions.clear();
-							queryExpressions.add(build.build());
-						}
-					}
-				}
-				// 改变了条件，重新生成语句
-				args[1] = selectRenderer.render();
-			}
-		}
-		return invocation.proceed();
-	}
+    @Override
+    public Object intercept(Invocation invocation) throws Throwable {
+        Object target = invocation.getTarget();
+        Object[] args = invocation.getArgs();
+        if (args.length > 1) {
+            if (args[1] instanceof SelectStatementProvider selectStatementProvider) {
+                SelectRenderer selectRenderer = selectStatementProvider.getSource();
+                SelectModel selectModel = selectRenderer.getSelectModel();
+                List<QueryExpressionModel> queryExpressions = selectModel.queryExpressions();
+                if (queryExpressions.size() > 0) {
+                    QueryExpressionModel queryExpressionModel = queryExpressions.get(0);
+                    Class<?> entityClass = queryExpressionModel.getEntityClass();
+                    if (AnimalData.class.isAssignableFrom(entityClass)) {
+                        if (queryExpressionModel.whereModel().isEmpty()) {
+                            QueryExpressionModel.Builder build = QueryExpressionModel.newBuilder(queryExpressionModel);
+                            WhereDSL whereDSL = WhereDSL.where();
+                            whereDSL.and(AnimalDataDynamicSqlSupport.brainWeight, SqlBuilder.isGreaterThan(2D));
+                            build.withWhereModel(whereDSL.build());
+                            // SqlBuilder.select(queryExpressionModel.mapColumns())
+                            queryExpressions.clear();
+                            queryExpressions.add(build.build());
+                        }
+                    }
+                }
+                // 改变了条件，重新生成语句
+                args[1] = selectRenderer.render();
+            }
+        }
+        return invocation.proceed();
+    }
 
 }

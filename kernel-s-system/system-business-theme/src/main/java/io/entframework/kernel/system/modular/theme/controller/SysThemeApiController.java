@@ -27,19 +27,19 @@ import io.entframework.kernel.system.modular.theme.service.SysThemeService;
 @ApiResource(name = "主题开放接口的API")
 public class SysThemeApiController {
 
-	@Resource
-	private SysThemeService sysThemeService;
+    @Resource
+    private SysThemeService sysThemeService;
 
-	/**
-	 * 获取当前Guns管理系统的主题数据
-	 *
-	 * @date 2022/1/10 18:29
-	 */
-	@GetResource(name = "获取当前Guns管理系统的主题数据", path = "/theme/current-theme-info", requiredPermission = false,
-			requiredLogin = false)
-	public ResponseData<DefaultTheme> currentThemeInfo(SysThemeRequest sysThemeParam) {
-		DefaultTheme defaultTheme = sysThemeService.currentThemeInfo(sysThemeParam);
-		return ResponseData.ok(defaultTheme);
-	}
+    /**
+     * 获取当前Guns管理系统的主题数据
+     *
+     * @date 2022/1/10 18:29
+     */
+    @GetResource(name = "获取当前Guns管理系统的主题数据", path = "/theme/current-theme-info", requiredPermission = false,
+            requiredLogin = false)
+    public ResponseData<DefaultTheme> currentThemeInfo(SysThemeRequest sysThemeParam) {
+        DefaultTheme defaultTheme = sysThemeService.currentThemeInfo(sysThemeParam);
+        return ResponseData.ok(defaultTheme);
+    }
 
 }

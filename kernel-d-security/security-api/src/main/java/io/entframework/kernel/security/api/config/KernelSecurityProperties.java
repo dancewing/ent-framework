@@ -8,6 +8,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class KernelSecurityProperties {
 
-	public boolean cosEnabled = true;
+    public boolean cosEnabled = true;
 
 }

@@ -14,27 +14,27 @@ import io.entframework.kernel.security.api.pojo.ImageCaptcha;
  */
 public interface ImageCaptchaApi {
 
-	/**
-	 * 生成图形验证码
-	 *
-	 * @date 2021/1/15 12:38
-	 */
-	ImageCaptcha captcha();
+    /**
+     * 生成图形验证码
+     *
+     * @date 2021/1/15 12:38
+     */
+    ImageCaptcha captcha();
 
-	/**
-	 * 校验图形验证码
-	 * @param verKey 缓存key值
-	 * @param verCode 验证码
-	 * @return true-验证码正确，false-验证码错误
-	 * @date 2021/1/15 12:38
-	 */
-	boolean validateCaptcha(String verKey, String verCode);
+    /**
+     * 校验图形验证码
+     * @param verKey 缓存key值
+     * @param verCode 验证码
+     * @return true-验证码正确，false-验证码错误
+     * @date 2021/1/15 12:38
+     */
+    boolean validateCaptcha(String verKey, String verCode);
 
-	/**
-	 * 根据key值获取验证码
-	 * @param verKey 缓存key值
-	 * @date 2021/1/15 12:40
-	 */
-	String getVerCode(String verKey);
+    /**
+     * 根据key值获取验证码
+     * @param verKey 缓存key值
+     * @date 2021/1/15 12:40
+     */
+    String getVerCode(String verKey);
 
 }

@@ -24,20 +24,20 @@ import java.util.Map;
 @RequestMapping("/discovery")
 public class DiscoveryEndpoint {
 
-	private final DiscoveryClient discoveryClient;
+    private final DiscoveryClient discoveryClient;
 
-	/**
-	 * 获取服务实例
-	 */
-	@GetMapping("/instances")
-	public Map<String, List<ServiceInstance>> instances() {
-		Map<String, List<ServiceInstance>> instances = new HashMap<>(16);
-		List<String> services = discoveryClient.getServices();
-		services.forEach(s -> {
-			List<ServiceInstance> list = discoveryClient.getInstances(s);
-			instances.put(s, list);
-		});
-		return instances;
-	}
+    /**
+     * 获取服务实例
+     */
+    @GetMapping("/instances")
+    public Map<String, List<ServiceInstance>> instances() {
+        Map<String, List<ServiceInstance>> instances = new HashMap<>(16);
+        List<String> services = discoveryClient.getServices();
+        services.forEach(s -> {
+            List<ServiceInstance> list = discoveryClient.getInstances(s);
+            instances.put(s, list);
+        });
+        return instances;
+    }
 
 }

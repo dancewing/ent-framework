@@ -24,18 +24,18 @@ import jakarta.annotation.Resource;
 @ApiResource(name = "监控的控制器")
 public class MonitorStatusController {
 
-	@Resource
-	private SystemHardwareInfoHolder systemHardwareInfoHolder;
+    @Resource
+    private SystemHardwareInfoHolder systemHardwareInfoHolder;
 
-	/**
-	 * 将应用设为默认应用，用户进入系统会默认进这个应用的菜单
-	 *
-	 * @date 2020/6/29 16:49
-	 */
-	@GetResource(name = "获取系统信息", path = "/system-info")
-	public ResponseData<SystemHardwareCalculator> getSystemInfo() {
-		SystemHardwareCalculator systemHardwareInfo = systemHardwareInfoHolder.getSystemHardwareInfo();
-		return ResponseData.ok(systemHardwareInfo);
-	}
+    /**
+     * 将应用设为默认应用，用户进入系统会默认进这个应用的菜单
+     *
+     * @date 2020/6/29 16:49
+     */
+    @GetResource(name = "获取系统信息", path = "/system-info")
+    public ResponseData<SystemHardwareCalculator> getSystemInfo() {
+        SystemHardwareCalculator systemHardwareInfo = systemHardwareInfoHolder.getSystemHardwareInfo();
+        return ResponseData.ok(systemHardwareInfo);
+    }
 
 }

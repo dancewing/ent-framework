@@ -13,13 +13,13 @@ import io.entframework.kernel.message.api.MessageApi;
  */
 public class MessageContext {
 
-	/**
-	 * 获取消息操作api
-	 *
-	 * @date 2021/1/1 21:13
-	 */
-	public static MessageApi me() {
-		return SpringUtil.getBean(MessageApi.class);
-	}
+    /**
+     * 获取消息操作api
+     *
+     * @date 2021/1/1 21:13
+     */
+    public static MessageApi me() {
+        return SpringUtil.getBean(MessageApi.class);
+    }
 
 }

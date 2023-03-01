@@ -10,14 +10,14 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = { "io.entframework.kernel.resource.modular.controller",
-		"io.entframework.kernel.resource.modular.converter", "io.entframework.kernel.resource.modular.service" })
+        "io.entframework.kernel.resource.modular.converter", "io.entframework.kernel.resource.modular.service" })
 @EntityScan("io.entframework.kernel.resource.modular.entity")
 public class EntResourceAutoConfiguration {
 
-	@Bean
-	@ConditionalOnMissingBean(SysResourceService.class)
-	public SysResourceService sysResourceService() {
-		return new SysResourceServiceImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(SysResourceService.class)
+    public SysResourceService sysResourceService() {
+        return new SysResourceServiceImpl();
+    }
 
 }

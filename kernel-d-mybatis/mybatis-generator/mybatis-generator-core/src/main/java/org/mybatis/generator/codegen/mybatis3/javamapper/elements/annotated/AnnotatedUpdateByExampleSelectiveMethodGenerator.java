@@ -22,23 +22,23 @@ import org.mybatis.generator.codegen.mybatis3.javamapper.elements.UpdateByExampl
 
 public class AnnotatedUpdateByExampleSelectiveMethodGenerator extends UpdateByExampleSelectiveMethodGenerator {
 
-	public AnnotatedUpdateByExampleSelectiveMethodGenerator() {
-		super();
-	}
+    public AnnotatedUpdateByExampleSelectiveMethodGenerator() {
+        super();
+    }
 
-	@Override
-	public void addMapperAnnotations(Method method) {
-		FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(introspectedTable.getMyBatis3SqlProviderType());
+    @Override
+    public void addMapperAnnotations(Method method) {
+        FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(introspectedTable.getMyBatis3SqlProviderType());
 
-		String s = "@UpdateProvider(type=" //$NON-NLS-1$
-				+ fqjt.getShortName() + ".class, method=\"" //$NON-NLS-1$
-				+ introspectedTable.getUpdateByExampleSelectiveStatementId() + "\")"; //$NON-NLS-1$
-		method.addAnnotation(s);
-	}
+        String s = "@UpdateProvider(type=" //$NON-NLS-1$
+                + fqjt.getShortName() + ".class, method=\"" //$NON-NLS-1$
+                + introspectedTable.getUpdateByExampleSelectiveStatementId() + "\")"; //$NON-NLS-1$
+        method.addAnnotation(s);
+    }
 
-	@Override
-	public void addExtraImports(Interface interfaze) {
-		interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.UpdateProvider")); //$NON-NLS-1$
-	}
+    @Override
+    public void addExtraImports(Interface interfaze) {
+        interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.UpdateProvider")); //$NON-NLS-1$
+    }
 
 }

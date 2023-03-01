@@ -9,16 +9,16 @@ package io.entframework.kernel.cache.api.lock;
  */
 public interface DistributedReadWriteLock {
 
-	/**
-	 * 获取读锁对象
-	 * @return 读锁对象
-	 */
-	DistributedLock readLock();
+    /**
+     * 获取读锁对象
+     * @return 读锁对象
+     */
+    DistributedLock readLock();
 
-	/**
-	 * 获取写锁对象
-	 * @return 写锁对象
-	 */
-	DistributedLock writeLock();
+    /**
+     * 获取写锁对象
+     * @return 写锁对象
+     */
+    DistributedLock writeLock();
 
 }

@@ -55,30 +55,30 @@ import java.util.List;
  */
 public class DomainObjectRenamingRule {
 
-	private String searchString;
+    private String searchString;
 
-	private String replaceString;
+    private String replaceString;
 
-	public String getReplaceString() {
-		return replaceString;
-	}
+    public String getReplaceString() {
+        return replaceString;
+    }
 
-	public void setReplaceString(String replaceString) {
-		this.replaceString = replaceString;
-	}
+    public void setReplaceString(String replaceString) {
+        this.replaceString = replaceString;
+    }
 
-	public String getSearchString() {
-		return searchString;
-	}
+    public String getSearchString() {
+        return searchString;
+    }
 
-	public void setSearchString(String searchString) {
-		this.searchString = searchString;
-	}
+    public void setSearchString(String searchString) {
+        this.searchString = searchString;
+    }
 
-	public void validate(List<String> errors, String tableName) {
-		if (!stringHasValue(searchString)) {
-			errors.add(getString("ValidationError.28", tableName)); //$NON-NLS-1$
-		}
-	}
+    public void validate(List<String> errors, String tableName) {
+        if (!stringHasValue(searchString)) {
+            errors.add(getString("ValidationError.28", tableName)); //$NON-NLS-1$
+        }
+    }
 
 }

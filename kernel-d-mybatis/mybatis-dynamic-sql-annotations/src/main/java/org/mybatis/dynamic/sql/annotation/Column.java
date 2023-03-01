@@ -17,12 +17,12 @@ import java.sql.JDBCType;
 @Documented
 public @interface Column {
 
-	String name() default "";
+    String name() default "";
 
-	JDBCType jdbcType();
+    JDBCType jdbcType();
 
-	boolean descending() default false;
+    boolean descending() default false;
 
-	Class<? extends TypeHandler> typeHandler() default TypeHandler.class;
+    Class<? extends TypeHandler> typeHandler() default TypeHandler.class;
 
 }

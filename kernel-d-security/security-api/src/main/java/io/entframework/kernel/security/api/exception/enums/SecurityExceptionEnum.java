@@ -16,32 +16,32 @@ import lombok.Getter;
 @Getter
 public enum SecurityExceptionEnum implements AbstractExceptionEnum {
 
-	/**
-	 * 生成验证码错误
-	 */
-	CAPTCHA_ERROR(RuleConstants.BUSINESS_ERROR_TYPE_CODE + SecurityConstants.SECURITY_EXCEPTION_STEP_CODE + "01",
-			"生成验证码错误"),
+    /**
+     * 生成验证码错误
+     */
+    CAPTCHA_ERROR(RuleConstants.BUSINESS_ERROR_TYPE_CODE + SecurityConstants.SECURITY_EXCEPTION_STEP_CODE + "01",
+            "生成验证码错误"),
 
-	/**
-	 * 验证码过期，请从新生成验证码
-	 */
-	CAPTCHA_INVALID_ERROR(
-			RuleConstants.BUSINESS_ERROR_TYPE_CODE + SecurityConstants.SECURITY_EXCEPTION_STEP_CODE + "02",
-			"验证码过期，请从新生成验证码");
+    /**
+     * 验证码过期，请从新生成验证码
+     */
+    CAPTCHA_INVALID_ERROR(
+            RuleConstants.BUSINESS_ERROR_TYPE_CODE + SecurityConstants.SECURITY_EXCEPTION_STEP_CODE + "02",
+            "验证码过期，请从新生成验证码");
 
-	/**
-	 * 错误编码
-	 */
-	private final String errorCode;
+    /**
+     * 错误编码
+     */
+    private final String errorCode;
 
-	/**
-	 * 提示用户信息
-	 */
-	private final String userTip;
+    /**
+     * 提示用户信息
+     */
+    private final String userTip;
 
-	SecurityExceptionEnum(String errorCode, String userTip) {
-		this.errorCode = errorCode;
-		this.userTip = userTip;
-	}
+    SecurityExceptionEnum(String errorCode, String userTip) {
+        this.errorCode = errorCode;
+        this.userTip = userTip;
+    }
 
 }

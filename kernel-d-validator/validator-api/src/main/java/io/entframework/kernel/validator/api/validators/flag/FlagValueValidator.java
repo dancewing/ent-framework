@@ -19,31 +19,31 @@ import jakarta.validation.ConstraintValidatorContext;
  */
 public class FlagValueValidator implements ConstraintValidator<FlagValue, Object> {
 
-	private Boolean required;
+    private Boolean required;
 
-	@Override
-	public void initialize(FlagValue constraintAnnotation) {
-		this.required = constraintAnnotation.required();
-	}
+    @Override
+    public void initialize(FlagValue constraintAnnotation) {
+        this.required = constraintAnnotation.required();
+    }
 
-	@Override
-	public boolean isValid(Object value, ConstraintValidatorContext context) {
+    @Override
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
 
-		String flagValue = String.valueOf(value);
-		// 如果是必填的
-		if (required) {
-			return YesOrNotEnum.Y.getValue().equals(flagValue) || YesOrNotEnum.N.getValue().equals(flagValue);
-		}
-		else {
+        String flagValue = String.valueOf(value);
+        // 如果是必填的
+        if (required) {
+            return YesOrNotEnum.Y.getValue().equals(flagValue) || YesOrNotEnum.N.getValue().equals(flagValue);
+        }
+        else {
 
-			// 如果不是必填，可以为空
-			if (CharSequenceUtil.isEmpty(flagValue)) {
-				return true;
-			}
-			else {
-				return YesOrNotEnum.Y.getValue().equals(flagValue) || YesOrNotEnum.N.getValue().equals(flagValue);
-			}
-		}
-	}
+            // 如果不是必填，可以为空
+            if (CharSequenceUtil.isEmpty(flagValue)) {
+                return true;
+            }
+            else {
+                return YesOrNotEnum.Y.getValue().equals(flagValue) || YesOrNotEnum.N.getValue().equals(flagValue);
+            }
+        }
+    }
 
 }

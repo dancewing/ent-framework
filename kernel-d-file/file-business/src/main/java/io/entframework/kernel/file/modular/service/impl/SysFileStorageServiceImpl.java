@@ -24,38 +24,38 @@ import org.springframework.transaction.annotation.Transactional;
  * @date 2022/01/08 15:53
  */
 public class SysFileStorageServiceImpl
-		extends BaseServiceImpl<SysFileStorageRequest, SysFileStorageResponse, SysFileStorage>
-		implements SysFileStorageService {
+        extends BaseServiceImpl<SysFileStorageRequest, SysFileStorageResponse, SysFileStorage>
+        implements SysFileStorageService {
 
-	@Value("${server.servlet.context-path:}")
-	private String contextPath;
+    @Value("${server.servlet.context-path:}")
+    private String contextPath;
 
-	@Resource
-	private FileServerProperties fileServerProperties;
+    @Resource
+    private FileServerProperties fileServerProperties;
 
-	public SysFileStorageServiceImpl() {
-		super(SysFileStorageRequest.class, SysFileStorageResponse.class, SysFileStorage.class);
-	}
+    public SysFileStorageServiceImpl() {
+        super(SysFileStorageRequest.class, SysFileStorageResponse.class, SysFileStorage.class);
+    }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void saveFile(Long fileId, byte[] bytes) {
-		SysFileStorage sysFileStorage = new SysFileStorage();
-		sysFileStorage.setFileId(fileId);
-		sysFileStorage.setFileBytes(bytes);
-		this.getRepository().insert(sysFileStorage);
-	}
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveFile(Long fileId, byte[] bytes) {
+        SysFileStorage sysFileStorage = new SysFileStorage();
+        sysFileStorage.setFileId(fileId);
+        sysFileStorage.setFileBytes(bytes);
+        this.getRepository().insert(sysFileStorage);
+    }
 
-	@Override
-	public String getFileAuthUrl(String fileId, String token) {
-		return fileServerProperties.getDeployHost() + contextPath + FileConstants.FILE_PRIVATE_PREVIEW_URL + "?fileId="
-				+ fileId + "&token=" + token;
-	}
+    @Override
+    public String getFileAuthUrl(String fileId, String token) {
+        return fileServerProperties.getDeployHost() + contextPath + FileConstants.FILE_PRIVATE_PREVIEW_URL + "?fileId="
+                + fileId + "&token=" + token;
+    }
 
-	@Override
-	public String getFileUnAuthUrl(String fileId) {
-		return fileServerProperties.getDeployHost() + contextPath + FileConstants.FILE_PUBLIC_PREVIEW_URL + "?fileId="
-				+ fileId;
-	}
+    @Override
+    public String getFileUnAuthUrl(String fileId) {
+        return fileServerProperties.getDeployHost() + contextPath + FileConstants.FILE_PUBLIC_PREVIEW_URL + "?fileId="
+                + fileId;
+    }
 
 }

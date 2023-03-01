@@ -13,32 +13,32 @@ package io.entframework.kernel.socket.api.session;
  */
 public interface SocketSessionOperatorApi {
 
-	/**
-	 * 写出数据，经过责任链
-	 *
-	 * @date 2021/6/1 上午11:48
-	 **/
-	void writeAndFlush(Object obj);
+    /**
+     * 写出数据，经过责任链
+     *
+     * @date 2021/6/1 上午11:48
+     **/
+    void writeAndFlush(Object obj);
 
-	/**
-	 * 写出数据，不经过责任链
-	 *
-	 * @date 2021/6/1 上午11:48
-	 **/
-	void writeToChannel(Object obj);
+    /**
+     * 写出数据，不经过责任链
+     *
+     * @date 2021/6/1 上午11:48
+     **/
+    void writeToChannel(Object obj);
 
-	/**
-	 * 关闭会话
-	 *
-	 * @date 2021/6/1 上午11:48
-	 **/
-	void close();
+    /**
+     * 关闭会话
+     *
+     * @date 2021/6/1 上午11:48
+     **/
+    void close();
 
-	/**
-	 * 是否存活
-	 * @return {@link boolean}
-	 * @date 2021/6/1 上午11:50
-	 **/
-	boolean isInvalid();
+    /**
+     * 是否存活
+     * @return {@link boolean}
+     * @date 2021/6/1 上午11:50
+     **/
+    boolean isInvalid();
 
 }

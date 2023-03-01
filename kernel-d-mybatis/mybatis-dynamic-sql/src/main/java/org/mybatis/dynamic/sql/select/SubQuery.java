@@ -23,53 +23,53 @@ import org.mybatis.dynamic.sql.TableExpressionVisitor;
 
 public class SubQuery implements TableExpression {
 
-	private final SelectModel selectModel;
+    private final SelectModel selectModel;
 
-	private final String alias;
+    private final String alias;
 
-	private SubQuery(Builder builder) {
-		selectModel = Objects.requireNonNull(builder.selectModel);
-		alias = builder.alias;
-	}
+    private SubQuery(Builder builder) {
+        selectModel = Objects.requireNonNull(builder.selectModel);
+        alias = builder.alias;
+    }
 
-	public SelectModel selectModel() {
-		return selectModel;
-	}
+    public SelectModel selectModel() {
+        return selectModel;
+    }
 
-	public Optional<String> alias() {
-		return Optional.ofNullable(alias);
-	}
+    public Optional<String> alias() {
+        return Optional.ofNullable(alias);
+    }
 
-	@Override
-	public boolean isSubQuery() {
-		return true;
-	}
+    @Override
+    public boolean isSubQuery() {
+        return true;
+    }
 
-	@Override
-	public <R> R accept(TableExpressionVisitor<R> visitor) {
-		return visitor.visit(this);
-	}
+    @Override
+    public <R> R accept(TableExpressionVisitor<R> visitor) {
+        return visitor.visit(this);
+    }
 
-	public static class Builder {
+    public static class Builder {
 
-		private SelectModel selectModel;
+        private SelectModel selectModel;
 
-		private String alias;
+        private String alias;
 
-		public Builder withSelectModel(SelectModel selectModel) {
-			this.selectModel = selectModel;
-			return this;
-		}
+        public Builder withSelectModel(SelectModel selectModel) {
+            this.selectModel = selectModel;
+            return this;
+        }
 
-		public Builder withAlias(String alias) {
-			this.alias = alias;
-			return this;
-		}
+        public Builder withAlias(String alias) {
+            this.alias = alias;
+            return this;
+        }
 
-		public SubQuery build() {
-			return new SubQuery(this);
-		}
+        public SubQuery build() {
+            return new SubQuery(this);
+        }
 
-	}
+    }
 
 }

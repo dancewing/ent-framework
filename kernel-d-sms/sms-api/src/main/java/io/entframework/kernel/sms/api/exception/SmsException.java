@@ -15,13 +15,13 @@ import io.entframework.kernel.sms.api.constants.SmsConstants;
  */
 public class SmsException extends ServiceException {
 
-	public SmsException(AbstractExceptionEnum exception) {
-		super(SmsConstants.SMS_MODULE_NAME, exception);
-	}
+    public SmsException(AbstractExceptionEnum exception) {
+        super(SmsConstants.SMS_MODULE_NAME, exception);
+    }
 
-	public SmsException(AbstractExceptionEnum exception, Object... params) {
-		super(SmsConstants.SMS_MODULE_NAME, exception.getErrorCode(),
-				CharSequenceUtil.format(exception.getUserTip(), params));
-	}
+    public SmsException(AbstractExceptionEnum exception, Object... params) {
+        super(SmsConstants.SMS_MODULE_NAME, exception.getErrorCode(),
+                CharSequenceUtil.format(exception.getUserTip(), params));
+    }
 
 }

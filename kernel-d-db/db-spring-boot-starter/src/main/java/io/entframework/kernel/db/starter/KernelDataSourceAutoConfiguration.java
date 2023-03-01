@@ -31,20 +31,20 @@ import org.springframework.core.Ordered;
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 public class KernelDataSourceAutoConfiguration {
 
-	/**
-	 * druid数据库连接池
-	 *
-	 * @date 2020/11/30 22:37
-	 */
-	@Bean(initMethod = "init")
-	public DruidDataSource dataSource(DruidProperties druidProperties) {
-		return DruidDatasourceFactory.createDruidDataSource(druidProperties);
-	}
+    /**
+     * druid数据库连接池
+     *
+     * @date 2020/11/30 22:37
+     */
+    @Bean(initMethod = "init")
+    public DruidDataSource dataSource(DruidProperties druidProperties) {
+        return DruidDatasourceFactory.createDruidDataSource(druidProperties);
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(DbOperatorApi.class)
-	public DbOperatorApi dbOperatorApi() {
-		return new DbOperatorImpl();
-	}
+    @Bean
+    @ConditionalOnMissingBean(DbOperatorApi.class)
+    public DbOperatorApi dbOperatorApi() {
+        return new DbOperatorImpl();
+    }
 
 }

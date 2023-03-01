@@ -28,57 +28,57 @@ import org.mybatis.generator.api.dom.java.Parameter;
 
 public class SelectByExampleWithoutBLOBsMethodGenerator extends AbstractJavaMapperMethodGenerator {
 
-	public SelectByExampleWithoutBLOBsMethodGenerator() {
-		super();
-	}
+    public SelectByExampleWithoutBLOBsMethodGenerator() {
+        super();
+    }
 
-	@Override
-	public void addInterfaceElements(Interface interfaze) {
-		Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
-		FullyQualifiedJavaType type = new FullyQualifiedJavaType(introspectedTable.getExampleType());
-		importedTypes.add(type);
-		importedTypes.add(FullyQualifiedJavaType.getNewListInstance());
+    @Override
+    public void addInterfaceElements(Interface interfaze) {
+        Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
+        FullyQualifiedJavaType type = new FullyQualifiedJavaType(introspectedTable.getExampleType());
+        importedTypes.add(type);
+        importedTypes.add(FullyQualifiedJavaType.getNewListInstance());
 
-		Method method = new Method(introspectedTable.getSelectByExampleStatementId());
-		method.setVisibility(JavaVisibility.PUBLIC);
-		method.setAbstract(true);
+        Method method = new Method(introspectedTable.getSelectByExampleStatementId());
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setAbstract(true);
 
-		FullyQualifiedJavaType returnType = FullyQualifiedJavaType.getNewListInstance();
-		FullyQualifiedJavaType listType;
-		if (introspectedTable.getRules().generateBaseRecordClass()) {
-			listType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
-		}
-		else if (introspectedTable.getRules().generatePrimaryKeyClass()) {
-			listType = new FullyQualifiedJavaType(introspectedTable.getPrimaryKeyType());
-		}
-		else {
-			throw new RuntimeException(getString("RuntimeError.12")); //$NON-NLS-1$
-		}
+        FullyQualifiedJavaType returnType = FullyQualifiedJavaType.getNewListInstance();
+        FullyQualifiedJavaType listType;
+        if (introspectedTable.getRules().generateBaseRecordClass()) {
+            listType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
+        }
+        else if (introspectedTable.getRules().generatePrimaryKeyClass()) {
+            listType = new FullyQualifiedJavaType(introspectedTable.getPrimaryKeyType());
+        }
+        else {
+            throw new RuntimeException(getString("RuntimeError.12")); //$NON-NLS-1$
+        }
 
-		importedTypes.add(listType);
-		returnType.addTypeArgument(listType);
-		method.setReturnType(returnType);
+        importedTypes.add(listType);
+        returnType.addTypeArgument(listType);
+        method.setReturnType(returnType);
 
-		method.addParameter(new Parameter(type, "example")); //$NON-NLS-1$
+        method.addParameter(new Parameter(type, "example")); //$NON-NLS-1$
 
-		context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
+        context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
 
-		addMapperAnnotations(interfaze, method);
+        addMapperAnnotations(interfaze, method);
 
-		if (context.getPlugins().clientSelectByExampleWithoutBLOBsMethodGenerated(method, interfaze,
-				introspectedTable)) {
-			addExtraImports(interfaze);
-			interfaze.addImportedTypes(importedTypes);
-			interfaze.addMethod(method);
-		}
-	}
+        if (context.getPlugins().clientSelectByExampleWithoutBLOBsMethodGenerated(method, interfaze,
+                introspectedTable)) {
+            addExtraImports(interfaze);
+            interfaze.addImportedTypes(importedTypes);
+            interfaze.addMethod(method);
+        }
+    }
 
-	public void addMapperAnnotations(Interface interfaze, Method method) {
-		// extension point for subclasses
-	}
+    public void addMapperAnnotations(Interface interfaze, Method method) {
+        // extension point for subclasses
+    }
 
-	public void addExtraImports(Interface interfaze) {
-		// extension point for subclasses
-	}
+    public void addExtraImports(Interface interfaze) {
+        // extension point for subclasses
+    }
 
 }

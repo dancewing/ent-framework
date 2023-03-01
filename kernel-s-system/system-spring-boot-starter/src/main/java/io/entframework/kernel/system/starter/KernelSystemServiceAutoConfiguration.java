@@ -18,9 +18,9 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = "io.entframework.kernel.system.starter")
 public class KernelSystemServiceAutoConfiguration {
 
-	@Bean
-	public KernelSystemModuleRegister kernelSystemModuleRegister() {
-		return new KernelSystemModuleRegister();
-	}
+    @Bean
+    public KernelSystemModuleRegister kernelSystemModuleRegister() {
+        return new KernelSystemModuleRegister();
+    }
 
 }

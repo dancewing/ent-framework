@@ -16,16 +16,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AutoIncrementResponse extends BaseResponse {
 
-	/**
-	 * Id
-	 */
-	@ChineseDescription("Id")
-	private Long id;
+    /**
+     * Id
+     */
+    @ChineseDescription("Id")
+    private Long id;
 
-	/**
-	 * 姓名
-	 */
-	@ChineseDescription("姓名")
-	private String username;
+    /**
+     * 姓名
+     */
+    @ChineseDescription("姓名")
+    private String username;
 
 }

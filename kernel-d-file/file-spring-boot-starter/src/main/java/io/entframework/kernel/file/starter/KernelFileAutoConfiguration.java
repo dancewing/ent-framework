@@ -30,14 +30,14 @@ import java.util.Collection;
 @Slf4j
 public class KernelFileAutoConfiguration {
 
-	@Bean
-	public FileOperatorFactory fileOperatorFactory(ObjectProvider<Collection<FileOperatorApi>> fileOperatorApis) {
-		return new FileOperatorFactory(fileOperatorApis.getIfAvailable());
-	}
+    @Bean
+    public FileOperatorFactory fileOperatorFactory(ObjectProvider<Collection<FileOperatorApi>> fileOperatorApis) {
+        return new FileOperatorFactory(fileOperatorApis.getIfAvailable());
+    }
 
-	@Bean
-	public KernelFileModuleRegister kernelFileModuleRegister() {
-		return new KernelFileModuleRegister();
-	}
+    @Bean
+    public KernelFileModuleRegister kernelFileModuleRegister() {
+        return new KernelFileModuleRegister();
+    }
 
 }
